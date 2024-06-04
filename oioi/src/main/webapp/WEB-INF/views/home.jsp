@@ -9,6 +9,6 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}.dd </P>
+<P>  The time on the server is ${serverTime}.ddddd </P>
 </body>
 </html>
