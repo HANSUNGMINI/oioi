@@ -1244,7 +1244,7 @@
             </div>
     </div>
     <!-- Modal end -->
-	<header><jsp:include page="INC/bottom.jsp"></jsp:include></header>
+	<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

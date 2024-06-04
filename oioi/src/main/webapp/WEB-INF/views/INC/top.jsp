@@ -31,7 +31,7 @@
 							<!-- Top Right -->
 							<div class="right-content">
 								<ul class="list-main">
-									<li><i class="ti-power-off"></i><a href="login.html#">로그인</a></li>
+									<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
 									<li><i class="ti-home"></i><a href="#">내 상점</a></li>
 								</ul>
 							</div>
@@ -48,7 +48,7 @@
 					<div class="col-lg-2 col-md-2 col-12">
 						<!-- Logo -->
 						<div class="logo">
-							<a href="index.html"><img src="images/logo.png" alt="logo"></a>
+							<a href="./"><img src="images/logo.png" alt="logo"></a>
 						</div>
 						<!--/ End Logo -->
 						<!-- Search Form -->
@@ -169,14 +169,6 @@
 														<li><a href="404.html">404</a></li>
 													</ul>
 												</li>									
-												<li><a href="#">Blog<i class="ti-angle-down"></i></a>
-													<ul class="dropdown">
-														<li><a href="blog-grid.html">Blog Grid</a></li>
-														<li><a href="blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
-														<li><a href="blog-single.html">Blog Single</a></li>
-														<li><a href="blog-single-sidebar.html">Blog Single Sidebar</a></li>
-													</ul>
-												</li>
 												<li><a href="contact.html">Contact Us</a></li>
 											</ul>
 										</div>
