@@ -31,8 +31,8 @@
 							<!-- Top Right -->
 							<div class="right-content">
 								<ul class="list-main">
-									<li><i class="ti-user"></i> <a href="#">내 정보</a></li>
 									<li><i class="ti-power-off"></i><a href="login.html#">로그인</a></li>
+									<li><i class="ti-home"></i><a href="#">내 상점</a></li>
 								</ul>
 							</div>
 							<!-- End Top Right -->
