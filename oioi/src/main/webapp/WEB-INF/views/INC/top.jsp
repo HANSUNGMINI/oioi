@@ -153,15 +153,10 @@
 									<div class="navbar-collapse">	
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
-												<li><a href="#">뭐 넣지</a></li>												
-												<li><a href="#">뭐 넣을까</a></li>
-												<li><a href="#">상점<i class="ti-angle-down"></i><span class="new">New</span></a>
-													<ul class="dropdown">
-														<li><a href="selling">판매하기</a></li>
-														<li><a href="shop-list.html">Shop List</a></li>
-													</ul>
-												</li>
-												<li><a href="#">Pages<i class="ti-angle-down"></i></a>
+												<li><a href="selling">팝니다</a></li>												
+												<li><a href="#">삽니다</a></li>
+												<!-- 지우지마 -->
+												<li><a href="#">드롭다운 예시 남겨둔거<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
 														<li><a href="about-us.html">About Us</a></li>
 														<li><a href="login.html">Login</a></li>
@@ -170,7 +165,6 @@
 														<li><a href="404.html">404</a></li>
 													</ul>
 												</li>									
-												<li><a href="contact.html">Contact Us</a></li>
 											</ul>
 										</div>
 									</div>
