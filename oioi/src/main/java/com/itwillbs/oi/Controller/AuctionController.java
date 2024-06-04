@@ -10,4 +10,10 @@ public class AuctionController {
 	public String Auction() {
 		return "auction/auction";
 	}
+	
+	@GetMapping("auctionDetail")
+	public String auctionDetail() {
+		return "auction/auction_detail";
+	}
+
 }
