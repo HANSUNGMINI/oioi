@@ -157,11 +157,8 @@
 												<li><a href="#">뭐 넣을까</a></li>
 												<li><a href="#">상점<i class="ti-angle-down"></i><span class="new">New</span></a>
 													<ul class="dropdown">
-														<li><a href="shop-grid.html">Shop Grid</a></li>
+														<li><a href="selling">판매하기</a></li>
 														<li><a href="shop-list.html">Shop List</a></li>
-														<li><a href="shop-single.html">shop Single</a></li>
-														<li><a href="cart.html">Cart</a></li>
-														<li><a href="checkout.html">Checkout</a></li>
 													</ul>
 												</li>
 												<li><a href="#">Pages<i class="ti-angle-down"></i></a>
