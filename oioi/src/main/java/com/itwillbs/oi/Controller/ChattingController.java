@@ -11,5 +11,4 @@ public class ChattingController {
 		return "chatting/chatting_list";
 	}
 	
-	
 }
