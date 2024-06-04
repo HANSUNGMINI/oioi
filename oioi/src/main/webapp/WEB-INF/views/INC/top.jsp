@@ -32,13 +32,8 @@
 							<!-- Top Right -->
 							<div class="right-content">
 								<ul class="list-main">
-<<<<<<< HEAD
 									<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
-									<li><i class="ti-home"></i><a href="#">내 상점</a></li>
-=======
-									<li><i class="ti-power-off"></i><a href="login.html#">로그인</a></li>
 									<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
->>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
 								</ul>
 							</div>
 							<!-- End Top Right -->
