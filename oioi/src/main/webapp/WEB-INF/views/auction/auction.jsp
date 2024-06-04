@@ -54,7 +54,7 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="${pageContext.request.contextPath}/views/INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
 	<!-- 섹션 -->
 	<!-- 메인 BIG 컨텐츠 -->
@@ -1243,7 +1243,7 @@
             </div>
     </div>
     <!-- Modal end -->
-	<header><jsp:include page="${pageContext.request.contextPath}/views/INC/bottom.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/bottom.jsp"></jsp:include></header>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
