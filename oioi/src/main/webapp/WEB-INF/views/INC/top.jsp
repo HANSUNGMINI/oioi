@@ -140,14 +140,6 @@
 									<div class="navbar-collapse">	
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
-												<li class="active"><a href="#">Home<i class="ti-angle-down"></i></a>
-													<ul class="dropdown">
-														<li><a href="index.html">Home Ecommerce V1</a></li>
-														<li><a href="index2.html">Home Ecommerce V2</a></li>
-														<li><a href="index3.html">Home Ecommerce V3</a></li>
-														<li><a href="index4.html">Home Ecommerce V4</a></li>
-													</ul>
-												</li>
 												<li><a href="#">뭐 넣지</a></li>												
 												<li><a href="#">뭐 넣을까</a></li>
 												<li><a href="#">상점<i class="ti-angle-down"></i><span class="new">New</span></a>
