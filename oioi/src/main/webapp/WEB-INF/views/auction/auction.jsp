@@ -14,7 +14,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title> 오늘, 이곳에서 -메인-</title>
+    <title>Auction</title>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -54,7 +54,7 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
 	
 	<!-- 섹션 -->
 	<!-- 메인 BIG 컨텐츠 -->
@@ -92,65 +92,9 @@
 	</section>
 	<!--/ End Hero Area 2 -->
 	
-	<!-- 최근 본 상품? -->
-	<div class="product-area most-popular section">
-        <div class="container">
-            <div class="row">
-				<div class="col-12">
-					<div class="section-title">
-						<h2>머리부터 발끝까지 핫이슈</h2>
-					</div>
-				</div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
-						<!-- 제품 하나하나 -->
-						<div class="single-product">
-							<div class="product-img">
-								<a href="product-details.html">
-									<img class="default-img"   alt="#">
-									<img class="hover-img"   alt="#">
-									<span class="out-of-stock">Hot</span>
-								</a>
-								<div class="button-head">
-									<div class="product-action">
-										<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-									</div>
-									<div class="product-action-2">
-										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
-									</div>
-								</div>
-							</div>
-							<div class="product-content">
-								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
-								<div class="product-price">
-									<!-- 세일 기준 -->
-									<span class="old">이전가격</span>
-									<span>현재가격</span>
-								</div>
-							</div>
-						</div>
-						<!-- 제품 하나 끝 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	<!-- End Most Popular Area -->
-	
-	
 	<!-- 최근 등록된 품목 -->
     <div class="product-area section">
             <div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="section-title">
-							<h2>최신 품목 ?</h2>
-						</div>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-12">
 						<div class="product-info">
