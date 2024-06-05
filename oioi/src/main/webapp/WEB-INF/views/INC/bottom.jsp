@@ -20,11 +20,27 @@
 					<div class="col-lg-5 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer about">
-							<div class="logo">
-								<a href="index.html"><img src="images/logo2.png" alt="#"></a>
-							</div>
-							<p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue,  magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
-							<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">잘바뀌는듯</a></span></p>
+<!-- 							<div class="logo"> -->
+<!-- 								<a href="index.html"><img src="images/logo2.png" alt="#"></a> -->
+<!-- 							</div> -->
+							<p class="call"><span><a>오이마켓(주) 사업자정보</a></span></p>
+							<p class="text">
+								대표이사 : 한성민, 김유신&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;개인정보보호책임자 : 배소은 <br>
+								사업자등록번호 : c3d2401t1&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;통신판매업신고 : 2024-부산아이티윌-0718 <br>
+								호스팅서비스 제공자 : 아이티윌 부산교육센터(ITWILLBS) <br>
+								EMAIL : help@oi.co.kr&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;FAX : 02-022-0202 <br>
+								주소 : 부산광역시 부산진구 동천로 109 삼한골든게이트 7층
+							</p>
+							<br>
+							<p class="text">
+								오이마켓(주)부산서면점&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;한성훈, 이시윤&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 051-02-0202   
+								부산광역시 부산진구 동천로 109 삼한골든게이트 7층 제3강의장
+							</p>
+							<br>
+							<p class="text">
+								오이마켓(주)부산아이티윌점&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;이자민, 허정민&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 051-02-0202   
+								부산광역시 부산진구 동천로 109 삼한골든게이트 7층 제3강의장
+							</p>
 						</div>
 						<!-- End Single Widget -->
 					</div>
