@@ -51,6 +51,8 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/product.css">
+	
 </head>
 <body class="js">
 
@@ -76,78 +78,57 @@
 		<!-- Shop Login -->
 		<section class="shop login section">
 			<div class="container">
-<!-- 				<div class="row">  -->
-<!-- 					<div class="col-lg-6 col-12"> -->
 						<div class="login-form">
 							<h2>상품등록</h2>
 							<!-- Form -->
-							<form method="post" action="#">
+							<form class="regForm">
 								<ul>
 									<li>
 										<label> 상품 이미지</label>
-										<input type="text">
 									</li>
 									<li>
 										<label> 상품명</label>
+										<input type="text" placeholder="상품명을 입력하여 주세요">
 									</li>
 									<li>
 										<label> 카테고리</label>
+										<input type="text">
+									</li>
+									<li>
+										<label> 태그(선택)</label>
+										<input type="text">
+									</li>
+									<li>
+										<label> 상품상태 </label>
+										<input type="radio" name="condition"> 미개봉
+										<input type="radio" name="condition"> 사용감 적음
+										<input type="radio" name="condition"> 사용감 많음
+									</li>
+									<li>
+										<label> 가격 </label>
+										<input type="text" id="price"><br>
+										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox">가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
+										<textarea placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
 									</li>
+									<li>
+										<label> 거래 방식 </label>
+										<input type="radio" name="trade"> 직거래
+										<input type="radio" name="trade"> 택배거래
+										<input type="radio" name="trade"> 모두 가능
+									</li>
+									<li>
+										<label> 안전 거래 여부 </label>
+										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox">안전 거래 사용</label>
+									</li>															
 								</ul>
-<!-- 								<div class="row"> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>상품명<span>*</span></label> -->
-<!-- 											<input type="text" class="input" placeholder="상품명 입력란"> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>태그 등록<span>*</span></label> -->
-<!-- 											<input type="text" class="input" placeholder="태그 입력란"> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>가격(₩)<span>*</span></label> -->
-<!-- 											<input type="text" class="input" placeholder="가격₩"><br> -->
-<!-- 											<input type="checkbox" checked>제시가능 -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>상품 이미지<span>*</span></label> -->
-<!-- 											<input type="file" accept="image/*" multiple="multiple" class="input" placeholder="상품이미지 등록"> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label> 이미지 미리보기 <span>*</span></label> -->
-<!-- 											<div style="display : flex;"> -->
-<%-- 												<img src="${pageContext.request.contextPath}/resources/images/no-image01.gif"> --%>
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>상품상태<span>*</span></label><br> -->
-<!-- 											<input type="radio" name="condition">미개봉(미사용)<small>아직 개봉하지 않은 새상품</small><br> -->
-<!-- 											<input type="radio" name="condition">사용감 없음<small>사용은 했지만 눈에 띄는 흔적이나 얼룩이 없음</small><br> -->
-<!-- 											<input type="radio" name="condition">사용감 적음<small>눈에 띄는 흔적이나 얼룩이 약간 있음</small><br> -->
-<!-- 											<input type="radio" name="condition">사용감 많음<small>눈에 띄는 흔적이나 얼룩이 많이 있음</small><br> -->
-<!-- 											<input type="radio" name="condition">고장 및 파손<small>기능 이상이나 외관 손상 등으로 수리/수선 필요</small> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
 							</form>
+							<input type="button" id="subimit" value="등록하기">
 							<!--/ End Form -->
 						</div>
 					</div>
-<!-- 				</div> -->
-<!-- 			</div> -->
 		</section>
 		<!--/ End Login -->
 		

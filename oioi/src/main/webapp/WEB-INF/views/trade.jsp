@@ -210,6 +210,9 @@
 											</select>
 										</div>
 									</div>
+									<ul class="view-mode">
+										<li><a href="product"><i>상품등록</i></a></li>
+									</ul>
 								</div>
 								<!--/ End Shop Top -->
 							</div>
