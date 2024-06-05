@@ -13,266 +13,25 @@
 
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<style type="text/css">
 		
-		.chat-app .chat {
-		    margin-left: 280px;
-		    border-left: 1px solid #eaeaea
-		}
-		
-		.people-list .chat-list li {
-		    padding: 10px 15px;
-		    list-style: none;
-		    border-radius: 3px
-		}
-		
-		.people-list .chat-list li:hover {
-		    background: #efefef;
-		    cursor: pointer
-		}
-		
-		.people-list .chat-list li.active {
-		    background: #efefef
-		}
-		
-		.people-list .chat-list li .name {
-		    font-size: 15px
-		}
-		
-		.people-list .chat-list img {
-		    width: 45px;
-		    border-radius: 50%
-		}
-		
-		.people-list img {
-		    float: left;
-		    border-radius: 50%
-		}
-		
-		.people-list .about {
-		    float: left;
-		    padding-left: 8px
-		}
-		
-		.people-list .status {
-		    color: #999;
-		    font-size: 13px
-		}
-		
-		.chat .chat-header {
-		    padding: 15px 20px;
-		    border-bottom: 2px solid #f4f7f6
-		}
-		
-		.chat .chat-header img {
-		    float: left;
-		    border-radius: 40px;
-		    width: 40px
-		}
-		
-		.chat .chat-header .chat-about {
-		    float: left;
-		    padding-left: 10px
-		}
-		
-		.chat .chat-history {
-		    padding: 20px;
-		    border-bottom: 2px solid #fff
-		}
-		
-		.chat .chat-history ul {
-		    padding: 0
-		}
-		
-		.chat .chat-history ul li {
-		    list-style: none;
-		    margin-bottom: 30px
-		}
-		
-		.chat .chat-history ul li:last-child {
-		    margin-bottom: 0px
-		}
-		
-		.chat .chat-history .message-data {
-		    margin-bottom: 15px
-		}
-		
-		.chat .chat-history .message-data img {
-		    border-radius: 40px;
-		    width: 40px
-		}
-		
-		.chat .chat-history .message-data-time {
-		    color: #434651;
-		    padding-left: 6px
-		}
-		
-		.chat .chat-history .message {
-		    color: #444;
-		    padding: 18px 20px;
-		    line-height: 26px;
-		    font-size: 16px;
-		    border-radius: 7px;
-		    display: inline-block;
-		    position: relative
-		}
-		
-		.chat .chat-history .message:after {
-		    bottom: 100%;
-		    left: 7%;
-		    border: solid transparent;
-		    content: " ";
-		    height: 0;
-		    width: 0;
-		    position: absolute;
-		    pointer-events: none;
-		    border-bottom-color: #fff;
-		    border-width: 10px;
-		    margin-left: -10px
-		}
-		
-		.chat .chat-history .my-message {
-		    background: #efefef
-		}
-		
-		.chat .chat-history .my-message:after {
-		    bottom: 100%;
-		    left: 30px;
-		    border: solid transparent;
-		    content: " ";
-		    height: 0;
-		    width: 0;
-		    position: absolute;
-		    pointer-events: none;
-		    border-bottom-color: #efefef;
-		    border-width: 10px;
-		    margin-left: -10px
-		}
-		
-		.chat .chat-history .other-message {
-		    background: #e8f1f3;
-		    text-align: right
-		}
-		
-		.chat .chat-history .other-message:after {
-		    border-bottom-color: #e8f1f3;
-		    left: 93%
-		}
-		
-		.chat .chat-message {
-		    padding: 20px
-		}
-		
-		.online,
-		.offline,
-		.me {
-		    margin-right: 2px;
-		    font-size: 8px;
-		    vertical-align: middle
-		}
-		
-		.online {
-		    color: #86c541
-		}
-		
-		.offline {
-		    color: #e47297
-		}
-		
-		.me {
-		    color: #1d8ecd
-		}
-		
-		.float-right {
-		    float: right
-		}
-		
-		.clearfix:after {
-		    visibility: hidden;
-		    display: block;
-		    font-size: 0;
-		    content: " ";
-		    clear: both;
-		    height: 0
-		}
-		
-		body {
-        background-color: #f4f7f6;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .chat {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .chat-history {
-        flex: 1;
-        overflow-y: auto;
-        padding: 20px;
-        border-bottom: 2px solid #fff;
-    }
-    
-    .chat-message {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        border-top: 2px solid #eaeaea;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    }
-		
-	@media only screen and (max-width: 767px) {
-	    .chat-app .people-list {
-	        width: 100%;
-	        overflow-x: auto;
-	        background: #fff;
-	        left: -400px;
-	        display: none
-	    }
-	    .chat-app .people-list.open {
-	        left: 0
-	    }
-	    .chat-app .chat {
-	        margin: 0
-	    }
-	    .chat-app .chat .chat-header {
-	        border-radius: 0.55rem 0.55rem 0 0
-	    }
-	    .chat-app .chat-history {
-	        height: 300px;
-	        overflow-x: auto
-	    }
-	}
+<!-- CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
+
+<script type="text/javascript">
 	
-	@media only screen and (min-width: 768px) and (max-width: 992px) {
-	    .chat-app .chat-list {
-	        height: 650px;
-	        overflow-x: auto
-	    }
-	    .chat-app .chat-history {
-	        height: 600px;
-	        overflow-x: auto
-	    }
-	}
-	
-	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-	    .chat-app .chat-list {
-	        height: 500px;
-	        overflow-x: auto
-	    }
-	    .chat-app .chat-history {
-	        height: calc(100vh - 350px);
-	        overflow-x: auto
-	    }
-	}
-	</style>
+		/* 상세보기 나오기 */
+		function showDetail(){
+			let datail= document.querySelector("#detail");
+			if (detail.style.display == "none") {
+				detail.style.display = "block";
+			} else {
+				detail.style.display = "none";
+			}
+		}
+		
+		
+	</script>
+
 </head>
 <body>
 
@@ -297,10 +56,20 @@
                                 <small>상품 : <a href="#">나이키 신발</a></small>
                             </div>
                         </div>
+                        
+                        <%-- 신고창 및 상세정보 --%>
                         <div class="col-lg-6 hidden-sm text-right">
-                            <a href="javascript:void(0);" class="btn btn-danger">신고</a>
-                            <a href="javascript:void(0);" class="btn btn-success"><i class="bi bi-list"></i></a>
-                        <hr>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="showDeclareForm()">신고</a>
+                            <a href="javascript:void(0);" class="btn btn-success" onclick="showDetail()"><i class="bi bi-list"></i></a>
+	                        <div id="detail">
+	                        	<ul>
+		                        	<li><a id="d2"  data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
+		                        	<li><a id="d3"  data-toggle="modal" data-target="#resev_model">거래 완료</a></li>
+		                        	<li><a id="d4"  data-toggle="modal" data-target="#resev_model">신고이력 조회</a></li>
+	    	                    	<li><a id="d5">대화방 나가기</a></li>
+	                        	</ul>
+	                        </div>
+	                       	<hr>
                         </div>
                     </div>
                 </div>
@@ -315,16 +84,16 @@
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
                             <div class="message other-message float-right"> 안녕 </div>
-                            <small class="message-data-time" style="margin-right:0px">10:10 AM, Today</small>
+                            <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
                         </li>
                         
                         <li class="clearfix">
                             <div class="message my-message">ㅎㅇ</div>
-                            <small class="message-data-time" style="margin-bottom:-20px">10:10 AM, Today</small>                              
+                            <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>                              
                         </li>
                                                        
                         <li class="clearfix">
-                            <div class="message my-message">시간왜이래</div><small class="message-data-time">10:10 AM, Today</small>
+                            <div class="message my-message">시간왜이래</div><small class="message-data-time">10:10 AM</small>
                         </li>
                         
                     </ul>
@@ -339,10 +108,40 @@
                         <%-- 전송버튼 --%>
                         <div class="input-group-prepend">
                             <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
+                            <div class="input-group-text">
+	                            <a href="#"><i class="bi bi-camera-fill" style="color: #353535;"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <%-- 약속 잡기 --%>
+			
+			<div class="modal" id="regist_model">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title">운송장 등록</h4>
+		      </div>
+		
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        택배사 선택
+		      </div>
+		
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+		      </div>
+		
+		    </div>
+		  </div>
+		</div>     
+
+
             
             <!-- 부트스트랩 -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
