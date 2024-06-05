@@ -76,29 +76,32 @@
 }
 .product-des button {
 	text-size-adjust: 100%;
-    box-sizing: border-box;
-    font-family: inherit;
-    line-height: 1.15;
-    margin: 0px;
-    overflow: visible;
-    text-transform: none;
-    font-synthesis: none;
-    -webkit-font-smoothing: antialiased;
-    direction: ltr;
-    text-align: left;
-    letter-spacing: -0.5px;
-    appearance: none;
-    background-color: transparent;
-    cursor: pointer;
-    outline: none;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    padding: 0px 5px;
-    color: rgb(136, 136, 136);
-    border: 1px solid rgb(238, 238, 238);
-    font-size: 11px;
+	box-sizing: border-box;
+	font-family: inherit;
+	line-height: 1.15;
+	margin: 0px;
+	overflow: visible;
+	text-transform: none;
+	font-synthesis: none;
+	direction: ltr;
+	text-align: left;
+	letter-spacing: -0.5px;
+	appearance: none;
+	background-color: transparent;
+	cursor: pointer;
+	outline: none;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	padding: 0px 5px;
+	color: rgb(136, 136, 136);
+	border: 1px solid rgb(238, 238, 238);
+	font-size: 11px;
 }
+.border-right {
+    border-right: 1px solid #ccc;
+}
+
 </style>
 <body class="js">
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -108,7 +111,7 @@
     	<div class="row"> 
             <div class="col-12">
                 <div class="row" id="custom-border">
-                    <div class="col-lg-4 col-12">
+                    <div class="col-lg-3 col-12 border-right">
                         <div class="single-team">
                             <!-- Image -->
                             <div class="image">
@@ -116,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8 col-12">
+                    <div class="col-lg-9 col-12">
                         <div class="product-des">
                             <!-- Description -->
                             <div class="short">
@@ -240,15 +243,15 @@
                                                	<p>아직 이 상점을 팔로우한 사람이 없습니다.</p>
                                                </div>
                                    			</div>
-                                 		</div>
-                                 	</div>
-                               </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+                               			</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 	
