@@ -11,4 +11,9 @@ public class ChattingController {
 		return "chatting/chatting_list";
 	}
 	
+	@GetMapping("Chatting")
+	public String goChatting() {
+		return "chatting/chattingRoom";
+	}
+	
 }

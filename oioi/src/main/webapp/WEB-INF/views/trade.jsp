@@ -45,7 +45,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color/color1.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
 </head>
 <body class="js">
