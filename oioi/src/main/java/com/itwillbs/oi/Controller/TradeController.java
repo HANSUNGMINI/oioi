@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class SellingController {
+public class TradeController {
 	
-	@GetMapping("selling")
-	public String Auction() {
-		return "selling";
+	
+	@GetMapping("trade")
+	public String goTrade() {
+		return "trade";
 	}
 }
