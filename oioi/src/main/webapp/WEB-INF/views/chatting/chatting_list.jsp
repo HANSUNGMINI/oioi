@@ -215,7 +215,7 @@
 				
 				<%-- 한 개의 대화방 --%>
 					<li>
-						<a href="#">
+						<a href="Chatting">
 							<%-- 사용자 이미지 --%>
 							<div class="message-avatar">
 								<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
