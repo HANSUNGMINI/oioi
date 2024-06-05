@@ -153,8 +153,7 @@
 									<div class="navbar-collapse">	
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
-												<li><a href="selling">팝니다</a></li>												
-												<li><a href="#">삽니다</a></li>
+												<li><a href="trade">거래</a></li>												
 												<!-- 지우지마 -->
 												<li><a href="#">드롭다운 예시 남겨둔거<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
