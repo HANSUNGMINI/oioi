@@ -298,12 +298,10 @@
                             </div>
                         </div>
                         <div class="col-lg-6 hidden-sm text-right">
-<!--                             <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a> -->
-<!--                             <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a> -->
                             <a href="javascript:void(0);" class="btn btn-danger">신고</a>
                             <a href="javascript:void(0);" class="btn btn-success"><i class="bi bi-list"></i></a>
-                        </div>
                         <hr>
+                        </div>
                     </div>
                 </div>
                 
@@ -316,16 +314,17 @@
                             	<%-- 로그인 한 사람 이미지 --%>
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
-                            <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div><small class="message-data-time">10:10 AM, Today</small>
+                            <div class="message other-message float-right"> 안녕 </div>
+                            <small class="message-data-time" style="margin-right:0px">10:10 AM, Today</small>
                         </li>
                         
                         <li class="clearfix">
-                            <div class="message my-message">Are we meeting today?</div>
+                            <div class="message my-message">ㅎㅇ</div>
                             <small class="message-data-time" style="margin-bottom:-20px">10:10 AM, Today</small>                              
                         </li>
                                                        
                         <li class="clearfix">
-                            <div class="message my-message">Project has been already finished and I have results to show you.</div><small class="message-data-time">10:10 AM, Today</small>
+                            <div class="message my-message">시간왜이래</div><small class="message-data-time">10:10 AM, Today</small>
                         </li>
                         
                     </ul>
