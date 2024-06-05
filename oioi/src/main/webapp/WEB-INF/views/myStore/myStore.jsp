@@ -75,9 +75,29 @@
 	flex-grow: 1;
 }
 .product-des button {
-	position: absolute; /* 버튼에 position: absolute; 적용 */
-	bottom: 10px; /* 테두리 아래 여백 설정 */
-	left: 15px; /* 테두리 오른쪽 여백 설정 */
+	text-size-adjust: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    line-height: 1.15;
+    margin: 0px;
+    overflow: visible;
+    text-transform: none;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    direction: ltr;
+    text-align: left;
+    letter-spacing: -0.5px;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
+    color: rgb(136, 136, 136);
+    border: 1px solid rgb(238, 238, 238);
+    font-size: 11px;
 }
 </style>
 <body class="js">
