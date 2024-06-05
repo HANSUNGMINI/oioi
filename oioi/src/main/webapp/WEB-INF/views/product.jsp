@@ -14,7 +14,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title> 로그인 </title>
+    <title> 상품등록 </title>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -54,7 +54,7 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="INC/top.jsp"></jsp:include></header>
 	
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -64,7 +64,7 @@
 						<div class="bread-inner">
 							<ul class="bread-list">
 								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="blog-single.html">로그인</a></li>
+								<li class="active"><a href="blog-single.html">상품등록</a></li>
 							</ul>
 						</div>
 					</div>
@@ -76,47 +76,82 @@
 		<!-- Shop Login -->
 		<section class="shop login section">
 			<div class="container">
-				<div class="row"> 
-					<div class="col-lg-6 offset-lg-3 col-12">
+<!-- 				<div class="row">  -->
+<!-- 					<div class="col-lg-6 col-12"> -->
 						<div class="login-form">
-							<h2>로그인</h2>
-							<p>비회원은 회원가입을 먼저 진행하여 주세요</p>
+							<h2>상품등록</h2>
 							<!-- Form -->
-							<form class="form" method="post" action="#">
-								<div class="row">
-									<div class="col-12">
-										<div class="form-group">
-											<label>아이디<span>*</span></label>
-											<input type="email" name="email" placeholder="" required="required">
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호<span>*</span></label>
-											<input type="password" name="password" placeholder="" required="required">
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group login-btn">
-											<button class="btn" type="submit">로그인</button>
-											<a href="register" class="btn">회원가입</a>
-										</div>
-										<div class="checkbox">
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">아이디 기억하기</label>
-										</div>
-										<a href="#" class="lost-pass">비밀번호 찾기</a>
-									</div>
-								</div>
+							<form method="post" action="#">
+								<ul>
+									<li>
+										<label> 상품 이미지</label>
+										<input type="text">
+									</li>
+									<li>
+										<label> 상품명</label>
+									</li>
+									<li>
+										<label> 카테고리</label>
+									</li>
+									<li>
+										<label> 상품설명</label>
+									</li>
+								</ul>
+<!-- 								<div class="row"> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>상품명<span>*</span></label> -->
+<!-- 											<input type="text" class="input" placeholder="상품명 입력란"> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>태그 등록<span>*</span></label> -->
+<!-- 											<input type="text" class="input" placeholder="태그 입력란"> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>가격(₩)<span>*</span></label> -->
+<!-- 											<input type="text" class="input" placeholder="가격₩"><br> -->
+<!-- 											<input type="checkbox" checked>제시가능 -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>상품 이미지<span>*</span></label> -->
+<!-- 											<input type="file" accept="image/*" multiple="multiple" class="input" placeholder="상품이미지 등록"> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label> 이미지 미리보기 <span>*</span></label> -->
+<!-- 											<div style="display : flex;"> -->
+<%-- 												<img src="${pageContext.request.contextPath}/resources/images/no-image01.gif"> --%>
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>상품상태<span>*</span></label><br> -->
+<!-- 											<input type="radio" name="condition">미개봉(미사용)<small>아직 개봉하지 않은 새상품</small><br> -->
+<!-- 											<input type="radio" name="condition">사용감 없음<small>사용은 했지만 눈에 띄는 흔적이나 얼룩이 없음</small><br> -->
+<!-- 											<input type="radio" name="condition">사용감 적음<small>눈에 띄는 흔적이나 얼룩이 약간 있음</small><br> -->
+<!-- 											<input type="radio" name="condition">사용감 많음<small>눈에 띄는 흔적이나 얼룩이 많이 있음</small><br> -->
+<!-- 											<input type="radio" name="condition">고장 및 파손<small>기능 이상이나 외관 손상 등으로 수리/수선 필요</small> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
 							</form>
 							<!--/ End Form -->
 						</div>
 					</div>
-				</div>
-			</div>
+<!-- 				</div> -->
+<!-- 			</div> -->
 		</section>
 		<!--/ End Login -->
 		
-		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
+		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

@@ -11,4 +11,9 @@ public class TradeController {
 	public String goTrade() {
 		return "trade";
 	}
+	
+	@GetMapping("product")
+	public String goProductRegist() {
+		return "product";
+	}
 }
