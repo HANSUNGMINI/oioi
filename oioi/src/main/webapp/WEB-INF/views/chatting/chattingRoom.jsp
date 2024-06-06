@@ -29,7 +29,15 @@
 			}
 		}
 		
+		/* 거래완료 */
+		function transaction() {
+			confirm("거래 완료하시겠습니까?");
+		}
 		
+		/* 대화방 나가기 */
+		function exit() {
+			confirm("*** 님과의 대화방을 나가시겠습니까?");
+		}
 	</script>
 
 </head>
@@ -59,14 +67,14 @@
                         
                         <%-- 신고창 및 상세정보 --%>
                         <div class="col-lg-6 hidden-sm text-right">
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="showDeclareForm()">신고</a>
+                            <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#declare_model">신고</a>
                             <a href="javascript:void(0);" class="btn btn-success" onclick="showDetail()"><i class="bi bi-list"></i></a>
 	                        <div id="detail">
 	                        	<ul>
-		                        	<li><a id="d2"  data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-		                        	<li><a id="d3"  data-toggle="modal" data-target="#resev_model">거래 완료</a></li>
-		                        	<li><a id="d4"  data-toggle="modal" data-target="#resev_model">신고이력 조회</a></li>
-	    	                    	<li><a id="d5">대화방 나가기</a></li>
+		                        	<li><a id="d2" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
+		                        	<li><a id="d3" onclick="transaction()">거래 완료</a></li>
+		                        	<li><a id="d4" data-toggle="modal" data-target="#fraud_model">사기 이력 조회</a></li>
+	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
 	                       	<hr>
@@ -116,30 +124,103 @@
                 </div>
             </div>
             
-            <%-- 약속 잡기 --%>
+            <%-- 운송장 등록 --%>
 			
 			<div class="modal" id="regist_model">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		
-		      <!-- Modal Header -->
-		      <div class="modal-header">
-		        <h4 class="modal-title">운송장 등록</h4>
-		      </div>
-		
-		      <!-- Modal body -->
-		      <div class="modal-body">
-		        택배사 선택
-		      </div>
-		
-		      <!-- Modal footer -->
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-		      </div>
-		
-		    </div>
-		  </div>
-		</div>     
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">운송장 등록</h4>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			      
+			      	<%-- 택배사 선택 --%>
+			        <select name="deliver_category" id="deliver_category" style = "margin-left : 15px">
+	 					<option value =""> 택배사 선택 </option>
+	 					<option value ="reservation"> 대한통운 </option>
+	 					<option value ="function"> 우체국택배 </option>
+	 					<option value ="price"> 편의점택배 </option>
+	 				</select>
+	
+			      	<%-- 운송장 번호 --%>
+			      	<input type="text" placeholder="운송장번호를 입력해 주세요" id="num" required="required">
+			      </div>
+			
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="submit" class="btn btn-success">등록</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>     
+			
+            <%-- 사기 이력 조회 --%>
+			
+			<div class="modal" id="fraud_model">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">사기 이력 조회</h4>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			      
+	
+			      	<%-- 계좌 번호 입력 --%>
+			      	계좌 번호 조회
+			      	<input type="text" placeholder="계좌번호를 입력해 주세요" id="num">
+
+					<hr>
+			      	휴대번호 조회
+			      	<input type="text" placeholder="휴대번호를 입력해 주세요" id="num">
+			      </div>
+			
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="submit" class="btn btn-success">조회</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>     
+			
+			
+            <%-- 신고하기 --%>
+			
+			<div class="modal" id="declare_model">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">신고하기</h4>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			      
+	
+			      	<%-- 체크박스 --%>
+				  </div>
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="submit" class="btn btn-success">신고하기</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>     
 
 
             
