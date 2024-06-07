@@ -136,21 +136,41 @@
 	#chatImg {
 		width : 40px;
 		height : 40px;
+		float: right;
 	}
 	
-	 #chatbot{
-      position: fixed;
-      width: 70px;
-      height: 70px;    
-      right: 20px;
-      bottom: 20px;
-      border-radius: 50%;
-      background-color: #F4DB4D;
-  }
+	 #/* 스크롤을 올리고 내려도 같은 위치에 가만히 있다 */
+  	/* 그것이 position: fixed; */
+	  body{height: 3000px;}
+	  
+	    /* body가 클래스.show를 가지면 -> before가 태어남 */
+	  body.show:before{
+	      content: "";
+	      display: block;
+	      position: fixed;
+	      left: 0; right: 0; top: 0; bottom: 0;
+	      background-color: rgba(0, 0, 0, 0.5);
+	  }
 
+	  #chatbot{
+	      position: fixed;
+	      width: 70px;
+	      height: 70px;    
+	      right: 20px;
+	      bottom: 20px;
+	      border-radius: 50%;
+	      background-color: #F4DB4D;
+	
+	      display: flex;
+	      flex-direction: column; /* 요소검사에서 flex 버튼으로 지정/복붙 */
+	      align-items: center; /* 요소검사에서 flex 버튼으로 지정/복붙 */
+	      justify-content: center; /* 요소검사에서 flex 버튼으로 지정/복붙 */
+	  }
+	
 	  #chatbot img{
-      /* svg는 반드시 사이즈를 잡아줘야 함 */
-      height: 45%;
+	      /* svg는 반드시 사이즈를 잡아줘야 함 */
+	      height: 45%;
+	  }
   }
 </style>
 <body class="js">
@@ -208,10 +228,12 @@
 			    
 			</div>
 		</div>
-				 <div class="chatbot">
-			        <img src="${pageContext.request.contextPath}/resources/images/chatbot.png" id="chatImg" alt="">
-			    </div>
+		
+	<%-- 챗봇 --%>
 	</div>
+	 <div class="chatbot">
+        <img src="${pageContext.request.contextPath}/resources/images/chatbot.png" id="chatImg" alt="">
+    </div>
 </section>
 
 
