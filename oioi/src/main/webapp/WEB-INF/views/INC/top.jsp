@@ -175,6 +175,8 @@
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
 												<li><a href="trade">거래</a></li>												
+												<li><a href="community">커뮤니티</a></li>												
+												<li><a href="notice">고객센터</a></li>												
 												<!-- 지우지마 -->
 												<li><a href="#">드롭다운 예시 남겨둔거<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
