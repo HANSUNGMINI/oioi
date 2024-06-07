@@ -10,7 +10,27 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+<style>
+	#searchDiv {
+		margin-top : 10px;
+		display : none;
+		background-color : #E4E4E4;
+		border:none;
+		border-radius: 5px;
+	}
+</style>
+<script type="text/javascript">
 
+	function search() {
+		alert("왜안떠")
+		let datail= document.querySelector("#searchDiv");
+		if (detail.style.display == "none") {
+			detail.style.display = "block";
+		} else {
+			detail.style.display = "none";
+		}
+	}
+</script>
 </head>
 <body>
 <header class="header shop v2">
@@ -77,7 +97,8 @@
 									<option>싶기도하고</option>
 								</select>
 								<form>
-									<input name="search" placeholder="검색어 입력해줘" type="search">
+									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="search()">
+									<div id="searchDiv"> 추천 검색어 </div>
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
 							</div>

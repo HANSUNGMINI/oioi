@@ -15,5 +15,7 @@ public class AuctionController {
 	public String auctionDetail() {
 		return "auction/auction_detail";
 	}
+	
+	
 
 }

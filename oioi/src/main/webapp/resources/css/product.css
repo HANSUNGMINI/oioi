@@ -22,6 +22,17 @@
     width: 80%;
 }
 
+.regForm ul li input[type="file"] {
+    display : none;
+}
+.regForm ul li .tempImg {
+	width : 200px;
+	height: 200px;
+	border : 1px solid black;
+	cursor: pointer;
+	margin-right : 10px;
+}
+
 .regForm ul li #price {
 	width : 20%;
 }
@@ -44,3 +55,7 @@
 }
 
 
+
+.regForm ul li .tagify {
+	width : 80%;
+}

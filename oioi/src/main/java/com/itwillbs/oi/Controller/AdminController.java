@@ -11,4 +11,10 @@ public class AdminController {
 	public String adminMain() {
 		return "admin/admin_main";
 	}
+	
+	
+	@GetMapping("adminMain2")
+	public String adminMain2() {
+		return "admin/admin_main2";
+	}
 }
