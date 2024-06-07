@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+.regForm ul li {
+	list-style-type : none;
+	display : flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin : 20px 0px;
+}
+
+.regForm ul li label {
+	font-size : 20px !important;
+    width: 20%;
+   	padding-right : 30px;
+}
+
+.regForm ul li .checkbox-inline {
+	font-size : 15px !important;
+}
+
+.regForm ul li input[type="text"] {
+    width: 80%;
+}
+
+.regForm ul li input[type="file"] {
+    display : none;
+}
+.regForm ul li .tempImg {
+	width : 200px;
+	height: 200px;
+	border : 1px solid black;
+	cursor: pointer;
+	margin-right : 10px;
+}
+
+.regForm ul li #price {
+	width : 20%;
+}
+
+
+.regForm ul li textarea {
+    resize : none;
+    width : 80%;
+    height: 100px;
+}
+
+
+.login-form #subimit {
+	float : right;
+	font-size : 20px;
+	font-weight : 600;
+	width : 160px;
+	height: 60px;
+	background-color : #34A853;
+}
+
+
+
+.regForm ul li .tagify {
+	width : 80%;
+}
