@@ -22,12 +22,13 @@
 <script type="text/javascript">
 
 	function searchDivOpen() {
-		if (document.querySelector("#searchDiv").style.display == "none") {
-			document.querySelector("#searchDiv").style.display = "block";
-		} else {
-			document.querySelector("#searchDiv").style.display = "none";
-		}
+		 document.querySelector("#searchDiv").style.display = "block";
 	}
+	
+	function searchDivClose() {
+		 document.querySelector("#searchDiv").style.display = "none";
+	}
+	
 </script>
 </head>
 <body>
@@ -95,7 +96,7 @@
 									<option>싶기도하고</option>
 								</select>
 								<form>
-									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()">
+									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()" onblur="searchDivClose()">
 									<div id="searchDiv"> 추천 검색어 </div>
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
