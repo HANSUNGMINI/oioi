@@ -60,7 +60,7 @@
 <section class="blog-single shop-blog grid section">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-4 col-12">
+			<div class="col-lg-3 col-12">
 				<div class="main-sidebar">
 					<!-- Single Widget -->
 					<div class="single-widget category">
@@ -135,7 +135,7 @@
 					<!--/ End Single Widget -->
 				</div>
 			</div>
-			<div class="col-lg-8 col-12" id="highlighted-row">
+			<div class="col-lg-9 col-12" id="highlighted-row">
 				<div class="row">
 					<!-- Add your content here for the highlighted row -->
 				</div>
