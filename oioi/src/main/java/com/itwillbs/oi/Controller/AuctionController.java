@@ -16,6 +16,10 @@ public class AuctionController {
 		return "auction/auction_detail";
 	}
 	
+	@GetMapping("auctionProduct")
+	public String auctionProduct() {
+		return "auction/auction_product";
+	}
 	
 
 }
