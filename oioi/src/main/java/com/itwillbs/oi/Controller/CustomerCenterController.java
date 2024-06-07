@@ -10,4 +10,9 @@ public class CustomerCenterController {
 	public String goNotice() {
 		return "customerCenter/notice";
 	}
+	
+	@GetMapping("chatbot")
+	public String goChatbot() {
+		return "customerCenter/chatbot";
+	}
 }

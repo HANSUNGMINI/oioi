@@ -134,44 +134,27 @@
 	}
 	
 	#chatImg {
-		width : 40px;
-		height : 40px;
+		width : 60px;
+		height : 60px;
 		float: right;
 	}
+		
+	.row .chatbot {
+	    display: inline-block;
+	    vertical-align: top;
+	    text-align: center; /* 이미지 가운데 정렬 */
+	}
 	
-	 #/* 스크롤을 올리고 내려도 같은 위치에 가만히 있다 */
-  	/* 그것이 position: fixed; */
-	  body{height: 3000px;}
-	  
-	    /* body가 클래스.show를 가지면 -> before가 태어남 */
-	  body.show:before{
-	      content: "";
-	      display: block;
-	      position: fixed;
-	      left: 0; right: 0; top: 0; bottom: 0;
-	      background-color: rgba(0, 0, 0, 0.5);
-	  }
-
-	  #chatbot{
-	      position: fixed;
-	      width: 70px;
-	      height: 70px;    
-	      right: 20px;
-	      bottom: 20px;
-	      border-radius: 50%;
-	      background-color: #F4DB4D;
+	#chatImg {
+ 	    max-width: 100%; /* 이미지가 부모 요소를 넘지 않도록 조정 */ 
+	    height: auto;
+	}
 	
-	      display: flex;
-	      flex-direction: column; /* 요소검사에서 flex 버튼으로 지정/복붙 */
-	      align-items: center; /* 요소검사에서 flex 버튼으로 지정/복붙 */
-	      justify-content: center; /* 요소검사에서 flex 버튼으로 지정/복붙 */
-	  }
-	
-	  #chatbot img{
-	      /* svg는 반드시 사이즈를 잡아줘야 함 */
-	      height: 45%;
-	  }
-  }
+	.chatbot img {
+		border : 0.5px solid #eeeeeec2;
+		padding : 5px;
+	    border-radius: 40%
+	}
 </style>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -186,8 +169,8 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="categor-list">
-							<li><a href="#">공지사항</a></li>
-							<li><a href="#">문의내역</a></li>
+							<li><a href="notice">공지사항</a></li>
+							<li><a href="faq">문의내역</a></li>
 						</ul>
 					</div>
 				</div>
@@ -195,7 +178,7 @@
 			
 			
 		<%-- 본문 --%>
-		 <div class="col-lg-9 col-12" id="highlighted-row"> 
+		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
 					<div class="notice_body">
 				 		 <div class = "write_btn">
@@ -227,13 +210,17 @@
 				
 			    
 			</div>
+			<%-- 챗봇 --%>
+			 <div class="col-lg-1 col-12 d-flex align-items-end">
+				 <div class="chatbot">
+			        <a href="chatbot" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=400, top=200, resizable=no'); return false;"><img src="${pageContext.request.contextPath}/resources/images/chatbot2.PNG" id="chatImg" alt=""></a>
+			    </div>
+<!-- 		        <div class="col-md-5 col-lg-4 order-md-last" id="paymentSide" style="background-color: gray"> -->
+		        
+<!-- 		        </div> -->
+		    </div>
 		</div>
-		
-	<%-- 챗봇 --%>
 	</div>
-	 <div class="chatbot">
-        <img src="${pageContext.request.contextPath}/resources/images/chatbot.png" id="chatImg" alt="">
-    </div>
 </section>
 
 
