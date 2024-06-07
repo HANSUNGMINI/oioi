@@ -67,7 +67,7 @@
                         
                         <%-- 신고창 및 상세정보 --%>
                         <div class="col-lg-6 hidden-sm text-right">
-                            <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#declare_model">신고</a>
+                            <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#notify_model">신고</a>
                             <a href="javascript:void(0);" class="btn btn-success" onclick="showDetail()"><i class="bi bi-list"></i></a>
 	                        <div id="detail">
 	                        	<ul>
@@ -174,19 +174,18 @@
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			      
-	
 			      	<%-- 계좌 번호 입력 --%>
-			      	계좌 번호 조회
-			      	<input type="text" placeholder="계좌번호를 입력해 주세요" id="num">
-
+			      	계좌번호 조회 &nbsp;
+			      	<input type="text" placeholder="계좌번호를 입력해 주세요" id="num"> <button type="submit" class="btn btn-success">조회</button>
+					<div id="fraud_result"></div>
 					<hr>
-			      	휴대번호 조회
-			      	<input type="text" placeholder="휴대번호를 입력해 주세요" id="num">
+			      	휴대번호 조회 &nbsp;
+			      	<input type="text" placeholder="휴대번호를 입력해 주세요" id="num"> <button type="submit" class="btn btn-success">조회</button>
+			      	<div id="fraud_result"></div>
 			      </div>
 			
 			      <!-- Modal footer -->
 			      <div class="modal-footer">
-			        <button type="submit" class="btn btn-success">조회</button>
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 			      </div>
 			
@@ -197,7 +196,7 @@
 			
             <%-- 신고하기 --%>
 			
-			<div class="modal" id="declare_model">
+			<div class="modal" id="notify_model">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			
@@ -209,9 +208,15 @@
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			      
-	
-			      	<%-- 체크박스 --%>
+			      <%-- 체크박스 --%>
+					<input type="radio" name="notify">  &nbsp;욕설 및 비방을 해요 <br>
+					<input type="radio" name="notify">  &nbsp;사기인 것 같아요 <br>
+					<input type="radio" name="notify">  &nbsp;머하지 또 <br>
+					<input type="radio" name="notify">  &nbsp;기타 부적절한 행위가 있어요 <br>
+					
+					<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="600"></textarea>			      
 				  </div>
+				  
 			      <!-- Modal footer -->
 			      <div class="modal-footer">
 			        <button type="submit" class="btn btn-success">신고하기</button>
