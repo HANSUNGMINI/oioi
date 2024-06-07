@@ -102,6 +102,14 @@
     border-right: 1px solid #ccc;
 }
 
+#intro-textarea {
+	overflow: hidden;
+	resize: none;
+	width: 100%;
+	height: calc(1.5em * 4); /* Approximate height for 3 lines */
+	line-height: 1.5em;
+	box-sizing: border-box;
+   }
 </style>
 <body class="js">
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -144,9 +152,14 @@
                                 </div>
                                 <hr>
                             </div>
-                            <div>
-                            	<button>소개글 수정</button>
-                            </div>
+                            <div id="intro-text">
+				                <button id="edit-button" type="button">소개글 수정</button>
+				                <p>소개글을 작성해주세요.</p>
+				            </div>
+				            <div id="edit-area" style="display: none;">
+				                <textarea id="intro-textarea" rows="3" maxlength="150"></textarea>
+				                <button id="save-button" type="button">확인</button>
+				            </div>
                         </div>
                     </div>
                 </div>
@@ -294,5 +307,28 @@
 	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 	<!-- Active JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+
+<script>
+document.getElementById("edit-button").addEventListener("click", function() {
+    document.getElementById("intro-text").style.display = "none";
+    document.getElementById("edit-area").style.display = "block";
+    document.getElementById("intro-textarea").value = document.querySelector("#intro-text p").innerText;
+});
+
+document.getElementById("save-button").addEventListener("click", function() {
+    const newText = document.getElementById("intro-textarea").value;
+    document.querySelector("#intro-text p").innerText = newText;
+    document.getElementById("intro-text").style.display = "block";
+    document.getElementById("edit-area").style.display = "none";
+});
+
+document.getElementById("intro-textarea").addEventListener("input", function() {
+    const lines = this.value.split('\n');
+    if (lines.length > 4) {
+        this.value = lines.slice(0, 4).join('\n');
+    }
+});
+</script>
+
 </body>
 </html>
