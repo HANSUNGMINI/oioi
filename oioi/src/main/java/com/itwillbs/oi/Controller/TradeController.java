@@ -16,4 +16,9 @@ public class TradeController {
 	public String goProductRegist() {
 		return "product";
 	}
+	
+	@GetMapping("detail")
+	public String goDetail() {
+		return "detailView";
+	}
 }
