@@ -60,11 +60,6 @@
 <section class="blog-single shop-blog grid section">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 col-12" id="highlighted-row">
-				<div class="row">
-					
-				</div>
-			</div>
 			<div class="col-lg-4 col-12">
 				<div class="main-sidebar">
 					<!-- Single Widget -->
@@ -138,6 +133,11 @@
 						<h3 class="title">회원탈퇴</h3>
 					</div>
 					<!--/ End Single Widget -->
+				</div>
+			</div>
+			<div class="col-lg-8 col-12" id="highlighted-row">
+				<div class="row">
+					<!-- Add your content here for the highlighted row -->
 				</div>
 			</div>
 		</div>
