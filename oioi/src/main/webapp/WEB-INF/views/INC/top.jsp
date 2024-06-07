@@ -111,7 +111,7 @@
 								<a href="#" class="single-icon"><i class="ti-bell" aria-hidden="true"></i></a>
 							</div>
 							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+								<a href="myPage" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							
 							<%--  채팅 --%>
