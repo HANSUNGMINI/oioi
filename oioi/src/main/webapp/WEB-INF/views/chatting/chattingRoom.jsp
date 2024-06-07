@@ -31,13 +31,33 @@
 		
 		/* 거래완료 */
 		function transaction() {
-			confirm("거래 완료하시겠습니까?");
+			if(confirm("거래 완료하시겠습니까?")) {
+				document.querySelector("#detail").style.display = "none";
+				document.querySelector("#review").style.display = "block";
+			}
 		}
 		
 		/* 대화방 나가기 */
 		function exit() {
 			confirm("*** 님과의 대화방을 나가시겠습니까?");
 		}
+
+		/* 별점 매기기 */
+		function setRating(value, reservIdx) {
+		    var ratingValueId = "ratingValue" + reservIdx;
+		    document.getElementById(ratingValueId).value = value;
+		    
+		    var stars = document.querySelectorAll("#rating" + reservIdx + " span");
+		    for (var i = 0; i < stars.length; i++) {
+		        if (i < value) {
+		            stars[i].innerHTML = '<i class="bi bi-star-fill" style="color: #FFE000;"></i>';
+		        } else {
+		            stars[i].innerHTML = '<i class="bi bi-star-fill"></i>';
+		        }
+		    }
+		}
+		
+		
 	</script>
 
 </head>
@@ -76,6 +96,11 @@
 		                        	<li><a id="d4" data-toggle="modal" data-target="#fraud_model">사기 이력 조회</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
+	                        </div>
+	                        <div id="review">
+	                        	<ul>
+	                        		<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
+	                       		</ul>
 	                        </div>
 	                       	<hr>
                         </div>
@@ -226,11 +251,57 @@
 			    </div>
 			  </div>
 			</div>     
+			
+            <%-- 리뷰 작성하기 --%>
+			
+			<div class="modal" id="review_model">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">리뷰 작성하기</h4>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			       <form action="reviewWrite" method="post">
+			       		<div id="review_category" style="text-align: justify;">
+				       		<%-- 체크박스 --%>
+				       		<label for="chk1"><input type="checkbox" id="chk1" name="chk2"> &nbsp;답장이 빨라요</label><br>
+				       		<label for="chk2"><input type="checkbox" id="chk2" name="chk2"> &nbsp;친절해요</label><br>
+				       		<label for="chk3"><input type="checkbox" id="chk3" name="chk3"> &nbsp;물건 상태가 좋아요</label><br>
+				       		<label for="chk4"><input type="checkbox" id="chk4" name="chk4"> &nbsp;기타</label><br>
+			       		</div>
+			      		 <hr>
+			       
+		       		   <div id="rating">
+			       			별점을 선택해 주세요 <br>
+						   <span onclick=""><i class="bi bi-star"></i></span>
+                           <span onclick=""><i class="bi bi-star"></i></span>
+                           <span onclick=""><i class="bi bi-star"></i></span>
+                           <span onclick=""><i class="bi bi-star"></i></span>
+                           <span onclick=""><i class="bi bi-star"></i></span>
+                        </div>
+						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="review_content"  id="review_content" maxlength="600" required="required"></textarea>			      
+                   </form>
+				  </div>
+				  
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="submit" class="btn btn-success">리뷰 작성하기</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>     
 
 
             
             <!-- 부트스트랩 -->
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 </body>

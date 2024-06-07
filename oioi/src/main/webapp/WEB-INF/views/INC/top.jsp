@@ -98,9 +98,9 @@
 								</select>
 								<form>
 									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="search()">
-									<div id="searchDiv"> 추천 검색어 </div>
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
+									<div id="searchDiv"> 추천 검색어 </div>
 							</div>
 						</div>
 					</div>

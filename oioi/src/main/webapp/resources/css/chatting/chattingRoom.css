@@ -310,6 +310,19 @@
 		cursor: pointer;
 	}
 
+	#review > ul {
+		padding : 10px;
+		list-style: none;
+		text-align: center;
+	}
+	
+	#review ul li:hover {
+		background: #eff6f9;
+		border:none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+		
 	/* ======= 드롭다운 ======== */
 	select {
 		margin-left : 10px;
@@ -367,4 +380,48 @@
 	  cursor: pointer;
 	}
 		
-		
+	/* 후기 작성 */
+	#review {
+		margin-top : 10px;
+		display : none;
+		background-color : #E4E4E4;
+		border:none;
+		border-radius: 5px;
+	}
+
+	
+	#rating {
+		text-align: center;
+	}
+	
+	#review_content {
+		margin-left : 25px;	
+	}
+	
+	[type="checkbox"] {
+		padding : 5px;
+		vertical-align: middle;
+		appearance: none;
+		border: max(2px, 0.1em) solid gray;
+		border-radius: 50%;
+		width: 1.25em;
+		height: 1.25em;
+		}
+	
+	[type="checkbox"]:checked {
+	  border: 0.4em solid #34A853;
+	}
+	
+	[type="checkbox"]:focus-visible {
+	  outline: max(2px, 0.1em) dotted #34A853;
+	  outline-offset: max(2px, 0.1em);
+	}
+	
+	[type="checkbox"]:hover {
+	  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+	  cursor: pointer;
+	}
+	
+	[type="checkbox"]:hover + span {
+	  cursor: pointer;
+	}
