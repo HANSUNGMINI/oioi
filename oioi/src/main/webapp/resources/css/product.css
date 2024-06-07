@@ -43,4 +43,11 @@
 	background-color : #34A853;
 }
 
+.regForm ul li .tempImg {
+	width : 200px;
+	height: 200px;
+}
 
+.regForm ul li .tagify {
+	width : 80%;
+}

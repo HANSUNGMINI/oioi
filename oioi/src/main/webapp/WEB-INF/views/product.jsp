@@ -15,6 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
     <title> 상품등록 </title>
+   	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -30,7 +32,7 @@
 	<!-- Font Awesome -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
 	<!-- Fancybox -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css">
+<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css"> --%>
 	<!-- Themify Icons -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/themify-icons.css">
 	<!-- Nice Select CSS -->
@@ -52,6 +54,9 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/product.css">
+	
+	<!-- Test -->
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	
 </head>
 <body class="js">
@@ -84,7 +89,9 @@
 							<form class="regForm">
 								<ul>
 									<li>
-										<label> 상품 이미지</label>
+										<label> 상품 이미지<small>(최대 5장)</small></label>
+										<img class="tempImg" src='${pageContext.request.contextPath}/resources/images/no-image01.gif'>
+										
 									</li>
 									<li>
 										<label> 상품명</label>
@@ -96,17 +103,31 @@
 									</li>
 									<li>
 										<label> 태그(선택)</label>
-										<input type="text">
+										<input class="tagify" placeholder="태그를 입력해주세요">
+										
+										<script>
+											var input = document.querySelector('.tagify')
+											tagify = new Tagify(input, {
+												maxTags: 5, // 최대 허용 태그 갯수
+											})
+											  
+											// 태그가 추가되면 이벤트 발생
+											tagify.on('add', function() {
+											  console.log(tagify.value); // 입력된 태그 정보 객체
+											})
+										</script>
 									</li>
 									<li>
 										<label> 상품상태 </label>
-										<input type="radio" name="condition"> 미개봉
-										<input type="radio" name="condition"> 사용감 적음
-										<input type="radio" name="condition"> 사용감 많음
+										<ul>
+											<li><input type="radio" name="condition" checked> 미개봉</li>
+											<li><input type="radio" name="condition"> 사용감 적음</li>
+											<li><input type="radio" name="condition"> 사용감 많음</li>
+										</ul>
 									</li>
 									<li>
 										<label> 가격 </label>
-										<input type="text" id="price"><br>
+										<input type="text" id="price" placeholder="원"><br>
 										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
@@ -115,9 +136,11 @@
 									</li>
 									<li>
 										<label> 거래 방식 </label>
-										<input type="radio" name="trade" checked> 모두 가능
-										<input type="radio" name="trade"> 직거래만 가능
-										<input type="radio" name="trade"> 택배거래만 가능
+										<ul>
+											<li><input type="radio" name="trade" checked> 모두 가능</li>
+											<li><input type="radio" name="trade"> 직거래만 가능</li>
+											<li><input type="radio" name="trade"> 택배거래만 가능</li>
+										</ul>
 									</li>
 									<li>
 										<label> 안전 거래 여부 </label>
@@ -159,7 +182,7 @@
 	<!-- Nice Select JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
 	<!-- Ytplayer JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script>
+<%-- 	<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script> --%>
 	<!-- Flex Slider JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/flex-slider.js"></script>
 	<!-- ScrollUp JS -->
@@ -170,5 +193,10 @@
 	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 	<!-- Active JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+	
+	
+	<!-- Test -->
+
+	
 </body>
 </html>
