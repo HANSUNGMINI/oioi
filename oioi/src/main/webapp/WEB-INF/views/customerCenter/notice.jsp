@@ -122,15 +122,36 @@
 		float: right;
 	}
 	
-	/* 페이징 위치 위치 */
-	.pagination-container {
-	    text-align: center;
-	    width: 100%;
+	/* 페이징 위치 */
+	
+	/* faq */
+	#faqContent {
+		background-color:#e4e4e4;
+		width: 100%;
+		height: 40%;
+		border: none;
+		border-radius: 10px;
 	}
 	
-	.pagination {
-	    display: inline-block;
+	#chatImg {
+		width : 40px;
+		height : 40px;
 	}
+	
+	 #chatbot{
+      position: fixed;
+      width: 70px;
+      height: 70px;    
+      right: 20px;
+      bottom: 20px;
+      border-radius: 50%;
+      background-color: #F4DB4D;
+  }
+
+	  #chatbot img{
+      /* svg는 반드시 사이즈를 잡아줘야 함 */
+      height: 45%;
+  }
 </style>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -181,29 +202,15 @@
 					</div>
 				</div>
 				
-					<%-- 페이징 --%>
-					 <nav class="pagination-container" aria-label="Page navigation example">
-				        <ul class="pagination" style="display : flex;">
-				            <li class="page-item">
-				                <a id="previousPageLink" class="page-link" href="MyCoupon?pageNum=${pageNum - 1}" aria-label="Previous">
-				                    <span aria-hidden="true">&laquo;</span>
-				                </a>
-				            </li>
-				            <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-				                <li class="page-item ${i == pageNum ? 'active' : ''}">
-				                    <a class="page-link pageLink" href="MyCoupon?pageNum=${i}">${i}</a>
-				                </li>
-				            </c:forEach>
-				            <li class="page-item">
-				                <a id="nextPageLink" class="page-link" href="MyCoupon?pageNum=${pageNum + 1}" aria-label="Next">
-				                    <span aria-hidden="true">&raquo;</span>
-				                </a>
-				            </li>
-				        </ul>
-				    </nav>
-				    
+				<%-- 페이징 --%>
+				
+				
+			    
 			</div>
 		</div>
+				 <div class="chatbot">
+			        <img src="${pageContext.request.contextPath}/resources/images/chatbot.png" id="chatImg" alt="">
+			    </div>
 	</div>
 </section>
 

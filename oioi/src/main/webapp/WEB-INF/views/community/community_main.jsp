@@ -122,15 +122,7 @@
 		float: right;
 	}
 	
-	/* 페이징 위치 위치 */
-	.pagination-container {
-	    text-align: center;
-	    width: 100%;
-	}
-	
-	.pagination {
-	    display: inline-block;
-	}
+	/* 페이징 위치 */
 </style>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -181,27 +173,8 @@
 					</div>
 				</div>
 				
-					<%-- 페이징 --%>
-					 <nav class="pagination-container" aria-label="Page navigation example">
-				        <ul class="pagination" style="display : flex;">
-				            <li class="page-item">
-				                <a id="previousPageLink" class="page-link" href="MyCoupon?pageNum=${pageNum - 1}" aria-label="Previous">
-				                    <span aria-hidden="true">&laquo;</span>
-				                </a>
-				            </li>
-				            <c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-				                <li class="page-item ${i == pageNum ? 'active' : ''}">
-				                    <a class="page-link pageLink" href="MyCoupon?pageNum=${i}">${i}</a>
-				                </li>
-				            </c:forEach>
-				            <li class="page-item">
-				                <a id="nextPageLink" class="page-link" href="MyCoupon?pageNum=${pageNum + 1}" aria-label="Next">
-				                    <span aria-hidden="true">&raquo;</span>
-				                </a>
-				            </li>
-				        </ul>
-				    </nav>
-				    
+				<%-- 페이징 --%>
+				
 			</div>
 		</div>
 	</div>
