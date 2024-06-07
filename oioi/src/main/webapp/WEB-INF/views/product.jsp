@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
     <title> 상품등록 </title>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
    	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<!-- Favicon 
@@ -88,9 +89,10 @@
 							<!-- Form -->
 							<form class="regForm">
 								<ul>
-									<li>
+									<li class="preView">
 										<label> 상품 이미지<small>(최대 5장)</small></label>
-										<img class="tempImg" src='${pageContext.request.contextPath}/resources/images/no-image01.gif'>
+										<input type="file" accept="image/*" multiple id="addfile">
+										<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
 										
 									</li>
 									<li>
@@ -103,7 +105,7 @@
 									</li>
 									<li>
 										<label> 태그(선택)</label>
-										<input class="tagify" placeholder="태그를 입력해주세요">
+										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6">
 										
 										<script>
 											var input = document.querySelector('.tagify')
@@ -158,7 +160,31 @@
 		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
-    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+	<script>
+		$(function() {
+			$(".addImg").on("click",function(){
+				$('#addfile').click();
+			});
+			
+			
+			$("#addfile").on("change",function(event){
+				for (var image of event.target.files) {
+					let reader = new FileReader();
+
+		          reader.onload = function(event) {
+		            var img = document.createElement("img");
+		            img.setAttribute("src", event.target.result);
+		            img.setAttribute("class", "tempImg");
+		           	$(".preView").append(img);
+		          };
+		          
+		          reader.readAsDataURL(image);
+				}
+			});
+			
+		}); //ready
+	</script>
+    
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 	<!-- Popper JS -->
