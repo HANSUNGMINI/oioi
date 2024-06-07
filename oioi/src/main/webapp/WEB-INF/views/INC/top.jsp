@@ -21,13 +21,11 @@
 </style>
 <script type="text/javascript">
 
-	function search() {
-		alert("왜안떠")
-		let datail= document.querySelector("#searchDiv");
-		if (detail.style.display == "none") {
-			detail.style.display = "block";
+	function searchDivOpen() {
+		if (document.querySelector("#searchDiv").style.display == "none") {
+			document.querySelector("#searchDiv").style.display = "block";
 		} else {
-			detail.style.display = "none";
+			document.querySelector("#searchDiv").style.display = "none";
 		}
 	}
 </script>
@@ -97,19 +95,28 @@
 									<option>싶기도하고</option>
 								</select>
 								<form>
-									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="search()">
+									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()">
+									<div id="searchDiv"> 추천 검색어 </div>
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
-									<div id="searchDiv"> 추천 검색어 </div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-2 col-md-3 col-12">
 						<div class="right-bar">
-							<!-- Search Form -->
-							<div class="sinlge-bar">
+							
+							<!-- 알림 -->
+							<div class="sinlge-bar shopping">
 								<a href="#" class="single-icon"><i class="ti-bell" aria-hidden="true"></i></a>
+								
+								<div class="shopping-item shopping">
+									<div class="dropdown-cart-header">
+									알림
+									</div>
+								</div>
 							</div>
+							
+							
 							<div class="sinlge-bar">
 								<a href="myPage" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
@@ -135,23 +142,15 @@
 									
 									<ul class="shopping-list">
 										<li>
-											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-											<h4><a href="#">Woman Ring</a></h4>
-											<p class="quantity">1x - <span class="amount">$99.00</span></p>
+											<h4><a href="#">닉네임1</a></h4>
+											<p class="quantity" style="padding-bottom: 0px;">대화</p>
 										</li>
 										<li>
-											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-											<h4><a href="#">Woman Necklace</a></h4>
-											<p class="quantity">1x - <span class="amount">$35.00</span></p>
+											<h4><a href="#">닉네임2</a></h4>
+											<p class="quantity" style="padding-bottom: 0px;">대화</p>
 										</li>
 									</ul>
 									<div class="bottom">
-										<div class="total">
-											<span>Total</span>
-											<span class="total-amount">$134.00</span>
-										</div>
 										<a href="ChatList" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=700, top=200, resizable=no'); return false;" class="btn animate">채팅 더보기</a>
 									</div>
 								</div>
