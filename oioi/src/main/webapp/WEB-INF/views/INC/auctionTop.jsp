@@ -162,11 +162,17 @@
 								<!-- Main Menu -->
 								<nav class="navbar navbar-expand-lg">
 									<div class="navbar-collapse">	
-										<div class="nav-inner">	
+										<div class="nav-inner">
 											<ul class="nav main-menu menu navbar-nav">
-												<li><a href="contact.html">경매중</a></li>
-												<li><a href="contact.html">입찰예정경매</a></li>
-												<li><a href="contact.html">종료된경매</a></li>
+												<li><a href="trade">경매 상품 등록</a></li>												
+												<!-- 지우지마 -->
+												<li><a href="#">경매<i class="ti-angle-down"></i></a>
+													<ul class="dropdown">
+														<li><a href="about-us.html">경매중</a></li>
+														<li><a href="login.html">입찰예정경매</a></li>
+														<li><a href="register.html">종료된경매</a></li>
+													</ul>
+												</li>									
 											</ul>
 										</div>
 									</div>
