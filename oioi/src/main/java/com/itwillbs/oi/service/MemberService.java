@@ -57,12 +57,6 @@ public class MemberService {
 	}
 
 
-	// 네이버 정보 저장하기
-	public int saveNaverInfo(MemberVO member) {
-		return mapper.insertMember(member);
-	}
-
-
 	public void registMailAuthInfo(MailAuthInfoVO mailAuthInfo) {
 		// 기존 인증정보 존재 여부 확인을 위해 인증정보 조회 요청
 		// MemberMapper - selectMailAuthInfo() 메서드 호출
