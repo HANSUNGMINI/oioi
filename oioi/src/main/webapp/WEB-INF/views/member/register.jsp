@@ -237,12 +237,9 @@
 		            
 		            alert("인증번호가 전송되었습니다.");
 		            
-		            $("#check_tel").remove();
-		            $("#member_phone").css("margin-right", "105px");
-		            $("#auth_num").after(
-		            	'<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
-		            );
-		            $("#authBox").css("margin-left", "100px")
+		            $("#auth_num").parent().append(
+                            '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
+                        );
 		            
 		            
 		        } else {
@@ -334,7 +331,7 @@
 												<input type="text" name="member_phone" id="member_phone" placeholder="전화번호" maxlength="11" >
 												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
 											</div>
-											<div id="authBox">
+											<div id="authBox" style="display: flex">
 												<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/>
 											</div>
 										</div>
