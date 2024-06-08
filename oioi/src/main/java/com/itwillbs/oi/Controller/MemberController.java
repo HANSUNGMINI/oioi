@@ -51,17 +51,17 @@ public class MemberController {
 	
 	@PostMapping("register")
 	public String joinPro(MemberVO member, Model model, BCryptPasswordEncoder passwordEncoder) {
-		
+		System.out.println(member);
 		// ------------------------------메일-----------------------------
 //		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + member.getMember_email());
 		// MailService - sendAuthMail() 메서드 호출하여 인증 메일 발송 요청
 		// => 파라미터 : MemberVO 객체   리턴타입 : MailAuthInfoVO(mailAuthInfo)
-		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
-		System.out.println("인증정보 : " + mailAuthInfo);
-		
-		// MemberService - registMailAuthInfo() 메서드 호출하여 인증 정보 등록 요청
-		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : void
-		service.registMailAuthInfo(mailAuthInfo);
+//		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
+//		System.out.println("인증정보 : " + mailAuthInfo);
+//		
+//		// MemberService - registMailAuthInfo() 메서드 호출하여 인증 정보 등록 요청
+//		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : void
+//		service.registMailAuthInfo(mailAuthInfo);
 		
 		// ----------------------중복 이메일 전화번호 확인------------------------------
 		boolean isEmptyEmail = service.isEmptyEmail(member.getMember_email());

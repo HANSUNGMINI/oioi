@@ -64,10 +64,6 @@
 			window.open("check_id", "아이디 중복확인", "width=600, height=300, top=150, left=650");
 		};
 		
-// 		document.querySelector("#member_email").onclick = function() { //아이디 중복체크&유효성검사 새창 오픈
-// 			window.open("check_id", "이메일 인증", "width=600, height=300, top=150, left=650");
-// 		};
-		
 		$("#member_passwd").keyup(function() { // 비밀번호 유효성 검사
 			
 		    let passwd = $("#member_passwd").val();
@@ -185,7 +181,7 @@
 	}
 
 	function isValidEmail(email) { //이메일 유효성 검사
-		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && !/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(email);
+		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 	}
 	
 	function isValidName(name) { // 이름 유효성 검사
@@ -196,27 +192,27 @@
 		return /^[0-9]{10,11}$/.test(phoneNumber);
 	}
 
-	function sendAuthMail() {
-		// 아이디 입력 텍스트박스에 입력된 아이디 가져오기
-		let eMail = $("#member_email").val();
+// 	function sendAuthMail() {
+// 		// 아이디 입력 텍스트박스에 입력된 아이디 가져오기
+// 		let eMail = $("#member_email").val();
 		
-		if(!isValidEmail(eMail)) { // 이메일 확인
-	        alert("E-Mail을 정확히 입력해주세요.");
-	        document.fr.member_email.focus();
-	        return false;
-	    } 
+// 		if(!isValidEmail(eMail)) { // 이메일 확인
+// 	        alert("E-Mail을 정확히 입력해주세요.");
+// 	        document.fr.member_email.focus();
+// 	        return false;
+// 	    } 
 		
-		// 이메일이 입력되지 않았을 경우 경고창 출력
-		if(eMail == "") {
-			alert("이메일을 입력해주세요!");
-			$("#member_email").focus();
-			return;
-		}
+// 		// 이메일이 입력되지 않았을 경우 경고창 출력
+// 		if(eMail == "") {
+// 			alert("이메일을 입력해주세요!");
+// 			$("#member_email").focus();
+// 			return;
+// 		}
 		
-		// SendAuthMail 서블릿 주소 요청 => 파라미터로 아이디 전달
+// 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 아이디 전달
 		
-		location.href = "SendAuthMail?member_email=" + eMail;
-	}
+// 		location.href = "SendAuthMail?member_email=" + eMail;
+// 	}
 	
 	function phoneAuth() {
 		let member_phone = $("#member_phone").val();
@@ -320,21 +316,27 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>이메일<span>*</span></label>
-											<input type="email" name="email" id="member_email" placeholder="이메일" >
+											<input type="email" name="member_email" id="member_email" placeholder="이메일" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>주소<span>*</span></label>
-											<input type="text" name="post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
-											<input type="text" id="address1" name="address1" placeholder="기본주소" size="25" readonly onclick="search_address()"><br>
-											<input type="text" id="address2" name="address2" placeholder="상세주소" size="25">
+											<input type="text" name="member_post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
+											<input type="text" id="address1" name="member_address1" placeholder="기본주소" size="25" readonly onclick="search_address()">
+											<input type="text" id="address2" name="member_address2" placeholder="상세주소" size="25" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>전화번호<span>*</span></label>
-											<input type="text" name="member-phone" id="member-phone" placeholder="전화번호" maxlength="11" >
+											<div style="display: flex">
+												<input type="text" name="member_phone" id="member_phone" placeholder="전화번호" maxlength="11" >
+												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
+											</div>
+											<div id="authBox">
+												<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/>
+											</div>
 										</div>
 									</div>
 									<div class="col-12">
