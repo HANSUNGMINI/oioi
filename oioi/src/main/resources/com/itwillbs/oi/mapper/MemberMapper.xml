@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+마이바티스에서 실행할 SQL 구문을 갖는 xxxMapper.xml 파일 정의
+=> 실행할 각 구문의 이름을 태그로 제공함(insert, update, delete, select 등)
+   (내부적으로 PreparedStatement 객체를 통해 SQL 구문을 실행함)
+=> 주의! mapper 태그 내의 namespace 속성에 현재 XML 파일과 연결될 자바 인터페이스를 명시해야한다!
+   ex) <mapper namespace="패키지명.인터페이스명">
+   (존재하지 않는 인터페이스(오타 등)라도 오류가 표시되지 않음)
+=> 주의! 각 태그 내의 id 속성에 지정될 이름은 Mapper 인터페이스 내의 메서드명과 일치해야한다!
+   (일치하는 id 없을 경우 BindingException 발생)
+-->      
+<mapper namespace="com.itwillbs.oi.mapper.MemberMapper">
+	<insert id="insertMember">
+		INSERT INTO member
+		VALUES (
+			null
+			, #{member_id}
+			, #{member_name}
+			, #{member_email}
+			, #{member_post_code}
+			, #{member_address1}
+			, #{member_address2}
+			, #{member_phone}
+			, #{member_passwd}
+			, now()
+			, 0
+		)
+	</insert>
+	
+	<select id="selectMember" resultType="com.itwillbs.oi.vo.MemberVO">
+			SELECT * 
+			FROM  member 
+			WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectCheckID" resultType="boolean">
+		SELECT IF(COUNT(*) = 1, 1, 0)
+		FROM  member 
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectForgotId" resultType="com.itwillbs.oi.vo.MemberVO">
+		SELECT *
+		  FROM member 
+		 WHERE
+			   member_name =  #{member_name}  
+		 AND   member_email = #{member_email}
+	</select>
+	
+	<select id="selectForgotIdPhone" resultType="string">
+		SELECT member_id
+		  FROM member 
+		 WHERE
+			   member_name =  #{phone_member_name}  
+		 AND   member_phone = #{member_phone}
+	</select>
+	
+	<select id="selectForgotPw" resultType="com.itwillbs.oi.vo.MemberVO">
+		SELECT *
+		  FROM member 
+		 WHERE
+			   member_name =  #{member_name}  
+		 AND   member_email = #{member_email}
+		 AND   member_id = 	  #{member_id}
+	</select>
+	
+	<select id="selectForgotPwPhone">
+		SELECT *
+		  FROM member 
+		 WHERE
+			   member_name =  #{phone_member_name}  
+		 AND   member_phone = #{member_phone}
+		 AND   member_id = 	  #{member_id}
+	</select>
+	
+	
+	<select id="selectMemberCount">
+		SELECT count(member_idx)
+	      FROM member
+	</select>
+	
+	<select id="selectTodayMember">
+		SELECT COUNT(*)
+		  FROM member
+		 WHERE DATE(member_reg_date) = CURDATE()
+	</select>
+	
+	<select id="selectMailAuthInfo" resultType="hashmap">
+		SELECT *
+		  FROM mail_auth_info
+		  WHERE 
+			   member_email = #{member_email}
+	</select>
+	
+	<!-- 이메일 인증 정보 등록 - INSERT -->
+	<insert id="insertMailAuthInfo">
+		INSERT
+		INTO mail_auth_info
+		VALUES (
+			  #{member_email}
+			, #{auth_code}
+		)
+	</insert>
+	
+	<!-- 이메일 인증 정보 수정 - UPDATE -->
+	<!-- id 에 해당하는 auth_code 컬럼값을 전달받은 코드값으로 변경 -->
+	<update id="updateMailAuthInfo">
+		UPDATE mail_auth_info
+		SET 
+			auth_code = #{auth_code}
+		WHERE
+			member_email = #{member_email}
+	</update>
+	
+	<select id="selectEmptyEmail" resultType="boolean">
+		SELECT
+		    IF (COUNT(*) = 1, 0, 1)
+	  	  FROM member 
+		 WHERE member_email = #{member_email}
+	</select>
+	
+	<select id="selectEmptyPhoneNum" resultType="boolean">
+		SELECT
+		    IF(COUNT(*) = 1, 0, 1)
+		  FROM member 
+		 WHERE member_phone = #{member_phone}
+	</select>
+	
+	<update id="updatePasswd">
+		UPDATE member
+		SET
+			member_passwd = #{member_passwd}
+		WHERE
+			member_id = #{member_id}
+	
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

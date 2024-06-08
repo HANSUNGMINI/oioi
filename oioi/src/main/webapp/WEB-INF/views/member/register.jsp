@@ -138,7 +138,8 @@
 				alert("비밀번호가 일치하지 않습니다!");
 				document.fr.member_passwd2.focus();
 				return false;
-			} else if(!isValidEmail($("#member_email").val())) { // 이메일 확인
+			} else 
+				if(!isValidEmail($("#member_email").val())) { // 이메일 확인
 		        alert("E-Mail을 확인해주세요.");
 		        document.fr.member_email.focus();
 		        return false;
@@ -184,15 +185,11 @@
 	}
 
 	function isValidEmail(email) { //이메일 유효성 검사
-	    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && !/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(email);
 	}
 	
 	function isValidName(name) { // 이름 유효성 검사
 		return  /^[가-힣&&[^ㄱ-ㅎㅏ-ㅣ]{2,5}$/.test(name);
-	}
-	
-	function isValidBirth(birth) { // 생일 유효성 검사
-	    return /^[0-9]{8}$/.test(birth);
 	}
 	
 	function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
@@ -310,45 +307,47 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
-											<label>이름<span>*</span></label>
-											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="이름" required="required">
+											<label>아이디<span>*</span></label>
+											<input type="text" name="member_id" id="member_id" placeholder="아이디" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
-											<label>아이디<span>*</span></label>
-											<input type="text" name="member_id" id="member_id" placeholder="아이디" required>
+											<label>이름<span>*</span></label>
+											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="이름" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>이메일<span>*</span></label>
-											<input type="email" name="email" id="member_email" placeholder="이메일" required>
+											<input type="email" name="email" id="member_email" placeholder="이메일" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>주소<span>*</span></label>
-											<input type="text" name="address" placeholder="주소" required="required">
+											<input type="text" name="post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
+											<input type="text" id="address1" name="address1" placeholder="기본주소" size="25" readonly onclick="search_address()"><br>
+											<input type="text" id="address2" name="address2" placeholder="상세주소" size="25">
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>전화번호<span>*</span></label>
-											<input type="text" name="member-phone" id="member-phone" placeholder="전화번호" maxlength="11" required>
+											<input type="text" name="member-phone" id="member-phone" placeholder="전화번호" maxlength="11" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호<span>*</span></label>
-											<input type="password" name="member_passwd" id="member_passwd" placeholder="비밀번호" required>
+											<input type="password" name="member_passwd" id="member_passwd" placeholder="비밀번호" maxlength="12" >
 											<div id="checkPwResult"></div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호 확인<span>*</span></label>
-											<input type="password" name="member_passwd2" id="member_passwd2" placeholder="비밀번호 확인" required>
+											<input type="password" name="member_passwd2" id="member_passwd2" placeholder="비밀번호 확인" maxlength="12" >
 											<div id="checkPwResult2"></div>
 										</div>
 									</div>
@@ -369,7 +368,52 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
-    
+<!-- ================================================================================== -->
+	<!-- 카카오(다음) 우편번호 API 서비스 활용 -->
+	<!-- postcode.v2.js 스크립트 파일 로딩 필수! (직접 다운로드 대신 URL 지정으로 로딩) -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+	    function search_address() {
+	        new daum.Postcode({ // daum.Postcode 객체 생성
+	        	// 주소검색 창에서 주소 검색 후 검색된 주소를 사용자가 클릭하면
+	        	// oncomplete 이벤트에 의해 해당 이벤트 뒤의 익명함수가 실행(호출됨)
+	        	// => 사용자가 호출하는 것이 아니라 API 가 함수를 호출하게 됨(callback(콜백) 함수)
+	            oncomplete: function(data) {
+	                // 클릭(선택)된 주소에 대한 정보(객체)가 익명함수 파라미터 data 에 전달됨
+	                // => data.xxx 형식으로 각 주소 정보에 접근 가능
+	                console.log(data);
+	                // 1) 우편번호(= 국가기초구역번호 = zonecode 속성값) 가져와서 
+	                //    우편번호 입력란(postCode)에 출력
+	                document.fr.postCode.value = data.zonecode;
+	        
+	        		// 2) 기본주소(address 속성값) 가져와서 기본주소 항목(address1)에 출력
+// 	        		document.fr.address1.value = data.address; // 기본주소
+// 	        		document.fr.address1.value = data.roadAddress; // 도로명주소
+	        		
+	        		// 만약, 해당 주소에 대한 건물명(buildingName 속성값)이 존재할 경우(널스트링 아닐 때)
+	        		// 기본주소 뒤에 건물명을 결합하여 출력
+	        		// ex) 기본주소 : 부산 부산진구 동천로 109
+	        		//     건물명 : 삼한골든게이트
+	        		//     => 부산 부산진구 동천로 109 (삼한골든게이트)
+	        		let address = data.address; // 기본주소 변수에 저장
+	        		
+	        		// 건물명이 존재할 경우(buildingName 속성값이 널스트링이 아닐 경우)
+	        		// 기본주소 뒤에 건물명 결합
+	        		if(data.buildingName != "") {
+	        			address += " (" + data.buildingName + ")";
+	        		}
+	        		
+	        		// 기본주소 출력
+	        		document.fr.address1.value = address;
+	        		
+	        		// 상세주소 입력 항목에 커서 요청
+	        		document.fr.address2.focus();
+	        		
+	            }
+	        }).open();
+	    }
+	</script>
+	<!-- ================================================================================== -->   
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 	<!-- Popper JS -->
