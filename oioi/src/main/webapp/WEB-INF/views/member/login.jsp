@@ -82,18 +82,18 @@
 							<h2>로그인</h2>
 							<p>비회원은 회원가입을 먼저 진행하여 주세요</p>
 							<!-- Form -->
-							<form class="form" method="post" action="#">
+							<form class="form" method="post" action="login">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="email" name="email" placeholder="" required="required">
+											<input type="text" class="member_id" name="member_id"  placeholder="아이디" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호<span>*</span></label>
-											<input type="password" name="password" placeholder="" required="required">
+											<input type="password" class="member_passwd" name="member_passwd" placeholder="비밀번호" required>
 										</div>
 									</div>
 									<div class="col-12">

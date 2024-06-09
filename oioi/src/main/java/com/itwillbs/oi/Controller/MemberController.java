@@ -90,4 +90,24 @@ public class MemberController {
 		}
 	}
 	
+	@PostMapping("login")
+	public String loginPro(MemberVO member,  HttpSession session , Model model, BCryptPasswordEncoder passwordEncoder) {
+		
+		MemberVO dbMember = service.getMember(member);
+		
+		if(dbMember == null || !passwordEncoder.matches(member.getMember_passwd(), dbMember.getMember_passwd())){ // 로그인 실패
+			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.\\n입력하신 내용을 다시 확인해주세요.");
+			return "err/fail";
+		} else if (dbMember.getMember_status() == 2) {
+			model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
+			return "err/fail";
+		}else { // 로그인 성공
+			// 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
+			session.setAttribute("member_id", member.getMember_id());
+			
+			// 메인페이지 리다이렉트
+			return "redirect:/";
+		}
+		
+	}
 }
