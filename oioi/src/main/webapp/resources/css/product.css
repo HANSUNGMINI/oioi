@@ -18,19 +18,23 @@
 	font-size : 15px !important;
 }
 
-.regForm ul li input[type="text"] {
+.regForm ul li input[type="text"], .regForm ul li .tagify {
     width: 80%;
 }
 
 .regForm ul li input[type="file"] {
-    display : none;
+/*     display : none; */
+}
+
+.regForm ul li .preView {
+	width : 80%;
 }
 .regForm ul li .tempImg {
 	width : 200px;
 	height: 200px;
 	border : 1px solid black;
 	cursor: pointer;
-	margin-right : 10px;
+	margin : 0 10px 10px 0px;
 }
 
 .regForm ul li #price {
@@ -54,8 +58,3 @@
 	background-color : #34A853;
 }
 
-
-
-.regForm ul li .tagify {
-	width : 80%;
-}
