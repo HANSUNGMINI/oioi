@@ -156,6 +156,32 @@
 	    border-radius: 40%
 	}
 </style>
+
+<script type="text/javascript">
+	
+	let previousLink = null;
+	let previousText = "";
+	
+	function clickCategory(element) {
+	    // 모든 <a> 태그의 굵기 초기화
+	    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+	    if (previousLink) {
+	        previousLink.style.fontWeight = 'normal';
+	        previousLink.textContent = previousText;
+	    }
+	    
+	 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+	    previousLink = element;
+	    previousText = element.textContent;
+
+	    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+	    element.style.fontWeight = 'bold';
+	    element.textContent = "> " + previousText;
+}
+
+
+</script>
+
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
@@ -169,8 +195,8 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="categor-list">
-							<li><a href="notice">공지사항</a></li>
-							<li><a href="faq">문의내역</a></li>
+							<li><a href="notice" onclick="clickCategory(this)">공지사항</a></li>
+							<li><a href="qna" onclick="clickCategory(this)">문의내역</a></li>
 						</ul>
 					</div>
 				</div>
