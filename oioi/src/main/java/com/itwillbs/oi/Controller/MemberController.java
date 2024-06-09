@@ -54,7 +54,7 @@ public class MemberController {
 	public String joinPro(MemberVO member, Model model, BCryptPasswordEncoder passwordEncoder) {
 		System.out.println(member);
 		// ------------------------------메일-----------------------------
-		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + member.getMember_email());
+//		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + member.getMember_email());
 		// MailService - sendAuthMail() 메서드 호출하여 인증 메일 발송 요청
 		// => 파라미터 : MemberVO 객체   리턴타입 : MailAuthInfoVO(mailAuthInfo)
 //		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
