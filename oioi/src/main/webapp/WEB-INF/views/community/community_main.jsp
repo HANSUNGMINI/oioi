@@ -121,7 +121,11 @@
 		margin-bottom: -15px;
 		float: right;
 	}
-	
+	.search-form, .search-top {
+	 width : 200px;
+	 text-align: center;
+	 margin: 0;
+	}
 	/* 페이징 위치 */
 </style>
 <body class="js">
@@ -179,9 +183,19 @@
 		 <div class="col-lg-9 col-12" id="highlighted-row"> 
 			 <div class="row">
 					<div class="notice_body">
-				 		 <div class = "write_btn">
-						 	<a href = "noticeWrite"> 글쓰기 </a>
-						 </div>
+						<div class="search_write">
+							<!-- Search Form -->
+							<div class="search-top">
+								<form class="search-form">
+									<input type="text" placeholder="Search here..." name="search">
+									<button value="search" type="submit"><i class="ti-search"></i></button>
+								</form>
+							</div>
+							<!--/ End Search Form -->
+					 		<div class = "write_btn">
+								<a href = "noticeWrite"> 글쓰기 </a>
+							</div>
+						</div>	
 						<table>
 					        <thead>
 					            <tr>
@@ -202,6 +216,8 @@
 					    </table>
 					</div>
 				</div>
+				
+				
 				
 				<%-- 페이징 --%>
 				
