@@ -9,20 +9,18 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>오이마켓 관리자 페이지</title><!--begin::Primary Meta Tags-->
+    <title>관리자페이지</title><!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--     <meta name="title" content="AdminLTE v4 | Dashboard"> -->
-<!--     <meta name="author" content="ColorlibHQ"> -->
+    <meta name="title" content="AdminLTE | Dashboard v2">
+    <meta name="author" content="ColorlibHQ">
     <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS.">
     <meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard"><!--end::Primary Meta Tags--><!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous"><!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css" integrity="sha256-dSokZseQNT08wYEWiz5iLI8QPlKxG+TswNRD8k35cpg=" crossorigin="anonymous"><!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Third Party Plugin(Bootstrap Icons)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous"><!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
-<!--     <link rel="stylesheet" href="../../dist/css/adminlte.css">end::Required Plugin(AdminLTE)--><!-- apexcharts -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminlte.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous"><!-- jsvectormap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous">
-</head> <!--end::Head--> <!--begin::Body-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous">
+</head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
     <div class="app-wrapper"> <!--begin::Header-->
@@ -117,247 +115,158 @@
             </div> <!--end::Container-->
         </nav> <!--end::Header--> <!--begin::Sidebar-->
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
-            <div class="sidebar-brand"> <!--begin::Brand Link--> <a href="./index.html" class="brand-link"> <!--begin::Brand Image--> <img src="../../dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span class="brand-text fw-light">AdminLTE 4</span> <!--end::Brand Text--> </a> <!--end::Brand Link--> </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
+            <div class="sidebar-brand">
+            	<a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"> <i class="bi bi-list"></i> </a>
+            	<a href="./index.html" class="brand-link">
+<!--             		<img src="../../dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> -->
+            		<span class="brand-text fw-light">오이마켓 관리자</span>
+           	    </a>
+            </div>
             <div class="sidebar-wrapper">
                 <nav class="mt-2"> <!--begin::Sidebar Menu-->
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item menu-open"> <a href="#" class="nav-link active"> <i class="nav-icon bi bi-speedometer"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>회원 관리
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./index.html" class="nav-link active"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Dashboard v1</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./index2.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Dashboard v2</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./index3.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Dashboard v3</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-seam-fill"></i>
-                                <p>
-                                    Widgets
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./widgets/small-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Small Box</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./widgets/info-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>info Box</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./widgets/cards.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Cards</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-clipboard-fill"></i>
-                                <p>
-                                    Layout Options
-                                    <span class="nav-badge badge text-bg-secondary me-3">6</span> <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./layout/unfixed-sidebar.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Default Sidebar</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/fixed-sidebar.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Fixed Sidebar</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/fixed-complete.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Fixed Complete</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/sidebar-mini.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Sidebar Mini</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/collapsed-sidebar.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Sidebar Mini <small>+ Collapsed</small></p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/logo-switch.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Sidebar Mini <small>+ Logo Switch</small></p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./layout/layout-rtl.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Layout RTL</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-tree-fill"></i>
-                                <p>
-                                    UI Elements
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./UI/general.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>General</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./UI/timeline.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Timeline</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-pencil-square"></i>
-                                <p>
-                                    Forms
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./forms/general.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>General Elements</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-table"></i>
-                                <p>
-                                    Tables
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./tables/simple.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Simple Tables</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-header">EXAMPLES</li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                <p>
-                                    Auth
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                        <p>
-                                            Version 1
-                                            <i class="nav-arrow bi bi-chevron-right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item"> <a href="./examples/login.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                                <p>Login</p>
-                                            </a> </li>
-                                        <li class="nav-item"> <a href="./examples/register.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                                <p>Register</p>
-                                            </a> </li>
-                                    </ul>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>회원 조회</p>
+	                                </a>
                                 </li>
-                                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                        <p>
-                                            Version 2
-                                            <i class="nav-arrow bi bi-chevron-right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item"> <a href="./examples/login-v2.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                                <p>Login</p>
-                                            </a> </li>
-                                        <li class="nav-item"> <a href="./examples/register-v2.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                                <p>Register</p>
-                                            </a> </li>
-                                    </ul>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>블랙 리스트 관리</p>
+	                                </a>
                                 </li>
-                                <li class="nav-item"> <a href="./examples/lockscreen.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Lockscreen</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-header">DOCUMENTATIONS</li>
-                        <li class="nav-item"> <a href="./docs/introduction.html" class="nav-link"> <i class="nav-icon bi bi-download"></i>
-                                <p>Installation</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./docs/layout.html" class="nav-link"> <i class="nav-icon bi bi-grip-horizontal"></i>
-                                <p>Layout</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./docs/color-mode.html" class="nav-link"> <i class="nav-icon bi bi-star-half"></i>
-                                <p>Color Mode</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-ui-checks-grid"></i>
-                                <p>
-                                    Components
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./docs/components/main-header.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Main Header</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="./docs/components/main-sidebar.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Main Sidebar</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-filetype-js"></i>
-                                <p>
-                                    Javascript
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="./docs/javascript/treeview.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Treeview</p>
-                                    </a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"> <a href="./docs/browser-support.html" class="nav-link"> <i class="nav-icon bi bi-browser-edge"></i>
-                                <p>Browser Support</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./docs/how-to-contribute.html" class="nav-link"> <i class="nav-icon bi bi-hand-thumbs-up-fill"></i>
-                                <p>How To Contribute</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./docs/faq.html" class="nav-link"> <i class="nav-icon bi bi-question-circle-fill"></i>
-                                <p>FAQ</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="./docs/license.html" class="nav-link"> <i class="nav-icon bi bi-patch-check-fill"></i>
-                                <p>License</p>
-                            </a> </li>
-                        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle-fill"></i>
-                                <p>Level 1</p>
-                            </a> </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle-fill"></i>
-                                <p>
-                                    Level 1
-                                    <i class="nav-arrow bi bi-chevron-right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Level 2</p>
-                                    </a> </li>
-                                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>
-                                            Level 2
-                                            <i class="nav-arrow bi bi-chevron-right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-record-circle-fill"></i>
-                                                <p>Level 3</p>
-                                            </a> </li>
-                                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-record-circle-fill"></i>
-                                                <p>Level 3</p>
-                                            </a> </li>
-                                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-record-circle-fill"></i>
-                                                <p>Level 3</p>
-                                            </a> </li>
-                                    </ul>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-info"></i>
+	                                	<p>사용자 활동 기록 조회</p>
+	                                </a>
                                 </li>
-                                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                        <p>Level 2</p>
-                                    </a> </li>
                             </ul>
                         </li>
-                        <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle-fill"></i>
-                                <p>Level 1</p>
-                            </a> </li>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>상품 관리
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>카테고리 관리</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>상품 정보 수정</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-info"></i>
+	                                	<p>경매 관리</p>
+	                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>채팅 관리
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>채팅 기록 조회</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>채팅 내용 관리</p>
+	                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>페이 관리
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>계좌 관리</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>페이 거래 내역</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-info"></i>
+	                                	<p>환불 처리</p>
+	                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>공지사항 및 질문
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>공지 사항 관리</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>문의 사항 관리</p>
+	                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                        	<a href="#" class="nav-link">
+	                        	<i class="nav-icon bi bi-box-arrow-in-right"></i>
+	                            <p>신고 관리
+	                            	<i class="nav-arrow bi bi-chevron-right"></i>
+	                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-danger"></i>
+	                                	<p>신고 목록 조회</p>
+	                                </a>
+                                </li>
+                                <li class="nav-item">
+	                                <a href="" class="nav-link"><i class="nav-icon bi bi-circle text-warning"></i>
+	                                	<p>분쟁 관리</p>
+	                                </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
                         <li class="nav-header">LABELS</li>
                         <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle text-danger"></i>
                                 <p class="text">Important</p>
@@ -377,222 +286,395 @@
                 <div class="container-fluid"> <!--begin::Row-->
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Dashboard</h3>
+                            <h3 class="mb-0">Dashboard v2</h3>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Dashboard
+                                    관리자 메인
                                 </li>
                             </ol>
                         </div>
                     </div> <!--end::Row-->
                 </div> <!--end::Container-->
-            </div> <!--end::App Content Header--> <!--begin::App Content-->
+            </div>
             <div class="app-content"> <!--begin::Container-->
-                <div class="container-fluid"> <!--begin::Row-->
-                    <div class="row"> <!--begin::Col-->
-                        <div class="col-lg-3 col-6"> <!--begin::Small Box Widget 1-->
-                            <div class="small-box text-bg-primary">
-                                <div class="inner">
-                                    <h3>150</h3>
-                                    <p>New Orders</p>
-                                </div> <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"></path>
-                                </svg> <a href="#" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                    More info <i class="bi bi-link-45deg"></i> </a>
-                            </div> <!--end::Small Box Widget 1-->
-                        </div> <!--end::Col-->
-                        <div class="col-lg-3 col-6"> <!--begin::Small Box Widget 2-->
-                            <div class="small-box text-bg-success">
-                                <div class="inner">
-                                    <h3>53<sup class="fs-5">%</sup></h3>
-                                    <p>Bounce Rate</p>
-                                </div> <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z"></path>
-                                </svg> <a href="#" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                    More info <i class="bi bi-link-45deg"></i> </a>
-                            </div> <!--end::Small Box Widget 2-->
-                        </div> <!--end::Col-->
-                        <div class="col-lg-3 col-6"> <!--begin::Small Box Widget 3-->
-                            <div class="small-box text-bg-warning">
-                                <div class="inner">
-                                    <h3>44</h3>
-                                    <p>User Registrations</p>
-                                </div> <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z"></path>
-                                </svg> <a href="#" class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
-                                    More info <i class="bi bi-link-45deg"></i> </a>
-                            </div> <!--end::Small Box Widget 3-->
-                        </div> <!--end::Col-->
-                        <div class="col-lg-3 col-6"> <!--begin::Small Box Widget 4-->
-                            <div class="small-box text-bg-danger">
-                                <div class="inner">
-                                    <h3>65</h3>
-                                    <p>Unique Visitors</p>
-                                </div> <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path clip-rule="evenodd" fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 018.25-8.25.75.75 0 01.75.75v6.75H18a.75.75 0 01.75.75 8.25 8.25 0 01-16.5 0z"></path>
-                                    <path clip-rule="evenodd" fill-rule="evenodd" d="M12.75 3a.75.75 0 01.75-.75 8.25 8.25 0 018.25 8.25.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V3z"></path>
-                                </svg> <a href="#" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                    More info <i class="bi bi-link-45deg"></i> </a>
-                            </div> <!--end::Small Box Widget 4-->
-                        </div> <!--end::Col-->
-                    </div> <!--end::Row--> <!--begin::Row-->
-                    <div class="row"> <!-- Start col -->
-                        <div class="col-lg-7 connectedSortable">
+                <div class="container-fluid"> <!-- Info boxes -->
+                    <div class="row">
+<!--                         <div class="col-12 col-sm-6 col-md-3"> -->
+<!--                             <div class="info-box"> <span class="info-box-icon text-bg-primary shadow-sm"> <i class="bi bi-gear-fill"></i> </span> -->
+<!--                                 <div class="info-box-content"> <span class="info-box-text">CPU Traffic</span> <span class="info-box-number"> -->
+<!--                                         10 -->
+<!--                                         <small>%</small> </span> </div> /.info-box-content -->
+<!--                             </div> /.info-box -->
+<!--                         </div> /.col -->
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box"> <span class="info-box-icon text-bg-danger shadow-sm"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">총 회원 수</span> <span class="info-box-number">41,410</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                        </div> <!-- /.col --> <!-- fix for small devices only --> <!-- <div class="clearfix hidden-md-up"></div> -->
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box"> <span class="info-box-icon text-bg-success shadow-sm"> <i class="bi bi-cart-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">오늘 방문자 수</span> <span class="info-box-number">760</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                        </div> <!-- /.col -->
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="info-box"> <span class="info-box-icon text-bg-warning shadow-sm"> <i class="bi bi-people-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">오늘 가입한 회원 수</span> <span class="info-box-number">2,000</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                        </div> <!-- /.col -->
+                    </div> <!-- /.row --> <!--begin::Row-->
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <h3 class="card-title">Sales Value</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div id="revenue-chart"></div>
-                                </div>
-                            </div> <!-- /.card --> <!-- DIRECT CHAT -->
-                            <div class="card direct-chat direct-chat-primary mb-4">
-                                <div class="card-header">
-                                    <h3 class="card-title">Direct Chat</h3>
-                                    <div class="card-tools"> <span title="3 New Messages" class="badge text-bg-primary">
-                                            3
-                                        </span> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> <button type="button" class="btn btn-tool" title="Contacts" data-lte-toggle="chat-pane"> <i class="bi bi-chat-text-fill"></i> </button> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
+                                    <h5 class="card-title">일주일 통계</h5>
+                                    <div class="card-tools"> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button>
+                                        <div class="btn-group"> <button type="button" class="btn btn-tool dropdown-toggle" data-bs-toggle="dropdown"> <i class="bi bi-wrench"></i> </button>
+                                            <div class="dropdown-menu dropdown-menu-end" role="menu"> <a href="#" class="dropdown-item">Action</a> <a href="#" class="dropdown-item">Another action</a> <a href="#" class="dropdown-item">
+                                                    Something else here
+                                                </a> <a class="dropdown-divider"></a> <a href="#" class="dropdown-item">Separated link</a> </div>
+                                        </div> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button>
+                                    </div>
                                 </div> <!-- /.card-header -->
-                                <div class="card-body"> <!-- Conversations are loaded here -->
-                                    <div class="direct-chat-messages"> <!-- Message. Default to the start -->
-                                        <div class="direct-chat-msg">
-                                            <div class="direct-chat-infos clearfix"> <span class="direct-chat-name float-start">
-                                                    Alexander Pierce
-                                                </span> <span class="direct-chat-timestamp float-end">
-                                                    23 Jan 2:00 pm
-                                                </span> </div> <!-- /.direct-chat-infos --> <img class="direct-chat-img" src="../../dist/assets/img/user1-128x128.jpg" alt="message user image"> <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                Is this template really for free? That's unbelievable!
-                                            </div> <!-- /.direct-chat-text -->
-                                        </div> <!-- /.direct-chat-msg --> <!-- Message to the end -->
-                                        <div class="direct-chat-msg end">
-                                            <div class="direct-chat-infos clearfix"> <span class="direct-chat-name float-end">
-                                                    Sarah Bullock
-                                                </span> <span class="direct-chat-timestamp float-start">
-                                                    23 Jan 2:05 pm
-                                                </span> </div> <!-- /.direct-chat-infos --> <img class="direct-chat-img" src="../../dist/assets/img/user3-128x128.jpg" alt="message user image"> <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                You better believe it!
-                                            </div> <!-- /.direct-chat-text -->
-                                        </div> <!-- /.direct-chat-msg --> <!-- Message. Default to the start -->
-                                        <div class="direct-chat-msg">
-                                            <div class="direct-chat-infos clearfix"> <span class="direct-chat-name float-start">
-                                                    Alexander Pierce
-                                                </span> <span class="direct-chat-timestamp float-end">
-                                                    23 Jan 5:37 pm
-                                                </span> </div> <!-- /.direct-chat-infos --> <img class="direct-chat-img" src="../../dist/assets/img/user1-128x128.jpg" alt="message user image"> <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                Working with AdminLTE on a great new app! Wanna join?
-                                            </div> <!-- /.direct-chat-text -->
-                                        </div> <!-- /.direct-chat-msg --> <!-- Message to the end -->
-                                        <div class="direct-chat-msg end">
-                                            <div class="direct-chat-infos clearfix"> <span class="direct-chat-name float-end">
-                                                    Sarah Bullock
-                                                </span> <span class="direct-chat-timestamp float-start">
-                                                    23 Jan 6:10 pm
-                                                </span> </div> <!-- /.direct-chat-infos --> <img class="direct-chat-img" src="../../dist/assets/img/user3-128x128.jpg" alt="message user image"> <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">I would love to.</div> <!-- /.direct-chat-text -->
-                                        </div> <!-- /.direct-chat-msg -->
-                                    </div> <!-- /.direct-chat-messages--> <!-- Contacts are loaded here -->
-                                    <div class="direct-chat-contacts">
-                                        <ul class="contacts-list">
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user1-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            Count Dracula
-                                                            <small class="contacts-list-date float-end">
-                                                                2/28/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            How have you been? I was...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user7-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            Sarah Doe
-                                                            <small class="contacts-list-date float-end">
-                                                                2/23/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            I will be waiting for...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user3-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            Nadia Jolie
-                                                            <small class="contacts-list-date float-end">
-                                                                2/20/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            I'll call you back at...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user5-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            Nora S. Vans
-                                                            <small class="contacts-list-date float-end">
-                                                                2/10/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            Where is your new...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user6-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            John K.
-                                                            <small class="contacts-list-date float-end">
-                                                                1/27/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            Can I take a look at...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                            <li> <a href="#"> <img class="contacts-list-img" src="../../dist/assets/img/user8-128x128.jpg" alt="User Avatar">
-                                                    <div class="contacts-list-info"> <span class="contacts-list-name">
-                                                            Kenneth M.
-                                                            <small class="contacts-list-date float-end">
-                                                                1/4/2023
-                                                            </small> </span> <span class="contacts-list-msg">
-                                                            Never mind I found...
-                                                        </span> </div> <!-- /.contacts-list-info -->
-                                                </a> </li> <!-- End Contact Item -->
-                                        </ul> <!-- /.contacts-list -->
-                                    </div> <!-- /.direct-chat-pane -->
-                                </div> <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <form action="#" method="post">
-                                        <div class="input-group"> <input type="text" name="message" placeholder="Type Message ..." class="form-control"> <span class="input-group-append"> <button type="button" class="btn btn-primary">
-                                                    Send
-                                                </button> </span> </div>
-                                    </form>
-                                </div> <!-- /.card-footer-->
-                            </div> <!-- /.direct-chat -->
-                        </div> <!-- /.Start col --> <!-- Start col -->
-                        <div class="col-lg-5 connectedSortable">
-                            <div class="card text-white bg-primary bg-gradient border-primary mb-4">
-                                <div class="card-header border-0">
-                                    <h3 class="card-title">Sales Value</h3>
-                                    <div class="card-tools"> <button type="button" class="btn btn-primary btn-sm" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> </div>
-                                </div>
-                                <div class="card-body">
-                                    <div id="world-map" style="height: 220px"></div>
-                                </div>
-                                <div class="card-footer border-0"> <!--begin::Row-->
+                                <div class="card-body"> <!--begin::Row-->
                                     <div class="row">
-                                        <div class="col-4 text-center">
-                                            <div id="sparkline-1" class="text-dark"></div>
-                                            <div class="text-white">Visitors</div>
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <div id="sparkline-2" class="text-dark"></div>
-                                            <div class="text-white">Online</div>
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <div id="sparkline-3" class="text-dark"></div>
-                                            <div class="text-white">Sales</div>
+                                        <div class="col-md-8">
+                                            <p class="text-center"> <strong>Sales: 1 Jan, 2023 - 30 Jul, 2023</strong> </p>
+                                            <div id="sales-chart"></div>
+                                        </div> <!-- /.col -->
+                                        <div class="col-md-4">
+                                            <p class="text-center"> <strong>Goal Completion</strong> </p>
+                                            <div class="progress-group">
+                                                Add Products to Cart
+                                                <span class="float-end"><b>160</b>/200</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar text-bg-primary" style="width: 80%"></div>
+                                                </div>
+                                            </div> <!-- /.progress-group -->
+                                            <div class="progress-group">
+                                                Complete Purchase
+                                                <span class="float-end"><b>310</b>/400</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar text-bg-danger" style="width: 75%"></div>
+                                                </div>
+                                            </div> <!-- /.progress-group -->
+                                            <div class="progress-group"> <span class="progress-text">Visit Premium Page</span> <span class="float-end"><b>480</b>/800</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar text-bg-success" style="width: 60%"></div>
+                                                </div>
+                                            </div> <!-- /.progress-group -->
+                                            <div class="progress-group">
+                                                Send Inquiries
+                                                <span class="float-end"><b>250</b>/500</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar text-bg-warning" style="width: 50%"></div>
+                                                </div>
+                                            </div> <!-- /.progress-group -->
+                                        </div> <!-- /.col -->
+                                    </div> <!--end::Row-->
+                                </div> <!-- ./card-body -->
+                                <div class="card-footer"> <!--begin::Row-->
+                                    <div class="row">
+                                        <div class="col-md-3 col-6">
+                                            <div class="text-center border-end"> <span class="text-success"> <i class="bi bi-caret-up-fill"></i> 17%
+                                                </span>
+                                                <h5 class="fw-bold mb-0">$35,210.43</h5> <span class="text-uppercase">TOTAL REVENUE</span>
+                                            </div>
+                                        </div> <!-- /.col -->
+                                        <div class="col-md-3 col-6">
+                                            <div class="text-center border-end"> <span class="text-info"> <i class="bi bi-caret-left-fill"></i> 0%
+                                                </span>
+                                                <h5 class="fw-bold mb-0">$10,390.90</h5> <span class="text-uppercase">TOTAL COST</span>
+                                            </div>
+                                        </div> <!-- /.col -->
+                                        <div class="col-md-3 col-6">
+                                            <div class="text-center border-end"> <span class="text-success"> <i class="bi bi-caret-up-fill"></i> 20%
+                                                </span>
+                                                <h5 class="fw-bold mb-0">$24,813.53</h5> <span class="text-uppercase">TOTAL PROFIT</span>
+                                            </div>
+                                        </div> <!-- /.col -->
+                                        <div class="col-md-3 col-6">
+                                            <div class="text-center"> <span class="text-danger"> <i class="bi bi-caret-down-fill"></i> 18%
+                                                </span>
+                                                <h5 class="fw-bold mb-0">1200</h5> <span class="text-uppercase">GOAL COMPLETIONS</span>
+                                            </div>
                                         </div>
                                     </div> <!--end::Row-->
-                                </div>
-                            </div>
-                        </div> <!-- /.Start col -->
-                    </div> <!-- /.row (main row) -->
+                                </div> <!-- /.card-footer -->
+                            </div> <!-- /.card -->
+                        </div> <!-- /.col -->
+                    </div> <!--end::Row--> <!--begin::Row-->
+                    <div class="row"> <!-- Start col -->
+                        <div class="col-md-8"> <!--begin::Row-->
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6"> <!-- DIRECT CHAT -->
+                                	<div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">최근 판매 목록</h3>
+                                    <div class="card-tools"> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
+                                </div> <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <div class="px-2">
+                                        <div class="d-flex border-top py-2 px-1">
+                                            <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image" class="img-size-50"> </div>
+                                            <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
+                                                    Samsung TV
+                                                    <span class="badge text-bg-warning float-end">
+                                                        $1800
+                                                    </span> </a>
+                                                <div class="text-truncate">
+                                                    Samsung 32" 1080p 60Hz LED Smart HDTV.
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.item -->
+                                        <div class="d-flex border-top py-2 px-1">
+                                            <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image" class="img-size-50"> </div>
+                                            <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
+                                                    Bicycle
+                                                    <span class="badge text-bg-info float-end">
+                                                        $700
+                                                    </span> </a>
+                                                <div class="text-truncate">
+                                                    26" Mongoose Dolomite Men's 7-speed, Navy Blue.
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.item -->
+                                        <div class="d-flex border-top py-2 px-1">
+                                            <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image" class="img-size-50"> </div>
+                                            <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
+                                                    Xbox One
+                                                    <span class="badge text-bg-danger float-end">
+                                                        $350
+                                                    </span> </a>
+                                                <div class="text-truncate">
+                                                    Xbox One Console Bundle with Halo Master Chief
+                                                    Collection.
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.item -->
+                                        <div class="d-flex border-top py-2 px-1">
+                                            <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image" class="img-size-50"> </div>
+                                            <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
+                                                    PlayStation 4
+                                                    <span class="badge text-bg-success float-end">
+                                                        $399
+                                                    </span> </a>
+                                                <div class="text-truncate">
+                                                    PlayStation 4 500GB Console (PS4)
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.item -->
+                                    </div>
+                                </div> <!-- /.card-body -->
+                                <div class="card-footer text-center"> <a href="javascript:void(0)" class="uppercase">
+                                        View All Products
+                                    </a> </div> <!-- /.card-footer -->
+                            </div> <!-- /.card -->
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                </div>   
+                                <div class="col-md-6"> <!-- USERS LIST -->
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">회원 관리</h3>
+                                            <div class="card-tools"> <span class="badge text-bg-danger">
+                                                    8 New Members
+                                                </span> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
+                                        </div> <!-- /.card-header -->
+                                        <div class="card-body p-0">
+                                            <div class="row text-center m-1">
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user1-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Alexander Pierce
+                                                    </a>
+                                                    <div class="fs-8">Today</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user1-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Norman
+                                                    </a>
+                                                    <div class="fs-8">Yesterday</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user7-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Jane
+                                                    </a>
+                                                    <div class="fs-8">12 Jan</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user6-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        John
+                                                    </a>
+                                                    <div class="fs-8">12 Jan</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user2-160x160.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Alexander
+                                                    </a>
+                                                    <div class="fs-8">13 Jan</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user5-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Sarah
+                                                    </a>
+                                                    <div class="fs-8">14 Jan</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user4-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Nora
+                                                    </a>
+                                                    <div class="fs-8">15 Jan</div>
+                                                </div>
+                                                <div class="col-3 p-2"> <img class="img-fluid rounded-circle" src="../../dist/assets/img/user3-128x128.jpg" alt="User Image"> <a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">
+                                                        Nadia
+                                                    </a>
+                                                    <div class="fs-8">15 Jan</div>
+                                                </div>
+                                            </div> <!-- /.users-list -->
+                                        </div> <!-- /.card-body -->
+                                        <div class="card-footer text-center"> <a href="javascript:" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">View All Users</a> </div> <!-- /.card-footer -->
+                                    </div> <!-- /.card -->
+                                </div> <!-- /.col -->
+                            </div> <!--end::Row--> <!--begin::Latest Order Widget-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">리스트</h3>
+                                    <div class="card-tools"> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
+                                </div> <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table m-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Item</th>
+                                                    <th>Status</th>
+                                                    <th>Popularity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR9842</a> </td>
+                                                    <td>Call of Duty IV</td>
+                                                    <td> <span class="badge text-bg-success">
+                                                            Shipped
+                                                        </span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-1"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR1848</a> </td>
+                                                    <td>Samsung Smart TV</td>
+                                                    <td> <span class="badge text-bg-warning">Pending</span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-2"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR7429</a> </td>
+                                                    <td>iPhone 6 Plus</td>
+                                                    <td> <span class="badge text-bg-danger">
+                                                            Delivered
+                                                        </span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-3"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR7429</a> </td>
+                                                    <td>Samsung Smart TV</td>
+                                                    <td> <span class="badge text-bg-info">Processing</span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-4"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR1848</a> </td>
+                                                    <td>Samsung Smart TV</td>
+                                                    <td> <span class="badge text-bg-warning">Pending</span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-5"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR7429</a> </td>
+                                                    <td>iPhone 6 Plus</td>
+                                                    <td> <span class="badge text-bg-danger">
+                                                            Delivered
+                                                        </span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-6"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <a href="pages/examples/invoice.html" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">OR9842</a> </td>
+                                                    <td>Call of Duty IV</td>
+                                                    <td> <span class="badge text-bg-success">Shipped</span> </td>
+                                                    <td>
+                                                        <div id="table-sparkline-7"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-responsive -->
+                                </div> <!-- /.card-body -->
+                                <div class="card-footer clearfix"> <a href="javascript:void(0)" class="btn btn-sm btn-primary float-start">
+                                        Place New Order
+                                    </a> <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-end">
+                                        View All Orders
+                                    </a> </div> <!-- /.card-footer -->
+                            </div> <!-- /.card -->
+                        </div> <!-- /.col -->
+                        <div class="col-md-4"> <!-- Info Boxes Style 2 -->
+                            <div class="info-box mb-3 text-bg-warning"> <span class="info-box-icon"> <i class="bi bi-tag-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">Inventory</span> <span class="info-box-number">5,200</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                            <div class="info-box mb-3 text-bg-success"> <span class="info-box-icon"> <i class="bi bi-heart-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">Mentions</span> <span class="info-box-number">92,050</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                            <div class="info-box mb-3 text-bg-danger"> <span class="info-box-icon"> <i class="bi bi-cloud-download"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">Downloads</span> <span class="info-box-number">114,381</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                            <div class="info-box mb-3 text-bg-info"> <span class="info-box-icon"> <i class="bi bi-chat-fill"></i> </span>
+                                <div class="info-box-content"> <span class="info-box-text">Direct Messages</span> <span class="info-box-number">163,921</span> </div> <!-- /.info-box-content -->
+                            </div> <!-- /.info-box -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h3 class="card-title">카테고리별 통계</h3>
+                                    <div class="card-tools"> <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> <i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> </button> <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
+                                </div> <!-- /.card-header -->
+                                <div class="card-body"> <!--begin::Row-->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div id="pie-chart"></div>
+                                        </div> <!-- /.col -->
+                                    </div> <!--end::Row-->
+                                </div> <!-- /.card-body -->
+                                <div class="card-footer p-0">
+                                    <ul class="nav nav-pills flex-column">
+                                        <li class="nav-item"> <a href="#" class="nav-link">
+                                                United States of America
+                                                <span class="float-end text-danger"> <i class="bi bi-arrow-down fs-7"></i>
+                                                    12%
+                                                </span> </a> </li>
+                                        <li class="nav-item"> <a href="#" class="nav-link">
+                                                India
+                                                <span class="float-end text-success"> <i class="bi bi-arrow-up fs-7"></i> 4%
+                                                </span> </a> </li>
+                                        <li class="nav-item"> <a href="#" class="nav-link">
+                                                China
+                                                <span class="float-end text-info"> <i class="bi bi-arrow-left fs-7"></i> 0%
+                                                </span> </a> </li>
+                                    </ul>
+                                </div> <!-- /.footer -->
+                            </div> <!-- /.card --> <!-- PRODUCT LIST -->
+                            
+                        </div> <!-- /.col -->
+                    </div> <!--end::Row-->
                 </div> <!--end::Container-->
             </div> <!--end::App Content-->
         </main> <!--end::App Main--> <!--begin::Footer-->
@@ -608,7 +690,7 @@
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js" integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script> <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script> <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script> <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="../../dist/js/adminlte.js"></script> <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+    <script src="${pageContext.request.contextPath}/resources/js/adminlte.js"></script> <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
         const Default = {
@@ -631,30 +713,21 @@
                 });
             }
         });
-    </script> <!--end::OverlayScrollbars Configure--> <!-- OPTIONAL SCRIPTS --> <!-- sortablejs -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ=" crossorigin="anonymous"></script> <!-- sortablejs -->
-    <script>
-        const connectedSortables =
-            document.querySelectorAll(".connectedSortable");
-        connectedSortables.forEach((connectedSortable) => {
-            let sortable = new Sortable(connectedSortable, {
-                group: "shared",
-                handle: ".card-header",
-            });
-        });
-
-        const cardHeaders = document.querySelectorAll(
-            ".connectedSortable .card-header",
-        );
-        cardHeaders.forEach((cardHeader) => {
-            cardHeader.style.cursor = "move";
-        });
-    </script> <!-- apexcharts -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script> <!-- ChartJS -->
+    </script> <!--end::OverlayScrollbars Configure--> <!-- OPTIONAL SCRIPTS --> <!-- apexcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
     <script>
         // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
         // IT'S ALL JUST JUNK FOR DEMO
         // ++++++++++++++++++++++++++++++++++++++++++
+
+        /* apexcharts
+         * -------
+         * Here we will create a few charts using apexcharts
+         */
+
+        //-----------------------
+        // - MONTHLY SALES CHART -
+        //-----------------------
 
         const sales_chart_options = {
             series: [{
@@ -667,7 +740,7 @@
                 },
             ],
             chart: {
-                height: 300,
+                height: 180,
                 type: "area",
                 toolbar: {
                     show: false,
@@ -703,121 +776,118 @@
         };
 
         const sales_chart = new ApexCharts(
-            document.querySelector("#revenue-chart"),
+            document.querySelector("#sales-chart"),
             sales_chart_options,
         );
         sales_chart.render();
-    </script> <!-- jsvectormap -->
-    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script> <!-- jsvectormap -->
-    <script>
-        const visitorsData = {
-            US: 398, // USA
-            SA: 400, // Saudi Arabia
-            CA: 1000, // Canada
-            DE: 500, // Germany
-            FR: 760, // France
-            CN: 300, // China
-            AU: 700, // Australia
-            BR: 600, // Brazil
-            IN: 800, // India
-            GB: 320, // Great Britain
-            RU: 3000, // Russia
-        };
 
-        // World map by jsVectorMap
-        const map = new jsVectorMap({
-            selector: "#world-map",
-            map: "world",
-        });
+        //---------------------------
+        // - END MONTHLY SALES CHART -
+        //---------------------------
 
-        // Sparkline charts
-        const option_sparkline1 = {
-            series: [{
-                data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-            }, ],
-            chart: {
-                type: "area",
-                height: 50,
-                sparkline: {
-                    enabled: true,
+        function createSparklineChart(selector, data) {
+            const options = {
+                series: [{
+                    data
+                }],
+                chart: {
+                    type: "line",
+                    width: 150,
+                    height: 30,
+                    sparkline: {
+                        enabled: true,
+                    },
                 },
-            },
-            stroke: {
-                curve: "straight",
-            },
-            fill: {
-                opacity: 0.3,
-            },
-            yaxis: {
-                min: 0,
-            },
-            colors: ["#DCE6EC"],
-        };
-
-        const sparkline1 = new ApexCharts(
-            document.querySelector("#sparkline-1"),
-            option_sparkline1,
-        );
-        sparkline1.render();
-
-        const option_sparkline2 = {
-            series: [{
-                data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-            }, ],
-            chart: {
-                type: "area",
-                height: 50,
-                sparkline: {
-                    enabled: true,
+                colors: ["var(--bs-primary)"],
+                stroke: {
+                    width: 2,
                 },
-            },
-            stroke: {
-                curve: "straight",
-            },
-            fill: {
-                opacity: 0.3,
-            },
-            yaxis: {
-                min: 0,
-            },
-            colors: ["#DCE6EC"],
-        };
-
-        const sparkline2 = new ApexCharts(
-            document.querySelector("#sparkline-2"),
-            option_sparkline2,
-        );
-        sparkline2.render();
-
-        const option_sparkline3 = {
-            series: [{
-                data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-            }, ],
-            chart: {
-                type: "area",
-                height: 50,
-                sparkline: {
-                    enabled: true,
+                tooltip: {
+                    fixed: {
+                        enabled: false,
+                    },
+                    x: {
+                        show: false,
+                    },
+                    y: {
+                        title: {
+                            formatter: function(seriesName) {
+                                return "";
+                            },
+                        },
+                    },
+                    marker: {
+                        show: false,
+                    },
                 },
+            };
+
+            const chart = new ApexCharts(document.querySelector(selector), options);
+            chart.render();
+        }
+
+        const table_sparkline_1_data = [
+            25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54,
+        ];
+        const table_sparkline_2_data = [
+            12, 56, 21, 39, 73, 45, 64, 52, 36, 59, 44,
+        ];
+        const table_sparkline_3_data = [
+            15, 46, 21, 59, 33, 15, 34, 42, 56, 19, 64,
+        ];
+        const table_sparkline_4_data = [
+            30, 56, 31, 69, 43, 35, 24, 32, 46, 29, 64,
+        ];
+        const table_sparkline_5_data = [
+            20, 76, 51, 79, 53, 35, 54, 22, 36, 49, 64,
+        ];
+        const table_sparkline_6_data = [
+            5, 36, 11, 69, 23, 15, 14, 42, 26, 19, 44,
+        ];
+        const table_sparkline_7_data = [
+            12, 56, 21, 39, 73, 45, 64, 52, 36, 59, 74,
+        ];
+
+        createSparklineChart("#table-sparkline-1", table_sparkline_1_data);
+        createSparklineChart("#table-sparkline-2", table_sparkline_2_data);
+        createSparklineChart("#table-sparkline-3", table_sparkline_3_data);
+        createSparklineChart("#table-sparkline-4", table_sparkline_4_data);
+        createSparklineChart("#table-sparkline-5", table_sparkline_5_data);
+        createSparklineChart("#table-sparkline-6", table_sparkline_6_data);
+        createSparklineChart("#table-sparkline-7", table_sparkline_7_data);
+
+        //-------------
+        // - PIE CHART -
+        //-------------
+
+        const pie_chart_options = {
+            series: [700, 500, 400, 600, 300, 100],
+            chart: {
+                type: "donut",
             },
-            stroke: {
-                curve: "straight",
+            labels: ["Chrome", "Edge", "FireFox", "Safari", "Opera", "IE"],
+            dataLabels: {
+                enabled: false,
             },
-            fill: {
-                opacity: 0.3,
-            },
-            yaxis: {
-                min: 0,
-            },
-            colors: ["#DCE6EC"],
+            colors: [
+                "#0d6efd",
+                "#20c997",
+                "#ffc107",
+                "#d63384",
+                "#6f42c1",
+                "#adb5bd",
+            ],
         };
 
-        const sparkline3 = new ApexCharts(
-            document.querySelector("#sparkline-3"),
-            option_sparkline3,
+        const pie_chart = new ApexCharts(
+            document.querySelector("#pie-chart"),
+            pie_chart_options,
         );
-        sparkline3.render();
+        pie_chart.render();
+
+        //-----------------
+        // - END PIE CHART -
+        //-----------------
     </script> <!--end::Script-->
 </body><!--end::Body-->
 
