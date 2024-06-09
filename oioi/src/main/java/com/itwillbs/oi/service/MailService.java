@@ -18,8 +18,9 @@ public class MailService {
 //				System.out.println("생성된 난수 : " + auth_code);
 				// -------------------------------------------------------
 				// 인증메일에 포함할 제목과 본문 생성
-				String subject = "[빌리카] 가입 인증 메일입니다.";
-				String content = "<a href='http://c3d2401t1.itwillbs.com/MemberEmailAuth?member_email=" + member.getMember_email() + "&auth_code=" + auth_code + "'>빌리카 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
+				String subject = "[오이마켓] 가입 인증 메일입니다.";
+				String content = "<a href='http://localhost:8081/oi/MemberEmailAuth?member_email=" + member.getMember_email() + "&auth_code=" + auth_code + "'>오이마켓 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
+//				String content = "<a href='http://c3d2401t1.itwillbs.com/MemberEmailAuth?member_email=" + member.getMember_email() + "&auth_code=" + auth_code + "'>오이마켓 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
 				// -------------------------------------------------------
 				// SendMailClient - sendMail() 메서드 호출하여 메일 발송 요청
 				// => 파라미터 : 이메일주소, 제목, 본문
@@ -50,7 +51,7 @@ public class MailService {
 			
 			public void sendForgotId(MemberVO member) {
 
-				String subject = "[빌리카] 아이디를 확인해주세요.";
+				String subject = "[오이마켓] 아이디를 확인해주세요.";
 				String content = "회원님의 가입된 아이디는 <b>" + member.getMember_id() + "</b>입니다.";
 				
 				SendMailClient mailClient = new SendMailClient();
@@ -65,8 +66,8 @@ public class MailService {
 			}
 			
 			public void sendForgotPw(MemberVO member) {
-				String subject = "[빌리카] 비밀번호 변경 이메일입니다.";
-				String content = "<a href='http://localhost:8081/billycar/forgot_pw_step3?member_id=" + member.getMember_id() 
+				String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
+				String content = "<a href='http://localhost:8081/oi/forgot_pw_step3?member_id=" + member.getMember_id() 
 																				 + "&member_email=" + member.getMember_email()
 																				 + "&member_name=" + member.getMember_name()
 																				 + "'>클릭 시 새 비밀번호 설정 페이지로 이동합니다.</a>";

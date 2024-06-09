@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.oi.service.MailService;
 import com.itwillbs.oi.service.MemberService;
@@ -53,7 +54,7 @@ public class MemberController {
 	public String joinPro(MemberVO member, Model model, BCryptPasswordEncoder passwordEncoder) {
 		System.out.println(member);
 		// ------------------------------메일-----------------------------
-//		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + member.getMember_email());
+		System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" + member.getMember_email());
 		// MailService - sendAuthMail() 메서드 호출하여 인증 메일 발송 요청
 		// => 파라미터 : MemberVO 객체   리턴타입 : MailAuthInfoVO(mailAuthInfo)
 //		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
@@ -89,6 +90,51 @@ public class MemberController {
 			return "err/fail";
 		}
 	}
+	
+////	// 이메일 인증
+//	@GetMapping("SendAuthMail")
+//	public String sendAuthMail(MemberVO member, RedirectAttributes redirectAttributes) {
+//		System.out.println(member.getMember_email());
+////		// MailService - sendAuthMail() 메서드 호출하여 인증 메일 발송 요청
+////		// => 파라미터 : MemberVO 객체   리턴타입 : MailAuthInfoVO(mailAuthInfo)
+//		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
+////		System.out.println("인증정보 : " + mailAuthInfo);
+////		
+////		// MemberService - registMailAuthInfo() 메서드 호출하여 인증 정보 등록 요청
+////		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : void
+//		service.registMailAuthInfo(mailAuthInfo);
+//		// 성공 메시지를 리디렉트 속성에 추가
+//		redirectAttributes.addFlashAttribute("msg", "인증메일이 발송되었습니다.");
+//		
+//		// 폼 데이터를 리디렉트 속성에 추가
+//		redirectAttributes.addFlashAttribute("member", member);
+//		//		// send_auth_mail_success.jsp 페이지 포워딩
+//		return "redirect:/register";
+//	}
+////	
+////	 [ 이메일 인증 비즈니스 로직 ] 
+////	 "MemberEmailAuth" 서블릿 주소 매핑(인증정보 파라미터 저장)
+//	@GetMapping("MemberEmailAuth")
+//	public String emailAuth(MailAuthInfoVO authInfo, Model model) {
+//		System.out.println("인증정보 : " + authInfo);
+////		
+////		// MemberService - requestEmailAuth() 메서드 호출하여 이메일 인증 요청
+////		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : boolean(isAuthSuccess)
+//		boolean isAuthSuccess = service.requestEmailAuth(authInfo);
+////		
+////		// 인증 요청 결과 판별
+////		// 임시) 성공/실패 모두 error/fail.jsp 페이지로 포워딩
+////		// 성공 시 : "인증 성공! 로그인 페이지로 이동합니다!" 메세지와 로그인 페이지 주소 전달
+////		// 실패 시 : "인증 실패!" 메세지 전달
+//		if(isAuthSuccess) {
+//			model.addAttribute("msg", "인증 성공!\\n로그인 페이지로 이동합니다!");
+//			model.addAttribute("targetURL", "login");
+//		} else {
+//			model.addAttribute("msg", "인증 실패!");
+//		}
+////		
+//		return "err/fail";
+//	}
 	
 	@PostMapping("login")
 	public String loginPro(MemberVO member,  HttpSession session , Model model, BCryptPasswordEncoder passwordEncoder) {

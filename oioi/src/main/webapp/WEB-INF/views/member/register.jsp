@@ -193,7 +193,7 @@
 	}
 
 // 	function sendAuthMail() {
-// 		// 아이디 입력 텍스트박스에 입력된 아이디 가져오기
+// 		// 이메일 입력창에 입력된 이메일 가져오기
 // 		let eMail = $("#member_email").val();
 		
 // 		if(!isValidEmail(eMail)) { // 이메일 확인
@@ -209,7 +209,7 @@
 // 			return;
 // 		}
 		
-// 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 아이디 전달
+// 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
 		
 // 		location.href = "SendAuthMail?member_email=" + eMail;
 // 	}
@@ -239,7 +239,7 @@
 		            
 		            $("#auth_num").parent().append(
                             '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
-                        );
+                    );
 		            
 		            
 		        } else {
@@ -313,7 +313,13 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>이메일<span>*</span></label>
-											<input type="email" name="member_email" id="member_email" placeholder="이메일" >
+											<div style="display: flex">
+												<input type="email" name="member_email" id="member_email" placeholder="이메일" >
+<!-- 												<input type="button" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()"> -->
+											</div>
+<!-- 											<div id="authBox" style="display: flex"> -->
+<!-- 												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/> -->
+<!-- 											</div> -->
 										</div>
 									</div>
 									<div class="col-12">
@@ -353,7 +359,7 @@
 									<div class="col-12">
 										<div class="form-group login-btn">
 											<button class="btn" type="submit" onsubmit="submit()">가입하기</button>
-											<a href="login.html" class="btn">로그인</a>
+											<a href="login" class="btn">로그인</a>
 										</div>
 									</div>
 								</div>
