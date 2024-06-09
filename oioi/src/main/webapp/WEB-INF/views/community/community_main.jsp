@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>공지사항</title>
+    <title>커뮤니티</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -125,6 +125,30 @@
 	/* 페이징 위치 */
 </style>
 <body class="js">
+<script type="text/javascript">
+	
+	let previousLink = null;
+	let previousText = "";
+	
+	function clickCategory(element) {
+	    // 모든 <a> 태그의 굵기 초기화
+	    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+	    if (previousLink) {
+	        previousLink.style.fontWeight = 'normal';
+	        previousLink.textContent = previousText;
+	    }
+	    
+	 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+	    previousLink = element;
+	    previousText = element.textContent;
+
+	    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+	    element.style.fontWeight = 'bold';
+	    element.textContent = "> " + previousText;
+}
+
+
+</script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
@@ -136,9 +160,15 @@
 				<div class="main-sidebar">
 					<!-- Single Widget -->
 					<div class="single-widget category">
-						<ul class="categor-list">
-							<li><a href="#">공지사항</a></li>
-							<li><a href="#">문의내역</a></li>
+						<ul class="category-list">
+							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li>
+							<br>
+							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
+							<br>
+							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
+							<br>
+							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
+							<br>
 						</ul>
 					</div>
 				</div>
