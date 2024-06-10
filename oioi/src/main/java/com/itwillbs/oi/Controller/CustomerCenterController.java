@@ -12,6 +12,12 @@ public class CustomerCenterController {
 		return "customerCenter/notice";
 	}
 	
+	// 공지사항 작성
+	@GetMapping("noticeWrite")
+	public String goNoticeWriteForm() {
+		return "customerCenter/notice_write";
+	}
+	
 	// 챗봇
 	@GetMapping("chatbot")
 	public String goChatbot() {
@@ -22,5 +28,11 @@ public class CustomerCenterController {
 	@GetMapping("qna")
 	public String goqna() {
 		return "customerCenter/qna";
+	}
+	
+	// 큐엔에이 작성 폼
+	@GetMapping("qnaWrite")
+	public String goqnaWrite() {
+		return "customerCenter/qna_write";
 	}
 }

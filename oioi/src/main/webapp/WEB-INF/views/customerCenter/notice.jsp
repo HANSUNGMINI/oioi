@@ -133,6 +133,7 @@
 		border-radius: 10px;
 	}
 	
+	/* 챗봇 */
 	#chatImg {
 		width : 60px;
 		height : 60px;

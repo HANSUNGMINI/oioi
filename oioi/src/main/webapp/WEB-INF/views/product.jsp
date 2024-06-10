@@ -16,8 +16,12 @@
 	<!-- Title Tag  -->
     <title> 상품등록 </title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+    
+    <!-- 태그 스크립트 -->
    	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	
+<%--     <script src="${pageContext.request.contextPath}/resources/js/product.js"></script> --%>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -86,62 +90,51 @@
 			<div class="container">
 						<div class="login-form">
 							<h2>상품등록</h2>
+							<input type="file" accept="image/*" multiple id="addfile">확인용 마지막에 삭제
 							<!-- Form -->
-							<form class="regForm">
+							<form class="regForm" action="product" method="post" enctype="multipart/form-data">
 								<ul>
-									<li class="preView">
+									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
-										<input type="file" accept="image/*" multiple id="addfile">
-										<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
-										
+										<div class="preView">
+											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
+										</div>
 									</li>
 									<li>
 										<label> 상품명</label>
-										<input type="text" placeholder="상품명을 입력하여 주세요">
+										<input type="text" name="subject" placeholder="상품명을 입력하여 주세요">
 									</li>
 									<li>
 										<label> 카테고리</label>
-										<input type="text">
+										<input type="text" name="categori">
 									</li>
 									<li>
 										<label> 태그(선택)</label>
-										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6">
-										
-										<script>
-											var input = document.querySelector('.tagify')
-											tagify = new Tagify(input, {
-												maxTags: 5, // 최대 허용 태그 갯수
-											})
-											  
-											// 태그가 추가되면 이벤트 발생
-											tagify.on('add', function() {
-											  console.log(tagify.value); // 입력된 태그 정보 객체
-											})
-										</script>
+										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="tag">
 									</li>
 									<li>
 										<label> 상품상태 </label>
 										<ul>
-											<li><input type="radio" name="condition" checked> 미개봉</li>
-											<li><input type="radio" name="condition"> 사용감 적음</li>
-											<li><input type="radio" name="condition"> 사용감 많음</li>
+											<li><input type="radio" name="condition" value="new" checked> 미개봉</li>
+											<li><input type="radio" name="condition" value="normal"> 사용감 적음</li>
+											<li><input type="radio" name="condition" value="old"> 사용감 많음</li>
 										</ul>
 									</li>
 									<li>
 										<label> 가격 </label>
-										<input type="text" id="price" placeholder="원"><br>
+										<input type="text" id="price" name="price" placeholder="원"><br>
 										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
-										<textarea placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
+										<textarea name="contents" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
 									</li>
 									<li>
 										<label> 거래 방식 </label>
 										<ul>
-											<li><input type="radio" name="trade" checked> 모두 가능</li>
-											<li><input type="radio" name="trade"> 직거래만 가능</li>
-											<li><input type="radio" name="trade"> 택배거래만 가능</li>
+											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li>
+											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li>
+											<li><input type="radio" name="trade" value="delivery"> 택배거래만 가능</li>
 										</ul>
 									</li>
 									<li>
@@ -149,8 +142,8 @@
 										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
+								<input type="submit" id="subimit" value="등록하기">
 							</form>
-							<input type="button" id="subimit" value="등록하기">
 							<!--/ End Form -->
 						</div>
 					</div>
@@ -158,19 +151,19 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
- 
-	<!-- Jquery -->
 	<script>
 		$(function() {
+			
 			$(".addImg").on("click",function(){
 				$('#addfile').click();
 			});
 			
 			
 			$("#addfile").on("change",function(event){
+				$('.preView img:gt(0)').remove();  
 				for (var image of event.target.files) {
 					let reader = new FileReader();
-
+	
 		          reader.onload = function(event) {
 		            var img = document.createElement("img");
 		            img.setAttribute("src", event.target.result);
@@ -182,10 +175,23 @@
 				}
 			});
 			
-		}); //ready
+			var input = document.querySelector('.tagify')
+			tagify = new Tagify(input, {
+				maxTags: 5, // 최대 허용 태그 갯수
+			})
+
+			// 태그 추가되면 이벤트  
+			tagify.on('add', function() {
+			  console.log(tagify.value); // 입력된 태그 정보 객체
+			})	
+			
+		});
+	
 	</script>
-    
+ 
+	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
+    
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 	<!-- Popper JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>

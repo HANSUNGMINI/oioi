@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>커뮤니티</title>
+    <title>공지사항 작성</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -46,6 +46,11 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
+	<!-- 썸머노트 -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
 </head>
 
 <style>
@@ -60,44 +65,7 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    h2 {
-        font-size: 32px;
-        margin-bottom: 20px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 45px;
-        text-align: center;
-        table-layout: fixed;
-        border-radius: 8px; /* 모서리 둥글게 처리 */
-        overflow: hidden;
-    }
-
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px; /* 셀 간격 늘리기 */
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f9f9f9; /* 번갈아가는 행 색상 */
-    }
-
-    tr:hover {
-        background-color: #f5f5f5; /* 호버 효과 */
-    }
     
-	
 	/* 반응형 디자인을 위해 추가 */
 	@media (max-width: 992px) {
 	    .main-sidebar,
@@ -107,43 +75,109 @@
 	    }
 	}
 	
+	/* 중앙 정렬을 위한 Flexbox 설정 */
 	#highlighted-row {
-		border: 1px solid #eeeeeec2; 
+	    display: flex;
+	    justify-content: center; /* 가로 축 가운데 정렬 */
+	    align-items: center; /* 세로 축 가운데 정렬 */
+	    border: 1px solid #eeeeeec2;
+	    background: #fff;
+	    border-radius: 8px;
+	    padding: 30px;
+	    width: 100%;
+	    height: 100%;
+	}
+	
+	#highlighted-row .row {
+	    padding: 10px;
+	    display: flex;
+	    flex-direction: column; /* 세로로 정렬 */
+	    align-items: center; /* 가로 축 가운데 정렬 */
 	}
 	
 	.notice_body {
 		padding: 10px;
 	}
 	
-	/* 글쓰기 버튼 위치 */
-	.write_btn {
-		margin-right: 15px;
-		margin-bottom: -15px;
-		float: right;
-	}
-	.search-form, .search-top {
-	 width : 200px;
-	 text-align: center;
-	 margin: 0;
+	#highlighted-row .row {
+		padding: 10px;
 	}
 	
-	.search_write {
-    margin-bottom: 15px;
-	}
-	
-	.search-form {
+	/* 제목 */
+	.cs_title_container {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin-top: 30px;
+	    margin-bottom: 30px;
 	    width: 100%;
+	    text-align : center;
+	    font-size: 20px;
+	    font-weight: bold;
 	}
 	
-	.search-form input {
-	    flex-grow: 1;
-	    margin-right: 5px;
+	/* 글 적는 곳 */ 
+	#title {
+		border-radius: 10px;
+		border : none;
 	}
-
 	
-	/* 페이징 위치 */
+	.detail_view {
+		text-align : center;
+		padding : 30px;
+	}
+	
+	.detail_view .view_tit {
+		margin-top : 20px;
+		margin-bottom : 30px;
+	}
+	
+	.view_tit h3 {
+		font-size: 20px;
+	}
+	
+	.detail_view .view_info {
+		border-top : 1px solid #999;
+		border-bottom : 1px solid #999;
+		margin : auto;
+		width : 100%;
+		padding-top : 10px;
+		padding-bottom : 10px;
+	}
+	
+	.detail_view {
+		border-radius : 15px;
+		background-color : #F3F3F3;
+		width : 100%;
+	}
+	
+	em {
+		padding : 5px;	
+	}
+	
+	.note-editing-area {
+		background-color : white;
+	}
+	
+	.view_cont {
+		margin-top : 10px;
+		background-color : white;
+	/* 	padding-bottom : 30px; */
+	}
+	
+	/* 제출 버튼 */
+	
+	.button-container {
+	    display: flex;
+	    justify-content: center;
+	    margin-top: 20px; /* Adjust the margin as needed */
+	}
+	
+	.btn.btn-primary {
+		padding : 7px;
+	}
 </style>
-<body class="js">
+
 <script type="text/javascript">
 	
 	let previousLink = null;
@@ -168,6 +202,8 @@
 
 
 </script>
+
+<body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
@@ -179,65 +215,62 @@
 				<div class="main-sidebar">
 					<!-- Single Widget -->
 					<div class="single-widget category">
-						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
-							<br>
+						<ul class="categor-list">
+							<li><a href="notice" onclick="clickCategory(this)">공지사항</a></li>
+							<li><a href="qna" onclick="clickCategory(this)">문의내역</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			
 			
-		<%-- 본문 --%>
-		 <div class="col-lg-9 col-12" id="highlighted-row"> 
-			 <div class="row">
-					<div class="notice_body">
-						<div class="search_write row">
-						    <div class="col-md-9">
-						        <!-- Search Form -->
-						        <div class="search-top">
-						            <form class="search-form d-flex">
-						                <input type="text" class="form-control" placeholder="Search here..." name="search">
-						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
-						            </form>
-						        </div>
-						    </div>
-						    <div class="col-md-3 text-right">
-						        <a href="noticeWrite" class="btn btn-primary">글쓰기</a>
-						    </div>
-						</div>
-
-						<table>
-					        <thead>
-					            <tr>
-					                <th class="notice_num">번호</th>
-					                <th class="notice_title">제목</th>
-					                <th class="notice_writer">작성자</th>
-					                <th class="notice_date">작성일</th>
-					            </tr>
-					        </thead>
-					        <tbody>
-				                  <tr>
-				                      <td> 1 </td>
-				                      <td><a href=""> 저쩌구 </a></td>
-				                      <td> 관리자</td>
-				                      <td> 2024.06.07 </td>
-				                  </tr>
-					        </tbody>
-					    </table>
-					</div>
-				</div>
-				
-				
-				
-				<%-- 페이징 --%>
-				
+			<%-- 본문 --%>
+			 <div class="col-lg-8 col-12" id="highlighted-row"> 
+				 <div class="row">
+				 
+					 <div class="cs_title_container">
+					 	<div class = "notice_d_t_div">
+				  			<em class = "notice_d_title">공지사항 작성</em><br>
+				  		</div>
+				  	 </div>
+			  		
+			   		<form action="noticeWrite" method= "post">
+			   			<div class = "detail_view">
+							 <div class ="view_tit">
+				  				<h3><input type = "text" id="title" placeholder="제목을 입력하시오" name = "board_subject" style = "width : 400px" required="required" maxlength="50"> </h3>
+				  			</div>
+			  			
+			  			<div class = "view_info">
+							<em><b>작성자</b></em>
+							<em>${sessionScope.member_id}</em>
+							<input type="checkbox" name="important" value="important" style="margin-left:50px" > 주요공지 
+			  			</div>
+			  			
+						
+						<textarea id="summernote" style = "background-color:white" name = "board_content" required="required" maxlength="7000"></textarea>
+						    <script>
+						    $('#summernote').summernote({
+						        placeholder: '내용을 입력하시오 (글자수 5000자까지 가능합니다)',
+						        tabsize: 2,
+						        height: 400,
+						        toolbar: [
+						          ['style', ['style']],
+						          ['font', ['bold', 'underline', 'clear']],
+						          ['color', ['color']],
+						          ['para', ['ul', 'ol', 'paragraph']],
+						          ['table', ['table']],
+				// 		          ['insert', ['link', 'picture', 'video']],
+						          ['view', ['fullscreen', 'codeview', 'help']]
+						        ]
+						      });
+						    </script>
+					    </div>
+					    
+					     <div class="button-container">
+			 				<input type="submit"  value = "등록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px">
+			 			</div>	
+				    </form>
+				 </div>
 			</div>
 		</div>
 	</div>
