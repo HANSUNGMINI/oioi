@@ -126,6 +126,21 @@
 	 text-align: center;
 	 margin: 0;
 	}
+	
+	.search_write {
+    margin-bottom: 15px;
+	}
+	
+	.search-form {
+	    width: 100%;
+	}
+	
+	.search-form input {
+	    flex-grow: 1;
+	    margin-right: 5px;
+	}
+
+	
 	/* 페이징 위치 */
 </style>
 <body class="js">
@@ -183,19 +198,21 @@
 		 <div class="col-lg-9 col-12" id="highlighted-row"> 
 			 <div class="row">
 					<div class="notice_body">
-						<div class="search_write">
-							<!-- Search Form -->
-							<div class="search-top">
-								<form class="search-form">
-									<input type="text" placeholder="Search here..." name="search">
-									<button value="search" type="submit"><i class="ti-search"></i></button>
-								</form>
-							</div>
-							<!--/ End Search Form -->
-					 		<div class = "write_btn">
-								<a href = "noticeWrite"> 글쓰기 </a>
-							</div>
-						</div>	
+						<div class="search_write row">
+						    <div class="col-md-9">
+						        <!-- Search Form -->
+						        <div class="search-top">
+						            <form class="search-form d-flex">
+						                <input type="text" class="form-control" placeholder="Search here..." name="search">
+						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
+						            </form>
+						        </div>
+						    </div>
+						    <div class="col-md-3 text-right">
+						        <a href="noticeWrite" class="btn btn-primary">글쓰기</a>
+						    </div>
+						</div>
+
 						<table>
 					        <thead>
 					            <tr>
