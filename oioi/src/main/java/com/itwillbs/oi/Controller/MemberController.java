@@ -1,14 +1,21 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.oi.service.MailService;
@@ -90,15 +97,35 @@ public class MemberController {
 			return "err/fail";
 		}
 	}
-	
+	// 이메일 인증
+		@ResponseBody
+		@PostMapping("SendAuthMail")
+		public ResponseEntity<Map<String, Object>> sendAuthMail(@RequestBody MemberVO member) {
+			Map<String, Object> response = new HashMap<>();
+			
+			try {
+				MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
+				service.registMailAuthInfo(mailAuthInfo);
+				response.put("success", true);
+				response.put("auth_code", mailAuthInfo.getAuth_code());
+				return ResponseEntity.ok(response);
+			} catch (Exception e) {
+				response.put("success", false);
+				response.put("message", "인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+		}
+		
+		
 ////	// 이메일 인증
-//	@GetMapping("SendAuthMail")
+//	@ResponseBody
+//	@PostMapping ("SendAuthMail")
 //	public String sendAuthMail(MemberVO member, RedirectAttributes redirectAttributes) {
 //		System.out.println(member.getMember_email());
 ////		// MailService - sendAuthMail() 메서드 호출하여 인증 메일 발송 요청
 ////		// => 파라미터 : MemberVO 객체   리턴타입 : MailAuthInfoVO(mailAuthInfo)
 //		MailAuthInfoVO mailAuthInfo = mailService.sendAuthMail(member);
-////		System.out.println("인증정보 : " + mailAuthInfo);
+//		System.out.println("인증정보 : " + mailAuthInfo);
 ////		
 ////		// MemberService - registMailAuthInfo() 메서드 호출하여 인증 정보 등록 요청
 ////		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : void
@@ -109,9 +136,9 @@ public class MemberController {
 //		// 폼 데이터를 리디렉트 속성에 추가
 //		redirectAttributes.addFlashAttribute("member", member);
 //		//		// send_auth_mail_success.jsp 페이지 포워딩
-//		return "redirect:/register";
+//		return "이메일 전송 성공";
 //	}
-////	
+//	
 ////	 [ 이메일 인증 비즈니스 로직 ] 
 ////	 "MemberEmailAuth" 서블릿 주소 매핑(인증정보 파라미터 저장)
 //	@GetMapping("MemberEmailAuth")

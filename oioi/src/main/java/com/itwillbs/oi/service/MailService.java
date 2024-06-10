@@ -14,12 +14,12 @@ public class MailService {
 		// 인증 메일에 포함시킬 난수 생성
 				// => GenerateRandomCode 클래스의 getRandomCㄴode() 메서드 호출
 				//    (파라미터 : 난수 길이 전달)
-				String auth_code = GenerateRandomCode.getRandomCode(50);
+				String auth_code = GenerateRandomCode.getRandomCode(6);
 //				System.out.println("생성된 난수 : " + auth_code);
 				// -------------------------------------------------------
 				// 인증메일에 포함할 제목과 본문 생성
 				String subject = "[오이마켓] 가입 인증 메일입니다.";
-				String content = "<a href='http://localhost:8081/oi/MemberEmailAuth?member_email=" + member.getMember_email() + "&auth_code=" + auth_code + "'>오이마켓 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
+				String content = "오이마켓 가입 인증을 위해 해당 인증번호를 홈페이지에 입력해주세요" + auth_code;
 //				String content = "<a href='http://c3d2401t1.itwillbs.com/MemberEmailAuth?member_email=" + member.getMember_email() + "&auth_code=" + auth_code + "'>오이마켓 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
 				// -------------------------------------------------------
 				// SendMailClient - sendMail() 메서드 호출하여 메일 발송 요청

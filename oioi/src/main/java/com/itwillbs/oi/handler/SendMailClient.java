@@ -71,7 +71,7 @@ public class SendMailClient {
 			
 			// 3-2) 발신자 정보 설정
 //		message.setFrom(senderAddress);
-			message.setFrom(new InternetAddress(SENDER_MAIL, "빌리카"));
+			message.setFrom(new InternetAddress(SENDER_MAIL, "오이마켓"));
 			
 			
 			// 3-3) 수신자 정보 설정

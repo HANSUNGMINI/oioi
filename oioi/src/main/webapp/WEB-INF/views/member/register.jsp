@@ -56,8 +56,9 @@
 	let checkPasswdResult = false;
 	let checkPasswd2Result = false;
 	let checkAuthNumResult = false;
+	let checkMailAuthNumResult = false;
 	let serverAuthNum = "";
-	
+	let serverMailAuthNum = "";
 	$(function() {
 		
 		document.querySelector("#member_id").onclick = function() { //아이디 중복체크&유효성검사 새창 오픈
@@ -192,27 +193,82 @@
 		return /^[0-9]{10,11}$/.test(phoneNumber);
 	}
 
-// 	function sendAuthMail() {
-// 		// 이메일 입력창에 입력된 이메일 가져오기
-// 		let eMail = $("#member_email").val();
+	function sendAuthMail() {
+		// 이메일 입력창에 입력된 이메일 가져오기
+		let eMail = $("#member_email").val();
 		
-// 		if(!isValidEmail(eMail)) { // 이메일 확인
-// 	        alert("E-Mail을 정확히 입력해주세요.");
-// 	        document.fr.member_email.focus();
-// 	        return false;
-// 	    } 
+		if(!isValidEmail(eMail)) { // 이메일 확인
+	        alert("E-Mail을 정확히 입력해주세요.");
+	        document.fr.member_email.focus();
+	        return false;
+	    } 
 		
-// 		// 이메일이 입력되지 않았을 경우 경고창 출력
-// 		if(eMail == "") {
-// 			alert("이메일을 입력해주세요!");
-// 			$("#member_email").focus();
-// 			return;
-// 		}
+		// 이메일이 입력되지 않았을 경우 경고창 출력
+		if(eMail == "") {
+			alert("이메일을 입력해주세요!");
+			$("#member_email").focus();
+			return;
+		}
 		
 // 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
 		
 // 		location.href = "SendAuthMail?member_email=" + eMail;
-// 	}
+
+		$.ajax({
+			url : "SendAuthMail",
+			type : "POST",
+			contentType: "application/json",
+			data : JSON.stringify({"member_email": eMail}),
+			dataType: "json",
+			success : function(authInfo){
+				console.log(authInfo);
+				if(authInfo.success){
+		            serverMailAuthNum = authInfo.auth_code;
+		            alert("인증메일이 전송되었습니다.");
+		            $("#mail_auth_num").parent().append(
+                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
+                    );
+				} else {
+					alert("인증메일 발송에 실패했습니다.");
+				}
+	        },
+			error : function() {
+				alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+			}
+		});
+	}
+	
+	function mailAuthCheck(){
+		if($("#mail_auth_num").val() !== serverMailAuthNum){
+			alert("인증번호를 확인해주세요.");
+			return false;
+		} else {
+			alert("인증되었습니다.");
+			checkMailAuthNumResult = true;
+		}
+	}
+		
+// 		$.ajax({
+// 			url : "SendAuthMail",
+// 			type : "POST",
+// 			data : {
+// 				"member_email" : eMail
+// 			},
+// 			dataType :"json",
+// 			success : function(authInfo){
+// 				if(authInfo){
+// 		            alert("인증메일이 전송되었습니다.");
+// 		            $("#mail_auth_num").parent().append(
+//                             '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
+//                     );
+// 				} else {
+// 			 		alert("인증메일 발송에 실패했습니다.");
+// 				}
+// 	        },
+// 			error : function() {
+// 				alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+// 			}
+// 		});
 	
 	function phoneAuth() {
 		let member_phone = $("#member_phone").val();
@@ -315,11 +371,11 @@
 											<label>이메일<span>*</span></label>
 											<div style="display: flex">
 												<input type="email" name="member_email" id="member_email" placeholder="이메일" >
-<!-- 												<input type="button" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()"> -->
+												<input type="button" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
 											</div>
-<!-- 											<div id="authBox" style="display: flex"> -->
-<!-- 												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/> -->
-<!-- 											</div> -->
+											<div id="authBox" style="display: flex">
+												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/>
+											</div>
 										</div>
 									</div>
 									<div class="col-12">
