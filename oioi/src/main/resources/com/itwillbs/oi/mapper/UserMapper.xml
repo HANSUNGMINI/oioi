@@ -98,7 +98,7 @@
 	</select>
 	
 	<!-- 이메일 인증 정보 등록 - INSERT -->
-	<insert id="insertMailAuthInfo">
+	<insert id="registMailAuthInfo">
 		INSERT
 		INTO mail_auth_info
 		VALUES (

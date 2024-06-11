@@ -29,13 +29,15 @@ public interface UserMapper {
 	int selectTodayMember();
 
 
-	boolean selectEmptyEmail(String member_email);
 
-	boolean selectEmptyPhoneNum(String member_phone);
 
 //	int updatePasswd(MemberVO member);
 
 	String selectForgotIdPhone(Map<String, String> map);
+
+	boolean selectEmptyEmail(String userEmail);
+
+	boolean selectEmptyPhoneNum(String userPhone);
 
 //	MemberVO selectForgotPwPhone(Map<String, String> map);
 

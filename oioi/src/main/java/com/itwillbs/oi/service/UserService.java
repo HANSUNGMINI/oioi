@@ -22,12 +22,18 @@ public class UserService {
 		return mapper.selectCheckID(user_id);
 	}
 	
-	public boolean isEmptyEmail(String member_email) {
-		return mapper.selectEmptyEmail(member_email);
+	public boolean isEmptyEmail(String userEmail) {
+		return mapper.selectEmptyEmail(userEmail);
 	}
+	
+	public boolean isEmptyPhoneNum(String userPhone) {
+		return mapper.selectEmptyPhoneNum(userPhone);
+	}
+	
 	
 	public void registMailAuthInfo(Map<String, Object> mailAuthInfo) {
 		Map<String, String> dbAuthInfo = mapper.selectMailAuthInfo(mailAuthInfo);
+//		System.out.println(dbAuthInfo.toString());
 		
 		if (dbAuthInfo == null) {
 			mapper.registMailAuthInfo(mailAuthInfo);
@@ -125,6 +131,10 @@ public class UserService {
 	}
 
 	
+
+	
+
+	
 //	public void registMailAuthInfo(MailAuthInfoVO mailAuthInfo) {
 //		// 기존 인증정보 존재 여부 확인을 위해 인증정보 조회 요청
 //		// MemberMapper - selectMailAuthInfo() 메서드 호출
@@ -150,10 +160,7 @@ public class UserService {
 	
 
 
-	public boolean isEmptyPhoneNum(String member_phone) {
-		
-		return mapper.selectEmptyPhoneNum(member_phone);
-	}
+	
 
 
 //	public int modifyPasswd(MemberVO member) {
