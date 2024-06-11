@@ -115,6 +115,39 @@
 		padding: 10px;
 	}
 	
+	/* 제목 */
+	.cs_title_container {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin-top: 30px;
+	    margin-bottom: 30px;
+	    width: 100%;
+	    text-align : center;
+	    font-size: 20px;
+	    font-weight: bold;
+	}
+	
+	/* 글 적는 곳 */ 
+	#title {
+		border-radius: 10px;
+		border : none;
+	}
+	
+	.detail_view {
+		text-align : center;
+		padding : 30px;
+	}
+	
+	.detail_view .view_tit {
+		margin-top : 20px;
+		margin-bottom : 30px;
+	}
+	
+	.view_tit h3 {
+		font-size: 20px;
+	}
+	
 	/* 글쓰기 버튼 위치 */
 	.write_btn {
 		margin-right: 15px;
@@ -207,6 +240,12 @@
 		<%-- 본문 --%>
 		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
+		 		 <div class="cs_title_container">
+				 	<div class = "notice_d_t_div">
+			  			<em class = "notice_d_title">공지사항</em><br>
+			  		</div>
+			  	 </div>
+			 
 					<div class="notice_body">
 				 		 <div class = "write_btn">
 						 	<a href = "noticeWrite"> 글쓰기 </a>

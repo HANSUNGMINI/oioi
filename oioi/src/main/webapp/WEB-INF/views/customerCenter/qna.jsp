@@ -97,6 +97,30 @@
         background-color: #f5f5f5; /* 호버 효과 */
     }
     
+    /* 제목 */
+	.cs_title_container {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin-top: 30px;
+	    margin-bottom: 30px;
+	    width: 100%;
+	    text-align: center;
+	}
+	
+	.cs_title {
+	    text-align: center;
+	}
+	
+	.cs_title_1 {
+	    font-size: 24px; /* Adjust font size as needed */
+	    font-weight: bold;
+	}
+	
+	.cs_sub_title {
+	    font-size: 16px; /* Adjust font size as needed */
+	    color : #34A853;
+	}
 	
 	/* 반응형 디자인을 위해 추가 */
 	@media (max-width: 992px) {
@@ -207,6 +231,13 @@
 		<%-- 본문 --%>
 		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
+			 		<div class="cs_title_container">
+						<div class = "cs_title">
+			  				<em class = "cs_title_1">1:1 문의</em><br>
+			  				<em class = "cs_sub_title">궁금한 점을 해결해 드립니다 :)</em>
+			  			</div>
+			  		</div>
+			 
 					<div class="notice_body">
 				 		 <div class = "write_btn">
 						 	<a href = "qnaWrite"> 문의하기 </a>
