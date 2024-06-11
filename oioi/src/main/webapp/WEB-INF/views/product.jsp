@@ -90,14 +90,16 @@
 			<div class="container">
 						<div class="login-form">
 							<h2>상품등록</h2>
-							<input type="file" accept="image/*" multiple id="addfile">확인용 마지막에 삭제
+<!-- 							<input type="file" accept="image/*"  multiple id="addfile">확인용 마지막에 삭제 -->
+							<input type="file" id= "images" name="images" multiple="multiple" id="addfile">확인용 마지막에 삭제
+<!-- 							<input type="file" class="form-control" id="detail_images" name="detail_images" multiple="multiple" required> -->
 							<!-- Form -->
 							<form class="regForm" action="product" method="post" enctype="multipart/form-data">
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
 										<div class="preView">
-											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
+											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
 										</div>
 									</li>
 									<li>

@@ -30,6 +30,7 @@ public class TradeController {
 	public String submitProduct(@RequestParam Map<String, Object> map) {
 		System.out.println(map);
 		System.out.println(map.get("tag"));
+		
 		return "";
 	}
 }
