@@ -28,13 +28,13 @@ public class UserService {
 	
 	public void registMailAuthInfo(Map<String, Object> mailAuthInfo) {
 		Map<String, String> dbAuthInfo = mapper.selectMailAuthInfo(mailAuthInfo);
-		System.out.println(dbAuthInfo.toString());
 		
-		if (dbAuthInfo == null) { // 기존 인증정보 없음(인증메일 발송 이력 없음)
+		if (dbAuthInfo == null) {
 			mapper.registMailAuthInfo(mailAuthInfo);
 		} else { // 기존 인증정보 있음(인증메일 발송 이력 있음)
 			mapper.updateMailAuthInfo(mailAuthInfo);
 		}
+		
 	}
 	
 	public boolean requestEmailAuth(Map<String, Object> authInfo) {

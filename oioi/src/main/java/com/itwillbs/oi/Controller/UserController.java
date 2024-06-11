@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.service.MailService;
@@ -55,7 +56,7 @@ public class UserController {
 	}
 	
 	@PostMapping("register")
-	public String joinPro(@RequestBody Map<String, Object> userMap, Model model, BCryptPasswordEncoder passwordEncoder) {
+	public String joinPro(@RequestParam Map<String, Object> userMap, Model model, BCryptPasswordEncoder passwordEncoder) {
 		String userEmail = (String) userMap.get("user_email");
 		String userPhone = (String) userMap.get("user_phone");
 		
