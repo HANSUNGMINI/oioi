@@ -116,17 +116,20 @@
                             	<%-- 로그인 한 사람 이미지 --%>
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
-                            <div class="message other-message float-right"> 안녕 </div>
+                            <div class="message other-message float-right"> 배소은 바보 </div>
                             <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
                         </li>
                         
                         <li class="clearfix">
-                            <div class="message my-message">ㅎㅇ</div>
+                            <div class="message my-message"> 이자민 바보 </div>
                             <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>                              
                         </li>
                                                        
                         <li class="clearfix">
-                            <div class="message my-message">시간왜이래</div><small class="message-data-time">10:10 AM</small>
+                            <div class="message my-message"> 이시윤 바보</div><small class="message-data-time">10:10 AM</small>
+                        </li>
+                        <li class="clearfix">
+                            <div class="message my-message"> 다 바보</div><small class="message-data-time">10:10 AM</small>
                         </li>
                         
                     </ul>

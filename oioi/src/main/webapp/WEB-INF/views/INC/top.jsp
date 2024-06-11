@@ -51,6 +51,7 @@
 							<!-- Top Right -->
 							<div class="right-content">
 								<ul class="list-main">
+									<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
 									<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
 									<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
 								</ul>
