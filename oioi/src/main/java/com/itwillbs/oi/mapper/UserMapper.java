@@ -39,6 +39,8 @@ public interface UserMapper {
 
 	boolean selectEmptyPhoneNum(String userPhone);
 
+	Map<String, String> selectUser(String userId);
+
 //	MemberVO selectForgotPwPhone(Map<String, String> map);
 
 

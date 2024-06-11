@@ -87,13 +87,13 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="text" class="member_id" name="member_id"  placeholder="아이디" required>
+											<input type="text" class="user_id" name="user_id"  placeholder="아이디" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호<span>*</span></label>
-											<input type="password" class="member_passwd" name="member_passwd" placeholder="비밀번호" required>
+											<input type="password" class="user_passwd" name="user_passwd" placeholder="비밀번호" required>
 										</div>
 									</div>
 									<div class="col-12">
