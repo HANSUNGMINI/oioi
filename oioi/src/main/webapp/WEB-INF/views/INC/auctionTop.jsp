@@ -164,7 +164,7 @@
 									<div class="navbar-collapse">	
 										<div class="nav-inner">
 											<ul class="nav main-menu menu navbar-nav">
-												<li><a href="trade">경매 상품 등록</a></li>												
+												<li><a href="auctionRegist">경매 상품 등록</a></li>												
 												<!-- 지우지마 -->
 												<li><a href="#">경매<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">

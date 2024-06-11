@@ -80,83 +80,124 @@
 			</div>
 		</div>
 		<!-- End Breadcrumbs -->
-				
+		
 		<!-- Shop Login -->
 		<section class="shop login section">
 			<div class="container">
+				<div class="row"> 
+					<div class="col-lg-6 offset-lg-3 col-12">
 						<div class="login-form">
 							<h2>경매 상품 등록</h2>
+							<p>상품 정보를 입력해주세요</p>
 							<!-- Form -->
-							<form class="regForm">
-								<ul>
-									<li class="preView">
-										<label> 상품 이미지<small>(최대 5장)</small></label>
-										<input type="file" accept="image/*" multiple id="addfile">
-										<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
-										
-									</li>
-									<li>
-										<label> 상품명</label>
-										<input type="text" placeholder="상품명을 입력하여 주세요">
-									</li>
-									<li>
-										<label> 카테고리</label>
-										<input type="text">
-									</li>
-									<li>
-										<label> 태그(선택)</label>
-										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6">
-										
-										<script>
-											var input = document.querySelector('.tagify')
-											tagify = new Tagify(input, {
-												maxTags: 5, // 최대 허용 태그 갯수
-											})
-											  
-											// 태그가 추가되면 이벤트 발생
-											tagify.on('add', function() {
-											  console.log(tagify.value); // 입력된 태그 정보 객체
-											})
-										</script>
-									</li>
-									<li>
-										<label> 상품상태 </label>
-										<ul>
-											<li><input type="radio" name="condition" checked> 미개봉</li>
-											<li><input type="radio" name="condition"> 사용감 적음</li>
-											<li><input type="radio" name="condition"> 사용감 많음</li>
-										</ul>
-									</li>
-									<li>
-										<label> 가격 </label>
-										<input type="text" id="price" placeholder="원"><br>
-										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
-									</li>
-									<li>
-										<label> 상품설명</label>
-										<textarea placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
-									</li>
-									<li>
-										<label> 거래 방식 </label>
-										<ul>
-											<li><input type="radio" name="trade" checked> 모두 가능</li>
-											<li><input type="radio" name="trade"> 직거래만 가능</li>
-											<li><input type="radio" name="trade"> 택배거래만 가능</li>
-										</ul>
-									</li>
-									<li>
-										<label> 안전 거래 여부 </label>
-										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" checked>안전 거래 사용</label>
-									</li>															
-								</ul>
+							<form class="form" method="post" action="register" name="fr">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label>카테고리<span>*</span></label>
+											<input type="text" name="member_id" id="member_id" placeholder="카테고리" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>상품명<span>*</span></label>
+											<input type="text" name="member_id" id="member_id" placeholder="상품명" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>상품설명<span>*</span></label>
+											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="상품설명" >
+										</div>
+									</div>
+									<div class="col-12" style="margin-bottom: 15px;">
+									    <div class="">
+									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
+									        <div style="display: flex; align-items: center;">
+									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="male" name="gender" value="male" >새상품(미사용)
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
+									                <input type="radio" id="female" name="gender" value="female" size="5">사용감 없음
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="female" name="gender" value="female">사용감 적음
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="female" name="gender" value="female">사용감 많음
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="female" name="gender" value="female">고장/파손 상품
+									            </label>
+									        </div>
+									    </div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>판매시작가<span>*</span></label>
+											<input type="text" name="member_nick" id="member_nick" maxlength="16" placeholder="시작가" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>즉시판매가<span>*</span></label>
+											<input type="text" name="member_nick" id="member_nick" maxlength="16" placeholder="즉시판매가" >
+										</div>
+									</div>
+									<div class="col-12" style="margin-bottom: 15px;">
+									    <div>
+									        <label>거래방식<span style="color: red; margin-left: 5px;">*</span></label>
+									        <div style="display: flex; align-items: center;">
+									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="male" name="gender" value="male" >모두가능
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
+									                <input type="radio" id="female" name="gender" value="female" size="5">직거래만 가능
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="female" name="gender" value="female">택배거래만 가능
+									            </label>
+									        </div>
+									    </div>
+									</div>
+									<div class="col-12" style="margin-bottom: 15px;">
+										<div>
+											<label>입찰마감기한<span style="color: red; margin-left: 5px;">*</span></label>
+											<div style="display: flex; align-items: center;">
+									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="male" name="gender" value="male" >15일
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
+									                <input type="radio" id="female" name="gender" value="female" size="5">30일
+									            </label>
+									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="female" name="gender" value="female">60일
+									            </label>
+									        </div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="">
+											<label>상품 이미지(최대 5장)<span style="color: red; margin-left: 5px;">*</span></label>
+											<input type="file" accept="image/*" multiple id="addfile" style="width: 80%;" class="btn">
+											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group login-btn">
+											<button class="btn" type="submit" onsubmit="submit()">상품등록</button>
+										</div>
+									</div>
+								</div>
 							</form>
-							<input type="button" id="subimit" value="등록하기">
 							<!--/ End Form -->
 						</div>
 					</div>
+				</div>
+			</div>
 		</section>
 		<!--/ End Login -->
-		
+			
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
