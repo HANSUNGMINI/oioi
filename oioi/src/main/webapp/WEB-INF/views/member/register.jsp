@@ -475,8 +475,28 @@
 									</div>
 									<div class="col-12">
 										<div class="form-group">
+											<label>비밀번호<span>*</span></label>
+											<input type="password" name="member_passwd" id="member_passwd" placeholder="비밀번호" maxlength="12" >
+											<div id="checkPwResult"></div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>비밀번호 확인<span>*</span></label>
+											<input type="password" name="member_passwd2" id="member_passwd2" placeholder="비밀번호 확인" maxlength="12" >
+											<div id="checkPwResult2"></div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
 											<label>이름<span>*</span></label>
 											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="이름" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>닉네임<span>*</span></label>
+											<input type="text" name="member_nick" id="member_nick" maxlength="16" placeholder="닉네임" >
 										</div>
 									</div>
 									<div class="col-12">
@@ -512,18 +532,17 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호<span>*</span></label>
-											<input type="password" name="member_passwd" id="member_passwd" placeholder="비밀번호" maxlength="12" >
-											<div id="checkPwResult"></div>
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호 확인<span>*</span></label>
-											<input type="password" name="member_passwd2" id="member_passwd2" placeholder="비밀번호 확인" maxlength="12" >
-											<div id="checkPwResult2"></div>
-										</div>
+									    <div class="form-group">
+									        <label>성별<span>*</span></label>
+									        <div style="display: flex; align-items: center;">
+									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="male" name="gender" value="male" style="margin-right: 5px;"> 남
+									            </label>
+									            <label for="female" style="display: flex; align-items: center;">
+									                <input type="radio" id="female" name="gender" value="female" style="margin-right: 5px;"> 여
+									            </label>
+									        </div>
+									    </div>
 									</div>
 									<div class="col-12">
 										<div class="form-group login-btn">
