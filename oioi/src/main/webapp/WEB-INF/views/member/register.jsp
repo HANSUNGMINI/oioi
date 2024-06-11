@@ -135,11 +135,21 @@
 				alert("비밀번호가 일치하지 않습니다!");
 				document.fr.member_passwd2.focus();
 				return false;
-			} else 
-				if(!isValidEmail($("#member_email").val())) { // 이메일 확인
+			} else if(!isValidEmail($("#member_email").val())) { // 이메일 확인
 		        alert("E-Mail을 확인해주세요.");
 		        document.fr.member_email.focus();
 		        return false;
+		    } else if(serverMailAuthNum == "") {
+		    	alert("인증메일발송을 먼저 요청해주세요.");
+		    	document.fr.check_email.focus();
+		    	return false;
+  			} else if ($("#mail_auth_num").val() == "") {
+		    	alert("인증번호를 입력해주세요");
+		    	document.fr.mail_auth_num.focus();
+		        return false;
+  			} else if (!checkMailAuthNumResult) {
+		    	alert("이메일 인증을 완료해주세요.");
+		        return false; 
 		    } else if (!isValidName($("#member_name").val())) { // 이름 확인
 		    	alert("이름을 확인해주세요.");
 		        document.fr.member_name.focus();
@@ -159,7 +169,7 @@
 		    } else if (!checkAuthNumResult) {
 		    	alert("전화번호 인증을 완료해주세요.");
 		        return false; 
-		    }
+		    } 
 		}
 		
 	}); // document 객체의 ready 이벤트 끝
@@ -322,6 +332,109 @@
 	
 </script>
 </head>
+<style>
+#check_email:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_email {
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+#check_tel:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_tel {
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+</style>
+
 <body class="js">
 
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -371,7 +484,7 @@
 											<label>이메일<span>*</span></label>
 											<div style="display: flex">
 												<input type="email" name="member_email" id="member_email" placeholder="이메일" >
-												<input type="button" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
+												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
 											</div>
 											<div id="authBox" style="display: flex">
 												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/>

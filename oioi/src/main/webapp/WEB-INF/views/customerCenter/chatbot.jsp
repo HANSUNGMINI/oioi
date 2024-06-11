@@ -22,11 +22,20 @@
 		cursor: pointer;
 	}
 </style>
+
+<script type="text/javascript">
+	function closeChat(){
+		if(confirm("챗봇을 종료하시겠습니까?")){
+			window.close();
+		}
+	}
+</script>
 </head>
 <body>
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853; height:50px">
+   		<i class="bi bi-x-lg" style="font-size: 2rem; color: white;" onclick="closeChat()"></i>
    	</div>
    	
    	
@@ -37,11 +46,12 @@
 				    <div class="row">
 				        <div class="col-lg-12">
 				            <div class="chat-about text-center">
-				                <h6 class="m-b-0">궁금한 점을 물어보세요 !</h6>
+				                <h6 class="m-b-0">안녕하세요. 오이마켓 고객센터 챗봇입니다. <br>
+									아래 주요 메뉴를 선택하거나, 궁금한 내용을 질문해 보세요.</h6>
 				            </div>
 				        </div>
 				    </div>
-				    <br><hr>
+				    <hr>
 				</div>
                 
                 <%-- 채팅 내역 --%>
