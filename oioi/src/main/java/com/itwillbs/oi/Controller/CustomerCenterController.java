@@ -18,6 +18,12 @@ public class CustomerCenterController {
 		return "customerCenter/notice_write";
 	}
 	
+	// 공지사항 보기
+	@GetMapping("noticeDetail")
+	public String goNoticeDeatil() {
+		return "customerCenter/notice_detail";
+	}
+	
 	// 챗봇
 	@GetMapping("chatbot")
 	public String goChatbot() {
@@ -26,13 +32,19 @@ public class CustomerCenterController {
 	
 	// 큐엔에이
 	@GetMapping("qna")
-	public String goqna() {
+	public String goQna() {
 		return "customerCenter/qna";
 	}
 	
 	// 큐엔에이 작성 폼
 	@GetMapping("qnaWrite")
-	public String goqnaWrite() {
+	public String goQnaWrite() {
 		return "customerCenter/qna_write";
+	}
+	
+	// 큐엔에이 확인 폼
+	@GetMapping("qnaDetail")
+	public String goQnaDetail() {
+		return "customerCenter/qna_detail";
 	}
 }
