@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>공지사항</title>
+    <title>공지사항 수정</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -175,7 +175,6 @@
 	
 	.btn.btn-primary {
 		padding : 7px;
-		border-radius: 3px;
 	}
 </style>
 
@@ -231,35 +230,45 @@
 				 
 					 <div class="cs_title_container">
 					 	<div class = "notice_d_t_div">
-				  			<em class = "notice_d_title">공지사항</em><br>
+				  			<em class = "notice_d_title">공지사항 수정</em><br>
 				  		</div>
 				  	 </div>
 			  		
 			   		<form action="noticeWrite" method= "post">
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
-				  				<h3> 제목 </h3>
+				  				<h3><input type = "text" id="title" placeholder="제목을 입력하시오" name = "board_subject" style = "width : 400px" required="required" maxlength="50"> </h3>
 				  			</div>
 			  			
-				  			<div class = "view_info">
-								<em><b>작성자</b></em>
-								<em>${sessionScope.member_id}</em>
-								<em class="em"><b>날짜</b></em>
-								<em> 2024년 6월 11일 </em>
-				  			</div>
-				  			
-							
-							<div class = "view_cont">
-				  				<p>
-				  					내용
-								</p>
-				  			</div>
+			  			<div class = "view_info">
+							<em><b>작성자</b></em>
+							<em>${sessionScope.member_id}</em>
+							<input type="checkbox" name="important" value="important" style="margin-left:50px" > 주요공지 
+			  			</div>
+			  			
+						
+						<textarea id="summernote" style = "background-color:white" name = "board_content" required="required" maxlength="7000"></textarea>
+						    <script>
+						    $('#summernote').summernote({
+						        placeholder: '내용을 입력하시오 (글자수 5000자까지 가능합니다)',
+						        tabsize: 2,
+						        height: 400,
+						        toolbar: [
+						          ['style', ['style']],
+						          ['font', ['bold', 'underline', 'clear']],
+						          ['color', ['color']],
+						          ['para', ['ul', 'ol', 'paragraph']],
+						          ['table', ['table']],
+				// 		          ['insert', ['link', 'picture', 'video']],
+						          ['view', ['fullscreen', 'codeview', 'help']]
+						        ]
+						      });
+						    </script>
 					    </div>
 					    
-					     <div class="button-container" style="padding:4px">
-			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="history.back()">
-			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='noticeModify'">
-			 				<input type="button"  value = "삭제" class="btn btn-primary" >
+					     <div class="button-container">
+			 				<input type="submit"  value = "수정" class="btn btn-primary" >
+			 				<input type="button"  value = "취소" class="btn btn-primary" onclick="history.back()">
 			 			</div>	
 				    </form>
 				 </div>
