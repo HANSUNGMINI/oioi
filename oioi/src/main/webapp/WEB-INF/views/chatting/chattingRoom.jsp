@@ -116,7 +116,7 @@
                             	<%-- 로그인 한 사람 이미지 --%>
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
-                            <div class="message other-message float-right"> 배소은 바보 </div>
+                            <div class="message other-message float-right"> 김유신 바보 </div>
                             <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
                         </li>
                         

@@ -24,18 +24,17 @@
 </style>
 
 <script type="text/javascript">
-	function closeChat(){
-		if(confirm("챗봇을 종료하시겠습니까?")){
-			window.close();
-		}
-	}
+
+	window.onbeforeunload = function() {
+	  return "창을 닫으시겠습니까?";
+	};
+	
 </script>
 </head>
 <body>
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853; height:50px">
-   		<i class="bi bi-x-lg" style="font-size: 2rem; color: white;" onclick="closeChat()"></i>
    	</div>
    	
    	
@@ -78,17 +77,19 @@
                 </div>
 
                 <%-- 메세지 전송 --%>
-                <div class="chat-message clearfix" style="margin-bottom:0px">
-                    <div class="input-group mb-0">
-		                <%-- 전송란 --%>
-                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
-
-                        <%-- 전송버튼 --%>
-                        <div class="input-group-prepend">
-                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
-                        </div>
-                    </div>
-                </div>
+                <form action="">
+	                <div class="chat-message clearfix" style="margin-bottom:0px">
+	                    <div class="input-group mb-0">
+			                <%-- 전송란 --%>
+	                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
+	
+	                        <%-- 전송버튼 --%>
+	                        <div class="input-group-prepend">
+	                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
+	                        </div>
+	                    </div>
+	                </div>
+                </form>
             </div>
             
             <!-- 부트스트랩 -->
