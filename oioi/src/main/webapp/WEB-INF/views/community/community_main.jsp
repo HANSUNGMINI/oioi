@@ -116,31 +116,67 @@
 	}
 	
 	/* 글쓰기 버튼 위치 */
-	.write_btn {
-		margin-right: 15px;
-		margin-bottom: -15px;
-		float: right;
+ 	.write_btn { 
+ 		margin-right: 15px; 
+		margin-bottom: -15px; 
+ 		float: right; 
+ 	} 
+ 	 .search-top { 
+ 	 width : 400px; 
+ 	 text-align: center; 
+ 	 margin: 0; 
+ 	} 
+	
+ 	.search_write { 
+ 		margin-bottom: 15px; 
+ 	} 
+	
+ 	.search-form {
+ 	    width: 100%; 
+	} 
+	
+ 	.search-form input { 
+ 	    flex-grow: 1; 
+ 	    margin-right: 5px; 
+	} 
+	
+/* 	.form-control { */
+/* 		width :300px; */
+/* 	} */
+	
+	.btn-primary, .btn-outline-secondary {
+	    position: relative;
+	    font-weight: 500;
+	    font-size: 14px;
+	    color: #fff;
+	    background: #333;
+	    display: inline-block;
+	    -webkit-transition: all 0.4s ease;
+	    -moz-transition: all 0.4s ease;
+	    transition: all 0.4s ease;
+	    z-index: 5;
+	    display: inline-block;
+	    padding: 8px 20px;
+	    border-radius: 0px;
+	    text-transform: uppercase;
 	}
-	.search-form, .search-top {
-	 width : 200px;
-	 text-align: center;
-	 margin: 0;
+ 	.search-top { 
+ 		margin-left: 185px; 
+ 	}
+	
+	.btn-primary {
+		padding: 5px 15px;
 	}
 	
-	.search_write {
-    margin-bottom: 15px;
+	.searchCategory {
+		margin: 0px;
+		height: 34px;
+	    line-height: 33px;
 	}
 	
-	.search-form {
-	    width: 100%;
-	}
-	
-	.search-form input {
-	    flex-grow: 1;
-	    margin-right: 5px;
-	}
-
-	
+	.category-list li {
+        margin-bottom: 15px; /* 리스트 사이에 공간 추가 */
+    }
 	/* 페이징 위치 */
 </style>
 <body class="js">
@@ -181,13 +217,9 @@
 					<div class="single-widget category">
 						<ul class="category-list">
 							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li>
-							<br>
 							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
-							<br>
 							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
-							<br>
 							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
-							<br>
 						</ul>
 					</div>
 				</div>
@@ -199,17 +231,23 @@
 			 <div class="row">
 					<div class="notice_body">
 						<div class="search_write row">
-						    <div class="col-md-9">
+						    <div class="col-md-9" style="height: 40px;">
 						        <!-- Search Form -->
 						        <div class="search-top">
 						            <form class="search-form d-flex">
-						                <input type="text" class="form-control" placeholder="Search here..." name="search">
+						            	<select class="searchCategory">
+						            		<option value="">전체 게시판</option>
+						            		<option value="">질문 게시판</option>
+						            		<option value="">정보 게시판</option>
+						            		<option value="">친목 게시판</option>
+						            	</select>
+						                <input type="text" class="form-control" placeholder="검색어 입력" name="search">
 						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
 						            </form>
 						        </div>
 						    </div>
 						    <div class="col-md-3 text-right">
-						        <a href="noticeWrite" class="btn btn-primary">글쓰기</a>
+						        <a href="communityWrite" class="btn btn-primary" style="color: white;">글쓰기</a>
 						    </div>
 						</div>
 
