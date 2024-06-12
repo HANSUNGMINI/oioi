@@ -116,7 +116,7 @@
                             	<%-- 로그인 한 사람 이미지 --%>
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
-                            <div class="message other-message float-right"> 배소은 바보 </div>
+                            <div class="message other-message float-right"> 김유신 바보 </div>
                             <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
                         </li>
                         
@@ -237,10 +237,10 @@
 			      <div class="modal-body">
 			      
 			      <%-- 체크박스 --%>
-					<input type="radio" name="notify">  &nbsp;욕설 및 비방을 해요 <br>
-					<input type="radio" name="notify">  &nbsp;사기인 것 같아요 <br>
-					<input type="radio" name="notify">  &nbsp;머하지 또 <br>
-					<input type="radio" name="notify">  &nbsp;기타 부적절한 행위가 있어요 <br>
+					<label for="n1"><input type="radio" name="notify" id="n1">  &nbsp;욕설 및 비방을 해요</label> <br>
+					<label for="n2"><input type="radio" name="notify" id="n2">  &nbsp;사기인 것 같아요</label> <br>
+					<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;머하지 또</label> <br>
+					<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
 					
 					<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="600"></textarea>			      
 				  </div>

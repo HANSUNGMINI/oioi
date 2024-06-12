@@ -87,13 +87,13 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="text" class="member_id" name="member_id"  placeholder="아이디" required>
+											<input type="text" class="user_id" name="user_id"  placeholder="아이디" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호<span>*</span></label>
-											<input type="password" class="member_passwd" name="member_passwd" placeholder="비밀번호" required>
+											<input type="password" class="user_passwd" name="user_passwd" placeholder="비밀번호" required>
 										</div>
 									</div>
 									<div class="col-12">
@@ -102,7 +102,7 @@
 											<a href="register" class="btn">회원가입</a>
 										</div>
 										<div class="checkbox">
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">아이디 기억하기</label>
+											<label class="checkbox-inline" for="rememberMe"><input name="rememberMe" id="rememberMe" type="checkbox">아이디 기억하기</label>
 										</div>
 										<a href="#" class="lost-pass">비밀번호 찾기</a>
 									</div>
@@ -117,7 +117,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 
+ 		 
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>

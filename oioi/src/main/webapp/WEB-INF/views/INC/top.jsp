@@ -17,6 +17,17 @@
 		background-color : #E4E4E4;
 		border:none;
 		border-radius: 5px;
+		text-align: left;
+		padding : 10px;
+	}
+	
+	.searchKey {
+		background-color: white;
+		border: none;
+		border-radius: 5px;
+		padding : 5px;
+		color: #420100;
+		font-weight: bold;
 	}
 </style>
 <script type="text/javascript">
@@ -28,6 +39,7 @@
 	function searchDivClose() {
 		 document.querySelector("#searchDiv").style.display = "none";
 	}
+
 	
 </script>
 </head>
@@ -98,7 +110,11 @@
 								</select>
 								<form>
 									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()" onblur="searchDivClose()">
-									<div id="searchDiv"> 추천 검색어 </div>
+									<div id="searchDiv" style="background-color:#F6F6F6"> 
+										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span> <a href="notice" class="searchKey">모자</a> <a href="#" class="searchKey">신발</a>
+										<hr>
+										<span style="color:#CC3D3D; font-weight: bold">추천 검색어 나올 자리</span>
+									</div>
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
 							</div>

@@ -20,8 +20,14 @@ public class CustomerCenterController {
 	
 	// 공지사항 보기
 	@GetMapping("noticeDetail")
-	public String goNoticeDeatil() {
+	public String goNoticeDetail() {
 		return "customerCenter/notice_detail";
+	}
+	
+	// 공지사항 수정
+	@GetMapping("noticeModify")
+	public String goNoticeModify() {
+		return "customerCenter/notice_modify";
 	}
 	
 	// 챗봇

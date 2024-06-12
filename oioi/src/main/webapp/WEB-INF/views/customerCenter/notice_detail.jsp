@@ -175,6 +175,7 @@
 	
 	.btn.btn-primary {
 		padding : 7px;
+		border-radius: 3px;
 	}
 </style>
 
@@ -240,19 +241,19 @@
 				  				<h3> 제목 </h3>
 				  			</div>
 			  			
-			  			<div class = "view_info">
-							<em><b>작성자</b></em>
-							<em>${sessionScope.member_id}</em>
-							<em class="em"><b>날짜</b></em>
-							<em> 2024년 6월 11일 </em>
-			  			</div>
-			  			
-						
-						<div class = "view_cont">
-			  				<p>
-			  					내용
-							</p>
-			  			</div>
+				  			<div class = "view_info">
+								<em><b>작성자</b></em>
+								<em>${sessionScope.member_id}</em>
+								<em class="em"><b>날짜</b></em>
+								<em> 2024년 6월 11일 </em>
+				  			</div>
+				  			
+							
+							<div class = "view_cont">
+				  				<p>
+				  					내용
+								</p>
+				  			</div>
 					    </div>
 					    
 					     <div class="button-container" style="padding:4px">

@@ -46,6 +46,9 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
+	<!-- 화살표 이미지 -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	
 </head>
 
 <style>
@@ -77,6 +80,12 @@
 	    }
 	}
 	
+	/* 안에 내용 비율 조절 */
+	#highlighted-row .row {
+		padding : 70px;
+		display: inline;
+	}
+	
 	/* 제목 */
 	.cs_title_container {
 	    display: flex;
@@ -102,12 +111,9 @@
 	    color : #34A853;
 	}
 	
-	/* 글 적는 곳 */
-	#highlighted-row .row {
-		padding : 70px;
-	}
-	
-	.cs_write input, textarea, #qna_category {
+		/* 글 적는 곳*/
+	.cs_write input, textarea, select {
+		margin-left : 10px;
 		padding : 10px;
 		border: 1px solid #999;
 		border-radius : 10px;
@@ -124,13 +130,12 @@
 		margin-right : 20px;
 	}
 	
-	.cs_write .content_wr textarea{
+	.cs_write .content_wr textarea {
 		min-width : 85.5%;
 		max-width : 85.5%;
 		min-height: 200px;
 		box-shadow : inset 3px 3px 10px #e6e6e6;
 		vertical-align : top;
-		margin-left : 15px;
 	}
 	
 	.cs_write input[type = "file"] {
@@ -140,16 +145,10 @@
 		margin-left : 40px;
 	}
 	
-	/* 개인 정보 수집 동의 */
-	.infoAgreeDiv {
-		width : 80%;
-		border-radius : 10px;
-		border : 1px solid #999;
-		margin-left : 70px;
-		padding : 10px;
-		box-shadow : 3px 3px 10px #e6e6e6;
+	.material-symbols-outlined {
+		color : #34A853;
 	}
-	
+
 	/* 제출 버튼 */
 	
 	.button-container {
@@ -211,52 +210,71 @@
 		<%-- 본문 --%>
 		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
-			 	<!-- 타이틀 -->
-			 	<div class="cs_title_container">
-					<div class = "cs_title">
-		  				<em class = "cs_title_1">1:1 문의</em><br>
-		  				<em class = "cs_sub_title">궁금한 점을 해결해 드립니다 :)</em>
-		  			</div>
-		  		</div>
-			 
-				<form action ="qnaWrite" method = "post" name="fr">
-	 		
-		 		<div class = "cs_write">
-		 			<div class = "cus_info">
-		 				작성자 <input type = "text" value="${qna.qna_writer}" name="qna_writer"  readonly="readonly">
-		 				<span id="categoryArea" style = "margin-left:10px"></span>
-		 			</div>
-		 			
-		 			<div class = "title_wr">
-		 				제목 <input type = "text" placeholder="제목을 입력하세요" style = "margin-left : 15px" id="qna_subject" name ="qna_subject" maxlength="20">
-		 			</div>
-		 			
-		 			<div class = "content_wr">
-		 				내용 <textarea placeholder="내용을 입력하세요" style = "resize : none" name="qna_content"  id="qna_content" maxlength="600"></textarea>
-		 				<input type = "file" name="qna_file_form"> 
-		 			</div>
-		 		</div>
-		 		
-	 			<div class ="infoAgreeDiv">
-	 				<input type ="checkbox" name="infoAgree" id= "infoAgree" style="margin-bottom:14px"> 아래와 같은 방침에 동의합니다. <br>
-	 				[ 개인정보수집 및 이용 안내 동의 ] <br>
-					수집 항목 : 이름 및 질문 내용 <br>
-					수집, 이용 목적 : 빌리카 상담을 위한 정보제공 <br>
-					보유, 이용기간 및 파기 : 답변 1년 후 지체 없이 파기 <br>
-	 			</div>
-	 			 <div class="button-container">
-	 				<input type="button"  value = "목록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px" onclick="history.back()">
-	 				<input type="button"  value = "삭제" class="btn btn-success" style="padding-right: 10px; padding-left: 10px">
-	 			</div>	
-	 			</form>	
-			 </div>
-				
-				<%-- 페이징 --%>
-				
+				 	<div class="cs_title_container">
+						<div class = "cs_title">
+			  				<em class = "cs_title_1">1:1 문의</em><br>
+			  				<em class = "cs_sub_title">궁금한 점을 해결해 드립니다 :)</em>
+			  			</div>
+			  		</div>
+				 
+				 
+				 		<div class = "cs_write">
+				 			<div class = "cus_info">
+				 				작성자 <input type = "text" value="${qna.qna_writer}" name="qna_writer" readonly="readonly">
+				 			</div>
+				 			
+				 			<div class = "title_wr">
+				 				제목 <input type = "text" value="${qna.qna_subject}" style = "margin-left : 15px" name ="qna_subject" readonly="readonly">
+				 			</div>
+				 			
+				 			<div class = "content_wr">
+				 				질문 <textarea style = "resize : none" readonly="readonly">${qna.qna_content}</textarea>
+				 				
+				 				<div style="margin-left:50px;">
+					 				파일
+					 				<c:if test="${not empty qna.qna_file}">
+											<c:set var="original_fileName" value="${fn:substringAfter(qna.qna_file, '_')}"/>
+											${original_fileName}
+											<%-- 다운로드 --%>
+											<%-- 다운로드 속성값에 파일명 지정 시 그 이름으로 다운됨 --%>
+											<a href="${pageContext.request.contextPath}/resources/upload/${qna.qna_file}" download="${original_fileName}">
+												<input type="button" value="다운로드" id="downBtn">
+											</a>
+									</c:if>
+								</div>
+				 			</div>
+				 			
+				 			
+				 			<div class = "content_wr" style="margin-top:30px;">
+				 				<span class="material-symbols-outlined">
+									subdirectory_arrow_right
+								</span>
+								
+								
+								
+								<%-- 답변 상태에 따라 답변 보여주기 --%>
+								<c:choose>
+									<c:when test="${qna.qna_status eq 1}"> <%-- 답변 완료 --%>
+										 답변 <textarea readonly="readonly" style = "resize : none">${qna.admin_content}</textarea>
+									</c:when>
+									<c:otherwise> <%-- 미답변 --%>
+										 답변 <textarea placeholder="답변 대기 중입니다. 조금만 기다려 주세요." readonly="readonly" style = "resize : none;"></textarea>
+									</c:otherwise>
+								</c:choose>
+								
+							</div>
+							
+							 <div class="button-container" style="padding:4px">
+				 				<input type="button"  value = "목록" class="btn btn-primary" onclick="history.back()">
+				 				<input type="button"  value = "삭제" class="btn btn-primary" >
+				 			</div>	
+				 			
+					</div>
+								
 				
 			    
 			</div>
-		
+		</div>
 		</div>
 	</div>
 </section>

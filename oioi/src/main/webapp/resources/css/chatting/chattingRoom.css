@@ -287,6 +287,9 @@
 	    }
 	}
 	
+	.chat-history .m-b-0 {
+		margin-bottom : 80px;
+	}
 	/* ======= 상세정보 ========== */
 	#detail {
 		margin-top : 10px;
