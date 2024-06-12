@@ -141,7 +141,6 @@ public class UserController {
 	    String rememberId = loginData.get("rememberMe");
 	    // 서비스를 통해 회원 정보 가져오기
 	    Map<String, String> dbUser = service.selectUser(userId); // 회원 ID로 회원 정보를 가져오는 메서드가 있다고 가정합니다.
-	    
 	    if(dbUser == null || !passwordEncoder.matches(userPasswd, dbUser.get("US_PASSWD"))) { // 로그인 실패
 	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.\\n입력하신 내용을 다시 확인해주세요.");
 	        return "err/fail";
@@ -151,7 +150,9 @@ public class UserController {
 	    } else { // 로그인 성공
 	        // 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
 	        session.setAttribute("US_ID", userId);
+	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
+	        System.out.println("회원정보" + dbUser);
 	        
 	        Cookie cookie = new Cookie("cookieId", userId);
 	        if(rememberId != null) { // 체크박스 체크 상태일 경우 쿠키 설정
@@ -164,6 +165,6 @@ public class UserController {
 	        // 메인페이지 리다이렉트
 	        return "redirect:/";
 	    }
-	    
 	}
+	
 }

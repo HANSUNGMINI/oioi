@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,11 +64,22 @@
 						<div class="col-lg-8 col-md-12 col-12">
 							<!-- Top Right -->
 							<div class="right-content">
-								<ul class="list-main">
-									<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
-									<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
-									<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
-								</ul>
+							<c:choose>
+								<c:when test="${empty sessionScope.US_ID}">	
+									<ul class="list-main">
+										<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
+										<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
+									</ul>
+								</c:when>
+								<c:otherwise>
+									
+									<ul class="list-main">
+										<li>${US_NICK} 님</li>
+										<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
+										<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
+									</ul>
+								</c:otherwise>
+							</c:choose>
 							</div>
 							<!-- End Top Right -->
 						</div>
