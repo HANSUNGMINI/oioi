@@ -3,6 +3,7 @@ package com.itwillbs.oi.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -133,11 +134,11 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder) {
+	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder, HttpServletResponse response) {
 	    
 	    String userId = loginData.get("user_id");
 	    String userPasswd = loginData.get("user_passwd");
-	    
+	    String rememberId = loginData.get("rememberMe");
 	    // 서비스를 통해 회원 정보 가져오기
 	    Map<String, String> dbUser = service.selectUser(userId); // 회원 ID로 회원 정보를 가져오는 메서드가 있다고 가정합니다.
 	    
@@ -151,6 +152,15 @@ public class UserController {
 	        // 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
 	        session.setAttribute("US_ID", userId);
 	        System.out.println("로그인 아이디: " + userId);
+	        
+	        Cookie cookie = new Cookie("cookieId", userId);
+	        if(rememberId != null) { // 체크박스 체크 상태일 경우 쿠키 설정
+	        	cookie.setMaxAge(60 * 60 * 24); // 60초 * 60분 * 24시간 = 86000초 = 1일
+	        } else {
+	        	cookie.setMaxAge(0);
+	        }
+	        response.addCookie(cookie);
+	        System.out.println(cookie);
 	        // 메인페이지 리다이렉트
 	        return "redirect:/";
 	    }
