@@ -172,11 +172,26 @@
 		margin: 0px;
 		height: 34px;
 	    line-height: 33px;
+	    margin-right: 10px;
+	    border-radius: 3px;
+	    border: 1px solid #ccc;
+	    text-align: left;
+	    color: #666;;
 	}
 	
 	.category-list li {
         margin-bottom: 15px; /* 리스트 사이에 공간 추가 */
     }
+     .board_num {
+		width: 50px; /* 원하는 폭으로 설정 */
+		text-align: center; /* 텍스트 가운데 정렬 */
+	}
+	
+	.board_writer, .board_date {
+		width: 200px;
+		text-align: center; 
+	}
+ 
 	/* 페이징 위치 */
 </style>
 <body class="js">
@@ -262,16 +277,16 @@
 						<table>
 					        <thead>
 					            <tr>
-					                <th class="notice_num">번호</th>
-					                <th class="notice_title">제목</th>
-					                <th class="notice_writer">작성자</th>
-					                <th class="notice_date">작성일</th>
+					                <th class="board_num">번호</th>
+					                <th class="board_title">제목</th>
+					                <th class="board_writer">작성자</th>
+					                <th class="board_date">작성일</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 				                  <tr>
 				                      <td> 1 </td>
-				                      <td><a href=""> 저쩌구 </a></td>
+				                      <td><a href="boardDetail"> 저쩌구 </a></td>
 				                      <td> 관리자</td>
 				                      <td> 2024.06.07 </td>
 				                  </tr>

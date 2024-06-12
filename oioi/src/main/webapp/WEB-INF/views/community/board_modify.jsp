@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>공지사항 수정</title>
+    <title>게시글 수정</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -211,26 +211,15 @@
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>
-			<div class="col-lg-3 col-12">
-				<div class="main-sidebar">
-					<!-- Single Widget -->
-					<div class="single-widget category">
-						<ul class="categor-list">
-							<li><a href="notice" onclick="clickCategory(this)">공지사항</a></li>
-							<li><a href="qna" onclick="clickCategory(this)">문의내역</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			
 			
 			<%-- 본문 --%>
-			 <div class="col-lg-8 col-12" id="highlighted-row"> 
+			 <div class="col-lg-12 col-12" id="highlighted-row"> 
 				 <div class="row">
 				 
 					 <div class="cs_title_container">
 					 	<div class = "notice_d_t_div">
-				  			<em class = "notice_d_title">공지사항 수정</em><br>
+				  			<em class = "notice_d_title">게시글 수정</em><br>
 				  		</div>
 				  	 </div>
 			  		
@@ -243,7 +232,6 @@
 			  			<div class = "view_info">
 							<em><b>작성자</b></em>
 							<em>${sessionScope.member_id}</em>
-							<input type="checkbox" name="important" value="important" style="margin-left:50px" > 주요공지 
 			  			</div>
 			  			
 						
@@ -267,7 +255,7 @@
 					    </div>
 					    
 					     <div class="button-container">
-			 				<input type="submit"  value = "수정" class="btn btn-primary" >
+			 				<input type="submit"  value = "수정" class="btn btn-primary" style="margin-right: 10px;">
 			 				<input type="button"  value = "취소" class="btn btn-primary" onclick="history.back()">
 			 			</div>	
 				    </form>
