@@ -96,6 +96,12 @@
 										<div class="form-group">
 											<label>카테고리<span>*</span></label>
 											<input type="text" name="member_id" id="member_id" placeholder="카테고리" >
+											<select id="manufacturer" name="car_brand" class="form-control" required>
+				                                <option value="">대분류</option>
+				                                <c:forEach var="cate1" items="${cate1}">
+				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
+				                                </c:forEach>
+				                            </select>
 										</div>
 									</div>
 									<div class="col-12">
