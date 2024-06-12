@@ -10,7 +10,6 @@
 
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 		
@@ -81,7 +80,7 @@
                             </a>
                             <div class="chat-about">
                                 <h6 class="m-b-0">닉네임</h6>
-                                <small>상품 : <a href="#">나이키 신발</a></small>
+                                <small> 신선도 : 38.5 </small>
                             </div>
                         </div>
                         
@@ -109,6 +108,10 @@
                 
                 <%-- 채팅 내역 --%>
                 <div class="chat-history" >
+					<div style="background-color:#EAEAEA; text-align: center; padding : 3px; margin-top: -20px; margin-bottom:10px">
+						<a href="javascript:void(0);" data-toggle="modal" data-target="#detail_model">나이키 신발</a>에 대한 이야기를 시작해 보세요
+					</div>
+
                     <ul class="m-b-0">
                         
                         <li class="clearfix">
@@ -300,6 +303,37 @@
 			  </div>
 			</div>     
 
+		<%-- 제품 상세보기 --%>
+			
+			<div class="modal" id="detail_model">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">제품 상세보기</h4>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			      
+			      	<%-- 이미지 --%>
+			      	<div class="img-container">
+			      		<img id="pd_img" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/3e8455ad-c00c-4996-a85a-b5c4d38c6ae2/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png">
+			      	</div>
+			      	
+			      	
+			      </div>
+			
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>     
+			
 
             
             <!-- 부트스트랩 -->

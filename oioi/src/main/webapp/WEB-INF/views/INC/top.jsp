@@ -37,8 +37,9 @@
 	}
 	
 	function searchDivClose() {
-		 document.querySelector("#searchDiv").style.display = "none";
+		 document.querySelector("#searchDiv").style.display = "close";
 	}
+	
 
 	
 </script>
@@ -110,8 +111,8 @@
 								</select>
 								<form>
 									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()" onblur="searchDivClose()">
-									<div id="searchDiv" style="background-color:#F6F6F6"> 
-										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span> <a href="notice" class="searchKey">모자</a> <a href="#" class="searchKey">신발</a>
+									<div id="searchDiv" style="background-color:#F6F6F6" > 
+										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span> <span class="searchKey" onclick="location.href='notice'">모자</span> <a href="shose" class="searchKey">신발</a>
 										<hr>
 										<span style="color:#CC3D3D; font-weight: bold">추천 검색어 나올 자리</span>
 									</div>
