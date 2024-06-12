@@ -155,7 +155,7 @@ public class MemberController {
 ////		// 실패 시 : "인증 실패!" 메세지 전달
 //		if(isAuthSuccess) {
 //			model.addAttribute("msg", "인증 성공!\\n로그인 페이지로 이동합니다!");
-//			model.addAttribute("targetURL", "login");
+//			model.addAttribute("targetURL", "`in");
 //		} else {
 //			model.addAttribute("msg", "인증 실패!");
 //		}

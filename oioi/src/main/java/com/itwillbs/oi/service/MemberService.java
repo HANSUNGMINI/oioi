@@ -136,6 +136,4 @@ public class MemberService {
 	public MemberVO forgotPwPhone(Map<String, String> map) {
 		return mapper.selectForgotPwPhone(map);
 	}
-
-
 }
