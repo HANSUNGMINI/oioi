@@ -70,4 +70,12 @@ public class AdminController {
 		return userList;
 	}
 	
+	@ResponseBody
+	@PostMapping("UserDetail")
+	public Map<String, Object> UserDetail(@RequestParam Map<String, String> user) {
+		System.out.println(user.get("US_ID").toString());
+		Map<String, Object> map = null;
+		return map;
+	}
+	
 }

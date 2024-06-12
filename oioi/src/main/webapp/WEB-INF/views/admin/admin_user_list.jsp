@@ -25,6 +25,10 @@
 		#submitBtn:hover {
 			background-color :#34A853; 
 		}
+		
+		.clickID {
+			cursor : pointer;
+		}
 	
 	</style>
 </head>
@@ -56,12 +60,12 @@
 	          		회원목록
 	        	</p>
 	        	
-	        	<select>
-	        		<option selected>전체</option>
-	        		<option>이름</option>
-	        		<option>아이디</option>
+	        	<select id="type">
+	        		<option value="US_NAME">이름</option>
+	        		<option value="US_ID">아이디</option>
+	        		<option value="US_NICK">닉네임</option>
 	        	</select>
-	        	<input type="text" placeholder="검색어 입력">
+	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	<input type="button" id="submitBtn" value="검색">
 	      	</header>
 	       	<div class="card-content">
@@ -72,12 +76,10 @@
 	            				<label class="checkbox"><input type="checkbox"><span class="check"></span></label>
 	            			</th>
 				            <th class="image-cell"></th>
-				            <th>이름</th>
 				            <th>아이디</th>
+				            <th>이름</th>
 				            <th>닉네임</th>
 				            <th>가입일</th>
-				            <th>상태</th>
-				            <th></th>
 	         			 </tr>
 	          		</thead>
 	          		<tbody class="tbody">
@@ -91,28 +93,13 @@
 				      		<button type="button" class="button">2</button>
 				      		<button type="button" class="button">3</button>
 				      		<!-- 일단 남겨둠2 -->
-				            <div class="buttons right nowrap">
-				            	<button class="button small blue --jb-modal"  data-target="sample-modal-2" type="button">
-				                	<span class="icon"><i class="mdi mdi-eye"></i></span>
-				                </button>
-				                <button class="button small red --jb-modal" data-target="sample-modal" type="button">
-				                  <span class="icon"><i class="mdi mdi-trash-can"></i></span>
-				            	</button>
-				            </div>
+				            
 				    	</div>
 					</div>
 				</div>
 			</div>
 		</div>	
 	</section>
-
-  	<!-- 내용물이 없을 때  -->
-	<div class="card empty">
-    	<div class="card-content">
-        	<div><span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span></div>
-        	<p>조회된 정보가 없습니다</p>
-    	</div>
-    </div>
     
     <!-- 모달창 -->
 	<div id="sample-modal" class="modal">
@@ -154,14 +141,25 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 <%--     <script src="${pageContext.request.contextPath}/resources/js/admin_user_list.js"></script> --%>
 	<script>
-		let type = "전체";
+		let type = "";
 		let keyword = "";
-	
+		let pageNum = 1;
+		
 		$(function(){
-			search(type,keyword)
+			search(type,keyword);
+			
+			$("#submitBtn").on("click", search);
+			
+
 		});
 	
 		function search(type, keyword) {
+			type = $("#type").val();
+			keyword = $("#keyword").val();
+			
+			alert(type);
+			alert(keyword);
+			
 			$.ajax({
 				type : "POST",
 				url : "UserList",
@@ -172,13 +170,18 @@
 				dataType : "JSON",
 				success : function (response) {
 					$(".tbody").empty();
-					if(response == null) {
 					
+					if(response == null) {
+						
 						$(".tbody").append(
-							'<div class="card empty">'
+							'<tr>'
+							+'<td colspan="7">'
+							+'<div class="card empty">'
 						    +'<div class="card-content">'
 						    +'<div><span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span></div>'
-						    +'<p>조회된 정보가 없습니다</p></div> </div>'
+						    +'<p>조회된 정보가 없습니다</p></div></div>'
+						   	+'</td>'
+						    +'</tr>'
 						);
 						
 					} else {
@@ -193,17 +196,42 @@
 			           			+ '	<img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="rounded-full">'
 			           			+ '	</div>'
 			           			+ '</td>'
-			           			+ '<td data-label="Name">'+ user.US_ID +'</td>'
+			           			+ '<td data-label="Name">'+ user.US_ID + '</td>'
 			           			+ '<td data-label="Company">'+ user.US_NAME +'</td>'
 			           			+ '<td data-label="City">'+ user.US_NICK +'</td>'
 			           			+ '<td data-label="City">'+ user.US_REG_DATE +'</td>'
+			           			+ '<td class="actions-cell">'
+			           			+ '<div class="buttons right nowrap">'
+			           			+ '<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button"'
+			           			+ 'onclick="detail(\'' + user.US_ID + '\')">'
+			           			+ '<span class="icon"><i class="mdi mdi-eye"></i></span></button>'
 			           			+ '</td>'
 							);
 						};
 					}
+					
 				}
 			});
 		}
+		
+		function detail(US_ID) {
+			
+			$.ajax({
+				type : "POST",
+				url : "UserDetail",
+				data : {
+					"US_ID" : US_ID
+				},
+				dataType : "JSON",
+				success : function(response){
+					alert("어디까지 조회할지 생각중");
+				}
+			})
+			
+			
+		}
+		
+		
 	</script>
 </html>
     
