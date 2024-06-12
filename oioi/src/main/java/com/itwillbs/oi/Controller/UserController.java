@@ -23,7 +23,7 @@ import com.itwillbs.oi.service.UserService;
 
 @Controller
 public class UserController {
-	
+	//여기서 오류가 나는건가?
 	@Autowired
 	private UserService service;
 	@Autowired

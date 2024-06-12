@@ -102,7 +102,7 @@
 											<a href="register" class="btn">회원가입</a>
 										</div>
 										<div class="checkbox">
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">아이디 기억하기</label>
+											<label class="checkbox-inline" for="rememberMe"><input name="rememberMe" id="rememberMe" type="checkbox">아이디 기억하기</label>
 										</div>
 										<a href="#" class="lost-pass">비밀번호 찾기</a>
 									</div>
@@ -117,7 +117,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 
+ 		 
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
