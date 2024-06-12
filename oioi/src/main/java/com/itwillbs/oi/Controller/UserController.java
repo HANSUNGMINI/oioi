@@ -55,6 +55,22 @@ public class UserController {
 		return "redirect:/check_id";
 	}
 	
+	@GetMapping("check_nick")
+	public String check_nick() {
+		return "user/check_nick";
+	}
+	
+	// 실제 유효성검사를 마친후 중복확인 DB작업을 하기 위한 매핑주소
+	@PostMapping("check_nick")
+	public String checkNickPro(String user_nick, Model model, HttpServletResponse response) {
+		boolean isEmptyNick = service.isEmptyNick(user_nick);
+		model.addAttribute("userNick", user_nick);
+		model.addAttribute("isValidNick", !isEmptyNick);
+		
+		return "redirect:/check_nick";
+	}
+	
+	
 	@PostMapping("register")
 	public String joinPro(@RequestParam Map<String, Object> userMap, Model model, BCryptPasswordEncoder passwordEncoder) {
 		String userEmail = (String) userMap.get("user_email");

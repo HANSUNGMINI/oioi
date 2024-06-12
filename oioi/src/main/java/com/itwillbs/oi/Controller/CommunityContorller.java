@@ -13,6 +13,6 @@ public class CommunityContorller {
 	@GetMapping("communityWrite")
 	public String communityWrite() {
 		
-		return "community/community_write";
+		return "community/board_write";
 	}
 }
