@@ -10,7 +10,10 @@ public interface UserMapper {
 	int registUser(Map<String, Object> resultMap); //회원가입 mapper
 //	int insertMember(MemberVO member); 
 	
-	boolean selectCheckID(String member_id);// 회원가입 아이디 중복체크
+	boolean selectCheckID(String user_id);
+//	boolean selectCheckID(String member_id);// 회원가입 아이디 중복체크
+	
+	boolean selectCheckNick(String user_nick); // 회원가입 닉네임 중복체크
 	
 	void registMailAuthInfo(Map<String, Object> mailAuthInfo); 
 	
@@ -40,6 +43,10 @@ public interface UserMapper {
 	boolean selectEmptyPhoneNum(String userPhone);
 
 	Map<String, String> selectUser(String userId);
+
+	
+
+	
 
 //	MemberVO selectForgotPwPhone(Map<String, String> map);
 

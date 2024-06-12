@@ -22,6 +22,12 @@ public class UserService {
 		return mapper.selectCheckID(user_id);
 	}
 	
+	public boolean isEmptyNick(String user_nick) {
+		System.out.println(user_nick);
+		return mapper.selectCheckNick(user_nick);
+	}
+	
+	
 	public boolean isEmptyEmail(String userEmail) {
 		return mapper.selectEmptyEmail(userEmail);
 	}
@@ -54,9 +60,6 @@ public class UserService {
 		return isAuthSuccess;
 	}
 	
-//	public boolean isCorrectUser(MemberVO member) { //로그인
-//		return mapper.selectCorrectUser(member);
-//	}
 
 //	public MemberVO getMember(MemberVO member) { // 회원 검색
 //		
@@ -82,6 +85,8 @@ public class UserService {
 	public Map<String, String> selectUser(String userId) {
 		return mapper.selectUser(userId);
 	}
+
+	
 
 	
 

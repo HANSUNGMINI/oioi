@@ -121,6 +121,12 @@
 		$("#user_passwd2").keyup(checkSamePasswd); // 비밀번호 일치 확인
 		$("#user_passwd").change(checkSamePasswd); // 비밀번호 변경시 일치 확인
 		
+		// 닉네임 중복확인 새 창 발생
+		document.querySelector("#user_nick").onclick = function() { 
+			window.open("check_nick", "닉네임 중복확인", "width=600, height=300, top=150, left=650");
+		};
+		
+		
 		//회원가입 버튼 클릭시 발생하는 이벤트 
 		document.fr.onsubmit = function() {
 			if(document.fr.user_id.value == "") { // 아이디 확인
