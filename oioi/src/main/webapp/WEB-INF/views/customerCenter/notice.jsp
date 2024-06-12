@@ -115,6 +115,39 @@
 		padding: 10px;
 	}
 	
+	/* 제목 */
+	.cs_title_container {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin-top: 30px;
+	    margin-bottom: 30px;
+	    width: 100%;
+	    text-align : center;
+	    font-size: 20px;
+	    font-weight: bold;
+	}
+	
+	/* 글 적는 곳 */ 
+	#title {
+		border-radius: 10px;
+		border : none;
+	}
+	
+	.detail_view {
+		text-align : center;
+		padding : 30px;
+	}
+	
+	.detail_view .view_tit {
+		margin-top : 20px;
+		margin-bottom : 30px;
+	}
+	
+	.view_tit h3 {
+		font-size: 20px;
+	}
+	
 	/* 글쓰기 버튼 위치 */
 	.write_btn {
 		margin-right: 15px;
@@ -133,6 +166,7 @@
 		border-radius: 10px;
 	}
 	
+	/* 챗봇 */
 	#chatImg {
 		width : 60px;
 		height : 60px;
@@ -206,6 +240,12 @@
 		<%-- 본문 --%>
 		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
+		 		 <div class="cs_title_container">
+				 	<div class = "notice_d_t_div">
+			  			<em class = "notice_d_title">공지사항</em><br>
+			  		</div>
+			  	 </div>
+			 
 					<div class="notice_body">
 				 		 <div class = "write_btn">
 						 	<a href = "noticeWrite"> 글쓰기 </a>
@@ -222,7 +262,7 @@
 					        <tbody>
 				                  <tr>
 				                      <td> 1 </td>
-				                      <td><a href=""> 저쩌구 </a></td>
+				                      <td><a href="noticeDetail"> 저쩌구 </a></td>
 				                      <td> 관리자</td>
 				                      <td> 2024.06.07 </td>
 				                  </tr>
@@ -239,7 +279,7 @@
 			<%-- 챗봇 --%>
 			 <div class="col-lg-1 col-12 d-flex align-items-end">
 				 <div class="chatbot">
-			        <a href="chatbot" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=400, top=200, resizable=no'); return false;"><img src="${pageContext.request.contextPath}/resources/images/chatbot2.PNG" id="chatImg" alt=""></a>
+			        <a href="chatbot" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=1600, top=200, resizable=no'); return false;"><img src="${pageContext.request.contextPath}/resources/images/chatbot2.PNG" id="chatImg" alt=""></a>
 			    </div>
 <!-- 		        <div class="col-md-5 col-lg-4 order-md-last" id="paymentSide" style="background-color: gray"> -->
 		        

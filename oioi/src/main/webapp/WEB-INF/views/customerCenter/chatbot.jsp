@@ -22,6 +22,14 @@
 		cursor: pointer;
 	}
 </style>
+
+<script type="text/javascript">
+
+	window.onbeforeunload = function() {
+	  return "창을 닫으시겠습니까?";
+	};
+	
+</script>
 </head>
 <body>
 
@@ -37,11 +45,12 @@
 				    <div class="row">
 				        <div class="col-lg-12">
 				            <div class="chat-about text-center">
-				                <h6 class="m-b-0">궁금한 점을 물어보세요 !</h6>
+				                <h6 class="m-b-0">안녕하세요. 오이마켓 고객센터 챗봇입니다. <br>
+									아래 주요 메뉴를 선택하거나, 궁금한 내용을 질문해 보세요.</h6>
 				            </div>
 				        </div>
 				    </div>
-				    <br><hr>
+				    <hr>
 				</div>
                 
                 <%-- 채팅 내역 --%>
@@ -68,17 +77,19 @@
                 </div>
 
                 <%-- 메세지 전송 --%>
-                <div class="chat-message clearfix" style="margin-bottom:0px">
-                    <div class="input-group mb-0">
-		                <%-- 전송란 --%>
-                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
-
-                        <%-- 전송버튼 --%>
-                        <div class="input-group-prepend">
-                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
-                        </div>
-                    </div>
-                </div>
+                <form action="">
+	                <div class="chat-message clearfix" style="margin-bottom:0px">
+	                    <div class="input-group mb-0">
+			                <%-- 전송란 --%>
+	                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
+	
+	                        <%-- 전송버튼 --%>
+	                        <div class="input-group-prepend">
+	                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
+	                        </div>
+	                    </div>
+	                </div>
+                </form>
             </div>
             
             <!-- 부트스트랩 -->

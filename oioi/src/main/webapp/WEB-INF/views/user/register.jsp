@@ -56,17 +56,18 @@
 	let checkPasswdResult = false;
 	let checkPasswd2Result = false;
 	let checkAuthNumResult = false;
+	let checkMailAuthNumResult = false;
 	let serverAuthNum = "";
-	
+	let serverMailAuthNum = "";
 	$(function() {
 		
-		document.querySelector("#member_id").onclick = function() { //아이디 중복체크&유효성검사 새창 오픈
+		document.querySelector("#user_id").onclick = function() { //아이디 중복체크&유효성검사 새창 오픈
 			window.open("check_id", "아이디 중복확인", "width=600, height=300, top=150, left=650");
 		};
 		
-		$("#member_passwd").keyup(function() { // 비밀번호 유효성 검사
+		$("#user_passwd").keyup(function() { // 비밀번호 유효성 검사
 			
-		    let passwd = $("#member_passwd").val();
+		    let passwd = $("#user_passwd").val();
 			
 		    let msg = "";
 			let color = "";
@@ -104,7 +105,7 @@
 		    	checkPasswdResult = false;
 		    }
 		    
-			if(passwd.search($("#member_id").val()) > -1) {
+			if(passwd.search($("#user_id").val()) > -1) {
 				msg = "비밀번호에 아이디가 포함되었습니다.";
 				color = "RED";
 				
@@ -117,39 +118,49 @@
 			
 		}); //비밀번호 유효성 검사 끝
 		
-		$("#member_passwd2").keyup(checkSamePasswd); // 비밀번호 일치 확인
-		$("#member_passwd").change(checkSamePasswd); // 비밀번호 변경시 일치 확인
+		$("#user_passwd2").keyup(checkSamePasswd); // 비밀번호 일치 확인
+		$("#user_passwd").change(checkSamePasswd); // 비밀번호 변경시 일치 확인
 		
 		//회원가입 버튼 클릭시 발생하는 이벤트 
 		document.fr.onsubmit = function() {
-			if(document.fr.member_id.value == "") { // 아이디 확인
+			if(document.fr.user_id.value == "") { // 아이디 확인
 				alert("아이디를 확인해주세요!");
-				document.fr.member_id.focus();
+				document.fr.user_id.focus();
 				return false;
 			} else if(!checkPasswdResult) { // 비밀번호 확인
 				alert("비밀번호를 확인해주세요!");
-				document.fr.member_passwd.focus();
+				document.fr.user_passwd.focus();
 				return false;
 			} else if(!checkPasswd2Result) { // 비밀번호 일치확인 
 				alert("비밀번호가 일치하지 않습니다!");
-				document.fr.member_passwd2.focus();
+				document.fr.user_passwd2.focus();
 				return false;
-			} else 
-				if(!isValidEmail($("#member_email").val())) { // 이메일 확인
+			} else if(!isValidEmail($("#user_email").val())) { // 이메일 확인
 		        alert("E-Mail을 확인해주세요.");
-		        document.fr.member_email.focus();
+		        document.fr.user_email.focus();
 		        return false;
-		    } else if (!isValidName($("#member_name").val())) { // 이름 확인
+		    } else if(serverMailAuthNum == "") {
+		    	alert("인증메일발송을 먼저 요청해주세요.");
+		    	document.fr.check_email.focus();
+		    	return false;
+  			} else if ($("#mail_auth_num").val() == "") {
+		    	alert("인증번호를 입력해주세요");
+		    	document.fr.mail_auth_num.focus();
+		        return false;
+  			} else if (!checkMailAuthNumResult) {
+		    	alert("이메일 인증을 완료해주세요.");
+		        return false; 
+		    } else if (!isValidName($("#user_name").val())) { // 이름 확인
 		    	alert("이름을 확인해주세요.");
-		        document.fr.member_name.focus();
+		        document.fr.user_name.focus();
 		        return false;
-		    } else if (!isValidPhoneNumber($("#member_phone").val())) {
+		    } else if (!isValidPhoneNumber($("#user_phone").val())) {
 		    	alert("전화번호를 확인해주세요.");
-		    	document.fr.member_phone.focus();
+		    	document.fr.user_phone.focus();
 		    	return false;
 		    } else if (serverAuthNum == "") { // 인증번호 요청 확인
 		        alert("인증번호 요청을 먼저 해주세요.");
-		        document.fr.member_phone.focus();
+		        document.fr.user_phone.focus();
 		        return false;
 		    } else if ($("#auth_num").val() == "") {
 		    	alert("인증번호를 입력해주세요");
@@ -158,14 +169,14 @@
 		    } else if (!checkAuthNumResult) {
 		    	alert("전화번호 인증을 완료해주세요.");
 		        return false; 
-		    }
+		    } 
 		}
 		
 	}); // document 객체의 ready 이벤트 끝
 	
 	function checkSamePasswd() { // 비밀번호 확인 일치 검사
-		let passwd = document.fr.member_passwd.value; 
-		let passwd2 = document.fr.member_passwd2.value;
+		let passwd = document.fr.user_passwd.value; 
+		let passwd2 = document.fr.user_passwd2.value;
 		
 		if(passwd == passwd2) { // 패스워드 일치
 	    	$("#checkPwResult2").text("*비밀번호가 일치합니다.");
@@ -192,34 +203,69 @@
 		return /^[0-9]{10,11}$/.test(phoneNumber);
 	}
 
-// 	function sendAuthMail() {
-// 		// 이메일 입력창에 입력된 이메일 가져오기
-// 		let eMail = $("#member_email").val();
+	function sendAuthMail() {
+		// 이메일 입력창에 입력된 이메일 가져오기
+		let eMail = $("#user_email").val();
 		
-// 		if(!isValidEmail(eMail)) { // 이메일 확인
-// 	        alert("E-Mail을 정확히 입력해주세요.");
-// 	        document.fr.member_email.focus();
-// 	        return false;
-// 	    } 
+		if(!isValidEmail(eMail)) { // 이메일 확인
+	        alert("E-Mail을 정확히 입력해주세요.");
+	        document.fr.user_email.focus();
+	        return false;
+	    } 
 		
-// 		// 이메일이 입력되지 않았을 경우 경고창 출력
-// 		if(eMail == "") {
-// 			alert("이메일을 입력해주세요!");
-// 			$("#member_email").focus();
-// 			return;
-// 		}
+		// 이메일이 입력되지 않았을 경우 경고창 출력
+		if(eMail == "") {
+			alert("이메일을 입력해주세요!");
+			$("#user_email").focus();
+			return;
+		}
 		
 // 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
 		
-// 		location.href = "SendAuthMail?member_email=" + eMail;
-// 	}
+// 		location.href = "SendAuthMail?user_email=" + eMail;
+
+		$.ajax({
+			url : "SendAuthMail",
+			type : "POST",
+			contentType: "application/json",
+			data : JSON.stringify({"user_email": eMail}),
+			dataType: "json",
+			success : function(authInfo){
+				console.log(authInfo);
+				if(authInfo.success){
+		            serverMailAuthNum = authInfo.auth_code;
+		            alert("인증메일이 전송되었습니다.");
+		            $("#mail_auth_num").parent().append(
+                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
+                    );
+				} else {
+					alert("인증메일 발송에 실패했습니다.");
+				}
+	        },
+			error : function() {
+				alert("인증메일 발송에 실패했습니다. 다시 시도주세요.");
+			}
+		});
+	}
+	
+	function mailAuthCheck(){
+		if($("#mail_auth_num").val() !== serverMailAuthNum){
+			alert("인증번호를 확인해주세요.");
+			return false;
+		} else {
+			alert("인증되었습니다.");
+			checkMailAuthNumResult = true;
+		}
+	}
+		
+
 	
 	function phoneAuth() {
-		let member_phone = $("#member_phone").val();
+		let user_phone = $("#user_phone").val();
 		
-		if (!isValidPhoneNumber(member_phone) || member_phone == "") {
+		if (!isValidPhoneNumber(user_phone) || user_phone == "") {
 			alert("전화번호를 확인해주세요.");
-			document.fr.member_phone.focus();
+			document.fr.user_phone.focus();
 			return false;
 		}
 		
@@ -227,9 +273,8 @@
 			
 			type : "POST",
 			url : "send-one",
-			data : {
-				"member_phone" : member_phone
-			},
+			contentType: "application/json",
+			data : JSON.stringify({"user_phone": user_phone}),
 			dataType :"json",
 			success : function(response){
 		        if (response.success) {
@@ -263,9 +308,132 @@
 			checkAuthNumResult = true;
 		}
 	}
-	
+//		$.ajax({
+//		url : "SendAuthMail",
+//		type : "POST",
+//		data : {
+//			"user_email" : eMail
+//		},
+//		dataType :"json",
+//		success : function(authInfo){
+//			if(authInfo){
+//	            alert("인증메일이 전송되었습니다.");
+//	            $("#mail_auth_num").parent().append(
+//                     '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
+//             );
+//			} else {
+//		 		alert("인증메일 발송에 실패했습니다.");
+//			}
+//     },
+//		error : function() {
+//			alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+//		}
+//	});
 </script>
 </head>
+<style>
+#check_email:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_email {
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+#check_tel:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_tel {
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 46px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+</style>
+
 <body class="js">
 
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -301,40 +469,60 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="text" name="member_id" id="member_id" placeholder="아이디" >
+											<input type="text" name="user_id" id="user_id" placeholder="아이디" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>비밀번호<span>*</span></label>
+											<input type="password" name="user_passwd" id="user_passwd" placeholder="비밀번호" maxlength="12" >
+											<div id="checkPwResult"></div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>비밀번호 확인<span>*</span></label>
+											<input type="password" name="user_passwd2" id="user_passwd2" placeholder="비밀번호 확인" maxlength="12" >
+											<div id="checkPwResult2"></div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>이름<span>*</span></label>
-											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="이름" >
+											<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" >
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label>닉네임<span>*</span></label>
+											<input type="text" name="user_nick" id="user_nick" maxlength="16" placeholder="닉네임" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>이메일<span>*</span></label>
 											<div style="display: flex">
-												<input type="email" name="member_email" id="member_email" placeholder="이메일" >
-<!-- 												<input type="button" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()"> -->
+												<input type="email" name="user_email" id="user_email" placeholder="이메일" >
+												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
 											</div>
-<!-- 											<div id="authBox" style="display: flex"> -->
-<!-- 												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/> -->
-<!-- 											</div> -->
+											<div id="authBox" style="display: flex">
+												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/>
+											</div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>주소<span>*</span></label>
-											<input type="text" name="member_post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
-											<input type="text" id="address1" name="member_address1" placeholder="기본주소" size="25" readonly onclick="search_address()">
-											<input type="text" id="address2" name="member_address2" placeholder="상세주소" size="25" required>
+											<input type="text" name="user_post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
+											<input type="text" id="address1" name="user_address1" placeholder="기본주소" size="25" readonly onclick="search_address()">
+											<input type="text" id="address2" name="user_address2" placeholder="상세주소" size="25" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>전화번호<span>*</span></label>
 											<div style="display: flex">
-												<input type="text" name="member_phone" id="member_phone" placeholder="전화번호" maxlength="11" >
+												<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" >
 												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
 											</div>
 											<div id="authBox" style="display: flex">
@@ -343,18 +531,17 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호<span>*</span></label>
-											<input type="password" name="member_passwd" id="member_passwd" placeholder="비밀번호" maxlength="12" >
-											<div id="checkPwResult"></div>
-										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호 확인<span>*</span></label>
-											<input type="password" name="member_passwd2" id="member_passwd2" placeholder="비밀번호 확인" maxlength="12" >
-											<div id="checkPwResult2"></div>
-										</div>
+									    <div class="form-group">
+									        <label>성별<span>*</span></label>
+									        <div style="display: flex; align-items: center;">
+									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" id="male" name="user_gender" value="남성" style="margin-right: 5px;"> 남
+									            </label>
+									            <label for="female" style="display: flex; align-items: center;">
+									                <input type="radio" id="female" name="user_gender" value="여성" style="margin-right: 5px;"> 여
+									            </label>
+									        </div>
+									    </div>
 									</div>
 									<div class="col-12">
 										<div class="form-group login-btn">

@@ -9,4 +9,10 @@ public class CommunityContorller {
 	public String goCommunity() {
 		return "community/community_main";
 	}
+	
+	@GetMapping("communityWrite")
+	public String communityWrite() {
+		
+		return "community/community_write";
+	}
 }

@@ -9,11 +9,11 @@
 	let checkIdResult = false;
 	
 	$(function() {
-		document.fr.member_id.focus();
+		document.fr.user_id.focus();
 		
-	    document.fr.member_id.onkeyup = function() { // 아이디 입력창 이벤트
+	    document.fr.user_id.onkeyup = function() { // 아이디 입력창 이벤트
 	       
-	        if(checkID($("#member_id").val())){ //아이디 유효성검사 통과 시
+	        if(checkID($("#user_id").val())){ //아이디 유효성검사 통과 시
 	            $("#checkIdResult").text("중복확인 버튼을 눌러주세요.");
 	            $("#checkIdResult").css("color", "blue");
 	            $(".id_check").prop("disabled", false);
@@ -26,7 +26,7 @@
 	   
 	    $("#btnCheckId").click(function() {
 	    	
-	    if(document.fr.member_id.value == ""){
+	    if(document.fr.user_id.value == ""){
  			alert("아이디를 입력해주세요.");
  			return false;
  	    }
@@ -35,31 +35,31 @@
 	   
 	   
 	    $("#btnUseID").click(function() { // 아이디 사용 버튼 클릭 이벤트
-	        window.opener.document.fr.member_id.value = "${param.member_id}";
+	        window.opener.document.fr.user_id.value = "${param.userId}";
 	        window.close();
 	    });
 	   
 	}); // document 객체의 ready 이벤트 끝
 	
 	
-	function checkID(member_id) { // 아이디 유효성 검사
+	function checkID(user_id) { // 아이디 유효성 검사
 	    // 첫 글자에 특수기호(_),(-) 사용 여부 확인
-	    if (/^[_-]/.test(member_id)) {
+	    if (/^[_-]/.test(user_id)) {
 	        showError("특수기호(_),(-)는 첫 글자에 사용하실 수 없습니다.");
 	        return false;
 	    }
 	    // 아이디 패턴 검사
-	    if (!/^[a-z0-9][a-z0-9_-]{7,11}$/.test(member_id)) {
+	    if (!/^[a-z0-9][a-z0-9_-]{7,11}$/.test(user_id)) {
 	        showError("8~12자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
 	        return false;
 	    }
 	    // 영문자와 숫자 혼용 여부 확인
-	    if (!(/[0-9]/.test(member_id) && /[a-z]/.test(member_id))) {
+	    if (!(/[0-9]/.test(user_id) && /[a-z]/.test(user_id))) {
 	        showError("숫자와 영문자를 혼용하여야 합니다.");
 	        return false;
 	    }
 	    // 같은 문자 4번 이상 사용 여부 확인
-	    if (/(\w)\1\1\1/.test(member_id)) {
+	    if (/(\w)\1\1\1/.test(user_id)) {
 	        showError("같은 문자를 4번 이상 사용하실 수 없습니다.");
 	        return false;
 	    }
@@ -87,7 +87,7 @@
 	</script>
 </c:if>
 	<form action="check_id"  name="fr" method="post">
-		<input type="text" placeholder="아이디" class="id_box" name="member_id" id="member_id" value="${param.member_id}" maxlength="12" <c:if test="${param.isValid eq true}">readonly</c:if> />
+		<input type="text" placeholder="아이디" class="id_box" name="user_id" id="user_id" value="${param.userId}" maxlength="12" <c:if test="${param.isValid eq true}">readonly</c:if> />
 		<div id="checkIdResult"></div>
 		<div>
 			<c:choose>

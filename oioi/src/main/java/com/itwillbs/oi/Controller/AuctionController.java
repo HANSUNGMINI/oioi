@@ -16,9 +16,9 @@ public class AuctionController {
 		return "auction/auction_detail";
 	}
 	
-	@GetMapping("auctionProduct")
-	public String auctionProduct() {
-		return "auction/auction_product";
+	@GetMapping("auctionRegist")
+	public String auctionRegist() {
+		return "auction/auction_regist";
 	}
 	
 

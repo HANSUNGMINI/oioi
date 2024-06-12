@@ -14,7 +14,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title> 로그인 </title>
+    <title> 관리자 로그인 </title>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -79,32 +79,27 @@
 				<div class="row"> 
 					<div class="col-lg-6 offset-lg-3 col-12">
 						<div class="login-form">
-							<h2>로그인</h2>
-							<p>비회원은 회원가입을 먼저 진행하여 주세요</p>
+							<h2>관리자 로그인</h2>
+							<p>잘못 들어 왔으면 사라져!</p>
 							<!-- Form -->
-							<form class="form" method="post" action="login">
+							<form class="form" method="post" action="adminlogin">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="text" class="member_id" name="member_id"  placeholder="아이디" required>
+											<input type="text" class="member_id" name="AD_ID"  placeholder="아이디" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>비밀번호<span>*</span></label>
-											<input type="password" class="member_passwd" name="member_passwd" placeholder="비밀번호" required>
+											<input type="password" class="member_passwd" name="AD_PW" placeholder="비밀번호" required>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group login-btn">
 											<button class="btn" type="submit">로그인</button>
-											<a href="register" class="btn">회원가입</a>
 										</div>
-										<div class="checkbox">
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">아이디 기억하기</label>
-										</div>
-										<a href="#" class="lost-pass">비밀번호 찾기</a>
 									</div>
 								</div>
 							</form>

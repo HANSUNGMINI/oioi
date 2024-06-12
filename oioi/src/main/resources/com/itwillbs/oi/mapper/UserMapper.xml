@@ -12,95 +12,97 @@
 => 주의! 각 태그 내의 id 속성에 지정될 이름은 Mapper 인터페이스 내의 메서드명과 일치해야한다!
    (일치하는 id 없을 경우 BindingException 발생)
 -->      
-<mapper namespace="com.itwillbs.oi.mapper.MemberMapper">
-	<insert id="insertMember">
-		INSERT INTO member
+<mapper namespace="com.itwillbs.oi.mapper.UserMapper">
+	<insert id="registUser">
+		INSERT INTO user
 		VALUES (
 			null
-			, #{member_id}
-			, #{member_name}
-			, #{member_email}
-			, #{member_post_code}
-			, #{member_address1}
-			, #{member_address2}
-			, #{member_phone}
-			, #{member_passwd}
+			, #{US_ID}
+			, #{US_PASSWD}
+			, #{US_NAME}
+			, #{US_NICK}
+			, #{US_EMAIL}
+			, #{US_POST_CODE}
+			, #{US_ADDRESS1}
+			, #{US_ADDRESS2}
+			, #{US_PHONE}
+			, #{US_GENDER}
 			, now()
 			, 0
 		)
 	</insert>
 	
-	<select id="selectMember" resultType="com.itwillbs.oi.vo.MemberVO">
+	<select id="selectUser" resultType="hashmap">
 			SELECT * 
-			FROM  member 
-			WHERE member_id = #{member_id}
+			FROM  user 
+			WHERE US_ID = #{US_ID}
 	</select>
 	
 	<select id="selectCheckID" resultType="boolean">
 		SELECT IF(COUNT(*) = 1, 1, 0)
-		FROM  member 
-		WHERE member_id = #{member_id}
+		FROM  user 
+		WHERE US_ID = #{US_ID}
 	</select>
 	
-	<select id="selectForgotId" resultType="com.itwillbs.oi.vo.MemberVO">
+	<select id="selectForgotId" resultType="hashmap">
 		SELECT *
-		  FROM member 
+		  FROM user 
 		 WHERE
-			   member_name =  #{member_name}  
-		 AND   member_email = #{member_email}
+			   US_Name =  #{US_Name}  
+		 AND   US_EMAIL = #{US_EMAIL}
 	</select>
 	
 	<select id="selectForgotIdPhone" resultType="string">
-		SELECT member_id
-		  FROM member 
+		SELECT US_ID
+		  FROM user 
 		 WHERE
-			   member_name =  #{phone_member_name}  
-		 AND   member_phone = #{member_phone}
+			   US_Name =  #{phone_US_Name}  
+		 AND   US_PHONE = #{US_PHONE}
 	</select>
 	
-	<select id="selectForgotPw" resultType="com.itwillbs.oi.vo.MemberVO">
+	<select id="selectForgotPw" resultType="hashmap">
 		SELECT *
-		  FROM member 
+		  FROM user 
 		 WHERE
-			   member_name =  #{member_name}  
-		 AND   member_email = #{member_email}
-		 AND   member_id = 	  #{member_id}
+			   US_Name =  #{US_Name}  
+		 AND   US_EMAIL = #{US_EMAIL}
+		 AND   US_ID = 	  #{US_ID}
 	</select>
 	
 	<select id="selectForgotPwPhone">
 		SELECT *
-		  FROM member 
+		  FROM user 
 		 WHERE
-			   member_name =  #{phone_member_name}  
-		 AND   member_phone = #{member_phone}
-		 AND   member_id = 	  #{member_id}
+			   US_Name =  #{phone_US_Name}  
+		 AND   US_PHONE = #{US_PHONE}
+		 AND   US_ID = 	  #{US_ID}
 	</select>
 	
 	
-	<select id="selectMemberCount">
-		SELECT count(member_idx)
-	      FROM member
+	<select id="selectuserCount">
+		SELECT count(US_IDx)
+	      FROM user
 	</select>
 	
-	<select id="selectTodayMember">
+	<select id="selectTodayuser">
 		SELECT COUNT(*)
-		  FROM member
-		 WHERE DATE(member_reg_date) = CURDATE()
+		  FROM user
+		 WHERE DATE(user_reg_date) = CURDATE()
 	</select>
 	
 	<select id="selectMailAuthInfo" resultType="hashmap">
 		SELECT *
 		  FROM mail_auth_info
 		  WHERE 
-			   member_email = #{member_email}
+			   US_EMAIL = #{US_EMAIL}
 	</select>
 	
 	<!-- 이메일 인증 정보 등록 - INSERT -->
-	<insert id="insertMailAuthInfo">
+	<insert id="registMailAuthInfo">
 		INSERT
 		INTO mail_auth_info
 		VALUES (
-			  #{member_email}
+			  #{US_EMAIL}
 			, #{auth_code}
 		)
 	</insert>
@@ -112,29 +114,29 @@
 		SET 
 			auth_code = #{auth_code}
 		WHERE
-			member_email = #{member_email}
+			US_EMAIL = #{US_EMAIL}
 	</update>
 	
 	<select id="selectEmptyEmail" resultType="boolean">
 		SELECT
 		    IF (COUNT(*) = 1, 0, 1)
-	  	  FROM member 
-		 WHERE member_email = #{member_email}
+	  	  FROM user 
+		 WHERE US_EMAIL = #{US_EMAIL}
 	</select>
 	
 	<select id="selectEmptyPhoneNum" resultType="boolean">
 		SELECT
 		    IF(COUNT(*) = 1, 0, 1)
-		  FROM member 
-		 WHERE member_phone = #{member_phone}
+		  FROM user 
+		 WHERE US_PHONE = #{US_PHONE}
 	</select>
 	
 	<update id="updatePasswd">
-		UPDATE member
+		UPDATE user
 		SET
-			member_passwd = #{member_passwd}
+			US_PASSWD = #{US_PASSWD}
 		WHERE
-			member_id = #{member_id}
+			US_ID = #{US_ID}
 	
 	</update>
 	
