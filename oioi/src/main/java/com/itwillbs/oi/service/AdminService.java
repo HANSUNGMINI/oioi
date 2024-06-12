@@ -1,5 +1,6 @@
 package com.itwillbs.oi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,5 +15,9 @@ public class AdminService {
 	
 	public Map<String, Object> selectAdmin(Map<String, String> admin){
 		return adminMapper.selectAdmin(admin);
+	}
+	
+	public List<Map<String, Object>> selectUserList(Map<String, String> select){
+		return adminMapper.selectUserList(select);
 	}
 }

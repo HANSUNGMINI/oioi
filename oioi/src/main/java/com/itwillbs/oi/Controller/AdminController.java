@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.service.AdminService;
 
@@ -54,10 +56,18 @@ public class AdminController {
 			return "err/fail";
 		}
 		
-		System.out.println(selectedAdmin);
-		model.addAttribute("admin", selectedAdmin);
+		session.setAttribute("admin", selectedAdmin);
 		return "redirect:/admin";
 	}
 	
 	// AJAX 메소드
+	@ResponseBody
+	@PostMapping("UserList")
+	public List<Map<String, Object>> UserList(@RequestParam Map<String, String> select) {
+		System.out.println(select);
+		List<Map<String, Object>> userList = adminservice.selectUserList(select);
+		
+		return userList;
+	}
+	
 }

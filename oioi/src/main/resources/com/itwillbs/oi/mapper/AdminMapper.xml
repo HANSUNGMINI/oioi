@@ -10,6 +10,15 @@
 		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW}
 	</select>
 	
+	<select id="selectUserList" resultType="map">
+		SELECT US_ID
+			 , US_NAME
+			 , US_NICK
+			 , US_PHONE
+			 , US_REG_DATE
+		  FROM user
+	</select>
+	
 </mapper>
 
 
