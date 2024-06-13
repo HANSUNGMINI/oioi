@@ -3,16 +3,21 @@ package com.itwillbs.oi.Controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.annotation.MultipartConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
 
+@MultipartConfig
 @Controller
 public class TradeController {
 	
@@ -50,11 +55,14 @@ public class TradeController {
 	}
 	
 	@PostMapping("product")
-	public String submitProduct(@RequestParam Map<String, Object> map, Model model) {
+	public String submitProduct(@RequestParam Map<String, Object> map, Model model
+			,@RequestPart("addfile") MultipartFile[] files) {
 		System.out.println(map);
 		System.out.println(map.get("tag"));
-		System.out.println("이미지 사진 " + map.get("addfile"));
-		
+
+		for(MultipartFile mf : files) {
+			System.out.println(mf);
+		}
 		
 		
 		return "";
