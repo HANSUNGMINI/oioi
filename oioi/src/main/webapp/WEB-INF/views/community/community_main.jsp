@@ -197,7 +197,12 @@
 <body class="js">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+	let categoryType = "";
 	$(function() {
+		showBoard();
+		
+		
+		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
 		allElement.css("fontWeight", "bold");
@@ -208,7 +213,7 @@
 		let previousText = allElement.text().substring(2); // "> " 제거한 텍스트 저장
 		
 		// 카테고리 클릭 시 실행되는 함수
-		window.clickCategory = function(element) {
+		window.clickCategory = function(element,type) {
 		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
 		    if (previousLink) {
 		        previousLink.style.fontWeight = 'normal';
@@ -222,6 +227,9 @@
 		    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
 		    element.style.fontWeight = 'bold';
 		    element.textContent = "> " + previousText;
+		    
+		    showBoard(type);
+		    
 		};
 	});
 </script>
@@ -237,16 +245,17 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this)" id="all">전체 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this)">신고 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'전체')" id="all">전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'질문')">질문 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'신고')">신고 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'정보')">정보 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'친목')">친목 게시판</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			
+		
 			
 		<%-- 본문 --%>
 		 <div class="col-lg-9 col-12" id="highlighted-row"> 
@@ -258,11 +267,11 @@
 						        <div class="search-top">
 						            <form class="search-form d-flex">
 						            	<select class="searchCategory">
-						            		<option value="">전체 게시판</option>
-						            		<option value="">질문 게시판</option>
-						            		<option value="">신고 게시판</option>
-						            		<option value="">정보 게시판</option>
-						            		<option value="">친목 게시판</option>
+						            		<option value="all" selected>전체 게시판</option>
+						            		<option value="q">질문 게시판</option>
+						            		<option value="r">신고 게시판</option>
+						            		<option value="i">정보 게시판</option>
+						            		<option value="f">친목 게시판</option>
 						            	</select>
 						                <input type="text" class="form-control" placeholder="검색어 입력" name="search">
 						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
@@ -283,13 +292,13 @@
 					                <th class="board_date">작성일</th>
 					            </tr>
 					        </thead>
-					        <tbody>
-				                  <tr>
-				                      <td> 1 </td>
-				                      <td><a href="boardDetail"> 저쩌구 </a></td>
-				                      <td> 관리자</td>
-				                      <td> 2024.06.07 </td>
-				                  </tr>
+					        <tbody class="tbody" id="tbody">
+<!-- 				                  <tr> -->
+<!-- 				                      <td> 1 </td> -->
+<!-- 				                      <td><a href="boardDetail"> 저쩌구 </a></td> -->
+<!-- 				                      <td> 관리자</td> -->
+<!-- 				                      <td> 2024.06.07 </td> -->
+<!-- 				                  </tr> -->
 					        </tbody>
 					    </table>
 					</div>
@@ -307,10 +316,43 @@
 
 
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
-		
-	
-<!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+		
+<script>
+	function showBoard(type){
+		alert(type);
+		
+		$.ajax({
+			type : "GET",
+			url : "selectBoard",
+			data : {
+				"type" : type
+			},
+			dataType : "JSON",
+			success : function(response) {
+				
+// 				let boardList = response.boardLists;
+				let idx = 1;
+				
+				$.each(response.boardLists, function(index, boardList) {
+					$("#tbody").append(
+						'<tr>' +
+							'<td>idx</td>' +
+							+'<td><a href="boardDetail">' + boardList.CM_title + '</a></td>' +
+							+'<td>' + boardList.CM_id + '</td>' +
+							+'<td>' + boardList.CM_reg_date + '</td>' +
+						'</tr>'
+					
+					);
+				});
+				
+			}
+		});
+	}
+// 컨트롤러 > Map으로 받아서 type 뺴네요
+// mapper > xml SELECT * FROM board() where <if type="전체 신고"> 전체 신고 전체구문, if 신고면 시곤
+</script>
+<!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 <!-- Popper JS -->
