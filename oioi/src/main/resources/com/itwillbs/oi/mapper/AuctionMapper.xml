@@ -9,6 +9,18 @@
 		from category
 		where UP_CTG_CODE = 'T';
 	</select>
+	
+	<select id="getCategory2">
+		select *
+		from category
+		where UP_CTG_CODE like '_000';
+	</select>
+	
+	<select id="getCategory3">
+		SELECT *
+		FROM category
+		WHERE UP_CTG_CODE LIKE '__00';
+	</select>
 </mapper>
 
 
