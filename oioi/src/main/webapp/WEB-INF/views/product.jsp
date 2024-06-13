@@ -98,7 +98,7 @@
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
-											<input type="file" accept="image/*" name="addfile" multiple id="addfile" >확인용 마지막에 삭제
+										<input type="file" accept="image/*" name="addfile" multiple id="addfile">확인용 마지막에 삭제
 										<div class="preView">
 											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
 										</div>
@@ -132,7 +132,7 @@
 									<li>
 										<label> 가격 </label>
 										<input type="text" id="price" name="price" placeholder="원"><br>
-										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" >가격 제안 가능</label>
+										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
@@ -151,7 +151,7 @@
 									</li>
 									<li>
 										<label> 안전 거래 여부 </label>
-										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" >안전 거래 사용</label>
+										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
 								<input type="submit" id="subimit" value="등록하기">
@@ -163,7 +163,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
-	<!--  <script>
+	<script>
 		$(function() {
 			
 			$(".addImg").on("click",function(){
@@ -199,42 +199,8 @@
 			
 		});
 	
-	</script> -->
-	<script>
-        $(function() {
-            $(".addImg").on("click", function() {
-                $('#addfile').click();
-            });
-
-            $("#addfile").on("change", function(event) {
-                if (this.files.length > 5) {
-                    alert("최대 5개의 이미지만 업로드할 수 있습니다.");
-                    this.value = ""; // 선택된 파일 초기화
-                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                } else {
-                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                    for (var i = 0; i < this.files.length; i++) {
-                        let reader = new FileReader();
-                        reader.onload = function(event) {
-                            var img = document.createElement("img");
-                            img.setAttribute("src", event.target.result);
-                            img.setAttribute("class", "tempImg");
-                            $(".preView").append(img);
-                        };
-                        reader.readAsDataURL(this.files[i]);
-                    }
-                }
-            });
-
-            var input = document.querySelector('.tagify');
-            tagify = new Tagify(input, {
-                maxTags: 5
-            });
-            tagify.on('add', function() {
-                console.log(tagify.value);
-            });
-        });
-    </script> 
+	</script>
+ 
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
     

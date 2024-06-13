@@ -105,6 +105,10 @@
 		        
 		        console.log("cate2(value) : " + $('#cate2').val());
 		    });
+		    
+		   
+			
+		});
 		});
 	
 	</script>
@@ -178,24 +182,29 @@
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
 									    <div class="">
+									    	<div>
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
-									        <div style="display: flex; align-items: center;">
-									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="male" name="gender" value="male" >새상품(미사용)
-									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
-									                <input type="radio" id="female" name="gender" value="female" size="5">사용감 없음
-									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="female" name="gender" value="female">사용감 적음
-									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="female" name="gender" value="female">사용감 많음
-									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="female" name="gender" value="female">고장/파손 상품
-									            </label>
 									        </div>
+<!-- 									        <div style="display: flex; align-items: center;"> -->
+<!-- 									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;"> -->
+<!-- 									                <input type="radio" id="male" name="gender" value="male" >새상품(미사용) -->
+<!-- 									            </label> -->
+<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" > -->
+<!-- 									                <input type="radio" id="female" name="gender" value="female" size="5">사용감 없음 -->
+<!-- 									            </label> -->
+<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
+<!-- 									                <input type="radio" id="female" name="gender" value="female">사용감 적음 -->
+<!-- 									            </label> -->
+<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
+<!-- 									                <input type="radio" id="female" name="gender" value="female">사용감 많음 -->
+<!-- 									            </label> -->
+<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
+<!-- 									                <input type="radio" id="female" name="gender" value="female">고장/파손 상품 -->
+<!-- 									            </label> -->
+													<c:forEach var="productCondition" items="${productCondition}">
+														<input type="radio" name="productCondition" value="${productCondition.name}">${productCondition.value}
+													</c:forEach>
+<!-- 									        </div> -->
 									    </div>
 									</div>
 									<div class="col-12">
@@ -243,10 +252,12 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<div class="">
-											<label>상품 이미지(최대 5장)<span style="color: red; margin-left: 5px;">*</span></label>
-											<input type="file" accept="image/*" multiple id="addfile" style="width: 80%;" class="btn">
-											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
+										<div class="regForm">
+											<label> 상품 이미지<small>(최대 5장)</small></label>
+											<input type="file" accept="image/*" name="addfile" multiple id="addfile">
+											<div class="preView">
+												<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
+											</div>
 										</div>
 									</div>
 									<div class="col-12">
@@ -268,28 +279,43 @@
  
 	<!-- Jquery -->
 	<script>
-		$(function() {
-			$(".addImg").on("click",function(){
-				$('#addfile').click();
-			});
-			
-			
-			$("#addfile").on("change",function(event){
-				for (var image of event.target.files) {
-					let reader = new FileReader();
+	$(function() {
+        $(".addImg").on("click", function() {
+            $('#addfile').click();
+        });
 
-		          reader.onload = function(event) {
-		            var img = document.createElement("img");
-		            img.setAttribute("src", event.target.result);
-		            img.setAttribute("class", "tempImg");
-		           	$(".preView").append(img);
-		          };
-		          
-		          reader.readAsDataURL(image);
-				}
-			});
-			
-		}); //ready
+        $("#addfile").on("change", function(event) {
+            if (this.files.length > 5) {
+                alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+                this.value = ""; // 선택된 파일 초기화
+                $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+            } else {
+                $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+                for (var i = 0; i < this.files.length; i++) {
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        var img = document.createElement("img");
+                        img.setAttribute("src", event.target.result);
+                        img.setAttribute("class", "tempImg");
+                        img.style.width = "100px"; // 원하는 너비로 설정
+                        img.style.height = "100px"; // 원하는 높이로 설정
+                        img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
+                        img.style.margin = "5px"; // 이미지 간의 간격을 추가
+                        $(".preView").append(img);
+                    };
+                    reader.readAsDataURL(this.files[i]);
+                }
+            }
+        });
+
+        var input = document.querySelector('.tagify');
+        tagify = new Tagify(input, {
+            maxTags: 5
+        });
+        tagify.on('add', function() {
+            console.log(tagify.value);
+        });
+    });
 	</script>
     
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
