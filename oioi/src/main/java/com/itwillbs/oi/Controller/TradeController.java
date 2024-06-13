@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
 
@@ -43,6 +44,32 @@ public class TradeController {
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);
 		
+		//중분류
+		List<Map<String, String>> cate2 = Auctionservice.getCategory2();
+		System.out.println("cate2 : " + cate2);
+		JsonArray jCate2 = new JsonArray();
+		for(Map<String, String> c2 : cate2) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
+			jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
+			jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
+			jCate2.add(jo);
+		}
+		model.addAttribute("cate2", jCate2);
+		
+		//소분류
+		List<Map<String, String>> cate3 = Auctionservice.getCategory3();
+		System.out.println("cate3 : " + cate3);
+		JsonArray jCate3 = new JsonArray();
+		for(Map<String, String> c3 : cate3) {
+			JsonObject jo3 = new JsonObject();
+			jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
+			jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
+			jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
+			jCate3.add(jo3);
+		}
+		model.addAttribute("cate3", jCate3);
+		
 		// 상품 상태
 		List<Map<String, String>> productCondition = TradeService.getProductCondition();
 		model.addAttribute("productCondition", productCondition);
@@ -52,6 +79,10 @@ public class TradeController {
 		List<Map<String, String>> tradeMethod = TradeService.getTradeMethod();
 		model.addAttribute("tradeMethod", tradeMethod);
 		System.out.println(tradeMethod);
+		
+		System.out.println("카테1" + cate1);
+		System.out.println("카테2" + cate2);
+		System.out.println("카테3" + cate3);
 		return "product";
 	}
 	
@@ -64,7 +95,9 @@ public class TradeController {
 	public String submitProduct(@RequestParam Map<String, Object> map, Model model
 			,@RequestPart("addfile") MultipartFile[] files, HttpSession session
 			) {
-//		System.out.println(map); //작성값 다 가져오기 
+		
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + map); //작성값 다 가져오기 
 //		for(MultipartFile mf : files) {
 //			System.out.println(mf);
 //		} //이미지 들고오기
