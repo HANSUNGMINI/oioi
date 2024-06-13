@@ -1,9 +1,14 @@
 package com.itwillbs.oi.Controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
@@ -56,15 +62,41 @@ public class TradeController {
 	
 	@PostMapping("product")
 	public String submitProduct(@RequestParam Map<String, Object> map, Model model
-			,@RequestPart("addfile") MultipartFile[] files) {
-		System.out.println(map);
-		System.out.println(map.get("tag"));
+			,@RequestPart("addfile") MultipartFile[] files, HttpSession session
+			) {
+//		System.out.println(map); //작성값 다 가져오기 
+//		for(MultipartFile mf : files) {
+//			System.out.println(mf);
+//		} //이미지 들고오기
+//		System.out.println(session.getAttribute("US_ID"));
+//		System.out.println(map.get("subject"));
+//		Map<String, String> fileMap = new HashMap();
+//		fileMap.put("setCar_images_1", null);
+		 String uploadDir = "/resources/upload";
+	        String saveDir = session.getServletContext().getRealPath(uploadDir);
 
-		for(MultipartFile mf : files) {
-			System.out.println(mf);
-		}
+	        // 파일 저장
+	        Map<String, String> fileMap = new HashMap<>();
+	        for (int i = 0; i < files.length && i < 5; i++) {
+	            MultipartFile file = files[i];
+	            if (!file.isEmpty()) {
+	                String uuid = UUID.randomUUID().toString();
+	                String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
+	                try {
+	                    file.transferTo(new File(saveDir, fileName));
+	                    fileMap.put("PD_IMAGE" + (i+1), uploadDir + "/" + fileName);
+	                } catch (IllegalStateException | IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+
+	        // 파라미터 및 파일 정보 서비스로 전달
+	        map.put("US_ID", (String)session.getAttribute("US_ID"));
+	        map.putAll(fileMap);
+	        TradeService.submitProduct(map);
+
+	        return "./";
 		
-		
-		return "";
 	}
 }

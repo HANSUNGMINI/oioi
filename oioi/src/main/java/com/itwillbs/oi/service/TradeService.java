@@ -24,4 +24,8 @@ public class TradeService {
 		return mapper.getTradeMethod();
 	}
 
+	public void submitProduct(Map<String, Object> map) {
+		  mapper.insertProduct(map);
+	}
+
 }

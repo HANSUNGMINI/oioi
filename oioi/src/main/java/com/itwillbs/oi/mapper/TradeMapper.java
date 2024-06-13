@@ -12,6 +12,8 @@ public interface TradeMapper {
 
 	List<Map<String, String>> getTradeMethod();
 
+	void insertProduct(Map<String, Object> map);
+
 	
 
 
