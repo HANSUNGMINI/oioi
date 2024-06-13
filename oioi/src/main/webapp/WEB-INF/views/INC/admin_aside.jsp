@@ -16,34 +16,107 @@
 	    </ul>
 	    <p class="menu-label">Examples</p>
 	    <ul class="menu-list">
-	      <li class="--set-active-tables-html">
-	        <a href="user">
-	          <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-	          <span class="menu-item-label">유저</span>
-	        </a>
-	      </li>
-	      <li class="--set-active-forms-html">
-	        <a href="forms.html">
-	          <span class="icon"><i class="mdi mdi-square-edit-outline"></i></span>
-	          <span class="menu-item-label">Forms</span>
-	        </a>
-	      </li>
-	      <li class="--set-active-profile-html">
-	        <a href="profile.html">
-	          <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-	          <span class="menu-item-label">Profile</span>
-	        </a>
-	      </li>
+    		<!-- 리스트 한개 -->
 	      <li>
-	        <a href="login.html">
-	          <span class="icon"><i class="mdi mdi-lock"></i></span>
-	          <span class="menu-item-label">Login</span>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">유저관리</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
 	        </a>
+	        <ul>
+	          <li>
+	            <a href="user">
+	              <span>유저 조회</span>
+	            </a>
+	          </li>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item Two</span>
+	            </a>
+	          </li>
+	        </ul>
+	      </li>
+	      <!-- 리스트 한개 -->
+	      <li>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">상품관리</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
+	        </a>
+	        <ul>
+	          <li>
+	            <a href="#void">
+	              <span>상품조회</span>
+	            </a>
+	          </li>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item Two</span>
+	            </a>
+	          </li>
+	        </ul>
 	      </li>
 	      <li>
 	        <a class="dropdown">
 	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">Submenus</span>
+	          <span class="menu-item-label">채팅관리</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
+	        </a>
+	        <ul>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item One</span>
+	            </a>
+	          </li>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item Two</span>
+	            </a>
+	          </li>
+	        </ul>
+	      </li>
+	      <li>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">페이관리</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
+	        </a>
+	        <ul>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item One</span>
+	            </a>
+	          </li>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item Two</span>
+	            </a>
+	          </li>
+	        </ul>
+	      </li>
+	      <li>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">고객센터</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
+	        </a>
+	        <ul>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item One</span>
+	            </a>
+	          </li>
+	          <li>
+	            <a href="#void">
+	              <span>Sub-item Two</span>
+	            </a>
+	          </li>
+	        </ul>
+	      </li>
+	      <li>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">게시글관리</span>
 	          <span class="icon"><i class="mdi mdi-plus"></i></span>
 	        </a>
 	        <ul>

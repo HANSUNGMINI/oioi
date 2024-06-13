@@ -67,6 +67,10 @@
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	<input type="button" id="submitBtn" value="검색">
+	        	
+	        	<a href="#" id="refreshBtn" class="card-header-icon">
+          			<span class="icon"><i class="mdi mdi-reload"></i></span>
+        		</a>
 	      	</header>
 	       	<div class="card-content">
 	        	<table>
@@ -141,31 +145,42 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 <%--     <script src="${pageContext.request.contextPath}/resources/js/admin_user_list.js"></script> --%>
 	<script>
-		let type = "";
-		let keyword = "";
+		
 		let pageNum = 1;
 		
 		$(function(){
-			search(type,keyword);
 			
-			$("#submitBtn").on("click", search);
+			search(pageNum, true);
+			
+			// 새로고침 버튼
+			$("#refreshBtn").on("click", function(){
+				search(1 , true);
+			});
+			
+			// 검색버튼
+			$("#submitBtn").on("click", function(){
+				search(1 , false);
+			});
 			
 
 		});
 	
-		function search(type, keyword) {
-			type = $("#type").val();
-			keyword = $("#keyword").val();
+		function search(pageNum, selectAll) {
+			let type = "";
+			let keyword = "";
 			
-			alert(type);
-			alert(keyword);
+			if(!selectAll) {
+				type = $("#type").val();
+				keyword = $("#keyword").val();
+			}
 			
 			$.ajax({
 				type : "POST",
 				url : "UserList",
 				data : {
 					"type" : type,
-					"keyword" : keyword
+					"keyword" : keyword,
+					"pageNum" : pageNum
 				},
 				dataType : "JSON",
 				success : function (response) {
@@ -185,7 +200,6 @@
 						);
 						
 					} else {
-						
 						for(let user of response) {
 							$(".tbody").append(
 								'<tr>'
@@ -208,9 +222,12 @@
 			           			+ '</td>'
 							);
 						};
+						
+						pageNum++;
 					}
 					
-				}
+					
+				} // success 끝
 			});
 		}
 		

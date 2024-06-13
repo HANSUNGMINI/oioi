@@ -110,6 +110,7 @@
 	
 	.cs_title {
 	    text-align: center;
+	    margin : 0px auto;
 	}
 	
 	.cs_title_1 {
@@ -179,6 +180,13 @@
 		border : 0.5px solid #eeeeeec2;
 		padding : 5px;
 	    border-radius: 40%
+	}
+	
+	.pagination {
+		display : flex;
+	}
+	.paging{
+		margin : 0px auto;
 	}
 	
 </style>
