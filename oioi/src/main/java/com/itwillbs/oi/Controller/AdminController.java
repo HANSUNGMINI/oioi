@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
 
 @Controller
@@ -63,8 +64,12 @@ public class AdminController {
 	// AJAX 메소드
 	@ResponseBody
 	@PostMapping("UserList")
-	public List<Map<String, Object>> UserList(@RequestParam Map<String, String> select) {
-		System.out.println(select);
+	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select) {
+		PageInfo pageInfo = new PageInfo(Integer.parseInt(select.get("pageNum").toString()), 3);
+		select.put("limit", pageInfo);
+		
+//		PageInfo.makePageInfo(pageInfo, 0, 0);
+		
 		List<Map<String, Object>> userList = adminservice.selectUserList(select);
 		
 		return userList;
@@ -73,7 +78,6 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("UserDetail")
 	public Map<String, Object> UserDetail(@RequestParam Map<String, String> user) {
-		System.out.println(user.get("US_ID").toString());
 		Map<String, Object> map = null;
 		return map;
 	}
