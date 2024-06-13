@@ -76,6 +76,7 @@
 									<ul class="list-main">
 										<li>${US_NICK} 님</li>
 										<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
+										<li><i class="ti-money"></i><a href="oiPay">OI 페이</a></li>
 										<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
 									</ul>
 								</c:otherwise>
