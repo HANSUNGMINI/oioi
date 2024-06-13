@@ -320,7 +320,7 @@
 		
 <script>
 	function showBoard(type){
-		alert(type);
+// 		alert(type);
 		
 		$.ajax({
 			type : "GET",
@@ -330,22 +330,25 @@
 			},
 			dataType : "JSON",
 			success : function(response) {
-				
-// 				let boardList = response.boardLists;
+				let boards = response.boardJson;
 				let idx = 1;
 				
-				$.each(response.boardLists, function(index, boardList) {
+				$("#tbody").empty();
+				
+				$.each(boards, function(index, board) {
 					$("#tbody").append(
 						'<tr>' +
-							'<td>idx</td>' +
-							+'<td><a href="boardDetail">' + boardList.CM_title + '</a></td>' +
-							+'<td>' + boardList.CM_id + '</td>' +
-							+'<td>' + boardList.CM_reg_date + '</td>' +
+							'<td>' + idx++ + '</td>' +
+							'<td><a href="boardDetail">' + board.CM_title + '</a></td>' +
+							'<td>' + board.CM_id + '</td>' +
+							'<td>' + board.CM_reg_date + '</td>' +
 						'</tr>'
-					
 					);
 				});
 				
+			},
+			error: function(xhr, status, error) {
+				console.log("AJAX Error:", status, error); // 에러 로그 추가
 			}
 		});
 	}

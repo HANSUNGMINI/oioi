@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.service.CommunityService;
 
@@ -25,6 +27,7 @@ public class CommunityContorller {
 		return "community/community_main";
 	}
 	
+	@ResponseBody
 	@GetMapping("selectBoard")
 	public JsonObject selectBoard() {
 		JsonObject response = new JsonObject();
@@ -32,16 +35,22 @@ public class CommunityContorller {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
 		
-		System.out.println("dddddddddddddddddddddddddd" + boardList);
+		System.out.println("boardList : " + boardList);
+		
+		JsonArray boardJson = new JsonArray();
 		
 		for(Map<String, Object> board : boardList) {
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("CM_title", board.get("CM_title").toString());
+			jsonObject.addProperty("CM_category", board.get("CM_category").toString());
+			jsonObject.addProperty("CM_id", board.get("CM_id").toString());
+			jsonObject.addProperty("CM_reg_date", board.get("CM_reg_date").toString());
 			
-			response.addProperty("CM_title", board.get("CM_title").toString());
-			response.addProperty("CM_category", board.get("CM_category").toString());
-			response.addProperty("CM_id", board.get("CM_id").toString());
-			response.addProperty("CM_reg_date", board.get("CM_reg_date").toString());
+			boardJson.add(jsonObject);
 		}
 		
+		response.add("boardJson", boardJson);
+		System.out.println("boardJson :" + boardJson);
 		return response;
 	}
 	
