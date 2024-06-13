@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.service.AuctionService;
+import com.itwillbs.oi.service.TradeService;
 
 @Controller
 public class AuctionController {
 	
 	@Autowired
 	private AuctionService service;
+	
+	@Autowired
+	private TradeService TradeService;
 	
 	
 	@GetMapping("auction")
@@ -62,6 +66,13 @@ public class AuctionController {
 			jCate3.add(jo3);
 		}
 		model.addAttribute("cate3", jCate3);
+		
+		// 상품 상태
+		List<Map<String, String>> productCondition = TradeService.getProductCondition();
+		model.addAttribute("productCondition", productCondition);
+		
+		
+		
 		return "auction/auction_regist";
 	}
 	
