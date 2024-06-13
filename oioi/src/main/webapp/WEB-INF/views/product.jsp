@@ -171,7 +171,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
-	<script>
+	<!--  <script>
 		$(function() {
 			
 			$(".addImg").on("click",function(){
@@ -207,7 +207,7 @@
 			
 		});
 	
-<<<<<<< HEAD
+
 	</script> -->
 	<script>
         $(function() {
@@ -292,10 +292,10 @@
 	    });
 	});
     </script> 
-=======
-	</script>
+
+
  
->>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
+
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
     
