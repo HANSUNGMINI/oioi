@@ -171,13 +171,13 @@
 									<div class="col-12" style="margin-top: 15px;">
 										<div class="form-group">
 											<label>상품명<span>*</span></label>
-											<input type="text" name="member_id" id="member_id" placeholder="상품명" >
+											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>상품설명<span>*</span></label>
-											<input type="text" name="member_name" id="member_name" maxlength="5" placeholder="상품설명" >
+											<input type="text" name="APD_DETAIL" id="APD_DETAIL" maxlength="5" placeholder="상품설명" >
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -202,7 +202,7 @@
 <!-- 									                <input type="radio" id="female" name="gender" value="female">고장/파손 상품 -->
 <!-- 									            </label> -->
 													<c:forEach var="productCondition" items="${productCondition}">
-														<input type="radio" name="productCondition" value="${productCondition.name}">${productCondition.value}
+														<input type="radio" name="APD_CONDITION" value="${productCondition.name}">${productCondition.value}
 													</c:forEach>
 <!-- 									        </div> -->
 									    </div>
@@ -210,13 +210,13 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
-											<input type="text" name="member_nick" id="member_nick" maxlength="16" placeholder="시작가" >
+											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>즉시판매가<span>*</span></label>
-											<input type="text" name="member_nick" id="member_nick" maxlength="16" placeholder="즉시판매가" >
+											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" >
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">

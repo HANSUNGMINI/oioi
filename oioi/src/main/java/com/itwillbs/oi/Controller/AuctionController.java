@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -72,6 +73,13 @@ public class AuctionController {
 		model.addAttribute("productCondition", productCondition);
 		
 		
+		
+		return "auction/auction_regist";
+	}
+	
+	@PostMapping("auctionRegist")
+	public String auctionRegistPro(Model model,Map<String, String> map) {
+		System.out.println("auctionRegist - post : " + map);
 		
 		return "auction/auction_regist";
 	}
