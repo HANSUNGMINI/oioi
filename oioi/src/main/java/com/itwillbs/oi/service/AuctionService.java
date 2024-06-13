@@ -19,6 +19,15 @@ public class AuctionService {
 		System.out.println("auctionRegist - sevice");
 		return mapper.getCategory1();
 	}
+
+	public List<Map<String, String>> getCategory2() {
+		return mapper.getCategory2();
+	}
+
+	public List<Map<String, String>> getCategory3() {
+		// TODO Auto-generated method stub
+		return mapper.getCategory3();
+	}
 	
 	
 }

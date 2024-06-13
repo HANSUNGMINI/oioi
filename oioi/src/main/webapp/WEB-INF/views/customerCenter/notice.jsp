@@ -123,11 +123,23 @@
 	    margin-top: 30px;
 	    margin-bottom: 30px;
 	    width: 100%;
-	    text-align : center;
-	    font-size: 20px;
+	    text-align: center;
+	}
+	
+	.cs_title {
+	    text-align: center;
+	    margin : 0px auto;
+	}
+	
+	.cs_title_1 {
+	    font-size: 24px; /* Adjust font size as needed */
 	    font-weight: bold;
 	}
 	
+	.cs_sub_title {
+	    font-size: 16px; /* Adjust font size as needed */
+	    color : #34A853;
+	}
 	/* 글 적는 곳 */ 
 	#title {
 		border-radius: 10px;
@@ -189,6 +201,14 @@
 		padding : 5px;
 	    border-radius: 40%
 	}
+	
+	.pagination {
+		display : flex;
+	}
+	.paging{
+		margin : 0px auto;
+		margin-bottom : 20px;
+	}
 </style>
 
 <script type="text/javascript">
@@ -240,11 +260,12 @@
 		<%-- 본문 --%>
 		 <div class="col-lg-8 col-12" id="highlighted-row"> 
 			 <div class="row">
-		 		 <div class="cs_title_container">
-				 	<div class = "notice_d_t_div">
-			  			<em class = "notice_d_title">공지사항</em><br>
-			  		</div>
-			  	 </div>
+		 		<div class="cs_title_container">
+					<div class = "cs_title">
+		  				<em class = "cs_title_1">공지사항</em><br>
+		  				<em class = "cs_sub_title">오이마켓 소식을 알려드립니다</em>
+		  			</div>
+		  		</div>
 			 
 					<div class="notice_body">
 				 		 <div class = "write_btn">
@@ -253,10 +274,10 @@
 						<table>
 					        <thead>
 					            <tr>
-					                <th class="notice_num">번호</th>
-					                <th class="notice_title">제목</th>
-					                <th class="notice_writer">작성자</th>
-					                <th class="notice_date">작성일</th>
+					                <th class="notice_num"  width = "10px">번호</th>
+					                <th class="notice_title"  width = "150px">제목</th>
+					                <th class="notice_writer"  width = "30px">작성자</th>
+					                <th class="notice_date"  width = "30px">작성일</th>
 					            </tr>
 					        </thead>
 					        <tbody>
@@ -272,7 +293,54 @@
 				</div>
 				
 				<%-- 페이징 --%>
+				<nav aria-label="Page navigation example" style="display:flex">
+					<div class = "paging">
+				  		<ul class="pagination">
+				    		<li class="page-item">
+						    <a id="previousPageLink" class="page-link" href="notice?pageNum=${pageNum - 1}" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						    </a>
+						</li>
+						
+						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						    <li class="page-item">
+						        <a class="page-link pageLink" href="notice?pageNum=${i}">${i}</a>
+						    </li>
+						</c:forEach>
+						
+						<li class="page-item">
+						    <a id="nextPageLink" class="page-link" href="notice?pageNum=${pageNum + 1}" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						    </a>
+						</li>
+			
+				  		</ul>
+			  		</div>
+				</nav> 
 				
+				<script>
+				    // JavaScript를 사용하여 페이지 링크의 클릭 이벤트를 관리합니다.
+				    document.addEventListener('DOMContentLoaded', function() {
+				        var previousPageLink = document.getElementById('previousPageLink');
+				        var nextPageLink = document.getElementById('nextPageLink');
+				
+				        // pageNum이 1 이하일 경우 이전 페이지 링크를 비활성화합니다.
+				        if (${pageNum le 1}) {
+				            previousPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				
+				        // endPage가 maxPage보다 크거나 pageNum + 1이 maxPage보다 클 경우 다음 페이지 링크를 비활성화합니다.
+				        if (${endPage gt pageInfo.maxPage} || ${pageNum + 1 gt pageInfo.maxPage}) {
+				            nextPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				    });
+				</script>
 				
 			    
 			</div>

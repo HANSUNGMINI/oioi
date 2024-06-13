@@ -11,4 +11,8 @@ public interface AuctionMapper {
 
 	List<Map<String, String>> getCategory1();
 
+	List<Map<String, String>> getCategory2();
+
+	List<Map<String, String>> getCategory3();
+
 }

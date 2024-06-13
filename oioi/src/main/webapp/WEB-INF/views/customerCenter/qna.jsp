@@ -187,6 +187,7 @@
 	}
 	.paging{
 		margin : 0px auto;
+		margin-bottom : 20px;
 	}
 	
 </style>
@@ -253,10 +254,10 @@
 						<table>
 					        <thead>
 					            <tr>
-					                <th class="qna_num">번호</th>
-					                <th class="qna_title">제목</th>
-					                <th class="qna_date">작성일</th>
-					                <th class="qna_status">답변 상태</th>
+					                <th class="qna_num" width = "10px">번호</th>
+					                <th class="qna_title" width = "150px">제목</th>
+					                <th class="qna_date" width = "30px">작성일</th>
+					                <th class="qna_status" width = "30px">답변 상태</th>
 					            </tr>
 					        </thead>
 					        <tbody>

@@ -17,7 +17,7 @@ public class AdminService {
 		return adminMapper.selectAdmin(admin);
 	}
 	
-	public List<Map<String, Object>> selectUserList(Map<String, String> select){
+	public List<Map<String, Object>> selectUserList(Map<String, Object> select){
 		return adminMapper.selectUserList(select);
 	}
 }

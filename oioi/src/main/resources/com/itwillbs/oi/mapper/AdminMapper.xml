@@ -17,6 +17,14 @@
 			 , US_PHONE
 			 , US_REG_DATE
 		  FROM user
+		 WHERE 
+		  <choose>
+		  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_ID')">US_ID LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
+		  	<otherwise> 1 = 1</otherwise>
+		  </choose>
+		  LIMIT #{limit.startRow}, #{limit.listLimit} 
 	</select>
 	
 </mapper>
