@@ -13,7 +13,11 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 <style>
 	#searchDiv {
-		margin-top : 10px;
+		width : 70%; 
+		margin-left: 121px; 
+ 		margin-top : 50px; 
+ 		z-index: 1;
+   		position: absolute;
 		display : none;
 		background-color : #E4E4E4;
 		border:none;
@@ -30,6 +34,10 @@
 		color: #420100;
 		font-weight: bold;
 	}
+	
+	.recommondKeyword ul li:hover {
+		background-color: lightyellow;
+	}
 </style>
 <script type="text/javascript">
 
@@ -40,7 +48,6 @@
 	function searchDivClose() {
 		 document.querySelector("#searchDiv").style.display = "close";
 	}
-	
 
 	
 </script>
@@ -124,13 +131,18 @@
 								</select>
 								<form>
 									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()" onblur="searchDivClose()">
+									<button class="btnn"><i class="ti-search"></i></button>
+								</form>
 									<div id="searchDiv" style="background-color:#F6F6F6" > 
 										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span> <span class="searchKey" onclick="location.href='notice'">모자</span> <a href="shose" class="searchKey">신발</a>
 										<hr>
-										<span style="color:#CC3D3D; font-weight: bold">추천 검색어 나올 자리</span>
+										<div class="recommondKeyword" >
+											<span style="color:#CC3D3D; font-weight: bold">추천 검색어 나올 자리</span>
+											<ul>
+												<li><a href="notice">이건 또 왜 안됨</a></li>
+											</ul>
+										</div>
 									</div>
-									<button class="btnn"><i class="ti-search"></i></button>
-								</form>
 							</div>
 						</div>
 					</div>

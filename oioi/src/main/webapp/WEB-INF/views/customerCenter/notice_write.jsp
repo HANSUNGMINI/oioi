@@ -111,9 +111,22 @@
 	    margin-top: 30px;
 	    margin-bottom: 30px;
 	    width: 100%;
-	    text-align : center;
-	    font-size: 20px;
+	    text-align: center;
+	}
+	
+	.cs_title {
+	    text-align: center;
+	    margin : 0px auto;
+	}
+	
+	.cs_title_1 {
+	    font-size: 24px; /* Adjust font size as needed */
 	    font-weight: bold;
+	}
+	
+	.cs_sub_title {
+	    font-size: 16px; /* Adjust font size as needed */
+	    color : #34A853;
 	}
 	
 	/* 글 적는 곳 */ 
@@ -229,10 +242,10 @@
 				 <div class="row">
 				 
 					 <div class="cs_title_container">
-					 	<div class = "notice_d_t_div">
-				  			<em class = "notice_d_title">공지사항 작성</em><br>
-				  		</div>
-				  	 </div>
+						<div class = "cs_title">
+			  				<em class = "cs_title_1">공지사항 작성</em><br>
+			  			</div>
+			  		</div>
 			  		
 			   		<form action="noticeWrite" method= "post">
 			   			<div class = "detail_view">

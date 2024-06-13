@@ -16,9 +16,4 @@ public class MyPageController {
 		return "mypage/mypage";
 	}
 	
-	@GetMapping("user")
-	public String user() {
-		System.out.println("확인");
-		return "mypage/mypage_user";
-	}
 }
