@@ -3,6 +3,7 @@ package com.itwillbs.oi.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,7 +24,7 @@ import com.itwillbs.oi.service.UserService;
 
 @Controller
 public class UserController {
-	
+	//여기서 오류가 나는건가?
 	@Autowired
 	private UserService service;
 	@Autowired
@@ -54,6 +55,22 @@ public class UserController {
 		
 		return "redirect:/check_id";
 	}
+	
+	@GetMapping("check_nick")
+	public String check_nick() {
+		return "user/check_nick";
+	}
+	
+	// 실제 유효성검사를 마친후 중복확인 DB작업을 하기 위한 매핑주소
+	@PostMapping("check_nick")
+	public String checkNickPro(String user_nick, Model model, HttpServletResponse response) {
+		boolean isEmptyNick = service.isEmptyNick(user_nick);
+		model.addAttribute("userNick", user_nick);
+		model.addAttribute("isValidNick", !isEmptyNick);
+		
+		return "redirect:/check_nick";
+	}
+	
 	
 	@PostMapping("register")
 	public String joinPro(@RequestParam Map<String, Object> userMap, Model model, BCryptPasswordEncoder passwordEncoder) {
@@ -117,14 +134,13 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder) {
+	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder, HttpServletResponse response) {
 	    
 	    String userId = loginData.get("user_id");
 	    String userPasswd = loginData.get("user_passwd");
-	    
+	    String rememberId = loginData.get("rememberMe");
 	    // 서비스를 통해 회원 정보 가져오기
 	    Map<String, String> dbUser = service.selectUser(userId); // 회원 ID로 회원 정보를 가져오는 메서드가 있다고 가정합니다.
-	    
 	    if(dbUser == null || !passwordEncoder.matches(userPasswd, dbUser.get("US_PASSWD"))) { // 로그인 실패
 	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.\\n입력하신 내용을 다시 확인해주세요.");
 	        return "err/fail";
@@ -134,10 +150,21 @@ public class UserController {
 	    } else { // 로그인 성공
 	        // 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
 	        session.setAttribute("US_ID", userId);
+	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
+	        System.out.println("회원정보" + dbUser);
+	        
+	        Cookie cookie = new Cookie("cookieId", userId);
+	        if(rememberId != null) { // 체크박스 체크 상태일 경우 쿠키 설정
+	        	cookie.setMaxAge(60 * 60 * 24); // 60초 * 60분 * 24시간 = 86000초 = 1일
+	        } else {
+	        	cookie.setMaxAge(0);
+	        }
+	        response.addCookie(cookie);
+	        System.out.println(cookie);
 	        // 메인페이지 리다이렉트
 	        return "redirect:/";
 	    }
-	    
 	}
+	
 }

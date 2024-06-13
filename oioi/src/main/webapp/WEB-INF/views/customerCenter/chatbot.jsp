@@ -37,7 +37,6 @@
    	<div style="background-color:#34A853; height:50px">
    	</div>
    	
-   	
      <div class="chat">
      
      			<%-- 사용자 정보 및 신고 --%>

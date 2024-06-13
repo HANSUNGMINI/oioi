@@ -172,37 +172,58 @@
 		margin: 0px;
 		height: 34px;
 	    line-height: 33px;
+	    margin-right: 10px;
+	    border-radius: 3px;
+	    border: 1px solid #ccc;
+	    text-align: left;
+	    color: #666;;
 	}
 	
 	.category-list li {
         margin-bottom: 15px; /* 리스트 사이에 공간 추가 */
     }
+     .board_num {
+		width: 50px; /* 원하는 폭으로 설정 */
+		text-align: center; /* 텍스트 가운데 정렬 */
+	}
+	
+	.board_writer, .board_date {
+		width: 200px;
+		text-align: center; 
+	}
+ 
 	/* 페이징 위치 */
 </style>
 <body class="js">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	
-	let previousLink = null;
-	let previousText = "";
-	
-	function clickCategory(element) {
-	    // 모든 <a> 태그의 굵기 초기화
-	    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
-	    if (previousLink) {
-	        previousLink.style.fontWeight = 'normal';
-	        previousLink.textContent = previousText;
-	    }
-	    
-	 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
-	    previousLink = element;
-	    previousText = element.textContent;
-
-	    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
-	    element.style.fontWeight = 'bold';
-	    element.textContent = "> " + previousText;
-}
-
-
+	$(function() {
+		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
+		let allElement = $("#all");
+		allElement.css("fontWeight", "bold");
+		allElement.text("> " + allElement.text());
+		
+		// 초기화 변수 설정
+		let previousLink = allElement[0]; // jQuery 객체를 DOM 요소로 변환
+		let previousText = allElement.text().substring(2); // "> " 제거한 텍스트 저장
+		
+		// 카테고리 클릭 시 실행되는 함수
+		window.clickCategory = function(element) {
+		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+		    if (previousLink) {
+		        previousLink.style.fontWeight = 'normal';
+		        previousLink.textContent = previousText;
+		    }
+		    
+		    // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+		    previousLink = element;
+		    previousText = element.textContent;
+		    
+		    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+		    element.style.fontWeight = 'bold';
+		    element.textContent = "> " + previousText;
+		};
+	});
 </script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
@@ -216,8 +237,9 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this)" id="all">전체 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this)">신고 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
 						</ul>
@@ -238,6 +260,7 @@
 						            	<select class="searchCategory">
 						            		<option value="">전체 게시판</option>
 						            		<option value="">질문 게시판</option>
+						            		<option value="">신고 게시판</option>
 						            		<option value="">정보 게시판</option>
 						            		<option value="">친목 게시판</option>
 						            	</select>
@@ -254,16 +277,16 @@
 						<table>
 					        <thead>
 					            <tr>
-					                <th class="notice_num">번호</th>
-					                <th class="notice_title">제목</th>
-					                <th class="notice_writer">작성자</th>
-					                <th class="notice_date">작성일</th>
+					                <th class="board_num">번호</th>
+					                <th class="board_title">제목</th>
+					                <th class="board_writer">작성자</th>
+					                <th class="board_date">작성일</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 				                  <tr>
 				                      <td> 1 </td>
-				                      <td><a href=""> 저쩌구 </a></td>
+				                      <td><a href="boardDetail"> 저쩌구 </a></td>
 				                      <td> 관리자</td>
 				                      <td> 2024.06.07 </td>
 				                  </tr>

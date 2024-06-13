@@ -90,14 +90,15 @@
 			<div class="container">
 						<div class="login-form">
 							<h2>상품등록</h2>
-<!-- 							<input type="file" accept="image/*"  multiple id="addfile">확인용 마지막에 삭제 -->
-							<input type="file" id= "images" name="images" multiple="multiple" id="addfile">확인용 마지막에 삭제
+<!-- 							<input type="file" accept="image/*" name="addfile" multiple id="addfile" hidden="">확인용 마지막에 삭제 -->
+<!-- 							<input type="file" id= "images" name="images" multiple="multiple" id="addfile">확인용 마지막에 삭제 -->
 <!-- 							<input type="file" class="form-control" id="detail_images" name="detail_images" multiple="multiple" required> -->
 							<!-- Form -->
 							<form class="regForm" action="product" method="post" enctype="multipart/form-data">
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
+										<input type="file" accept="image/*" name="addfile" multiple id="addfile">확인용 마지막에 삭제
 										<div class="preView">
 											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
 										</div>
@@ -108,7 +109,13 @@
 									</li>
 									<li>
 										<label> 카테고리</label>
-										<input type="text" name="categori">
+<!-- 										<input type="text" name="category"> -->
+										<select id="manufacturer" name="car_brand" class="form-control" required>
+			                                <option value="">대분류</option>
+			                            	    <c:forEach var="cate1" items="${cate1}">
+				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
+				                                </c:forEach>
+			                            </select>
 									</li>
 									<li>
 										<label> 태그(선택)</label>
@@ -117,9 +124,9 @@
 									<li>
 										<label> 상품상태 </label>
 										<ul>
-											<li><input type="radio" name="condition" value="new" checked> 미개봉</li>
-											<li><input type="radio" name="condition" value="normal"> 사용감 적음</li>
-											<li><input type="radio" name="condition" value="old"> 사용감 많음</li>
+											<c:forEach var="productCondition" items="${productCondition}">
+												<li><input type="radio" name="productCondition" value="${productCondition.name}">${productCondition.value}</li>
+											</c:forEach>
 										</ul>
 									</li>
 									<li>
@@ -134,9 +141,12 @@
 									<li>
 										<label> 거래 방식 </label>
 										<ul>
-											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li>
-											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li>
-											<li><input type="radio" name="trade" value="delivery"> 택배거래만 가능</li>
+											<c:forEach var="tradeMethod" items="${tradeMethod}">
+												<li><input type="radio" name="tradeMethod" value="${tradeMethod.name}">${tradeMethod.value}</li>
+											</c:forEach>
+<!-- 											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li> -->
+<!-- 											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li> -->
+<!-- 											<li><input type="radio" name="trade" value="delivery"> 택배거래만 가능</li> -->
 										</ul>
 									</li>
 									<li>

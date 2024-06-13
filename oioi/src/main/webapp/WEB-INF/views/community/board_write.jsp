@@ -219,27 +219,24 @@
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>
-			<div class="col-lg-3 col-12">
-				<div class="main-sidebar">
-					<!-- Single Widget -->
-					<div class="single-widget category">
-						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li>
-							<br>
-							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li>
-							<br>
-						</ul>
-					</div>
-				</div>
-			</div>
+<!-- 			<div class="col-lg-3 col-12"> -->
+<!-- 				<div class="main-sidebar"> -->
+<!-- 					Single Widget -->
+<!-- 					<div class="single-widget category"> -->
+<!-- 						<ul class="category-list"> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this)">전체 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this)">질문 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this)">신고 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this)">정보 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this)">친목 게시판</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			
 			
 			<%-- 본문 --%>
-			 <div class="col-lg-8 col-12" id="highlighted-row"> 
+			 <div class="col-lg-12 col-12" id="highlighted-row"> 
 				 <div class="row">
 				 
 					 <div class="cs_title_container">
@@ -286,6 +283,7 @@
 					    </div>
 					    
 					     <div class="button-container">
+			 				<input type="button"  value = "돌아가기" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; margin-right: 10px;" onclick="history.back();" >
 			 				<input type="submit"  value = "등록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px">
 			 			</div>	
 				    </form>

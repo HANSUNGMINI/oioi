@@ -110,6 +110,7 @@
 	
 	.cs_title {
 	    text-align: center;
+	    margin : 0px auto;
 	}
 	
 	.cs_title_1 {
@@ -179,6 +180,13 @@
 		border : 0.5px solid #eeeeeec2;
 		padding : 5px;
 	    border-radius: 40%
+	}
+	
+	.pagination {
+		display : flex;
+	}
+	.paging{
+		margin : 0px auto;
 	}
 	
 </style>
@@ -264,7 +272,54 @@
 				</div>
 				
 				<%-- 페이징 --%>
+				<nav aria-label="Page navigation example" style="display:flex">
+					<div class = "paging">
+				  		<ul class="pagination">
+				    		<li class="page-item">
+						    <a id="previousPageLink" class="page-link" href="qna?pageNum=${pageNum - 1}" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						    </a>
+						</li>
+						
+						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						    <li class="page-item">
+						        <a class="page-link pageLink" href="qna?pageNum=${i}">${i}</a>
+						    </li>
+						</c:forEach>
+						
+						<li class="page-item">
+						    <a id="nextPageLink" class="page-link" href="qna?pageNum=${pageNum + 1}" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						    </a>
+						</li>
+			
+				  		</ul>
+			  		</div>
+				</nav> 
 				
+				<script>
+				    // JavaScript를 사용하여 페이지 링크의 클릭 이벤트를 관리합니다.
+				    document.addEventListener('DOMContentLoaded', function() {
+				        var previousPageLink = document.getElementById('previousPageLink');
+				        var nextPageLink = document.getElementById('nextPageLink');
+				
+				        // pageNum이 1 이하일 경우 이전 페이지 링크를 비활성화합니다.
+				        if (${pageNum le 1}) {
+				            previousPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				
+				        // endPage가 maxPage보다 크거나 pageNum + 1이 maxPage보다 클 경우 다음 페이지 링크를 비활성화합니다.
+				        if (${endPage gt pageInfo.maxPage} || ${pageNum + 1 gt pageInfo.maxPage}) {
+				            nextPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				    });
+				</script>
 				
 			    
 			</div>

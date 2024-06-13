@@ -10,6 +10,23 @@
 		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW}
 	</select>
 	
+	<select id="selectUserList" resultType="map">
+		SELECT US_ID
+			 , US_NAME
+			 , US_NICK
+			 , US_PHONE
+			 , US_REG_DATE
+		  FROM user
+		 WHERE 
+		  <choose>
+		  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_ID')">US_ID LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
+		  	<otherwise> 1 = 1</otherwise>
+		  </choose>
+		  LIMIT #{limit.startRow}, #{limit.listLimit} 
+	</select>
+	
 </mapper>
 
 

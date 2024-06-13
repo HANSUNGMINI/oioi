@@ -52,6 +52,12 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
 </head>
+<style>
+.checkbox input[type="checkbox"] {
+    margin-right: 10px;
+}
+</style>
+
 <body class="js">
 
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -84,28 +90,56 @@
 							<!-- Form -->
 							<form class="form" method="post" action="login">
 								<div class="row">
-									<div class="col-12">
-										<div class="form-group">
-											<label>아이디<span>*</span></label>
-											<input type="text" class="user_id" name="user_id"  placeholder="아이디" required>
+								<c:choose>
+									<c:when test="${not empty cookie.cookieId}">
+										<div class="col-12">
+											<div class="form-group">
+												<label>아이디<span>*</span></label>
+												<input type="text" class="user_id" name="user_id"  value="${cookie.cookieId.value}" required>
+											</div>
 										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group">
-											<label>비밀번호<span>*</span></label>
-											<input type="password" class="user_passwd" name="user_passwd" placeholder="비밀번호" required>
+										<div class="col-12">
+											<div class="form-group">
+												<label>비밀번호<span>*</span></label>
+												<input type="password" class="user_passwd" name="user_passwd" placeholder="비밀번호" required>
+											</div>
 										</div>
-									</div>
-									<div class="col-12">
-										<div class="form-group login-btn">
-											<button class="btn" type="submit">로그인</button>
-											<a href="register" class="btn">회원가입</a>
+										<div class="col-12">
+											<div class="form-group login-btn">
+												<button class="btn" type="submit">로그인</button>
+												<a href="register" class="btn">회원가입</a>
+											</div>
+											<div class="checkbox">
+												<input class="rememberMe" name="rememberMe" id="rememberMe" type="checkbox" checked>아이디 기억하기
+											</div>
+											<a href="#" class="lost-pass">비밀번호 찾기</a>
 										</div>
-										<div class="checkbox">
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">아이디 기억하기</label>
+									</c:when>
+									<c:otherwise>
+										<div class="col-12">
+											<div class="form-group">
+												<label>아이디<span>*</span></label>
+												<input type="text" class="user_id" name="user_id"  placeholder="아이디" required>
+											</div>
 										</div>
-										<a href="#" class="lost-pass">비밀번호 찾기</a>
-									</div>
+										<div class="col-12">
+											<div class="form-group">
+												<label>비밀번호<span>*</span></label>
+												<input type="password" class="user_passwd" name="user_passwd" placeholder="비밀번호" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-group login-btn">
+												<button class="btn" type="submit">로그인</button>
+												<a href="register" class="btn">회원가입</a>
+											</div>
+											<div class="checkbox">
+												<input name="rememberMe" id="rememberMe" type="checkbox">아이디 기억하기
+											</div>
+											<a href="#" class="lost-pass">비밀번호 찾기</a>
+										</div>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</form>
 							<!--/ End Form -->
@@ -117,7 +151,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 
+ 		 
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>

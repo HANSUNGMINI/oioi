@@ -428,3 +428,14 @@
 	[type="checkbox"]:hover + span {
 	  cursor: pointer;
 	}
+	
+	/* 제품 상세 보기*/
+	.img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .img-container img {
+        max-width: 80%;
+        height: auto;
+    }

@@ -44,6 +44,12 @@
 		WHERE US_ID = #{US_ID}
 	</select>
 	
+	<select id="selectCheckNick" resultType="boolean">
+		SELECT IF(COUNT(*) = 1, 1, 0)
+		FROM  user 
+		WHERE US_NICK = #{US_NICK}
+	</select>
+	
 	<select id="selectForgotId" resultType="hashmap">
 		SELECT *
 		  FROM user 

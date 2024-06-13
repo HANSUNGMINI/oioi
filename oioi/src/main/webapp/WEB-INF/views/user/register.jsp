@@ -121,6 +121,12 @@
 		$("#user_passwd2").keyup(checkSamePasswd); // 비밀번호 일치 확인
 		$("#user_passwd").change(checkSamePasswd); // 비밀번호 변경시 일치 확인
 		
+		// 닉네임 중복확인 새 창 발생
+		document.querySelector("#user_nick").onclick = function() { 
+			window.open("check_nick", "닉네임 중복확인", "width=600, height=300, top=150, left=650");
+		};
+		
+		
 		//회원가입 버튼 클릭시 발생하는 이벤트 
 		document.fr.onsubmit = function() {
 			if(document.fr.user_id.value == "") { // 아이디 확인
@@ -135,6 +141,14 @@
 				alert("비밀번호가 일치하지 않습니다!");
 				document.fr.user_passwd2.focus();
 				return false;
+			} else if (!isValidName($("#user_name").val())) { // 이름 확인
+		    	alert("이름을 확인해주세요.");
+		        document.fr.user_name.focus();
+		        return false;
+			} else if(document.fr.user_nick.value == "") { // 닉네임 확인
+				alert("닉네임을 확인해주세요!");
+				document.fr.user_nick.focus();
+				return false;    
 			} else if(!isValidEmail($("#user_email").val())) { // 이메일 확인
 		        alert("E-Mail을 확인해주세요.");
 		        document.fr.user_email.focus();
@@ -149,11 +163,16 @@
 		        return false;
   			} else if (!checkMailAuthNumResult) {
 		    	alert("이메일 인증을 완료해주세요.");
+		    	document.fr.mail_auth_num.focus();
 		        return false; 
-		    } else if (!isValidName($("#user_name").val())) { // 이름 확인
-		    	alert("이름을 확인해주세요.");
-		        document.fr.user_name.focus();
-		        return false;
+  			} else if(document.fr.user_post_code.value == "" || document.fr.user_address1.value == "") {
+  				alert("주소를 확인해주세요!");
+  				document.fr.user_post_code.focus();
+  				return false;
+  			} else if(document.fr.user_address2.value == "") {
+  				alert("상세 주소를 확인해주세요!");
+  				document.fr.user_address2.focus();
+  				return false;	
 		    } else if (!isValidPhoneNumber($("#user_phone").val())) {
 		    	alert("전화번호를 확인해주세요.");
 		    	document.fr.user_phone.focus();
@@ -169,7 +188,10 @@
 		    } else if (!checkAuthNumResult) {
 		    	alert("전화번호 인증을 완료해주세요.");
 		        return false; 
-		    } 
+		    } else if(!$('input[name="user_gender"]:checked').val()) { // 성별 확인
+				alert("성별을 선택해주세요!");
+				return false; 
+			}
 		}
 		
 	}); // document 객체의 ready 이벤트 끝
@@ -202,7 +224,8 @@
 	function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
 		return /^[0-9]{10,11}$/.test(phoneNumber);
 	}
-
+	
+	let isMailAuthButtonCreated = false; // 버튼이 생성되었는지 여부를 나타내는 변수
 	function sendAuthMail() {
 		// 이메일 입력창에 입력된 이메일 가져오기
 		let eMail = $("#user_email").val();
@@ -235,9 +258,13 @@
 				if(authInfo.success){
 		            serverMailAuthNum = authInfo.auth_code;
 		            alert("인증메일이 전송되었습니다.");
-		            $("#mail_auth_num").parent().append(
-                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
-                    );
+		            // 버튼이 생성되지 않았다면 생성
+                    if (!isMailAuthButtonCreated) {
+                        $("#mail_auth_num").parent().append(
+                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'
+                        );
+                        isMailAuthButtonCreated = true; // 버튼이 생성되었음을 표시
+                    }
 				} else {
 					alert("인증메일 발송에 실패했습니다.");
 				}
@@ -258,8 +285,7 @@
 		}
 	}
 		
-
-	
+	let isPhoneAuthButtonCreated = false;
 	function phoneAuth() {
 		let user_phone = $("#user_phone").val();
 		
@@ -281,12 +307,12 @@
 		            serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
 		            
 		            alert("인증번호가 전송되었습니다.");
-		            
-		            $("#auth_num").parent().append(
-                            '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
-                    );
-		            
-		            
+		            if (!isPhoneAuthButtonCreated) {
+		            	$("#auth_num").parent().append(
+	                            '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
+	                    );
+                        isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
+                    }
 		        } else {
 		            alert("인증번호 전송에 실패했습니다.");
 		        }
@@ -308,27 +334,6 @@
 			checkAuthNumResult = true;
 		}
 	}
-//		$.ajax({
-//		url : "SendAuthMail",
-//		type : "POST",
-//		data : {
-//			"user_email" : eMail
-//		},
-//		dataType :"json",
-//		success : function(authInfo){
-//			if(authInfo){
-//	            alert("인증메일이 전송되었습니다.");
-//	            $("#mail_auth_num").parent().append(
-//                     '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'	
-//             );
-//			} else {
-//		 		alert("인증메일 발송에 실패했습니다.");
-//			}
-//     },
-//		error : function() {
-//			alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
-//		}
-//	});
 </script>
 </head>
 <style>
@@ -513,9 +518,9 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>주소<span>*</span></label>
-											<input type="text" name="user_post_code" id="postCode" size="6" placeholder="우편번호" required onclick="search_address()">
+											<input type="text" name="user_post_code" id="postCode" size="6" placeholder="우편번호" readonly onclick="search_address()">
 											<input type="text" id="address1" name="user_address1" placeholder="기본주소" size="25" readonly onclick="search_address()">
-											<input type="text" id="address2" name="user_address2" placeholder="상세주소" size="25" required>
+											<input type="text" id="address2" name="user_address2" placeholder="상세주소" size="25" >
 										</div>
 									</div>
 									<div class="col-12">
