@@ -10,4 +10,6 @@ public interface CommunityMapper {
 
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 
+	Map<String, Object> selectBoardDetail(int CM_IDX);
+
 }
