@@ -183,13 +183,23 @@
         margin-bottom: 15px; /* 리스트 사이에 공간 추가 */
     }
      .board_num {
-		width: 50px; /* 원하는 폭으로 설정 */
-		text-align: center; /* 텍스트 가운데 정렬 */
+		width: 68px; 
+		text-align: center;
 	}
 	
-	.board_writer, .board_date {
+	.board_writer {
+		width: 150px;
+		text-align: center; 
+	}
+	
+	.board_date {
 		width: 200px;
 		text-align: center; 
+	}
+	
+	.board_category {
+		width: 70px;
+		text-align: center;
 	}
  
 	/* 페이징 위치 */
@@ -245,7 +255,7 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this,'전체')" id="all">전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'전체')" id="all" >전체 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this,'질문')">질문 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this,'신고')">신고 게시판</a></li>
 							<li><a href="#" onclick="clickCategory(this,'정보')">정보 게시판</a></li>
@@ -267,11 +277,8 @@
 						        <div class="search-top">
 						            <form class="search-form d-flex">
 						            	<select class="searchCategory">
-						            		<option value="all" selected>전체 게시판</option>
-						            		<option value="q">질문 게시판</option>
-						            		<option value="r">신고 게시판</option>
-						            		<option value="i">정보 게시판</option>
-						            		<option value="f">친목 게시판</option>
+						            		<option value="CM_title">제목</option>
+						            		<option value="CM_content">내용</option>
 						            	</select>
 						                <input type="text" class="form-control" placeholder="검색어 입력" name="search">
 						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
@@ -287,6 +294,7 @@
 					        <thead>
 					            <tr>
 					                <th class="board_num">번호</th>
+					                <th class="board_category">게시판</th>
 					                <th class="board_title">제목</th>
 					                <th class="board_writer">작성자</th>
 					                <th class="board_date">작성일</th>
@@ -330,16 +338,18 @@
 			},
 			dataType : "JSON",
 			success : function(response) {
+				
 				let boards = response.boardJson;
-				let idx = 1;
+				let idx = response.boardJson[0].count;
 				
 				$("#tbody").empty();
 				
 				$.each(boards, function(index, board) {
 					$("#tbody").append(
 						'<tr>' +
-							'<td>' + idx++ + '</td>' +
-							'<td><a href="boardDetail">' + board.CM_title + '</a></td>' +
+							'<td>' + idx-- + '</td>' +
+							'<td>' + board.CM_category.substring(0,2) + '</td>' +
+							'<td><a href="boardDetail">'+ board.CM_title + '</a></td>' +
 							'<td>' + board.CM_id + '</td>' +
 							'<td>' + board.CM_reg_date + '</td>' +
 						'</tr>'

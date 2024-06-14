@@ -45,6 +45,7 @@ public class CommunityContorller {
 			jsonObject.addProperty("CM_category", board.get("CM_category").toString());
 			jsonObject.addProperty("CM_id", board.get("CM_id").toString());
 			jsonObject.addProperty("CM_reg_date", board.get("CM_reg_date").toString());
+			jsonObject.addProperty("count", board.get("count").toString());
 			
 			boardJson.add(jsonObject);
 		}

@@ -6,9 +6,15 @@
   <mapper namespace="com.itwillbs.oi.mapper.CommunityMapper">
   	
   	<select id="selectBoardList" resultType="map">
-  		SELECT *
+  		SELECT
+  		*, (SELECT
+  			 COUNT(*) 
+  			 FROM community
+  			 WHERE 1=1)
+  			 AS count
   		FROM community
   		WHERE 1=1
+  		ORDER BY CM_community_idx desc
   	
   	
   	</select>
