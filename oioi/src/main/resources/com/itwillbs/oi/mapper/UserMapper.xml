@@ -58,12 +58,12 @@
 		 AND   US_EMAIL = #{user_email}
 	</select>
 	
-	<select id="selectForgotIdPhone" resultType="string">
+	<select id="selectIdByPhone" resultType="string">
 		SELECT US_ID
 		  FROM user 
 		 WHERE
-			   US_Name =  #{phone_US_Name}  
-		 AND   US_PHONE = #{US_PHONE}
+		 		   US_NAME = #{userName}
+		 and	   US_PHONE = #{userPhone}
 	</select>
 	
 	<select id="selectForgotPw" resultType="hashmap">

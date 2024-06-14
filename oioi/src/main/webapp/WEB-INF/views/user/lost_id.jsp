@@ -55,49 +55,51 @@
 	<script>
 	let checkAuthNumResult = false;
 	let serverAuthNum = "";
-	$(function() {
-		document.fr.onsubmit = function() {
-			if (!isValidName($("#user_name").val())) { // 이름 확인
-		    	alert("이름을 확인해주세요.");
-		        document.fr.user_name.focus();
-		        return false;
-		    } else if (!isValidEmail($("#user_email").val())) {
-		    	alert("전화번호를 확인해주세요.");
-		    	document.fr.user_email.focus();
-		    	return false;
-		    } else if(serverMailAuthNum == "") {
-		    	alert("인증메일발송을 먼저 요청해주세요.");
-		    	document.fr.check_email.focus();
-		    	return false;
-		}
-	}); 
-
+	
+	
+	function isValidEmail(email) { //이메일 유효성 검사
+		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+	}
+	
+	function isValidName(name) { // 이름 유효성 검사
+		return  /^[가-힣&&[^ㄱ-ㅎㅏ-ㅣ]{2,5}$/.test(name);
+	}
+	
+	function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
+		return /^[0-9]{10,11}$/.test(phoneNumber);
+	}
+	
+	let isPhoneAuthButtonCreated = false;
 	function phoneAuth() {
-		let member_phone = $("#member_phone").val();
-		
-		if (!isValidPhoneNumber(member_phone) || member_phone == "") {
-			alert("전화번호를 확인해주세요.");
-			document.fr.member_phone.focus();
-			return false;
-		}
+		let user_name2 = $("#user_name2").val();
+	    let user_phone = $("#user_phone").val();
+	    
+	    if (!isValidName(user_name2) || user_name2 == "") {
+	        alert("이름을 확인해주세요.");
+	        document.fr.user_name2.focus();
+	        return false;
+	    }
+
+	    if (!isValidPhoneNumber(user_phone) || user_phone == "") {
+	        alert("전화번호를 확인해주세요.");
+	        document.fr.user_phone.focus();
+	        return false;
+	    }
 		
 		$.ajax({
 			
 			type : "POST",
-			url : "send-one",
-			data : {
-				"member_phone" : member_phone
-			},
+			url : "send-user-id",
+			contentType: "application/json",
+			data : JSON.stringify({"user_name2": user_name2, "user_phone": user_phone}),
 			dataType :"json",
 			success : function(response){
 		        if (response.success) {
-		            serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
 		            
-		            alert("인증번호가 전송되었습니다.");
-		            
-		            
+		            alert("회원님의 ID 정보가 문자로 전송되었습니다.");
+		            window.location.href = "${pageContext.request.contextPath}/login"
 		        } else {
-		            alert("인증번호 전송에 실패했습니다.");
+		            alert("해당 이름과 전화번호로 등록된 회원이 없습니다.");
 		        }
 				
 			},
@@ -108,15 +110,16 @@
 		});
 	}
 	
+	function phoneAuthCheck(){
+		if($("#auth_num").val() !== serverAuthNum){
+			alert("인증번호를 확인해주세요.");
+			return false;
+		} else {
+			alert("인증되었습니다.");
+			checkAuthNumResult = true;
+		}
+	}
 	
-
-	function isValidName(name) { // 이름 유효성 검사
-	    return /^[가-힣]{2,5}$/.test(name);
-	}
-
-	function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
-		return /^[0-9]{10,11}$/.test(phoneNumber);
-	}
 	</script>
 </head>
 <style>
@@ -257,28 +260,38 @@
 							<form class="form" method="post" action="lost_id" name="fr">
 								<div class="row">
 									<div class="col-12">
-										<div class="form-group">
-											<label>본인확인 이메일로 인증하기<span>*</span></label>
-												<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" >
-											<div style="display: flex">
-												<input type="email" name="user_email" id="user_email" placeholder="이메일" >
-												<input type="submit" name="check_email" class="check_email" id="check_email" value="인증하기">
+										<div class="nav-main">
+											 <!-- Tab Nav -->
+                              				<ul class="nav nav-tabs" id="myTab" role="tablist">
+			                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#lost_id" role="tab">이메일로 ID 찾기</a></li>
+			                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#lost_id2" role="tab">전화번호로 ID 찾기</a></li>
+			                                </ul>
+										</div>
+										<div class="tab-content" id="myTabContent">
+											<div class="tab-pane fade show active" id="lost_id" role="tabpanel">
+												<div class="tab-single">
+													<div class="form-group">
+														<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" >
+														<div style="display: flex">
+															<input type="email" name="user_email" id="user_email" placeholder="이메일" >
+															<input type="submit" name="check_email" class="check_email" id="check_email" value="인증하기">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="lost_id2" role="tabpanel">
+                                   				<div class="tab-single">
+													<div class="form-group">
+															<input type="text" name="user_name2" id="user_name2" maxlength="5" placeholder="이름" >
+														<div style="display: flex">
+															<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" >
+															<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
-<!-- 									<div class="col-12"> -->
-<!-- 										<div class="form-group"> -->
-<!-- 											<label>전화번호로 인증하기<span>*</span></label> -->
-<!-- 												<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" > -->
-<!-- 											<div style="display: flex"> -->
-<!-- 												<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" > -->
-<!-- 												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()"> -->
-<!-- 											</div> -->
-<!-- 											<div id="authBox" style="display: flex"> -->
-<!-- 												<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
 								</div>
 							</form>
 							<!--/ End Form -->
