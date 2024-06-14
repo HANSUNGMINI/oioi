@@ -12,16 +12,16 @@
   			 FROM community
   			 WHERE 1=1
   			 <if test="type != null and type != ''">
-		  		AND CM_category = #{type}
+		  		AND CM_CATEGORY = #{type}
 			</if>
   			 )
   			 AS count
   		FROM community
   		where 1=1
 		<if test="type != null and type != ''">
-		  AND CM_category = #{type}
+		  AND CM_CATEGORY = #{type}
 		</if>
-  		ORDER BY CM_community_idx desc
+  		ORDER BY CM_IDX desc
   	
   	
   	</select>

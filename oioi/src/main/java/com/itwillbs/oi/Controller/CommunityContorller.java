@@ -44,10 +44,10 @@ public class CommunityContorller {
 		
 		for(Map<String, Object> board : boardList) {
 			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("CM_title", board.get("CM_title").toString());
-			jsonObject.addProperty("CM_category", board.get("CM_category").toString());
-			jsonObject.addProperty("CM_id", board.get("CM_id").toString());
-			jsonObject.addProperty("CM_reg_date", board.get("CM_reg_date").toString());
+			jsonObject.addProperty("CM_TITLE", board.get("CM_TITLE").toString());
+			jsonObject.addProperty("CM_CATEGORY", board.get("CM_CATEGORY").toString());
+			jsonObject.addProperty("CM_NICK", board.get("CM_NICK").toString());
+			jsonObject.addProperty("CM_REG_DATE", board.get("CM_REG_DATE").toString());
 			jsonObject.addProperty("count", board.get("count").toString());
 			
 			boardJson.add(jsonObject);

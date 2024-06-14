@@ -348,10 +348,10 @@
 					$("#tbody").append(
 						'<tr>' +
 							'<td>' + idx-- + '</td>' +
-							'<td>' + board.CM_category.substring(0,2) + '</td>' +
-							'<td><a href="boardDetail">'+ board.CM_title + '</a></td>' +
-							'<td>' + board.CM_id + '</td>' +
-							'<td>' + board.CM_reg_date + '</td>' +
+							'<td>' + board.CM_CATEGORY.substring(0,2) + '</td>' +
+							'<td><a href="boardDetail">'+ board.CM_TITLE + '</a></td>' +
+							'<td>' + board.CM_NICK + '</td>' +
+							'<td>' + board.CM_REG_DATE + '</td>' +
 						'</tr>'
 					);
 				});
