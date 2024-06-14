@@ -92,6 +92,11 @@ public class UserService {
 		return mapper.selectfindId(userMap);
 	}
 
+	public String findUserIdByPhone(Map<String, Object> user) {
+		return mapper.selectIdByPhone(user);
+	}
+
+
 	
 
 	
