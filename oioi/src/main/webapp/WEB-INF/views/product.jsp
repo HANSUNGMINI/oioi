@@ -127,20 +127,20 @@
 									</li>
 									<li>
 										<label> 태그(선택)</label>
-										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="tag">
+										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="PD_TAG">
 									</li>
 									<li>
 										<label> 상품상태 </label>
 										<ul>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<li><input type="radio" name="productCondition" value="${productCondition.name}">${productCondition.value}</li>
+												<li><input type="radio" name="PD_CONDITION" value="${productCondition.value}">${productCondition.value}</li>
 											</c:forEach>
 										</ul>
 									</li>
 									<li>
 										<label> 가격 </label>
 										<input type="text" id="price" name="PD_PRICE" placeholder="원"><br>
-										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
+										<label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
@@ -150,7 +150,7 @@
 										<label> 거래 방식 </label>
 										<ul>
 											<c:forEach var="tradeMethod" items="${tradeMethod}">
-												<li><input type="radio" name="tradeMethod" value="${tradeMethod.name}">${tradeMethod.value}</li>
+												<li><input type="radio" name="PD_TRADE_METHOD" value="${tradeMethod.value}">${tradeMethod.value}</li>
 											</c:forEach>
 <!-- 											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li> -->
 <!-- 											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li> -->
@@ -159,7 +159,7 @@
 									</li>
 									<li>
 										<label> 안전 거래 여부 </label>
-										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" checked>안전 거래 사용</label>
+										<label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
 								<input type="submit" id="subimit" value="등록하기">

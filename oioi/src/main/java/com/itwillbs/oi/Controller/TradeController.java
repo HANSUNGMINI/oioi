@@ -97,7 +97,8 @@ public class TradeController {
 			) {
 		
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + map); //작성값 다 가져오기 
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + map); //작성값 다 가져오기
+		System.out.println(map.get("PD_TAG"));
 //		for(MultipartFile mf : files) {
 //			System.out.println(mf);
 //		} //이미지 들고오기
@@ -105,7 +106,7 @@ public class TradeController {
 //		System.out.println(map.get("subject"));
 //		Map<String, String> fileMap = new HashMap();
 //		fileMap.put("setCar_images_1", null);
-		 String uploadDir = "/resources/upload";
+		String uploadDir = "/resources/upload";
         String saveDir = session.getServletContext().getRealPath(uploadDir);
 
 	        // 파일 저장
@@ -131,25 +132,20 @@ public class TradeController {
         map.put("PD_CATEGORY", map.get("cate1").toString() + "/" 
         						+ map.get("cate2").toString() + "/" 
         						+ map.get("cate3").toString());
-//	        map.put("PD_SUBJECT", map.get("subject"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_PRICE", map.get("content"));
-        map.put("PD_CONDITION", map.get("productCondition"));
-        map.put("PD_TRADE_METHOD", map.get("tradeMethod"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
-//	        map.put("PD_CONTENT", map.get("content"));
+//        map.put("PD_CONDITION", map.get("productCondition"));
+//        map.put("PD_TRADE_METHOD", map.get("tradeMethod"));
         
-        // 파라미터 및 파일 정보 서비스로 전달
+        // 태그 배열로 들어와서 따로 맵에 처리
+        String tagsString = (String) map.get("PD_TAG");
+        String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
+        for (int i = 0; i < tags.length && i < 5; i++) {
+            map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
+        }
         map.putAll(fileMap);
+        // 파라미터 및 파일 정보 서비스로 전달
         
         System.out.println("######################################" + map); //작성값 다 가져오기
-        TradeService.submitProduct(map);
+        TradeService.insertProduct(map);
         
         return "home";
 		
