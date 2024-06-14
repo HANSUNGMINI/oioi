@@ -11,34 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-<style>
-	#searchDiv {
-		width : 70%; 
-		margin-left: 121px; 
- 		margin-top : 50px; 
- 		z-index: 1;
-   		position: absolute;
-		display : none;
-		background-color : #E4E4E4;
-		border:none;
-		border-radius: 5px;
-		text-align: left;
-		padding : 10px;
-	}
-	
-	.searchKey {
-		background-color: white;
-		border: none;
-		border-radius: 5px;
-		padding : 5px;
-		color: #420100;
-		font-weight: bold;
-	}
-	
-	.recommondKeyword ul li:hover {
-		background-color: lightyellow;
-	}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/topChatting.css">
 <script type="text/javascript">
 
 	function searchDivOpen() {
@@ -47,6 +20,10 @@
 	
 	function searchDivClose() {
 		 document.querySelector("#searchDiv").style.display = "close";
+	}
+	
+	function openChatting(url) {
+		window.open(url, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
 	}
 
 	
@@ -130,16 +107,19 @@
 									<option>싶기도하고</option>
 								</select>
 								<form>
-									<input name="search" placeholder="검색어 입력해줘" type="search" onkeyup="searchDivOpen()" onblur="searchDivClose()">
+									<input name="search" placeholder="검색어 입력해줘" type="search" autocomplete="off"  onkeyup="searchDivOpen()" onblur="searchDivClose()">
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
 									<div id="searchDiv" style="background-color:#F6F6F6" > 
-										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span> <span class="searchKey" onclick="location.href='notice'">모자</span> <a href="shose" class="searchKey">신발</a>
+										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span>
+											<a href="trade" class="searchKey">삼성 노트북</a> <a href="trade" class="searchKey">신발</a>
 										<hr>
 										<div class="recommondKeyword" >
-											<span style="color:#CC3D3D; font-weight: bold">추천 검색어 나올 자리</span>
 											<ul>
-												<li><a href="notice">이건 또 왜 안됨</a></li>
+												<li><a href="trade">아이폰6</a></li>
+												<li><a href="trade">아이폰7</a></li>
+												<li><a href="trade">아이폰8</a></li>
+												<li><a href="trade">아이폰8 Pro</a></li>
 											</ul>
 										</div>
 									</div>
@@ -185,15 +165,30 @@
 									</div>
 									
 									<ul class="shopping-list">
-										<li>
-											<h4><a href="#">닉네임1</a></h4>
-											<p class="quantity" style="padding-bottom: 0px;">대화</p>
+										<li onclick="openChatting('Chatting')">
+											<%-- 사용자 이미지 --%>
+											<div class="message-avatar">
+												<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
+											</div>
+											<%-- 대화 내용 --%>
+											 <div class="list-item-content">
+												<h4><a href="#">닉네임1</a></h4>
+												<p class="quantity" style="padding-bottom: 0px;">대화</p>
+											</div>
 										</li>
-										<li>
-											<h4><a href="#">닉네임2</a></h4>
-											<p class="quantity" style="padding-bottom: 0px;">대화</p>
+										<li onclick="openChatting('Chatting')">
+											<%-- 사용자 이미지 --%>
+											<div class="message-avatar">
+												<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
+											</div>
+											<%-- 대화 내용 --%>
+											 <div class="list-item-content">
+												<h4><a href="#">닉네임2</a></h4>
+												<p class="quantity" style="padding-bottom: 0px;">대화</p>
+											</div>
 										</li>
 									</ul>
+									
 									<div class="bottom">
 										<a href="ChatList" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" class="btn animate">채팅 더보기</a>
 									</div>
