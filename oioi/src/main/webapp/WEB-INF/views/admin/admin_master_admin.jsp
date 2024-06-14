@@ -21,79 +21,6 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-130795909-1');
 	</script>
-	<style>
-		#submitBtn:hover {
-			background-color :#34A853; 
-		}
-		
-		.clickID {
-			cursor : pointer;
-		}
-		
-		
-		.toggle {
-		  display: inline-flex;
-		  align-items: center;
-		  gap: 0.5rem;
-		  cursor: pointer;
-		}
-
-	.toggle_check {
-	  appearance: none;
-	  position: relative;
-	  border: max(2px, 0.1em) solid gray;
-	  border-radius: 1.25em;
-	  width: 2.25em;
-	  height: 1.25em;
-	}
-	
-	.toggle_check::before {
-	  content: "";
-	  position: absolute;
-	  left: 0;
-	  width: 1em;
-	  height: 1em;
-	  border-radius: 50%;
-	  transform: scale(0.8);
-	  background-color: gray;
-	  transition: left 250ms linear;
-	}
-	
-	.toggle_check:checked {
-	  background-color: #34A853;
-	  border-color: #34A853;
-	}
-	
-	.toggle_check:checked::before {
-	  background-color: white;
-	  left: 1em;
-	}
-	
-	.toggle_check:disabled {
-	  border-color: lightgray;
-	  opacity: 0.7;
-	  cursor: not-allowed;
-	}
-	
-	.toggle_check:disabled:before {
-	  background-color: lightgray;
-	}
-	
-	.toggle_check:disabled + span {
-	  opacity: 0.7;
-	  cursor: not-allowed;
-	}
-	
-	.toggle_check:focus-visible {
-	  outline-offset: max(2px, 0.1em);
-	  outline: max(2px, 0.1em) solid tomato;
-	}
-	
-	.toggle_check:enabled:hover {
-	  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-	}
-	
-	</style>
 </head>
 <body>
 	<div id="app">
@@ -140,18 +67,6 @@
 	          		<tbody class="tbody">
 	         		</tbody>
 	        	</table>
-	        		<!--  테이블 끝, 페이징 버튼 구역 -->
-				<div class="table-pagination">
-					<div class="flex items-center justify-between">
-				    	<div class="buttons">
-				    		<button type="button" class="button active">1</button>
-				      		<button type="button" class="button">2</button>
-				      		<button type="button" class="button">3</button>
-				      		<!-- 일단 남겨둠2 -->
-				            
-				    	</div>
-					</div>
-				</div>
 			</div>
 		</div>	
 	</section>
@@ -214,6 +129,7 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
+					
 					$(".tbody").empty();
 					
 					if(response == null) {
@@ -232,10 +148,10 @@
 					} else {
 						
 						for(let admin of response) {
-							let active = "";
+							let checked = "";
 							
-							if(admin.AD_ACTIVE === 'Y') {
-								active = "checked";
+							if(admin.AD_ACTIVE == 'Y') {
+								checked = "checked";
 							}
 							
 							$(".tbody").append(
@@ -252,11 +168,11 @@
 			           			+ '<td data-label="City">'+ admin.AD_DATE +'</td>'
 			           			+ '<td data-label="City">'+ admin.RL_NAME +'</td>'
 			           			+ '<td>'
-			           			+ '<label class="toggle">'
-							    + '<input role="switch" type="checkbox" class="toggle_check"'
-							    + active
-							 	+ 'onchange="changeActive(\'' + admin.AD_ID + '\', this)" />'
-							 	+ '</label>'
+			           			+ '	<label class="toggle">'
+							    + '		<input role="switch" type="checkbox" class="toggle_check" '
+							    + checked
+							 	+ '		onchange="changeActive(\'' + admin.AD_ID + '\', this)" />'
+							 	+ '	</label>'
 			           			+ '</td>'
 			           			+ '<td class="actions-cell">'
 			           			+ '<div class="buttons right nowrap">'
@@ -274,6 +190,7 @@
 		}
 		
 		function changeActive(id, checkBox){
+			alert(id);
 			let isChecked = checkBox.checked;
 			
 			if(confirm("관리자 상태를 변경하시겠습니까?")){
@@ -303,6 +220,6 @@
 		
 		
 	</script>
-	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 </html>
     

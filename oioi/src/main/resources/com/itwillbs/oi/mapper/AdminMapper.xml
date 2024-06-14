@@ -4,6 +4,17 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.itwillbs.oi.mapper.AdminMapper">
+	<select id="selectCategoryList" resultType="map">
+		SELECT *
+		  FROM Mcommon;
+	</select>
+	<select id="selectCommonList">
+		SELECT code
+			 , value
+			 , hide
+		  FROM common
+		 WHERE name = #{target}
+	</select>
 	<select id="selectAdmin" resultType="map">
 		SELECT *
 		  FROM admin
@@ -42,6 +53,16 @@
 				<when test="value.equals('false')">AD_ACTIVE = 'N'</when>		   
 		   </choose>
 		 WHERE AD_ID = #{target};
+	</update>
+	
+	<update id="changeHide">
+		UPDATE common
+		   SET
+		   <choose>
+				<when test="value.equals('true')">  hide = 'N'</when>		   
+				<when test="value.equals('false')"> hide = 'Y'</when>		   
+		   </choose>
+		 WHERE code = #{target};
 	</update>
 </mapper>
 
