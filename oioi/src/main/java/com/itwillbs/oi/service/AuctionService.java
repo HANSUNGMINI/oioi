@@ -28,6 +28,12 @@ public class AuctionService {
 		// TODO Auto-generated method stub
 		return mapper.getCategory3();
 	}
+
+	public int insertImg(Map<String, String> fileMap) {
+		
+		return mapper.insertImg(fileMap);
+	}
+
 	
 	
 }
