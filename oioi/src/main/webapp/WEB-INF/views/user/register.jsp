@@ -357,13 +357,14 @@
 	text-decoration: none;
 	border: none;
 	display: inline-block;
-	height: 46px;
+	height: 45px;
 	line-height: 20px;
 	color: #fff;
 	background: #34A853;
 }
 
 #check_email {
+	width: 35%;
 	box-sizing: inherit;
 	touch-action: manipulation;
 	font: inherit;
@@ -382,7 +383,7 @@
 	text-transform: uppercase;
 	border: none;
 	display: inline-block;
-	height: 46px;
+	height: 45px;
 	color: #fff !important;
 	line-height: 20px;
 }
@@ -407,13 +408,14 @@
 	text-decoration: none;
 	border: none;
 	display: inline-block;
-	height: 46px;
+	height: 45px;
 	line-height: 20px;
 	color: #fff;
 	background: #34A853;
 }
 
 #check_tel {
+	width : 35%;
 	box-sizing: inherit;
 	touch-action: manipulation;
 	font: inherit;
@@ -432,7 +434,7 @@
 	text-transform: uppercase;
 	border: none;
 	display: inline-block;
-	height: 46px;
+	height: 45px;
 	color: #fff !important;
 	line-height: 20px;
 }

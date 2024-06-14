@@ -35,8 +35,26 @@ public class AdminController {
 		return "home";
 	}
 	
+	@GetMapping("admin")
+	public String goAdmin(Model model) {
+		
+		if (session.getAttribute("isAdmin") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		return "admin/admin_main";
+	}
+	
+	
 	@GetMapping("user")
-	public String userlist() {
+	public String userlist(Model model) {
+		
+		if (session.getAttribute("isAdmin") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
 		return "admin/admin_user_list";
 	}
 	
@@ -74,6 +92,23 @@ public class AdminController {
 	}
 	
 	
+	@GetMapping("master_category")
+	public String master_category(Model model) {
+		
+		if (session.getAttribute("isMaster") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		List<Map<String, Object>> categoryList = adminservice.selectCategoryList();
+		
+		System.out.println(categoryList);
+		
+		model.addAttribute("categoryList", categoryList);
+		return "admin/admin_master_category";
+	}
+	
+	
 	// AJAX 메소드
 	
 	// 유저
@@ -105,10 +140,25 @@ public class AdminController {
 	@PostMapping("masterAdmin")
 	public List<Map<String, Object>> masterAdmin(@RequestParam Map<String, Object> select,  Model model) {
 		List<Map<String, Object>> adminList = adminservice.selectAdminList(select);
-		
-		System.out.println(adminList);
-		
 		return adminList;
+	}
+		// 공통 코드 조회
+	@ResponseBody
+	@PostMapping("selectCode")
+	public List<Map<String, Object>> selectCode(@RequestParam Map<String, Object> select,  Model model) {
+		System.out.println(select);
+		List<Map<String, Object>> commonList = adminservice.selectCommonList(select);
+		System.out.println(commonList);
+		return commonList;
+	}
+		// 공통 코드 상태 변경
+	@ResponseBody
+	@PostMapping("changeHide")
+	public int changeHide(@RequestParam Map<String, Object> select) {
+		System.out.println(select);
+		int updateChangeActive = adminservice.changeHide(select);
+		
+		return updateChangeActive;
 	}
 		// 관리자 권한 바꾸기
 	@ResponseBody
@@ -119,5 +169,6 @@ public class AdminController {
 		
 		return updateChangeActive;
 	}
+	
 	
 }

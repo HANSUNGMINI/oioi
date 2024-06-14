@@ -497,4 +497,54 @@
         height: auto;
     }
     
-     
+    /* 제품 상태 색깔*/
+    span.out-of-stock {
+	    background-color: #ed1b24;
+	    display: inline-block;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+		}
+		
+	 span.price-dec {
+    	background: #34A853;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+	}	
+	 
+	span.new {
+	    background-color: #8493ca;
+	    display: inline-block;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+	}
+	     

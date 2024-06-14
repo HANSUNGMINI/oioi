@@ -228,26 +228,26 @@
 			   		<form action="noticeWrite" method= "post">
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
-				  				<h3> 제목 </h3>
+				  				<h3>${boardDetail.CM_TITLE}</h3>
 				  			</div>
 			  			
 				  			<div class = "view_info">
-								<em><b>작성자</b></em>
-								<em>${sessionScope.member_id}</em>
+								<em><b>${boardDetail.CM_NICK}</b></em>
+								<em></em>
 								<em class="em"><b>날짜</b></em>
-								<em> 2024년 6월 11일 </em>
+								<em>${boardDetail.CM_REG_DATE}</em>
 				  			</div>
 				  			
 							
 							<div class = "view_cont">
 				  				<p>
-				  					내용
+				  					${boardDetail.CM_CONTENT}
 								</p>
 				  			</div>
 					    </div>
 					    
 					     <div class="button-container" style="padding:4px">
-			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="history.back()" style="margin-right:10px;">
+			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
 			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify'" style="margin-right:10px;">
 			 				<input type="button"  value = "삭제" class="btn btn-primary" >
 			 			</div>	

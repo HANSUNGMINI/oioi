@@ -17,4 +17,8 @@ public class CommunityService {
 		return mapper.selectBoardList(map);
 	}
 
+	public Map<String, Object> selectBoardDetail(int CM_IDX) {
+		return mapper.selectBoardDetail(CM_IDX);
+	}
+
 }

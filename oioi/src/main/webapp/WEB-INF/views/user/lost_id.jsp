@@ -57,36 +57,19 @@
 	let serverAuthNum = "";
 	$(function() {
 		document.fr.onsubmit = function() {
-			if (!isValidName($("#phone_member_name").val())) { // 이름 확인
+			if (!isValidName($("#user_name").val())) { // 이름 확인
 		    	alert("이름을 확인해주세요.");
-		        document.fr.phone_member_name.focus();
+		        document.fr.user_name.focus();
 		        return false;
-		    } else if (!isValidPhoneNumber($("#member_phone").val())) {
+		    } else if (!isValidEmail($("#user_email").val())) {
 		    	alert("전화번호를 확인해주세요.");
-		    	document.fr.member_phone.focus();
+		    	document.fr.user_email.focus();
 		    	return false;
-		    } else if (serverAuthNum == "") { // 인증번호 요청 확인
-		        alert("인증번호 요청을 먼저 해주세요.");
-		        document.fr.member_phone.focus();
-		        return false;
-		    } else if ($("#auth_num").val() == "") {
-		    	alert("인증번호를 입력해주세요");
-		    	document.fr.auth_num.focus();
-		        return false; 
-		    } else if($("#auth_num").val() !== serverAuthNum){
-				alert("인증번호를 확인해주세요.");
-				return false;
-			} else if ($("#auth_num").val() == serverAuthNum) {
-				alert("인증되었습니다.");
-				checkAuthNumResult = true;
-			} else if (!checkAuthNumResult) {
-		    	alert("전화번호 인증을 완료해주세요.");
-		        return false; 
-		    }
+		    } else if(serverMailAuthNum == "") {
+		    	alert("인증메일발송을 먼저 요청해주세요.");
+		    	document.fr.check_email.focus();
+		    	return false;
 		}
-		
-		
-	
 	}); 
 
 	function phoneAuth() {
@@ -136,6 +119,110 @@
 	}
 	</script>
 </head>
+<style>
+#check_email:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 45px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_email {
+	width: 35%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 45px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+#check_tel:hover {
+	text-size-adjust: 100%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: none;
+	display: inline-block;
+	height: 45px;
+	line-height: 20px;
+	color: #fff;
+	background: #34A853;
+}
+
+#check_tel {
+	width: 35%;
+	box-sizing: inherit;
+	touch-action: manipulation;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	cursor: pointer;
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	font-weight: 500;
+	font-size: 14px;
+	background: #333;
+	transition: all 0.4s ease;
+	z-index: 5;
+	padding: 13px 32px;
+	border-radius: 0px;
+	text-transform: uppercase;
+	border: none;
+	display: inline-block;
+	height: 45px;
+	color: #fff !important;
+	line-height: 20px;
+}
+
+</style>
 <body class="js">
 
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -171,29 +258,27 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
-											<h4>본인확인 이메일로 인증</h4><br>
-											<label>이메일<span>*</span></label>
+											<label>본인확인 이메일로 인증하기<span>*</span></label>
+												<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" >
 											<div style="display: flex">
 												<input type="email" name="user_email" id="user_email" placeholder="이메일" >
-												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
-											</div>
-											<div id="authBox" style="display: flex">
-												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/>
+												<input type="submit" name="check_email" class="check_email" id="check_email" value="인증하기">
 											</div>
 										</div>
 									</div>
-									<div class="col-12">
-										<div class="form-group">
-											<label>전화번호<span>*</span></label>
-											<div style="display: flex">
-												<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" >
-												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
-											</div>
-											<div id="authBox" style="display: flex">
-												<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/>
-											</div>
-										</div>
-									</div>
+<!-- 									<div class="col-12"> -->
+<!-- 										<div class="form-group"> -->
+<!-- 											<label>전화번호로 인증하기<span>*</span></label> -->
+<!-- 												<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" > -->
+<!-- 											<div style="display: flex"> -->
+<!-- 												<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" > -->
+<!-- 												<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()"> -->
+<!-- 											</div> -->
+<!-- 											<div id="authBox" style="display: flex"> -->
+<!-- 												<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 								</div>
 							</form>
 							<!--/ End Form -->
@@ -206,4 +291,38 @@
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 </body>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
+	<!-- Popper JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<!-- Color JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/colors.js"></script>
+	<!-- Slicknav JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/slicknav.min.js"></script>
+	<!-- Owl Carousel JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/owl-carousel.js"></script>
+	<!-- Magnific Popup JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/magnific-popup.js"></script>
+	<!-- Fancybox JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/facnybox.min.js"></script>
+	<!-- Waypoints JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
+	<!-- Countdown JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/finalcountdown.min.js"></script>
+	<!-- Nice Select JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
+	<!-- Ytplayer JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script>
+	<!-- Flex Slider JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/flex-slider.js"></script>
+	<!-- ScrollUp JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/scrollup.js"></script>
+	<!-- Onepage Nav JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/onepage-nav.min.js"></script>
+	<!-- Easing JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
+	<!-- Active JS -->
+	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
 </html>

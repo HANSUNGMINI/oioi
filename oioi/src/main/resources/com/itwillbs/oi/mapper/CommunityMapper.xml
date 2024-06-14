@@ -11,14 +11,14 @@
   			 COUNT(*) 
   			 FROM community
   			 WHERE 1=1
-  			 <if test="type != null and type != ''">
+  			 <if test="type != null and type != ''and type != '전체 게시판'">
 		  		AND CM_CATEGORY = #{type}
 			</if>
   			 )
   			 AS count
   		FROM community
-  		where 1=1
-		<if test="type != null and type != ''">
+  			 WHERE 1=1
+		<if test="type != null and type != '' and type != '전체 게시판'">
 		  AND CM_CATEGORY = #{type}
 		</if>
   		ORDER BY CM_IDX desc
@@ -26,6 +26,15 @@
   	
   	</select>
   
+  	<select id="selectBoardDetail" resultType="map">
+  		SELECT
+  		*
+  		FROM
+  		community
+  		WHERE
+  		CM_IDX = #{CM_IDX}
+  	
+  	</select>
   
   
   

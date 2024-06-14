@@ -8,10 +8,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Tables - Admin One Tailwind CSS Admin Dashboard</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?v=1652870200386">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
-	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	
 	
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
@@ -21,16 +22,6 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-130795909-1');
 	</script>
-	<style>
-		#submitBtn:hover {
-			background-color :#34A853; 
-		}
-		
-		.clickID {
-			cursor : pointer;
-		}
-	
-	</style>
 </head>
 <body>
 	<div id="app">
@@ -218,7 +209,7 @@
 			           			+ '<div class="buttons right nowrap">'
 			           			+ '<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button"'
 			           			+ 'onclick="detail(\'' + user.US_ID + '\')">'
-			           			+ '<span class="icon"><i class="mdi mdi-eye"></i></span></button>'
+			           			+ '<span class="icon"><i class="mdi mdi-account-edit"></i></span></button>'
 			           			+ '</td>'
 							);
 						};

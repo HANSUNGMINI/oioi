@@ -21,6 +21,40 @@
 		FROM category
 		WHERE UP_CTG_CODE LIKE '__00';
 	</select>
+	
+	<insert id="insertImg" parameterType="map" useGeneratedKeys="true" keyProperty="imgIdx">
+		INSERT INTO images
+	    (
+	        image1,
+	        image2,
+	        image3,
+	        image4,
+	        image5
+	    )
+	    VALUES
+	    (
+	        <choose>
+	            <when test="#{image1} != null">#{image1}</when>
+	            <otherwise>null</otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="#{image2} != null">#{image2}</when>
+	            <otherwise>null</otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="#{image3} != null">#{image3}</when>
+	            <otherwise>null</otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="#{image4} != null">#{image4}</when>
+	            <otherwise>null</otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="#{image5} != null">#{image5}</when>
+	            <otherwise>null</otherwise>
+	        </choose>
+	    )
+	</insert>
 </mapper>
 
 

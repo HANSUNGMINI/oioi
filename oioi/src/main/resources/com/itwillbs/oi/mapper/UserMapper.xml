@@ -27,7 +27,7 @@
 			, #{US_ADDRESS2}
 			, #{US_PHONE}
 			, #{US_GENDER}
-			, now()
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
 			, 0
 		)
 	</insert>
@@ -50,12 +50,12 @@
 		WHERE US_NICK = #{US_NICK}
 	</select>
 	
-	<select id="selectForgotId" resultType="hashmap">
+	<select id="selectfindId" resultType="map">
 		SELECT *
 		  FROM user 
 		 WHERE
-			   US_Name =  #{US_Name}  
-		 AND   US_EMAIL = #{US_EMAIL}
+			   US_NAME =  #{user_name}  
+		 AND   US_EMAIL = #{user_email}
 	</select>
 	
 	<select id="selectForgotIdPhone" resultType="string">

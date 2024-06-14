@@ -57,7 +57,7 @@
 					<div class="col-12">
 						<div class="bread-inner">
 							<ul class="bread-list">
-								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
+								<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
 								<li class="active"><a href="blog-single.html">팝니다</a></li>
 							</ul>
 						</div>
@@ -68,7 +68,7 @@
 		<!-- End Breadcrumbs -->
 		
 		<!-- Product Style -->
-		<section class="product-area shop-sidebar shop section">
+		<section class="product-area shop-sidebar shop section" style="padding-top:10px">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-4 col-12">

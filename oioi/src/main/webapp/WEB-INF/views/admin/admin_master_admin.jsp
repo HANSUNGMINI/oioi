@@ -11,8 +11,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
-	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
-	
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
 	<script>
@@ -21,79 +20,6 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-130795909-1');
 	</script>
-	<style>
-		#submitBtn:hover {
-			background-color :#34A853; 
-		}
-		
-		.clickID {
-			cursor : pointer;
-		}
-		
-		
-		.toggle {
-		  display: inline-flex;
-		  align-items: center;
-		  gap: 0.5rem;
-		  cursor: pointer;
-		}
-
-	.toggle_check {
-	  appearance: none;
-	  position: relative;
-	  border: max(2px, 0.1em) solid gray;
-	  border-radius: 1.25em;
-	  width: 2.25em;
-	  height: 1.25em;
-	}
-	
-	.toggle_check::before {
-	  content: "";
-	  position: absolute;
-	  left: 0;
-	  width: 1em;
-	  height: 1em;
-	  border-radius: 50%;
-	  transform: scale(0.8);
-	  background-color: gray;
-	  transition: left 250ms linear;
-	}
-	
-	.toggle_check:checked {
-	  background-color: #34A853;
-	  border-color: #34A853;
-	}
-	
-	.toggle_check:checked::before {
-	  background-color: white;
-	  left: 1em;
-	}
-	
-	.toggle_check:disabled {
-	  border-color: lightgray;
-	  opacity: 0.7;
-	  cursor: not-allowed;
-	}
-	
-	.toggle_check:disabled:before {
-	  background-color: lightgray;
-	}
-	
-	.toggle_check:disabled + span {
-	  opacity: 0.7;
-	  cursor: not-allowed;
-	}
-	
-	.toggle_check:focus-visible {
-	  outline-offset: max(2px, 0.1em);
-	  outline: max(2px, 0.1em) solid tomato;
-	}
-	
-	.toggle_check:enabled:hover {
-	  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-	}
-	
-	</style>
 </head>
 <body>
 	<div id="app">
@@ -106,21 +32,19 @@
 				<li>내가 짱이야</li>
 			</ul>
 		</div>
+		
 	</section>
 	<section class="section main-section">
+	
+		
+    	
 	    <div class="card has-table">
 	    	<header class="card-header">
 	        	<p class="card-header-title" style="width:90%">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
 	          		관리자
 	        	</p>
-	        	<a href="#" target="_blank" class="button blue">
-			      <span>관리자 등록</span>
-    			</a>
-	        	<a href="#" id="refreshBtn" class="card-header-icon">
-          			<span class="icon"><i class="mdi mdi-reload"></i></span>
-        		</a>
-        		
+	        
 	      	</header>
 	       	<div class="card-content">
 	        	<table>
@@ -135,60 +59,38 @@
 				            <th>관리자 등록일</th>
 				            <th>관리자 역할 </th>
 				            <th>관리자 권한 </th>
+				            <th>
+				            	<div class="buttons right nowrap">
+			           				<button class="button small blue --jb-modal" id="insertAdmin" type="button">
+			           					<span class="icon"><i class="mdi mdi-account-plus"></i></span>
+			           				</button>
+		           				</div>
+				            </th>
 	         			 </tr>
 	          		</thead>
 	          		<tbody class="tbody">
 	         		</tbody>
 	        	</table>
-	        		<!--  테이블 끝, 페이징 버튼 구역 -->
-				<div class="table-pagination">
-					<div class="flex items-center justify-between">
-				    	<div class="buttons">
-				    		<button type="button" class="button active">1</button>
-				      		<button type="button" class="button">2</button>
-				      		<button type="button" class="button">3</button>
-				      		<!-- 일단 남겨둠2 -->
-				            
-				    	</div>
-					</div>
-				</div>
 			</div>
 		</div>	
 	</section>
     
     <!-- 모달창 -->
-	<div id="sample-modal" class="modal">
-		<div class="modal-background --jb-modal-close"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-			  <p class="modal-card-title">Sample modal</p>
-			</header>
-			<section class="modal-card-body">
-			  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-			  <p>This is sample modal</p>
-			</section>
-			<footer class="modal-card-foot">
-			  <button class="button --jb-modal-close">Cancel</button>
-			  <button class="button red --jb-modal-close">Confirm</button>
-			</footer>
-		</div>	
-	</div>
-	<!-- 빨간 모달 -->
 	<div id="sample-modal-2" class="modal">
-	  <div class="modal-background --jb-modal-close"></div>
-	  <div class="modal-card">
-	    <header class="modal-card-head">
-	      <p class="modal-card-title">Sample modal</p>
-	    </header>
-	    <section class="modal-card-body">
-	      <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-	      <p>This is sample modal</p>
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button --jb-modal-close">Cancel</button>
-	      <button class="button blue --jb-modal-close">Confirm</button>
-	    </footer>
-	</div>
+		<div class="modal-background --jb-modal-close"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+				  <p class="modal-card-title">Sample modal</p>
+				</header>
+				<section class="modal-card-body">
+				  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
+				  <p>This is sample modal</p>
+				</section>
+				<footer class="modal-card-foot">
+				  <button class="button --jb-modal-close">Cancel</button>
+				  <button class="button red --jb-modal-close">Confirm</button>
+				</footer>
+			</div>	
 		</div>
 	</div>
 </body>
@@ -214,6 +116,7 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
+					
 					$(".tbody").empty();
 					
 					if(response == null) {
@@ -232,10 +135,10 @@
 					} else {
 						
 						for(let admin of response) {
-							let active = "";
+							let checked = "";
 							
-							if(admin.AD_ACTIVE === 'Y') {
-								active = "checked";
+							if(admin.AD_ACTIVE == 'Y') {
+								checked = "checked";
 							}
 							
 							$(".tbody").append(
@@ -252,16 +155,16 @@
 			           			+ '<td data-label="City">'+ admin.AD_DATE +'</td>'
 			           			+ '<td data-label="City">'+ admin.RL_NAME +'</td>'
 			           			+ '<td>'
-			           			+ '<label class="toggle">'
-							    + '<input role="switch" type="checkbox" class="toggle_check"'
-							    + active
-							 	+ 'onchange="changeActive(\'' + admin.AD_ID + '\', this)" />'
-							 	+ '</label>'
+			           			+ '	<label class="toggle">'
+							    + '		<input role="switch" type="checkbox" class="toggle_check" '
+							    + checked
+							 	+ '		onchange="changeActive(\'' + admin.AD_ID + '\', this)" />'
+							 	+ '	</label>'
 			           			+ '</td>'
 			           			+ '<td class="actions-cell">'
 			           			+ '<div class="buttons right nowrap">'
 			           			+ '<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">'
-			           			+ '<span class="icon"><i class="mdi mdi-eye"></i></span></button>'
+			           			+ '<span class="icon"><i class="mdi mdi-pencil"></i></span></button></div>'
 			           			+ '</td>'
 							);
 						};
@@ -303,6 +206,6 @@
 		
 		
 	</script>
-	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 </html>
     

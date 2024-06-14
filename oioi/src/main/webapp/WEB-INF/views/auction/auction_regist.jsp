@@ -109,14 +109,13 @@
 		   
 			
 		});
-		});
 	
 	</script>
 	
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -144,7 +143,7 @@
 							<h2>경매 상품 등록</h2>
 							<p>상품 정보를 입력해주세요</p>
 							<!-- Form -->
-							<form class="form" method="post" action="register" name="fr">
+							<form class="form" method="post" action="auctionRegist" enctype="multipart/form-data" name="fr">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
@@ -185,26 +184,9 @@
 									    	<div>
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
 									        </div>
-<!-- 									        <div style="display: flex; align-items: center;"> -->
-<!-- 									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;"> -->
-<!-- 									                <input type="radio" id="male" name="gender" value="male" >새상품(미사용) -->
-<!-- 									            </label> -->
-<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" > -->
-<!-- 									                <input type="radio" id="female" name="gender" value="female" size="5">사용감 없음 -->
-<!-- 									            </label> -->
-<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
-<!-- 									                <input type="radio" id="female" name="gender" value="female">사용감 적음 -->
-<!-- 									            </label> -->
-<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
-<!-- 									                <input type="radio" id="female" name="gender" value="female">사용감 많음 -->
-<!-- 									            </label> -->
-<!-- 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;"> -->
-<!-- 									                <input type="radio" id="female" name="gender" value="female">고장/파손 상품 -->
-<!-- 									            </label> -->
-													<c:forEach var="productCondition" items="${productCondition}">
-														<input type="radio" name="APD_CONDITION" value="${productCondition.name}">${productCondition.value}
-													</c:forEach>
-<!-- 									        </div> -->
+											<c:forEach var="productCondition" items="${productCondition}">
+												<input type="radio" name="APD_CONDITION" value="${productCondition.name}"> ${productCondition.value}
+											</c:forEach>
 									    </div>
 									</div>
 									<div class="col-12">
@@ -223,14 +205,8 @@
 									    <div>
 									        <label>거래방식<span style="color: red; margin-left: 5px;">*</span></label>
 									        <div style="display: flex; align-items: center;">
-									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="male" name="gender" value="male" >모두가능
-									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
-									                <input type="radio" id="female" name="gender" value="female" size="5">직거래만 가능
-									            </label>
 									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="female" name="gender" value="female">택배거래만 가능
+									                <input type="radio" id="female" name="PD_METHOD" value="PM03" checked="checked"> 택배거래만 가능
 									            </label>
 									        </div>
 									    </div>
@@ -239,14 +215,14 @@
 										<div>
 											<label>입찰마감기한<span style="color: red; margin-left: 5px;">*</span></label>
 											<div style="display: flex; align-items: center;">
-									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="male" name="gender" value="male" >15일
+									            <label style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" name="APD_DEADLINE" value="15" > 15일
 									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;" >
-									                <input type="radio" id="female" name="gender" value="female" size="5">30일
+									            <label style="display: flex; align-items: center; margin-right: 10px;" >
+									                <input type="radio" name="APD_DEADLINE" value="30" size="5"> 30일
 									            </label>
-									            <label for="female" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="female" name="gender" value="female">60일
+									            <label style="display: flex; align-items: center; margin-right: 10px;">
+									                <input type="radio" name="APD_DEADLINE" value="60"> 60일
 									            </label>
 									        </div>
 										</div>
@@ -254,9 +230,9 @@
 									<div class="col-12">
 										<div class="regForm">
 											<label> 상품 이미지<small>(최대 5장)</small></label>
-											<input type="file" accept="image/*" name="addfile" multiple id="addfile">
+											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" required>
 											<div class="preView">
-												<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
+<%-- 												<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg"> --%>
 											</div>
 										</div>
 									</div>
@@ -280,11 +256,11 @@
 	<!-- Jquery -->
 	<script>
 	$(function() {
-        $(".addImg").on("click", function() {
+        $(".APD_IMAGE").on("click", function() {
             $('#addfile').click();
         });
 
-        $("#addfile").on("change", function(event) {
+        $("#APD_IMAGE").on("change", function(event) {
             if (this.files.length > 5) {
                 alert("최대 5개의 이미지만 업로드할 수 있습니다.");
                 this.value = ""; // 선택된 파일 초기화
@@ -297,6 +273,7 @@
                         var img = document.createElement("img");
                         img.setAttribute("src", event.target.result);
                         img.setAttribute("class", "tempImg");
+                        img.setAttribute("name", "APD_IMAGE");
                         img.style.width = "100px"; // 원하는 너비로 설정
                         img.style.height = "100px"; // 원하는 높이로 설정
                         img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
