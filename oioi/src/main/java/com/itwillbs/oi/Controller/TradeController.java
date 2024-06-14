@@ -106,30 +106,52 @@ public class TradeController {
 //		Map<String, String> fileMap = new HashMap();
 //		fileMap.put("setCar_images_1", null);
 		 String uploadDir = "/resources/upload";
-	        String saveDir = session.getServletContext().getRealPath(uploadDir);
+        String saveDir = session.getServletContext().getRealPath(uploadDir);
 
 	        // 파일 저장
-	        Map<String, String> fileMap = new HashMap<>();
-	        for (int i = 0; i < files.length && i < 5; i++) {
-	            MultipartFile file = files[i];
-	            if (!file.isEmpty()) {
-	                String uuid = UUID.randomUUID().toString();
-	                String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
-	                try {
-	                    file.transferTo(new File(saveDir, fileName));
-	                    fileMap.put("PD_IMAGE" + (i+1), uploadDir + "/" + fileName);
-	                } catch (IllegalStateException | IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-
-	        // 파라미터 및 파일 정보 서비스로 전달
-	        map.put("US_ID", (String)session.getAttribute("US_ID"));
-	        map.putAll(fileMap);
-	        TradeService.submitProduct(map);
-
-	        return "./";
+        Map<String, String> fileMap = new HashMap<>();
+        for (int i = 0; i < files.length && i < 5; i++) {
+            MultipartFile file = files[i];
+            if (!file.isEmpty()) {
+                String uuid = UUID.randomUUID().toString();
+                String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
+                try {
+                    file.transferTo(new File(saveDir, fileName));
+                    fileMap.put("PD_IMAGE" + (i+1), uploadDir + "/" + fileName);
+                } catch (IllegalStateException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate1"));
+        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate2"));
+        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate3"));
+        
+        map.put("US_ID", (String)session.getAttribute("US_ID"));
+        map.put("PD_CATEGORY", map.get("cate1").toString() + "/" 
+        						+ map.get("cate2").toString() + "/" 
+        						+ map.get("cate3").toString());
+//	        map.put("PD_SUBJECT", map.get("subject"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_PRICE", map.get("content"));
+        map.put("PD_CONDITION", map.get("productCondition"));
+        map.put("PD_TRADE_METHOD", map.get("tradeMethod"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+//	        map.put("PD_CONTENT", map.get("content"));
+        
+        // 파라미터 및 파일 정보 서비스로 전달
+        map.putAll(fileMap);
+        
+        System.out.println("######################################" + map); //작성값 다 가져오기
+        TradeService.submitProduct(map);
+        
+        return "home";
 		
 	}
 }
