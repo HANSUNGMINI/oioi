@@ -209,7 +209,7 @@
 <script type="text/javascript">
 	let categoryType = "";
 	$(function() {
-		showBoard();
+		showBoard("");
 		
 		
 		
@@ -255,11 +255,11 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this,'전체')" id="all" >전체 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'질문')">질문 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'신고')">신고 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'정보')">정보 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'친목')">친목 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this, '')" id="all" >전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'질문 게시판')">질문 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'신고 게시판')">신고 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'정보 게시판')">정보 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'친목 게시판')">친목 게시판</a></li>
 						</ul>
 					</div>
 				</div>

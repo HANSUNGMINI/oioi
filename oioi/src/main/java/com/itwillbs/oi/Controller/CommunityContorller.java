@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonArray;
@@ -29,10 +30,12 @@ public class CommunityContorller {
 	
 	@ResponseBody
 	@GetMapping("selectBoard")
-	public JsonObject selectBoard() {
+	public JsonObject selectBoard(@RequestParam String type, Map<String, Object> map) {
 		JsonObject response = new JsonObject();
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("type", type);
+		
+		System.out.println(map);
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
 		
 		System.out.println("boardList : " + boardList);
