@@ -98,7 +98,7 @@
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
-										<input type="file" accept="image/*" name="addfile" multiple id="addfile">확인용 마지막에 삭제
+										<input type="file" accept="image/*" name="addfile" multiple id="addfile" style="display : none">확인용 마지막에 삭제
 										<div class="preView">
 											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
 										</div>

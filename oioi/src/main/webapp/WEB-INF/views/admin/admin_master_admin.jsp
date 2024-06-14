@@ -11,8 +11,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
-	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
-	
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
 	<script>
@@ -33,21 +32,19 @@
 				<li>내가 짱이야</li>
 			</ul>
 		</div>
+		
 	</section>
 	<section class="section main-section">
+	
+		
+    	
 	    <div class="card has-table">
 	    	<header class="card-header">
 	        	<p class="card-header-title" style="width:90%">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
 	          		관리자
 	        	</p>
-	        	<a href="#" target="_blank" class="button blue">
-			      <span>관리자 등록</span>
-    			</a>
-	        	<a href="#" id="refreshBtn" class="card-header-icon">
-          			<span class="icon"><i class="mdi mdi-reload"></i></span>
-        		</a>
-        		
+	        
 	      	</header>
 	       	<div class="card-content">
 	        	<table>
@@ -62,6 +59,13 @@
 				            <th>관리자 등록일</th>
 				            <th>관리자 역할 </th>
 				            <th>관리자 권한 </th>
+				            <th>
+				            	<div class="buttons right nowrap">
+			           				<button class="button small blue --jb-modal" id="insertAdmin" type="button">
+			           					<span class="icon"><i class="mdi mdi-account-plus"></i></span>
+			           				</button>
+		           				</div>
+				            </th>
 	         			 </tr>
 	          		</thead>
 	          		<tbody class="tbody">
@@ -72,38 +76,21 @@
 	</section>
     
     <!-- 모달창 -->
-	<div id="sample-modal" class="modal">
-		<div class="modal-background --jb-modal-close"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-			  <p class="modal-card-title">Sample modal</p>
-			</header>
-			<section class="modal-card-body">
-			  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-			  <p>This is sample modal</p>
-			</section>
-			<footer class="modal-card-foot">
-			  <button class="button --jb-modal-close">Cancel</button>
-			  <button class="button red --jb-modal-close">Confirm</button>
-			</footer>
-		</div>	
-	</div>
-	<!-- 빨간 모달 -->
 	<div id="sample-modal-2" class="modal">
-	  <div class="modal-background --jb-modal-close"></div>
-	  <div class="modal-card">
-	    <header class="modal-card-head">
-	      <p class="modal-card-title">Sample modal</p>
-	    </header>
-	    <section class="modal-card-body">
-	      <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-	      <p>This is sample modal</p>
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button --jb-modal-close">Cancel</button>
-	      <button class="button blue --jb-modal-close">Confirm</button>
-	    </footer>
-	</div>
+		<div class="modal-background --jb-modal-close"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+				  <p class="modal-card-title">Sample modal</p>
+				</header>
+				<section class="modal-card-body">
+				  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
+				  <p>This is sample modal</p>
+				</section>
+				<footer class="modal-card-foot">
+				  <button class="button --jb-modal-close">Cancel</button>
+				  <button class="button red --jb-modal-close">Confirm</button>
+				</footer>
+			</div>	
 		</div>
 	</div>
 </body>
@@ -177,7 +164,7 @@
 			           			+ '<td class="actions-cell">'
 			           			+ '<div class="buttons right nowrap">'
 			           			+ '<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">'
-			           			+ '<span class="icon"><i class="mdi mdi-eye"></i></span></button>'
+			           			+ '<span class="icon"><i class="mdi mdi-pencil"></i></span></button></div>'
 			           			+ '</td>'
 							);
 						};
@@ -190,7 +177,6 @@
 		}
 		
 		function changeActive(id, checkBox){
-			alert(id);
 			let isChecked = checkBox.checked;
 			
 			if(confirm("관리자 상태를 변경하시겠습니까?")){

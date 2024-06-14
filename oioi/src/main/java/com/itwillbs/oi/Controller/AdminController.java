@@ -35,6 +35,18 @@ public class AdminController {
 		return "home";
 	}
 	
+	@GetMapping("admin")
+	public String goAdmin(Model model) {
+		
+		if (session.getAttribute("isAdmin") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		return "admin/admin_main";
+	}
+	
+	
 	@GetMapping("user")
 	public String userlist(Model model) {
 		
