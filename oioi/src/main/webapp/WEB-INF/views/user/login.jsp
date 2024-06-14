@@ -54,7 +54,17 @@
 </head>
 <style>
 .checkbox input[type="checkbox"] {
-    margin-right: 10px;
+	margin-right: 10px;
+}
+
+.login-option {
+	text-align: center;
+	align-items: center;
+}
+
+.login-option {
+	display: inline-block;
+	margin: 0 30px;
 }
 </style>
 
@@ -112,7 +122,10 @@
 											<div class="checkbox">
 												<input class="rememberMe" name="rememberMe" id="rememberMe" type="checkbox" checked>아이디 기억하기
 											</div>
-											<a href="#" class="lost-pass">비밀번호 찾기</a>
+											<div class="login-option">
+												<a href="lost_id" class="lost-id">아이디 찾기</a>
+												<a href="lost_passwd" class="lost-pass">비밀번호 찾기</a>
+											</div>
 										</div>
 									</c:when>
 									<c:otherwise>
@@ -136,7 +149,10 @@
 											<div class="checkbox">
 												<input name="rememberMe" id="rememberMe" type="checkbox">아이디 기억하기
 											</div>
-											<a href="#" class="lost-pass">비밀번호 찾기</a>
+											<div class="login-option">
+												<a href="lost_id" class="lost-id">아이디 찾기</a>
+												<a href="lost_passwd" class="lost-pass">비밀번호 찾기</a>
+											</div>
 										</div>
 										</c:otherwise>
 									</c:choose>

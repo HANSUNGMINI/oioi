@@ -148,7 +148,7 @@ public class UserController {
 	        model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
 	        return "err/fail";
 	    } else { // 로그인 성공
-	        // 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
+	        // 세션 객체에 로그인 성공한 아이디 및 닉네임 저장
 	        session.setAttribute("US_ID", userId);
 	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
@@ -165,6 +165,11 @@ public class UserController {
 	        // 메인페이지 리다이렉트
 	        return "redirect:/";
 	    }
+	}
+	
+	@GetMapping("lost_id")
+	public String lost_id() {
+		return "user/lost_id";
 	}
 	
 }

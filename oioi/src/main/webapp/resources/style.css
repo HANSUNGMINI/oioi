@@ -3537,6 +3537,10 @@ Version:1.0
 	font-size:14px;
 	font-weight:400;
 }
+.shop.login .login-form .lost-id:hover{
+	color:#268A53;
+}
+
 .shop.login .login-form .lost-pass:hover{
 	color:#F7941D;
 }
