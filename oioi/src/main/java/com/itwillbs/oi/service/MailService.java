@@ -32,9 +32,10 @@ public class MailService {
 		return authInfo;
 	}
 
-	public void sendForgotId(Map<String, Object> userMap) {
-		String userEmail = (String) userMap.get("user_email");
-		String userId = (String) userMap.get("user_id");
+	public void sendForgotId(Map<String, Object> user) {
+		System.out.println("메일서비스 user 정보: " + user);
+		String userEmail = (String) user.get("US_EMAIL");
+		String userId = (String) user.get("US_ID");
 		String subject = "[오이마켓] 아이디를 확인해주세요.";
 		String content = "회원님의 가입된 아이디는 <b>" + userId + "</b>입니다.";
 		

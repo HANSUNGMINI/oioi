@@ -44,6 +44,8 @@ public interface UserMapper {
 
 	Map<String, String> selectUser(String userId);
 
+	Map<String, Object> selectfindId(Map<String, Object> userMap);
+
 	
 
 	
