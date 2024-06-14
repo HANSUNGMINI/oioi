@@ -23,7 +23,6 @@ public class AdminController {
 	@Autowired
 	private HttpSession session;
 	
-	
 	// 이동 메소드
 	@GetMapping("adminlogin")
 	public String goLoginPage() {
@@ -41,31 +40,48 @@ public class AdminController {
 		return "admin/admin_user_list";
 	}
 	
-	@GetMapping("admin")
-	public String goAdmin() {
-		return "admin/admin_main";
+	@GetMapping("master_admin")
+	public String master_admin(Model model) {
+		
+		if (session.getAttribute("isMaster") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		return "admin/admin_master_admin";
 	}
-	
 	
 	// DB작업 후 이동 메소드
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
 							, Model model) {
+		
 		Map<String, Object> selectedAdmin = adminservice.selectAdmin(admin);
+		
 		if(selectedAdmin == null) {
 			model.addAttribute("msg", "다시 시도");
 			return "err/fail";
 		}
 		
+		if(selectedAdmin.get("RL_NAME").toString().equals("최고관리자")) {
+			session.setAttribute("isMaster", true);
+		}
+		
+		session.setAttribute("isAdmin", true);
 		session.setAttribute("admin", selectedAdmin);
-		return "redirect:/admin";
+		
+		return "admin/admin_main";
 	}
 	
+	
 	// AJAX 메소드
+	
+	// 유저
+		// 유저 목록조회
 	@ResponseBody
 	@PostMapping("UserList")
 	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select) {
-		PageInfo pageInfo = new PageInfo(Integer.parseInt(select.get("pageNum").toString()), 3);
+		PageInfo pageInfo = new PageInfo(Integer.parseInt(select.get("pageNum").toString()), 10);
 		select.put("limit", pageInfo);
 		
 //		PageInfo.makePageInfo(pageInfo, 0, 0);
@@ -74,12 +90,34 @@ public class AdminController {
 		
 		return userList;
 	}
-	
+		// 유저 상세조회
 	@ResponseBody
 	@PostMapping("UserDetail")
 	public Map<String, Object> UserDetail(@RequestParam Map<String, String> user) {
 		Map<String, Object> map = null;
 		return map;
+	}
+	
+	
+	// 관리자
+		// 관리자 목록 조회
+	@ResponseBody
+	@PostMapping("masterAdmin")
+	public List<Map<String, Object>> masterAdmin(@RequestParam Map<String, Object> select,  Model model) {
+		List<Map<String, Object>> adminList = adminservice.selectAdminList(select);
+		
+		System.out.println(adminList);
+		
+		return adminList;
+	}
+		// 관리자 권한 바꾸기
+	@ResponseBody
+	@PostMapping("changeActive")
+	public int changeActive(@RequestParam Map<String, Object> select) {
+		System.out.println(select);
+		int updateChangeActive = adminservice.changeActive(select);
+		
+		return updateChangeActive;
 	}
 	
 }

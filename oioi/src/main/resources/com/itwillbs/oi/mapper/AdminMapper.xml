@@ -7,7 +7,7 @@
 	<select id="selectAdmin" resultType="map">
 		SELECT *
 		  FROM admin
-		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW}
+		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW} AND AD_ACTIVE = 'Y'
 	</select>
 	
 	<select id="selectUserList" resultType="map">
@@ -27,6 +27,22 @@
 		  LIMIT #{limit.startRow}, #{limit.listLimit} 
 	</select>
 	
+	<select id="selectAdminList" resultType="map">
+		SELECT *
+		  FROM admin
+		 WHERE RL_NAME != '최고관리자';
+	</select>
+	
+	
+	<update id="changeActive">
+		UPDATE admin
+		   SET
+		   <choose>
+				<when test="value.equals('true')"> AD_ACTIVE = 'Y'</when>		   
+				<when test="value.equals('false')">AD_ACTIVE = 'N'</when>		   
+		   </choose>
+		 WHERE AD_ID = #{target};
+	</update>
 </mapper>
 
 

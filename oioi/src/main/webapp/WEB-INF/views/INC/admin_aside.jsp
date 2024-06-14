@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script>
+	$("#test").on("click", function(){
+		$(".section").load("user");
+	})
+
+</script>
 <div class="aside-tools">
 	    <div>오이마켓</div>
 	  </div>
@@ -16,13 +24,35 @@
 	    </ul>
 	    <p class="menu-label">Examples</p>
 	    <ul class="menu-list">
-    		<!-- 리스트 한개 -->
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">유저관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
+	    	<!--  최고 관리자  -->
+	    	<c:if test="${isMaster eq true}">
+	    		<li>
+			        <a class="dropdown">
+						<span class="icon"><i class="mdi mdi-view-list"></i></span>
+						<span class="menu-item-label">사이트 관리</span>
+						<span class="icon"><i class="mdi mdi-plus"></i></span>
+			        </a>
+        			<ul>
+	          			<li>
+	            			<a href="master_admin">
+	             				<span>관리자 조회</span>
+	            			</a>
+	          			</li>
+	          			<li>
+	            			<a href="master_category">
+	              				<span>카테고리 변경</span>
+	            			</a>
+	          			</li>
+	        		</ul>
+	      		</li>
+        	</c:if>
+        	<!--  최고 관리자  -->
+	      	<li>
+		        <a class="dropdown">
+		          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+		          <span class="menu-item-label">유저관리</span>
+		          <span class="icon"><i class="mdi mdi-plus"></i></span>
+		        </a>
 	        <ul>
 	          <li>
 	            <a href="user">
@@ -30,7 +60,7 @@
 	            </a>
 	          </li>
 	          <li>
-	            <a href="#void">
+	            <a href="#" id="test">
 	              <span>Sub-item Two</span>
 	            </a>
 	          </li>

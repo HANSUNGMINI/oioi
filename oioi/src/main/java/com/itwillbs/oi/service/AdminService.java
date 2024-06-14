@@ -20,4 +20,12 @@ public class AdminService {
 	public List<Map<String, Object>> selectUserList(Map<String, Object> select){
 		return adminMapper.selectUserList(select);
 	}
+	
+	public List<Map<String, Object>> selectAdminList(Map<String, Object> select){
+		return adminMapper.selectAdminList(select);
+	}
+	
+	public int changeActive(Map<String, Object> select){
+		return adminMapper.changeActive(select);
+	}
 }
