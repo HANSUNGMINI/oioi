@@ -207,33 +207,41 @@
 <body class="js">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-// ----------- variables ------------
-// --------------------------------
-
-
 	let categoryType = "";
 	$(function() {
-		var type = '${type.type}';
-		var cate = '${type.cate}';
-		var aLink = $('#' + cate)[0];
-		showBoard(type);
-		clickCategory(aLink, type);
+		showBoard("");
 		
+		
+		
+		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
+		let allElement = $("#all");
+		allElement.css("fontWeight", "bold");
+		allElement.text("> " + allElement.text());
+		
+		// 초기화 변수 설정
+		let previousLink = allElement[0]; // jQuery 객체를 DOM 요소로 변환
+		let previousText = allElement.text().substring(2); // "> " 제거한 텍스트 저장
+		
+		// 카테고리 클릭 시 실행되는 함수
+		window.clickCategory = function(element,type) {
+		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+		    if (previousLink) {
+		        previousLink.style.fontWeight = 'normal';
+		        previousLink.textContent = previousText;
+		    }
+		    
+		    // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+		    previousLink = element;
+		    previousText = element.textContent;
+		    
+		    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+		    element.style.fontWeight = 'bold';
+		    element.textContent = "> " + previousText;
+		    
+		    showBoard(type);
+		    
+		};
 	});
-	
-function clickCategory (element, type) {
-    $('.category-list').children().each(function(index, li){
-    	let aLink = $(li).children()[0];
-    	
-    	aLink.style.fontWeight = 'normal';
-    	aLink.textContent = aLink.textContent.replace("> ", "");
-    });
-    element.style.fontWeight = 'bold';
-    element.textContent = "> " + element.textContent;
-    
-    showBoard(type);
-};
-	
 </script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
@@ -247,11 +255,11 @@ function clickCategory (element, type) {
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this,'전체 게시판')" id="all" >전체 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'질문 게시판')" id="qna">질문 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'신고 게시판')" id="report">신고 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'정보 게시판')" id="info">정보 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'친목 게시판')" id="together">친목 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this, '')" id="all" >전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'질문 게시판')">질문 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'신고 게시판')">신고 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'정보 게시판')">정보 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'친목 게시판')">친목 게시판</a></li>
 						</ul>
 					</div>
 				</div>

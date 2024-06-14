@@ -25,20 +25,8 @@ public class CommunityContorller {
 	
 	
 	@GetMapping("community")
-	public String Community(@RequestParam Map<String, String> map, Model model) {
+	public String Community() {
 		
-		System.out.println("!@#!@#");
-		System.out.println(map);
-		String type = "all";
-		String value = map.get("type") == null ? "" : map.get("type");
-		switch (value) {
-		case "질문 게시판": type = "qna"; break;
-		case "신고 게시판": type = "report"; break;
-		case "정보 게시판": type = "info"; break;
-		case "친목 게시판": type = "together"; break;
-		}
-		map.put("cate", type);
-		model.addAttribute("type", map);
 		return "community/community_main";
 	}
 	
@@ -48,10 +36,10 @@ public class CommunityContorller {
 		JsonObject response = new JsonObject();
 		
 		map.put("type", type);
-//		System.out.println(map);
+		System.out.println(map);
 		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
-//		System.out.println("boardList : " + boardList);
+		System.out.println("boardList : " + boardList);
 		
 		JsonArray boardJson = new JsonArray();
 		
@@ -68,7 +56,7 @@ public class CommunityContorller {
 		}
 		
 		response.add("boardJson", boardJson);
-//		System.out.println("boardJson :" + boardJson);
+		System.out.println("boardJson :" + boardJson);
 		
 		return response;
 	}
