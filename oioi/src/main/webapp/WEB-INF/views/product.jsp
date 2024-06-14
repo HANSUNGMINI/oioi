@@ -105,7 +105,7 @@
 									</li>
 									<li>
 										<label> 상품명</label>
-										<input type="text" name="subject" placeholder="상품명을 입력하여 주세요">
+										<input type="text" name="PD_SUBJECT" placeholder="상품명을 입력하여 주세요">
 									</li>
 									<li>
 										<label> 카테고리</label>
@@ -139,12 +139,12 @@
 									</li>
 									<li>
 										<label> 가격 </label>
-										<input type="text" id="price" name="price" placeholder="원"><br>
+										<input type="text" id="price" name="PD_PRICE" placeholder="원"><br>
 										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
-										<textarea name="contents" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
+										<textarea id="content" name="PD_CONTENT" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
 									</li>
 									<li>
 										<label> 거래 방식 </label>
