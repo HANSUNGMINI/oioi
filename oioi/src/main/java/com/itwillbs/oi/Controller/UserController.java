@@ -188,4 +188,13 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("lost_passwd")
+	public String lostPasswd() {
+		return "user/lost_passwd";
+	}
+	
+//	@PostMapping("lost_passwd")
+//	public String lostPasswdPro() {
+//		
+//	}
 }
