@@ -81,8 +81,8 @@
 				<div class="row">
 					<div class="col-lg-2 col-md-2 col-12">
 						<!-- Logo -->
-						<div class="logo">
-							<a href="./"><img src="images/logo.png" alt="logo"></a>
+						<div class="logo" style="width: 220px; ">
+							<a href="./"><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="margin-top:-12px; margin-left: 10px"></a>
 						</div>
 						<!--/ End Logo -->
 						<!-- Search Form -->
