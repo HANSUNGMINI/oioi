@@ -246,7 +246,7 @@
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
-<section class="blog-single shop-blog grid section">
+<section class="blog-single shop-blog grid section" style="height: 700px;">
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>

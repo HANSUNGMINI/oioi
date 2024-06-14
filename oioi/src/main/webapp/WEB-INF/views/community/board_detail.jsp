@@ -226,7 +226,7 @@
 				  	 </div>
 			  		
 			   		<form action="noticeWrite" method= "post">
-			   			<div class = "detail_view">
+			   			<div class = "detail_view" style="width: 900px; height: 800px;">
 							 <div class ="view_tit">
 				  				<h3>${boardDetail.CM_TITLE}</h3>
 				  			</div>
@@ -239,8 +239,8 @@
 				  			</div>
 				  			
 							
-							<div class = "view_cont">
-				  				<p>
+							<div class = "view_cont" style="width: 850px; height: 600px; ">
+				  				<p style="font-size: 18px; padding-top: 30px;">
 				  					${boardDetail.CM_CONTENT}
 								</p>
 				  			</div>
