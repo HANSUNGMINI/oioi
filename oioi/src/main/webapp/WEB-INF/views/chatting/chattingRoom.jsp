@@ -387,7 +387,7 @@
 			      	</div>
 			      	
 			      	<div style="padding:10px; text-align: center">
-				      	상품명 : <span>신발</span><br>
+				      	상품명 : <span>신발</span> <span class="price-dec">예약 중</span> <br>
 				      	가격 : <span>10000원</span><br>
 				      	상세설명
 				      	<div style= "border:1px solid #ccc; border-radius: 8px; height:40%">

@@ -116,7 +116,7 @@
 								<a href="product-details.html">
 									<img class="default-img"  src="https://image.msscdn.net/images/goods_img/20231213/3754860/3754860_17025174767964_500.jpg"  alt="#">
 <!-- 									<img class="hover-img"   alt="#"> -->
-									<span class="out-of-stock">Hot</span>
+									<span class="out-of-stock">판매 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
 								</a>
 								<div class="button-head">
 									<div class="product-action">
@@ -131,8 +131,9 @@
 								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
 								<div class="product-price">
 									<!-- 세일 기준 -->
-									<span class="old">이전가격</span>
-									<span>현재가격</span>
+<!-- 									<span class="old">이전가격</span> -->
+									<span>70,000원</span>
+									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
 								</div>
 							</div>
 						</div>
@@ -163,7 +164,7 @@
 							<div class="product-img">
 								<a href="product-details.html">
 									<img class="default-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2fb6ff59-aca1-4f1f-a836-0888d4f119a6/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png"  alt="#">
-									<span class="out-of-stock">Hot</span>
+									<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
 								</a>
 								<div class="button-head">
 									<div class="product-action">
@@ -178,8 +179,9 @@
 								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
 								<div class="product-price">
 									<!-- 세일 기준 -->
-									<span class="old">이전가격</span>
-									<span>현재가격</span>
+<!-- 									<span class="old">이전가격</span> -->
+									<span>80,000원</span>
+									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
 								</div>
 							</div>
 						</div>
@@ -211,7 +213,7 @@
 								<a href="product-details.html">
 									<img class="default-img"  src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3f12c33f-de0d-4d7f-848a-b4eb273c2a7d/p-6000-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84-%EC%8B%A0%EB%B0%9C-PDwmNHw5.png" alt="#">
 <!-- 									<img class="hover-img"   alt="#"> -->
-									<span class="out-of-stock">Hot</span>
+									<span class="new">거래완료</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
 								</a>
 								<div class="button-head">
 									<div class="product-action">
@@ -225,10 +227,11 @@
 							</div>
 							<div class="product-content">
 								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
+								<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
 								<div class="product-price">
 									<!-- 세일 기준 -->
-									<span class="old">이전가격</span>
-									<span>현재가격</span>
+<!-- 									<span class="old">이전가격</span> -->
+									<span>99,999,999원</span>
 								</div>
 							</div>
 						</div>
@@ -239,8 +242,6 @@
         </div>
     </div>
 	<!-- End Most Popular Area -->
-	
-	
 	
 	
 	<!-- Modal -->
