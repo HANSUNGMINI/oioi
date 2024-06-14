@@ -25,7 +25,19 @@ public class AdminService {
 		return adminMapper.selectAdminList(select);
 	}
 	
+	public List<Map<String, Object>> selectCommonList(Map<String, Object> select){
+		return adminMapper.selectCommonList(select);
+	}
+	
+	public List<Map<String, Object>> selectCategoryList(){
+		return adminMapper.selectCategoryList();
+	}
+	
 	public int changeActive(Map<String, Object> select){
 		return adminMapper.changeActive(select);
+	}
+	
+	public int changeHide(Map<String, Object> select){
+		return adminMapper.changeHide(select);
 	}
 }

@@ -172,4 +172,20 @@ public class UserController {
 		return "user/lost_id";
 	}
 	
+	@PostMapping("lost_id")
+	public String lostIdPro(@RequestParam Map<String, Object> userMap, Model model) {
+		System.out.println("받은 userMap 정보 : " + userMap);
+		Map<String, Object> user = service.findId(userMap);
+		System.out.println("조회한 user정보 : " + user);
+		if(user != null) {
+			mailService.sendForgotId(user);
+			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
+			model.addAttribute("targetURL", "login");
+			return "err/fail";
+		} else {
+			model.addAttribute("msg", "이름 또는 E-Mail 주소를 잘못 입력하셨습니다.");
+			return "err/fail";
+		}
+	}
+	
 }

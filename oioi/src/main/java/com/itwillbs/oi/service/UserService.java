@@ -85,6 +85,12 @@ public class UserService {
 	public Map<String, String> selectUser(String userId) {
 		return mapper.selectUser(userId);
 	}
+	
+	// 아이디 찾기
+	public Map<String, Object> findId(Map<String, Object> userMap) {
+		System.out.println("서비스 정보 확인 : " + mapper.selectfindId(userMap));
+		return mapper.selectfindId(userMap);
+	}
 
 	
 
