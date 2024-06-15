@@ -70,7 +70,6 @@ public class CommunityContorller {
 			
 			return "err/fail";
 		}
-		
 //		if(!CheckAuthority.isUser(session, model)) {
 //			return "err/fail";
 //		}

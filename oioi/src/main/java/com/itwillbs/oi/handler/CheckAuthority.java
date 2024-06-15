@@ -14,7 +14,7 @@ public class CheckAuthority {
 
 	
 	/**
-	 * 유저 확인 메소드
+	 * 유저 확인 메소드 <br>
 	 * if(!CheckAuthority.isUser(session, model)) { <br>
 			return false; <br>
 		}  <br>
@@ -37,14 +37,14 @@ public class CheckAuthority {
 	}
 	
 	/**
-	 * 유저 확인 오버로딩 targetURL 메소드
-	 * if(!CheckAuthority.isUser(session, model, "XXX")) {
-			return false;
-		} 
+	 * 유저 확인 메소드 <br>
+	 * if(!CheckAuthority.isUser(session, model, "XXX")) { <br>
+			return false; <br>
+		}  <br>
 		사용하면댐
 	 * @param session : 권한 확인 세션
 	 * @param model : 속성 저장용
-	 * @param targetURL : "XXX" 보내고 싶은 경로 기입
+	 * @param targetURL : "XXX" 보내고 싶은 경로 기입(상수 사용하기)
 	 * @return boolean 으로 리턴함
 	 * 
 	 */
@@ -62,8 +62,15 @@ public class CheckAuthority {
 	// ===============================================관리자
 	
 	/**
-	 * 관리자 페이지 접속 시 권한 확인 
+	 * 관리자 페이지 접속 시 권한 확인 <br>
 	 * 
+	 * 유저확인이랑 다르게 무조건 메인으로 보내버림
+	 * 
+	 * if(!CheckAuthority.isAdmin(session, model)) { <br>
+			return false; <br>
+		}  <br>
+		
+		사용하면댐
 	 * @param session : 권한 확인 세션
 	 * @param model : 속성 저장용
 	 * @return 
@@ -73,7 +80,7 @@ public class CheckAuthority {
 		// 관리자가 아닐 경우
 		if(session.getAttribute("isAdmin") == null) {
 			System.out.println("관리자가 아님");
-			model.addAttribute("targetURL", "./");
+			model.addAttribute("targetURL", CheckAuthority.MAIN);
 			model.addAttribute("msg", "잘못된 진입입니다. 너 관리자 아니잖아 ㅋ");
 			return false;
 		}
@@ -84,14 +91,17 @@ public class CheckAuthority {
 	
 	
 	/**
-	 * 슈퍼관리자 페이지 접속 시 권한 확인 
-	 * 어드민 계정이 접속하면 history.bakc(), 이외의 것들이면 메인으로 돌려보내기
+	 * 슈퍼관리자 페이지 접속 시 권한 확인 <br>
+	 * case 1 : 비회원, 회원 등 관리자 페이지가 아닌 강제 접속 시 메인으로 보내버림
+	 * case 2 : 관리자이며 관리자 페이지에서 접속하지만 "최고관리자"가 아닐 시 뒤로가기  
 	 * 
+	 * if(!CheckAuthority.isAdminMaster(session, model)) { <br>
+			return false; <br>
+		}  <br>
+		
 	 * @param session : 권한 확인 세션
 	 * @param model : 속성 저장용
-	 * @return boolean 타입으로 권한을 가지고 있다면 true 아니라면 false니까<br>
-	 * 			!(not)을 붙여서 if문에 사용 할 것<br>
-	 *  		ex) if(!CheckAuthority.XXX) {
+	 * @return 
 	 */
 	public static boolean isAdminMaster(HttpSession session, Model model) {
 		System.out.println("진입완료");

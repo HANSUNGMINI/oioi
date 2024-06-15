@@ -55,7 +55,6 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		
 		return "admin/admin_user_list";
 	}
 	
