@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
 
@@ -32,26 +33,26 @@ public class AdminController {
 	@GetMapping("logout")
 	public String logout() {
 		session.invalidate();
-		return "home";
+		return "redirect:/./";
 	}
 	
 	@GetMapping("admin")
 	public String goAdmin(Model model) {
 		
-		if (session.getAttribute("isAdmin") == null ) {
-			model.addAttribute("msg", "권한 없음!");
+		// 관리자가 아님
+		if(!CheckAuthority.isAdmin(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
 			return "err/fail";
 		}
 		
 		return "admin/admin_main";
 	}
 	
-	
 	@GetMapping("user")
 	public String userlist(Model model) {
 		
-		if (session.getAttribute("isAdmin") == null ) {
-			model.addAttribute("msg", "권한 없음!");
+		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
 		
@@ -61,14 +62,17 @@ public class AdminController {
 	@GetMapping("master_admin")
 	public String master_admin(Model model) {
 		
-		if (session.getAttribute("isMaster") == null ) {
-			model.addAttribute("msg", "권한 없음!");
+		//TODO 왜 자바스크립트에서 처리가 안되는지 물어보기
+		if(!CheckAuthority.isAdminMaster(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
 			return "err/fail";
 		}
 		
 		return "admin/admin_master_admin";
 	}
 	
+	//==========================
 	// DB작업 후 이동 메소드
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
@@ -108,7 +112,7 @@ public class AdminController {
 		return "admin/admin_master_category";
 	}
 	
-	
+	//==========================
 	// AJAX 메소드
 	
 	// 유저

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.CommunityService;
 
 @Controller
@@ -69,6 +70,14 @@ public class CommunityContorller {
 			
 			return "err/fail";
 		}
+		
+//		if(!CheckAuthority.isUser(session, model)) {
+//			return "err/fail";
+//		}
+		
+//		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
+//			return "err/fail";
+//		}
 		
 		return "community/board_write";
 	}
