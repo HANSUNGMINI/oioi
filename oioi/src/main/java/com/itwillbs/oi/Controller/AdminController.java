@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
+
+/*
+ * HTTP 맵핑 종류
+ * GET		= 리소스 조회
+ * POST		= 등록, 요청 데이터 처리 
+ * PUT		= 리소스 덮어쓰기 (해당 리소스가 없으면 생성)
+ * PATCH	= 리소스 부분 분경 (PUT은 전체 변경이지만, PATCH는 일부만 변경)
+ * DELETE	= 리소스 삭제
+ * */
 
 @Controller
 public class AdminController {
@@ -159,18 +169,28 @@ public class AdminController {
 	@PostMapping("changeHide")
 	public int changeHide(@RequestParam Map<String, Object> select) {
 		System.out.println(select);
-		int updateChangeActive = adminservice.changeHide(select);
+		int result = adminservice.changeHide(select);
 		
-		return updateChangeActive;
+		return result;
 	}
+	
+	@ResponseBody
+	@PostMapping("common")
+	public int patchcommon(@RequestParam Map<String, Object> map) {
+		//TODO PATCH 매핑으로는 파라미터가 안넘어온다. 해결할것
+		int result = adminservice.patchcommon(map);
+		
+		return result;
+	}
+	
 		// 관리자 권한 바꾸기
 	@ResponseBody
 	@PostMapping("changeActive")
 	public int changeActive(@RequestParam Map<String, Object> select) {
 		System.out.println(select);
-		int updateChangeActive = adminservice.changeActive(select);
+		int result = adminservice.changeActive(select);
 		
-		return updateChangeActive;
+		return result;
 	}
 	
 	

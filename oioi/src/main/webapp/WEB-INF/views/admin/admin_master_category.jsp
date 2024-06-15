@@ -22,6 +22,14 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-130795909-1');
 	</script>
+	<style>
+		#code_value {
+			margin-right: 7px;
+			background-color: inherit; /* 부모 요소의 배경색을 상속 */
+			outline: none;
+		}
+		
+	</style>
 </head>
 <body>
 	<div id="app">
@@ -56,6 +64,13 @@
 	            			<th>코드</th>
 	            			<th>내용</th>
 	            			<th>사용여부</th>
+	            			<th>
+				            	<div class="buttons right nowrap">
+			           				<button class="button small blue --jb-modal" id="insertAdmin" type="button">
+			           					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
+			           				</button>
+		           				</div>
+				            </th>
 	         			 </tr>
 	          		</thead>
 	          		<tbody class="tbody">
@@ -108,9 +123,8 @@
 		$(function(){
 			search();
 			
-			// 셀렉트박스 변경
+			// 
 			$("#type").on("change", search)
-			
 			// 편집
 			
 	
@@ -151,22 +165,23 @@
 								active = "checked";
 							}
 							
-							
 							$(".tbody").append(
 								'<tr>'
 			           			+ '<td data-label="Name">'+ target + '</td>'
-			           			+ '<td data-label="Name">'+ code.value +'</td>'
+			           			+ '<td data-label="Name">'
+			           			+ 	'<input type="text" value="'+ code.value + '" id="code_value" readonlyv>'
+			           			+ 	'<button class="button small blue editBtn" type="button" onclick="editCode(\''+ code.value +'\')">'
+			           			+ 	'	<span class="icon"><i class="mdi mdi-lead-pencil"></i></span>'
+			           			+ 	'</button>'
+			           			+ '</td>'
 			           			+ '<td>'
-			           			+ '<label class="toggle">'
-							    + '<input role="switch" type="checkbox" class="toggle_check"'
-							    + active
-							 	+ ' onchange="changeHide(\'' + target + '\', this)" />'
-							 	+ '</label>'
+			           			+ 	'<label class="toggle">'
+							    + 	'<input role="switch" type="checkbox" class="toggle_check"'
+							    + 		active
+							 	+ 		' onchange="changeHide(\'' + target + '\', this)" />'
+							 	+ 	'</label>'
 			           			+ '</td>'
 			           			+ '<td class="actions-cell">'
-			           			+ 	'<div class="buttons right nowrap">'
-			           			+ 	'<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">'
-			           			+ 	'<span class="icon"><i class="mdi mdi-eye"></i></span></button>'
 			           			+ '</td>'
 			           			+ '</tr>'
 							);
@@ -202,6 +217,54 @@
 				checkBox.checked = !isChecked;
 			}
 		};
+		
+		function editCode(value) {
+			$(".editBtn").remove();
+			// 수정 할 내용의 리드온리해제, 지금 작성중인 text가 뭔지 구분 가능하게 만드는 css코드 
+			let element = $("input[value='" + value + "']");
+			element.after(
+			 		'<button class="button small blue" onclick="updateCode(this)" type="button" style="margin-right: 5px;">'
+      			+ 	'	<span class="icon" type="button"><i class="mdi mdi-content-save"></i></span>'
+         		+ 	'</button>'
+         		+	'<button class="button small blue" onclick="search()" type="button">'
+      			+ 	'	<span class="icon"><i class="mdi mdi-content-save-off"></i></span>'
+         		+ 	'</button>'	
+			);
+			element.prop('readonly', false);
+			element.focus();
+			element.css('background-color', 'white');
+			element.css('outline', '2px solid black');
+			
+// 			search();
+		}
+		
+		function updateCode(button) {
+			// 0.
+			let target = $("#type").val();
+			// 1. this로 받아온 버튼을 변수에 저장
+			let btn = $(button);
+			// 2. 버튼의 이전요소 text를 찾고 그 값을 저장
+			//    jQuery prev()함수 이전 요소찾기(수정할 value값)
+			let value = btn.prev('input[type="text"]').val();
+			// 3. 버튼이 속한 tr요소를 찾고 첫 번째td의 값을 가져옴(타겟이되는 코드값)
+			let code = btn.closest('tr').find('td:first').text();
+			
+			$.ajax({
+// 				type : "PATCH",
+				type : "POST",
+				url : "common",
+				data : {
+					"target" : target,
+					"code" : code, 
+					"value" : value
+				},
+				dataType : "JSON",
+				success : function (response) {
+					alert("수정되었습니다");
+					search();
+				}
+			})
+		}
 		
 		
 	</script>

@@ -62,7 +62,7 @@
 				            <th>
 				            	<div class="buttons right nowrap">
 			           				<button class="button small blue --jb-modal" id="insertAdmin" type="button">
-			           					<span class="icon"><i class="mdi mdi-account-plus"></i></span>
+			           					<span class="icon"><i class="mdi mdi-account-question"></i></span>
 			           				</button>
 		           				</div>
 				            </th>

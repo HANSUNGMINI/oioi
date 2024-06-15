@@ -40,4 +40,8 @@ public class AdminService {
 	public int changeHide(Map<String, Object> select){
 		return adminMapper.changeHide(select);
 	}
+	
+	public int patchcommon(Map<String, Object> select){
+		return adminMapper.patchcommon(select);
+	}
 }

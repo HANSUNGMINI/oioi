@@ -14,4 +14,5 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectCategoryList();
 	int changeActive(Map<String, Object> select);
 	int changeHide(Map<String, Object> select);
+	int patchcommon(Map<String, Object> select);
 }

@@ -64,6 +64,12 @@
 		   </choose>
 		 WHERE code = #{target};
 	</update>
+	
+	<update id="patchcommon">
+		UPDATE common
+		   SET value = #{value}
+		 WHERE name = #{target} AND code = #{code};
+	</update>
 </mapper>
 
 
