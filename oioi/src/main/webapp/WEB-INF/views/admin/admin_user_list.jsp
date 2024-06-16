@@ -83,12 +83,7 @@
 	        		<!--  테이블 끝, 페이징 버튼 구역 -->
 				<div class="table-pagination">
 					<div class="flex items-center justify-between">
-				    	<div class="buttons">
-				    		<button type="button" class="button active">1</button>
-				      		<button type="button" class="button">2</button>
-				      		<button type="button" class="button">3</button>
-				      		<!-- 일단 남겨둠2 -->
-				            
+				    	<div class="buttons" id="buttons">
 				    	</div>
 					</div>
 				</div>
@@ -159,7 +154,6 @@
 		function search(pageNum, selectAll) {
 			let type = "";
 			let keyword = "";
-			
 			if(!selectAll) {
 				type = $("#type").val();
 				keyword = $("#keyword").val();
@@ -175,9 +169,13 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
-					$(".tbody").empty();
+					let userList = response.userList;
+					let pageInfo = response.pageInfo;
 					
-					if(response == null) {
+					$(".tbody").empty();
+					$("#buttons").empty();
+					
+					if(userList == null) {
 						
 						$(".tbody").append(
 							'<tr>'
@@ -190,8 +188,11 @@
 						    +'</tr>'
 						);
 						
+						
 					} else {
-						for(let user of response) {
+						
+						for(let user of userList) {
+							
 							$(".tbody").append(
 								'<tr>'
 			            		+ '<td class="checkbox-cell"><label class="checkbox"><input type="checkbox"><span class="check">'
@@ -213,6 +214,22 @@
 			           			+ '</td>'
 							);
 						};
+						
+						$("#buttons").append(
+					    		'<button type="button" class="button"><span class="icon"><i class="mdi mdi-arrow-left"></i></span></button>'
+						);
+						
+						alert(pageInfo.startPage);
+						alert(pageInfo.endPage);
+						for(let btn = pageInfo.startPage; btn <= pageInfo.endPage; btn++) {
+							$("#buttons").append(
+								'<button type="button" class="button">'+ btn +'</button>'
+							);
+						}
+						
+						$("#buttons").append(
+								'<button type="button" class="button"><span class="icon"><i class="mdi mdi-arrow-right"></i></span></button>'
+						);
 						
 						pageNum++;
 					}
