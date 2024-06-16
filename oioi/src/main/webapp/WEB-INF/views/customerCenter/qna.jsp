@@ -228,6 +228,7 @@
 					<div class="bread-inner">
 						<ul class="bread-list">
 							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">고객센터<i class="ti-arrow-right"></i></a></li>
 							<li class="active"><a href="qna">문의내역</a></li>
 						</ul>
 					</div>

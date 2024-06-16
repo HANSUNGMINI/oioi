@@ -35,8 +35,14 @@
 		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
-		  LIMIT #{limit.startRow}, #{limit.listLimit} 
+<!-- 		  LIMIT #{page.startRow}, #{page.listLimit} -->
 	</select>
+	
+	
+		
+	
+	
+	
 	
 	<select id="selectAdminList" resultType="map">
 		SELECT *

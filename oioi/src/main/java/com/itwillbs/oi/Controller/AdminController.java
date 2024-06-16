@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
-import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
 
 /*
@@ -71,10 +69,8 @@ public class AdminController {
 	@GetMapping("master_admin")
 	public String master_admin(Model model) {
 		
-		//TODO 왜 자바스크립트에서 처리가 안되는지 물어보기
+		//TODO 왜 자바스크립트에서 처리가 안되는지 물어보기(늦
 		if(!CheckAuthority.isAdminMaster(session, model)) {
-			System.out.println(model.getAttribute("msg"));
-			System.out.println(model.getAttribute("targetURL"));
 			return "err/fail";
 		}
 		
@@ -129,10 +125,6 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("UserList")
 	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select) {
-		PageInfo pageInfo = new PageInfo(Integer.parseInt(select.get("pageNum").toString()), 10);
-		select.put("limit", pageInfo);
-		
-//		PageInfo.makePageInfo(pageInfo, 0, 0);
 		
 		List<Map<String, Object>> userList = adminservice.selectUserList(select);
 		
@@ -159,21 +151,18 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("selectCode")
 	public List<Map<String, Object>> selectCode(@RequestParam Map<String, Object> select,  Model model) {
-		System.out.println(select);
 		List<Map<String, Object>> commonList = adminservice.selectCommonList(select);
-		System.out.println(commonList);
 		return commonList;
 	}
 		// 공통 코드 상태 변경
 	@ResponseBody
 	@PostMapping("changeHide")
 	public int changeHide(@RequestParam Map<String, Object> select) {
-		System.out.println(select);
 		int result = adminservice.changeHide(select);
 		
 		return result;
 	}
-	
+		// 공통코드 value값 수정하기
 	@ResponseBody
 	@PostMapping("common")
 	public int patchcommon(@RequestParam Map<String, Object> map) {
@@ -187,7 +176,6 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("changeActive")
 	public int changeActive(@RequestParam Map<String, Object> select) {
-		System.out.println(select);
 		int result = adminservice.changeActive(select);
 		
 		return result;

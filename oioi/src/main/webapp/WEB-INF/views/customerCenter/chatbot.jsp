@@ -56,17 +56,17 @@
    	
      <div class="chat">
      
-     			<%-- 사용자 정보 및 신고 --%>
-                <div class="chat-header clearfix">
-				    <div class="row">
-				        <div class="col-lg-12">
-				            <div class="chat-about text-center" style="display: flex; justify-content: center; align-items: center;">
-				                <h6 class="m-b-0" id="intro" > 안녕하세요 Oi챗봇입니다 <br> 궁금한 내용을 질문해 보세요.</h6>
-				            </div>
-				        </div>
-				    </div>
-				    <hr>
-				</div>
+     			<%-- 챗봇 헤더 --%>
+<!--                 <div class="chat-header clearfix"> -->
+<!-- 				    <div class="row"> -->
+<!-- 				        <div class="col-lg-12"> -->
+<!-- 				            <div class="chat-about text-center" style="display: flex; justify-content: center; align-items: center;"> -->
+<!-- 				                <h6 class="m-b-0" id="intro" > 안녕하세요 Oi챗봇입니다 <br> 궁금한 내용을 질문해 보세요.</h6> -->
+<!-- 				            </div> -->
+<!-- 				        </div> -->
+<!-- 				    </div> -->
+<!-- 				    <hr> -->
+<!-- 				</div> -->
                 
                 <%-- 채팅 내역 --%>
                 <div class="chat-history" >
