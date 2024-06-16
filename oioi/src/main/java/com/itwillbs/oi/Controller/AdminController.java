@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
+import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
 
 /*
@@ -122,13 +124,73 @@ public class AdminController {
 	
 	// 유저
 		// 유저 목록조회
+//	@ResponseBody
+//	@PostMapping("UserList")
+//	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select
+//											, Model model) {
+//		
+//		List<Map<String, Object>> userList = adminservice.selectUserList(select);
+//		int pageNum = 1;
+//		int listLimit = 3;
+//		int startRow = (pageNum - 1) * listLimit;
+//		int pageListLimit = 3;
+//		int listCount = 5;
+//		int maxPage = listCount/listLimit + (listCount%listLimit > 0 ? 1 : 0);
+//		//시작페이지 설정
+//		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+//		//끝페이지 설정
+//		int endPage = startPage + pageListLimit - 1;
+//				
+//		if(endPage > maxPage) {
+//			endPage = maxPage;
+//		}
+//		
+//		Map<String, Object> pageInfo = new HashMap<String, Object>();
+//		pageInfo.put("listCount", listCount);
+//		pageInfo.put("pageListLimit", pageListLimit);
+//		pageInfo.put("maxPage", maxPage);
+//		pageInfo.put("startPage", startPage);
+//		pageInfo.put("endPage", endPage);
+//		
+//		userList.add(pageInfo);
+//		
+//		return userList;
+//	}
+	
 	@ResponseBody
 	@PostMapping("UserList")
-	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select) {
+	public Map<String, Object> UserList(@RequestParam Map<String, Object> select, Model model) {
+		System.out.println(select.get("pageNum"));
 		
-		List<Map<String, Object>> userList = adminservice.selectUserList(select);
-		
-		return userList;
+	    List<Map<String, Object>> userList = adminservice.selectUserList(select);
+	    
+	    System.out.println(PageInfo.makePageBtn());
+	    // pageInfo 계산 로직 추가
+	    int pageNum = 1;
+	    
+	    int listLimit = 3;
+	    int startRow = (pageNum - 1) * listLimit;
+	    
+	    int listCount = 6;
+	    int pageListLimit = 2;
+	    int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+	    int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+	    int endPage = startPage + pageListLimit - 1;
+	    if (endPage > maxPage) {
+	        endPage = maxPage;
+	    }
+
+	    Map<String, Object> pageInfo = new HashMap<>();
+	    pageInfo.put("pageNum", pageNum);
+	    pageInfo.put("startPage", startPage);
+	    pageInfo.put("endPage", endPage);
+
+	    
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    result.put("userList", userList);
+	    result.put("pageInfo", pageInfo);
+
+	    return result;
 	}
 		// 유저 상세조회
 	@ResponseBody

@@ -93,13 +93,27 @@ public class AuctionController {
 	}
 	
 	@PostMapping("auctionRegist")
-	public String auctionRegistPro(Model model,@RequestParam Map<String, String> map,
+	public String auctionRegistPro(Model model,@RequestParam Map<String, Object> map,
 			@RequestPart("APD_IMAGE") MultipartFile[] files,
 			HttpSession session) {
 		System.out.println("auctionRegist - post(map) : " + map);
 		System.out.println("auctionRegist - post(files) : " + files);
 		
+		//US_ID 담기
+		map.put("APD_OWNER", session.getAttribute("US_ID"));
 		
+		//카테고리 정리해서 넣기(value 값 가져와서 저장하기)
+		String[] cateName = service.categoryName(map);
+		System.out.println("cateName : " + cateName);
+		String cn = "";
+		for (int i = 0; i < cateName.length; i++) {
+			
+		    cn += cateName[i];
+		    if (i != cateName.length - 1) {
+		        cn += "/";
+		    }
+		}
+		map.put("APD_CAREGORY", cn);
 		
 		
 		//상품등록
@@ -139,9 +153,29 @@ public class AuctionController {
         //images테이블에 먼저 넣기
         System.out.println("fileMap : "+fileMap);
         
-        int mapImgSuccess = service.insertImg(fileMap);
-	    System.out.println("mapImgSuccess : " + mapImgSuccess);
-		return "";
+        int ImgIdx = service.insertImg(fileMap);
+	    System.out.println("ImgIdx : " + ImgIdx);
+	    
+	    //상품등록 (ImgIdx는 상품등록 APD_IMAGE에 넣기)
+	    map.put("APD_IMAGE", ImgIdx);
+	    System.out.println("상품등록하기전 최종 확인 : " + map);
+	    
+	    
+	    int apdSuccess = service.insertAPD(map);
+	    System.out.println("apdSuccess : " + apdSuccess);
+	    
+	    if(apdSuccess > 0) {
+	    	
+	    	model.addAttribute("msg", "등록성공! 1차검수가 완료되면 상품을 보내주세요.");
+			model.addAttribute("targetURL", "auction");
+			return "err/success";
+	    }else {
+	    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
+	    	model.addAttribute("targetURL", "auctionRegist");
+	    	
+	    	return "err/SweetAlert";
+	    }
+		
 	}
 	
 

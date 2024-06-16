@@ -185,7 +185,7 @@
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
 									        </div>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<input type="radio" name="APD_CONDITION" value="${productCondition.name}"> ${productCondition.value}
+												<input type="radio" name="APD_CONDITION" value="${productCondition.value}"> ${productCondition.value}
 											</c:forEach>
 									    </div>
 									</div>
