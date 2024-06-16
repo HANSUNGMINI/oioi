@@ -30,108 +30,82 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-</head>
-<style>
-    #highlighted-row {
-        border: 1px solid #eeeeeec2;
-        padding: 30px;
-        margin-top: 50px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        background-color: #fff;
-    }
-    .info-card {
-        margin: 20px 0;
-        border: 1px solid #d4edda;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .card-header {
-        background-color: #27a745;
-        color: #ffffff;
-        padding: 15px;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd;
-    }
-    .card-body {
-        padding: 15px;
-        background-color: #f8f8f8;
-    }
-    .info-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-    }
-    .info-item:last-child {
-        border-bottom: none;
-    }
-    .info-item label {
-        font-weight: bold;
-        color: #555;
-    }
-    .info-item span {
-        color: #333;
-    }
-    .profile-image {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        margin-bottom: 20px;
-    }
-    .edit-btn {
-        background-color: #27a745;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    @media (max-width: 768px) {
+    <style>
+        #highlighted-row {
+            border: 1px solid #eeeeeec2;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .info-card {
+            margin: 20px 0;
+            border: 1px solid #d4edda;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #27a745;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        .card-body {
+            padding: 15px;
+            background-color: #f8f8f8;
+        }
         .info-item {
-            flex-direction: column;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        .info-item:last-child {
+            border-bottom: none;
         }
         .info-item label {
-            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
         }
-    }
-</style>
+        .info-item span {
+            color: #333;
+        }
+        .profile-image {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .edit-btn {
+            background-color: #27a745;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .info-item {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <section class="blog-single shop-blog grid section">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-12">
-                <div class="main-sidebar">
-                    <div class="single-widget category">
-                        <h3 class="title">나의 정보 관리</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">회원정보 수정</a></li>
-                        </ul>
-                    </div>
-                    <div class="single-widget category">
-                        <h3 class="title">나의 문의 내역</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">나의 1:1 문의 내역</a></li>
-                        </ul>
-                    </div>
-                    <div class="single-widget category">
-                        <h3 class="title">나의 신고 내역</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">나의 신고 내역</a></li>
-                            <li><a href="#">나의 신고된 내역</a></li>
-                        </ul>
-                    </div>
-                    <div class="single-widget category">
-                        <h3 class="title"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></h3>
-                    </div>
-                    <div class="single-widget category">
-                        <h3 class="title"><a href="${pageContext.request.contextPath}/deleteAccount.do">회원탈퇴</a></h3>
-                    </div>
-                </div>
+                <jsp:include page="../mypage/sidebar.jsp"></jsp:include>
             </div>
             <div class="col-lg-9 col-12" id="highlighted-row">
                 <div class="info-card text-center">
@@ -140,6 +114,16 @@
                         <div class="info-item">
                             <label>이름:</label>
                             <span>홍길동</span>
+                            <span></span>
+                        </div>
+                        <div class="info-item">
+                            <label>아이디:</label>
+                            <span>hong1</span>
+                            <span></span>
+                        </div>
+                        <div class="info-item">
+                            <label>닉네임:</label>
+                            <span>아버지를아버지라</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">

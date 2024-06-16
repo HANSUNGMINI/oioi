@@ -1,5 +1,6 @@
 package com.itwillbs.oi.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -47,6 +48,8 @@ public interface UserMapper {
 	Map<String, Object> selectfindId(Map<String, Object> userMap);
 
 	String selectIdByPhone(Map<String, Object> user);
+
+	Map<String, String> selectMyUser(String id);
 
 
 	

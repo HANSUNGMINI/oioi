@@ -146,6 +146,13 @@
 	
 	</update>
 	
+	<select id="selectMyUser">
+		SELECT *
+		  FROM user
+		 WHERE US_ID = #{US_ID}
+	
+	</select>
+	
 </mapper>
 
 

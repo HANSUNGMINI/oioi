@@ -1,5 +1,6 @@
 package com.itwillbs.oi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,13 @@ public class UserService {
 	public String findUserIdByPhone(Map<String, Object> user) {
 		return mapper.selectIdByPhone(user);
 	}
+
+	// 마이페이지 정보 가져오기
+	public Map<String, String> selectMyUser(String id) {
+		
+		return mapper.selectMyUser(id);
+	}
+
 
 
 	
