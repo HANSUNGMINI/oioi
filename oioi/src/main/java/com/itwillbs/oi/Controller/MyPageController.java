@@ -42,8 +42,21 @@ public class MyPageController {
 		return "mypage/mypage";
 	}
 	
+	// 	회원 정보 수정
 	@GetMapping("userUpdate")
 	public String userUpdate(Model model) {
+		
+		// 유저가 아님
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
+		
+		String id = (String)session.getAttribute("US_ID");
+		Map<String, String> user = service.selectMyUser(id);
+
+		model.addAttribute("user", user);
 		
 		return "mypage/mypage_user";
 	}

@@ -113,32 +113,32 @@
                     <div class="card-body">
                         <div class="info-item">
                             <label>이름:</label>
-                            <span>홍길동</span>
+                            <span>${user.US_NAME}</span>
                             <span></span>
                         </div>
                         <div class="info-item">
                             <label>아이디:</label>
-                            <span>hong1</span>
+                            <span>${user.USER_ID}</span>
                             <span></span>
                         </div>
                         <div class="info-item">
                             <label>닉네임:</label>
-                            <span>아버지를아버지라</span>
+                            <span>${user.USER_NICK}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">
                             <label>이메일:</label>
-                            <span>hong@example.com</span>
+                            <span>${user.USER_EMAIL}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">
                             <label>전화번호:</label>
-                            <span>010-1234-5678</span>
+                            <span>${user.USER_PHONE}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
-                            <span>서울</span>
+                            <span>${user.USER_ADDRESS1 + user.USER_ADDRESS2}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                     </div>
