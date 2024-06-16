@@ -1,5 +1,7 @@
 package com.itwillbs.oi.service;
 
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +32,18 @@ public class AuctionService {
 	}
 
 	public int insertImg(Map<String, String> fileMap) {
-		
-		return mapper.insertImg(fileMap);
+	 	Map<String, Object> paramMap = new HashMap<>(fileMap);
+        mapper.insertImg(paramMap);
+        BigInteger bigIntImgIdx = (BigInteger) paramMap.get("imgIdx");
+        return bigIntImgIdx.intValue(); // BigInteger를 int로 변환하여 리턴
+	}
+
+	public int insertAPD(Map<String, Object> map) {
+		return mapper.insertAPD(map);
+	}
+
+	public String[] categoryName(Map<String, Object> map) {
+		return mapper.categoryName(map);
 	}
 
 	
