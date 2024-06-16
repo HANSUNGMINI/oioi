@@ -148,7 +148,7 @@ public class UserController {
 	        model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
 	        return "err/fail";
 	    } else { // 로그인 성공
-	        // 세션 객체에 로그인 성공한 아이디를 "sId" 속성값으로 추가
+	        // 세션 객체에 로그인 성공한 아이디 및 닉네임 저장
 	        session.setAttribute("US_ID", userId);
 	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
@@ -167,4 +167,34 @@ public class UserController {
 	    }
 	}
 	
+	@GetMapping("lost_id")
+	public String lost_id() {
+		return "user/lost_id";
+	}
+	
+	@PostMapping("lost_id")
+	public String lostIdPro(@RequestParam Map<String, Object> userMap, Model model) {
+		System.out.println("받은 userMap 정보 : " + userMap);
+		Map<String, Object> user = service.findId(userMap);
+		System.out.println("조회된 user정보 : " + user);
+		if(user != null) {
+			mailService.sendForgotId(user);
+			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
+			model.addAttribute("targetURL", "login");
+			return "err/fail";
+		} else {
+			model.addAttribute("msg", "이름 또는 E-Mail 주소를 잘못 입력하셨습니다.");
+			return "err/fail";
+		}
+	}
+	
+	@GetMapping("lost_passwd")
+	public String lostPasswd() {
+		return "user/lost_passwd";
+	}
+	
+//	@PostMapping("lost_passwd")
+//	public String lostPasswdPro() {
+//		
+//	}
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.oi.mapper.CommunityMapper">
+  	
+  	<select id="selectBoardList" resultType="map">
+  		SELECT
+  		*, (SELECT
+  			 COUNT(*) 
+  			 FROM community
+  			 WHERE 1=1
+  			 <if test="type != null and type != ''and type != '전체 게시판'">
+		  		AND CM_CATEGORY = #{type}
+			</if>
+  			 )
+  			 AS count
+  		FROM community
+  			 WHERE 1=1
+		<if test="type != null and type != '' and type != '전체 게시판'">
+		  AND CM_CATEGORY = #{type}
+		</if>
+  		ORDER BY CM_IDX desc
+  	
+  	
+  	</select>
+  
+  	<select id="selectBoardDetail" resultType="map">
+  		SELECT
+  		*
+  		FROM
+  		community
+  		WHERE
+  		CM_IDX = #{CM_IDX}
+  	
+  	</select>
+  
+  
+  
+  
+  </mapper>

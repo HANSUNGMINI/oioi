@@ -82,7 +82,7 @@
 							<h2>관리자 로그인</h2>
 							<p>잘못 들어 왔으면 사라져!</p>
 							<!-- Form -->
-							<form class="form" method="post" action="admin">
+							<form class="form" action="admin" method="post">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">

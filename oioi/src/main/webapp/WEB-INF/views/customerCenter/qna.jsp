@@ -187,6 +187,7 @@
 	}
 	.paging{
 		margin : 0px auto;
+		margin-bottom : 20px;
 	}
 	
 </style>
@@ -219,7 +220,25 @@
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
-<section class="blog-single shop-blog grid section">
+<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">고객센터<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="qna">문의내역</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+
+<section class="blog-single shop-blog grid section" style="padding-top:10px">
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>
@@ -253,10 +272,10 @@
 						<table>
 					        <thead>
 					            <tr>
-					                <th class="qna_num">번호</th>
-					                <th class="qna_title">제목</th>
-					                <th class="qna_date">작성일</th>
-					                <th class="qna_status">답변 상태</th>
+					                <th class="qna_num" width = "10px">번호</th>
+					                <th class="qna_title" width = "150px">제목</th>
+					                <th class="qna_date" width = "30px">작성일</th>
+					                <th class="qna_status" width = "30px">답변 상태</th>
 					            </tr>
 					        </thead>
 					        <tbody>

@@ -11,4 +11,15 @@ public interface AuctionMapper {
 
 	List<Map<String, String>> getCategory1();
 
+	List<Map<String, String>> getCategory2();
+
+	List<Map<String, String>> getCategory3();
+
+	int insertImg(Map<String, Object> fileMap);
+
+	int insertAPD(Map<String, Object> map);
+
+	String[] categoryName(Map<String, Object> map);
+
+
 }

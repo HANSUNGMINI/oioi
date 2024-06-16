@@ -111,9 +111,22 @@
 	    margin-top: 30px;
 	    margin-bottom: 30px;
 	    width: 100%;
-	    text-align : center;
-	    font-size: 20px;
+	    text-align: center;
+	}
+	
+	.cs_title {
+	    text-align: center;
+	    margin : 0px auto;
+	}
+	
+	.cs_title_1 {
+	    font-size: 24px; /* Adjust font size as needed */
 	    font-weight: bold;
+	}
+	
+	.cs_sub_title {
+	    font-size: 16px; /* Adjust font size as needed */
+	    color : #34A853;
 	}
 	
 	/* 글 적는 곳 */ 
@@ -207,7 +220,26 @@
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
-<section class="blog-single shop-blog grid section">
+<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">고객센터<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">공지사항<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="noticeWrite">공지사항 작성</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+
+<section class="blog-single shop-blog grid section"  style="padding-top:10px">
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>
@@ -229,10 +261,10 @@
 				 <div class="row">
 				 
 					 <div class="cs_title_container">
-					 	<div class = "notice_d_t_div">
-				  			<em class = "notice_d_title">공지사항 수정</em><br>
-				  		</div>
-				  	 </div>
+						<div class = "cs_title">
+			  				<em class = "cs_title_1">공지사항 수정</em><br>
+			  			</div>
+			  		</div>
 			  		
 			   		<form action="noticeWrite" method= "post">
 			   			<div class = "detail_view">

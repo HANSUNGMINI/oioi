@@ -8,7 +8,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
+<!-- 글씨체 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
 <style type="text/css">
+
+	* {
+	  font-family: "Noto Sans KR", sans-serif;
+	  font-optical-sizing: auto;
+	  font-style: normal;
+	}
+
 	body{
 	margin-top:20px;
 	background-color:#eee;
@@ -192,8 +204,8 @@
 					<div class="col-md-6 col-sm-6">
 						<select name="datatable_length" class="form-control input-sm">
 						<option value="10">전체</option>
-						<option value="10">구매목록</option>
-						<option value="25">판매목록</option>
+						<option value="10">안 읽은 메세지</option>
+						<option value="25">읽은 메세지</option>
 						</select>
 					</div>
 					

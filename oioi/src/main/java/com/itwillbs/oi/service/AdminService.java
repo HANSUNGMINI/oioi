@@ -20,4 +20,28 @@ public class AdminService {
 	public List<Map<String, Object>> selectUserList(Map<String, Object> select){
 		return adminMapper.selectUserList(select);
 	}
+	
+	public List<Map<String, Object>> selectAdminList(Map<String, Object> select){
+		return adminMapper.selectAdminList(select);
+	}
+	
+	public List<Map<String, Object>> selectCommonList(Map<String, Object> select){
+		return adminMapper.selectCommonList(select);
+	}
+	
+	public List<Map<String, Object>> selectCategoryList(){
+		return adminMapper.selectCategoryList();
+	}
+	
+	public int changeActive(Map<String, Object> select){
+		return adminMapper.changeActive(select);
+	}
+	
+	public int changeHide(Map<String, Object> select){
+		return adminMapper.changeHide(select);
+	}
+	
+	public int patchcommon(Map<String, Object> select){
+		return adminMapper.patchcommon(select);
+	}
 }

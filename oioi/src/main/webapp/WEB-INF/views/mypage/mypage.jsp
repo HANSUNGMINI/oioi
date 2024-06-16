@@ -130,63 +130,27 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-12">
-                <div class="main-sidebar">
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title">나의 정보 관리</h3>
-                        <ul class="categor-list">
-                            <li><a href="user">회원정보 수정</a></li>
-                        </ul>
-                    </div>
-                    <!--/ End Single Widget -->
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title">나의 문의 내역</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">나의 1:1 문의 내역</a></li>
-                        </ul>
-                    </div>
-                    <!--/ End Single Widget -->
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title">나의 신고 내역</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">나의 신고 내역</a></li>
-                            <li><a href="#">나의 신고된 내역</a></li>
-                        </ul>
-                    </div>
-                    <!--/ End Single Widget -->
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></h3>
-                    </div>
-                    <!--/ End Single Widget -->
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title"><a href="${pageContext.request.contextPath}/deleteAccount.do">회원탈퇴</a></h3>
-                    </div>
-                    <!--/ End Single Widget -->
-                </div>
-            </div>
+				<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+			</div>
             <div class="col-lg-9 col-12" id="highlighted-row">
                 <div class="info-card text-center">
                     <h5 class="card-header">회원 정보</h5>
                     <div class="card-body">
                         <div class="info-item">
                             <label>이름</label>
-                            <span>홍길동</span>
+                            <span>${user.US_NAME}</span>
                         </div>
                         <div class="info-item">
                             <label>이메일</label>
-                            <span>hong@example.com</span>
+                            <span>${user.US_EMAIL }</span>
                         </div>
                         <div class="info-item">
                             <label>전화번호</label>
-                            <span>010-1234-5678</span>
+                            <span>${user.US_PHONE}</span>
                         </div>
                         <div class="info-item">
                             <label>성별</label>
-                            <span>남성</span>
+                            <span>${user.US_GENDER}</span>
                         </div>
                     </div>
                 </div>

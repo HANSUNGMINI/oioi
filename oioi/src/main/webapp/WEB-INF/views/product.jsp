@@ -98,51 +98,59 @@
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
-										<input type="file" accept="image/*" name="addfile" multiple id="addfile">확인용 마지막에 삭제
+										<input type="file" accept="image/*" name="addfile" multiple id="addfile" style="display : none">확인용 마지막에 삭제
 										<div class="preView">
 											<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg">
 										</div>
 									</li>
 									<li>
 										<label> 상품명</label>
-										<input type="text" name="subject" placeholder="상품명을 입력하여 주세요">
+										<input type="text" name="PD_SUBJECT" placeholder="상품명을 입력하여 주세요">
 									</li>
 									<li>
 										<label> 카테고리</label>
 <!-- 										<input type="text" name="category"> -->
-										<select id="manufacturer" name="car_brand" class="form-control" required>
-			                                <option value="">대분류</option>
-			                            	    <c:forEach var="cate1" items="${cate1}">
+										<select id="cate1" name="cate1" class="form-control" required>
+				                                <option value="">대분류</option>
+				                                <c:forEach var="cate1" items="${cate1}">
 				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
 				                                </c:forEach>
-			                            </select>
+				                            </select>
+				                            
+				                            <select id="cate2" name="cate2" class="form-control" required disabled>
+				                                    <option value="">중분류를 선택하시오</option>
+				                            </select>
+				                            
+				                            <select id="cate3" name="cate3" class="form-control" required disabled>
+				                                    <option value="">소분류를 선택하시오</option>
+				                            </select>
 									</li>
 									<li>
 										<label> 태그(선택)</label>
-										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="tag">
+										<input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="PD_TAG">
 									</li>
 									<li>
 										<label> 상품상태 </label>
 										<ul>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<li><input type="radio" name="productCondition" value="${productCondition.name}">${productCondition.value}</li>
+												<li><input type="radio" name="PD_CONDITION" value="${productCondition.value}">${productCondition.value}</li>
 											</c:forEach>
 										</ul>
 									</li>
 									<li>
 										<label> 가격 </label>
-										<input type="text" id="price" name="price" placeholder="원"><br>
-										<label class="checkbox-inline" for="2"><input name="deal" id="2" type="checkbox" checked>가격 제안 가능</label>
+										<input type="text" id="price" name="PD_PRICE" placeholder="원"><br>
+										<label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
 									<li>
 										<label> 상품설명</label>
-										<textarea name="contents" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
+										<textarea id="content" name="PD_CONTENT" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
 									</li>
 									<li>
 										<label> 거래 방식 </label>
 										<ul>
 											<c:forEach var="tradeMethod" items="${tradeMethod}">
-												<li><input type="radio" name="tradeMethod" value="${tradeMethod.name}">${tradeMethod.value}</li>
+												<li><input type="radio" name="PD_TRADE_METHOD" value="${tradeMethod.value}">${tradeMethod.value}</li>
 											</c:forEach>
 <!-- 											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li> -->
 <!-- 											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li> -->
@@ -151,7 +159,7 @@
 									</li>
 									<li>
 										<label> 안전 거래 여부 </label>
-										<label class="checkbox-inline" for="2"><input name="safeTrade" id="2" type="checkbox" checked>안전 거래 사용</label>
+										<label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
 								<input type="submit" id="subimit" value="등록하기">
@@ -163,7 +171,7 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
-	<script>
+	<!--  <script>
 		$(function() {
 			
 			$(".addImg").on("click",function(){
@@ -199,8 +207,95 @@
 			
 		});
 	
-	</script>
+
+	</script> -->
+	<script>
+        $(function() {
+            $(".addImg").on("click", function() {
+                $('#addfile').click();
+            });
+
+            $("#addfile").on("change", function(event) {
+                if (this.files.length > 5) {
+                    alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+                    this.value = ""; // 선택된 파일 초기화
+                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+                } else {
+                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+                    for (var i = 0; i < this.files.length; i++) {
+                        let reader = new FileReader();
+                        reader.onload = function(event) {
+                            var img = document.createElement("img");
+                            img.setAttribute("src", event.target.result);
+                            img.setAttribute("class", "tempImg");
+                            $(".preView").append(img);
+                        };
+                        reader.readAsDataURL(this.files[i]);
+                    }
+                }
+            });
+
+            var input = document.querySelector('.tagify');
+            tagify = new Tagify(input, {
+                maxTags: 5
+            });
+            tagify.on('add', function() {
+                console.log(tagify.value);
+            });
+        });
+        
+        //카테고리 ==================================================================
+       	$(document).ready(function() {
+	    let cate2 = JSON.parse('${cate2}');
+	    let cate3 = JSON.parse('${cate3}');
+	    console.log('cate2:', cate2);
+	    console.log('cate3:', cate3);
+
+	    $('#cate1').change(function() {
+	        var selectedCate2 = $(this).val();
+	        console.log('cate1:', selectedCate2);
+	        
+	        var filteredCate2s = cate2.filter(function(cate) {
+	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
+	        });
+	        
+	        console.log('cate2s:', filteredCate2s);
+	        
+	        
+	        $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+	        	
+	        $.each(filteredCate2s, function(index, cate) {
+		            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+		    });
+	        $('#cate2').prop('disabled', false).niceSelect('update');
+	        
+	        console.log("cate1(value) : " + $('#cate1').val());
+	    });
+	    
+	    $('#cate2').change(function(){
+	    	var selectedCate3 = $(this).val();
+	    	console.log('selectedCate3 :', selectedCate3);
+	    	
+	    	var filteredCate3s = cate3.filter(function(cate) {
+	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100
+	        });
+	    	console.log('cate3s:', filteredCate3s);
+	    	
+	    	$('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+	    	
+	    	$.each(filteredCate3s, function(index, cate) {
+	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+		    });
+	        $('#cate3').prop('disabled', false).niceSelect('update');
+	        
+	        console.log("cate2(value) : " + $('#cate2').val());
+	    });
+	});
+    </script> 
+
+
  
+
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
     

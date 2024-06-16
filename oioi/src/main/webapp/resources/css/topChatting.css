@@ -1,0 +1,83 @@
+@charset "UTF-8";
+/*타이머*/
+
+
+/*검색*/
+#searchDiv {
+		width : 70%; 
+		margin-left: 121px; 
+ 		margin-top : 50px; 
+ 		z-index: 2;
+   		position: absolute;
+		display : none;
+		background-color : #E4E4E4;
+		border:none;
+		border-radius: 5px;
+		text-align: left;
+		padding : 10px;
+	}
+	
+	/* 추천 검색어 */
+	.searchKey {
+		background-color: white;
+		border: none;
+		border-radius: 5px;
+		padding : 5px;
+		color: #420100;
+		font-weight: bold;
+	}
+	
+	.recommondKeyword ul li:hover {
+		border: none;
+		border-radius: 5px;
+		background-color: #EAEAEA;
+	}
+	
+	.inbox-message .message-avatar {
+	    position: absolute;
+	    left: 30px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	}
+	
+	.shopping-list li {
+	    display: flex;
+	    align-items: center;
+        list-style: none; /* Remove default list styling */
+	    margin: 10px 0; /* Add some space between items */
+	    padding: 10px; /* Add padding for better click area */
+	    border-radius: 5px; /* Optional: add rounded corners */
+	    transition: background-color 0.3s; /* Smooth hover effect */
+	    cursor: pointer; /* Indicate that the item is clickable */
+	}
+	
+	.shopping-list li:hover {
+	    background-color: #f0f0f0; /* Change background on hover */
+	}
+	
+	.message-avatar {
+	    margin-right: 10px;
+	}
+	
+	.message-avatar img {
+	    display: inline-block;
+	    width: 45px;
+	    height: 45px;
+	    border-radius: 50%;
+	}
+	
+	.list-item-content {
+	    display: flex;
+	    flex-direction: column;
+	}
+	
+	.shopping-list h4 {
+	    margin: 0;
+	    font-size: 16px;
+	}
+	
+	.quantity {
+	    margin: 0;
+	    padding-top: 5px; /* Add some space between h4 and p if needed */
+	}
+	

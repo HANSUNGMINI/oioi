@@ -16,6 +16,11 @@
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
 
+<!-- 글씨체 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
 <script type="text/javascript">
 	
 		/* 상세보기 나오기 */
@@ -56,7 +61,11 @@
 		    }
 		}
 		
-		
+		/* 상점 바로가기 */
+		function goStore(){
+			window.opener.location.href="myStore"; 
+			window.close();
+		}
 	</script>
 
 </head>
@@ -75,7 +84,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                         	<%-- 사용자 정보 --%>
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                            <a href="javascript:void(0);" onclick="goStore()">
                                 <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="avatar">
                             </a>
                             <div class="chat-about">
@@ -137,9 +146,13 @@
                         
                     </ul>
                 </div>
-
+				
+				
                 <%-- 메세지 전송 --%>
                 <div class="chat-message clearfix" style="margin-bottom:0px">
+                 	<!-- 사진 미리보기 영역 -->
+					<div id="preview-container" style="display: flex; margin-top: 3px; margin-bottom:10px"></div>
+					
                     <div class="input-group mb-0">
 		                <%-- 전송란 --%>
                         <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
@@ -147,13 +160,61 @@
                         <%-- 전송버튼 --%>
                         <div class="input-group-prepend">
                             <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
-                            <div class="input-group-text">
-	                            <a href="#"><i class="bi bi-camera-fill" style="color: #353535;"></i></a>
-                            </div>
+<!--                             <div class="input-group-text"> -->
+<!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
+							<label for="file-input" class="input-group-text file-input-label">
+						        <i class="bi bi-camera-fill" style="color: #353535;"></i>
+						    </label>
+						    <input type="file" id="file-input" style="display: none;">
+<!--                             </div> -->
                         </div>
                     </div>
+                    
+                   
                 </div>
             </div>
+            
+            <script>
+            
+            	/* 사진 미리 보기*/
+	            document.getElementById('file-input').addEventListener('change', function(event) {
+			    const previewContainer = document.getElementById('preview-container');
+			    previewContainer.innerHTML = ''; // 이전 미리보기 초기화
+			
+			    const files = event.target.files;
+			
+			    for (let i = 0; i < files.length; i++) {
+			        const file = files[i];
+			
+			        if (file.type.startsWith('image/')) {
+			            const reader = new FileReader();
+			
+			            reader.onload = function(e) {
+			                const previewItem = document.createElement('div');
+			                previewItem.classList.add('preview-item');
+			
+			                const img = document.createElement('img');
+			                img.src = e.target.result;
+			
+			                const deleteButton = document.createElement('button');
+			                deleteButton.innerText = '×';
+			                deleteButton.classList.add('delete-button');
+			                deleteButton.addEventListener('click', function() {
+			                    previewContainer.removeChild(previewItem);
+			                    // 파일 입력값 초기화
+			                    document.getElementById('file-input').value = '';
+			                });
+			
+			                previewItem.appendChild(img);
+			                previewItem.appendChild(deleteButton);
+			                previewContainer.appendChild(previewItem);
+			            }
+			
+			            reader.readAsDataURL(file);
+			        }
+			    }
+			});
+			</script>
             
             <%-- 운송장 등록 --%>
 			
@@ -242,8 +303,9 @@
 			      <%-- 체크박스 --%>
 					<label for="n1"><input type="radio" name="notify" id="n1">  &nbsp;욕설 및 비방을 해요</label> <br>
 					<label for="n2"><input type="radio" name="notify" id="n2">  &nbsp;사기인 것 같아요</label> <br>
-					<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;머하지 또</label> <br>
-					<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
+					<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;거래 금지 품목을 팔아요</label> <br>
+					<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;상품 상태가 안 좋아요</label> <br>
+					<label for="n5"><input type="radio" name="notify" id="n5">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
 					
 					<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="600"></textarea>			      
 				  </div>
@@ -277,11 +339,13 @@
 				       		<label for="chk1"><input type="checkbox" id="chk1" name="chk2"> &nbsp;답장이 빨라요</label><br>
 				       		<label for="chk2"><input type="checkbox" id="chk2" name="chk2"> &nbsp;친절해요</label><br>
 				       		<label for="chk3"><input type="checkbox" id="chk3" name="chk3"> &nbsp;물건 상태가 좋아요</label><br>
-				       		<label for="chk4"><input type="checkbox" id="chk4" name="chk4"> &nbsp;기타</label><br>
+				       		<label for="chk4"><input type="checkbox" id="chk4" name="chk4"> &nbsp;포장이 깔끔해요</label><br>
+				       		<label for="chk5"><input type="checkbox" id="chk5" name="chk5"> &nbsp;상품 설명과 실제 상품이 동일해요</label><br>
+				       		<label for="chk6"><input type="checkbox" id="chk6" name="chk6"> &nbsp;기타</label><br>
 			       		</div>
-			      		 <hr>
+			      		<hr>
 			       
-		       		   <div id="rating">
+		       		    <div id="rating">
 			       			별점을 선택해 주세요 <br>
 						   <span onclick=""><i class="bi bi-star"></i></span>
                            <span onclick=""><i class="bi bi-star"></i></span>
@@ -322,6 +386,14 @@
 			      		<img id="pd_img" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/3e8455ad-c00c-4996-a85a-b5c4d38c6ae2/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png">
 			      	</div>
 			      	
+			      	<div style="padding:10px; text-align: center">
+				      	상품명 : <span>신발</span> <span class="price-dec">예약 중</span> <br>
+				      	가격 : <span>10000원</span><br>
+				      	상세설명
+				      	<div style= "border:1px solid #ccc; border-radius: 8px; height:40%">
+				      		깨끗함 안 신음
+				      	</div>
+			      	</div>
 			      	
 			      </div>
 			

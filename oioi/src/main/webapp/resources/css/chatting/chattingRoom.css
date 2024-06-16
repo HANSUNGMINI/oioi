@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+		* {
+		  font-family: "Noto Sans KR", sans-serif;
+		  font-optical-sizing: auto;
+		  font-style: normal;
+		}
+
 		.chat-app .chat {
 		    margin-left: 280px;
 		    border-left: 1px solid #eaeaea
@@ -290,6 +296,57 @@
 	.chat-history .m-b-0 {
 		margin-bottom : 80px;
 	}
+	
+	/* 파일 등록 */
+		
+	 .file-input-label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+	
+	/* 사진 보이도록 */
+/* 	#preview-container img { */
+/* 	    max-width: 100px; 원하는 크기로 설정 */
+/* 	    max-height: 100px; 원하는 크기로 설정 */
+/* 	    margin-right: 10px; */
+/* 	    border: 1px solid #ddd; 테두리 추가 */
+/* 	    padding: 5px; 패딩 추가 */
+/* 	} */
+
+#preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-item {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.preview-item img {
+    max-width: 100px; /* 원하는 크기로 설정 */
+    max-height: 100px; /* 원하는 크기로 설정 */
+    border: 1px solid #ddd; /* 테두리 추가 */
+    padding: 5px; /* 패딩 추가 */
+}
+
+.preview-item .delete-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 18px;
+}
+	
 	/* ======= 상세정보 ========== */
 	#detail {
 		margin-top : 10px;
@@ -439,3 +496,55 @@
         max-width: 80%;
         height: auto;
     }
+    
+    /* 제품 상태 색깔*/
+    span.out-of-stock {
+	    background-color: #ed1b24;
+	    display: inline-block;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+		}
+		
+	 span.price-dec {
+    	background: #34A853;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+	}	
+	 
+	span.new {
+	    background-color: #8493ca;
+	    display: inline-block;
+	    font-size: 11px;
+	    color: #fff;
+	    right: 20px;
+	    top: 20px;
+	    padding: 1px 16px;
+	    font-weight: 700;
+	    border-radius: 0;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 30px;
+	    height: 26px;
+	    line-height: 24px;
+	}
+	     

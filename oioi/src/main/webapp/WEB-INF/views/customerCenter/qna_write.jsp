@@ -191,7 +191,26 @@
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Preloader -->
 <!-- Start Blog Single -->
-<section class="blog-single shop-blog grid section">
+<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">고객센터<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="qna">문의내역<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="qnaWrite">문의사항 작성</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+
+<section class="blog-single shop-blog grid section"  style="padding-top:10px">
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>

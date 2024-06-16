@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
+
+/*
+ * HTTP 맵핑 종류
+ * GET		= 리소스 조회
+ * POST		= 등록, 요청 데이터 처리 
+ * PUT		= 리소스 덮어쓰기 (해당 리소스가 없으면 생성)
+ * PATCH	= 리소스 부분 분경 (PUT은 전체 변경이지만, PATCH는 일부만 변경)
+ * DELETE	= 리소스 삭제
+ * */
 
 @Controller
 public class AdminController {
@@ -22,7 +33,6 @@ public class AdminController {
 	private AdminService adminservice;
 	@Autowired
 	private HttpSession session;
-	
 	
 	// 이동 메소드
 	@GetMapping("adminlogin")
@@ -33,53 +43,205 @@ public class AdminController {
 	@GetMapping("logout")
 	public String logout() {
 		session.invalidate();
-		return "home";
-	}
-	
-	@GetMapping("user")
-	public String userlist() {
-		return "admin/admin_user_list";
+		return "redirect:/./";
 	}
 	
 	@GetMapping("admin")
-	public String goAdmin() {
+	public String goAdmin(Model model) {
+		
+		// 관리자가 아님
+		if(!CheckAuthority.isAdmin(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
+		
 		return "admin/admin_main";
 	}
 	
+	@GetMapping("user")
+	public String userlist(Model model) {
+		
+		if(!CheckAuthority.isAdmin(session, model)) {
+			return "err/fail";
+		}
+		return "admin/admin_user_list";
+	}
 	
+	@GetMapping("master_admin")
+	public String master_admin(Model model) {
+		
+		//TODO 왜 자바스크립트에서 처리가 안되는지 물어보기(늦
+		if(!CheckAuthority.isAdminMaster(session, model)) {
+			return "err/fail";
+		}
+		
+		return "admin/admin_master_admin";
+	}
+	
+	//==========================
 	// DB작업 후 이동 메소드
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
 							, Model model) {
+		
 		Map<String, Object> selectedAdmin = adminservice.selectAdmin(admin);
+		
 		if(selectedAdmin == null) {
 			model.addAttribute("msg", "다시 시도");
 			return "err/fail";
 		}
 		
+		if(selectedAdmin.get("RL_NAME").toString().equals("최고관리자")) {
+			session.setAttribute("isMaster", true);
+		}
+		
+		session.setAttribute("isAdmin", true);
 		session.setAttribute("admin", selectedAdmin);
-		return "redirect:/admin";
+		
+		return "admin/admin_main";
 	}
 	
+	
+	@GetMapping("master_category")
+	public String master_category(Model model) {
+		
+		if (session.getAttribute("isMaster") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		List<Map<String, Object>> categoryList = adminservice.selectCategoryList();
+		
+		System.out.println(categoryList);
+		
+		model.addAttribute("categoryList", categoryList);
+		return "admin/admin_master_category";
+	}
+	
+	//==========================
 	// AJAX 메소드
+	
+	// 유저
+		// 유저 목록조회
+//	@ResponseBody
+//	@PostMapping("UserList")
+//	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select
+//											, Model model) {
+//		
+//		List<Map<String, Object>> userList = adminservice.selectUserList(select);
+//		int pageNum = 1;
+//		int listLimit = 3;
+//		int startRow = (pageNum - 1) * listLimit;
+//		int pageListLimit = 3;
+//		int listCount = 5;
+//		int maxPage = listCount/listLimit + (listCount%listLimit > 0 ? 1 : 0);
+//		//시작페이지 설정
+//		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+//		//끝페이지 설정
+//		int endPage = startPage + pageListLimit - 1;
+//				
+//		if(endPage > maxPage) {
+//			endPage = maxPage;
+//		}
+//		
+//		Map<String, Object> pageInfo = new HashMap<String, Object>();
+//		pageInfo.put("listCount", listCount);
+//		pageInfo.put("pageListLimit", pageListLimit);
+//		pageInfo.put("maxPage", maxPage);
+//		pageInfo.put("startPage", startPage);
+//		pageInfo.put("endPage", endPage);
+//		
+//		userList.add(pageInfo);
+//		
+//		return userList;
+//	}
+	
 	@ResponseBody
 	@PostMapping("UserList")
-	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select) {
-		PageInfo pageInfo = new PageInfo(Integer.parseInt(select.get("pageNum").toString()), 3);
-		select.put("limit", pageInfo);
+	public Map<String, Object> UserList(@RequestParam Map<String, Object> select, Model model) {
+		System.out.println(select.get("pageNum"));
 		
-//		PageInfo.makePageInfo(pageInfo, 0, 0);
-		
-		List<Map<String, Object>> userList = adminservice.selectUserList(select);
-		
-		return userList;
+	    List<Map<String, Object>> userList = adminservice.selectUserList(select);
+	    
+	    System.out.println(PageInfo.makePageBtn());
+	    // pageInfo 계산 로직 추가
+	    int pageNum = 1;
+	    
+	    int listLimit = 3;
+	    int startRow = (pageNum - 1) * listLimit;
+	    
+	    int listCount = 6;
+	    int pageListLimit = 2;
+	    int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+	    int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+	    int endPage = startPage + pageListLimit - 1;
+	    if (endPage > maxPage) {
+	        endPage = maxPage;
+	    }
+
+	    Map<String, Object> pageInfo = new HashMap<>();
+	    pageInfo.put("pageNum", pageNum);
+	    pageInfo.put("startPage", startPage);
+	    pageInfo.put("endPage", endPage);
+
+	    
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    result.put("userList", userList);
+	    result.put("pageInfo", pageInfo);
+
+	    return result;
 	}
-	
+		// 유저 상세조회
 	@ResponseBody
 	@PostMapping("UserDetail")
 	public Map<String, Object> UserDetail(@RequestParam Map<String, String> user) {
 		Map<String, Object> map = null;
 		return map;
 	}
+	
+	
+	// 관리자
+		// 관리자 목록 조회
+	@ResponseBody
+	@PostMapping("masterAdmin")
+	public List<Map<String, Object>> masterAdmin(@RequestParam Map<String, Object> select,  Model model) {
+		List<Map<String, Object>> adminList = adminservice.selectAdminList(select);
+		return adminList;
+	}
+		// 공통 코드 조회
+	@ResponseBody
+	@PostMapping("selectCode")
+	public List<Map<String, Object>> selectCode(@RequestParam Map<String, Object> select,  Model model) {
+		List<Map<String, Object>> commonList = adminservice.selectCommonList(select);
+		return commonList;
+	}
+		// 공통 코드 상태 변경
+	@ResponseBody
+	@PostMapping("changeHide")
+	public int changeHide(@RequestParam Map<String, Object> select) {
+		int result = adminservice.changeHide(select);
+		
+		return result;
+	}
+		// 공통코드 value값 수정하기
+	@ResponseBody
+	@PostMapping("common")
+	public int patchcommon(@RequestParam Map<String, Object> map) {
+		//TODO PATCH 매핑으로는 파라미터가 안넘어온다. 해결할것
+		int result = adminservice.patchcommon(map);
+		
+		return result;
+	}
+	
+		// 관리자 권한 바꾸기
+	@ResponseBody
+	@PostMapping("changeActive")
+	public int changeActive(@RequestParam Map<String, Object> select) {
+		int result = adminservice.changeActive(select);
+		
+		return result;
+	}
+	
 	
 }

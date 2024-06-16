@@ -17,9 +17,25 @@
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
 
+<!-- 글씨체 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
 <style type="text/css">
 	.input-group-text {
 		cursor: pointer;
+	}
+	
+	
+	 .m-b-0 {
+	  font-family: "Noto Sans KR", sans-serif;
+	  font-optical-sizing: auto;
+	  font-style: normal;
+	}
+	
+	#intro {
+		margin-left:130px;
 	}
 </style>
 
@@ -34,23 +50,23 @@
 <body>
 
 	<%-- 뒤로가기 상단바 --%>
-   	<div style="background-color:#34A853; height:50px">
+   	<div style="background-color:#34A853; height:50px; display: flex; justify-content: center; align-items: center;">
+   		<span style="color:white; padding : 5px;"> 🥒 Oi 챗봇 🥒</span>
    	</div>
    	
      <div class="chat">
      
-     			<%-- 사용자 정보 및 신고 --%>
-                <div class="chat-header clearfix">
-				    <div class="row">
-				        <div class="col-lg-12">
-				            <div class="chat-about text-center">
-				                <h6 class="m-b-0">안녕하세요. 오이마켓 고객센터 챗봇입니다. <br>
-									아래 주요 메뉴를 선택하거나, 궁금한 내용을 질문해 보세요.</h6>
-				            </div>
-				        </div>
-				    </div>
-				    <hr>
-				</div>
+     			<%-- 챗봇 헤더 --%>
+<!--                 <div class="chat-header clearfix"> -->
+<!-- 				    <div class="row"> -->
+<!-- 				        <div class="col-lg-12"> -->
+<!-- 				            <div class="chat-about text-center" style="display: flex; justify-content: center; align-items: center;"> -->
+<!-- 				                <h6 class="m-b-0" id="intro" > 안녕하세요 Oi챗봇입니다 <br> 궁금한 내용을 질문해 보세요.</h6> -->
+<!-- 				            </div> -->
+<!-- 				        </div> -->
+<!-- 				    </div> -->
+<!-- 				    <hr> -->
+<!-- 				</div> -->
                 
                 <%-- 채팅 내역 --%>
                 <div class="chat-history" >
