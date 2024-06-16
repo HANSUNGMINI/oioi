@@ -260,8 +260,11 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
-					alert("수정되었습니다");
-					search();
+					if(response > 0) {
+						alert("변경 완료!");
+					} else {
+						alert("변경실패 다시 시도");
+					}
 				}
 			})
 		}

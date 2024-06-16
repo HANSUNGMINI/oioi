@@ -80,11 +80,10 @@ public class CheckAuthority {
 		// 관리자가 아닐 경우
 		if(session.getAttribute("isAdmin") == null) {
 			System.out.println("관리자가 아님");
+			model.addAttribute("msg", "너 관리자 아니잖아 ㅋ");
 			model.addAttribute("targetURL", CheckAuthority.MAIN);
-			model.addAttribute("msg", "잘못된 진입입니다. 너 관리자 아니잖아 ㅋ");
 			return false;
 		}
-		
 		// 관리자가 맞다면 true 리턴
 		return true;
 	}
