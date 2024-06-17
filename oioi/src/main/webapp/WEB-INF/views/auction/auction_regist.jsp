@@ -106,20 +106,6 @@
 		        console.log("cate2(value) : " + $('#cate2').val());
 		    });
 		    
-		   //유호성 검사
-		   $('#APD_NAME').keyup(function() {
-			   let apd_name = $('#APD_NAME').val();
-			   console.log(apd_name);
-			   
-			   let adpNameRegex = /^[가-힣]{0,20}$/;
-			   
-			   let msg = "";
-			   let color = "";
-			   
-			   if(adpNameRegex.exec(apd_name)) {
-				   let koreanRegex = /[가-힣]/;
-			   }
-		   })
 			
 		});
 	
@@ -184,7 +170,6 @@
 										<div class="form-group">
 											<label>상품명<span>*</span></label>
 											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명" required="required">
-											<div id="checkNameResult"></div>
 										</div>
 									</div>
 									<div class="col-12">

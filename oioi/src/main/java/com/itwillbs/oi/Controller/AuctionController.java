@@ -156,25 +156,33 @@ public class AuctionController {
         int ImgIdx = service.insertImg(fileMap);
 	    System.out.println("ImgIdx : " + ImgIdx);
 	    
-	    //상품등록 (ImgIdx는 상품등록 APD_IMAGE에 넣기)
-	    map.put("APD_IMAGE", ImgIdx);
-	    System.out.println("상품등록하기전 최종 확인 : " + map);
 	    
-	    
-	    int apdSuccess = service.insertAPD(map);
-	    System.out.println("apdSuccess : " + apdSuccess);
-	    
-	    if(apdSuccess > 0) {
-	    	
-	    	model.addAttribute("msg", "등록성공! 1차검수가 완료되면 상품을 보내주세요.");
-			model.addAttribute("targetURL", "auction");
-			return "err/success";
+	    if(ImgIdx > 0) {
+	    	//상품등록 (ImgIdx는 상품등록 APD_IMAGE에 넣기)
+	    	map.put("APD_IMAGE", ImgIdx);
+		    System.out.println("상품등록하기전 최종 확인 : " + map);
+		    
+	    	int apdSuccess = service.insertAPD(map);
+		    System.out.println("apdSuccess : " + apdSuccess);
+		    
+		    if(apdSuccess > 0) {
+		    	
+		    	model.addAttribute("msg", "등록성공! 1차검수가 완료되면 상품을 보내주세요.");
+				model.addAttribute("targetURL", "auction");
+				return "err/success";
+		    }else {
+		    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
+		    	model.addAttribute("targetURL", "auctionRegist");
+		    	
+		    	return "err/fail";
+		    }
 	    }else {
-	    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
+	    	model.addAttribute("msg", "이미지 등록에 실패하였습니다.");
 	    	model.addAttribute("targetURL", "auctionRegist");
 	    	
-	    	return "err/SweetAlert";
+	    	return "err/fail";
 	    }
+	    
 		
 	}
 	
