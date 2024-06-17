@@ -139,13 +139,13 @@
                         </div>
                         <div class="info-item">
                             <label>이메일:</label>
-                            <span>${user.US_EMAIL}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="email">${user.US_EMAIL}</span>
+                            <button class="edit-btn" onclick="openEmailModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>전화번호:</label>
-                            <span>${user.US_PHONE}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="phone">${user.US_PHONE}</span>
+                            <button class="edit-btn" onclick="openPhoneModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
@@ -167,6 +167,20 @@
     <input type="text" id="new-nickname" class="form-control">
 </div>
 
+<!-- 이메일 수정 모달 -->
+<div id="email-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 이메일을 입력하세요:</p>
+    <input type="email" id="new-email" class="form-control">
+</div>
+
+<!-- 전화번호 수정 모달 -->
+<div id="phone-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 전화번호를 입력하세요:</p>
+    <input type="text" id="new-phone" class="form-control">
+</div>
+
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -182,7 +196,7 @@ function openNickModal() {
             "확인": function() {
                 const newNick = $("#new-nickname").val();
                 if (newNick) {
-                    updateNick(newNick);
+                    updateField("nickname", newNick);
                     $(this).dialog("close");
                 }
             },
@@ -193,19 +207,63 @@ function openNickModal() {
     });
 }
 
-function updateNick(newNick) {
+function openEmailModal() {
+    $("#email-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newEmail = $("#new-email").val();
+                if (newEmail) {
+                    updateField("email", newEmail);
+                    $(this).dialog("close");
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function openPhoneModal() {
+    $("#phone-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newPhone = $("#new-phone").val();
+                if (newPhone) {
+                    updateField("phone", newPhone);
+                    $(this).dialog("close");
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function updateField(field, value) {
     $.ajax({
         type: "POST",
-        url: "updateNickname", // 컨트롤러 URL
-        data: { nickname: newNick },
+        url: "updateField", // 컨트롤러 URL
+        data: { field: field, value: value },
         dataType: "json",
         success: function(response) {
-            if (response.result) { // 닉네임 등록 성공
-                $('#nickname').text(newNick);
-                alert('닉네임이 성공적으로 변경되었습니다.');
+            if (response.result) { // 필드 업데이트 성공
+                $('#' + field).text(value);
+                alert('변경되었습니다.');
                 location.reload(); // 현재 페이지 갱신(새로고침)
-            } else { // 닉네임 등록 실패
-                alert("닉네임 변경 실패!");
+            } else { // 필드 업데이트 실패
+                alert("변경 실패!");
             }
         },
         error: function() {

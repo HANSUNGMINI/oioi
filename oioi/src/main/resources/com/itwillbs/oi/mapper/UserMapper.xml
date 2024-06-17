@@ -150,8 +150,25 @@
 		SELECT *
 		  FROM user
 		 WHERE US_ID = #{US_ID}
-	
 	</select>
+	
+<!-- 	<update id="updateMyUser"> -->
+<!-- 		UPDATE user -->
+<!-- 		SET -->
+<!-- 			US_NICK = #{newNick} -->
+<!-- 		WHERE -->
+<!-- 			US_ID = #{id} -->
+<!-- 	</update> -->
+	
+	    <!-- 필드를 업데이트하는 메소드 -->
+    <update id="updateField">
+        UPDATE user
+        SET
+        <if test="field == 'nickname'">US_NICK = #{value}</if>
+        <if test="field == 'email'">US_EMAIL = #{value}</if>
+        <if test="field == 'phone'">US_PHONE = #{value}</if>
+        WHERE US_ID = #{userId}
+    </update>
 	
 </mapper>
 
