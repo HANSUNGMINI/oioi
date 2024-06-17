@@ -5,10 +5,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.UserService;
@@ -55,10 +59,26 @@ public class MyPageController {
 		
 		String id = (String)session.getAttribute("US_ID");
 		Map<String, String> user = service.selectMyUser(id);
+		
+		// 주소 결합
+		String ad1 = user.get("US_ADDRESS1"); 
+		String ad2 = user.get("US_ADDRESS2");
+		String ad = ad1 + ", " + ad2;
+		user.put("ad", ad);
 
 		model.addAttribute("user", user);
 		
 		return "mypage/mypage_user";
+	}
+	
+	@PostMapping("updateNickname")
+	@ResponseBody
+	public String updateNickname(@RequestParam Map<String, String> map, Model model) {
+		String newNick = map.get("nickname"); // 받아옴
+//		System.out.println("닉네임 : " + newNick);
+		
+		
+		return "";
 	}
 	
 	
