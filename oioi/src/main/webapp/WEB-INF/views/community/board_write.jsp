@@ -175,15 +175,21 @@
 	
 	.btn.btn-primary {
 		padding : 7px;
+		background-color: #34A853;
+		color: white;
+		border-radius: 10px;
 	}
 	
 	.boardCategory {
     	margin-left: 15px;
+    	margin-top: -1px;
 		height: 33px;
-	    line-height: 30px;
+	    line-height: 32px;
 	    border-radius: 12px;
-	    font-size: 14px;
+	    font-size: 13px;
     }
+    
+    
 </style>
 
 <script type="text/javascript">
@@ -249,24 +255,28 @@
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
 				   				<select class="boardCategory">
-									<option value="">질문게시판</option>
-									<option value="">정보게시판</option>
-									<option value="">친목게시판</option>
+									<option value="CC02">질문게시판</option>
+									<option value="CC03">신고게시판</option>
+									<option value="CC04">정보게시판</option>
+									<option value="CC05">친목게시판</option>
 								</select>
-				  				<h3><input type = "text" id="title" placeholder="제목을 입력하시오" name = "board_subject" style = "width : 400px" required="required" maxlength="50"> </h3>
+				  				<h3><input type = "text" id="title" placeholder=" 제목을 입력하세요" name = "CM_TITLE" style = "width : 400px" required="required" maxlength="40"> </h3>
 				  			</div>
+				  			
+				  			<div class = "view_info" align="left" style="text-align: center;">
+								<input type="file" value="파일 추가하기" name="event_image_form" id="fileInput" multiple >
+<!-- 				  			</div> -->
 			  			
-			  			<div class = "view_info">
-							<em><b>작성자</b></em>
+<!-- 			  			<div class = "view_info"> -->
+							<em><b>작성자 : ${CM_NICK}</b></em>
 							<em>${sessionScope.member_id}</em>
-							<input type="checkbox" name="important" value="important" style="margin-left:50px" > 주요공지 
 			  			</div>
 			  			
 						
-						<textarea id="summernote" style = "background-color:white" name = "board_content" required="required" maxlength="7000"></textarea>
+						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="500"></textarea>
 						    <script>
 						    $('#summernote').summernote({
-						        placeholder: '내용을 입력하시오 (글자수 5000자까지 가능합니다)',
+						        placeholder: '내용을 입력하세요 (글자수 500자까지 가능합니다)',
 						        tabsize: 2,
 						        height: 400,
 						        toolbar: [

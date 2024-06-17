@@ -21,4 +21,12 @@ public class CommunityService {
 		return mapper.selectBoardDetail(CM_IDX);
 	}
 
+	public String selectNickName(Object object) {
+		return mapper.selectNickName(object);
+	}
+
+	public List<Map<String, String>> selectCM_CATEGORY() {
+		return mapper.selectCM_CATEGORY();
+	}
+
 }

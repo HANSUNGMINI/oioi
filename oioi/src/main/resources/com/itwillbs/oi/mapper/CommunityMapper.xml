@@ -35,6 +35,18 @@
   		CM_IDX = #{CM_IDX}
   	
   	</select>
+  	
+  	<select id="selectNickName">
+  		SELECT US_NICK
+  		FROM user
+  		WHERE US_ID = #{object}
+  	</select>
+  	
+  	<select id="selectCM_CATEGORY" resultType="map">
+  		SELECT code, value
+  		FROM common
+  		WHERE name = 'CM_CATEGORY'
+  	</select>
   
   
   
