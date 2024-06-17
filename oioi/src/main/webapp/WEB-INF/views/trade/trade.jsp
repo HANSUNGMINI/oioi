@@ -49,7 +49,7 @@
 	
 </head>
 <body class="js">
-	<header><jsp:include page="INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
 			<div class="container">
@@ -310,7 +310,7 @@
 			</div>
 			<!-- Modal end -->
 		
-	<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
+	<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

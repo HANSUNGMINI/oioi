@@ -66,7 +66,7 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -170,7 +170,7 @@
 		</section>
 		<!--/ End Login -->
 		
-		<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
+		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 	<!--  <script>
 		$(function() {
 			
