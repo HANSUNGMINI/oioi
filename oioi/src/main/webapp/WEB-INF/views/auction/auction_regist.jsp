@@ -114,7 +114,7 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
 	
 		<!-- Breadcrumbs -->
 		<div class="breadcrumbs">
@@ -175,7 +175,7 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>상품설명<span>*</span></label>
-											<textarea name="APD_DETAIL" id="APD_DETAIL" maxlength="5" placeholder="상품에 대한 상세한 정보(사이즈,상태 등)를 작성하세요" required="required" class="form-control"></textarea>
+											<textarea name="APD_DETAIL" id="APD_DETAIL" maxlength="300" placeholder="상품에 대한 상세한 정보(사이즈,상태 등)를 작성하세요" required="required" class="form-control"></textarea>
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">

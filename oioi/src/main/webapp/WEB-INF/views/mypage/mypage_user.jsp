@@ -139,13 +139,13 @@
                         </div>
                         <div class="info-item">
                             <label>이메일:</label>
-                            <span>${user.US_EMAIL}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="email">${user.US_EMAIL}</span>
+                            <button class="edit-btn" onclick="openEmailModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>전화번호:</label>
-                            <span>${user.US_PHONE}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="phone">${user.US_PHONE}</span>
+                            <button class="edit-btn" onclick="openPhoneModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
@@ -165,12 +165,88 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 닉네임을 입력하세요:</p>
     <input type="text" id="new-nickname" class="form-control">
+    <div id="checkNickResult"></div>
+    <button class="nick_check" id="btnCheckNick" disabled>중복확인</button>
+</div>
+
+<!-- 이메일 수정 모달 -->
+<div id="email-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 이메일을 입력하세요:</p>
+    <input type="email" id="new-email" class="form-control">
+</div>
+
+<!-- 전화번호 수정 모달 -->
+<div id="phone-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 전화번호를 입력하세요:</p>
+    <input type="text" id="new-phone" class="form-control">
+</div>
+
+<!-- 사용자 정의 모달 알림 창 -->
+<div id="custom-alert-modal" title="알림">
+    <p id="custom-alert-message"></p>
 </div>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+$(function() {
+    // 사용자 정의 모달 알림 창 초기화
+    $("#custom-alert-modal").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+            "확인": function() {
+                $(this).dialog("close");
+                if ($("#custom-alert-modal").data("reloadPage")) {
+                    location.reload(); // 현재 페이지 갱신(새로고침)
+                }
+            }
+        }
+    });
+
+    // 닉네임 입력창 이벤트
+    $("#new-nickname").on("keyup", function() {
+        const newNick = $(this).val();
+        if (checkNick(newNick)) { // 닉네임 유효성검사 통과 시
+            $("#checkNickResult").text("중복확인 버튼을 눌러주세요.");
+            $("#checkNickResult").css("color", "blue");
+            $("#btnCheckNick").prop("disabled", false);
+        } else { // 닉네임 유효성 검사 실패 시 중복확인 버튼 비활성화
+            $("#btnCheckNick").prop("disabled", true);
+        }
+    });
+
+    // 중복확인 버튼 클릭 이벤트
+    $("#btnCheckNick").click(function() {
+        const newNick = $("#new-nickname").val();
+        if (newNick === "") {
+            showCustomAlert("닉네임을 입력해주세요.", false);
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "checkNickname", // 컨트롤러 URL
+            data: { nickname: newNick },
+            dataType: "json",
+            success: function(response) {
+                if (response.isValidNick) { // 닉네임 사용 가능
+                    showCustomAlert("사용가능한 닉네임입니다.", false);
+                    $("#nickname").val(newNick);
+                } else { // 닉네임 사용 불가
+                    showError("이미 사용중인 닉네임입니다.");
+                }
+            },
+            error: function() {
+                showCustomAlert("요청 실패!", false);
+            }
+        });
+    });
+});
+
 function openNickModal() {
     $("#nickname-modal").dialog({
         modal: true,
@@ -181,8 +257,32 @@ function openNickModal() {
         buttons: {
             "확인": function() {
                 const newNick = $("#new-nickname").val();
-                if (newNick) {
-                    updateNick(newNick);
+                if (newNick && checkNick(newNick)) {
+                    updateField("nickname", newNick);
+                    $(this).dialog("close");
+                } else {
+                    showCustomAlert("닉네임을 입력하세요.", false);
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function openEmailModal() {
+    $("#email-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newEmail = $("#new-email").val();
+                if (newEmail) {
+                    updateField("email", newEmail);
                     $(this).dialog("close");
                 }
             },
@@ -193,25 +293,81 @@ function openNickModal() {
     });
 }
 
-function updateNick(newNick) {
+function openPhoneModal() {
+    $("#phone-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newPhone = $("#new-phone").val();
+                if (newPhone) {
+                    updateField("phone", newPhone);
+                    $(this).dialog("close");
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function updateField(field, value) {
     $.ajax({
         type: "POST",
-        url: "updateNickname", // 컨트롤러 URL
-        data: { nickname: newNick },
+        url: "updateField", // 컨트롤러 URL
+        data: { field: field, value: value },
         dataType: "json",
         success: function(response) {
-            if (response.result) { // 닉네임 등록 성공
-                $('#nickname').text(newNick);
-                alert('닉네임이 성공적으로 변경되었습니다.');
-                location.reload(); // 현재 페이지 갱신(새로고침)
-            } else { // 닉네임 등록 실패
-                alert("닉네임 변경 실패!");
+            if (response.result) { // 필드 업데이트 성공
+                $('#' + field).text(value);
+                showCustomAlert('변경되었습니다.', true);
+            } else { // 필드 업데이트 실패
+                showCustomAlert("변경 실패!", false);
             }
         },
         error: function() {
-            alert("요청 실패!");
+            showCustomAlert("요청 실패!", false);
         }
     });
+}
+
+function checkNick(user_nick) { // 닉네임 유효성 검사
+    const bannedWords = ["시발", "개새", "fuck"];
+    for (let i = 0; i < bannedWords.length; i++) {
+        if (user_nick.includes(bannedWords[i])) {
+            showError("닉네임에 금지된 단어가 포함되어 있습니다.");
+            return false;
+        }
+    }
+
+    const lengthRegex = /^[a-z0-9가-힣]{2,16}$/;
+    if (!lengthRegex.test(user_nick)) {
+        showError("닉네임은 알파벳 소문자, 숫자, 또는 한글로 이루어진 2자 이상 16자 이하이어야 합니다.");
+        return false;
+    }
+
+    const characterRegex = /[a-z0-9가-힣]/;
+    if (!characterRegex.test(user_nick)) {
+        showError("닉네임은 적어도 한 개의 알파벳 소문자, 숫자, 또는 한글을 포함해야 합니다.");
+        return false;
+    }
+
+    $("#checkNickResult").text("");
+    return true;
+}
+
+function showError(message) {
+    $("#checkNickResult").text(message);
+    $("#checkNickResult").css("color", "red");
+}
+
+function showCustomAlert(message, reloadPage) {
+    $("#custom-alert-message").text(message);
+    $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
 }
 </script>
 </body>

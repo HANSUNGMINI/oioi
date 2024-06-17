@@ -90,7 +90,14 @@
 			#{APD_BUY_NOW_PRICE},
 			now()			
 		)
-	</insert>	
+	</insert>
+	
+	<select id="selectApdList" resultType="hashmap">
+		select *
+		from auction_product ap
+		join images img
+		on ap.APD_IMAGE = img.IMG_IDX;
+	</select>
 </mapper>
 
 

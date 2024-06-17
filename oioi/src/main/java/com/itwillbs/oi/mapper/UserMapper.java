@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
@@ -50,7 +51,14 @@ public interface UserMapper {
 	String selectIdByPhone(Map<String, Object> user);
 
 	Map<String, String> selectMyUser(String id);
+	
+	 // 필드를 업데이트하는 메소드
+    boolean updateField(@Param("userId") String userId, @Param("field") String field, @Param("value") String value);
 
+    // 닉네임 중복 검사
+    boolean isNicknameTaken(@Param("nickname") String nickname);
+	
+	
 	Map<String, Object> selectFindPw(Map<String, Object> userMap);
 
 	int selectUserData(Map<String, Object> user);

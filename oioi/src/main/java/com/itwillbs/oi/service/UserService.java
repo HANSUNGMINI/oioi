@@ -113,6 +113,15 @@ public class UserService {
 	}
 	
 	
+    // 필드를 업데이트하는 메소드
+    public boolean updateField(String userId, String field, String value) {
+        return mapper.updateField(userId, field, value);
+    }
+
+    public boolean isNicknameAvailable(String nickname) {
+    	
+        return !mapper.isNicknameTaken(nickname);
+    }
 	
 	
 
