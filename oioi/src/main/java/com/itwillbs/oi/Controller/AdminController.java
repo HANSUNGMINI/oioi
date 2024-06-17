@@ -9,8 +9,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -124,74 +128,38 @@ public class AdminController {
 	
 	// 유저
 		// 유저 목록조회
-//	@ResponseBody
-//	@PostMapping("UserList")
-//	public List<Map<String, Object>> UserList(@RequestParam Map<String, Object> select
-//											, Model model) {
-//		
-//		List<Map<String, Object>> userList = adminservice.selectUserList(select);
-//		int pageNum = 1;
-//		int listLimit = 3;
-//		int startRow = (pageNum - 1) * listLimit;
-//		int pageListLimit = 3;
-//		int listCount = 5;
-//		int maxPage = listCount/listLimit + (listCount%listLimit > 0 ? 1 : 0);
-//		//시작페이지 설정
-//		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-//		//끝페이지 설정
-//		int endPage = startPage + pageListLimit - 1;
-//				
-//		if(endPage > maxPage) {
-//			endPage = maxPage;
-//		}
-//		
-//		Map<String, Object> pageInfo = new HashMap<String, Object>();
-//		pageInfo.put("listCount", listCount);
-//		pageInfo.put("pageListLimit", pageListLimit);
-//		pageInfo.put("maxPage", maxPage);
-//		pageInfo.put("startPage", startPage);
-//		pageInfo.put("endPage", endPage);
-//		
-//		userList.add(pageInfo);
-//		
-//		return userList;
-//	}
-	
 	@ResponseBody
 	@PostMapping("UserList")
 	public Map<String, Object> UserList(@RequestParam Map<String, Object> select, Model model) {
-		System.out.println(select.get("pageNum"));
+		// 모든 객체를 담아가는 리턴용 Map 선언
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println(select);
+		// 1. 페이지 넘버 파싱, 2. 페이지넘버로 조회용 Map 객체 생성, 3. 구문실행 파라미터에 삽입
+		int pageNum = Integer.parseInt(select.get("pageNum").toString());
+		Map<String, Integer> pagination = PageInfo.limitPagination(pageNum);
+		select.put("page", pagination);
 		
+		// 리스트 조회
 	    List<Map<String, Object>> userList = adminservice.selectUserList(select);
 	    
-	    System.out.println(PageInfo.makePageBtn());
-	    // pageInfo 계산 로직 추가
-	    int pageNum = 1;
+	    // 조회내용이 없으면 result 객체에 빈 객체 넣어서 가져가기
+		if(userList.isEmpty()) {
+			System.out.println("없음");
+			result.put("userList", userList);
+			return result;
+		}
+		
+		// 조회된 내용이 있다면 첫 번째 row데이터의 리스트카운트 가져와서 저장
+	    int listCount = Integer.parseInt(userList.get(0).get("listCount").toString());
 	    
-	    int listLimit = 3;
-	    int startRow = (pageNum - 1) * listLimit;
-	    
-	    int listCount = 6;
-	    int pageListLimit = 2;
-	    int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-	    int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-	    int endPage = startPage + pageListLimit - 1;
-	    if (endPage > maxPage) {
-	        endPage = maxPage;
-	    }
-
-	    Map<String, Object> pageInfo = new HashMap<>();
-	    pageInfo.put("pageNum", pageNum);
-	    pageInfo.put("startPage", startPage);
-	    pageInfo.put("endPage", endPage);
-
-	    
-	    Map<String, Object> result = new HashMap<String, Object>();
+	    // result 객체에 각각 삽입해서 리턴
 	    result.put("userList", userList);
-	    result.put("pageInfo", pageInfo);
-
+	     	// 위에서 만든 조회용 Map객체와 listCount 받아서 페이지버튼 만드는 Map객체 생성
+	    result.put("pageInfo", PageInfo.makePagination(pagination, listCount));
+	    
 	    return result;
 	}
+	
 		// 유저 상세조회
 	@ResponseBody
 	@PostMapping("UserDetail")
@@ -226,11 +194,27 @@ public class AdminController {
 	}
 		// 공통코드 value값 수정하기
 	@ResponseBody
-	@PostMapping("common")
-	public int patchcommon(@RequestParam Map<String, Object> map) {
-		//TODO PATCH 매핑으로는 파라미터가 안넘어온다. 해결할것
+	@PatchMapping("common")
+	public int patchCommon(@RequestBody Map<String, Object> map) {
+		System.out.println(map);
 		int result = adminservice.patchcommon(map);
-		
+		return result;
+	}
+		// 공통코드 추가하기
+	@ResponseBody
+	@PutMapping("common")
+	public int addCommon(@RequestBody Map<String, Object> map) {
+		System.out.println(map);
+		int result = adminservice.insertCommon(map);
+		return result;
+	}
+		// 공통코드 삭제
+	@ResponseBody
+	@DeleteMapping("common")
+	public int deleteCommon(@RequestBody Map<String, Object> map) {
+		System.out.println(map);
+		int result = adminservice.deleteCommon(map);
+		System.out.println(result);
 		return result;
 	}
 	
@@ -239,7 +223,6 @@ public class AdminController {
 	@PostMapping("changeActive")
 	public int changeActive(@RequestParam Map<String, Object> select) {
 		int result = adminservice.changeActive(select);
-		
 		return result;
 	}
 	

@@ -14,7 +14,9 @@
 			 , hide
 		  FROM common
 		 WHERE name = #{target}
+	 	 ORDER BY code asc;	 
 	</select>
+	
 	<select id="selectAdmin" resultType="map">
 		SELECT *
 		  FROM admin
@@ -27,6 +29,16 @@
 			 , US_NICK
 			 , US_PHONE
 			 , US_REG_DATE
+			 , (SELECT count(US_IDX)
+			 	  FROM user
+		 		 WHERE 
+				  <choose>
+				  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
+				  	<when test="type.equals('US_ID')">US_ID LIKE concat('%', #{keyword} , '%')</when>
+				  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
+				  	<otherwise> 1 = 1</otherwise>
+				  </choose>
+			 ) as listCount
 		  FROM user
 		 WHERE 
 		  <choose>
@@ -35,19 +47,15 @@
 		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
-<!-- 		  LIMIT #{page.startRow}, #{page.listLimit} -->
+		  LIMIT #{page.startRow}, #{page.listLimit}
+		  ORDER BY US_IDX asc;	 
 	</select>
-	
-	
-		
-	
-	
-	
 	
 	<select id="selectAdminList" resultType="map">
 		SELECT *
 		  FROM admin
-		 WHERE RL_NAME != '최고관리자';
+		 WHERE RL_NAME != '최고관리자'
+		 ORDER BY AD_IDX asc
 	</select>
 	
 	
@@ -74,8 +82,25 @@
 	<update id="patchcommon">
 		UPDATE common
 		   SET value = #{value}
-		 WHERE name = #{target} AND code = #{code};
+		 WHERE code = #{code}
 	</update>
+	
+	<insert id="insertCommon">
+		INSERT INTO common
+		VALUES (null
+			 , #{target}
+			 , #{code}
+			 , #{value}
+			 , DEFAULT
+		);
+	</insert>
+	
+	
+	<delete id="deleteCommon">
+		DELETE
+		  FROM common
+		 WHERE code = #{target}
+	</delete>
 </mapper>
 
 
