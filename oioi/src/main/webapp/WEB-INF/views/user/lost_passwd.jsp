@@ -50,75 +50,15 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<script>
 	let checkAuthNumResult = false;
-	let checkMailAuthNumResult = false;
 	let serverAuthNum = "";
-	let serverMailAuthNum = "";
 	
-	let isMailAuthButtonCreated = false; // 버튼이 생성되었는지 여부를 나타내는 변수
-	function sendAuthMail() {
-		// 이메일 입력창에 입력된 이메일 가져오기
-		let userId = $("#user_id").val();
-		let eMail = $("#user_email").val();
-		let userName = $("#user_name").val();
-		if(!isValidEmail(eMail)) { // 이메일 확인
-	        alert("E-Mail을 정확히 입력해주세요.");
-	        document.fr.user_email.focus();
-	        return false;
-	    } 
+	function isValidId(id) {
 		
-		// 이메일이 입력되지 않았을 경우 경고창 출력
-		if(eMail == "") {
-			alert("이메일을 입력해주세요!");
-			$("#user_email").focus();
-			return;
-		}
-		
-// 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
-		
-// 		location.href = "SendAuthMail?user_email=" + eMail;
-
-		$.ajax({
-			url : "SendAuthMail",
-			type : "POST",
-			contentType: "application/json",
-			data : JSON.stringify({"US_ID": userId , "US_NAME": userName , "US_EMAIL": eMail}),
-			dataType: "json",
-			success : function(authInfo){
-				console.log(authInfo);
-				if(authInfo.success){
-		            serverMailAuthNum = authInfo.auth_code;
-		            alert("인증메일이 전송되었습니다.");
-		            // 버튼이 생성되지 않았다면 생성
-                    if (!isMailAuthButtonCreated) {
-                        $("#mail_auth_num").parent().append(
-                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'
-                        );
-                        isMailAuthButtonCreated = true; // 버튼이 생성되었음을 표시
-                    }
-				} else {
-					alert("인증메일 발송에 실패했습니다.");
-				}
-	        },
-			error : function() {
-				alert("인증메일 발송에 실패했습니다. 다시 시도주세요.");
-			}
-		});
 	}
-	
-	function mailAuthCheck(){
-		if($("#mail_auth_num").val() !== serverMailAuthNum){
-			alert("인증번호를 확인해주세요.");
-			return false;
-		} else {
-			alert("인증되었습니다.");
-			checkMailAuthNumResult = true;
-		}
-	}
-	
 	
 	function isValidEmail(email) { //이메일 유효성 검사
 		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
@@ -132,39 +72,70 @@
 		return /^[0-9]{10,11}$/.test(phoneNumber);
 	}
 	
+	function isValidId(user_id) {
+		// 첫 글자에 특수기호(),(-) 사용 여부 확인
+		if (/^[-]/.test(user_id)) {
+		return false;
+		}
+		// 아이디 패턴 검사
+		if (!/^[a-z0-9][a-z0-9_-]{7,11}$/.test(user_id)) {
+		return false;
+		}
+		// 영문자와 숫자 혼용 여부 확인
+		if (!(/[0-9]/.test(user_id) && /[a-z]/.test(user_id))) {
+		return false;
+		}
+		// 같은 문자 4번 이상 사용 여부 확인
+		if (/(\w)\1\1\1/.test(user_id)) {
+		return false;
+		}
+		// 모든 조건을 만족하면 유효성 검사 통과
+		return true;
+		}
+	
 	let isPhoneAuthButtonCreated = false;
 	function phoneAuth() {
+		console.log("phoneAuth 함수가 호출되었습니다.");
+		
 		let user_name2 = $("#user_name2").val();
+		let user_id2 = $("#user_id2").val();
 	    let user_phone = $("#user_phone").val();
 	    
-	    if (!isValidName(user_name2) || user_name2 == "") {
+	    if (!isValidId(user_id2) || user_id2 == "") {
+	        alert("아이디를 확인해주세요.");
+	        document.fr.user_id2.focus();
+	        return false;
+	    } else if (!isValidName(user_name2) || user_name2 == "") {
 	        alert("이름을 확인해주세요.");
 	        document.fr.user_name2.focus();
 	        return false;
-	    }
-
-	    if (!isValidPhoneNumber(user_phone) || user_phone == "") {
+	    } else if (!isValidPhoneNumber(user_phone) || user_phone == "") {
 	        alert("전화번호를 확인해주세요.");
 	        document.fr.user_phone.focus();
 	        return false;
-	    }
+	    } 
 		
 		$.ajax({
 			
 			type : "POST",
-			url : "send-user-id",
+			url : "send-user-passwd",
 			contentType: "application/json",
-			data : JSON.stringify({"user_name2": user_name2, "user_phone": user_phone}),
+			data : JSON.stringify({"user_id2": user_id2, "user_name2": user_name2, "user_phone": user_phone}),
 			dataType :"json",
 			success : function(response){
 		        if (response.success) {
-		            
-		            alert("회원님의 ID 정보가 문자로 전송되었습니다.");
-		            window.location.href = "${pageContext.request.contextPath}/login"
+					serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
+					alert("인증번호가 전송되었습니다.");
+					if (!isPhoneAuthButtonCreated) {
+						$("#auth_num").parent().append(
+								'<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
+	                    );
+					}
+                    isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
 		        } else {
-		            alert("해당 이름과 전화번호로 등록된 회원이 없습니다.");
+		            alert("해당 정보로 등록된 회원이 없습니다.");
 		        }
-				
+		        
 			},
 			error : function() {
 				alert("전화번호 인증에 실패했습니다. 다시 시도해주세요.");
@@ -180,6 +151,7 @@
 		} else {
 			alert("인증되었습니다.");
 			checkAuthNumResult = true;
+			window.location.href = "${pageContext.request.contextPath}/login";
 		}
 	}
 	
@@ -302,7 +274,7 @@
 							<ul class="bread-list">
 								<li><a href="index1.html">홈<i class="ti-arrow-right"></i></a></li>
 								<li class="active"><a href="login">로그인<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="lost_id">아이디찾기</a></li>
+								<li class="active"><a href="lost_passwd">비밀번호 찾기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -338,7 +310,7 @@
 														<input type="text" name="user_name" id="user_name" maxlength="5" placeholder="이름" >
 														<div style="display: flex">
 															<input type="email" name="user_email" id="user_email" placeholder="이메일" >
-															<input type="button" name="check_email" class="check_email" id="check_email" onclick="sendAuthMail()">
+															<input type="submit" name="check_email" class="check_email" id="check_email" value="인증하기">
 														</div>
 													</div>
 												</div>
@@ -351,6 +323,9 @@
 														<div style="display: flex">
 															<input type="text" name="user_phone" id="user_phone" placeholder="전화번호" maxlength="11" >
 															<input type="button" class="check_tel" id="check_tel" value="문자전송" onclick="phoneAuth()">
+														</div>
+														<div id="authBox" style="display: flex">
+															<input type="text" placeholder="인증번호" id="auth_num" name="auth_num" maxlength="4"/>
 														</div>
 													</div>
 												</div>

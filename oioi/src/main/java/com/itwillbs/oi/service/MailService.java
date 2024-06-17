@@ -48,15 +48,15 @@ public class MailService {
 		}).start();
 	}
 
-	public void sendForgotPw(Map<String, Object> userMap) {
-		String userEmail = (String) userMap.get("user_email");
+	public void sendForgotPw(Map<String, Object> user) {
+		System.out.println("메일 서비스 user 정보 : " + user);
+		String userEmail = (String) user.get("US_EMAIL");
 		String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
-		String content = "<a href='http://localhost:8081/oi/forgot_pw_step3?user_id=" 
-		                + userMap.get("user_id") 
+		String content = "<a href='http://localhost:8081/oi/lost_passwd?user_id=" 
+		                + user.get("US_ID") 
+		                + "&user_name=" + user.get("US_NAME")
 		                + "&user_email=" + userEmail
-		                + "&user_name=" + userMap.get("user_name")
 		                + "'>클릭 시 새 비밀번호 설정 페이지로 이동합니다.</a>";
-		
 		SendMailClient mailClient = new SendMailClient();
 		new Thread(new Runnable() {
 			@Override

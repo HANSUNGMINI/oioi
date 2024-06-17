@@ -113,6 +113,50 @@ public class coolSmsController {
 	        
 	        return jo.toString();
 	    }
+	    
+	    @ResponseBody
+	    @PostMapping("send-user-passwd")
+	    public String sendUserPw(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	    	
+	    	session.setMaxInactiveInterval(300);
+	    	System.out.println(requestBody);
+	    	Map<String, Object> resultMap = new HashMap<String, Object>();
+	    	Map<String, Object> user = new HashMap<String, Object>();
+	    	try {
+	    		String userId = requestBody.get("user_id2");
+	    		String userName = requestBody.get("user_name2");
+		    	String user_phone = requestBody.get("user_phone");
+		    	String auth_num = GenerateRandomCode.getAuthCode();
+		    	user.put("userId" , userId);
+		    	user.put("userName" , userName);
+		    	user.put("userPhone" , user_phone);
+		    	int userData = userService.findUserData(user);
+		        System.out.println("메일 서비스 userData 정보 : " + userData);
+		        if(userData > 0) {
+		        	Message message = new Message();
+		        	// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
+		        	message.setFrom("01065959094");
+		        	message.setTo(user_phone);
+		        	message.setText("[OiMarket] 아래의 인증번호를 입력해 주세요. \n인증번호 : ["+ auth_num + "]");
+		        	
+		        	SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+		        	session.setAttribute("auth_num", auth_num);
+		        	resultMap.put("success", true);
+		        	resultMap.put("auth_num", auth_num);
+		        }	else {
+	                resultMap.put("success", false);
+	                resultMap.put("message", "해당 정보로 등록된 회원이 없습니다.");
+	            }
+	    	} catch (Exception e) {
+	            e.printStackTrace();
+	            resultMap.put("success", false);
+	        }
+	    	
+	        JSONObject jo = new JSONObject(resultMap);
+	        
+	        return jo.toString();
+	    }
+	    
 }
 //	    @ResponseBody
 //	    @PostMapping("send-user-id")

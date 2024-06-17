@@ -51,6 +51,10 @@ public interface UserMapper {
 
 	Map<String, String> selectMyUser(String id);
 
+	Map<String, Object> selectFindPw(Map<String, Object> userMap);
+
+	int selectUserData(Map<String, Object> user);
+
 
 	
 
