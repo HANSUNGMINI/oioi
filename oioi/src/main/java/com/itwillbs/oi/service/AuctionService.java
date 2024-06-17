@@ -46,6 +46,10 @@ public class AuctionService {
 		return mapper.categoryName(map);
 	}
 
+	public List<Map<String, String>> selectApdList() {
+		return mapper.selectApdList();
+	}
+
 	
 	
 }

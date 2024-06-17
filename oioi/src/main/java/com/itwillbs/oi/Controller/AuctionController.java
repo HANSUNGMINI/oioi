@@ -42,7 +42,12 @@ public class AuctionController {
 	
 	
 	@GetMapping("auction")
-	public String Auction() {
+	public String Auction(Model model) {
+		
+		List<Map<String, String>> apdList = service.selectApdList();
+		System.out.println("apdList : " + apdList);
+		
+		model.addAttribute("apdList", apdList);
 		return "auction/auction";
 	}
 	
@@ -142,7 +147,7 @@ public class AuctionController {
                 String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
                 try {
                     file.transferTo(new File(saveDir, fileName));
-                    fileMap.put("image" + (i+1), uploadDir + "/" + fileName);
+                    fileMap.put("image" + (i+1),subDir + File.separator + fileName);
                     
                     
                 } catch (IllegalStateException | IOException e) {
