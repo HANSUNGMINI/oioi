@@ -50,6 +50,10 @@ public class AuctionService {
 		return mapper.selectApdList();
 	}
 
+	public Map<String, String> selectApdDetail(Map<String, String> map) {
+		return mapper.selectApdDetail(map);
+	}
+
 	
 	
 }

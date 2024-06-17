@@ -52,7 +52,12 @@ public class AuctionController {
 	}
 	
 	@GetMapping("auctionDetail")
-	public String auctionDetail() {
+	public String auctionDetail(@RequestParam Map<String, String> map, Model model) {
+		System.out.println("auctionDetail(map) : " + map);
+		
+		Map<String, String> dbMap = service.selectApdDetail(map);
+		model.addAttribute("apdDetail", dbMap);
+		
 		return "auction/auction_detail";
 	}
 	

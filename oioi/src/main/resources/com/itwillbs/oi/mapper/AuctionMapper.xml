@@ -98,6 +98,14 @@
 		join images img
 		on ap.APD_IMAGE = img.IMG_IDX;
 	</select>
+	
+	<select id="selectApdDetail" resultType="hashmap">
+		select *
+		from auction_product ap
+		join images i
+		on ap.APD_IMAGE = i.IMG_IDX
+		where APD_IDX = #{APD_IDX}
+	</select>
 </mapper>
 
 

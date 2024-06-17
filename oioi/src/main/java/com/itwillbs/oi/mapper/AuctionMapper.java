@@ -23,5 +23,7 @@ public interface AuctionMapper {
 
 	List<Map<String, String>> selectApdList();
 
+	Map<String, String> selectApdDetail(Map<String, String> map);
+
 
 }

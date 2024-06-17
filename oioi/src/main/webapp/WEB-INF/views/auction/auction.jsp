@@ -51,9 +51,9 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<script type="text/javascript">
-		$(function(){
-			
-		});
+		function auctionDetail() {
+				
+		}
 	</script>
 </head>
 <body class="js">
@@ -62,230 +62,303 @@
 	
 	<!-- 섹션 -->
 	<!-- 메인 BIG 컨텐츠 -->
-<!-- 	<section class="hero-area4"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-12"> -->
-<!-- 					<div class="home-slider-4"> -->
-<!-- 						하나만 놔두면 오류? -->
+	<section class="hero-area4">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="home-slider-4">
+						<div class="big-content" >
+							<div class="inner">
+								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
+								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
+								<div class="button">
+									<a href="#" class="btn">1번</a>
+								</div>
+							</div>
+						</div>
 						
-<!-- 						<div class="big-content" > -->
-<!-- 							<div class="inner"> -->
-<!-- 								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4> -->
-<!-- 								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p> -->
-<!-- 								<div class="button"> -->
-<!-- 									<a href="#" class="btn">1번</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
+						<div class="big-content" >
+							<div class="inner">
+								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
+								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
+								<div class="button">
+									<a href="#" class="btn">2번</a>
+								</div>
+							</div>
+						</div>
 						
-<!-- 						<div class="big-content" > -->
-<!-- 							<div class="inner"> -->
-<!-- 								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4> -->
-<!-- 								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p> -->
-<!-- 								<div class="button"> -->
-<!-- 									<a href="#" class="btn">2번</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-						
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</section> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<!--/ End Hero Area 2 -->
 	
-	<!-- 최근 등록된 품목 -->
-	
-	    <div class="product-area section">
-	            <div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="product-info">
-								<div class="nav-main">
-									<!-- 카테고리 -->
-									<ul class="nav nav-tabs" id="myTab" role="tablist">
-										<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#man" role="tab">최신순</a></li>
-										<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#accessories" role="tab">나누는</a></li>
-									</ul>
-									<!--/ 카테고리 끝 -->
+	<!-- 최근 본 상품? -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div class="section-title">
+						<h2>최근 본 상품</h2>
+						<a href="#"> 더보기</a>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						<!-- 제품 하나하나 -->
+						<div class="single-product">
+							<div class="product-img">
+								<a href="product-details.html">
+									<img class="default-img"  src="https://image.msscdn.net/images/goods_img/20231213/3754860/3754860_17025174767964_500.jpg"  alt="#">
+<!-- 									<img class="hover-img"   alt="#"> -->
+									<span class="out-of-stock">판매 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+								</a>
+								<div class="button-head">
+									<div class="product-action">
+										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
+									</div>
 								</div>
-								
-								<!-- 탭 하나 -->
-								
-								
-								<div class="tab-content" id="myTabContent">
-								
-									<!-- 탭에맞춘곳 -->
-									<!-- 위에 카테고리에서 준 href="#XXX"에 맞게 ID주기 -->
-									<div class="tab-pane fade show active" id="man" role="tabpanel">
-										<div class="tab-single">
-											<div class="row">
-												<c:forEach var="apd" items="${apdList}" varStatus="index">
-												<!--  연습상품1 -->
-												<div class="col-xl-3 col-lg-4 col-md-4 col-12">
-													<div class="single-product">
-														<div class="product-img">
-															<a href="product-details.html">
-																<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }">
-																<img class="hover-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }">
-<%-- 																<img class="default-img" src="${pageContext.request.contextPath}/resources/images/케이크.jpg" alt="#"> --%>
-<%-- 																<img class="hover-img" src="${pageContext.request.contextPath}/resources/images/케이크.jpg"  alt="#"> --%>
-																<span class="new">New${index.index}</span>
-															</a>
-															<div class="button-head">
-																<div class="product-action">
-																	<a data-toggle="modal" data-target="#exampleModal${index.index }" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-																	<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-																	<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>비교하기(굳이?)</span></a>
-																</div>
-																<div class="product-action-2">
-																	<a title="Add to cart" href="#">상세 페이지로 이동</a>
-																</div>
-															</div>
-														</div>
-														<div class="product-content">
-															<h3><a href="product-details.html">${apd.APD_NAME}</a></h3>
-															<div class="product-price">
-																<a>시작판매가 : <span><fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span></a><br>
-																<a>즉시구매가 : <span><fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span></a>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- 퀵 상세 -->
-											    <div class="modal fade" id="exampleModal${index.index }" tabindex="-1" role="dialog">
-											            <div class="modal-dialog" role="document">
-											                <div class="modal-content">
-											                    <div class="modal-header">
-											                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-											                    </div>
-											                    <div class="modal-body">
-											                        <div class="row no-gutters">
-											                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-											                                <!-- Product Slider -->
-																				<div class="product-gallery">
-																					<div class="quickview-slider-active">
-																						<div class="single-slider">
-																							<img src="https://via.placeholder.com/569x528" alt="#">
-																						</div>
-																						<div class="single-slider">
-																							<img src="https://via.placeholder.com/569x528" alt="#">
-																						</div>
-																						<div class="single-slider">
-																							<img src="https://via.placeholder.com/569x528" alt="#">
-																						</div>
-																						<div class="single-slider">
-																							<img src="https://via.placeholder.com/569x528" alt="#">
-																						</div>
-																					</div>
-																				</div>
-											                            </div>
-											                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-											                                <div class="quickview-content">
-											                                    <h2>${apd.APD_NAME}</h2>
-											                                    <div class="quickview-ratting-review">
-											                                        <div class="quickview-ratting-wrap">
-											                                            <div class="quickview-ratting">
-											                                                <i class="yellow fa fa-star"></i>
-											                                                <i class="yellow fa fa-star"></i>
-											                                                <i class="yellow fa fa-star"></i>
-											                                                <i class="yellow fa fa-star"></i>
-											                                                <i class="fa fa-star"></i>
-											                                            </div>
-											                                            <a href="#"> (1 customer review)</a>
-											                                        </div>
-											                                        <div class="quickview-stock">
-											                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
-											                                        </div>
-											                                    </div>
-											                                    <h3>$29.00</h3>
-											                                    <div class="quickview-peragraph">
-											                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
-											                                    </div>
-																				<div class="size">
-																					<div class="row">
-																						<div class="col-lg-6 col-12">
-																							<h5 class="title">Size</h5>
-																							<select>
-																								<option selected="selected">s</option>
-																								<option>m</option>
-																								<option>l</option>
-																								<option>xl</option>
-																							</select>
-																						</div>
-																						<div class="col-lg-6 col-12">
-																							<h5 class="title">Color</h5>
-																							<select>
-																								<option selected="selected">orange</option>
-																								<option>purple</option>
-																								<option>black</option>
-																								<option>pink</option>
-																							</select>
-																						</div>
-																					</div>
-																				</div>
-											                                    <div class="quantity">
-																					<!-- Input Order -->
-																					<div class="input-group">
-																						<div class="button minus">
-																							<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-																								<i class="ti-minus"></i>
-																							</button>
-																						</div>
-																						<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
-																						<div class="button plus">
-																							<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-																								<i class="ti-plus"></i>
-																							</button>
-																						</div>
-																					</div>
-																					<!--/ End Input Order -->
-																				</div>
-																				<div class="add-to-cart">
-																					<a href="#" class="btn">Add to cart</a>
-																					<a href="#" class="btn min"><i class="ti-heart"></i></a>
-																					<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
-																				</div>
-											                                    <div class="default-social">
-																					<h4 class="share-now">Share:</h4>
-											                                        <ul>
-											                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-											                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-											                                            <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-											                                            <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
-											                                        </ul>
-											                                    </div>
-											                                </div>
-											                            </div>
-											                        </div>
-											                    </div>
-											                </div>
-											            </div>
-											    </div>
-											    <!-- 퀵 상세 끝 -->
-												
-												
-												
-												
-												
-												</c:forEach>
-												<!--  연습상품1 끝 -->
+							</div>
+							<div class="product-content">
+								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
+								<div class="product-price">
+									<!-- 세일 기준 -->
+<!-- 									<span class="old">이전가격</span> -->
+									<span>70,000원</span>
+									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
+								</div>
+							</div>
+						</div>
+						<!-- 제품 하나 끝 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End Most Popular Area -->
+	
+	<!-- 인기 상품 -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div class="section-title">
+						<h2>인기 상품</h2>
+						<a href="#"> 더보기</a>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						<!-- 제품 하나하나 -->
+						<c:forEach var="apd" items="${apdList}">
+						<div class="single-product">
+							<div class="product-img">
+								<a href="product-details.html">
+									<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1}"  alt="#">
+									<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+								</a>
+								<div class="button-head">
+									<div class="product-action">
+										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+									</div>
+									<div class="product-action-2">
+										<form action="auctionDetail">
+											<input type="hidden" name="APD_IDX" value="${apd.APD_IDX}">
+											<input type="submit" value="상세 페이지로 이동">
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h3><a href="product-details.html">${apd.APD_NAME}</a></h3>
+								<div class="product-price">
+									<!-- 세일 기준 -->
+<!-- 									<span class="old">이전가격</span> -->
+									<span>판매시작가 : <fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span><br>
+									<span>즉시구매가 : <fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
+									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
+								</div>
+							</div>
+						</div>
+						</c:forEach>
+						<!-- 제품 하나 끝 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End Most Popular Area -->
+	
+	<!-- 최근 검색한 키워드 연관 상품 -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div class="section-title">
+						<h2>최근 검색한 키워드 연관 상품</h2>
+						<a href="#"> 더보기</a>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						<!-- 제품 하나하나 -->
+						<div class="single-product">
+							<div class="product-img">
+								<a href="product-details.html">
+									<img class="default-img"  src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3f12c33f-de0d-4d7f-848a-b4eb273c2a7d/p-6000-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84-%EC%8B%A0%EB%B0%9C-PDwmNHw5.png" alt="#">
+<!-- 									<img class="hover-img"   alt="#"> -->
+									<span class="new">거래완료</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+								</a>
+								<div class="button-head">
+									<div class="product-action">
+<!-- 										<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
+										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
+								<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
+								<div class="product-price">
+									<!-- 세일 기준 -->
+<!-- 									<span class="old">이전가격</span> -->
+									<span>99,999,999원</span>
+								</div>
+							</div>
+						</div>
+						<!-- 제품 하나 끝 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End Most Popular Area -->
+	
+	
+	<!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row no-gutters">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <!-- Product Slider -->
+									<div class="product-gallery">
+										<div class="quickview-slider-active">
+											<div class="single-slider">
+												<img src="https://via.placeholder.com/569x528" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="https://via.placeholder.com/569x528" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="https://via.placeholder.com/569x528" alt="#">
+											</div>
+											<div class="single-slider">
+												<img src="https://via.placeholder.com/569x528" alt="#">
 											</div>
 										</div>
 									</div>
-									<!--/ 탭 하나 끝 -->
-									
-									
-								</div>
-								
-							</div>
-						</div>
-					</div>
-	            </div>
-	    </div>
-		<!-- End Product Area -->
+								<!-- End Product slider -->
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <div class="quickview-content">
+                                    <h2>Flared Shift Dress</h2>
+                                    <div class="quickview-ratting-review">
+                                        <div class="quickview-ratting-wrap">
+                                            <div class="quickview-ratting">
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="yellow fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <a href="#"> (1 customer review)</a>
+                                        </div>
+                                        <div class="quickview-stock">
+                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
+                                        </div>
+                                    </div>
+                                    <h3>$29.00</h3>
+                                    <div class="quickview-peragraph">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
+                                    </div>
+									<div class="size">
+										<div class="row">
+											<div class="col-lg-6 col-12">
+												<h5 class="title">Size</h5>
+												<select>
+													<option selected="selected">s</option>
+													<option>m</option>
+													<option>l</option>
+													<option>xl</option>
+												</select>
+											</div>
+											<div class="col-lg-6 col-12">
+												<h5 class="title">Color</h5>
+												<select>
+													<option selected="selected">orange</option>
+													<option>purple</option>
+													<option>black</option>
+													<option>pink</option>
+												</select>
+											</div>
+										</div>
+									</div>
+                                    <div class="quantity">
+										<!-- Input Order -->
+										<div class="input-group">
+											<div class="button minus">
+												<button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+													<i class="ti-minus"></i>
+												</button>
+											</div>
+											<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
+											<div class="button plus">
+												<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
+													<i class="ti-plus"></i>
+												</button>
+											</div>
+										</div>
+										<!--/ End Input Order -->
+									</div>
+									<div class="add-to-cart">
+										<a href="#" class="btn">Add to cart</a>
+										<a href="#" class="btn min"><i class="ti-heart"></i></a>
+										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
+									</div>
+                                    <div class="default-social">
+										<h4 class="share-now">Share:</h4>
+                                        <ul>
+                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                            <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
 		
 
 		
