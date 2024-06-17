@@ -71,25 +71,12 @@ public class MyPageController {
 		return "mypage/mypage_user";
 	}
 	
-//	@PostMapping("updateNickname")
-//	@ResponseBody
-//	public String updateNickname(@RequestParam Map<String, String> map) {
-//		String newNick = map.get("nickname"); // 받아옴
-//		System.out.println("바꿀 닉네임 : " + newNick);
-//		String id = (String)session.getAttribute("US_ID");
-//
-//		
-//        // 서비스 호출을 통해 닉네임 업데이트
-//        boolean updateResult = service.updateMyUser(newNick,id);
-//
-//        // 업데이트 결과에 따라 응답 문자열 반환
-//        if (updateResult) {
-//            return "{\"result\": true}";
-//        } else {
-//            return "{\"result\": false}";
-//        }
-//        
-//	}
+    @PostMapping("checkNickname")
+    @ResponseBody
+    public Map<String, Boolean> checkNickname(@RequestParam String nickname) {
+        boolean isValidNick = service.isNicknameAvailable(nickname);
+        return Map.of("isValidNick", isValidNick);
+    }
 	
     // 필드를 업데이트하는 메소드
     @PostMapping("updateField")

@@ -165,6 +165,8 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 닉네임을 입력하세요:</p>
     <input type="text" id="new-nickname" class="form-control">
+    <div id="checkNickResult"></div>
+    <button class="nick_check" id="btnCheckNick" disabled>중복확인</button>
 </div>
 
 <!-- 이메일 수정 모달 -->
@@ -204,6 +206,45 @@ $(function() {
             }
         }
     });
+
+    // 닉네임 입력창 이벤트
+    $("#new-nickname").on("keyup", function() {
+        const newNick = $(this).val();
+        if (checkNick(newNick)) { // 닉네임 유효성검사 통과 시
+            $("#checkNickResult").text("중복확인 버튼을 눌러주세요.");
+            $("#checkNickResult").css("color", "blue");
+            $("#btnCheckNick").prop("disabled", false);
+        } else { // 닉네임 유효성 검사 실패 시 중복확인 버튼 비활성화
+            $("#btnCheckNick").prop("disabled", true);
+        }
+    });
+
+    // 중복확인 버튼 클릭 이벤트
+    $("#btnCheckNick").click(function() {
+        const newNick = $("#new-nickname").val();
+        if (newNick === "") {
+            showCustomAlert("닉네임을 입력해주세요.", false);
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "checkNickname", // 컨트롤러 URL
+            data: { nickname: newNick },
+            dataType: "json",
+            success: function(response) {
+                if (response.isValidNick) { // 닉네임 사용 가능
+                    showCustomAlert("사용가능한 닉네임입니다.", false);
+                    $("#nickname").val(newNick);
+                } else { // 닉네임 사용 불가
+                    showError("이미 사용중인 닉네임입니다.");
+                }
+            },
+            error: function() {
+                showCustomAlert("요청 실패!", false);
+            }
+        });
+    });
 });
 
 function openNickModal() {
@@ -216,9 +257,11 @@ function openNickModal() {
         buttons: {
             "확인": function() {
                 const newNick = $("#new-nickname").val();
-                if (newNick) {
+                if (newNick && checkNick(newNick)) {
                     updateField("nickname", newNick);
                     $(this).dialog("close");
+                } else {
+                    showCustomAlert("닉네임을 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -290,6 +333,36 @@ function updateField(field, value) {
             showCustomAlert("요청 실패!", false);
         }
     });
+}
+
+function checkNick(user_nick) { // 닉네임 유효성 검사
+    const bannedWords = ["시발", "개새", "fuck"];
+    for (let i = 0; i < bannedWords.length; i++) {
+        if (user_nick.includes(bannedWords[i])) {
+            showError("닉네임에 금지된 단어가 포함되어 있습니다.");
+            return false;
+        }
+    }
+
+    const lengthRegex = /^[a-z0-9가-힣]{2,16}$/;
+    if (!lengthRegex.test(user_nick)) {
+        showError("닉네임은 알파벳 소문자, 숫자, 또는 한글로 이루어진 2자 이상 16자 이하이어야 합니다.");
+        return false;
+    }
+
+    const characterRegex = /[a-z0-9가-힣]/;
+    if (!characterRegex.test(user_nick)) {
+        showError("닉네임은 적어도 한 개의 알파벳 소문자, 숫자, 또는 한글을 포함해야 합니다.");
+        return false;
+    }
+
+    $("#checkNickResult").text("");
+    return true;
+}
+
+function showError(message) {
+    $("#checkNickResult").text(message);
+    $("#checkNickResult").css("color", "red");
 }
 
 function showCustomAlert(message, reloadPage) {

@@ -112,15 +112,15 @@ public class UserService {
 		return mapper.selectMyUser(id);
 	}
 	
-	// 닉네임 변경
-//	public boolean updateMyUser(String newNick, String id) {
-//		System.out.println("서비스 : " + newNick);
-//		return mapper.updateMyUser(newNick, id);
-//	}
 	
     // 필드를 업데이트하는 메소드
     public boolean updateField(String userId, String field, String value) {
         return mapper.updateField(userId, field, value);
+    }
+
+    public boolean isNicknameAvailable(String nickname) {
+    	
+        return !mapper.isNicknameTaken(nickname);
     }
 	
 	
