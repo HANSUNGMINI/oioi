@@ -50,7 +50,33 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+	<script type="text/javascript">
+	    var ws;
 	
+	    function connect() {
+	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?bno=1234");
+	        
+	        ws.onopen = function() {
+	            console.log('info: connection opened');
+	        };
+	        
+	        ws.onmessage = function(event) {
+	            console.log('info: message received - ' + event.data);
+	        };
+	        
+	        ws.onclose = function(event) {
+	            console.log('info: connection closed');
+	        };
+	        
+	        ws.onerror = function(error) {
+	            console.log('error: ' + error);
+	        };
+	    }
+	    
+	    window.onload = function() {
+	        connect();
+	    };
+	</script>
 </head>
 <body class="js">
 
@@ -107,7 +133,66 @@
 												</div>
 												<p class="price"><span class="discount">시작 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
 												<p class="price"><span class="discount">현재 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
-												<p class="description">eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in</p>
+<!-- 												<p class="description"> -->
+													
+<!-- 												</p> -->
+												<div class="chat" style="margin-top: 50px;">
+													<%-- 채팅 내역 --%>
+									                <div class="chat-history" >
+														<div style="background-color:#EAEAEA; text-align: center; padding : 3px; margin-top: -20px; margin-bottom:10px">
+															<a href="javascript:void(0);" data-toggle="modal" data-target="#detail_model">나이키 신발</a>에 대한 이야기를 시작해 보세요
+														</div>
+									
+									                    <ul class="m-b-0">
+									                        
+									                        <li class="clearfix">
+									                            <div class="message-data text-right">
+									                            	<%-- 로그인 한 사람 이미지 --%>
+									                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=50" alt="avatar">
+									                            </div>
+									                            <div class="message other-message float-right"> 김유신 바보 </div>
+									                            <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
+									                        </li>
+									                        
+									                        <li class="clearfix">
+									                            <div class="message my-message"> 이자민 바보 </div>
+									                            <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>                              
+									                        </li>
+									                                                       
+									                        <li class="clearfix">
+									                            <div class="message my-message"> 이시윤 바보</div><small class="message-data-time">10:10 AM</small>
+									                        </li>
+									                        <li class="clearfix">
+									                            <div class="message my-message"> 다 바보</div><small class="message-data-time">10:10 AM</small>
+									                        </li>
+									                        
+									                    </ul>
+									                </div>
+													
+													
+									                <%-- 메세지 전송 --%>
+									                <div class="chat-message clearfix" style="margin-bottom:0px">
+									                 	<!-- 사진 미리보기 영역 -->
+														<div id="preview-container" style="display: flex; margin-top: 3px; margin-bottom:10px"></div>
+														
+									                    <div class="input-group mb-0">
+											                <%-- 전송란 --%>
+									                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
+									
+									                        <%-- 전송버튼 --%>
+									                        <div class="input-group-prepend">
+									                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
+									<!--                             <div class="input-group-text"> -->
+									<!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
+																<label for="file-input" class="input-group-text file-input-label">
+															        <i class="bi bi-camera-fill" style="color: #353535;"></i>
+															    </label>
+															    <input type="file" id="file-input" style="display: none;">
+									<!--                             </div> -->
+									                        </div>
+									                    </div>
+                									</div>
+												</div>
 											</div>
 											<!--/ End Description -->
 											<!-- Color -->
