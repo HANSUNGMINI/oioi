@@ -106,7 +106,20 @@
 		        console.log("cate2(value) : " + $('#cate2').val());
 		    });
 		    
-		   
+		   //유호성 검사
+		   $('#APD_NAME').keyup(function() {
+			   let apd_name = $('#APD_NAME').val();
+			   console.log(apd_name);
+			   
+			   let adpNameRegex = /^[가-힣]{0,20}$/;
+			   
+			   let msg = "";
+			   let color = "";
+			   
+			   if(adpNameRegex.exec(apd_name)) {
+				   let koreanRegex = /[가-힣]/;
+			   }
+		   })
 			
 		});
 	
@@ -170,13 +183,14 @@
 									<div class="col-12" style="margin-top: 15px;">
 										<div class="form-group">
 											<label>상품명<span>*</span></label>
-											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명" >
+											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명" required="required">
+											<div id="checkNameResult"></div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>상품설명<span>*</span></label>
-											<input type="text" name="APD_DETAIL" id="APD_DETAIL" maxlength="5" placeholder="상품설명" >
+											<textarea name="APD_DETAIL" id="APD_DETAIL" maxlength="5" placeholder="상품에 대한 상세한 정보(사이즈,상태 등)를 작성하세요" required="required" class="form-control"></textarea>
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -185,20 +199,20 @@
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
 									        </div>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<input type="radio" name="APD_CONDITION" value="${productCondition.value}"> ${productCondition.value}
+												<input type="radio" name="APD_CONDITION" value="${productCondition.value}" required="required" style="margin-bottom: 5px;">${productCondition.value}<br>
 											</c:forEach>
 									    </div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
-											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" >
+											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" required="required">
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>즉시판매가<span>*</span></label>
-											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" >
+											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" required="required">
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -230,13 +244,13 @@
 									<div class="col-12">
 										<div class="regForm">
 											<label> 상품 이미지<small>(최대 5장)</small></label>
-											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" required>
+											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" required="required">
 											<div class="preView">
 <%-- 												<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg"> --%>
 											</div>
 										</div>
 									</div>
-									<div class="col-12">
+									<div class="col-12" style="margin-top: 50px;">
 										<div class="form-group login-btn">
 											<button class="btn" type="submit" onsubmit="submit()">상품등록</button>
 										</div>
