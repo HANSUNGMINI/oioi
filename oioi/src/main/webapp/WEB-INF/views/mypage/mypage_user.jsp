@@ -6,16 +6,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Meta Tag -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Title Tag -->
+    <meta charset="UTF-8">
     <title>마이페이지</title>
-    <!-- Web Font -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-    <!-- StyleSheet -->
-    <script src="https://kit.fontawesome.com/ef42a902c7.js" crossorigin="anonymous"></script>
+    <!-- 스타일 및 스크립트 로드 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
@@ -97,6 +91,25 @@
                 text-align: left;
             }
         }
+        
+        /* 모달 창 스타일 */
+        .ui-dialog .ui-dialog-titlebar {
+            background-color: transparent;
+            border: none;
+        }
+        .ui-dialog .ui-dialog-content {
+            background-color: #f8f8f8;
+        }
+        .ui-dialog .ui-dialog-buttonpane {
+            background-color: #f8f8f8;
+        }
+        .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button {
+            background-color: #27a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body class="js">
@@ -114,31 +127,29 @@
                         <div class="info-item">
                             <label>이름:</label>
                             <span>${user.US_NAME}</span>
-                            <span></span>
                         </div>
                         <div class="info-item">
                             <label>아이디:</label>
-                            <span>${user.USER_ID}</span>
-                            <span></span>
+                            <span>${user.US_ID}</span>
                         </div>
                         <div class="info-item">
                             <label>닉네임:</label>
-                            <span>${user.USER_NICK}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="nickname">${user.US_NICK}</span>
+                            <button class="edit-btn" onclick="openNickModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>이메일:</label>
-                            <span>${user.USER_EMAIL}</span>
+                            <span>${user.US_EMAIL}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">
                             <label>전화번호:</label>
-                            <span>${user.USER_PHONE}</span>
+                            <span>${user.US_PHONE}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
-                            <span>${user.USER_ADDRESS1 + user.USER_ADDRESS2}</span>
+                            <span>${user.ad}</span>
                             <button class="edit-btn">수정</button>
                         </div>
                     </div>
@@ -149,25 +160,59 @@
 </section>
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 
+<!-- 닉네임 수정 모달 -->
+<div id="nickname-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 닉네임을 입력하세요:</p>
+    <input type="text" id="new-nickname" class="form-control">
+</div>
+
 <!-- Scripts -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/colors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/slicknav.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/owl-carousel.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/magnific-popup.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/facnybox.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/finalcountdown.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/flex-slider.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/scrollup.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/onepage-nav.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+function openNickModal() {
+    $("#nickname-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newNick = $("#new-nickname").val();
+                if (newNick) {
+                    updateNick(newNick);
+                    $(this).dialog("close");
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function updateNick(newNick) {
+    $.ajax({
+        type: "POST",
+        url: "updateNickname", // 컨트롤러 URL
+        data: { nickname: newNick },
+        dataType: "json",
+        success: function(response) {
+            if (response.result) { // 닉네임 등록 성공
+                $('#nickname').text(newNick);
+                alert('닉네임이 성공적으로 변경되었습니다.');
+                location.reload(); // 현재 페이지 갱신(새로고침)
+            } else { // 닉네임 등록 실패
+                alert("닉네임 변경 실패!");
+            }
+        },
+        error: function() {
+            alert("요청 실패!");
+        }
+    });
+}
+</script>
 </body>
 </html>
