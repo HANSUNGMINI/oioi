@@ -28,4 +28,11 @@ public class TradeService {
 		 return mapper.insertProduct(map);
 	}
 
+	public List<Map<String, String>> getProduct() {
+		
+		return mapper.selectProduct();
+	}
+
+	
+
 }

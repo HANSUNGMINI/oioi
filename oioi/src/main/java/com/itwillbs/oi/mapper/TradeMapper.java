@@ -14,6 +14,8 @@ public interface TradeMapper {
 
 	int insertProduct(Map<String, Object> map);
 
+	List<Map<String, String>> selectProduct();
+
 	
 
 

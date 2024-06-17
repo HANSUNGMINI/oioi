@@ -41,6 +41,13 @@
             , #{PD_TAG5} -- PD_TAG5
         );
 	</insert>
+	
+	<select id="selectProduct">
+		SELECT * 
+		FROM product p 
+		JOIN images i
+		ON p.PD_IMAGE = i.IMG_IDX;
+	</select>
 </mapper>
 
 
