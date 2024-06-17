@@ -55,6 +55,8 @@ public interface UserMapper {
 
 	int selectUserData(Map<String, Object> user);
 
+	int updatePasswd(Map<String, Object> user);
+
 
 	
 

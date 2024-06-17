@@ -111,6 +111,12 @@ public class UserService {
 		
 		return mapper.selectMyUser(id);
 	}
+
+	public int modifyPasswd(Map<String, Object> user) {
+		System.out.println("서비스에서 받은 user 정보 : " + user);
+		return mapper.updatePasswd(user);
+	}
+
 	
 	
 	

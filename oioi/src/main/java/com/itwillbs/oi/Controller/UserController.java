@@ -181,7 +181,7 @@ public class UserController {
 			mailService.sendForgotId(user);
 			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
 			model.addAttribute("targetURL", "login");
-			return "err/fail";
+			return "err/success";
 		} else {
 			model.addAttribute("msg", "이름 또는 E-Mail 주소를 잘못 입력하셨습니다.");
 			return "err/fail";
@@ -201,12 +201,35 @@ public class UserController {
 		if(user != null) {
 			mailService.sendForgotPw(user);
 			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
-			model.addAttribute("targetURL", "login");
-			return "err/fail";
+			return "err/success";
 		} else {
 			model.addAttribute("msg", "ID, 이름 또는 E-Mail 주소를 잘못 입력하셨습니다.");
 			return "err/fail";
 		}
 	}
 	
+	@GetMapping("change_passwd")
+	public String changePw(@RequestParam Map<String, String> userMap, Model model) {
+		model.addAttribute("userId", userMap.get("user_id"));
+		return "user/change_passwd";
+	}
+	
+	@PostMapping("change_passwd")
+	public String chagePwPro(@RequestParam Map<String, String> userMap, BCryptPasswordEncoder passwordEncoder, Model model) {
+		System.out.println("받은 userMap 정보 : " + userMap);
+		String securePasswd = passwordEncoder.encode(userMap.get("user_passwd"));
+		
+		Map<String, Object> user = new HashMap<>();
+		user.put("US_ID", userMap.get("user_id"));
+		user.put("US_PASSWD", securePasswd);
+		System.out.println("user 저장정보 : " + user);
+		int updateCount = service.modifyPasswd(user);
+		System.out.println("Count 정보 : " + updateCount);
+		if(updateCount <= 0) {
+			model.addAttribute("msg", "비밀번호 변경 실패");
+			return "err/fail";
+		}
+		
+		return "redirect:/login";
+	}
 }

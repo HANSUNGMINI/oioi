@@ -153,7 +153,6 @@
 			US_PASSWD = #{US_PASSWD}
 		WHERE
 			US_ID = #{US_ID}
-	
 	</update>
 	
 	<select id="selectMyUser">

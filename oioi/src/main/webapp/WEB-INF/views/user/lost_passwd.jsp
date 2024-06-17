@@ -151,7 +151,9 @@
 		} else {
 			alert("인증되었습니다.");
 			checkAuthNumResult = true;
-			window.location.href = "${pageContext.request.contextPath}/login";
+			let user_id2 = $("#user_id2").val();
+			let redirectUrl = "${pageContext.request.contextPath}/change_passwd?user_id=" + encodeURIComponent(user_id2);
+			window.location.href =  redirectUrl;
 		}
 	}
 	
