@@ -22,6 +22,12 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-130795909-1');
 	</script>
+	<style>
+		#buttons {
+			margin : 0px auto;
+		}
+	
+	</style>
 </head>
 <body>
 	<div id="app">
@@ -154,6 +160,7 @@
 		function search(pageNum, selectAll) {
 			let type = "";
 			let keyword = "";
+			
 			if(!selectAll) {
 				type = $("#type").val();
 				keyword = $("#keyword").val();
@@ -171,11 +178,10 @@
 				success : function (response) {
 					let userList = response.userList;
 					let pageInfo = response.pageInfo;
-					
 					$(".tbody").empty();
 					$("#buttons").empty();
 					
-					if(userList == null) {
+					if(userList == '') {
 						
 						$(".tbody").append(
 							'<tr>'
@@ -216,19 +222,31 @@
 						};
 						
 						$("#buttons").append(
-					    		'<button type="button" class="button"><span class="icon"><i class="mdi mdi-arrow-left"></i></span></button>'
+					    		'<button type="button" class="button" '
+					    		+ 'onclick="search('+ (pageNum - 1) + ', false)"'
+					    		+ '><span class="icon"><i class="mdi mdi-arrow-left"></i></span></button>'
 						);
 						
-						alert(pageInfo.startPage);
-						alert(pageInfo.endPage);
 						for(let btn = pageInfo.startPage; btn <= pageInfo.endPage; btn++) {
-							$("#buttons").append(
-								'<button type="button" class="button">'+ btn +'</button>'
-							);
+							
+							if(btn == pageNum) {
+								$("#buttons").append(
+										'<button type="button" class="button active">'+ btn +'</button>'
+								);
+								
+							} else {
+								$("#buttons").append(
+										'<button type="button" class="button">'+ btn +'</button>'
+								);
+							}
+							
+							
 						}
 						
 						$("#buttons").append(
-								'<button type="button" class="button"><span class="icon"><i class="mdi mdi-arrow-right"></i></span></button>'
+					    		'<button type="button" class="button" '
+					    		+ 'onclick="search('+ (pageNum + 1) + ', false)"'
+					    		+ '><span class="icon"><i class="mdi mdi-arrow-right"></i></span></button>'
 						);
 						
 						pageNum++;
@@ -255,7 +273,6 @@
 			
 			
 		}
-		
 		
 	</script>
 </html>

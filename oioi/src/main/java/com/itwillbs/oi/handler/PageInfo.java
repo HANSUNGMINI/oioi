@@ -14,44 +14,45 @@ public class PageInfo {
 	private int pageNum;
 	private int startRow;
 	private int listLimit;
-	private int pageListLimit;
-	private int startPage;
-	private int endPage;
-	
-	
 	
 	public PageInfo() {}
 	
 	/**
 	 * PageInfo 생성자 
 	 * @param pageNum : 페이지넘버 , startRow 값 만들기에 사용 (LIMIT #{startRow}, #{listLimit})
-	 * @param listLimit : 한 페이지당 보여질 목록의 갯수
-	 * @param pageListLimit : 뷰에서 보여질 페이지버튼의 갯수 eX) < 1 2 3 > || < 4 5 6 >
 	 */
-	public PageInfo(int pageNum, int listLimit, int pageListLimit) {
-		this.listLimit = listLimit;
-		this.startRow = (pageNum - 1) * listLimit;
-		this.pageListLimit = pageListLimit;
-	}
-	 
-	public static Map<String, Object> makePageBtn() {
-		System.out.println("흠");
-		Map<String, Object> page = new HashMap<String, Object>();
-		return page;
-	}
-}
-
-/*		int listLimit = 3;
+	public static Map<String, Integer> limitPagination(int pageNum) {
+		// 한 페이지당 보여질 목록의 갯수
+		int listLimit = 1;
 		int startRow = (pageNum - 1) * listLimit;
-		int pageListLimit = 3;
+		
+		Map<String, Integer> page = new HashMap<String, Integer>();
+		page.put("listLimit", listLimit);
+		page.put("startRow", startRow);
+		page.put("pageNum", pageNum);
+		return page;
+	};
+	
+	public static Map<String, Object> makePagination(Map<String, Integer> pagination , int listCount) {
+		int pageNum = pagination.get("pageNum");
+		int listLimit = pagination.get("listLimit");
+		
+		// 한 사이클 당 보여질 페이지버튼의 갯수
+		int pageListLimit = 10;
 		
 		int maxPage = listCount/listLimit + (listCount%listLimit > 0 ? 1 : 0);
-		//시작페이지 설정
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
-		//끝페이지 설정
 		int endPage = startPage + pageListLimit - 1;
 				
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
- */
+		
+		Map<String, Object> page = new HashMap<String, Object>();
+		page.put("startPage", startPage);
+		page.put("endPage", endPage);
+		page.put("pageNum", pageNum);
+		return page;
+	};
+}
+

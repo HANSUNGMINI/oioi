@@ -44,4 +44,11 @@ public class AdminService {
 	public int patchcommon(Map<String, Object> select){
 		return adminMapper.patchcommon(select);
 	}
+	
+	public int insertCommon(Map<String, Object> select){
+		return adminMapper.insertCommon(select);
+	}
+	public int deleteCommon(Map<String, Object> select){
+		return adminMapper.deleteCommon(select);
+	}
 }
