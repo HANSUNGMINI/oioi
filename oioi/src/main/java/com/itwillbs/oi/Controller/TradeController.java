@@ -35,7 +35,7 @@ public class TradeController {
 	
 	@GetMapping("trade")
 	public String goTrade() {
-		return "trade";
+		return "trade/trade";
 	}
 	
 	@GetMapping("product")
@@ -83,12 +83,12 @@ public class TradeController {
 		System.out.println("카테1" + cate1);
 		System.out.println("카테2" + cate2);
 		System.out.println("카테3" + cate3);
-		return "product";
+		return "trade/roduct";
 	}
 	
 	@GetMapping("detail")
 	public String goDetail() {
-		return "detailView";
+		return "/trade/detailView";
 	}
 	
 	@PostMapping("product")
