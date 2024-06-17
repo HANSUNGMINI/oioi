@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
     <style>
+        /* 스타일 정의 */
         #highlighted-row {
             border: 1px solid #eeeeeec2;
             padding: 30px;
@@ -113,13 +114,17 @@
     </style>
 </head>
 <body class="js">
+<!-- 헤더 -->
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
+<!-- 메인 섹션 -->
 <section class="blog-single shop-blog grid section">
     <div class="container">
         <div class="row">
+            <!-- 사이드바 -->
             <div class="col-lg-3 col-12">
                 <jsp:include page="../mypage/sidebar.jsp"></jsp:include>
             </div>
+            <!-- 메인 컨텐츠 -->
             <div class="col-lg-9 col-12" id="highlighted-row">
                 <div class="info-card text-center">
                     <h5 class="card-header">회원 정보</h5>
@@ -149,8 +154,8 @@
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
-                            <span>${user.ad}</span>
-                            <button class="edit-btn">수정</button>
+                            <span id="address">${user.ad}</span>
+                            <button class="edit-btn" onclick="openAddressModal()">수정</button>
                         </div>
                     </div>
                 </div>
@@ -158,6 +163,7 @@
         </div>
     </div>
 </section>
+<!-- 푸터 -->
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 
 <!-- 닉네임 수정 모달 -->
@@ -183,6 +189,15 @@
     <input type="text" id="new-phone" class="form-control">
 </div>
 
+<!-- 주소 수정 모달 -->
+<div id="address-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>새 주소를 입력하세요:</p>
+    <input type="text" id="new-postcode" class="form-control" placeholder="우편번호" readonly onclick="search_address()">
+    <input type="text" id="new-address1" class="form-control" placeholder="기본주소" readonly>
+    <input type="text" id="new-address2" class="form-control" placeholder="상세주소">
+</div>
+
 <!-- 사용자 정의 모달 알림 창 -->
 <div id="custom-alert-modal" title="알림">
     <p id="custom-alert-message"></p>
@@ -191,6 +206,7 @@
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 $(function() {
     // 사용자 정의 모달 알림 창 초기화
@@ -248,6 +264,7 @@ $(function() {
 });
 
 function openNickModal() {
+    // 닉네임 수정 모달 열기
     $("#nickname-modal").dialog({
         modal: true,
         title: '',
@@ -272,6 +289,7 @@ function openNickModal() {
 }
 
 function openEmailModal() {
+    // 이메일 수정 모달 열기
     $("#email-modal").dialog({
         modal: true,
         title: '',
@@ -294,6 +312,7 @@ function openEmailModal() {
 }
 
 function openPhoneModal() {
+    // 전화번호 수정 모달 열기
     $("#phone-modal").dialog({
         modal: true,
         title: '',
@@ -315,7 +334,35 @@ function openPhoneModal() {
     });
 }
 
+function openAddressModal() {
+    // 주소 수정 모달 열기
+    $("#address-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const newPostcode = $("#new-postcode").val();
+                const newAddress1 = $("#new-address1").val();
+                const newAddress2 = $("#new-address2").val();
+                if (newPostcode && newAddress1 && newAddress2) {
+                    updateField("address", newPostcode + " " + newAddress1 + " " + newAddress2);
+                    $(this).dialog("close");
+                } else {
+                    showCustomAlert("주소를 모두 입력하세요.", false);
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
 function updateField(field, value) {
+    // 필드 업데이트 AJAX 요청
     $.ajax({
         type: "POST",
         url: "updateField", // 컨트롤러 URL
@@ -368,6 +415,21 @@ function showError(message) {
 function showCustomAlert(message, reloadPage) {
     $("#custom-alert-message").text(message);
     $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
+}
+
+function search_address() {
+    // 카카오 주소 검색 API 호출
+    new daum.Postcode({
+        oncomplete: function(data) {
+            let address = data.address;
+            if(data.buildingName != "") {
+                address += " (" + data.buildingName + ")";
+            }
+            $("#new-postcode").val(data.zonecode);
+            $("#new-address1").val(address);
+            $("#new-address2").focus();
+        }
+    }).open();
 }
 </script>
 </body>
