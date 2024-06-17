@@ -2,6 +2,11 @@ package com.itwillbs.oi.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,20 +32,51 @@ import com.itwillbs.oi.service.TradeService;
 @MultipartConfig
 @Controller
 public class TradeController {
-	
+	String uploadDir = "/resources/upload";
 	@Autowired 
 	private TradeService TradeService;
 	@Autowired
 	private AuctionService Auctionservice;
 	
 	@GetMapping("trade")
-	public String goTrade() {
+	public String goTrade(Model model) {
+		
+		// 카테고리 대분류
+				List<Map<String, String>> cate1 = Auctionservice.getCategory1();
+				model.addAttribute("cate1", cate1);
+				
+				//중분류
+				List<Map<String, String>> cate2 = Auctionservice.getCategory2();
+				System.out.println("cate2 : " + cate2);
+				JsonArray jCate2 = new JsonArray();
+				for(Map<String, String> c2 : cate2) {
+					JsonObject jo = new JsonObject();
+					jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
+					jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
+					jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
+					jCate2.add(jo);
+				}
+				model.addAttribute("cate2", jCate2);
+				
+				//소분류
+				List<Map<String, String>> cate3 = Auctionservice.getCategory3();
+				System.out.println("cate3 : " + cate3);
+				JsonArray jCate3 = new JsonArray();
+				for(Map<String, String> c3 : cate3) {
+					JsonObject jo3 = new JsonObject();
+					jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
+					jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
+					jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
+					jCate3.add(jo3);
+				}
+				model.addAttribute("cate3", jCate3);
+		
 		return "trade/trade";
 	}
 	
 	@GetMapping("product")
 	public String goProductRegist(Model model) {
-		// 카테고리 
+		// 카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);
 		
@@ -83,7 +119,7 @@ public class TradeController {
 		System.out.println("카테1" + cate1);
 		System.out.println("카테2" + cate2);
 		System.out.println("카테3" + cate3);
-		return "trade/roduct";
+		return "trade/product";
 	}
 	
 	@GetMapping("detail")
@@ -99,6 +135,22 @@ public class TradeController {
 		
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + map); //작성값 다 가져오기
 		System.out.println(map.get("PD_TAG"));
+		// 사용자 아이디 가져오기
+		map.put("US_ID", (String)session.getAttribute("US_ID"));
+		// 카테고리 가져오기 
+		String[] cateName = Auctionservice.categoryName(map);
+		System.out.println("cateName : " + cateName);
+		String cn = "";
+		for (int i = 0; i < cateName.length; i++) {
+			
+		    cn += cateName[i];
+		    if (i != cateName.length - 1) {
+		        cn += "/";
+		    }
+		}
+		map.put("PD_CATEGORY", cn);
+		
+		System.out.println("##################" +map);
 //		for(MultipartFile mf : files) {
 //			System.out.println(mf);
 //		} //이미지 들고오기
@@ -106,11 +158,27 @@ public class TradeController {
 //		System.out.println(map.get("subject"));
 //		Map<String, String> fileMap = new HashMap();
 //		fileMap.put("setCar_images_1", null);
-		String uploadDir = "/resources/upload";
-        String saveDir = session.getServletContext().getRealPath(uploadDir);
+		
 
-	        // 파일 저장
-        Map<String, String> fileMap = new HashMap<>();
+	    // 파일 저장
+        String saveDir = session.getServletContext().getRealPath(uploadDir);
+	    System.out.println("saveDir" + saveDir);
+	    String subDir = "";
+	    
+	    LocalDate today = LocalDate.now();
+	    String datePattern = "yyyy/MM/dd";
+	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
+	    subDir = today.format(dtf);
+	    saveDir += "/" + subDir;
+	    
+	    try {
+            Path path = Paths.get(saveDir);
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	    
+	    Map<String, String> fileMap = new HashMap<>();
         for (int i = 0; i < files.length && i < 5; i++) {
             MultipartFile file = files[i];
             if (!file.isEmpty()) {
@@ -118,36 +186,59 @@ public class TradeController {
                 String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
                 try {
                     file.transferTo(new File(saveDir, fileName));
-                    fileMap.put("PD_IMAGE" + (i+1), uploadDir + "/" + fileName);
+                    fileMap.put("image" + (i+1), uploadDir + "/" + fileName);
+                    
+                    
                 } catch (IllegalStateException | IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate1"));
-        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate2"));
-        System.out.println("$%$#%$#%$#%$#%$#%$#%#$ " + map.get("cate3"));
-        
-        map.put("US_ID", (String)session.getAttribute("US_ID"));
-        map.put("PD_CATEGORY", map.get("cate1").toString() + "/" 
-        						+ map.get("cate2").toString() + "/" 
-        						+ map.get("cate3").toString());
-//        map.put("PD_CONDITION", map.get("productCondition"));
-//        map.put("PD_TRADE_METHOD", map.get("tradeMethod"));
-        
-        // 태그 배열로 들어와서 따로 맵에 처리
+     // 태그 배열로 들어와서 따로 맵에 처리
         String tagsString = (String) map.get("PD_TAG");
         String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
         for (int i = 0; i < tags.length && i < 5; i++) {
             map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
         }
-        map.putAll(fileMap);
-        // 파라미터 및 파일 정보 서비스로 전달
+        //images테이블에 먼저 넣기
+        System.out.println("fileMap : " + fileMap);
         
-        System.out.println("######################################" + map); //작성값 다 가져오기
-        TradeService.insertProduct(map);
+        int ImgIdx = Auctionservice.insertImg(fileMap);
+	    System.out.println("ImgIdx : " + ImgIdx);
+	    
+	    if(ImgIdx > 0) {
+	    	//상품등록 (ImgIdx는 상품등록 PD_IMAGE에 넣기)
+	    	map.put("PD_IMAGE", ImgIdx);
+		    System.out.println("상품등록하기전 최종 확인 : " + map);
+		    
+	    	int pdSuccess = TradeService.insertProduct(map);
+		    System.out.println("pdSuccess : " + pdSuccess);
+		    
+		    if(pdSuccess > 0) {
+		    	
+		    	model.addAttribute("msg", "상품 등록 성공! ");
+				model.addAttribute("targetURL", "./");
+				return "err/success";
+		    }else {
+		    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
+		    	model.addAttribute("targetURL", "product");
+		    	
+		    	return "err/fail";
+		    }
+	    }else {
+	    	model.addAttribute("msg", "이미지 등록에 실패하였습니다.");
+	    	model.addAttribute("targetURL", "product");
+	    	
+	    	return "err/fail";
+	    }
         
-        return "home";
+        
+        // 
+        
+        
+        
+        
+        
 		
 	}
 }
