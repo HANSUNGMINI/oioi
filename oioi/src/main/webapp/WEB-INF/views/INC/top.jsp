@@ -12,20 +12,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/topChatting.css">
-
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script type="text/javascript">
 
-	function searchDivOpen() {
-		 document.querySelector("#searchDiv").style.display = "block";
-	}
+// 	function searchDivOpen() {
+// 		 document.querySelector("#searchDiv").style.display = "block";
+// 	}
 	
-	function searchDivClose() {
-			setTimeout(function() {
-                document.querySelector("#searchDiv").style.display = "none";
-            }, 200) // 짧은 지연 시간을 추가하여 링크 클릭을 허용
-	}
+// 	function searchDivClose() {
+// 			setTimeout(function() {
+//                 document.querySelector("#searchDiv").style.display = "none";
+//             }, 200) // 짧은 지연 시간을 추가하여 링크 클릭을 허용
+// 	}
 	
 	function openChatting(url) {
 		window.open(url, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
@@ -102,30 +102,20 @@
 						<!--/ End Search Form -->
 						<div class="mobile-nav"></div>
 					</div>
-					<div class="col-lg-8 col-md-7 col-12">
+					<div class="col-lg-8 col-md-6 col-12">
 						<div class="search-bar-top">
-							<div class="search-bar">
-								<select>
-									<option selected="selected">카테고리</option>
-									<option>괜히</option>
-									<option>했나</option>
-									<option>싶기도하고</option>
-								</select>
-								<form>
-									<input name="search" placeholder="검색어 입력해줘" type="search" autocomplete="off"  onkeyup="searchDivOpen()" onblur="searchDivClose()">
+							<div class="search-bar" onclick="searchDivOpen()">
+								<form style="width:100%">
+									<input type="search" name="search" placeholder="검색어 입력해줘" autocomplete="off" style="width:100%" id="searchKeyword" >
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>
 									<div id="searchDiv" style="background-color:#F6F6F6" > 
-										<span style="color:#CC3D3D; font-weight: bold;">인기 검색어</span>
-											<a href="trade" class="searchKey">삼성 노트북</a> <a href="trade" class="searchKey">신발</a>
-										<hr>
-										<div class="recommondKeyword" >
-											<ul>
-												<li><a href="trade">아이폰6</a></li>
-												<li><a href="trade">아이폰7</a></li>
-												<li><a href="trade">아이폰8</a></li>
-												<li><a href="trade">아이폰8 Pro</a></li>
-											</ul>
+										<div class="recentSearch"> 
+										</div>
+										<div class="popularSearch">
+										</div>
+										<div class="recommendKeyword">
+											
 										</div>
 									</div>
 							</div>
@@ -256,5 +246,7 @@
 		</div>
 		<!--/ End Header Inner -->
 	</header>
+	
+	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>
 </html>

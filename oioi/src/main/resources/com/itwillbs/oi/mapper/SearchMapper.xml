@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itwillbs.oi.mapper.SearchMapper">
+	<select id="selectRecommendList" resultType="map">
+		SELECT 
+			CASE 
+				WHEN PD_TAG1 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG1
+				WHEN PD_TAG2 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG2
+				WHEN PD_TAG3 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG3
+				WHEN PD_TAG4 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG4
+				WHEN PD_TAG5 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG5
+				ELSE NULL 
+			END AS recommend_tag
+		FROM product
+		WHERE PD_TAG1 LIKE CONCAT('%', #{searchKeyword}, '%')
+		     OR PD_TAG2 LIKE CONCAT('%', #{searchKeyword}, '%')
+		     OR PD_TAG3 LIKE CONCAT('%', #{searchKeyword}, '%')
+		     OR PD_TAG4 LIKE CONCAT('%', #{searchKeyword}, '%')
+		     OR PD_TAG5 LIKE CONCAT('%', #{searchKeyword}, '%');
+ 	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
