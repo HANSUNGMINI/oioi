@@ -37,10 +37,10 @@ public class CommunityContorller {
 		JsonObject response = new JsonObject();
 		
 		map.put("type", type);
-		System.out.println(map);
+//		System.out.println(map);
 		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
-		System.out.println("boardList : " + boardList);
+//		System.out.println("boardList : " + boardList);
 		
 		JsonArray boardJson = new JsonArray();
 		
@@ -57,7 +57,7 @@ public class CommunityContorller {
 		}
 		
 		response.add("boardJson", boardJson);
-		System.out.println("boardJson :" + boardJson);
+//		System.out.println("boardJson :" + boardJson);
 		
 		return response;
 	}
@@ -65,19 +65,24 @@ public class CommunityContorller {
 	@GetMapping("communityWrite") // 게시글 작성 페이지 이동
 	public String communityWrite(HttpSession session, Model model) {
 		
-		if(session.getAttribute("US_ID") == null) {
-			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
-			
-			return "err/fail";
-		}
+//		if(session.getAttribute("US_ID") == null) {
+//			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
+//			
+//			return "err/fail";
+//		}
 		
 //		if(!CheckAuthority.isUser(session, model)) {
 //			return "err/fail";
 //		}
 		
-//		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
-//			return "err/fail";
-//		}
+		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
+			return "err/fail";
+		}
+		
+		String nickName = service.selectNickName(session.getAttribute("US_ID"));
+//		List<Map<String, String>> CM_CATEGORY = service.selectCM_CATEGORY();
+		
+		model.addAttribute("CM_NICK", nickName);
 		
 		return "community/board_write";
 	}

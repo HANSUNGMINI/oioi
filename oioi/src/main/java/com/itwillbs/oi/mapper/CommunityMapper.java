@@ -12,4 +12,8 @@ public interface CommunityMapper {
 
 	Map<String, Object> selectBoardDetail(int CM_IDX);
 
+	String selectNickName(Object object);
+
+	List<Map<String, String>> selectCM_CATEGORY();
+
 }
