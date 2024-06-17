@@ -22,7 +22,9 @@
 	}
 	
 	function searchDivClose() {
-		 document.querySelector("#searchDiv").style.display = "close";
+			setTimeout(function() {
+                document.querySelector("#searchDiv").style.display = "none";
+            }, 200) // 짧은 지연 시간을 추가하여 링크 클릭을 허용
 	}
 	
 	function openChatting(url) {

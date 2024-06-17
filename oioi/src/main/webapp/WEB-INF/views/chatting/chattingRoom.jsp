@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
+ <!-- SweetAlert CSS -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 <script type="text/javascript">
 	
 		/* 상세보기 나오기 */
@@ -35,15 +38,55 @@
 		
 		/* 거래완료 */
 		function transaction() {
-			if(confirm("거래 완료하시겠습니까?")) {
-				document.querySelector("#detail").style.display = "none";
-				document.querySelector("#review").style.display = "block";
-			}
+			
+			Swal.fire({
+				   title: '거래 완료하시겠습니까?',
+				   text: '거래 완료 버튼 클릭 시, 페이가 송금되며 취소 불가능합니다',
+				   icon: 'warning',
+				   
+				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+				   confirmButtonText: '완료', // confirm 버튼 텍스트 지정
+				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				   
+				   reverseButtons: false, // 버튼 순서 거꾸로
+				   
+				}).then(result => {
+				   // 만약 Promise리턴을 받으면,
+				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   
+				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
+						document.querySelector("#detail").style.display = "none";
+						document.querySelector("#review").style.display = "block";
+				   }
+				});
+			
 		}
 		
 		/* 대화방 나가기 */
 		function exit() {
-			confirm("*** 님과의 대화방을 나가시겠습니까?");
+			
+			Swal.fire({
+				   title: '대화방을 나가시겠습니까?',
+				   text: '대화 내용이 모두 삭제됩니다',
+				   icon: 'warning',
+				   
+				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+				   confirmButtonText: '나가기', // confirm 버튼 텍스트 지정
+				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				   
+				   reverseButtons: false, // 버튼 순서 거꾸로
+				   
+				}).then(result => {
+				   // 만약 Promise리턴을 받으면,
+				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   		// 채팅방 나가기
+				   }
+				});
+			
 		}
 
 		/* 별점 매기기 */
@@ -70,6 +113,8 @@
 
 </head>
 <body>
+	 <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853;">
