@@ -12,7 +12,7 @@ public interface TradeMapper {
 
 	List<Map<String, String>> getTradeMethod();
 
-	void insertProduct(Map<String, Object> map);
+	int insertProduct(Map<String, Object> map);
 
 	
 

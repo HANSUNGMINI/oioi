@@ -193,8 +193,20 @@ public class UserController {
 		return "user/lost_passwd";
 	}
 	
-//	@PostMapping("lost_passwd")
-//	public String lostPasswdPro() {
-//		
-//	}
+	@PostMapping("lost_passwd") 
+	public String lostPwPro(@RequestParam Map<String, Object> userMap, Model model) {
+		System.out.println("받은 userMap 정보 : " + userMap);
+		Map<String, Object> user = service.findPasswd(userMap);
+		System.out.println("조회된 user 정보 : " + user);
+		if(user != null) {
+			mailService.sendForgotPw(user);
+			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
+			model.addAttribute("targetURL", "login");
+			return "err/fail";
+		} else {
+			model.addAttribute("msg", "ID, 이름 또는 E-Mail 주소를 잘못 입력하셨습니다.");
+			return "err/fail";
+		}
+	}
+	
 }

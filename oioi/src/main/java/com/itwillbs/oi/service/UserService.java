@@ -96,7 +96,16 @@ public class UserService {
 	public String findUserIdByPhone(Map<String, Object> user) {
 		return mapper.selectIdByPhone(user);
 	}
-
+	
+	// 비밀번호 찾기
+	public Map<String, Object> findPasswd(Map<String, Object> userMap) {
+		return mapper.selectFindPw(userMap);
+	}
+	
+	public int findUserData(Map<String, Object> user) {
+		return mapper.selectUserData(user);
+	}	
+		
 	// 마이페이지 정보 가져오기
 	public Map<String, String> selectMyUser(String id) {
 		

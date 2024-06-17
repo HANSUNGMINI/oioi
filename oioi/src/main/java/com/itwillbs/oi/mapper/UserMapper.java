@@ -60,6 +60,9 @@ public interface UserMapper {
 
 	
 	
+	Map<String, Object> selectFindPw(Map<String, Object> userMap);
+
+	int selectUserData(Map<String, Object> user);
 
 
 	

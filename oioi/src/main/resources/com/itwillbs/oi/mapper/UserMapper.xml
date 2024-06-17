@@ -66,23 +66,33 @@
 		 and	   US_PHONE = #{userPhone}
 	</select>
 	
-	<select id="selectForgotPw" resultType="hashmap">
+	<select id="selectFindPw" resultType="map">
 		SELECT *
 		  FROM user 
 		 WHERE
-			   US_Name =  #{US_Name}  
-		 AND   US_EMAIL = #{US_EMAIL}
-		 AND   US_ID = 	  #{US_ID}
+			   US_Name =  #{user_name}  
+		 AND   US_ID = 	  #{user_id}
+		 AND   US_EMAIL = #{user_email}
 	</select>
 	
-	<select id="selectForgotPwPhone">
-		SELECT *
-		  FROM user 
-		 WHERE
-			   US_Name =  #{phone_US_Name}  
-		 AND   US_PHONE = #{US_PHONE}
-		 AND   US_ID = 	  #{US_ID}
+<!-- 	<select id="selectForgotPwPhone"> -->
+<!-- 		SELECT * -->
+<!-- 		  FROM user  -->
+<!-- 		 WHERE -->
+<!-- 			   US_Name =  #{phone_US_Name}   -->
+<!-- 		 AND   US_PHONE = #{US_PHONE} -->
+<!-- 		 AND   US_ID = 	  #{US_ID} -->
+<!-- 	</select> -->
+	
+	<select id="selectUserData">
+		SELECT COUNT(*)
+		FROM user
+		WHERE 	
+				US_ID = #{userId}
+		AND		US_NAME = #{userName}
+		AND		US_PHONE = #{userPhone}
 	</select>
+	
 	
 	
 	<select id="selectuserCount">
