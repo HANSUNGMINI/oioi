@@ -181,10 +181,31 @@
     <input type="text" id="new-phone" class="form-control">
 </div>
 
+<!-- 사용자 정의 모달 알림 창 -->
+<div id="custom-alert-modal" title="알림">
+    <p id="custom-alert-message"></p>
+</div>
+
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+$(function() {
+    // 사용자 정의 모달 알림 창 초기화
+    $("#custom-alert-modal").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+            "확인": function() {
+                $(this).dialog("close");
+                if ($("#custom-alert-modal").data("reloadPage")) {
+                    location.reload(); // 현재 페이지 갱신(새로고침)
+                }
+            }
+        }
+    });
+});
+
 function openNickModal() {
     $("#nickname-modal").dialog({
         modal: true,
@@ -260,16 +281,20 @@ function updateField(field, value) {
         success: function(response) {
             if (response.result) { // 필드 업데이트 성공
                 $('#' + field).text(value);
-                alert('변경되었습니다.');
-                location.reload(); // 현재 페이지 갱신(새로고침)
+                showCustomAlert('변경되었습니다.', true);
             } else { // 필드 업데이트 실패
-                alert("변경 실패!");
+                showCustomAlert("변경 실패!", false);
             }
         },
         error: function() {
-            alert("요청 실패!");
+            showCustomAlert("요청 실패!", false);
         }
     });
+}
+
+function showCustomAlert(message, reloadPage) {
+    $("#custom-alert-message").text(message);
+    $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
 }
 </script>
 </body>
