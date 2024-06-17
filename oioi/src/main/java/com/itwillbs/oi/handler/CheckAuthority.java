@@ -11,6 +11,7 @@ public class CheckAuthority {
 	// 상수 만들어 놓기
 	
 	public final static String MAIN = "./";
+	public final static String LOGIN = "login";
 
 	
 	/**
