@@ -30,6 +30,7 @@ public class SearchController {
 //		System.out.println(map);
 		List<Map<String, String>> recommendList = service.getList(map);
 		System.out.println(">>>>>>>>>>>>" + service.getList(map));
+		
 		return recommendList;
 	}
 
