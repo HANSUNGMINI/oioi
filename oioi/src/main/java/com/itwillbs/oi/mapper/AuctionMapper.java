@@ -21,5 +21,9 @@ public interface AuctionMapper {
 
 	String[] categoryName(Map<String, Object> map);
 
+	List<Map<String, String>> selectApdList();
+
+	Map<String, String> selectApdDetail(Map<String, String> map);
+
 
 }

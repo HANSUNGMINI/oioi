@@ -56,17 +56,6 @@
 
 	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
 	
-	<!-- Preloader -->
-	<div class="preloader">
-		<div class="preloader-inner">
-			<div class="preloader-icon">
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-	</div>
-	<!-- End Preloader -->
-	
 		
 		<!-- End Breadcrumbs -->
 				
@@ -80,10 +69,11 @@
 										<!-- Product Slider -->
 										<div class="product-gallery">
 											<!-- Images slider -->
+<%-- 											<img class="hover-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }"> --%>
 											<div class="flexslider-thumbnails">
 												<ul class="slides">
-													<li data-thumb="https://via.placeholder.com/570x520" rel="adjustX:10, adjustY:">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}" rel="adjustX:10, adjustY:">
+														<img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}" alt="#">
 													</li>
 													<li data-thumb="https://via.placeholder.com/570x520">
 														<img src="https://via.placeholder.com/570x520" alt="#">
@@ -104,7 +94,7 @@
 										<div class="product-des">
 											<!-- Description -->
 											<div class="short">
-												<h4>Nonstick Dishwasher PFOA</h4>
+												<h4>${apdDetail.APD_NAME}</h4>
 												<div class="rating-main">
 													<ul class="rating">
 														<li><i class="fa fa-star"></i></li>
@@ -115,8 +105,8 @@
 													</ul>
 													<a href="#" class="total-review">(102) Review</a>
 												</div>
-												<p class="price"><span class="discount">시작 가격 : </span>$70.00</p>
-												<p class="price"><span class="discount">현재 가격 : </span>$80.00</p>
+												<p class="price"><span class="discount">시작 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
+												<p class="price"><span class="discount">현재 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
 												<p class="description">eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in</p>
 											</div>
 											<!--/ End Description -->
@@ -158,7 +148,7 @@
 												<div class="quantity" style="margin-top: 5px;">
 													<h6>즉시 구매가 :</h6>
 													<div class="input-group">
-														<input type="text" name="" class="input-number" value="$90" readonly>
+														<input type="text" name="" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}" readonly>
 													</div>
 												</div>
 												<div class="add-to-cart">
@@ -166,7 +156,7 @@
 												</div>
 												
 												
-												<p class="cat">Category :<a href="#">Clothing</a></p>
+												<p class="cat">Category :<a href="#">${apdDetail.APD_CAREGORY}</a></p>
 												<p class="availability">Availability : 180 Products In Stock</p>
 											</div>
 											<!--/ End Product Buy -->
@@ -196,15 +186,15 @@
 																<div class="single-des">
 																	<p>Suspendisse consequatur voluptates lorem nobis accumsan natus mattis. Optio pede, optio qui metus, delectus! Ultricies impedit, minus tempor fuga, quasi, pede felis commodo bibendum voluptas nisi? Voluptatem risus tempore tempora. Quaerat aspernatur? Error praesent laoreet, cras in fames hac ea, massa montes diamlorem nec quaerat, quos occaecati leo nam aliquet corporis, ab recusandae parturient, etiam fermentum, a quasi possimus commodi, mollis voluptate mauris mollis, quisque donec</p>
 																</div>
-																<div class="single-des">
-																	<h4>Product Features:</h4>
-																	<ul>
-																		<li>long established fact.</li>
-																		<li>has a more-or-less normal distribution. </li>
-																		<li>lmany variations of passages of. </li>
-																		<li>generators on the Interne.</li>
-																	</ul>
-																</div>
+<!-- 																<div class="single-des"> -->
+<!-- 																	<h4>Product Features:</h4> -->
+<!-- 																	<ul> -->
+<!-- 																		<li>long established fact.</li> -->
+<!-- 																		<li>has a more-or-less normal distribution. </li> -->
+<!-- 																		<li>lmany variations of passages of. </li> -->
+<!-- 																		<li>generators on the Interne.</li> -->
+<!-- 																	</ul> -->
+<!-- 																</div> -->
 															</div>
 														</div>
 													</div>

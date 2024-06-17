@@ -29,105 +29,105 @@
 			outline: none;
 		}
 		
+		.td {
+			background-color :white;
+			outline :2px solid black;
+		}
 	</style>
 </head>
 <body>
 	<div id="app">
-	<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav>
-	<aside class="aside is-placed-left is-expanded"><jsp:include page="../INC/admin_aside.jsp"></jsp:include></aside>
-	<section class="is-title-bar">
-		<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-			<ul>
-				<li>슈퍼 관리자</li>
-				<li>내가 짱이야</li>
-			</ul>
-		</div>
-	</section>
-	<section class="section main-section">
-	    <div class="card has-table">
-	    	<header class="card-header">
-	        	<p class="card-header-title" style="width:90%">
-	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-	          		카테고리
-	        	</p>
-	        	
-	        	<select id="type">
-	        		<c:forEach var="category" items="${categoryList}">
-	        			<option value="${category.name}"> ${category.description}</option>
-	        		</c:forEach>
-	        	</select>
-	      	</header>
-	       	<div class="card-content">
-	        	<table>
-	          		<thead>
-	          			<tr>
-	            			<th>코드</th>
-	            			<th>내용</th>
-	            			<th>사용여부</th>
-	            			<th>
-				            	<div class="buttons right nowrap">
-			           				<button class="button small blue --jb-modal" id="insertAdmin" type="button">
-			           					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
-			           				</button>
-		           				</div>
-				            </th>
-	         			 </tr>
-	          		</thead>
-	          		<tbody class="tbody">
-	         		</tbody>
-	        	</table>
+		<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav>
+		<aside class="aside is-placed-left is-expanded"><jsp:include page="../INC/admin_aside.jsp"></jsp:include></aside>
+		<section class="is-title-bar">
+			<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
+				<ul>
+					<li>슈퍼 관리자</li>
+					<li>내가 짱이야</li>
+				</ul>
 			</div>
-		</div>	
-	</section>
-    
-    <!-- 모달창 -->
-	<div id="sample-modal" class="modal">
-		<div class="modal-background --jb-modal-close"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-			  <p class="modal-card-title">Sample modal</p>
-			</header>
-			<section class="modal-card-body">
-			  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-			  <p>This is sample modal</p>
-			</section>
-			<footer class="modal-card-foot">
-			  <button class="button --jb-modal-close">Cancel</button>
-			  <button class="button red --jb-modal-close">Confirm</button>
-			</footer>
-		</div>	
+		</section>
+		<section class="section main-section">
+		    <div class="card has-table">
+		    	<header class="card-header">
+		        	<p class="card-header-title" style="width:90%">
+		          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
+		          		카테고리
+		        	</p>
+		        	
+		        	<select id="type">
+		        		<c:forEach var="category" items="${categoryList}">
+		        			<option value="${category.name}"> ${category.description}</option>
+		        		</c:forEach>
+		        	</select>
+		      	</header>
+		       	<div class="card-content">
+		        	<table>
+		          		<thead>
+		          			<tr>
+		            			<th>코드</th>
+		            			<th>내용</th>
+		            			<th>사용여부</th>
+		            			<th>
+					            	<div class="buttons right nowrap">
+				           				<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">
+				           					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
+				           				</button>
+			           				</div>
+					            </th>
+		         			 </tr>
+		          		</thead>
+		          		<tbody class="tbody">
+		         		</tbody>
+		        	</table>
+				</div>
+			</div>	
+		</section>
 	</div>
-	<!-- 빨간 모달 -->
+	
 	<div id="sample-modal-2" class="modal">
-	  <div class="modal-background --jb-modal-close"></div>
-	  <div class="modal-card">
-	    <header class="modal-card-head">
-	      <p class="modal-card-title">Sample modal</p>
-	    </header>
-	    <section class="modal-card-body">
-	      <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-	      <p>This is sample modal</p>
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button --jb-modal-close">Cancel</button>
-	      <button class="button blue --jb-modal-close">Confirm</button>
-	    </footer>
+	 	<div class="modal-background --jb-modal-close"></div>
+			<div class="modal-card">
+	    		<header class="modal-card-head">
+	      			<p class="modal-card-title">(관리자용) 항목 추가 하기</p>
+	    		</header>
+	    		<section class="modal-card-body">
+	      			<table>
+	      				<tr>
+	      					<th>카테고리</th>
+	      					<th>코드</th>
+	      					<th>내용</th>
+	      				</tr>
+	      				<tr>
+	      					<td id="targetCategory">카테고리</td>
+	      					<td><input type="text" class="td" id="code"></td>
+	      					<td><input type="text" class="td" id="value"></td>
+	      				</tr>
+	      			</table>
+	    		</section>
+	    		<footer class="modal-card-foot">
+	      			<button class="button blue --jb-modal-close" id="addRowData">추가하기</button>
+	      			<button class="button red --jb-modal-close" id="addCancel">취소</button>
+	    		</footer>
+	  		</div>
 	</div>
-		</div>
-	</div>
+	
+	
 </body>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script>
 		
 		$(function(){
+			// 페이지로딩 되자마자 검색
 			search();
 			
-			// 
-			$("#type").on("change", search)
-			// 편집
+			// 코드 사용여부 전환
+			$("#type").on("change", search);
+			// 코드 행 추가
+			$("#addRowData").on("click", addRowData);
+			$("#addCancel").on("click", addCancel);
 			
-	
 		}); //redey
 	
 		function search() {
@@ -140,6 +140,11 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
+					var selectBox = document.getElementById("type");
+		            var selectedValue = selectBox.options[selectBox.selectedIndex].text;
+					$("#targetCategory").text(selectedValue);
+					
+					
 					$(".tbody").empty();
 					
 					if(response == '') {
@@ -161,6 +166,8 @@
 							let target = code.code;
 							let active = "";
 							
+							$("#code").val(target);
+							
 							if(code.hide == 'N') {
 								active = "checked";
 							}
@@ -181,7 +188,11 @@
 							 	+ 		' onchange="changeHide(\'' + target + '\', this)" />'
 							 	+ 	'</label>'
 			           			+ '</td>'
-			           			+ '<td class="actions-cell">'
+			           			+ '<td>'
+			           			+ '<div class="buttons right nowrap">'
+			           			+ 	'<button class="button small red " type="button" onclick="deleteCode(\''+ target +'\')">'
+			           			+ 	'	<span class="icon"><i class="mdi mdi-delete"></i></span>'
+			           			+ 	'</button></div>'
 			           			+ '</td>'
 			           			+ '</tr>'
 							);
@@ -250,26 +261,83 @@
 			let code = btn.closest('tr').find('td:first').text();
 			
 			$.ajax({
-// 				type : "PATCH",
-				type : "POST",
+				type : "PATCH",
 				url : "common",
-				data : {
+				contentType : 'application/json; charset=utf-8',
+				data : JSON.stringify({
 					"target" : target,
 					"code" : code, 
 					"value" : value
-				},
+				}), 
 				dataType : "JSON",
 				success : function (response) {
+					
 					if(response > 0) {
 						alert("변경 완료!");
 					} else {
 						alert("변경실패 다시 시도");
 					}
+					
+					search();
 				}
 			})
 		}
 		
+		function addRowData(){
+			// 카테고리 코드
+			let target = $("#type").val();
+			//
+			let code = $("#code").val();
+			let value = $("#value").val();
+			
+			let obj = {
+					"target" : target,
+					"code" : code, 
+					"value" : value
+			};
+			
+			$.ajax({
+				type : "PUT",
+				url : "common",
+				contentType : 'application/json; charset=utf-8',
+				data : JSON.stringify(obj),
+				dataType : "JSON",
+				success : function (response) {
+					if(response < 1) {
+						alert('추가 실패');
+					}
+					addCancel();
+					search();
+				}
+			})
+			
+		}
 		
+		function addCancel(){
+			$(".td").val('');
+		}
+		
+		
+		function deleteCode(target) {
+			if(confirm('정말 삭제하시겠습니까?')) {
+				$.ajax({
+					type : "DELETE",
+					url : "common",
+					contentType : 'application/json; charset=utf-8',
+					data : JSON.stringify({
+						target : target
+					}),
+					dataType : "JSON",
+					success : function (response) {
+						if(response < 1) {
+							alert('삭제 실패');
+						}
+						addCancel();
+						search();
+					}
+				})
+			}
+		}
 	</script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 </html>

@@ -71,15 +71,30 @@ public class MyPageController {
 		return "mypage/mypage_user";
 	}
 	
-	@PostMapping("updateNickname")
-	@ResponseBody
-	public String updateNickname(@RequestParam Map<String, String> map, Model model) {
-		String newNick = map.get("nickname"); // 받아옴
-//		System.out.println("닉네임 : " + newNick);
-		
-		
-		return "";
-	}
+    @PostMapping("checkNickname")
+    @ResponseBody
+    public Map<String, Boolean> checkNickname(@RequestParam String nickname) {
+        boolean isValidNick = service.isNicknameAvailable(nickname);
+        return Map.of("isValidNick", isValidNick);
+    }
+	
+    // 필드를 업데이트하는 메소드
+    @PostMapping("updateField")
+    @ResponseBody
+    public Map<String, Object> updateField(@RequestParam String field, @RequestParam String value) {
+        // 세션에서 사용자 ID를 가져옴
+        String id = (String) session.getAttribute("US_ID");
+
+        // 서비스 호출을 통해 필드 업데이트
+        boolean updateResult = service.updateField(id, field, value);
+
+        // 업데이트 결과에 따라 JSON 형식의 응답을 반환
+        if (updateResult) {
+            return Map.of("result", true);
+        } else {
+            return Map.of("result", false, "message", "필드 변경 실패!");
+        }
+    }
 	
 	
 	

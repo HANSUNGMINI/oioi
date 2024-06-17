@@ -39,38 +39,44 @@ public class TradeController {
 	private AuctionService Auctionservice;
 	
 	@GetMapping("trade")
-	public String goTrade(Model model) {
+	public String goTrade( Model model) {
 		
 		// 카테고리 대분류
-				List<Map<String, String>> cate1 = Auctionservice.getCategory1();
-				model.addAttribute("cate1", cate1);
-				
-				//중분류
-				List<Map<String, String>> cate2 = Auctionservice.getCategory2();
-				System.out.println("cate2 : " + cate2);
-				JsonArray jCate2 = new JsonArray();
-				for(Map<String, String> c2 : cate2) {
-					JsonObject jo = new JsonObject();
-					jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
-					jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
-					jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
-					jCate2.add(jo);
-				}
-				model.addAttribute("cate2", jCate2);
-				
-				//소분류
-				List<Map<String, String>> cate3 = Auctionservice.getCategory3();
-				System.out.println("cate3 : " + cate3);
-				JsonArray jCate3 = new JsonArray();
-				for(Map<String, String> c3 : cate3) {
-					JsonObject jo3 = new JsonObject();
-					jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
-					jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
-					jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
-					jCate3.add(jo3);
-				}
-				model.addAttribute("cate3", jCate3);
+		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
+		model.addAttribute("cate1", cate1);
 		
+		//중분류
+		List<Map<String, String>> cate2 = Auctionservice.getCategory2();
+		System.out.println("cate2 : " + cate2);
+		JsonArray jCate2 = new JsonArray();
+		for(Map<String, String> c2 : cate2) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
+			jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
+			jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
+			jCate2.add(jo);
+		}
+		model.addAttribute("cate2", jCate2);
+		
+		//소분류
+		List<Map<String, String>> cate3 = Auctionservice.getCategory3();
+		System.out.println("cate3 : " + cate3);
+		JsonArray jCate3 = new JsonArray();
+		for(Map<String, String> c3 : cate3) {
+			JsonObject jo3 = new JsonObject();
+			jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
+			jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
+			jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
+			jCate3.add(jo3);
+		}
+		model.addAttribute("cate3", jCate3);
+		
+		
+		
+		List<Map<String, String>> productList = TradeService.getProduct();
+		model.addAttribute("getProduct", productList);
+		
+		System.out.println(productList);
 		return "trade/trade";
 	}
 	
@@ -122,9 +128,9 @@ public class TradeController {
 		return "trade/product";
 	}
 	
-	@GetMapping("detail")
+	@GetMapping("productDetail")
 	public String goDetail() {
-		return "/trade/detailView";
+		return "/trade/product_detail";
 	}
 	
 	@PostMapping("product")
@@ -186,7 +192,7 @@ public class TradeController {
                 String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
                 try {
                     file.transferTo(new File(saveDir, fileName));
-                    fileMap.put("image" + (i+1), uploadDir + "/" + fileName);
+                    fileMap.put("image" + (i+1), subDir + File.separator + fileName);
                     
                     
                 } catch (IllegalStateException | IOException e) {
