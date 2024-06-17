@@ -251,7 +251,7 @@
 				  		</div>
 				  	 </div>
 			  		
-			   		<form action="noticeWrite" method= "post">
+			   		<form action="communityWrite" method= "post" enctype="multipart/form-data">
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
 				   				<select class="boardCategory">
@@ -264,13 +264,13 @@
 				  			</div>
 				  			
 				  			<div class = "view_info" align="left" style="text-align: center;">
-								<input type="file" value="파일 추가하기" name="event_image_form" id="fileInput" multiple >
+								<input type="file" value="파일 추가하기" name="cm_image_form" id="fileInput" multiple >
 <!-- 				  			</div> -->
 			  			
 <!-- 			  			<div class = "view_info"> -->
 							<em><b>작성자 : ${CM_NICK}</b></em>
 							<em>${sessionScope.member_id}</em>
-			  			</div>
+			  				</div>
 			  			
 						
 						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="500"></textarea>
@@ -293,12 +293,11 @@
 					    </div>
 					    
 					     <div class="button-container">
-			 				<input type="button"  value = "돌아가기" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; margin-right: 10px;" onclick="history.back();" >
-			 				<input type="submit"  value = "등록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px">
+			 				<input type="submit"  value = "등록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; margin-right: 10px;">
+			 				<input type="button"  value = "돌아가기" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; " onclick="history.back();" >
 			 			</div>	
 				    </form>
 				 </div>
-			</div>
 		</div>
 	</div>
 </section>

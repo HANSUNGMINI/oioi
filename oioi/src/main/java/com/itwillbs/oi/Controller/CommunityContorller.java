@@ -1,6 +1,7 @@
 package com.itwillbs.oi.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -88,15 +91,24 @@ public class CommunityContorller {
 	}
 	
 	@PostMapping("communityWrite") // 게시글 등록
-	public String communityWritePro(Model model) {
+	public String communityWritePro(Model model, @RequestParam Map<String, Object> map,  @RequestPart("cm_image_form")MultipartFile[] files) {
 		
-//		int insertCnt = service.insertBoard();
 		
+		Map<String, Object> uploadedFiles = new HashMap<String, Object>();
+        for (MultipartFile file : files) {
+        	uploadedFiles.put(file.getOriginalFilename(), file);
+        }
+		
+        map.put("uploadedFiles", uploadedFiles);
+        
+        System.out.println(map);
+////		int insertCnt = service.insertBoard(map);
+//		
 //		if(insertCnt < 0) {
 //			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
 //			return "err/fail";
 //		}
-		
+//		
 		return "";
 	}
 	
