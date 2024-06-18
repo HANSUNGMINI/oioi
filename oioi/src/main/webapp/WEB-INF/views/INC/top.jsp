@@ -60,7 +60,7 @@
 								<c:when test="${empty sessionScope.US_ID}">	
 									<ul class="list-main">
 										<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
-										<li><i class="ti-power-off"></i><a href="login">로그인</a></li>
+										<li><i class="ti-shift-right"></i><a href="login">로그인</a></li>
 									</ul>
 								</c:when>
 								<c:otherwise>
