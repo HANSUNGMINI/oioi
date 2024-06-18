@@ -16,6 +16,8 @@ public interface TradeMapper {
 
 	List<Map<String, String>> selectProduct();
 
+	Map<String, String> selectProductInfo(Map<String, String> map);
+
 	
 
 

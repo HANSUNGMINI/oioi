@@ -48,6 +48,14 @@
 		JOIN images i
 		ON p.PD_IMAGE = i.IMG_IDX;
 	</select>
+	
+	<select id="selectProductInfo" resultType="hashmap">
+		SELECT *
+		FROM product p
+		JOIN images i
+		ON p.PD_IMAGE = i.IMG_IDX
+		WHERE PD_IDX = #{PD_IDX}
+	</select>
 </mapper>
 
 

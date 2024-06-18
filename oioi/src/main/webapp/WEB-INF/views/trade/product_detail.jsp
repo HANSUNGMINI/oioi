@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
     <title> 상세이미지 </title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<!-- Favicon 
 	     인터넷 위에보면 아이콘 넣기 가능 이미지만 바꾸며ㅑㄴ댐-->
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
@@ -87,18 +88,27 @@
 											<!-- Images slider -->
 											<div class="flexslider-thumbnails">
 												<ul class="slides">
-													<li data-thumb="https://via.placeholder.com/570x520" rel="adjustX:10, adjustY:">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" rel="adjustX:10, adjustY:">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}" alt="#">
 													</li>
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}" alt="#">
+													</li>
+<!-- 													<li data-thumb="https://via.placeholder.com/570x520"> -->
+<!-- 														<img src="https://via.placeholder.com/570x520" alt="#"> -->
+<!-- 													</li> -->
+<!-- 													<li data-thumb="https://via.placeholder.com/570x520"> -->
+<!-- 														<img src="https://via.placeholder.com/570x520" alt="#"> -->
+<!-- 													</li> -->
 												</ul>
 											</div>
 											<!-- End Images slider -->
@@ -109,31 +119,38 @@
 										<div class="product-des">
 											<!-- Description -->
 											<div class="short">
-												<h4> 상품 이름</h4>
-												<p class="price"><span>가격적기 709억</span></p>
-												<p class="description">여기도 설명란?</p>
+												<h4>${productInfo.PD_SUBJECT}</h4>
+												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${productInfo.PD_CATEGORY}</a></p>
+												<p class="price"><span>${productInfo.PD_PRICE}</span></p>
+												<p class="description">${productInfo.PD_CONTENT}</p>
 											</div>
 											<!--/ End Description -->
 											<!-- Color -->
 											<div class="color">
-												<h4>상품 옵션 <span>여기다가 태그할까</span></h4>
+												<h4>태그 <span>여기다가 태그할까</span></h4>
 												<ul>
 													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
+													
 												</ul>
 											</div>
 											<!--/ End Color -->
 											<!-- Size -->
 											<div class="size">
-												<h4>여기타가 태그할까</h4>
+												<h3>태그</h3>
 												<ul>
-													<li><a href="#" class="one">S</a></li>
-													<li><a href="#" class="two">M</a></li>
-													<li><a href="#" class="three">L</a></li>
-													<li><a href="#" class="four">XL</a></li>
-													<li><a href="#" class="four">XXL</a></li>
+<!-- 													<li><a href="#" class="one">S</a></li> -->
+<!-- 													<li><a href="#" class="two">M</a></li> -->
+<!-- 													<li><a href="#" class="three">L</a></li> -->
+<!-- 													<li><a href="#" class="four">XL</a></li> -->
+<!-- 													<li><a href="#" class="four">XXL</a></li> -->
+													<li><p class="one"><span>${productInfo.PD_TAG1}</span></p></li>
+													<li><p class="two"><span>${productInfo.PD_TAG2}</span></p></li>
+													<li><p class="three"><span>${productInfo.PD_TAG3}</span></p></li>
+													<li><p class="four"><span>${productInfo.PD_TAG4}</span></p></li>
+													<li><p class="five"><span>${productInfo.PD_TAG5}</span></p></li>
 												</ul>
 											</div>
 											<!--/ End Size -->

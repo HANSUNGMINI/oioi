@@ -19,16 +19,15 @@
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script type="text/javascript">
-
 // 	function searchDivOpen() {
 // 		 document.querySelector("#searchDiv").style.display = "block";
 // 	}
 	
-// 	function searchDivClose() {
-// 			setTimeout(function() {
-//                 document.querySelector("#searchDiv").style.display = "none";
-//             }, 200) // 짧은 지연 시간을 추가하여 링크 클릭을 허용
-// 	}
+	function searchDivClose() {
+			setTimeout(function() {
+                document.querySelector("#searchDiv").style.display = "none";
+            }, 200) // 짧은 지연 시간을 추가하여 링크 클릭을 허용
+	}
 	
 	function openChatting(url) {
 		window.open(url, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
@@ -107,20 +106,19 @@
 					</div>
 					<div class="col-lg-8 col-md-6 col-12">
 						<div class="search-bar-top">
-							<div class="search-bar" onclick="searchDivOpen()">
-								<form style="width:100%">
-									<input type="search" name="search" placeholder="검색어 입력해줘" autocomplete="off" style="width:100%" id="searchKeyword" >
-									<button class="btnn"><i class="ti-search"></i></button>
-								</form>
-									<div id="searchDiv" style="background-color:#F6F6F6" > 
-										<div class="recentSearch"> 
-										</div>
-										<div class="popularSearch">
-										</div>
-										<div class="recommendKeyword">
-											
-										</div>
+							<div class="search-bar" onclick="searchDivOpen()" onblur="searchDivClose()">
+								<input type="text" name="search" placeholder="검색어 입력해줘" autocomplete="off" style="width:100%" id="searchKeyword" >
+								<button class="btnn" onclick="searchKeyword()"><i class="ti-search"></i></button>
+
+								<div id="searchDiv"> 
+									<div class="recentSearch"> 
 									</div>
+									<div class="popularSearch">
+									</div>
+									<div class="recommendKeyword">
+									</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>

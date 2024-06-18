@@ -38,6 +38,7 @@ public class TradeController {
 	@Autowired
 	private AuctionService Auctionservice;
 	
+	// 거래 메인페이지
 	@GetMapping("trade")
 	public String goTrade( Model model) {
 		
@@ -80,6 +81,7 @@ public class TradeController {
 		return "trade/trade";
 	}
 	
+	// 상품등록 페이지
 	@GetMapping("product")
 	public String goProductRegist(Model model) {
 		// 카테고리 대분류
@@ -128,11 +130,7 @@ public class TradeController {
 		return "trade/product";
 	}
 	
-	@GetMapping("productDetail")
-	public String goDetail() {
-		return "/trade/product_detail";
-	}
-	
+	// 상품 등록하기
 	@PostMapping("product")
 	public String submitProduct(@RequestParam Map<String, Object> map, Model model
 			,@RequestPart("addfile") MultipartFile[] files, HttpSession session
@@ -201,11 +199,15 @@ public class TradeController {
             }
         }
      // 태그 배열로 들어와서 따로 맵에 처리
-        String tagsString = (String) map.get("PD_TAG");
-        String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
-        for (int i = 0; i < tags.length && i < 5; i++) {
-            map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
-        }
+        if(map.get("PD_TAG") != "") {
+        	String tagsString = (String) map.get("PD_TAG");
+            String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
+            for (int i = 0; i < tags.length && i < 5; i++) {
+                map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
+            }
+        } 
+        
+//        System.out.println("!@#@!#@!#@!" + map.get("PD_TAG")); 
         //images테이블에 먼저 넣기
         System.out.println("fileMap : " + fileMap);
         
@@ -223,7 +225,7 @@ public class TradeController {
 		    if(pdSuccess > 0) {
 		    	
 		    	model.addAttribute("msg", "상품 등록 성공! ");
-				model.addAttribute("targetURL", "./");
+				model.addAttribute("targetURL", "trade");
 				return "err/success";
 		    }else {
 		    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
@@ -237,14 +239,33 @@ public class TradeController {
 	    	
 	    	return "err/fail";
 	    }
-        
-        
-        // 
-        
-        
-        
-        
-        
-		
 	}
+	
+	// 상품 상세 페이지
+	@GetMapping("productDetail")
+	public String goDetail(@RequestParam Map<String, String> map, Model model) {
+		System.out.println(map);
+		System.out.println("PD_IDX :" + map.get("PD_IDX"));
+		
+		Map<String, String> dbMap = TradeService.getProductInfo(map);
+		model.addAttribute("productInfo", dbMap);
+		System.out.println(dbMap);
+		
+		// 1
+//		int idx = Integer.parseInt(map.get("PD_IDX"));
+//		
+//		int productInfo = TradeService.getProductInfo(idx);		
+//		
+//		model.addAttribute("productInfo", productInfo);
+//		System.out.println(productInfo);
+		// 2
+//		List<Map<String, String>> productList = TradeService.getProduct();
+//		model.addAttribute("productList", productList);
+//		System.out.println(productList.get(Integer.parseInt(map.get("PD_IDX"))));
+		
+		
+	
+		return "/trade/product_detail";
+	}
+
 }

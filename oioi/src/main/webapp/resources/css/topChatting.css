@@ -7,15 +7,15 @@
 /* 		width : 70%;  */
 		width : 88%;
 /* 		margin-left: 121px;  */
- 		margin-top : 50px; 
+/*  		margin-top : 50px;  */
  		z-index: 2;
    		position: absolute;
 /* 		display : none; */
-		background-color : #E4E4E4;
+/* 		background-color : #E4E4E4; */
 		border:none;
 		border-radius: 5px;
 		text-align: left;
-		padding : 10px;
+/* 		padding : 10px; */
 	}
 	
 	/* 추천 검색어 */
@@ -34,6 +34,102 @@
 		background-color: #EAEAEA;
 	}
 	
+	/* 검색 DIV */
+	.recentSearch table tr td a:hover, .popularSearch table tr td a:hover, .recommendKeyword table tr td a:hover{
+		cursor: pointer;
+	}
+	
+	.PopularborderBottom, .RecentborderBottom{
+		border-bottom: 2px solid #F2F2F2;
+		padding-right: 10px;
+		padding-left : 10px;
+		font-size: 18px;
+	}
+	
+	.SelPopularborderBottom{
+		border-bottom: 3px solid #34A853!important;
+		padding:10px;
+		font-size: 18px;
+	}
+	.SelRecentborderBottom{
+		border-bottom: 3px solid #34A853!important;
+		padding-right: 10px;
+		padding-left : 10px;
+		font-size: 18px;
+	}
+	
+	.recentSearch table, .popularSearch table, .recommendKeyword table{
+		border: 1px solid #F2F2F2;
+		margin-top: 5px;
+	}
+	
+	.recentWordColor{
+		margin-left: 10px;
+	}
+	
+	.marginLeftRank{
+		margin: 0 20px;
+	}
+	
+	.recentSearch table tr:nth-child(n+2) td,
+	.popularSearch table tr:nth-child(n+2) td, 
+	.recommendKeyword table tr td{
+		padding-right: 10px;
+		padding-left : 10px;
+	}
+	.recentSearch table tr:last-child td,
+	.popularSearch table tr:last-child td, 
+	.recommendKeyword table tr:last-child td {
+/* 		background-color: #ebebeb; */
+		text-align: center;
+	}
+
+
+	.relationText{
+		color: #34A853;
+		margin-left: 10px;
+	}
+	
+	.recentSearch,.popularSearch,.recommendKeyword{
+/* 		position:fixed; */
+		z-index: 9999;
+	}
+	
+	.recentSearch table td,.popularSearch table td,.recommendKeyword table td{
+		background-color: #F9F9F9;
+	}
+	.recentSearch table td,.PopularCenter td{
+		text-align: center;
+	}
+	
+	.localStarageDeleteOneTd{
+		text-align: right!important;
+	}
+	.localStarageDeleteOne{
+		margin-right: 15px!important;
+	}
+	
+	.keywordWidth {
+	  max-width: 100px; /* 원하는 너비 값으로 변경 가능 */
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  white-space: nowrap;
+	  padding:10px;
+	}
+	
+	.recentWordColor,.popularWordColor{
+		font-weight: bold;
+	}
+	
+	.padding10px{
+		padding:10px;
+	}
+	
+	#localStorageClean{
+		background-color: white;
+		border: none;
+		border-radius : 5px;
+	}
 	
 	/* ------------------------------------------------------------- */
 	

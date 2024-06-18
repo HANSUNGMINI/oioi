@@ -16,7 +16,7 @@
 	<!-- Title Tag  -->
     <title> 상품등록 </title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- 태그 스크립트 -->
    	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
