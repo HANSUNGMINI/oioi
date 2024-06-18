@@ -31,5 +31,37 @@ public class SearchController {
 		
 		return recommendList;
 	}
+	
+	// 검색 키워드 저장
+	@ResponseBody
+	@GetMapping("SaveSearchKeyword")
+	public String saveSearchKeyword(@RequestParam Map<String, String> map) {
+		System.out.println(">>>>>> 검색해서 이동한 키워드 : " + map);
+		
+		// 중복된 키워드 있는지 확인
+		int duplicateNum = service.duplicateKeyword(map); 
+		System.out.println(">>>>>" + duplicateNum);
+		
+		if(duplicateNum < 1) {
+			// 키워드 넣기
+			service.registKeyword(map);
+		} else {
+			// 카운트 갱신 
+			service.upCount(map);
+		}
+		
+		return "";
+	}
+	
+	// 인기 검색어 불러오기
+	@ResponseBody
+	@GetMapping("popularSearchKeywordList")
+	public String popularSearchKeywordList() {
+		
+		// 모든 정보 가져오기
+		List<Map<String, Object>> map = service.getPopularKeyword();
+		
+		return "";
+	}
 
 }

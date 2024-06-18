@@ -21,6 +21,38 @@
 		     OR PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%')
 		     OR PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%');
  	</select>
+ 	
+ 	<select id="selectDuplicate" resultType="int">
+ 		SELECT COUNT(SR_KEYWORD)
+ 		FROM search_keyword
+ 		WHERE SR_KEYWORD = #{keyword};
+ 	</select>
+ 	
+ 	<insert id="insertKeyword">
+ 		<selectKey keyProperty="SR_IDX" resultType="int" order="BEFORE">
+			SELECT IFNULL(MAX(SR_IDX), 0)
+			FROM search_keyword
+		</selectKey>
+ 		INSERT INTO search_keyword
+ 		VALUES (
+ 			#{SR_IDX} + 1,
+ 			#{keyword},
+			1
+ 		)
+ 	</insert>
+ 	
+ 	<update id="updateCount">
+ 		UPDATE search_keyword
+ 		SET SR_COUNT = SR_COUNT + 1
+ 		WHERE SR_KEYWORD = #{keyword};
+ 	</update>
+ 	
+ 	<select id="selectPopularKeyword" resultType="hashmap">
+ 		SELECT SR_KEYWORD
+		FROM search_keyword
+		ORDER BY SR_COUNT
+		LIMIT 10;
+ 	</select>
 </mapper>
 
 
