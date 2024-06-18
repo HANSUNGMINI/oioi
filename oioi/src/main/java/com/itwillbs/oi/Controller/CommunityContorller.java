@@ -1,5 +1,9 @@
 package com.itwillbs.oi.Controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,17 +95,37 @@ public class CommunityContorller {
 	}
 	
 	@PostMapping("communityWrite") // 게시글 등록
-	public String communityWritePro(Model model, @RequestParam Map<String, Object> map,  @RequestPart("cm_image_form")MultipartFile[] files) {
+	public String communityWritePro(HttpSession session, Model model, @RequestParam Map<String, Object> map,  @RequestPart("cm_image_form")MultipartFile[] files) {
 		
-		
-		Map<String, Object> uploadedFiles = new HashMap<String, Object>();
-        for (MultipartFile file : files) {
-        	uploadedFiles.put(file.getOriginalFilename(), file);
-        }
-		
-        map.put("uploadedFiles", uploadedFiles);
+//		String id = (String)session.getAttribute("US_ID");
+//        
+//        if(!CheckAuthority.isUser(session, model)) {
+//			return "err/fail";
+//		}
+//		
+//		Map<String, Object> uploadedFiles = new HashMap<String, Object>();
+//        for (MultipartFile file : files) {
+//        	uploadedFiles.put(file.getOriginalFilename(), file);
+//        }
+//		
+//        map.put("uploadedFiles", uploadedFiles);
+//        System.out.println(map);
+//        
+//        String uploadDir = "/resources/upload";
+//        
+//        String saveDir = session.getServletContext().getRealPath(uploadDir);
+//		System.out.println("saveDir : " + saveDir);
+//		
+//		try {
+//			Path path = Paths.get(saveDir); // 파라미터로 실제 업로드 경로 전달
+//			Files.createDirectories(path); // 파라미터로 Path 객체 전달
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		MultipartFile mfile = event.getEvent_image_form();
+//		System.out.println(mfile.getOriginalFilename());
         
-        System.out.println(map);
 ////		int insertCnt = service.insertBoard(map);
 //		
 //		if(insertCnt < 0) {
