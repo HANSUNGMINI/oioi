@@ -199,11 +199,14 @@ public class TradeController {
             }
         }
      // 태그 배열로 들어와서 따로 맵에 처리
-        String tagsString = (String) map.get("PD_TAG");
-        String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
-        for (int i = 0; i < tags.length && i < 5; i++) {
-            map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
-        }
+        if(map.get("PD_TAG") != "") {
+        	String tagsString = (String) map.get("PD_TAG");
+            String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
+            for (int i = 0; i < tags.length && i < 5; i++) {
+                map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
+            }
+        } 
+        
 //        System.out.println("!@#@!#@!#@!" + map.get("PD_TAG")); 
         //images테이블에 먼저 넣기
         System.out.println("fileMap : " + fileMap);
@@ -222,7 +225,7 @@ public class TradeController {
 		    if(pdSuccess > 0) {
 		    	
 		    	model.addAttribute("msg", "상품 등록 성공! ");
-				model.addAttribute("targetURL", "./");
+				model.addAttribute("targetURL", "trade");
 				return "err/success";
 		    }else {
 		    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");

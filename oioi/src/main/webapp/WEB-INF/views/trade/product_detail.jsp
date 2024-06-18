@@ -88,18 +88,27 @@
 											<!-- Images slider -->
 											<div class="flexslider-thumbnails">
 												<ul class="slides">
-													<li data-thumb="https://via.placeholder.com/570x520" rel="adjustX:10, adjustY:">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" rel="adjustX:10, adjustY:">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}" alt="#">
 													</li>
-													<li data-thumb="https://via.placeholder.com/570x520">
-														<img src="https://via.placeholder.com/570x520" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}" alt="#">
 													</li>
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}">
+														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}" alt="#">
+													</li>
+<!-- 													<li data-thumb="https://via.placeholder.com/570x520"> -->
+<!-- 														<img src="https://via.placeholder.com/570x520" alt="#"> -->
+<!-- 													</li> -->
+<!-- 													<li data-thumb="https://via.placeholder.com/570x520"> -->
+<!-- 														<img src="https://via.placeholder.com/570x520" alt="#"> -->
+<!-- 													</li> -->
 												</ul>
 											</div>
 											<!-- End Images slider -->
@@ -111,18 +120,20 @@
 											<!-- Description -->
 											<div class="short">
 												<h4>${productInfo.PD_SUBJECT}</h4>
+												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${productInfo.PD_CATEGORY}</a></p>
 												<p class="price"><span>${productInfo.PD_PRICE}</span></p>
 												<p class="description">${productInfo.PD_CONTENT}</p>
 											</div>
 											<!--/ End Description -->
 											<!-- Color -->
 											<div class="color">
-												<h4>상품 옵션 <span>여기다가 태그할까</span></h4>
+												<h4>태그 <span>여기다가 태그할까</span></h4>
 												<ul>
 													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
 													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
+													
 												</ul>
 											</div>
 											<!--/ End Color -->
