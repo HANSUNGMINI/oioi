@@ -122,7 +122,7 @@
                         <div class="single-team">
                             <!-- Image -->
                             <div class="image">
-                                <img src="${pageContext.request.contextPath}/resources/images/test.jpg" alt="#">
+                                <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#">
                             </div>
                         </div>
                     </div>
