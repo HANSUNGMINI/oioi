@@ -7,19 +7,19 @@
 	<select id="selectRecommendList" resultType="map">
 		SELECT 
 			CASE 
-				WHEN PD_TAG1 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG1
-				WHEN PD_TAG2 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG2
-				WHEN PD_TAG3 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG3
-				WHEN PD_TAG4 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG4
-				WHEN PD_TAG5 LIKE CONCAT('%', #{searchKeyword}, '%') THEN PD_TAG5
+				WHEN PD_TAG1 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG1
+				WHEN PD_TAG2 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG2
+				WHEN PD_TAG3 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG3
+				WHEN PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG4
+				WHEN PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG5
 				ELSE NULL 
 			END AS recommend_tag
 		FROM product
-		WHERE PD_TAG1 LIKE CONCAT('%', #{searchKeyword}, '%')
-		     OR PD_TAG2 LIKE CONCAT('%', #{searchKeyword}, '%')
-		     OR PD_TAG3 LIKE CONCAT('%', #{searchKeyword}, '%')
-		     OR PD_TAG4 LIKE CONCAT('%', #{searchKeyword}, '%')
-		     OR PD_TAG5 LIKE CONCAT('%', #{searchKeyword}, '%');
+		WHERE PD_TAG1 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		     OR PD_TAG2 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		     OR PD_TAG3 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		     OR PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		     OR PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%');
  	</select>
 </mapper>
 

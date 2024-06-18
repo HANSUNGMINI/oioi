@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.itwillbs.oi.service.MailService;
 import com.itwillbs.oi.service.UserService;
 
 @Controller
 public class UserController {
-	//여기서 오류가 나는건가?
 	@Autowired
 	private UserService service;
 	@Autowired
@@ -132,7 +132,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
-	
 	@PostMapping("login")
 	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder, HttpServletResponse response) {
 	    
@@ -153,6 +152,10 @@ public class UserController {
 	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
 	        System.out.println("회원정보" + dbUser);
+	        
+	        // 세션의 유효 시간 설정 (예: 1시간)
+            int sessionTimeoutSeconds = 60 * 60; // 1시간
+            session.setMaxInactiveInterval(sessionTimeoutSeconds);
 	        
 	        Cookie cookie = new Cookie("cookieId", userId);
 	        if(rememberId != null) { // 체크박스 체크 상태일 경우 쿠키 설정

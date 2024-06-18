@@ -214,7 +214,7 @@
 	}
 
 	function isValidEmail(email) { //이메일 유효성 검사
-		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && !/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(email);
 	}
 	
 	function isValidName(name) { // 이름 유효성 검사
@@ -226,22 +226,26 @@
 	}
 	
 	let isMailAuthButtonCreated = false; // 버튼이 생성되었는지 여부를 나타내는 변수
+	
 	function sendAuthMail() {
 		// 이메일 입력창에 입력된 이메일 가져오기
 		let eMail = $("#user_email").val();
-		
-		if(!isValidEmail(eMail)) { // 이메일 확인
+		 // 한글 포함 여부 검사
+	    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(eMail)) {
+	        alert("이메일에 한글을 포함할 수 없습니다.");
+	        return false;
+	    } else if(!isValidEmail(eMail)) { // 이메일 확인
 	        alert("E-Mail을 정확히 입력해주세요.");
 	        document.fr.user_email.focus();
 	        return false;
 	    } 
 		
 		// 이메일이 입력되지 않았을 경우 경고창 출력
-		if(eMail == "") {
-			alert("이메일을 입력해주세요!");
-			$("#user_email").focus();
-			return;
-		}
+// 		if(eMail == "") {
+// 			alert("이메일을 입력해주세요!");
+// 			$("#user_email").focus();
+// 			return;
+// 		}
 		
 // 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
 		
@@ -509,7 +513,7 @@
 										<div class="form-group">
 											<label>이메일<span>*</span></label>
 											<div style="display: flex">
-												<input type="email" name="user_email" id="user_email" placeholder="이메일" >
+												<input type="text" name="user_email" id="user_email" placeholder="이메일" >
 												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
 											</div>
 											<div id="authBox" style="display: flex">

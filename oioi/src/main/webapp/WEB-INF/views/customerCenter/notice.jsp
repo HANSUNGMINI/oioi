@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	
 </head>
 
@@ -65,7 +66,7 @@
         margin-bottom: 20px;
     }
 
-    table {
+    .table1 {
         width: 100%;
         border-collapse: collapse;
         margin-top: 45px;
@@ -75,7 +76,7 @@
         overflow: hidden;
     }
 
-    th, td {
+    #th1, #td1 {
         border: 1px solid #ccc;
         padding: 10px; /* 셀 간격 늘리기 */
         text-align: center;
@@ -84,16 +85,16 @@
         text-overflow: ellipsis;
     }
 
-    th {
+    #th1 {
         background-color: #f2f2f2;
         font-weight: bold;
     }
 
-    tr:nth-child(even) {
+    .tr1:nth-child(even) {
         background-color: #f9f9f9; /* 번갈아가는 행 색상 */
     }
 
-    tr:hover {
+    .tr1:hover {
         background-color: #f5f5f5; /* 호버 효과 */
     }
     
@@ -288,21 +289,21 @@
 				 		 <div class = "write_btn">
 						 	<a href = "noticeWrite"> 글쓰기 </a>
 						 </div>
-						<table>
+						<table class="table1">
 					        <thead>
-					            <tr>
-					                <th class="notice_num"  width = "10px">번호</th>
-					                <th class="notice_title"  width = "150px">제목</th>
-					                <th class="notice_writer"  width = "30px">작성자</th>
-					                <th class="notice_date"  width = "30px">작성일</th>
+					            <tr class="tr1">
+					                <th id="th1" class="notice_num"  width = "10px">번호</th>
+					                <th id="th1" class="notice_title"  width = "150px">제목</th>
+					                <th id="th1" class="notice_writer"  width = "30px">작성자</th>
+					                <th id="th1" class="notice_date"  width = "30px">작성일</th>
 					            </tr>
 					        </thead>
 					        <tbody>
-				                  <tr>
-				                      <td> 1 </td>
-				                      <td><a href="noticeDetail"> 저쩌구 </a></td>
-				                      <td> 관리자</td>
-				                      <td> 2024.06.07 </td>
+				                  <tr class="tr1">
+				                      <td id="td1"> 1 </td>
+				                      <td id="td1"><a href="noticeDetail"> 저쩌구 </a></td>
+				                      <td id="td1"> 관리자</td>
+				                      <td id="td1"> 2024.06.07 </td>
 				                  </tr>
 					        </tbody>
 					    </table>
