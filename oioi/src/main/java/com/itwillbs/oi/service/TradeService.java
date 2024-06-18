@@ -33,6 +33,10 @@ public class TradeService {
 		return mapper.selectProduct();
 	}
 
+	public Map<String, String> getProductInfo(Map<String, String> map) {
+		return mapper.selectProductInfo(map);
+	}
+
 	
 
 }

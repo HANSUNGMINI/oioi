@@ -20,7 +20,7 @@
 <%-- 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> --%>
 	<!-- Web Font -->	
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-	
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<!-- StyleSheet -->
 	
 	<!-- Bootstrap -->
@@ -141,79 +141,24 @@
 						</div>
 						<!-- 원본 -->
 						<div class="row">
-<!-- 							<div class="col-lg-4 col-md-6 col-12"> -->
-<!-- 								<div class="single-product"> -->
-<!-- 									<div class="product-img"> -->
-<!-- 										<a href="detail"> -->
-<!-- 										    디폴트 -->
-<%-- 											<img class="default-img" src="${pageContext.request.contextPath}/resources/images/no-image01.gif" alt="#"> --%>
-<!-- 											<img class="hover-img" src="https://via.placeholder.com/550x750" alt="#"> -->
-<!-- 										</a> -->
-<!-- 										<div class="button-head"> -->
-<!-- 											<div class="product-action"> -->
-<!-- 												<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
-<!-- 												<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a> -->
-<!-- 												<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>시세보기(예정?)</span></a> -->
-<!-- 											</div> -->
-<!-- 											<div class="product-action-2"> -->
-<!-- 												<a title="Add to cart" href="#">Add to cart</a> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="product-content"> -->
-<!-- 										<h3><a href="product-details.html">상세링크용</a></h3> -->
-<!-- 										<div class="product-price"> -->
-<!-- 											<span>79억</span> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-							<!-- 예시구문 -->
-								
-												<!--  연습상품1 -->
-<!-- 												<div class="col-xl-3 col-lg-4 col-md-4 col-12"> -->
-<!-- 													<div class="single-product"> -->
-<!-- 														<div class="product-img"> -->
-<!-- 															<a href="product-details.html"> -->
-<%-- 																<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }"> --%>
-<%-- 																<img class="hover-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }"> --%>
-<%--  																<img class="default-img" src="${pageContext.request.contextPath}/resources/images/케이크.jpg" alt="#"> --%>
-<%-- 																<img class="hover-img" src="${pageContext.request.contextPath}/resources/images/케이크.jpg"  alt="#"> --%> 
-<%-- 																<span class="new">New${index.index}</span> --%>
-<!-- 															</a> -->
-<!-- 															<div class="button-head"> -->
-<!-- 																<div class="product-action"> -->
-<%-- 																	<a data-toggle="modal" data-target="#exampleModal${index.index }" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> --%>
-<!-- 																	<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a> -->
-<!-- 																	<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>비교하기(굳이?)</span></a> -->
-<!-- 																</div> -->
-<!-- 																<div class="product-action-2"> -->
-<!-- 																	<a title="Add to cart" href="#">상세 페이지로 이동</a> -->
-<!-- 																</div> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<!-- 														<div class="product-content"> -->
-<%-- 															<h3><a href="product-details.html">${apd.APD_NAME}</a></h3> --%>
-<!-- 															<div class="product-price"> -->
-<%-- 																<a>시작판매가 : <span><fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span></a><br> --%>
-<%-- 																<a>즉시구매가 : <span><fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span></a> --%>
-<!-- 															</div> -->
-<!-- 														</div> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-
 							<c:forEach var="product" items="${getProduct}">
 							<div class="col-lg-4 col-md-6 col-12">
 								<div class="single-product">
 									<div class="product-img">
-										<a href="productDetail">
-											<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}">
-										</a>
+										 <form action="productDetail" method="get">
+						                    <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
+						                    <a href="#" onclick="this.parentNode.submit(); return false;">
+						                        <img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}">
+						                    </a>
+						                </form>
+<!-- 										<a href="productDetail"> -->
+<%-- 											<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}"> --%>
+<!-- 										</a> -->
 										<div class="button-head">
 											<div class="product-action">
-												<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+<!-- 												<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
 												<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-												<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>시세보기(예정?)</span></a>
+<!-- 												<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>시세보기(예정?)</span></a> -->
 											</div>
 											<div class="product-action-2">
 												<a title="Add to cart" href="#"></a>
