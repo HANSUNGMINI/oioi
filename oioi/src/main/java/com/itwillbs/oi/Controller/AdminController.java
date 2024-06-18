@@ -55,16 +55,49 @@ public class AdminController {
 		
 		// 관리자가 아님
 		if(!CheckAuthority.isAdmin(session, model)) {
-			System.out.println(model.getAttribute("msg"));
-			System.out.println(model.getAttribute("targetURL"));
 			return "err/fail";
 		}
 		
 		return "admin/admin_main";
 	}
 	
-	@GetMapping("user")
-	public String userlist(Model model) {
+	@GetMapping("admin_user")
+	public String admin_user(Model model) {
+		
+		if(!CheckAuthority.isAdmin(session, model)) {
+			return "err/fail";
+		}
+		return "admin/admin_user_list";
+	}
+	
+	@GetMapping("admin_product")
+	public String admin_product(Model model) {
+		
+		if(!CheckAuthority.isAdmin(session, model)) {
+			return "err/fail";
+		}
+		return "admin/admin_product_list";
+	}
+	
+	@GetMapping("admin_board")
+	public String admin_board(Model model) {
+		
+		if(!CheckAuthority.isAdmin(session, model)) {
+			return "err/fail";
+		}
+		return "admin/admin_user_list";
+	}
+	
+	@GetMapping("admin_report")
+	public String admin_report(Model model) {
+		
+		if(!CheckAuthority.isAdmin(session, model)) {
+			return "err/fail";
+		}
+		return "admin/admin_user_list";
+	}
+	@GetMapping("admin_chat")
+	public String admin_chat(Model model) {
 		
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
@@ -159,6 +192,36 @@ public class AdminController {
 	    
 	    return result;
 	}
+		// 상품 목록조회
+	@ResponseBody
+	@PostMapping("ProductList")
+	public Map<String, Object> ProductList(@RequestParam Map<String, Object> select, Model model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		int pageNum = Integer.parseInt(select.get("pageNum").toString());
+		Map<String, Integer> pagination = PageInfo.limitPagination(pageNum);
+		select.put("page", pagination);
+		
+		List<Map<String, Object>> userList = adminservice.selectProductList(select);
+		
+		// 조회내용이 없으면 result 객체에 빈 객체 넣어서 가져가기
+		if(userList.isEmpty()) {
+			System.out.println("없음");
+			result.put("userList", userList);
+			return result;
+		}
+		
+		// 조회된 내용이 있다면 첫 번째 row데이터의 리스트카운트 가져와서 저장
+		int listCount = Integer.parseInt(userList.get(0).get("listCount").toString());
+		
+		// result 객체에 각각 삽입해서 리턴
+		result.put("userList", userList);
+		// 위에서 만든 조회용 Map객체와 listCount 받아서 페이지버튼 만드는 Map객체 생성
+		result.put("pageInfo", PageInfo.makePagination(pagination, listCount));
+		
+		return result;
+	}
+	
+	
 	
 		// 유저 상세조회
 	@ResponseBody
@@ -174,31 +237,25 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("masterAdmin")
 	public List<Map<String, Object>> masterAdmin(@RequestParam Map<String, Object> select,  Model model) {
-		List<Map<String, Object>> adminList = adminservice.selectAdminList(select);
-		return adminList;
+		return adminservice.selectAdminList(select);
 	}
 		// 공통 코드 조회
 	@ResponseBody
 	@PostMapping("selectCode")
 	public List<Map<String, Object>> selectCode(@RequestParam Map<String, Object> select,  Model model) {
-		List<Map<String, Object>> commonList = adminservice.selectCommonList(select);
-		return commonList;
+		return adminservice.selectCommonList(select);
 	}
 		// 공통 코드 상태 변경
 	@ResponseBody
 	@PostMapping("changeHide")
 	public int changeHide(@RequestParam Map<String, Object> select) {
-		int result = adminservice.changeHide(select);
-		
-		return result;
+		return adminservice.changeHide(select);
 	}
 		// 공통코드 value값 수정하기
 	@ResponseBody
 	@PatchMapping("common")
 	public int patchCommon(@RequestBody Map<String, Object> map) {
-		System.out.println(map);
-		int result = adminservice.patchcommon(map);
-		return result;
+		return adminservice.patchcommon(map);
 	}
 		// 공통코드 추가하기
 	@ResponseBody
@@ -212,18 +269,14 @@ public class AdminController {
 	@ResponseBody
 	@DeleteMapping("common")
 	public int deleteCommon(@RequestBody Map<String, Object> map) {
-		System.out.println(map);
-		int result = adminservice.deleteCommon(map);
-		System.out.println(result);
-		return result;
+		return adminservice.deleteCommon(map);
 	}
 	
 		// 관리자 권한 바꾸기
 	@ResponseBody
 	@PostMapping("changeActive")
 	public int changeActive(@RequestParam Map<String, Object> select) {
-		int result = adminservice.changeActive(select);
-		return result;
+		return adminservice.changeActive(select);
 	}
 	
 	

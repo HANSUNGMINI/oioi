@@ -51,10 +51,13 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<script type="text/javascript">
-	    var ws;
+	
+	    var socket = null;
 	
 	    function connect() {
 	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?bno=1234");
+	        
+	        socket = ws;
 	        
 	        ws.onopen = function() {
 	            console.log('info: connection opened');
@@ -77,11 +80,33 @@
 	        connect();
 	    };
 	</script>
+	
+	
 </head>
 <body class="js">
 
 	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
+		<script type="text/javascript">
+		$(function(){
+			
+			var seller = ${apdDetail.US_ID};
+			console.log("US_ID : " + seller);
+			console.log('gd');
+			console.log("socket : "+socket);
+	    	$('#btnSend').on('click',function(et) {
+		    	et.preventDefault();
+		    	if(socket.readyState !== 1)return;
+		    	
+		    	let msg = $('input#sendMsg').val();
+		    	console.log("msg : " + msg);
+		    	socket.send(msg);
+		    	
+		    });
+	    	
+	    	connect();
+	    });
 	
+		</script>
 		
 		<!-- End Breadcrumbs -->
 				
@@ -121,27 +146,14 @@
 											<!-- Description -->
 											<div class="short">
 												<h4>${apdDetail.APD_NAME}</h4>
-												<div class="rating-main">
-													<ul class="rating">
-														<li><i class="fa fa-star"></i></li>
-														<li><i class="fa fa-star"></i></li>
-														<li><i class="fa fa-star"></i></li>
-														<li><i class="fa fa-star-half-o"></i></li>
-														<li class="dark"><i class="fa fa-star-o"></i></li>
-													</ul>
-													<a href="#" class="total-review">(102) Review</a>
-												</div>
-												<p class="price"><span class="discount">시작 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
-												<p class="price"><span class="discount">현재 가격 : </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
+												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${apdDetail.APD_CAREGORY}</a></p>
+												
 <!-- 												<p class="description"> -->
 													
 <!-- 												</p> -->
-												<div class="chat" style="margin-top: 50px;">
+												<div class="chat" style="margin-top: 10px;">
 													<%-- 채팅 내역 --%>
-									                <div class="chat-history" >
-														<div style="background-color:#EAEAEA; text-align: center; padding : 3px; margin-top: -20px; margin-bottom:10px">
-															<a href="javascript:void(0);" data-toggle="modal" data-target="#detail_model">나이키 신발</a>에 대한 이야기를 시작해 보세요
-														</div>
+									                <div class="chat-history" style="background-color: #e9e9e9; padding: 20px;">
 									
 									                    <ul class="m-b-0">
 									                        
@@ -177,37 +189,37 @@
 														
 									                    <div class="input-group mb-0">
 											                <%-- 전송란 --%>
-									                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
+									                        <input type="text" class="form-control" id="sendMsg" placeholder="메세지를 입력하세요">                                    
 									
 									                        <%-- 전송버튼 --%>
 									                        <div class="input-group-prepend">
-									                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
-									<!--                             <div class="input-group-text"> -->
-									<!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
-																<label for="file-input" class="input-group-text file-input-label">
-															        <i class="bi bi-camera-fill" style="color: #353535;"></i>
-															    </label>
-															    <input type="file" id="file-input" style="display: none;">
-									<!--                             </div> -->
+<!-- 									                            <a id="btnSend"><i class="bi bi-reply-fill"></i></a> -->
+<!-- 									                            <div class="input-group-text"> -->
+<!-- 										                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
+<!-- 																<label for="file-input" class="input-group-text file-input-label"> -->
+<!-- 															        <i class="bi bi-camera-fill" style="color: #353535;"></i> -->
+															        
+<!-- 															    </label> -->
+<!-- 															    <input type="file" id="file-input" style="display: none;"> -->
+<!-- 									                            </div> -->
+
+																
 									                        </div>
+									                        <button id ="btnSend">전송</button>
+									                        
 									                    </div>
                 									</div>
 												</div>
 											</div>
 											<!--/ End Description -->
 											<!-- Color -->
-											<div class="color">
-												<h4>Available Options <span>Color</span></h4>
-												<ul>
-													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
-												</ul>
+											<div class="color" style="margin-top: 30px;">
+												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
+												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
 											</div>
 											<!--/ End Color -->
 											<!-- Size -->
-											<div class="size">
+											<div class="size" style="margin-top: 20px;">
 												<h4>Size</h4>
 												<ul>
 													<li><a href="#" class="one">S</a></li>
@@ -241,8 +253,7 @@
 												</div>
 												
 												
-												<p class="cat">Category :<a href="#">${apdDetail.APD_CAREGORY}</a></p>
-												<p class="availability">Availability : 180 Products In Stock</p>
+												
 											</div>
 											<!--/ End Product Buy -->
 										</div>

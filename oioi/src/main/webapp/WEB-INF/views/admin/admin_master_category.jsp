@@ -144,7 +144,6 @@
 		            var selectedValue = selectBox.options[selectBox.selectedIndex].text;
 					$("#targetCategory").text(selectedValue);
 					
-					
 					$(".tbody").empty();
 					
 					if(response == '') {

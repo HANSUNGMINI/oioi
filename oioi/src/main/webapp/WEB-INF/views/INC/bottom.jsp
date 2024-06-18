@@ -92,7 +92,7 @@
 						</div>
 						<div class="col-lg-6 col-12">
 							<div class="right">
-								<img src="images/payments.png" alt="#">
+								<img src="resources/images/payments.png" alt="#">
 							</div>
 						</div>
 					</div>
