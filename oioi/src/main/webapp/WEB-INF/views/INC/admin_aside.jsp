@@ -55,7 +55,7 @@
 		        </a>
 	        <ul>
 	          <li>
-	            <a href="user">
+	            <a href="admin_user">
 	              <span>유저 조회</span>
 	            </a>
 	          </li>
@@ -75,7 +75,7 @@
 	        </a>
 	        <ul>
 	          <li>
-	            <a href="#void">
+	            <a href="admin_product">
 	              <span>상품조회</span>
 	            </a>
 	          </li>
@@ -94,8 +94,22 @@
 	        </a>
 	        <ul>
 	          <li>
-	            <a href="#void">
-	              <span>Sub-item One</span>
+	            <a href="admin_chat">
+	              <span>채팅 내역 조회</span>
+	            </a>
+	          </li>
+	        </ul>
+	      </li>
+	      <li>
+	        <a class="dropdown">
+	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
+	          <span class="menu-item-label">게시글관리</span>
+	          <span class="icon"><i class="mdi mdi-plus"></i></span>
+	        </a>
+	        <ul>
+	          <li>
+	            <a href="admin_board">
+	              <span>게시글 조회</span>
 	            </a>
 	          </li>
 	          <li>
@@ -136,40 +150,9 @@
 	              <span>Sub-item One</span>
 	            </a>
 	          </li>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
 	        </ul>
 	      </li>
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">게시글관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item One</span>
-	            </a>
-	          </li>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
+	      
 	    </ul>
 	    <p class="menu-label">About</p>
-	    <ul class="menu-list">
-	      <li>
-	        <a href="https://github.com/justboil/admin-one-tailwind" class="has-icon">
-	          <span class="icon"><i class="mdi mdi-github-circle"></i></span>
-	          <span class="menu-item-label">GitHub</span>
-	        </a>
-	      </li>
-	    </ul>
 	  </div>

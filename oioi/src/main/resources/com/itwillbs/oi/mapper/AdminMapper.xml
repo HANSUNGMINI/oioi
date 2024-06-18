@@ -8,6 +8,7 @@
 		SELECT *
 		  FROM Mcommon;
 	</select>
+	
 	<select id="selectCommonList">
 		SELECT code
 			 , value
@@ -47,8 +48,34 @@
 		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
+		  ORDER BY US_IDX asc
 		  LIMIT #{page.startRow}, #{page.listLimit}
-		  ORDER BY US_IDX asc;	 
+		 
+	</select>
+	
+	<select id="selectProductList" resultType="map">
+		SELECT *
+			 , (SELECT count(US_IDX)
+			 	  FROM product
+		 		 WHERE 
+				  <choose>
+				  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
+				  	<when test="type.equals('US_ID')">US_ID LIKE concat('%', #{keyword} , '%')</when>
+				  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
+				  	<otherwise> 1 = 1</otherwise>
+				  </choose>
+			 ) as listCount
+		  FROM product
+		 WHERE 
+		  <choose>
+		  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_ID')">US_ID LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('US_NICK')">US_NICK LIKE concat('%', #{keyword} , '%')</when>
+		  	<otherwise> 1 = 1</otherwise>
+		  </choose>
+		  ORDER BY US_IDX asc
+		  LIMIT #{page.startRow}, #{page.listLimit}
+		 
 	</select>
 	
 	<select id="selectAdminList" resultType="map">
@@ -57,7 +84,6 @@
 		 WHERE RL_NAME != '최고관리자'
 		 ORDER BY AD_IDX asc
 	</select>
-	
 	
 	<update id="changeActive">
 		UPDATE admin
@@ -95,12 +121,12 @@
 		);
 	</insert>
 	
-	
 	<delete id="deleteCommon">
 		DELETE
 		  FROM common
 		 WHERE code = #{target}
 	</delete>
+	
 </mapper>
 
 

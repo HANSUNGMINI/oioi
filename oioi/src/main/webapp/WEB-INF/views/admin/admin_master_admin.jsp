@@ -196,14 +196,11 @@
 						}
 					}
 				}) //끝
-				
-				
 			} else {
 				// 상태 안바뀌게
 				checkBox.checked = !isChecked;
 			}
 		};
-		
 		
 	</script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">

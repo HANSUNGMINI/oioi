@@ -14,14 +14,6 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	
-	
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-130795909-1');
-	</script>
 	<style>
 		#buttons {
 			margin : 0px auto;
@@ -54,11 +46,11 @@
 	    	<header class="card-header">
 	        	<p class="card-header-title">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-	          		회원목록
+	          		상품목록
 	        	</p>
 	        	
 	        	<select id="type">
-	        		<option value="US_NAME">이름</option>
+	        		<option value="US_NAME">게시글 제목</option>
 	        		<option value="US_ID">아이디</option>
 	        		<option value="US_NICK">닉네임</option>
 	        	</select>
@@ -73,14 +65,10 @@
 	        	<table>
 	          		<thead>
 	          			<tr>
-	            			<th class="checkbox-cell">
-	            				<label class="checkbox"><input type="checkbox"><span class="check"></span></label>
-	            			</th>
-				            <th class="image-cell"></th>
-				            <th>아이디</th>
-				            <th>이름</th>
-				            <th>닉네임</th>
-				            <th>가입일</th>
+				            <th>게시글 제목</th>
+				            <th>작성자</th>
+				            <th>작성일</th>
+				            <th>수정일</th>
 	         			 </tr>
 	          		</thead>
 	          		<tbody class="tbody">
@@ -97,47 +85,10 @@
 		</div>	
 	</section>
     
-    <!-- 모달창 -->
-	<div id="sample-modal" class="modal">
-		<div class="modal-background --jb-modal-close"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-			  <p class="modal-card-title">Sample modal</p>
-			</header>
-			<section class="modal-card-body">
-			  <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-			  <p>This is sample modal</p>
-			</section>
-			<footer class="modal-card-foot">
-			  <button class="button --jb-modal-close">Cancel</button>
-			  <button class="button red --jb-modal-close">Confirm</button>
-			</footer>
-		</div>	
-	</div>
-	<!-- 빨간 모달 -->
-	<div id="sample-modal-2" class="modal">
-	  <div class="modal-background --jb-modal-close"></div>
-	  <div class="modal-card">
-	    <header class="modal-card-head">
-	      <p class="modal-card-title">Sample modal</p>
-	    </header>
-	    <section class="modal-card-body">
-	      <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-	      <p>This is sample modal</p>
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button --jb-modal-close">Cancel</button>
-	      <button class="button blue --jb-modal-close">Confirm</button>
-	    </footer>
-	</div>
-		</div>
-	</div>
 </body>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
-<%--     <script src="${pageContext.request.contextPath}/resources/js/admin_user_list.js"></script> --%>
 	<script>
-		
 		let pageNum = 1;
 		
 		$(function(){
@@ -168,7 +119,7 @@
 			
 			$.ajax({
 				type : "POST",
-				url : "UserList",
+				url : "ProductList",
 				data : {
 					"type" : type,
 					"keyword" : keyword,
@@ -203,13 +154,6 @@
 							
 							$(".tbody").append(
 								'<tr>'
-			            		+ '<td class="checkbox-cell"><label class="checkbox"><input type="checkbox"><span class="check">'
-			            		+ '</span></label></td>'
-			            		+ '<td class="image-cell">'
-			           			+ '	<div class="image">'
-			           			+ '	<img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" class="rounded-full">'
-			           			+ '	</div>'
-			           			+ '</td>'
 			           			+ '<td data-label="Name">'+ user.US_ID + '</td>'
 			           			+ '<td data-label="Company">'+ user.US_NAME +'</td>'
 			           			+ '<td data-label="City">'+ user.US_NICK +'</td>'
