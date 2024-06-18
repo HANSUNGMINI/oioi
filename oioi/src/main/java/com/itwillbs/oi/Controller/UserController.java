@@ -106,6 +106,7 @@ public class UserController {
 		
 		if(service.registUser(resultMap) > 0) {
 			model.addAttribute("msg", "회원가입에 성공하셨습니다!");
+			model.addAttribute("US_NICK", (String) resultMap.get("US_NICK")); // Add this line
 			return "user/regist_success";
 		} else {
 			model.addAttribute("msg", "회원가입 실패!");

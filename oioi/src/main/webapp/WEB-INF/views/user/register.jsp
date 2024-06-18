@@ -202,7 +202,7 @@
 		
 		if(passwd == passwd2) { // 패스워드 일치
 	    	$("#checkPwResult2").text("*비밀번호가 일치합니다.");
-			$("#checkPwResult2").css("color", "BLUE");
+			$("#checkPwResult2").css("color", "#34A853");
 	    	
 	    	checkPasswd2Result = true;
 		} else { // 패스워드 불일치
