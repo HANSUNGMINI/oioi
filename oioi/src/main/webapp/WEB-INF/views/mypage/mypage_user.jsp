@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>내 정보 수정</title>
     <!-- 스타일 및 스크립트 로드 -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">

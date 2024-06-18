@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +74,9 @@ public class MyPageController {
 	
     @PostMapping("checkNickname")
     @ResponseBody
-    public Map<String, Boolean> checkNickname(@RequestParam String nickname) {
+    public Map<String, Object> checkNickname(@RequestParam String nickname) {
+//    	Map<String, Object> result = new HashMap<String, Object>();
+    	
         boolean isValidNick = service.isNicknameAvailable(nickname);
         return Map.of("isValidNick", isValidNick);
     }
@@ -96,6 +99,24 @@ public class MyPageController {
         }
     }
 	
+    @GetMapping("userLogout")
+    public String userLogout() {
+    	session.invalidate();
+    	
+    	return "redirect:/";
+    }
+    
+    @GetMapping("myQnA")
+    public String myQnA() {
+    	
+    	return "mypage/my_QnA";
+    }
+    
+    @GetMapping("myReport")
+    public String myReport() {
+    	
+    	return "mypage/my_report";
+    }
 	
 	
 	
