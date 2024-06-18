@@ -346,12 +346,12 @@
 				
 				$.each(boards, function(index, board) {
 					$("#tbody").append(
-						'<tr>' +
-							'<td>' + idx-- + '</td>' +
-							'<td>' + board.CM_CATEGORY.substring(0,2) + '</td>' +
-							'<td><a href="boardDetail?CM_IDX='+ board.CM_IDX +'">'+ board.CM_TITLE + '</a></td>' +
-							'<td>' + board.CM_NICK + '</td>' +
-							'<td>' + board.CM_REG_DATE + '</td>' +
+						'<tr class="tr1">' +
+							'<td id="td1">' + idx-- + '</td>' +
+							'<td id="td1">' + board.CM_CATEGORY.substring(0,2) + '</td>' +
+							'<td id="td1"><a href="boardDetail?CM_IDX='+ board.CM_IDX +'">'+ board.CM_TITLE + '</a></td>' +
+							'<td id="td1">' + board.CM_NICK + '</td>' +
+							'<td id="td1">' + board.CM_REG_DATE + '</td>' +
 						'</tr>'
 					);
 				});
