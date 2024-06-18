@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	
 </head>
 
