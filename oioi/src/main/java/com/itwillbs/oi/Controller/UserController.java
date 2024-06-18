@@ -155,7 +155,7 @@ public class UserController {
 	        System.out.println("회원정보" + dbUser);
 	        
 	        // 세션의 유효 시간 설정 (예: 1시간)
-            int sessionTimeoutSeconds = 60 * 60; // 1시간
+            int sessionTimeoutSeconds =  6000000 * 60; // 1시간
             session.setMaxInactiveInterval(sessionTimeoutSeconds);
 	        
 	        Cookie cookie = new Cookie("cookieId", userId);
