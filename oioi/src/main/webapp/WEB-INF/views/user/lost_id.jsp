@@ -225,6 +225,19 @@
 	line-height: 20px;
 }
 
+.nav-tabs .nav-link {
+	background-color: #f8f9fa; 
+	color: #495057; 
+}
+	
+.nav-tabs .nav-link.active {
+	background-color: #34A853;
+	color: #fff; 
+}
+
+.nav-tabs .nav-link:hover {
+	background-color: #60ce7e; 
+}
 </style>
 <body class="js">
 
@@ -237,7 +250,7 @@
 					<div class="col-12">
 						<div class="bread-inner">
 							<ul class="bread-list">
-								<li><a href="index1.html">홈<i class="ti-arrow-right"></i></a></li>
+								<li><a href="./">홈<i class="ti-arrow-right"></i></a></li>
 								<li class="active"><a href="login">로그인<i class="ti-arrow-right"></i></a></li>
 								<li class="active"><a href="lost_id">아이디찾기</a></li>
 							</ul>

@@ -15,7 +15,7 @@
 	       
 	        if(checkNick($("#user_nick").val())){ //닉네임 유효성검사 통과 시
 	            $("#checkNickResult").text("중복확인 버튼을 눌러주세요.");
-	            $("#checkNickResult").css("color", "blue");
+	            $("#checkNickResult").css("color", "#34A853");
 	            $(".nick_check").prop("disabled", false);
 	           
 	        } else { // 닉네임 유효성 검사 실패 시 중복확인 버튼 비활성화

@@ -15,7 +15,7 @@
 	       
 	        if(checkID($("#user_id").val())){ //아이디 유효성검사 통과 시
 	            $("#checkIdResult").text("중복확인 버튼을 눌러주세요.");
-	            $("#checkIdResult").css("color", "blue");
+	            $("#checkIdResult").css("color", "#34A853");
 	            $(".id_check").prop("disabled", false);
 	           
 	        } else { // 아이디 유효성 검사 실패 시 중복확인 버튼 비활성화
@@ -71,7 +71,7 @@
 	    $("#checkIdResult").css("color", "red");
 	}
 </script>
-<link href="${pageContext.request.contextPath}/resources/css/check_id.css" rel="stylesheet">
+
 <meta charset="UTF-8">
 <title>아이디 중복확인</title>
 </head>
@@ -92,7 +92,7 @@
 		<div>
 			<c:choose>
 				<c:when test="${param.isValid eq true}">
-					<input type="button" class="id_check" value="아이디사용" id="btnUseID"><br>
+					<input type="button" class="id_check" value="사용하기" id="btnUseID"><br>
 				</c:when>
 				<c:otherwise>
 					<input type="submit" class="id_check" value="중복확인" id="btnCheckId">
@@ -101,4 +101,5 @@
 		</div>
 	</form>
 </body>
+<link href="${pageContext.request.contextPath}/resources/css/check_id.css" rel="stylesheet">
 </html>
