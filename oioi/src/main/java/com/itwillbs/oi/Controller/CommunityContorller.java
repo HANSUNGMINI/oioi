@@ -1,13 +1,17 @@
 package com.itwillbs.oi.Controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -95,45 +99,108 @@ public class CommunityContorller {
 	}
 	
 	@PostMapping("communityWrite") // 게시글 등록
-	public String communityWritePro(HttpSession session, Model model, @RequestParam Map<String, Object> map,  @RequestPart("cm_image_form")MultipartFile[] files) {
+	public String communityWritePro(HttpSession session, Model model, @RequestParam Map<String, Object> map,  @RequestPart("CM_IMAGE")MultipartFile[] files) {
+		System.out.println("????????????????????????????????????" + map);
+		System.out.println("????????????????????????????????????" + files);
+		// 로그인 확인
+		String id = (String)session.getAttribute("US_ID");
+		String nick = (String)session.getAttribute("US_NICK");
+		map.put("CM_ID", id);
+		map.put("CM_NICK", nick);
 		
-//		String id = (String)session.getAttribute("US_ID");
-//        
 //        if(!CheckAuthority.isUser(session, model)) {
 //			return "err/fail";
 //		}
 //		
-//		Map<String, Object> uploadedFiles = new HashMap<String, Object>();
-//        for (MultipartFile file : files) {
-//        	uploadedFiles.put(file.getOriginalFilename(), file);
+//        if(!files[0].isEmpty()) {
+//        	
+//        	// 가상경로
+//        	String uploadDir = "/resources/upload";
+//        	
+//        	// 실제 경로
+//        	String saveDir = session.getServletContext().getRealPath(uploadDir);
+//        	System.out.println("saveDir : " + saveDir);
+//        	
+//        	// 날짜별 하위 디렉토리를 분류
+//        	String subDir = "";
+//        	LocalDate today = LocalDate.now();
+//        	
+//        	String datePattern = "yyyy" + File.separator + "MM" + File.separator + "dd"; 
+//        	DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
+//        	
+//        	subDir = today.format(dtf);
+//        	
+//        	// 실제 경로에 날짜 경로 추가
+//        	saveDir += File.separator + subDir;
+//        	//		System.out.println("파일경로" + saveDir);
+//        	
+//        	
+//        	// 디렉토리 생성
+//        	try {
+//        		Path path = Paths.get(saveDir); // 파라미터로 실제 업로드 경로 전달
+//        		Files.createDirectories(path); // 파라미터로 Path 객체 전달
+//        	} catch (IOException e) {
+//        		e.printStackTrace();
+//        	}
+//        	
+//        	// 난수 생성
+//        	String uuid = UUID.randomUUID().toString();
+//        	
+//        	// 난수 추가
+//        	String CM_IMAGE1 = uuid.substring(0,8) + "_" + files[0].getOriginalFilename();
+//        	String CM_IMAGE2 = uuid.substring(0,8) + "_" + files[1].getOriginalFilename();
+//        	String CM_IMAGE3 = uuid.substring(0,8) + "_" + files[2].getOriginalFilename();
+//        	
+//        	if(!files[0].getOriginalFilename().equals("")) {
+//        		map.put("CM_IMAGE1", files[0].getOriginalFilename());
+//        	}
+//        	if(!files[1].getOriginalFilename().equals("")) {
+//        		map.put("CM_IMAGE2", files[1].getOriginalFilename());
+//        	}
+//        	if(!files[2].getOriginalFilename().equals("")) {
+//        		map.put("CM_IMAGE3", files[2].getOriginalFilename());
+//        	}
+//        	
+//        	int insertCnt = service.insertBoard(map);
+//    		
+//    		if(insertCnt < 0) {
+//    			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
+//    			return "err/fail";
+//    		}
+//    		
+//    		try {
+//				if(!files[0].getOriginalFilename().equals("")) {
+//					files[0].transferTo(new File(saveDir, CM_IMAGE1));
+//				}
+//				if(!files[1].getOriginalFilename().equals("")) {
+//					files[1].transferTo(new File(saveDir, CM_IMAGE2));
+//				}
+//				if(!files[2].getOriginalFilename().equals("")) {
+//					files[2].transferTo(new File(saveDir, CM_IMAGE3));
+//				}
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//        	
+//        	return "redirect:/community";
+//        	
+//        } else {
+//        	map.put("CM_IMAGE1", null);
+//        	map.put("CM_IMAGE2", null);
+//        	map.put("CM_IMAGE3", null);
+//        	
+//        	int insertCnt = service.insertBoard(map);
+//    		
+//    		if(insertCnt < 0) {
+//    			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
+//    			return "err/fail";
+//    		}
+//    		
+    		return "redirect:/community";
 //        }
-//		
-//        map.put("uploadedFiles", uploadedFiles);
-//        System.out.println(map);
-//        
-//        String uploadDir = "/resources/upload";
-//        
-//        String saveDir = session.getServletContext().getRealPath(uploadDir);
-//		System.out.println("saveDir : " + saveDir);
-//		
-//		try {
-//			Path path = Paths.get(saveDir); // 파라미터로 실제 업로드 경로 전달
-//			Files.createDirectories(path); // 파라미터로 Path 객체 전달
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		MultipartFile mfile = event.getEvent_image_form();
-//		System.out.println(mfile.getOriginalFilename());
-        
-////		int insertCnt = service.insertBoard(map);
-//		
-//		if(insertCnt < 0) {
-//			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
-//			return "err/fail";
-//		}
-//		
-		return "";
+
 	}
 	
 	@GetMapping("boardDetail") // 게시글 상세보기

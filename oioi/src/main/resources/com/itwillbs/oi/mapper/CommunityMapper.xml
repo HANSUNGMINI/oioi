@@ -48,7 +48,27 @@
   		WHERE name = 'CM_CATEGORY'
   	</select>
   
-  
+	<insert id="insertBoard">
+		<selectKey order="BEFORE" keyProperty="category" resultType="String">
+			SELECT value
+			FROM common c 
+			WHERE code = #{CM_CATEGORY}
+		</selectKey>
+		
+		INSERT INTO community 
+		VALUES(
+			NULL 
+			, #{CM_ID}
+			, #{CM_TITLE}
+			, #{CM_CONTENT}
+			, #{CM_IMAGE1}
+			, #{CM_IMAGE2} 
+			, #{CM_IMAGE3} 
+			, now()
+			, #{category}
+			, #{CM_NICK}
+		);
+	</insert>
   
   
   </mapper>

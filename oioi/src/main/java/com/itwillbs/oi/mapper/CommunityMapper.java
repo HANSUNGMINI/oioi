@@ -16,4 +16,6 @@ public interface CommunityMapper {
 
 	List<Map<String, String>> selectCM_CATEGORY();
 
+	int insertBoard(Map<String, Object> map);
+
 }

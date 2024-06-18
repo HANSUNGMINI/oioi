@@ -29,4 +29,8 @@ public class CommunityService {
 		return mapper.selectCM_CATEGORY();
 	}
 
+	public int insertBoard(Map<String, Object> map) {
+		return mapper.insertBoard(map);
+	}
+
 }

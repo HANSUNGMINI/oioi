@@ -197,22 +197,33 @@
 	let previousLink = null;
 	let previousText = "";
 	
-	function clickCategory(element) {
-	    // 모든 <a> 태그의 굵기 초기화
-	    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
-	    if (previousLink) {
-	        previousLink.style.fontWeight = 'normal';
-	        previousLink.textContent = previousText;
-	    }
-	    
-	 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
-	    previousLink = element;
-	    previousText = element.textContent;
-
-	    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
-	    element.style.fontWeight = 'bold';
-	    element.textContent = "> " + previousText;
-}
+	 $(function() {
+		 
+		function clickCategory(element) {
+		    // 모든 <a> 태그의 굵기 초기화
+		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+		    if (previousLink) {
+		        previousLink.style.fontWeight = 'normal';
+		        previousLink.textContent = previousText;
+		    }
+		    
+		 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+		    previousLink = element;
+		    previousText = element.textContent;
+	
+		    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+		    element.style.fontWeight = 'bold';
+		    element.textContent = "> " + previousText;
+		}
+	
+		$("#fileInput").on("change", function() {
+		    if (this.files.length > 3) {
+		        alert("최대 3개의 이미지만 업로드할 수 있습니다.");
+		        this.value = ""; // 선택된 파일 초기화
+		    }
+		});
+	 });
+	
 
 
 </script>
@@ -254,7 +265,7 @@
 			   		<form action="communityWrite" method= "post" enctype="multipart/form-data">
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
-				   				<select class="boardCategory">
+				   				<select class="boardCategory" name="CM_CATEGORY">
 									<option value="CC02">질문게시판</option>
 									<option value="CC03">신고게시판</option>
 									<option value="CC04">정보게시판</option>
@@ -264,7 +275,7 @@
 				  			</div>
 				  			
 				  			<div class = "view_info" align="left" style="text-align: center;">
-								<input type="file" value="파일 추가하기" name="cm_image_form" id="fileInput" multiple >
+								<input type="file" value="파일 추가하기" name="CM_IMAGE" id="fileInput" multiple>
 <!-- 				  			</div> -->
 			  			
 <!-- 			  			<div class = "view_info"> -->
@@ -297,7 +308,8 @@
 			 				<input type="button"  value = "돌아가기" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; " onclick="history.back();" >
 			 			</div>	
 				    </form>
-				 </div>
+				</div>	
+			 </div>
 		</div>
 	</div>
 </section>
@@ -308,7 +320,7 @@
 		
 	
 <!-- Jquery -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script> --%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 <!-- Popper JS -->
