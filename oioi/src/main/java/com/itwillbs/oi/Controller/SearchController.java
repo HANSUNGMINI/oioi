@@ -26,10 +26,8 @@ public class SearchController {
 	@ResponseBody
 	@GetMapping("searchRecommend")
 	public List<Map<String, String>> searchRecommend(@RequestParam Map<String,String> map) {
-		System.out.println(map);
 //		System.out.println(map);
 		List<Map<String, String>> recommendList = service.getList(map);
-		System.out.println(">>>>>>>>>>>>" + service.getList(map));
 		
 		return recommendList;
 	}

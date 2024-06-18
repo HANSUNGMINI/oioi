@@ -104,7 +104,7 @@ function searchAjax() {
 				$(".recommendKeyword").html(relationBox)
 				let relationKeyWord = ""
 				for(let data of res){
-					relationKeyWord += "<tr><td colspan='2' class='relationText'><a onclick='sendKeyword(this)'>" + data + "</a></td></tr>";
+					relationKeyWord += "<tr><td colspan='2' class='relationText'><a onclick='sendKeyword(this)'>" + data.recommend_tag + "</a></td></tr>";
 				}
 		    		
 				$("#Relationdata").after(relationKeyWord)
