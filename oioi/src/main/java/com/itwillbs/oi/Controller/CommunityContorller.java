@@ -101,7 +101,7 @@ public class CommunityContorller {
 	
 	@PostMapping("communityWrite") // 게시글 등록
 	public String communityWritePro(HttpSession session, Model model, @RequestParam Map<String, Object> map,  @RequestPart("CM_IMAGE")MultipartFile[] files) {
-		System.out.println("????????????????????????????????????" + map);
+		
 		// 로그인 확인
 		String id = (String)session.getAttribute("US_ID");
 		String nick = (String)session.getAttribute("US_NICK");
@@ -168,7 +168,6 @@ public class CommunityContorller {
         	map.put("CM_IMAGE1", null);
         	map.put("CM_IMAGE2", null);
         	map.put("CM_IMAGE3", null);
-        	
 
     	}
     		
