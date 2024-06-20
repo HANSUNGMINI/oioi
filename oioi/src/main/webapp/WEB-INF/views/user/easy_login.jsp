@@ -50,7 +50,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-	
+	 <!-- 카카오 JavaScript SDK -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 <style>
 .login-option {
@@ -112,7 +113,7 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="login-images">
-											<a href="#"><img src="${pageContext.request.contextPath}/resources/images/kakao.png"></a>
+											<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/images/kakao.png"></a>
 											<a href="#"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
 										</div>
 									</div>
@@ -127,7 +128,45 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 		 
+ 	<script>
+ 	  // 카카오 SDK 초기화
+    Kakao.init('f20937858fb27fb620f7212756fd9eea'); // 발급받은 JavaScript 키를 입력합니다.
+
+    // 카카오 로그인 버튼 클릭 이벤트
+    document.getElementById('kakao-login-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        Kakao.Auth.login({
+            success: function(authObj) {
+                // 로그인 성공 시 액세스 토큰을 서버로 전송
+                fetch('kakao_login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: authObj.access_token })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 서버에서 사용자 정보를 성공적으로 가져왔을 때 처리할 내용
+                        console.log('User information:', data.user);
+                        // 예: 메인 페이지로 이동
+                        window.location.href = './';
+                    } else {
+                        alert('Failed to fetch user information');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred');
+                });
+            },
+            fail: function(err) {
+                alert(JSON.stringify(err));
+            }
+        });
+    });
+    </script>
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
