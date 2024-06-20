@@ -107,14 +107,29 @@ public class MyPageController {
     }
     
     @GetMapping("myQnA")
-    public String myQnA() {
+    public String myQnA(Model model) {
+    	
+		// 유저가 아님
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
+		
     	
     	return "mypage/my_QnA";
     }
     
     @GetMapping("myReport")
-    public String myReport() {
+    public String myReport(Model model) {
     	
+		// 유저가 아님
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
+		
     	return "mypage/my_report";
     }
 	
