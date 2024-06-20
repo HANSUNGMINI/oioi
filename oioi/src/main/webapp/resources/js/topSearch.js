@@ -30,7 +30,7 @@ let popularClick = true;
 	8. RecentSearchs()	: 최근 검색어 설정
 	9. SaveWord(A)		: A를 인기 검색어 반영하기 위해 테이블에 저장
 	10.PopularSearches(): 인기 검색어 출력하는 함수 
-	11. updateTable()
+	11. updateTable()	: 최근 검색어 추가
 	
 ============================================================ */
 
@@ -70,7 +70,6 @@ $(function(){
 		$(".recommendKeyword").hide();
 	}
 
-	
 	/* DIV 보이게 하기 */
 	$("#searchKeyword").keyup(function(){
 	
@@ -85,7 +84,7 @@ $(function(){
 			$(".recommendKeyword").hide();
 			
 		} else{  /* 검색어 있을 경우 */
-			searchAjax();	
+			searchAjax();
 		}
 	});
 
@@ -93,9 +92,10 @@ $(function(){
 	/* 엔터키 적용 시키기 */
 	$("#searchKeyword").keyup(function(event) {
 		if(event.keyCode==13) {
-			 searchAjax();
+			alert("왜오애ㅗ래");
+			searchAjax();
 		}
-	})
+	}) 
 
 }); /* ready 이벤트 끝 */
 
@@ -265,13 +265,13 @@ $(function(){
 						+'		<a class="popularWordColorTd marginLeftRank">'
 						+   		rank1
 						+'		</a>'
-						+'		<a onclick="sendKeyword(this)">'+ popularList[i].SR_KEYWORD+'</a>'
+						+'		<a onclick="sendKeyword(this)" id="popularKeywords">'+ popularList[i].SR_KEYWORD+'</a>'
 						+'	</td>'
 						+'	<td>'
 						+'		<a class="popularWordColorTd marginLeftRank">'
 						+   		rank2
 						+'		</a>'
-						+'		<a onclick="sendKeyword(this)">'+ popularList[i+10].SR_KEYWORD+'</a>'
+						+'		<a onclick="sendKeyword(this)" id="popularKeywords">'+ popularList[i+10].SR_KEYWORD+'</a>'
 						+'	</td>'
 						+'</td>'
 				};
@@ -289,6 +289,7 @@ $(function(){
 				$(".recentSearch").hide();
 				$(".popularWordColor").css("color","#34A853");
 				$(".recentWordColor").css("color","black");
+				
 			}
 		
 		});
@@ -359,7 +360,7 @@ $(function(){
 			    tableHTML +=
 			    	"<tr class=" + keyword + ">"
 			    	+ "  <td class='keywordWidth'>"
-			    	+ "    <a onclick='sendKeyword(this)'>"+keyword+"</a>"
+			    	+ "    <a onclick='sendKeyword(this)' id='recentKeyowrds'>"+keyword+"</a>"
 			    	+ "  </td>"
 			    	+ "  <td class='localStarageDeleteOneTd'>"
 			    	+ "    <a class='localStarageDeleteOne' onclick='localStarageDeleteOne(\"" + keyword + "\")'>x</a>"

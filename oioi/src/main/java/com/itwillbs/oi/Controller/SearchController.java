@@ -38,6 +38,10 @@ public class SearchController {
 	@GetMapping("SaveSearchKeyword")
 	public String saveSearchKeyword(@RequestParam Map<String, String> map) {
 		System.out.println(">>>>>> 검색해서 이동한 키워드 : " + map);
+
+		if ((String)map.get("keyword") == "") {
+			return "";
+		}
 		
 		// 중복된 키워드 있는지 확인
 		int duplicateNum = service.duplicateKeyword(map); 
