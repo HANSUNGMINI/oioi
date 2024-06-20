@@ -36,10 +36,9 @@
   	
   	</select>
   	
-  	<select id="selectNickName">
-  		SELECT US_NICK
-  		FROM user
-  		WHERE US_ID = #{object}
+  	<select id="selectCM_IDX" resultType="int">
+  		SELECT COUNT(CM_IDX) + 1
+		FROM community c ;
   	</select>
   	
   	<select id="selectCM_CATEGORY" resultType="map">

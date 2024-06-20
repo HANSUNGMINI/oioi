@@ -30,6 +30,7 @@ let popularClick = true;
 	8. RecentSearchs()	: 최근 검색어 설정
 	9. SaveWord(A)		: A를 인기 검색어 반영하기 위해 테이블에 저장
 	10.PopularSearches(): 인기 검색어 출력하는 함수 
+	11. updateTable()	: 최근 검색어 추가
 	
 ============================================================ */
 
@@ -69,7 +70,6 @@ $(function(){
 		$(".recommendKeyword").hide();
 	}
 
-	
 	/* DIV 보이게 하기 */
 	$("#searchKeyword").keyup(function(){
 	
@@ -84,17 +84,18 @@ $(function(){
 			$(".recommendKeyword").hide();
 			
 		} else{  /* 검색어 있을 경우 */
-			searchAjax();	
+			searchAjax();
 		}
 	});
 
 
 	/* 엔터키 적용 시키기 */
 	$("#searchKeyword").keyup(function(event) {
-		if(event.keycode == 13) {
-			searchProduct();
+		if(event.keyCode==13) {
+			alert("왜오애ㅗ래");
+			searchAjax();
 		}
-	})
+	}) 
 
 }); /* ready 이벤트 끝 */
 
@@ -116,9 +117,9 @@ $(function(){
 			    		+'<tr id= "Relationdata">'
 			    		+	'<td colspan="2">'
 			    		+       '🥒 거래 &gt;'
-			    		+ 			'<a href="FindSearchProduct?keyword=' + $("#searchKeyword").val() + '"> &nbsp <span style="color : #34A853; font-weight: bold;"> '
+			    		+ 			' &nbsp <span style="color : #34A853; font-weight: bold;"> '
 			    		+     			 $("#searchKeyword").val()
-			    		+ 			'</span></a>'
+			    		+ 			'</span>'
 			    		+ 		"  (으)로 검색" 
 			    		+	'</td>'
 			    		+'</tr>'
@@ -184,17 +185,17 @@ $(function(){
 			//******************** 최근 검색어 보관함 ************************
 		
 			/* 글자 클릭 시 이동 */
-			var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword);
+			var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
 			window.location.href = searchKeywordUrl;
 		}
 		
 		SaveWord(keyword);
 	}
 
-	/* 검색어로 이동하는 주소 설정 */
+	/* 검색어로 이동하는 주소 설정 */ 
 	function sendKeyword(element) {
-		var keyword = $(element).text(); // 클릭된 요소의 텍스트 값을 가져옵니다.
-		var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword);
+		var keyword = $(element).text(); // 클릭된 요소의 텍스트 값 가져오기
+		var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
 		window.location.href = searchKeywordUrl;
 		searchKeyword(keyword);
 		SaveWord(keyword);
@@ -241,9 +242,9 @@ $(function(){
 			type:"GET",
 			url:"popularSearchKeywordList",
 			success:function(data){
-				let stringList = data.myArrayList;
-				let withoutQuotesList = stringList.map((str) => str.replace(/'/g, ''));
-				
+//				alert(JSON.stringify(data));
+				let popularList = data;	
+				 							
 				let tableHTML = '<table id="PopularTableBoarder">';
 				tableHTML +=
 					'<tr class="PopularCenter">'
@@ -264,13 +265,13 @@ $(function(){
 						+'		<a class="popularWordColorTd marginLeftRank">'
 						+   		rank1
 						+'		</a>'
-						+'		<a onclick="sendKeyword(this)">'+withoutQuotesList[i]+'</a>'
+						+'		<a onclick="sendKeyword(this)" id="popularKeywords">'+ popularList[i].SR_KEYWORD+'</a>'
 						+'	</td>'
 						+'	<td>'
 						+'		<a class="popularWordColorTd marginLeftRank">'
 						+   		rank2
 						+'		</a>'
-						+'		<a onclick="sendKeyword(this)">'+withoutQuotesList[i+10]+'</a>'
+						+'		<a onclick="sendKeyword(this)" id="popularKeywords">'+ popularList[i+10].SR_KEYWORD+'</a>'
 						+'	</td>'
 						+'</td>'
 				};
@@ -288,6 +289,7 @@ $(function(){
 				$(".recentSearch").hide();
 				$(".popularWordColor").css("color","#34A853");
 				$(".recentWordColor").css("color","black");
+				
 			}
 		
 		});
@@ -358,7 +360,7 @@ $(function(){
 			    tableHTML +=
 			    	"<tr class=" + keyword + ">"
 			    	+ "  <td class='keywordWidth'>"
-			    	+ "    <a onclick='sendKeyword(this)'>"+keyword+"</a>"
+			    	+ "    <a onclick='sendKeyword(this)' id='recentKeyowrds'>"+keyword+"</a>"
 			    	+ "  </td>"
 			    	+ "  <td class='localStarageDeleteOneTd'>"
 			    	+ "    <a class='localStarageDeleteOne' onclick='localStarageDeleteOne(\"" + keyword + "\")'>x</a>"

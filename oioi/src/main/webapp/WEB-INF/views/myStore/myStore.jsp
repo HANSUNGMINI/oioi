@@ -109,7 +109,35 @@
 	height: calc(1.5em * 4); /* Approximate height for 3 lines */
 	line-height: 1.5em;
 	box-sizing: border-box;
-   }
+}
+
+.cucumber-button {
+    background: linear-gradient(145deg, #7ed957, #5cbf34);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cucumber-button:hover {
+    background: linear-gradient(145deg, #5cbf34, #7ed957);
+}
+
+.cucumber-button:active {
+    background: linear-gradient(145deg, #4da82e, #6fcd4f);
+}
+
+#product-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 </style>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -142,10 +170,6 @@
                                 	</div>
                                 	<div>
                                 		<i class="fa-solid fa-bag-shopping"></i><div id="store-column">상품판매</div>
-                                		<div>0 회</div>
-                                	</div>
-                                	<div>
-                                		<i class="fa-solid fa-box"></i><div id="store-column">택배발송</div>
                                 		<div>0 회</div>
                                 	</div>
                                 </div>
@@ -182,8 +206,9 @@
                                     <div class="tab-single">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="single-des">
+                                                <div id="product-header">
                                                 	<h5>상품 0</h5>
+                                                	<a href="product" class="cucumber-button">상품등록</a>
                                                 </div>
                                                 <hr>
                                                 <div class="single-des">

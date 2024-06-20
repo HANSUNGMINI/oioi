@@ -48,7 +48,8 @@
 	
 	.SelPopularborderBottom{
 		border-bottom: 3px solid #34A853!important;
-		padding:10px;
+		padding-right: 10px;
+		padding-left : 10px;
 		font-size: 18px;
 	}
 	.SelRecentborderBottom{
@@ -126,9 +127,15 @@
 	}
 	
 	#localStorageClean{
-		background-color: white;
+		padding : 5px;
+		color : white;
+		background-color: #F15F5F;
 		border: none;
 		border-radius : 5px;
+	}
+	
+	#recentKeyowrds:hover, #popularKeywords:hover {
+		color : #34A853;
 	}
 	
 	/* ------------------------------------------------------------- */

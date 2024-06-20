@@ -35,6 +35,12 @@ public class UserController {
 		return "user/login";
 	}
 	
+	// 간편 로그인
+	@GetMapping("easy_login")
+	public String goEasyLogin() {
+		return "user/easy_login";
+	}
+	
 	//회원가입 폼
 	@GetMapping("register")
 	public String goRegister() {

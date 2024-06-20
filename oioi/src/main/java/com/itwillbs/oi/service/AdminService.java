@@ -17,16 +17,25 @@ public class AdminService {
 		return adminMapper.selectAdmin(admin);
 	}
 	
+	
+	
+	
+	// List 조회
+	public List<Map<String, Object>> selectAdminList(Map<String, Object> select){
+		return adminMapper.selectAdminList(select);
+	}
 	public List<Map<String, Object>> selectUserList(Map<String, Object> select){
 		return adminMapper.selectUserList(select);
 	}
 	public List<Map<String, Object>> selectProductList(Map<String, Object> select){
 		return adminMapper.selectProductList(select);
 	}
+	// List 조회 끝
 	
-	public List<Map<String, Object>> selectAdminList(Map<String, Object> select){
-		return adminMapper.selectAdminList(select);
-	}
+	
+	
+	
+	
 	
 	public List<Map<String, Object>> selectCommonList(Map<String, Object> select){
 		return adminMapper.selectCommonList(select);
