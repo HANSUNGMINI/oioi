@@ -23,7 +23,7 @@ public class PageInfo {
 	 */
 	public static Map<String, Integer> limitPagination(int pageNum) {
 		// 한 페이지당 보여질 목록의 갯수
-		int listLimit = 1;
+		int listLimit = 10;
 		int startRow = (pageNum - 1) * listLimit;
 		
 		Map<String, Integer> page = new HashMap<String, Integer>();

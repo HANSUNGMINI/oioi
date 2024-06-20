@@ -13,12 +13,16 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+	<!-- 토스트UI -->
+	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />	
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css">
+	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	
 	<style>
 		#buttons {
 			margin : 0px auto;
 		}
-	
+		
 	</style>
 </head>
 <body>
@@ -34,192 +38,47 @@
 		</div>
 	</section>
 	<section class="section main-section">
-    	<div class="notification blue">
-      		<div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
-	        	<div>
-	          		<span class="icon"><i class="mdi mdi-buffer"></i></span>
-	          			<b>일단 남겨둠</b>
-	        	</div>
-      		</div>
-   		</div>
 	    <div class="card has-table">
 	    	<header class="card-header">
 	        	<p class="card-header-title">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-	          		상품목록
+	          		회원목록
 	        	</p>
 	        	
 	        	<select id="type">
-	        		<option value="US_NAME">게시글 제목</option>
-	        		<option value="US_ID">아이디</option>
-	        		<option value="US_NICK">닉네임</option>
+	        		<option value="US_ID">유저 아이디</option>
+	        		<option value="PD_SUBJECT">게시글 제목</option>
+	        		<option value="PD_CATEGORY">카테고리</option>
+	        		
+<!-- 	        		<option value="">태그(보류)</option> -->
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	<input type="button" id="submitBtn" value="검색">
 	        	
-	        	<a href="#" id="refreshBtn" class="card-header-icon">
-          			<span class="icon"><i class="mdi mdi-reload"></i></span>
-        		</a>
 	      	</header>
-	       	<div class="card-content">
-	        	<table>
-	          		<thead>
-	          			<tr>
-				            <th>게시글 제목</th>
-				            <th>작성자</th>
-				            <th>작성일</th>
-				            <th>수정일</th>
-	         			 </tr>
-	          		</thead>
-	          		<tbody class="tbody">
-	         		</tbody>
-	        	</table>
-	        		<!--  테이블 끝, 페이징 버튼 구역 -->
-				<div class="table-pagination">
-					<div class="flex items-center justify-between">
-				    	<div class="buttons" id="buttons">
-				    	</div>
-					</div>
-				</div>
-			</div>
+	      	
+	      	<!-- 그리드 -->
+	       	<div id="grid"></div>
+	       	<div id="pagination"></div>
 		</div>	
 	</section>
-    
+	</div>
 </body>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
+	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 	<script>
-		let pageNum = 1;
-		
-		$(function(){
-			
-			search(pageNum, true);
-			
-			// 새로고침 버튼
-			$("#refreshBtn").on("click", function(){
-				search(1 , true);
-			});
-			
-			// 검색버튼
-			$("#submitBtn").on("click", function(){
-				search(1 , false);
-			});
-			
-
-		});
-	
-		function search(pageNum, selectAll) {
-			let type = "";
-			let keyword = "";
-			
-			if(!selectAll) {
-				type = $("#type").val();
-				keyword = $("#keyword").val();
-			}
-			
-			$.ajax({
-				type : "POST",
-				url : "ProductList",
-				data : {
-					"type" : type,
-					"keyword" : keyword,
-					"pageNum" : pageNum
-				},
-				dataType : "JSON",
-				success : function (response) {
-					let userList = response.userList;
-					let pageInfo = response.pageInfo;
-					$(".tbody").empty();
-					$("#buttons").empty();
-					
-					// 목록 없을 때
-					if(userList == '') {
-						
-						$(".tbody").append(
-							'<tr>'
-							+'<td colspan="7">'
-							+'<div class="card empty">'
-						    +'<div class="card-content">'
-						    +'<div><span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span></div>'
-						    +'<p>조회된 정보가 없습니다</p></div></div>'
-						   	+'</td>'
-						    +'</tr>'
-						);
-						
-						
-					} else {
-						
-						// 리스트 출력
-						for(let user of userList) {
-							
-							$(".tbody").append(
-								'<tr>'
-			           			+ '<td data-label="Name">'+ user.US_ID + '</td>'
-			           			+ '<td data-label="Company">'+ user.US_NAME +'</td>'
-			           			+ '<td data-label="City">'+ user.US_NICK +'</td>'
-			           			+ '<td data-label="City">'+ user.US_REG_DATE +'</td>'
-			           			+ '<td class="actions-cell">'
-			           			+ '<div class="buttons right nowrap">'
-			           			+ '<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button"'
-			           			+ 'onclick="detail(\'' + user.US_ID + '\')">'
-			           			+ '<span class="icon"><i class="mdi mdi-account-edit"></i></span></button>'
-			           			+ '</td>'
-							);
-						};
-						
-						
-						// 페이징 버튼
-						$("#buttons").append(
-					    		'<button type="button" class="button" '
-					    		+ 'onclick="search('+ (pageNum - 1) + ', false)"'
-					    		+ '><span class="icon"><i class="mdi mdi-arrow-left"></i></span></button>'
-						);
-						
-						for(let btn = pageInfo.startPage; btn <= pageInfo.endPage; btn++) {
-							
-							if(btn == pageNum) {
-								$("#buttons").append(
-										'<button type="button" class="button active">'+ btn +'</button>'
-								);
-								
-							} else {
-								$("#buttons").append(
-										'<button type="button" class="button">'+ btn +'</button>'
-								);
-							}
-							
-							
-						}
-						
-						$("#buttons").append(
-					    		'<button type="button" class="button" '
-					    		+ 'onclick="search('+ (pageNum + 1) + ', false)"'
-					    		+ '><span class="icon"><i class="mdi mdi-arrow-right"></i></span></button>'
-						);
-						
-						pageNum++;
-					}
-					
-					
-				} // success 끝
-			});
-		}
-		
-		function detail(US_ID) {
-			
-			$.ajax({
-				type : "POST",
-				url : "UserDetail",
-				data : {
-					"US_ID" : US_ID
-				},
-				dataType : "JSON",
-				success : function(response){
-					alert("어디까지 조회할지 생각중");
-				}
-			})
-		}
-		
+		// 컬럼 헤더 
+		const columns = [
+	        {header: '아이디', name: 'US_ID'},
+	        {header: '게시글 제목', name: 'PD_SUBJECT'},
+	        {header: '카테고리', name: 'PD_CATEGORY'},
+	    ]
+		// 조회할 테이블
+		const table = "product";
 	</script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
+	
 </html>
     

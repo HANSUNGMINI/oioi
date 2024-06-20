@@ -158,70 +158,23 @@ public class AdminController {
 	
 	//==========================
 	// AJAX 메소드
-	
-	// 유저
-		// 유저 목록조회
+	 	// List 조회
 	@ResponseBody
-	@PostMapping("UserList")
-	public Map<String, Object> UserList(@RequestParam Map<String, Object> select, Model model) {
-		// 모든 객체를 담아가는 리턴용 Map 선언
-		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println(select);
-		// 1. 페이지 넘버 파싱, 2. 페이지넘버로 조회용 Map 객체 생성, 3. 구문실행 파라미터에 삽입
-		int pageNum = Integer.parseInt(select.get("pageNum").toString());
-		Map<String, Integer> pagination = PageInfo.limitPagination(pageNum);
-		select.put("page", pagination);
+	@GetMapping("List")
+	public List<Map<String, Object>> List(@RequestParam Map<String, Object> select, Model model) {
 		
-		// 리스트 조회
-	    List<Map<String, Object>> userList = adminservice.selectUserList(select);
-	    
-	    // 조회내용이 없으면 result 객체에 빈 객체 넣어서 가져가기
-		if(userList.isEmpty()) {
-			System.out.println("없음");
-			result.put("userList", userList);
-			return result;
+		List<Map<String, Object>> result = null;
+		
+		String table = select.get("table").toString();
+		
+		switch (table) {
+			case "admin" : result = adminservice.selectAdminList(select); break;
+			case "user" : result = adminservice.selectUserList(select); break;
+			case "product" : result = adminservice.selectProductList(select); break;
 		}
-		
-		// 조회된 내용이 있다면 첫 번째 row데이터의 리스트카운트 가져와서 저장
-	    int listCount = Integer.parseInt(userList.get(0).get("listCount").toString());
-	    
-	    // result 객체에 각각 삽입해서 리턴
-	    result.put("userList", userList);
-	     	// 위에서 만든 조회용 Map객체와 listCount 받아서 페이지버튼 만드는 Map객체 생성
-	    result.put("pageInfo", PageInfo.makePagination(pagination, listCount));
-	    
-	    return result;
-	}
-		// 상품 목록조회
-	@ResponseBody
-	@PostMapping("ProductList")
-	public Map<String, Object> ProductList(@RequestParam Map<String, Object> select, Model model) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		int pageNum = Integer.parseInt(select.get("pageNum").toString());
-		Map<String, Integer> pagination = PageInfo.limitPagination(pageNum);
-		select.put("page", pagination);
-		
-		List<Map<String, Object>> userList = adminservice.selectProductList(select);
-		
-		// 조회내용이 없으면 result 객체에 빈 객체 넣어서 가져가기
-		if(userList.isEmpty()) {
-			System.out.println("없음");
-			result.put("userList", userList);
-			return result;
-		}
-		
-		// 조회된 내용이 있다면 첫 번째 row데이터의 리스트카운트 가져와서 저장
-		int listCount = Integer.parseInt(userList.get(0).get("listCount").toString());
-		
-		// result 객체에 각각 삽입해서 리턴
-		result.put("userList", userList);
-		// 위에서 만든 조회용 Map객체와 listCount 받아서 페이지버튼 만드는 Map객체 생성
-		result.put("pageInfo", PageInfo.makePagination(pagination, listCount));
 		
 		return result;
 	}
-	
-	
 	
 		// 유저 상세조회
 	@ResponseBody
