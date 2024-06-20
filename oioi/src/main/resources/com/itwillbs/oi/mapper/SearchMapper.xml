@@ -50,8 +50,8 @@
  	<select id="selectPopularKeyword" resultType="hashmap">
  		SELECT SR_KEYWORD
 		FROM search_keyword
-		ORDER BY SR_COUNT
-		LIMIT 10;
+		ORDER BY SR_COUNT DESC
+		LIMIT 20;
  	</select>
 </mapper>
 
