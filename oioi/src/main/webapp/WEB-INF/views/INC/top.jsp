@@ -107,7 +107,7 @@
 					<div class="col-lg-8 col-md-6 col-12">
 						<div class="search-bar-top">
 							<div class="search-bar" onclick="searchDivOpen()" onblur="searchDivClose()">
-								<input type="text" name="search" placeholder="검색어 입력해줘" autocomplete="off" style="width:100%" id="searchKeyword" >
+								<input type="text" name="search" placeholder="검색어를 입력해 주세요" autocomplete="off" style="width:100%" id="searchKeyword" >
 								<button class="btnn" onclick="searchKeyword()"><i class="ti-search"></i></button>
 
 								<div id="searchDiv"> 

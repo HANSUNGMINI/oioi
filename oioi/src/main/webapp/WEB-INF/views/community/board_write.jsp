@@ -255,7 +255,6 @@
 			<%-- 본문 --%>
 			 <div class="col-lg-12 col-12" id="highlighted-row"> 
 				 <div class="row">
-				 	<input type="hidden" name="CM_IDX" value="${CM_IDX}">
 					 <div class="cs_title_container">
 					 	<div class = "notice_d_t_div">
 				  			<em class = "notice_d_title">게시판 작성</em><br>
@@ -263,6 +262,7 @@
 				  	 </div>
 			  		
 			   		<form action="communityWrite" method= "post" enctype="multipart/form-data">
+				 		<input type="hidden" name="CM_IDX" value="${CM_IDX}">
 			   			<div class = "detail_view">
 							 <div class ="view_tit">
 				   				<select class="boardCategory" name="CM_CATEGORY">

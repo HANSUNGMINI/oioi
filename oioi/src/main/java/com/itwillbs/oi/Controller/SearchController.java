@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,12 +57,14 @@ public class SearchController {
 	// 인기 검색어 불러오기
 	@ResponseBody
 	@GetMapping("popularSearchKeywordList")
-	public String popularSearchKeywordList() {
+	public List<Map<String, Object>> popularSearchKeywordList(Model model) {
 		
 		// 모든 정보 가져오기
-		List<Map<String, Object>> map = service.getPopularKeyword();
+		List<Map<String, Object>> popularList = service.getPopularKeyword();
+		System.out.println(">>>>>>>>>>>>>"+ popularList);
+		model.addAttribute("popularList",popularList);
 		
-		return "";
+		return popularList;
 	}
 
 }
