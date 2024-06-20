@@ -18,6 +18,12 @@ public interface TradeMapper {
 
 	Map<String, String> selectProductInfo(Map<String, String> map);
 
+	List<Map<String, String>> getProductStatus();
+
+	int updateReadCount(String pd_idx);
+
+
+
 	
 
 
