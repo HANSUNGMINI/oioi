@@ -193,7 +193,6 @@ public class CommunityContorller {
 			return "err/fail";
 		}
 		
-//		System.out.println(map);
 		
 		model.addAttribute("boardDetail", map);
 		
@@ -210,4 +209,19 @@ public class CommunityContorller {
 		
 		return "boardDetail";
 	}
+	
+	@GetMapping("boardDelete")
+	public String boardDelete(@RequestParam Map<String, Object> map, Model model) {
+		
+		int deleteCnt = service.deleteBoard(map);
+		
+		if(deleteCnt < 0) {
+			model.addAttribute("msg", "게시글 삭제에 실패하였습니다. 다시 시도해 주세요.");
+			return "err/fail";
+		}
+		
+		return "redirect:/community";
+	}
 }
+
+

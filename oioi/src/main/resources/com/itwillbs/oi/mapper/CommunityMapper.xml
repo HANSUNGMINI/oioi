@@ -68,6 +68,12 @@
 			, #{CM_NICK}
 		);
 	</insert>
+	
+	<delete id="deleteBoard">
+		DELETE
+		FROM community
+		WHERE CM_IDX = #{CM_IDX};
+	</delete>
   
   
   </mapper>
