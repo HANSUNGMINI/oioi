@@ -30,6 +30,8 @@ import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.CommunityService;
 
+import kotlinx.serialization.descriptors.StructureKind.MAP;
+
 @Controller
 public class CommunityContorller {
 	@Autowired
@@ -200,7 +202,13 @@ public class CommunityContorller {
 	}
 	
 	@GetMapping("boardModify") // 게시글 수정 페이지 이동
-	public String boardModify() {
+	public String boardModify(@RequestParam Map<String , Object> map, Model model) {
+		
+		System.out.println(map);
+		Map<String, Object> boardMap = service.selectBoardDetail(Integer.parseInt(map.get("CM_IDX").toString()));
+		
+		System.out.println(boardMap);
+		
 		return "community/board_modify";
 	}
 	

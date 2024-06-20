@@ -263,7 +263,7 @@
 					    
 					     <div class="button-container" style="padding:4px">
 			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
-			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify'" style="margin-right:10px;">
+			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify?CM_IDX=${boardDetail.CM_IDX}'" style="margin-right:10px;">
 			 				<input type="button"  value = "삭제" class="btn btn-primary" onclick="confirmDelete(${boardDetail.CM_IDX})">
 			 			</div>	
 				    </form>
