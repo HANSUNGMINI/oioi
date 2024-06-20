@@ -30,7 +30,7 @@
 	<!-- Font Awesome -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
 	<!-- Fancybox -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css">
+<%-- 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css"> --%>
 	<!-- Themify Icons -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/themify-icons.css">
 	<!-- Nice Select CSS -->
@@ -50,25 +50,74 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script type="text/javascript">
+		$(function(){
+			var seller = "${apdDetail.US_ID}";
+			var apd_idx = "${apdDetail.APD_IDX}";
+			
+			$('#btnSend').on('click',function(et) {
+				
+				if(${empty apdDetail.US_ID}){
+					alert("로그인 후 사용하세요");
+					return;
+				}
+				console.log("US_ID : " + seller);
+				console.log("socket : "+socket);
+		    	et.preventDefault();
+		    	if(socket.readyState !== 1)return;
+		    	
+		    	let msg = $('input#sendMsg').val();
+		    	console.log("msg : " + msg);
+		    	
+		    	var dataSend = {
+		    	        US_ID: seller,
+		    	        APD_IDX: apd_idx,
+		    	        MSG: msg
+		    	};
+		    	
+		    	socket.send(JSON.stringify(dataSend));
+		    	
+		    });
+	    	
+	    	connect();
+	    });
+
 	
 	    var socket = null;
 	
 	    function connect() {
-	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?bno=1234");
+	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent('${apdDetail.APD_IDX}'));
 	        
 	        socket = ws;
-	        
 	        ws.onopen = function() {
-	            console.log('info: connection opened');
+	            console.log('연결');
 	        };
 	        
 	        ws.onmessage = function(event) {
-	            console.log('info: message received - ' + event.data);
+	            console.log('받은 메세지 - ' + event.data);
+	            var respose = JSON.parse(event.data);
+	            console.log("respose.APD_IDX : " + respose.APD_IDX);
+	            console.log("respose.MSG : " + respose.MSG);
+	            console.log("respose.US_ID : " + respose.US_ID);
+	            
+	            $.ajax({
+	            	url : "saveMsg",
+	            	type : "post",
+	            	data : {
+	            		ACR_IDX : respose.APD_IDX,
+	            		ACM_CONTENT : respose.MSG,
+	            		ACM_USER : respose.US_ID
+	            	},
+	            	dataType : "JSON",
+	            	success: function(response) {
+	                    console.log('저장 성공');
+	                }
+	            });
 	        };
 	        
 	        ws.onclose = function(event) {
-	            console.log('info: connection closed');
+	            console.log('종료');
 	        };
 	        
 	        ws.onerror = function(error) {
@@ -79,6 +128,8 @@
 	    window.onload = function() {
 	        connect();
 	    };
+	    
+	    
 	</script>
 	
 	
@@ -86,27 +137,7 @@
 <body class="js">
 
 	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
-		<script type="text/javascript">
-		$(function(){
-			
-			var seller = ${apdDetail.US_ID};
-			console.log("US_ID : " + seller);
-			console.log('gd');
-			console.log("socket : "+socket);
-	    	$('#btnSend').on('click',function(et) {
-		    	et.preventDefault();
-		    	if(socket.readyState !== 1)return;
-		    	
-		    	let msg = $('input#sendMsg').val();
-		    	console.log("msg : " + msg);
-		    	socket.send(msg);
-		    	
-		    });
-	    	
-	    	connect();
-	    });
-	
-		</script>
+		
 		
 		<!-- End Breadcrumbs -->
 				
@@ -162,21 +193,21 @@
 									                            	<%-- 로그인 한 사람 이미지 --%>
 									                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=50" alt="avatar">
 									                            </div>
-									                            <div class="message other-message float-right"> 김유신 바보 </div>
-									                            <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
+									                            <div class="message other-message float-right">
+									                            	김유신 바보
+									                           		<small class="message-data-time" style="margin-right:0px">10:10 AM</small>
+									                            </div>
+									                            
 									                        </li>
 									                        
 									                        <li class="clearfix">
-									                            <div class="message my-message"> 이자민 바보 </div>
-									                            <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>                              
+									                            <div class="message my-message">
+									                            	이자민 바보
+									                            	<small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>
+									                            </div>
+									                                                          
 									                        </li>
 									                                                       
-									                        <li class="clearfix">
-									                            <div class="message my-message"> 이시윤 바보</div><small class="message-data-time">10:10 AM</small>
-									                        </li>
-									                        <li class="clearfix">
-									                            <div class="message my-message"> 다 바보</div><small class="message-data-time">10:10 AM</small>
-									                        </li>
 									                        
 									                    </ul>
 									                </div>

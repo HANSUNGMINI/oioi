@@ -106,6 +106,17 @@
 		on ap.APD_IMAGE = i.IMG_IDX
 		where APD_IDX = #{APD_IDX}
 	</select>
+	
+	<select id="selectACR" resultType="hashmap">
+		select *
+		from auction_chat_room
+		where ACR_IDX = #{APD_IDX}	
+	</select>
+	<insert id="insertACR">
+		insert into
+		auction_chat_room(ACR_IDX)
+		values (#{ACR_IDX})
+	</insert>
 </mapper>
 
 

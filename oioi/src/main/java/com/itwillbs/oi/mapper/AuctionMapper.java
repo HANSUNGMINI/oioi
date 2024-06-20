@@ -25,5 +25,9 @@ public interface AuctionMapper {
 
 	Map<String, String> selectApdDetail(Map<String, String> map);
 
+	Map<String, String> selectACR(String APD_IDX);
+
+	void insertACR(String aPD_IDX);
+
 
 }
