@@ -91,18 +91,26 @@
 													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" rel="adjustX:10, adjustY:">
 														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image1}" alt="#">
 													</li>
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}">
-														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}" alt="#">
-													</li>
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}">
-														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}" alt="#">
-													</li>
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}">
-														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}" alt="#">
-													</li>
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}">
-														<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}" alt="#">
-													</li>
+													<c:if test="${not empty productInfo.image2}">
+														<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}">
+															<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image2}" alt="#">
+														</li>
+													</c:if>
+													<c:if test="${not empty productInfo.image3}">
+														<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}">
+															<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image3}" alt="#">
+														</li>
+													</c:if>
+													<c:if test="${not empty productInfo.image4}">
+														<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}">
+															<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image4}" alt="#">
+														</li>
+													</c:if>
+													<c:if test="${not empty productInfo.image5}">
+														<li data-thumb="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}">
+															<img src="<%= request.getContextPath() %>/resources/upload/${productInfo.image5}" alt="#">
+														</li>
+													</c:if>
 <!-- 													<li data-thumb="https://via.placeholder.com/570x520"> -->
 <!-- 														<img src="https://via.placeholder.com/570x520" alt="#"> -->
 <!-- 													</li> -->
@@ -121,21 +129,25 @@
 											<div class="short">
 												<h4>${productInfo.PD_SUBJECT}</h4>
 												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${productInfo.PD_CATEGORY}</a></p>
-												<p class="price"><span>${productInfo.PD_PRICE}</span></p>
-												<p class="description">${productInfo.PD_CONTENT}</p>
+<%-- 												<p class="price"><span>가 격 : ￦${productInfo.PD_PRICE}</span></p><br> --%>
+<!-- 												<p class="description"></p> -->
+											</div>
+											<div class="color" style="margin-top: 30px;">
+												<p class="price"><span class="discount">가 격 </span>￦<fmt:formatNumber value="${productInfo.PD_PRICE}" pattern="#,###"/></p><br>
 											</div>
 											<!--/ End Description -->
 											<!-- Color -->
-											<div class="color">
-												<h4>태그 <span>여기다가 태그할까</span></h4>
-												<ul>
-													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
+<!-- 											<div class="color"> -->
+<!-- 												<h4>태그 <span>여기다가 태그할까</span></h4> -->
+<!-- 												<ul> -->
+<!-- 													<li><a href="#" class="one"><i class="ti-check"></i>sdsd</a></li> -->
+<!-- 													<li><a href="#" class="one"><i class="ti-check"></i>sdsd</a></li> -->
+<!-- 													<li><a href="#" class="two"><i class="ti-check"></i></a></li> -->
+<!-- 													<li><a href="#" class="three"><i class="ti-check"></i></a></li> -->
+<!-- 													<li><a href="#" class="four"><i class="ti-check"></i></a></li> -->
 													
-												</ul>
-											</div>
+<!-- 												</ul> -->
+<!-- 											</div> -->
 											<!--/ End Color -->
 											<!-- Size -->
 											<div class="size">
@@ -153,16 +165,27 @@
 													<li><p class="five"><span>${productInfo.PD_TAG5}</span></p></li>
 												</ul>
 											</div>
+											<hr>
+											<div class="size">
+												<h3>거래 옵션</h3>
+												<ul>
+													<li><p class="four"><span>상품 상태 : ${productInfo.PD_CONDITION}</span></p></li><br>
+													<li><p class="one"><span>가격 흥정 : ${productInfo.PD_PRICE_OFFER}</span></p></li><br>
+													<li><p class="three"><span>거래 방식 :  ${productInfo.PD_TRADE_METHOD}</span></p></li><br>
+													<li><p class="two"><span>안전 거래 : ${productInfo.PD_SAFE_TRADE}</span></p></li><br>
+													<li><p class="five"><span>거래 상태 : ${productInfo.PD_STATUS}</span></p></li><br>
+												</ul>
+											</div>
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
 												<div class="quantity">
-													<h6>여기다가 태그할까 :</h6>
+													<h6>찜하기</h6>
 												</div>
 												<div class="add-to-cart">
 													<a href="#" class="btn min"><i class="ti-heart"></i></a>
 												</div>
-												<p class="cat">카테고리 :<a href="#">카테고리 링크(?)</a></p>
+												<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p>
 												<p class="availability">연관 상품 갯수? or 태그 : 뭘로하까</p>
 											</div>
 											<!--/ End Product Buy -->
@@ -187,14 +210,14 @@
 														<div class="row">
 															<div class="col-12">
 																<div class="single-des">
-																	<p>내용 입력</p>
+																	<p>${productInfo.PD_CONTENT}</p>
 																</div>
-																<div class="single-des">
-																	<h4>이건 어케 쓸지 생각중</h4>
-																	<ul>
-																		<li>long established fact.</li>
-																	</ul>
-																</div>
+<!-- 																<div class="single-des"> -->
+<!-- 																	<h4>이건 어케 쓸지 생각중</h4> -->
+<!-- 																	<ul> -->
+<!-- 																		<li>long established fact.</li> -->
+<!-- 																	</ul> -->
+<!-- 																</div> -->
 															</div>
 														</div>
 													</div>
@@ -206,6 +229,7 @@
 														<div class="row">
 															<div class="col-12">
 																<p> p 태그쓰면 회색</p>
+																<p> 음 내 상점 끝나면 거기로 매핑하게 하던지 없애던지~</p>
 															</div>
 														</div>
 													</div>

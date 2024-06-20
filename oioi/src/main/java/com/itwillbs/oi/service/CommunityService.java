@@ -33,4 +33,8 @@ public class CommunityService {
 		return mapper.selectCM_IDX();
 	}
 
+	public int deleteBoard(Map<String, Object> map) {
+		return mapper.deleteBoard(map);
+	}
+
 }

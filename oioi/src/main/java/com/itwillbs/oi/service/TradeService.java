@@ -37,6 +37,17 @@ public class TradeService {
 		return mapper.selectProductInfo(map);
 	}
 
+	public List<Map<String, String>> getProductStatus() {
+		 
+		return mapper.getProductStatus();
+	}
+
+	public int updateReadCount(String pd_idx) {
+		// TODO Auto-generated method stub
+		return mapper.updateReadCount(pd_idx);
+	}
+
+	
 	
 
 }
