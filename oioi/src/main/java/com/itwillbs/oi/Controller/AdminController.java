@@ -96,7 +96,7 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		return "admin/admin_user_list";
+		return "admin/admin_common_code_list";
 	}
 	
 	
@@ -179,6 +179,7 @@ public class AdminController {
 	@PatchMapping("status")
 	public int changeStatus(@RequestBody Map<String, Object> data, Model model) {
 		System.out.println(data);
+		
 		String target = data.get("type").toString();
 		int result = 0;
 		
@@ -222,13 +223,21 @@ public class AdminController {
 	@ResponseBody
 	@PatchMapping("common")
 	public int patchCommon(@RequestBody Map<String, Object> map) {
-		return adminservice.patchcommon(map);
+		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
+		
+		int result = 0;
+		
+		for(Map<String, Object> item : updateRows) {
+			result += adminservice.patchcommon(item);
+		}
+		
+		return result;
 	}
 		// 공통코드 추가하기
 	@ResponseBody
 	@PutMapping("common")
 	public int addCommon(@RequestBody Map<String, Object> map) {
-		System.out.println(map);
+		
 		int result = adminservice.insertCommon(map);
 		return result;
 	}

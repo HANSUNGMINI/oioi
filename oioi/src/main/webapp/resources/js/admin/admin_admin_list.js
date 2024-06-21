@@ -1,15 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+const columns = [
+    {header: '아이디', name: 'AD_ID'},
+    {header: '관리자 이름', name: 'AD_NAME'},
+    {header: '관리자 등록일', name: 'AD_DATE'},
+    {header: '관리자 역할', name: 'RL_NAME'},
+    {header: '관리자 권한', name: 'AD_ACTIVE', renderer: {
+        type: AD_toggle
+    }},
+]
 
-<script type="text/javascript">
+// 조회할 테이블
+const table = "admin";	
 
+
+
+// 권한 변경
 function change(elm, isChecked, id, type) {
 	let answer = confirm("관리자 권한을 변경하시겠습니까?");
 	if(answer) {
@@ -28,36 +32,12 @@ function change(elm, isChecked, id, type) {
 					alert("변경 완료!");
 				} else {
 					alert("변경실패 다시 시도");
+					elm.prop('checked', !isChecked);
 				}
 			}
 		}) //끝
 	} else {
-		elm.checked = !isChecked;
+		//취소 선택시 상태 제자리
+		elm.prop('checked', !isChecked);
 	}
 }
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-</body>
-</html>
