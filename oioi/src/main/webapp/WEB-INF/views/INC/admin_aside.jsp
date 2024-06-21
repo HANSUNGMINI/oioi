@@ -17,7 +17,7 @@
 	    <ul class="menu-list">
 	      <li class="active">
 	        <a href="admin">
-	          <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
+	          <span class="icon"><i class="mdi mdi-home"></i></span>
 	          <span class="menu-item-label">메인화면</span>
 	        </a>
 	      </li>
@@ -47,111 +47,31 @@
 	      		</li>
         	</c:if>
         	<!--  최고 관리자  -->
-	      	<li>
-		        <a class="dropdown">
-		          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-		          <span class="menu-item-label">유저관리</span>
-		          <span class="icon"><i class="mdi mdi-plus"></i></span>
-		        </a>
-	        <ul>
-	          <li>
-	            <a href="admin_user">
-	              <span>유저 조회</span>
-	            </a>
-	          </li>
-	          <li>
-	            <a href="#" id="test">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
+	      	 <li class="--set-active-tables-html">
+		     	<a href="admin_user">
+		            <span class="icon"><i class="mdi mdi-account"></i></span>
+		            <span class="menu-item-label">유저 조회</span>
+	        	</a>
+     		 </li>
 	      <!-- 리스트 한개 -->
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">상품관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="admin_product">
-	              <span>상품조회</span>
-	            </a>
-	          </li>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">채팅관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="admin_chat">
-	              <span>채팅 내역 조회</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">게시글관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="admin_board">
-	              <span>게시글 조회</span>
-	            </a>
-	          </li>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">페이관리</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item One</span>
-	            </a>
-	          </li>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item Two</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
-	      <li>
-	        <a class="dropdown">
-	          <span class="icon"><i class="mdi mdi-view-list"></i></span>
-	          <span class="menu-item-label">고객센터</span>
-	          <span class="icon"><i class="mdi mdi-plus"></i></span>
-	        </a>
-	        <ul>
-	          <li>
-	            <a href="#void">
-	              <span>Sub-item One</span>
-	            </a>
-	          </li>
-	        </ul>
-	      </li>
+	       	 <li class="--set-active-tables-html">
+		     	<a href="admin_product">
+		            <span class="icon"><i class="mdi mdi-cart"></i></span>
+		            <span class="menu-item-label">상품 조회</span>
+	        	</a>
+     		 </li>
+	       	 <li class="--set-active-tables-html">
+		     	<a href="admin_product">
+		            <span class="icon"><i class="mdi mdi-alert-circle"></i></span>
+		            <span class="menu-item-label">신고 관리</span>
+	        	</a>
+     		 </li>
+	       	 <li class="--set-active-tables-html">
+		     	<a href="admin_product">
+		            <span class="icon"><i class="mdi mdi-chat"></i></span>
+		            <span class="menu-item-label">채팅 조회</span>
+	        	</a>
+     		 </li>
 	      
 	    </ul>
 	    <p class="menu-label">About</p>
