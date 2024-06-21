@@ -37,8 +37,10 @@
   	</select>
   	
   	<select id="selectCM_IDX" resultType="int">
-  		SELECT COUNT(CM_IDX) + 1
-		FROM community c ;
+  		SELECT CM_IDX + 1
+		FROM community
+		ORDER BY CM_IDX DESC
+		LIMIT 1;
   	</select>
   	
   	<select id="selectCM_CATEGORY" resultType="map">
@@ -60,9 +62,9 @@
 			, #{CM_ID}
 			, #{CM_TITLE}
 			, #{CM_CONTENT}
-			, #{CM_IMAGE1}
-			, #{CM_IMAGE2} 
-			, #{CM_IMAGE3} 
+			, null
+			, null
+			, null
 			, now()
 			, #{category}
 			, #{CM_NICK}

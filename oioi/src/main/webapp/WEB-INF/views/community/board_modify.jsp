@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>게시글 수정</title>
+    <title>게시판 수정</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -123,7 +123,6 @@
 	}
 	
 	.detail_view {
-		text-align : center;
 		padding : 30px;
 	}
 	
@@ -175,7 +174,22 @@
 	
 	.btn.btn-primary {
 		padding : 7px;
+		background-color: #34A853;
+		color: white;
+		border-radius: 10px;
 	}
+	
+	.boardCategory {
+    	margin-left: 175px;
+    	margin-right : 10px;
+    	margin-top: -1px;
+		height: 33px;
+	    line-height: 32px;
+	    border-radius: 12px;
+	    font-size: 13px;
+    }
+    
+    
 </style>
 
 <script type="text/javascript">
@@ -183,22 +197,33 @@
 	let previousLink = null;
 	let previousText = "";
 	
-	function clickCategory(element) {
-	    // 모든 <a> 태그의 굵기 초기화
-	    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
-	    if (previousLink) {
-	        previousLink.style.fontWeight = 'normal';
-	        previousLink.textContent = previousText;
-	    }
-	    
-	 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
-	    previousLink = element;
-	    previousText = element.textContent;
-
-	    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
-	    element.style.fontWeight = 'bold';
-	    element.textContent = "> " + previousText;
-}
+	 $(function() {
+		 
+		function clickCategory(element) {
+		    // 모든 <a> 태그의 굵기 초기화
+		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
+		    if (previousLink) {
+		        previousLink.style.fontWeight = 'normal';
+		        previousLink.textContent = previousText;
+		    }
+		    
+		 // 현재 클릭된 링크의 원래 텍스트와 스타일을 저장
+		    previousLink = element;
+		    previousText = element.textContent;
+	
+		    // 클릭된 <a> 태그의 텍스트를 굵게 변경하고 텍스트 추가
+		    element.style.fontWeight = 'bold';
+		    element.textContent = "> " + previousText;
+		}
+	
+		$("#fileInput").on("change", function() {
+		    if (this.files.length > 3) {
+		        alert("최대 3개의 이미지만 업로드할 수 있습니다.");
+		        this.value = ""; // 선택된 파일 초기화
+		    }
+		});
+	 });
+	
 
 
 </script>
@@ -210,44 +235,52 @@
 <section class="blog-single shop-blog grid section">
 	<div class="container">
 		<div class="row">
-			<%-- 사이드바 --%>
-			
-			
 			<%-- 본문 --%>
 			 <div class="col-lg-12 col-12" id="highlighted-row"> 
 				 <div class="row">
-				 
 					 <div class="cs_title_container">
 					 	<div class = "notice_d_t_div">
-				  			<em class = "notice_d_title">게시글 수정</em><br>
+				  			<em class = "notice_d_title">게시판 수정</em><br>
 				  		</div>
 				  	 </div>
 			  		
-			   		<form action="noticeWrite" method= "post">
-			   			<div class = "detail_view">
+			   		<form action="boardMoidfy" method= "post" enctype="multipart/form-data">
+				 		<input type="hidden" name="CM_IDX" value="${CM_IDX}">
+			   			<div class = "detail_view" style="width: 900px; height: 800px;">
 							 <div class ="view_tit">
-				  				<h3><input type = "text" id="title" placeholder="제목을 입력하시오" name = "board_subject" style = "width : 400px" required="required" maxlength="50"> </h3>
+				   				<select class="boardCategory" name="CM_CATEGORY">
+									<option value="CC02">질문게시판</option>
+									<option value="CC03">신고게시판</option>
+									<option value="CC04">정보게시판</option>
+									<option value="CC05">친목게시판</option>
+								</select>
+				  				<h3><input type = "text" id="title" value="${board.CM_TITLE}" name = "CM_TITLE" style = "width : 400px" required="required" maxlength="40"> </h3>
 				  			</div>
+				  			
+				  			<div class = "view_info" align="left" style="text-align: center;">
+								<input type="file" value="파일 추가하기" name="CM_IMAGE" id="fileInput" multiple>
+<!-- 				  			</div> -->
 			  			
-			  			<div class = "view_info">
-							<em><b>작성자</b></em>
-							<em>${sessionScope.member_id}</em>
-			  			</div>
+<!-- 			  			<div class = "view_info"> -->
+							<em><b>작성자 : ${board.CM_NICK}</b></em>
+			  				</div>
 			  			
 						
-						<textarea id="summernote" style = "background-color:white" name = "board_content" required="required" maxlength="7000"></textarea>
+						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="500" >
+							${board.CM_CONTENT}
+						</textarea>
 						    <script>
 						    $('#summernote').summernote({
-						        placeholder: '내용을 입력하시오 (글자수 5000자까지 가능합니다)',
+						        placeholder: '내용을 입력하세요 (글자수 500자까지 가능합니다)',
 						        tabsize: 2,
-						        height: 400,
+						        height: 550,
 						        toolbar: [
 						          ['style', ['style']],
 						          ['font', ['bold', 'underline', 'clear']],
 						          ['color', ['color']],
 						          ['para', ['ul', 'ol', 'paragraph']],
 						          ['table', ['table']],
-				// 		          ['insert', ['link', 'picture', 'video']],
+						          ['insert', ['link', 'picture', 'video']],
 						          ['view', ['fullscreen', 'codeview', 'help']]
 						        ]
 						      });
@@ -255,12 +288,12 @@
 					    </div>
 					    
 					     <div class="button-container">
-			 				<input type="submit"  value = "수정" class="btn btn-primary" style="margin-right: 10px;">
-			 				<input type="button"  value = "취소" class="btn btn-primary" onclick="history.back()">
+			 				<input type="submit"  value = "등록" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; margin-right: 10px;">
+			 				<input type="button"  value = "돌아가기" class="btn btn-primary" style="padding-right: 10px; padding-left: 10px; " onclick="history.back();" >
 			 			</div>	
 				    </form>
-				 </div>
-			</div>
+				</div>	
+			 </div>
 		</div>
 	</div>
 </section>
@@ -271,7 +304,7 @@
 		
 	
 <!-- Jquery -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script> --%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
 <!-- Popper JS -->

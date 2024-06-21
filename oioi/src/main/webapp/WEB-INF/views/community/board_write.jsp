@@ -123,7 +123,6 @@
 	}
 	
 	.detail_view {
-		text-align : center;
 		padding : 30px;
 	}
 	
@@ -181,7 +180,8 @@
 	}
 	
 	.boardCategory {
-    	margin-left: 15px;
+    	margin-left: 175px;
+    	margin-right : 10px;
     	margin-top: -1px;
 		height: 33px;
 	    line-height: 32px;
@@ -189,7 +189,7 @@
 	    font-size: 13px;
     }
     
-    
+
 </style>
 
 <script type="text/javascript">
@@ -263,7 +263,7 @@
 			  		
 			   		<form action="communityWrite" method= "post" enctype="multipart/form-data">
 				 		<input type="hidden" name="CM_IDX" value="${CM_IDX}">
-			   			<div class = "detail_view">
+			   			<div class = "detail_view" style="width: 900px; height: 800px;">
 							 <div class ="view_tit">
 				   				<select class="boardCategory" name="CM_CATEGORY">
 									<option value="CC02">질문게시판</option>
@@ -275,28 +275,26 @@
 				  			</div>
 				  			
 				  			<div class = "view_info" align="left" style="text-align: center;">
-								<input type="file" value="파일 추가하기" name="CM_IMAGE" id="fileInput" multiple>
+<!-- 								<input type="file" value="파일 추가하기" name="CM_IMAGE" id="fileInput" multiple> -->
 <!-- 				  			</div> -->
 			  			
 <!-- 			  			<div class = "view_info"> -->
 							<em><b>작성자 : ${CM_NICK}</b></em>
-							<em>${sessionScope.member_id}</em>
 			  				</div>
 			  			
 						
 						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="500"></textarea>
 						    <script>
 						    $('#summernote').summernote({
-						        placeholder: '내용을 입력하세요 (글자수 500자까지 가능합니다)',
 						        tabsize: 2,
-						        height: 400,
+						        height: 550,
 						        toolbar: [
 						          ['style', ['style']],
 						          ['font', ['bold', 'underline', 'clear']],
 						          ['color', ['color']],
 						          ['para', ['ul', 'ol', 'paragraph']],
 						          ['table', ['table']],
-// 						          ['insert', ['link', 'picture', 'video']],
+						          ['insert', ['link', 'picture', 'video']],
 						          ['view', ['fullscreen', 'codeview', 'help']]
 						        ]
 						      });

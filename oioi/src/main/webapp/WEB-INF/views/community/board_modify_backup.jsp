@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>커뮤니티 게시판</title>
+    <title>게시글 수정</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -175,8 +175,6 @@
 	
 	.btn.btn-primary {
 		padding : 7px;
-		border-radius: 3px;
-		
 	}
 </style>
 
@@ -201,15 +199,7 @@
 	    element.style.fontWeight = 'bold';
 	    element.textContent = "> " + previousText;
 }
-	
-	
-	function confirmDelete(CM_IDX) {
-        if (confirm("삭제하시겠습니까?")) {
-            location.href = 'boardDelete?CM_IDX=' + CM_IDX;
-        }
-    }
-	
-	
+
 
 </script>
 
@@ -229,50 +219,54 @@
 				 
 					 <div class="cs_title_container">
 					 	<div class = "notice_d_t_div">
-<!-- 				  			<em class = "notice_d_title">게시판</em><br> -->
+				  			<em class = "notice_d_title">게시글 수정</em><br>
 				  		</div>
 				  	 </div>
 			  		
-			   		<form action="#">
-			   			<div class = "detail_view" 
-			   				<c:if test="${boardDetail.CM_CONTENT.length() < 500}"> 
-			   					style="width: 900px; height: 800px;"
-    						</c:if>
-    						>
+			   		<form action="boardModify" method= "post">
+			   			<div class = "detail_view">
 							 <div class ="view_tit">
-				  				<h3>${boardDetail.CM_TITLE}</h3>
+				  				<h3><input type = "text" id="title" value="${board.CM_TITLE}" name = "CM_TITLE" style = "width : 400px" required="required" maxlength="50"> </h3>
 				  			</div>
 			  			
-				  			<div class = "view_info">
-								<em><b>${boardDetail.CM_NICK}</b></em>
-								<em></em>
-								<em class="em"><b>날짜</b></em>
-								<em>${boardDetail.CM_REG_DATE}</em>
-				  			</div>
-							<div class = "view_cont" <c:if test="${boardDetail.CM_CONTENT.length() < 500}"> style="width: 840px; height: 600px;"
-    						</c:if>>
-							
-				  				<p style="font-size: 20px; padding-top: 30px;">
-				  					<c:if test="${boardDetail.CM_IMAGE1 != null}">
-				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE1}" alt="#" style="width: 200px; height: 200px; ">
-				  					</c:if>
-				  					<c:if test="${boardDetail.CM_IMAGE2 != null}">
-				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE2}" alt="#" style="width: 200px; height: 200px;">
-				  					</c:if>
-				  					<c:if test="${boardDetail.CM_IMAGE3 != null}">
-				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE3}" alt="#" style="width: 200px; height: 200px;">
-				  					</c:if>
-				  					${boardDetail.CM_CONTENT}
-								</p>
-				  			</div>
+			  			<div class = "view_info">
+							<em><b>작성자</b></em>
+							<em>${sessionScope.US_NICK}</em>
+			  			</div>
+			  			
+						
+						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="7000" >
+							<c:if test="${board.CM_IMAGE1 != null}">
+		  						<img src="${pageContext.request.contextPath}/resources/upload/${board.CM_IMAGE1}" alt="#" style="width: 200px; height: 200px; ">
+		  					</c:if>
+		  					<c:if test="${board.CM_IMAGE2 != null}">
+		  						<img src="${pageContext.request.contextPath}/resources/upload/${board.CM_IMAGE2}" alt="#" style="width: 200px; height: 200px;">
+		  					</c:if>
+		  					<c:if test="${board.CM_IMAGE3 != null}">
+		  						<img src="${pageContext.request.contextPath}/resources/upload/${board.CM_IMAGE3}" alt="#" style="width: 200px; height: 200px;">
+		  					</c:if>
+							${board.CM_CONTENT}
+						</textarea>
+						    <script>
+						    $('#summernote').summernote({
+						        tabsize: 2,
+						        height: 400,
+						        toolbar: [
+						          ['style', ['style']],
+						          ['font', ['bold', 'underline', 'clear']],
+						          ['color', ['color']],
+						          ['para', ['ul', 'ol', 'paragraph']],
+						          ['table', ['table']],
+				// 		          ['insert', ['link', 'picture', 'video']],
+						          ['view', ['fullscreen', 'codeview', 'help']]
+						        ]
+						      });
+						    </script>
 					    </div>
 					    
-					     <div class="button-container" style="padding:4px">
-			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
-			 				<c:if test="${boardDetail.CM_ID eq sessionScope.US_ID}">
-				 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify?CM_IDX=${boardDetail.CM_IDX}'" style="margin-right:10px;">
-				 				<input type="button"  value = "삭제" class="btn btn-primary" onclick="confirmDelete(${boardDetail.CM_IDX})">
-			 				</c:if>
+					     <div class="button-container">
+			 				<input type="submit"  value = "수정" class="btn btn-primary" style="margin-right: 10px;">
+			 				<input type="button"  value = "취소" class="btn btn-primary" onclick="history.back()">
 			 			</div>	
 				    </form>
 				 </div>
