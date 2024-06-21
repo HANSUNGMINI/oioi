@@ -305,7 +305,7 @@
 			
 			      <!-- Modal Header -->
 			      <div class="modal-header">
-			        <h4 class="modal-title">사기 이력 조회</h4>
+			        <h4 class="modal-title">신고 이력 조회</h4>
 			      </div>
 			
 			      <!-- Modal body -->
@@ -344,15 +344,17 @@
 			
 			      <!-- Modal body -->
 			      <div class="modal-body">
-			      
-			      <%-- 체크박스 --%>
-					<label for="n1"><input type="radio" name="notify" id="n1">  &nbsp;욕설 및 비방을 해요</label> <br>
-					<label for="n2"><input type="radio" name="notify" id="n2">  &nbsp;사기인 것 같아요</label> <br>
-					<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;거래 금지 품목을 팔아요</label> <br>
-					<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;상품 상태가 안 좋아요</label> <br>
-					<label for="n5"><input type="radio" name="notify" id="n5">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
-					
-					<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="600"></textarea>			      
+			      	<form>
+			      	
+				      <%-- 체크박스 --%>
+						<label for="n1"><input type="radio" name="notify" id="n1">  &nbsp;욕설 및 비방을 해요</label> <br>
+						<label for="n2"><input type="radio" name="notify" id="n2">  &nbsp;사기인 것 같아요</label> <br>
+						<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;거래 금지 품목을 팔아요</label> <br>
+						<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;상품 상태가 안 좋아요</label> <br>
+						<label for="n5"><input type="radio" name="notify" id="n5">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
+						
+						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="300"></textarea>
+					</form>			      
 				  </div>
 				  
 			      <!-- Modal footer -->

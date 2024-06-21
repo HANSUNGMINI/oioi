@@ -52,7 +52,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
 	
-	
 </head>
 <body class="js">
 
@@ -87,8 +86,6 @@
 								</div>
 							</div>
 						</div>
-					
-						
 					</div>
 				</div>
 			</div>
@@ -357,6 +354,9 @@
     </div>
     <!-- Modal end -->
 	<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
+ 	
+ 	<!-- 상품 불러오기 -->
+   <script src="${pageContext.request.contextPath}/resources/js/mainProduct.js"></script>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
