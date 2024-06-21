@@ -90,6 +90,8 @@
 		 WHERE code = #{code};
 	</update>
 	
+	
+	<!-- 관리자 공통코드 관리 -->
 	<update id="patchcommon">
 		UPDATE common
 		   SET value = #{value}
@@ -109,7 +111,7 @@
 	<delete id="deleteCommon">
 		DELETE
 		  FROM common
-		 WHERE code = #{target}
+		 WHERE code = #{code}
 	</delete>
 	
 </mapper>

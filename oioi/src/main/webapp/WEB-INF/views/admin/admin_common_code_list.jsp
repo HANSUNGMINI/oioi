@@ -52,14 +52,26 @@
 		        		<c:forEach var="category" items="${categoryList}">
 		        			<option value="${category.name}"> ${category.description}</option>
 		        		</c:forEach>
-		        	</select>
-		        <input type="button" id="btn-apply" value="뭐">	
+	        	</select>
 		        	
 	        	<div class="buttons right nowrap">
-      				<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">
+      				<button class="button small green" id="btn-add" type="button">
       					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
       				</button>
      			</div>
+     			
+     			<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-apply" type="button">
+      					<span class="icon"><i class="mdi mdi-lead-pencil"></i></span>
+      				</button>
+     			</div>
+     			
+	        	<div class="buttons right nowrap">
+      				<button class="button small red" id="btn-delete" type="button">
+      					<span class="icon"><i class="mdi mdi-delete"></i></span>
+      				</button>
+     			</div>
+	        	
 	      	</header>
 	      	
 	      	<!-- 그리드 -->

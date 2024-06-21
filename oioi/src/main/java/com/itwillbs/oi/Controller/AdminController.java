@@ -174,7 +174,7 @@ public class AdminController {
 		System.out.println(result);
 		return result;
 	}
-	
+		// status 관리
 	@ResponseBody
 	@PatchMapping("status")
 	public int changeStatus(@RequestBody Map<String, Object> data, Model model) {
@@ -191,69 +191,72 @@ public class AdminController {
 		return result;
 	}
 	
-		// 유저 상세조회
-	@ResponseBody
-	@PostMapping("UserDetail")
-	public Map<String, Object> UserDetail(@RequestParam Map<String, String> user) {
-		Map<String, Object> map = null;
-		return map;
-	}
 	
 	
 	// 관리자
-		// 관리자 목록 조회
-	@ResponseBody
-	@PostMapping("masterAdmin")
-	public List<Map<String, Object>> masterAdmin(@RequestParam Map<String, Object> select,  Model model) {
-		return adminservice.selectAdminList(select);
-	}
-		// 공통 코드 조회
-	@ResponseBody
-	@PostMapping("selectCode")
-	public List<Map<String, Object>> selectCode(@RequestParam Map<String, Object> select,  Model model) {
-		return adminservice.selectCommonList(select);
-	}
-		// 공통 코드 상태 변경
-	@ResponseBody
-	@PostMapping("changeHide")
-	public int changeHide(@RequestParam Map<String, Object> select) {
-		return adminservice.changeHide(select);
-	}
 		// 공통코드 value값 수정하기
 	@ResponseBody
-	@PatchMapping("common")
-	public int patchCommon(@RequestBody Map<String, Object> map) {
-		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
+	@PutMapping("common")
+	public int putCommon(@RequestBody Map<String, Object> map) {
+		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
+		
 		
 		int result = 0;
+		// 수정한 row 작업
+		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)modifiedRows.get("updatedRows");
+		System.out.println(updateRows);
+		if(updateRows != null) {
+			for(Map<String, Object> item : updateRows) {
+				result += adminservice.patchcommon(item);
+			}
+		}
 		
-		for(Map<String, Object> item : updateRows) {
-			result += adminservice.patchcommon(item);
+		// 추가한 row작업
+		List<Map<String, Object>> createdRows = (List<Map<String, Object>>)modifiedRows.get("createdRows");
+		System.out.println(createdRows);
+		if(createdRows != null) {
+			for(Map<String, Object> item : createdRows) {
+				item.put("target", map.get("target"));
+				result += adminservice.insertCommon(item);
+			}
 		}
 		
 		return result;
 	}
-		// 공통코드 추가하기
-	@ResponseBody
-	@PutMapping("common")
-	public int addCommon(@RequestBody Map<String, Object> map) {
-		
-		int result = adminservice.insertCommon(map);
-		return result;
-	}
+
 		// 공통코드 삭제
 	@ResponseBody
 	@DeleteMapping("common")
 	public int deleteCommon(@RequestBody Map<String, Object> map) {
-		return adminservice.deleteCommon(map);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(map);
+		List<Map<String, Object>> deleteRows = (List<Map<String, Object>>)map.get("deleteRows");
+		
+		int result = 0;
+		
+		for(Map<String, Object> item : deleteRows) {
+			result += adminservice.deleteCommon(item);
+		}
+		
+		return result;
 	}
 	
-		// 관리자 권한 바꾸기
-	@ResponseBody
-	@PostMapping("changeActive")
-	public int changeActive(@RequestParam Map<String, Object> select) {
-		return adminservice.changeActive(select);
-	}
 	
 	
+	// ============================================보관용=====================================================
+//	@ResponseBody
+//	@PatchMapping("common")
+//	public int patchCommon(@RequestBody Map<String, Object> map) {
+//		
+//		System.out.println(map);
+//		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
+//		
+//		int result = 0;
+//		
+//		for(Map<String, Object> item : updateRows) {
+//			result += adminservice.patchcommon(item);
+//		}
+//		
+//		return result;
+//	}
 }

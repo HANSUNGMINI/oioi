@@ -35,13 +35,14 @@ function search() {
 			for (let item of response){
 				gridData.push(item);
 			}
-					
+			
+			
 		    const grid = new tui.Grid({
 			    el: document.getElementById('grid'),
 			    data: gridData,
 			    scrollX: false,
 			    scrollY: false,
-			    rowHeaders: ['rowNum','checkBox'],
+			    rowHeaders: ['rowNum','checkbox'],
 			    columns: columns,
 			    pageOptions: {
 		           useClient: true,
@@ -50,13 +51,30 @@ function search() {
 		        minBodyHeight : '0',
 		        bodyHeight : 'auto'
 		    });
-		    
+			
 		    // 수정버튼
 			$('#btn-apply').on('click', function () {
+				const target = $('#type').val();
 				const modifiedRows = grid.getModifiedRows();
-			    const jsonData = JSON.stringify(modifiedRows);
-				editCode(jsonData)
+				const dataToSend = {target: target,modifiedRows: modifiedRows};
+			    const jsonData = JSON.stringify(dataToSend);
+			    
+				putCode(jsonData)
 			});
+			
+			// 삭제버튼
+			$('#btn-delete').on('click', function () {
+			    const checkedRows = grid.getCheckedRows();
+			    const jsonData = JSON.stringify(checkedRows);
+				deleteCode(jsonData)
+			});
+			
+			// 추가버튼(row만 추가 DB작업 X)
+			$('#btn-add').on('click', function () {
+			    const newRow = {}
+				grid.appendRow(newRow);
+			});
+			
 			
 		} // success 끝
 	});
