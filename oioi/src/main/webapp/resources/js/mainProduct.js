@@ -54,7 +54,7 @@
 							+'	<div class="single-product">'
 							+'		<div class="product-img">'
 							+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
-							+' 				<img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/ ' + pr.PD_IMAGE + '">'
+							+' 				<img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + pr.PD_IMAGE + '">'
 							+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
 							+'			</a>'
 							+'			<div class="button-head">'

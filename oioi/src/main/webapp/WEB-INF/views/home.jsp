@@ -54,16 +54,16 @@
 	<style type="text/css">
 		#recentKeywordProduct {
 	    display: flex;
-	    flex-wrap: nowrap; /* 필요에 따라 nowrap, wrap, wrap-reverse 중 선택 */
-	    justify-content: flex-start; /* flex-start, center, space-between 등 선택 가능 */
-	    align-items: flex-start; /* flex-start, center, flex-end 등 선택 가능 */
+	    flex-wrap: nowrap; 
+	    justify-content: flex-start;
+	    align-items: flex-start; 
 	}
 	
-	/* 각 div 스타일을 조금 더 정교하게 설정하려면 추가적으로 스타일을 적용하세요 */
+	
 	#recentKeywordProduct > div {
-	    margin-right: 10px; /* div 사이의 간격 조절 */
-	    /* 필요에 따라 padding, border 등 추가 스타일 적용 */
+	    margin-right: 10px; 
 	}
+	
 	
 	</style>	
 </head>
@@ -211,14 +211,15 @@
 				<div class="col-12">
 					<div class="section-title">
 						<h2>최근 검색한 키워드 연관 상품</h2>
-						<a href="#"> 더보기</a>
+<!-- 						<a href="#"> 더보기</a> -->
 					</div>
 				</div>
             </div>
             <div class="row" >
                 <div class="col-12" >
                 	<div class="owl-carousel popular-slider">
-                	<div class="owl-stage-outer" id="recentKeywordProduct">
+                	<div class="owl-stage-outer" id="recentKeywordProduct" >
+<!--                 	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct"> -->
                 	<!--  이곳에 상세 설명 나옴-->
 <!--                 		제품 하나하나 -->
                 		
@@ -249,6 +250,7 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 						제품 하나 끝 -->
+<!-- 	</div> -->
                 		</div>
                 	</div>
                 </div>
