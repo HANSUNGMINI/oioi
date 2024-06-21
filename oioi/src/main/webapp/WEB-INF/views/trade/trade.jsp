@@ -107,6 +107,15 @@
 	    });
 	});
 	</script>
+	
+	<script type="text/javascript">
+		let categoryType = "";
+		$(function()){
+			showBoard("");
+			window.clickCa
+			
+		}
+	</script>
 	 
 	 
 	 
@@ -218,38 +227,38 @@
 						<!-- 원본 -->
 						<div class="row">
 							<c:forEach var="product" items="${getProduct}">
-							<div class="col-lg-4 col-md-6 col-12">
-								<div class="single-product">
-									<div class="product-img">
-										 <form action="productDetail" method="get">
-						                    <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
-						                    <a href="#" onclick="this.parentNode.submit(); return false;">
-						                        <img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}">
-						                    </a>
-						                </form>
-<!-- 										<a href="productDetail"> -->
-<%-- 											<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}"> --%>
-<!-- 										</a> -->
-										<div class="button-head">
-											<div class="product-action">
-<!-- 												<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
-												<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-<!-- 												<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>시세보기(예정?)</span></a> -->
-											</div>
-											<div class="product-action-2">
-												<a title="Add to cart" href="#"></a>
+								<div class="col-lg-4 col-md-6 col-12">
+									<div class="single-product">
+										<div class="product-img">
+											 <form action="productDetail" method="get">
+							                    <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
+							                    <a href="#" onclick="this.parentNode.submit(); return false;">
+							                        <img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}">
+							                    </a>
+							                </form>
+	<!-- 										<a href="productDetail"> -->
+	<%-- 											<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${product.image1}"> --%>
+	<!-- 										</a> -->
+											<div class="button-head">
+												<div class="product-action">
+	<!-- 												<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
+													<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+	<!-- 												<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>시세보기(예정?)</span></a> -->
+												</div>
+												<div class="product-action-2">
+													<a title="Add to cart" href="#"></a>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="product-content">
-										<h3><a href="product-details.html">${product.PD_SUBJECT}</a></h3>
-										<div class="product-price">
-											<span>${product.PD_PRICE}</span>
+										<div class="product-content">
+											<h3><a href="product-details.html">${product.PD_SUBJECT}</a></h3>
+											<div class="product-price">
+												<span>${product.PD_PRICE}</span>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</c:forEach>
+							</c:forEach>
 							
 							
 <!-- 							원본  -->
