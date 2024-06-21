@@ -39,7 +39,12 @@
 	 	 ORDER BY code asc;	 
 	</select>
 	
-	
+	<select id="selectAdminList" resultType="map">
+		SELECT *
+		  FROM admin
+		 WHERE RL_NAME != '최고관리자'
+		 ORDER BY AD_IDX asc
+	</select>
 	
 	
 	
@@ -63,12 +68,7 @@
 	
 	
 	
-	<select id="selectAdminList" resultType="map">
-		SELECT *
-		  FROM admin
-		 WHERE RL_NAME != '최고관리자'
-		 ORDER BY AD_IDX asc
-	</select>
+
 	
 	<update id="changeActive">
 		UPDATE admin
@@ -84,10 +84,10 @@
 		UPDATE common
 		   SET
 		   <choose>
-				<when test="value.equals('true')">  hide = 'N'</when>		   
-				<when test="value.equals('false')"> hide = 'Y'</when>		   
+				<when test="value">  hide = 'N'</when>		   
+				<when test="!value"> hide = 'Y'</when>		   
 		   </choose>
-		 WHERE code = #{target};
+		 WHERE code = #{code};
 	</update>
 	
 	<update id="patchcommon">

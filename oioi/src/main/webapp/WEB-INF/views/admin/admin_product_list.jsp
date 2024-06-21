@@ -68,17 +68,9 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	<script>
-		// 컬럼 헤더 
-		const columns = [
-	        {header: '아이디', name: 'US_ID'},
-	        {header: '게시글 제목', name: 'PD_SUBJECT'},
-	        {header: '카테고리', name: 'PD_CATEGORY'},
-	    ]
-		// 조회할 테이블
-		const table = "product";
-	</script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_product_list.js"></script>
 	
 </html>
     
