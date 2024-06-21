@@ -14,101 +14,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Title Tag  -->
 <title>내 상점</title>
-	<!-- Web Font -->
-	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-	<!-- StyleSheet -->
-	<script src="https://kit.fontawesome.com/ef42a902c7.js" crossorigin="anonymous"></script>
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
-	<!-- Magnific Popup -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.min.css">
-	<!-- Font Awesome -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
-	<!-- Fancybox -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css">
-	<!-- Themify Icons -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/themify-icons.css">
-	<!-- Nice Select CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/niceselect.css">
-	<!-- Animate CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/animate.css">
-	<!-- Flex Slider CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flex-slider.min.css">
-	<!-- Owl Carousel -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl-carousel.css">
-	<!-- Slicknav -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slicknav.min.css">
-	
-	<!-- Eshop StyleSheet -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
+<!-- Web Font -->
+<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+<!-- StyleSheet -->
+<script src="https://kit.fontawesome.com/ef42a902c7.js" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+<!-- Magnific Popup -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
+<!-- Fancybox -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css">
+<!-- Themify Icons -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/themify-icons.css">
+<!-- Nice Select CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/niceselect.css">
+<!-- Animate CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/animate.css">
+<!-- Flex Slider CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flex-slider.min.css">
+<!-- Owl Carousel -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl-carousel.css">
+<!-- Slicknav -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slicknav.min.css">
+<!-- Eshop StyleSheet -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-
-</head>
 <style>
 #custom-border {
-	border: 1px solid #ccc; 
-	padding: 10px; 
-	position: relative; /* 부모 요소에 position: relative; 적용 */
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    position: relative;
 }
 
 #store-info {
-	display: flex;
-	margin-top : 15px;
-	flex-wrap: wrap; /* 줄 바꿈을 허용할 경우 사용 */
-	gap: 5px; /* 요소 사이의 간격 조정 */
+    display: flex;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 #store-info > div {
-	display: flex;
-	align-items: center; /* 중앙 정렬 */
-	margin-right: 15px; /* 오른쪽 여백 조정 */
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
 }
 
 #store-info > div > div {
-	margin: 0 10px; /* 내부 요소 간의 간격 조정 */
+    margin: 0 10px;
 }
 
 .short {
-	flex-grow: 1;
+    flex-grow: 1;
 }
+
 .product-des button {
-	text-size-adjust: 100%;
-	box-sizing: border-box;
-	font-family: inherit;
-	line-height: 1.15;
-	margin: 0px;
-	overflow: visible;
-	text-transform: none;
-	font-synthesis: none;
-	direction: ltr;
-	text-align: left;
-	letter-spacing: -0.5px;
-	appearance: none;
-	background-color: transparent;
-	cursor: pointer;
-	outline: none;
-	height: 20px;
-	display: flex;
-	align-items: center;
-	padding: 0px 5px;
-	color: rgb(136, 136, 136);
-	border: 1px solid rgb(238, 238, 238);
-	font-size: 11px;
+    font-family: inherit;
+    line-height: 1.15;
+    margin: 0;
+    overflow: visible;
+    text-transform: none;
+    cursor: pointer;
+    outline: none;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    color: #888;
+    border: 1px solid #eee;
+    font-size: 11px;
 }
+
 .border-right {
     border-right: 1px solid #ccc;
 }
 
 #intro-textarea {
-	overflow: hidden;
-	resize: none;
-	width: 100%;
-	height: calc(1.5em * 4); /* Approximate height for 3 lines */
-	line-height: 1.5em;
-	box-sizing: border-box;
+    overflow: hidden;
+    resize: none;
+    width: 100%;
+    height: calc(1.5em * 4);
+    line-height: 1.5em;
+    box-sizing: border-box;
 }
 
 .cucumber-button {
@@ -133,22 +124,60 @@
 }
 
 #product-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-info-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.product-info-bottom div {
+    margin: 0 5px;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-date {
+    font-size: 12px;
+    color: #777;
+}
 </style>
+</head>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <section class="shop single section">
-	<div class="container">
-    	<div class="row"> 
+    <div class="container">
+        <div class="row">
             <div class="col-12">
                 <div class="row" id="custom-border">
                     <div class="col-lg-3 col-12 border-right">
                         <div class="single-team">
-                            <!-- Image -->
                             <div class="image">
                                 <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#">
                             </div>
@@ -156,33 +185,35 @@
                     </div>
                     <div class="col-lg-9 col-12">
                         <div class="product-des">
-                            <!-- Description -->
                             <div class="short">
-                                <h4>상점7777777호</h4>
+                                <h4>${user.US_NICK} 님의 상점</h4>
                                 <div class="rating-main" id="store-info">
-                                	<div>
-                                		<i class="fa-solid fa-shop"></i><div id="store-column">상점오픈일</div>
-                                		<div>1 일 전</div>
-                                	</div>
-                                	<div>
-                                		<i class="fa-solid fa-person"></i><div id="store-column">상점방문수</div>
-                                		<div>0 명</div>
-                                	</div>
-                                	<div>
-                                		<i class="fa-solid fa-bag-shopping"></i><div id="store-column">상품판매</div>
-                                		<div>0 회</div>
-                                	</div>
+                                    <div>
+                                        <i class="fa-solid fa-shop"></i>
+                                        <div id="store-column">상점오픈일</div>
+                                        <div>1 일 전</div>
+                                    </div>
+                                    <div>
+                                        <i class="fa-solid fa-person"></i>
+                                        <div id="store-column">상점방문수</div>
+                                        <div>0 명</div>
+                                    </div>
+                                    <div>
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <div id="store-column">상품판매</div>
+                                        <div>0 회</div>
+                                    </div>
                                 </div>
                                 <hr>
                             </div>
                             <div id="intro-text">
-				                <button id="edit-button" type="button">소개글 수정</button>
-				                <p>소개글을 작성해주세요.</p>
-				            </div>
-				            <div id="edit-area" style="display: none;">
-				                <textarea id="intro-textarea" rows="3" maxlength="150"></textarea>
-				                <button id="save-button" type="button">확인</button>
-				            </div>
+                                <button id="edit-button" type="button">소개글 수정</button>
+                                <p>소개글을 작성해주세요.</p>
+                            </div>
+                            <div id="edit-area" style="display: none;">
+                                <textarea id="intro-textarea" rows="3" maxlength="150"></textarea>
+                                <button id="save-button" type="button">확인</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -190,7 +221,6 @@
                     <div class="col-12">
                         <div class="product-info">
                             <div class="nav-main">
-                                <!-- Tab Nav -->
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#product" role="tab">상품</a></li>
                                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#review" role="tab">상점후기</a></li>
@@ -198,101 +228,110 @@
                                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#following" role="tab">팔로잉</a></li>
                                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#follower" role="tab">팔로워</a></li>
                                 </ul>
-                                <!--/ End Tab Nav -->
                             </div>
                             <div class="tab-content" id="myTabContent">
-                                <!-- Description Tab -->
                                 <div class="tab-pane fade show active" id="product" role="tabpanel">
                                     <div class="tab-single">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div id="product-header">
-                                                	<h5>상품 0</h5>
-                                                	<a href="product" class="cucumber-button">상품등록</a>
+                                                    <h5>상품 ${fn:length(myPD)}</h5>
+                                                    <a href="product" class="cucumber-button">상품등록</a>
                                                 </div>
                                                 <hr>
-                                                <div class="single-des">
-                                                	<p>등록된 상품이 없습니다.</p>
+                                                <div class="product-grid">
+                                                    <c:forEach var="product" items="${myPD}">
+                                                        <div class="product-item">
+                                                        <a href="productDetail?PD_IDX=${product.PD_IDX}">
+                                                            <img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}">
+                                                            <p>${product.PD_SUBJECT}</p>
+                                                            <div class="product-info-bottom">
+                                                                <div class="product-price">${product.PD_PRICE} 원</div>
+                                                                <div class="product-date">${product.timeAgo}</div>
+                                                            </div>
+															</a>
+                                                        </div>
+                                                    </c:forEach>
                                                 </div>
-                                    		</div>
-                                  		</div>
-                                  	</div>
+                                                <c:if test="${empty myPD}">
+                                                    <div class="single-des">
+                                                        <p>등록된 상품이 없습니다.</p>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--/ End Description Tab -->
-                                <!-- Reviews Tab -->
                                 <div class="tab-pane fade" id="review" role="tabpanel">
                                     <div class="tab-single">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="single-des">
-                                                	<h5>상점 후기 0</h5>
+                                                    <h5>상점 후기 0</h5>
                                                 </div>
                                                 <hr>
                                                 <div class="single-des">
-                                                	<p>상점후기가 없습니다.</p>
+                                                    <p>상점후기가 없습니다.</p>
                                                 </div>
-                                    		</div>
-                                  		</div>
-                                  	</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--/ End Reviews Tab -->
-                                <!-- Choice Tab -->
                                 <div class="tab-pane fade" id="choice" role="tabpanel">
                                     <div class="tab-single">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="single-des">
-                                                	<h5>찜 0</h5>
+                                                    <h5>찜 0</h5>
                                                 </div>
                                                 <hr>
                                                 <div class="single-des">
-                                                	<p>찜한 상품이 없습니다.</p>
+                                                    <p>찜한 상품이 없습니다.</p>
                                                 </div>
-                                    		</div>
-                                  		</div>
-                                  	</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--/ End Choice -->
                                 <div class="tab-pane fade" id="following" role="tabpanel">
-                                   <div class="tab-single">
-                                       <div class="row">
-                                           <div class="col-12">
-                                               <div class="single-des">
-                                               	<h5>팔로잉 0</h5>
-                                               </div>
-                                               <hr>
-                                               <div class="single-des">
-                                               	<p>아직 팔로우한 사람이 없습니다.</p>
-                                               </div>
-                                   		</div>
-                                 		</div>
-                                 	</div>
-                               </div>
-                               <div class="tab-pane fade" id="follower" role="tabpanel">
-                                   <div class="tab-single">
-                                       <div class="row">
-                                           <div class="col-12">
-                                               <div class="single-des">
-                                               	<h5>팔로워 0</h5>
-                                               </div>
-                                               <hr>
-                                               <div class="single-des">
-                                               	<p>아직 이 상점을 팔로우한 사람이 없습니다.</p>
-                                               </div>
-                                   			</div>
-                               			</div>
-									</div>	
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    <div class="tab-single">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="single-des">
+                                                    <h5>팔로잉 0</h5>
+                                                </div>
+                                                <hr>
+                                                <div class="single-des">
+                                                    <p>아직 팔로우한 사람이 없습니다.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="follower" role="tabpanel">
+                                    <div class="tab-single">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="single-des">
+                                                    <h5>팔로워 0</h5>
+                                                </div>
+                                                <hr>
+                                                <div class="single-des">
+                                                    <p>아직 이 상점을 팔로우한 사람이 없습니다.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
-	
+
 <!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
