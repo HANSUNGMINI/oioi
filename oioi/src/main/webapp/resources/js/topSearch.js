@@ -290,17 +290,21 @@ $(function(){
 				$(".popularWordColor").css("color","#34A853");
 				$(".recentWordColor").css("color","black");
 				
-				
+				/* 최근 검색어 칸 눌렀을 경우 */
 				$(".RecentborderBottom").click(function(e) {
 					$(".popularSearch").css("display","none");
 					$(".recentWordColor").css("color","#34A853");
 					$(".popularWordColor").css("color","black");
 	            });
 				
+				/* 검색창 클릭시 숨기기*/
+				$("#searchKeyword").click(function(e) {
+					$(".recentSearch").css("display","none");
+	            });
 				
-				/* DB 숨기기 */
+				/* DIV 숨기기 */
 				$(document).on("click", function(e) {
-	                if (!$(e.target).closest(".PopularCenter, .PopularTableBoarder .PopularCenter .RecentborderBottom, #searchKeyword").length) {
+	                if (!$(e.target).closest(".PopularCenter, .PopularTableBoarder .PopularCenter .RecentborderBottom")) {
 	                    $(".recentSearch").hide();
 	                }
 	            });
@@ -410,6 +414,7 @@ $(function(){
 	function searchDivOpen() {
 		if($("#searchKeyword").val() == null || $("#searchKeyword").val() == ''){
 			$(".recentSearch").show();
+			popularClick = false; 
 		} else {
 			searchAjax();
 		}

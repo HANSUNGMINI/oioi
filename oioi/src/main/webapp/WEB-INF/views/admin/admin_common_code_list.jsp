@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" class="">
 <head>
@@ -19,6 +20,7 @@
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	
 	<style>
+	
 		#buttons {
 			margin : 0px auto;
 		}
@@ -46,12 +48,18 @@
 	          		카테고리
 	        	</p>
 	        	
-	        	<div class="buttons right nowrap" align="right">
-         			<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">
-         				<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
-         			</button>
+	        	<select id="type">
+		        		<c:forEach var="category" items="${categoryList}">
+		        			<option value="${category.name}"> ${category.description}</option>
+		        		</c:forEach>
+		        	</select>
+		        <input type="button" id="btn-apply" value="뭐">	
+		        	
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue --jb-modal" data-target="sample-modal-2" type="button">
+      					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
+      				</button>
      			</div>
-	        	
 	      	</header>
 	      	
 	      	<!-- 그리드 -->
@@ -65,18 +73,12 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	<script>
-		// 컬럼 헤더 
-		const columns = [
-	        {header: '코드', name: 'code'},
-	        {header: '내용', name: 'value'},
-	        {header: '사용여부', name: 'hide'},
-	    ]
-		// 조회할 테이블
-		const table = "common";
-		let type = ""
-	</script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_common_code_list.js"></script>
+    <script>
+    
+    </script>
 	
 	
 </html>

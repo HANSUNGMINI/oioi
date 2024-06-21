@@ -83,7 +83,7 @@
 			#{APD_DETAIL},
 			#{APD_CAREGORY},
 			#{APD_IMAGE},
-			'1차검수',
+			'APD05',
 			#{APD_DEADLINE},
 			#{APD_CONDITION},
 			#{APD_START_PRICE},

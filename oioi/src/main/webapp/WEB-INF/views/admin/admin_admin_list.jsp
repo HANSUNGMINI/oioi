@@ -67,52 +67,9 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	<script>
-		class AD_toggle {
-			constructor(props) {
-			    const el = document.createElement('label');
-			    el.className = 'toggle';
-			    
-			    var checked = '';
-				
-				if(props.value == 'Y'){
-					checked = 'checked';
-				}
-			    
-			    $(el).append(
-			    		'<input role="switch" type="checkbox" class="toggle_check" ' + checked + '/>'
-				);
-						
-			    $(el).on("change", 'input[type="checkbox"]', function() {
-			    	let elm = $(this);
-			    	let isChecked = elm.prop('checked');
-		            let id = elm.closest('tr').find('td:first').text();
-			    	let type = 'AD_ACTIVE';
-		            change(elm, isChecked, id, type);
-			    });
-				
-			    this.el = el;
-			  }
-
-			  getElement() {return this.el;}
-			  render(props) {}
-		}	
-	
-	
-		// 컬럼 헤더 
-		const columns = [
-	        {header: '아이디', name: 'AD_ID'},
-	        {header: '관리자 이름', name: 'AD_NAME'},
-	        {header: '관리자 등록일', name: 'AD_DATE'},
-	        {header: '관리자 역할', name: 'RL_NAME'},
-	        {header: '관리자 권한', name: 'AD_ACTIVE', renderer: {
-	            type: AD_toggle
-	        }},
-	    ]
-		// 조회할 테이블
-		const table = "admin";	
-	</script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
+	 <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_admin_list.js"></script>
 	
 	
 </html>

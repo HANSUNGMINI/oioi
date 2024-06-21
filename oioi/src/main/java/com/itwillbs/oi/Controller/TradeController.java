@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
@@ -34,7 +35,7 @@ import com.itwillbs.oi.service.TradeService;
 public class TradeController {
 	String uploadDir = "/resources/upload";
 	@Autowired 
-	private TradeService TradeService;
+	private TradeService tradeService;
 	@Autowired
 	private AuctionService Auctionservice;
 	
@@ -73,13 +74,19 @@ public class TradeController {
 		model.addAttribute("cate3", jCate3);
 		
 		
-		
-		List<Map<String, String>> productList = TradeService.getProduct();
+		List<Map<String, String>> productList = tradeService.getProduct();
 		model.addAttribute("getProduct", productList);
-		
 		System.out.println(productList);
+		
+		
+		System.out.println("카테1" + cate1);
+		System.out.println("카테2" + cate2);
+		System.out.println("카테3" + cate3);
+		
 		return "trade/trade";
+		
 	}
+	
 	
 	// 상품등록 페이지
 	@GetMapping("product")
@@ -115,17 +122,17 @@ public class TradeController {
 		model.addAttribute("cate3", jCate3);
 		
 		// 상품 상태
-		List<Map<String, String>> productCondition = TradeService.getProductCondition();
+		List<Map<String, String>> productCondition = tradeService.getProductCondition();
 		model.addAttribute("productCondition", productCondition);
 //		System.out.println(productCondition);
 		
 		// 거래 방식
-		List<Map<String, String>> tradeMethod = TradeService.getTradeMethod();
+		List<Map<String, String>> tradeMethod = tradeService.getTradeMethod();
 		model.addAttribute("tradeMethod", tradeMethod);
 		System.out.println(tradeMethod);
 		
 		// 상품 상태
-		List<Map<String, String>> productStatus = TradeService.getProductStatus();
+		List<Map<String, String>> productStatus = tradeService.getProductStatus();
 		model.addAttribute("productStatus", productStatus);
 		System.out.println(productStatus);
 		
@@ -225,7 +232,7 @@ public class TradeController {
 	    	map.put("PD_IMAGE", ImgIdx);
 		    System.out.println("상품등록하기전 최종 확인 : " + map);
 		    
-	    	int pdSuccess = TradeService.insertProduct(map);
+	    	int pdSuccess = tradeService.insertProduct(map);
 		    System.out.println("pdSuccess : " + pdSuccess);
 		    
 		    if(pdSuccess > 0) {
@@ -255,10 +262,10 @@ public class TradeController {
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
-		int readCountResult = TradeService.updateReadCount(pd_idx);
+		int readCountResult = tradeService.updateReadCount(pd_idx);
 		
 		// pd_idx에 따른 정보 조회
-		Map<String, String> dbMap = TradeService.getProductInfo(map);
+		Map<String, String> dbMap = tradeService.getProductInfo(map);
 		model.addAttribute("productInfo", dbMap);
 		System.out.println(dbMap);
 		

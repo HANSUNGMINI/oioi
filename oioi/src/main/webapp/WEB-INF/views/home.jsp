@@ -51,7 +51,21 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
+	<style type="text/css">
+		#recentKeywordProduct {
+	    display: flex;
+	    flex-wrap: nowrap; /* 필요에 따라 nowrap, wrap, wrap-reverse 중 선택 */
+	    justify-content: flex-start; /* flex-start, center, space-between 등 선택 가능 */
+	    align-items: flex-start; /* flex-start, center, flex-end 등 선택 가능 */
+	}
 	
+	/* 각 div 스타일을 조금 더 정교하게 설정하려면 추가적으로 스타일을 적용하세요 */
+	#recentKeywordProduct > div {
+	    margin-right: 10px; /* div 사이의 간격 조절 */
+	    /* 필요에 따라 padding, border 등 추가 스타일 적용 */
+	}
+	
+	</style>	
 </head>
 <body class="js">
 
@@ -161,7 +175,7 @@
 							<div class="product-img">
 								<a href="product-details.html">
 									<img class="default-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2fb6ff59-aca1-4f1f-a836-0888d4f119a6/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png"  alt="#">
-									<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+									<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
 								</a>
 								<div class="button-head">
 									<div class="product-action">
@@ -201,44 +215,48 @@
 					</div>
 				</div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
-						<!-- 제품 하나하나 -->
-						<div class="single-product">
-							<div class="product-img">
-								<a href="product-details.html">
-									<img class="default-img"  src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3f12c33f-de0d-4d7f-848a-b4eb273c2a7d/p-6000-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84-%EC%8B%A0%EB%B0%9C-PDwmNHw5.png" alt="#">
-<!-- 									<img class="hover-img"   alt="#"> -->
-									<span class="new">거래완료</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
-								</a>
-								<div class="button-head">
-									<div class="product-action">
-<!-- 										<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a> -->
-										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-									</div>
-									<div class="product-action-2">
-										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
-									</div>
-								</div>
-							</div>
-							<div class="product-content">
-								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
-								<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
-								<div class="product-price">
-									<!-- 세일 기준 -->
-<!-- 									<span class="old">이전가격</span> -->
-									<span>99,999,999원</span>
-								</div>
-							</div>
-						</div>
-						<!-- 제품 하나 끝 -->
-                    </div>
+            <div class="row" >
+                <div class="col-12" >
+                	<div class="owl-carousel popular-slider">
+                	<div class="owl-stage-outer" id="recentKeywordProduct">
+                	<!--  이곳에 상세 설명 나옴-->
+<!--                 		제품 하나하나 -->
+                		
+<!-- 						<div class="single-product"> -->
+<!-- 							<div class="product-img"> -->
+<!-- 								<a href="product-details.html"> -->
+<!-- 									<img class="default-img"  src="https://image.msscdn.net/images/goods_img/20231213/3754860/3754860_17025174767964_500.jpg"  alt="#"> -->
+<!-- <!-- 									<img class="hover-img"   alt="#"> --> 
+<!-- 									<span class="out-of-stock">판매 중</span> out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+<!-- 								</a> -->
+<!-- 								<div class="button-head"> -->
+<!-- 									<div class="product-action"> -->
+<!-- 										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a> -->
+<!-- 									</div> -->
+<!-- 									<div class="product-action-2"> -->
+<!-- 										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="product-content"> -->
+<!-- 								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3> -->
+<!-- 								<div class="product-price"> -->
+<!-- 									세일 기준 -->
+<!-- <!-- 									<span class="old">이전가격</span> --> 
+<!-- 									<span>70,000원</span> -->
+<!-- 									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						제품 하나 끝 -->
+                		</div>
+                	</div>
                 </div>
             </div>
         </div>
     </div>
 	<!-- End Most Popular Area -->
+	
 	
 	
 	<!-- Modal -->
@@ -356,7 +374,7 @@
 	<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
  	
  	<!-- 상품 불러오기 -->
-   <script src="${pageContext.request.contextPath}/resources/js/mainProduct.js"></script>
+ < <script src="${pageContext.request.contextPath}/resources/js/mainProduct.js"></script> 
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

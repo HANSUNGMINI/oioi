@@ -46,7 +46,8 @@
 		SELECT * 
 		FROM product p 
 		JOIN images i
-		ON p.PD_IMAGE = i.IMG_IDX;
+		ON p.PD_IMAGE = i.IMG_IDX
+		ORDER BY PD_IDX DESC ;
 	</select>
 	
 	<select id="selectProductInfo" resultType="hashmap">
@@ -54,7 +55,7 @@
 		FROM product p
 		JOIN images i
 		ON p.PD_IMAGE = i.IMG_IDX
-		WHERE PD_IDX = #{PD_IDX}
+		WHERE PD_IDX = #{PD_IDX};
 	</select>
 	
 	<select id="getProductStatus">
@@ -68,6 +69,8 @@
 		SET PD_READCOUNT = PD_READCOUNT + 1
 		WHERE PD_IDX = #{pd_idx}
 	</update>
+	
+	 
 	
 </mapper>
 

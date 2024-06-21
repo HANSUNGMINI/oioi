@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,9 +9,8 @@
 	<title>Tables - Admin One Tailwind CSS Admin Dashboard</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?v=1652870200386">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
-	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
-	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
-	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+	
+	<!--  아이콘 -->
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	<!-- 토스트UI -->
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />	
@@ -28,7 +27,7 @@
 </head>
 <body>
 	<div id="app">
-	<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav>
+<%-- 	<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav> --%>
 	<aside class="aside is-placed-left is-expanded"><jsp:include page="../INC/admin_aside.jsp"></jsp:include></aside>
 	<section class="is-title-bar">
 		<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
@@ -64,22 +63,14 @@
 	</div>
 </body>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js"></script>
+	
+	<!-- ToastUI  -->
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	<script>
-		// 컬럼 헤더 
-		const columns = [
-	        {header: '아이디', name: 'US_ID'},
-	        {header: '닉네임', name: 'US_NICK'},
-	        {header: '회원명', name: 'US_NAME'},
-	        {header: '가입일', name: 'US_REG_DATE'},
-	    ]
-		// 조회할 테이블
-		const table = "user";
-	</script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
-	
+    <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_user_list.js"></script>
 	
 </html>
     

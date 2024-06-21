@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itwillbs.oi.mapper.MainMapper">
+
+	<select id="selectRecentKeywordProduct" resultType="hashmap">
+		SELECT 
+		    PD_IDX, 
+		    PD_SUBJECT, 
+		    PD_PRICE, 
+		    PD_IMAGE,
+		    PD_STATUS,
+		    CASE
+		        WHEN PD_STATUS = '판매 중' THEN 'out-of-stock'
+		        WHEN PD_STATUS = '예약 상태' THEN 'price-dec'
+		        WHEN PD_STATUS = '판매 완료' THEN 'new' 
+		    END AS PD_STATUS_COLOR,
+		    CASE 
+		        WHEN TIMEDIFF(NOW(), PD_REG_DATE) &lt; '00:01:00' THEN CONCAT(TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMEDIFF(NOW(), PD_REG_DATE) &lt; '24:00:00' THEN CONCAT(TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, PD_REG_DATE, NOW()), ' 일전')
+		    END AS RD_DATE
+		FROM product p
+		WHERE PD_TAG1 LIKE CONCAT('%', #{keyword}, '%')
+         OR PD_TAG2 LIKE CONCAT('%', #{keyword}, '%')
+         OR PD_TAG3 LIKE CONCAT('%', #{keyword}, '%')
+         OR PD_TAG4 LIKE CONCAT('%', #{keyword}, '%')
+         OR PD_TAG5 LIKE CONCAT('%', #{keyword}, '%')
+         OR PD_SUBJECT LIKE CONCAT('%', #{keyword}, '%')
+         ORDER BY PD_IDX 
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
