@@ -70,12 +70,7 @@
 		WHERE PD_IDX = #{pd_idx}
 	</update>
 	
-	 <select id="selectProductsByCategory" resultType="hashmap">
-        SELECT *
-        FROM product p
-        JOIN images i ON p.PD_IMAGE = i.IMG_IDX
-        WHERE p.PD_CATEGORY LIKE CONCAT('%', #{categoryCode}, '%');
-    </select>
+	 
 	
 </mapper>
 

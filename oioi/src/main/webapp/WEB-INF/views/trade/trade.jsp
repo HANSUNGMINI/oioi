@@ -189,25 +189,25 @@
 							<div class="col-12">
 								<!-- Shop Top -->
 								<div class="shop-top">
-									<div class="shop-shorter">
-										<div class="single-shorter">
-											<label>Show :</label>
-											<select>
-												<option selected="selected">09</option>
-												<option>15</option>
-												<option>25</option>
-												<option>30</option>
-											</select>
-										</div>
-										<div class="single-shorter">
-											<label>Sort By :</label>
-											<select>
-												<option selected="selected">Name</option>
-												<option>Price</option>
-												<option>Size</option>
-											</select>
-										</div>
-									</div>
+<!-- 									<div class="shop-shorter"> -->
+<!-- 										<div class="single-shorter"> -->
+<!-- 											<label>Show :</label> -->
+<!-- 											<select> -->
+<!-- 												<option selected="selected">09</option> -->
+<!-- 												<option>15</option> -->
+<!-- 												<option>25</option> -->
+<!-- 												<option>30</option> -->
+<!-- 											</select> -->
+<!-- 										</div> -->
+<!-- 										<div class="single-shorter"> -->
+<!-- 											<label>Sort By :</label> -->
+<!-- 											<select> -->
+<!-- 												<option selected="selected">Name</option> -->
+<!-- 												<option>Price</option> -->
+<!-- 												<option>Size</option> -->
+<!-- 											</select> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 									<ul class="view-mode">
 										<li><a href="product"><i>상품등록</i></a></li>
 									</ul>

@@ -24,7 +24,6 @@ public interface TradeMapper {
 
 	int updateReadCount(String pd_idx);
 
-	List<Map<String, String>> selectProductsByCategory(String categoryCode);
 
 		
 

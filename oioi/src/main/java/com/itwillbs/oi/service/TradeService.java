@@ -46,10 +46,6 @@ public class TradeService {
 		return mapper.updateReadCount(pd_idx);
 	}
 	
-	 public List<Map<String, String>> getProductsByCategory(String categoryCode) {
-	        return mapper.selectProductsByCategory(categoryCode);
-	    }
-	
 	
 
 }

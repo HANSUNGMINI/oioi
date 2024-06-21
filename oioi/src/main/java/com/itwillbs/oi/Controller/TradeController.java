@@ -86,11 +86,6 @@ public class TradeController {
 		return "trade/trade";
 		
 	}
-	@GetMapping("getProductsByCategory")
-    @ResponseBody
-    public List<Map<String, String>> getProductsByCategory(@RequestParam("categoryCode") String categoryCode) {
-        return tradeService.getProductsByCategory(categoryCode);
-    }
 	
 	
 	// 상품등록 페이지
