@@ -3,6 +3,7 @@ package com.itwillbs.oi.Controller;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,6 +45,9 @@ public class MyStoreController {
 		Map<String, String> user = userService.selectMyUser(id);
 		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
 		
+		// 상품 목록을 역순으로 정렬
+		Collections.reverse(myPD);
+		
 		// 상품 목록을 스트림으로 처리하여 각 상품의 등록 시간을 현재 시간과 비교한 결과를 추가
         List<Map<String, Object>> productList = myPD.stream()
         	.map(product -> {
@@ -57,8 +61,36 @@ public class MyStoreController {
 		model.addAttribute("user", user);
 		model.addAttribute("myPD", productList);
 		
-		return "myStore/myStore";
+		return "myStore/my_store";
 	}
+	
+	
+	@GetMapping("editStore")
+	public String editStore(Model model) {
+		
+		// 유저가 아님
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
+		
+		String id = (String)session.getAttribute("US_ID");
+		Map<String, String> user = userService.selectMyUser(id);
+		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("myPD", myPD);
+		
+		return "myStore/edit_my_store";
+	}
+	
+	
+	
+	
+	
+	
+	
 
     private String dateTimeAgo(LocalDateTime regDate) {
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
@@ -77,12 +109,4 @@ public class MyStoreController {
             return months + " 달 전";
         }
     }
-
-	
-	
-	
-	
-	
-	
-	
 }
