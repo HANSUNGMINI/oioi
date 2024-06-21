@@ -52,28 +52,39 @@ public class UserController {
     public ResponseEntity<?> kakaoLogin(@RequestBody String tokenJson, HttpSession session) {
         JSONObject tokenObj = new JSONObject(tokenJson);
         String accessToken = tokenObj.getString("token");
-
+        System.out.println("로그인 토큰 : " + accessToken);
         try {
             String userInfo = getUserInfo(accessToken);
+            System.out.println("사용자 정보 : " + userInfo);
             if (userInfo != null) {
                 JSONObject userJson = new JSONObject(userInfo);
                 // 카카오 사용자 정보를 이용하여 로그인 처리 (예: 이메일로 회원가입 및 로그인)
-                String userEmail = userJson.optString("kakao_account.email");
-                String userNick = userJson.optString("properties.nickname");
-
+                String userEmail = userJson.getJSONObject("kakao_account").getString("email");
+                String userNick = userJson.getJSONObject("properties").getString("nickname");
+                System.out.println(userEmail);
+                System.out.println(userNick);
                 // 로그인 성공 후 세션에 사용자 정보 저장
                 session.setAttribute("US_ID", userEmail);
                 session.setAttribute("US_NICK", userNick);
-
+                session.setAttribute("KAKAO_LOGIN", true);
+                session.setAttribute("KAKAO_ACCESS_TOKEN", accessToken); // 액세스 토큰 세션에 저장
+                // 세션에 저장된 US_ID와 US_NICK 콘솔에 출력
+                System.out.println("로그인 시 세션 토큰 : " + session.getAttribute("KAKAO_ACCESS_TOKEN"));
+                System.out.println("세션에 저장된 US_ID: " + session.getAttribute("US_ID"));
+                System.out.println("세션에 저장된 US_NICK: " + session.getAttribute("US_NICK"));
                 // 여기서 필요에 따라 DB에 저장하거나 추가적인 로직 수행 가능
 
-                return ResponseEntity.ok().build();
+                // 성공 응답 반환
+                JSONObject responseJson = new JSONObject();
+                responseJson.put("success", true);
+                responseJson.put("user", userJson);
+                return ResponseEntity.ok(responseJson.toString());
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
 
@@ -100,9 +111,40 @@ public class UserController {
         }
     }
 
+    // 카카오 로그아웃 메서드
+    private void kakaoLogout(String accessToken) throws IOException {
+        String requestUrl = "https://kapi.kakao.com/v1/user/logout";
+        URL url = new URL(requestUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setDoOutput(true);
 
-    // 기타 회원가입, 로그인, 비밀번호 변경 등의 메서드는 위의 코드를 참고하여 구현할 수 있습니다.
-	
+        int responseCode = connection.getResponseCode();
+        if (responseCode != 200) {
+            throw new IOException("Failed to logout from Kakao: " + responseCode);
+        }
+    }
+
+    @GetMapping("kakao_logout")
+    public String logout(HttpSession session) {
+        // 카카오 로그인을 통해 세션에 저장된 액세스 토큰 가져오기
+        String kakaoAccessToken = (String) session.getAttribute("KAKAO_ACCESS_TOKEN");
+
+        // 세션 무효화
+        session.invalidate();
+
+        if (kakaoAccessToken != null) {
+            try {
+                kakaoLogout(kakaoAccessToken);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "redirect:/";
+    }
+	    
 	//회원가입 폼
 	@GetMapping("register")
 	public String goRegister() {
