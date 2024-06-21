@@ -51,6 +51,65 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
+	<style type="text/css">
+		.single-widget.category {
+			height: 250px;		
+		}
+		
+	</style>
+	
+	<script type="text/javascript">
+	//카테고리 ==================================================================
+   	$(document).ready(function() {
+    let cate2 = JSON.parse('${cate2}');
+    let cate3 = JSON.parse('${cate3}');
+    console.log('cate2:', cate2);
+    console.log('cate3:', cate3);
+
+    $('#cate1').change(function() {
+        var selectedCate2 = $(this).val();
+        console.log('cate1:', selectedCate2);
+        
+        var filteredCate2s = cate2.filter(function(cate) {
+            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
+        });
+        
+        console.log('cate2s:', filteredCate2s);
+        
+        
+        $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+        	
+        $.each(filteredCate2s, function(index, cate) {
+	            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+	    });
+        $('#cate2').prop('disabled', false).niceSelect('update');
+        
+        console.log("cate1(value) : " + $('#cate1').val());
+	    });
+	    
+	    $('#cate2').change(function(){
+	    	var selectedCate3 = $(this).val();
+	    	console.log('selectedCate3 :', selectedCate3);
+	    	
+	    	var filteredCate3s = cate3.filter(function(cate) {
+	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100
+	        });
+	    	console.log('cate3s:', filteredCate3s);
+	    	
+	    	$('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+	    	
+	    	$.each(filteredCate3s, function(index, cate) {
+	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+		    });
+	        $('#cate3').prop('disabled', false).niceSelect('update');
+	        
+	        console.log("cate2(value) : " + $('#cate2').val());
+	    });
+	});
+	</script>
+	 
+	 
+	 
 </head>
 <body class="js">
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -81,14 +140,31 @@
 							<div class="single-widget category">
 								<h3 class="title">Categories</h3>
 								<ul class="categor-list">
-									<li><a href="#">공통코드</a></li>
+									<li>
+										<select id="cate1" name="cate1" class="form-control" required >
+			                                <option value="">대분류</option>
+			                                <c:forEach var="cate1" items="${cate1}">
+			                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
+			                                </c:forEach>
+			                            </select>
+				                    </li>
+				                    <li>        
+			                            <select id="cate2" name="cate2" class="form-control" required disabled>
+			                                    <option value="">중분류를 선택하시오</option>
+			                            </select>
+				                  	</li>
+				                  	<li>          
+			                            <select id="cate3" name="cate3" class="form-control" required disabled>
+			                                    <option value="">소분류를 선택하시오</option>
+			                            </select>
+		                            </li>
 								</ul>
 							</div>
 							<!--/ End Single Widget -->
 							<!-- Single Widget -->
 							<div class="single-widget recent-post">
 								<h3 class="title">최근 본 상품 -흠-</h3>
-								<!-- Single Post -->
+								Single Post
 								<div class="single-post first">
 									<div class="image">
 										<img src="https://via.placeholder.com/75x75" alt="#">
@@ -208,6 +284,7 @@
 				</div>
 			</div>
 		</section>
+
 		<!--/ End Product Style 1  -->	
 
 		

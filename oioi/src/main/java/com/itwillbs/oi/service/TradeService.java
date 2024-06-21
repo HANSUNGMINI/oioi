@@ -43,10 +43,12 @@ public class TradeService {
 	}
 
 	public int updateReadCount(String pd_idx) {
-		// TODO Auto-generated method stub
 		return mapper.updateReadCount(pd_idx);
 	}
-
+	
+	 public List<Map<String, String>> getProductsByCategory(String categoryCode) {
+	        return mapper.selectProductsByCategory(categoryCode);
+	    }
 	
 	
 
