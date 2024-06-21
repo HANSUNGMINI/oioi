@@ -13,23 +13,14 @@ public class AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 	
-	public Map<String, Object> selectAdmin(Map<String, String> admin){
-		return adminMapper.selectAdmin(admin);
-	}
-	
-	
-	
+	// 관리자 로그인
+	public Map<String, Object> selectAdmin(Map<String, String> admin){ return adminMapper.selectAdmin(admin); }
 	
 	// List 조회
-	public List<Map<String, Object>> selectAdminList(Map<String, Object> select){
-		return adminMapper.selectAdminList(select);
-	}
-	public List<Map<String, Object>> selectUserList(Map<String, Object> select){
-		return adminMapper.selectUserList(select);
-	}
-	public List<Map<String, Object>> selectProductList(Map<String, Object> select){
-		return adminMapper.selectProductList(select);
-	}
+	public List<Map<String, Object>> selectCommonList(Map<String, Object> data){ return adminMapper.selectCommonList(data); }
+	public List<Map<String, Object>> selectProductList(Map<String, Object> data){ return adminMapper.selectProductList(data); }
+	public List<Map<String, Object>> selectAdminList(Map<String, Object> data){ return adminMapper.selectAdminList(data); }
+	public List<Map<String, Object>> selectUserList(Map<String, Object> data){ return adminMapper.selectUserList(data); }
 	// List 조회 끝
 	
 	
@@ -37,16 +28,14 @@ public class AdminService {
 	
 	
 	
-	public List<Map<String, Object>> selectCommonList(Map<String, Object> select){
-		return adminMapper.selectCommonList(select);
-	}
+	
 	
 	public List<Map<String, Object>> selectCategoryList(){
 		return adminMapper.selectCategoryList();
 	}
 	
-	public int changeActive(Map<String, Object> select){
-		return adminMapper.changeActive(select);
+	public int changeActive(Map<String, Object> data){
+		return adminMapper.changeActive(data);
 	}
 	
 	public int changeHide(Map<String, Object> select){

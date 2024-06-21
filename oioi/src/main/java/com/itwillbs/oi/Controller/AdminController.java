@@ -1,6 +1,5 @@
 package com.itwillbs.oi.Controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
-import com.itwillbs.oi.handler.PageInfo;
 import com.itwillbs.oi.service.AdminService;
+
+import retrofit2.http.PATCH;
 
 /*
  * HTTP 맵핑 종류
@@ -40,15 +40,9 @@ public class AdminController {
 	
 	// 이동 메소드
 	@GetMapping("adminlogin")
-	public String goLoginPage() {
-		return "admin/admin_login";
-	}
-	
+	public String goLoginPage() {return "admin/admin_login";}
 	@GetMapping("logout")
-	public String logout() {
-		session.invalidate();
-		return "redirect:/./";
-	}
+	public String logout() {session.invalidate(); return "redirect:/./";}
 	
 	@GetMapping("admin")
 	public String goAdmin(Model model) {
@@ -105,15 +99,16 @@ public class AdminController {
 		return "admin/admin_user_list";
 	}
 	
+	
+	// 최고 관리자용
 	@GetMapping("master_admin")
 	public String master_admin(Model model) {
 		
-		//TODO 왜 자바스크립트에서 처리가 안되는지 물어보기(늦
 		if(!CheckAuthority.isAdminMaster(session, model)) {
 			return "err/fail";
 		}
 		
-		return "admin/admin_master_admin";
+		return "admin/admin_admin_list";
 	}
 	
 	//==========================
@@ -153,7 +148,7 @@ public class AdminController {
 		System.out.println(categoryList);
 		
 		model.addAttribute("categoryList", categoryList);
-		return "admin/admin_master_category";
+		return "admin/admin_common_code_list";
 	}
 	
 	//==========================
@@ -161,16 +156,35 @@ public class AdminController {
 	 	// List 조회
 	@ResponseBody
 	@GetMapping("List")
-	public List<Map<String, Object>> List(@RequestParam Map<String, Object> select, Model model) {
+	public List<Map<String, Object>> selectList(@RequestParam Map<String, Object> data, Model model) {
 		
 		List<Map<String, Object>> result = null;
 		
-		String table = select.get("table").toString();
+		String target = data.get("table").toString();
 		
-		switch (table) {
-			case "admin" : result = adminservice.selectAdminList(select); break;
-			case "user" : result = adminservice.selectUserList(select); break;
-			case "product" : result = adminservice.selectProductList(select); break;
+		System.out.println(data);
+		switch (target) {
+			case "admin" : result = adminservice.selectAdminList(data); break;
+			case "user" : result = adminservice.selectUserList(data); break;
+			case "product" : result = adminservice.selectProductList(data); break;
+			case "common" : result = adminservice.selectCommonList(data); break;
+		}
+		
+		
+		System.out.println(result);
+		return result;
+	}
+	
+	@ResponseBody
+	@PatchMapping("status")
+	public int changeStatus(@RequestBody Map<String, Object> data, Model model) {
+		System.out.println(data);
+		String target = data.get("type").toString();
+		int result = 0;
+		
+		switch (target) {
+			case "AD_ACTIVE" : result = adminservice.changeActive(data); break;
+			case "hide" : result = adminservice.changeHide(data); break;
 		}
 		
 		return result;

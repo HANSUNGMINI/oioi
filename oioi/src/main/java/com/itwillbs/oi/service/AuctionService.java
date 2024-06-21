@@ -54,6 +54,14 @@ public class AuctionService {
 		return mapper.selectApdDetail(map);
 	}
 
+	public Map<String, String> selectACR(String APD_IDX) {
+		return mapper.selectACR(APD_IDX);
+	}
+
+	public void insertACR(String APD_IDX) {
+		mapper.insertACR(APD_IDX);
+	}
+
 	
 	
 }

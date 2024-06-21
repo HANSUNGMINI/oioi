@@ -124,6 +124,11 @@ public class TradeController {
 		model.addAttribute("tradeMethod", tradeMethod);
 		System.out.println(tradeMethod);
 		
+		// 상품 상태
+		List<Map<String, String>> productStatus = TradeService.getProductStatus();
+		model.addAttribute("productStatus", productStatus);
+		System.out.println(productStatus);
+		
 		System.out.println("카테1" + cate1);
 		System.out.println("카테2" + cate2);
 		System.out.println("카테3" + cate3);
@@ -154,7 +159,7 @@ public class TradeController {
 		}
 		map.put("PD_CATEGORY", cn);
 		
-		System.out.println("##################" +map);
+		System.out.println("##################" + map);
 //		for(MultipartFile mf : files) {
 //			System.out.println(mf);
 //		} //이미지 들고오기
@@ -170,6 +175,7 @@ public class TradeController {
 	    String subDir = "";
 	    
 	    LocalDate today = LocalDate.now();
+//	    LocalDate today = LocalDate.of(2024, 6, 21);
 	    String datePattern = "yyyy/MM/dd";
 	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
 	    subDir = today.format(dtf);
@@ -247,6 +253,11 @@ public class TradeController {
 		System.out.println(map);
 		System.out.println("PD_IDX :" + map.get("PD_IDX"));
 		
+		// 클릭 시 조회 수 + 1
+		String pd_idx = map.get("PD_IDX");
+		int readCountResult = TradeService.updateReadCount(pd_idx);
+		
+		// pd_idx에 따른 정보 조회
 		Map<String, String> dbMap = TradeService.getProductInfo(map);
 		model.addAttribute("productInfo", dbMap);
 		System.out.println(dbMap);

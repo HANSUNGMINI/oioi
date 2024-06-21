@@ -1,5 +1,10 @@
 package com.itwillbs.oi.Controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.itwillbs.oi.service.MailService;
 import com.itwillbs.oi.service.UserService;
@@ -34,6 +39,69 @@ public class UserController {
 	public String goLogin() {
 		return "user/login";
 	}
+	
+	// 간편 로그인
+	@GetMapping("easy_login")
+	public String goEasyLogin() {
+		return "user/easy_login";
+	}
+	
+	// 카카오 로그인 처리 메서드
+    @PostMapping("kakao_login")
+    @ResponseBody
+    public ResponseEntity<?> kakaoLogin(@RequestBody String tokenJson, HttpSession session) {
+        JSONObject tokenObj = new JSONObject(tokenJson);
+        String accessToken = tokenObj.getString("token");
+
+        try {
+            String userInfo = getUserInfo(accessToken);
+            if (userInfo != null) {
+                JSONObject userJson = new JSONObject(userInfo);
+                // 카카오 사용자 정보를 이용하여 로그인 처리 (예: 이메일로 회원가입 및 로그인)
+                String userEmail = userJson.optString("kakao_account.email");
+                String userNick = userJson.optString("properties.nickname");
+
+                // 로그인 성공 후 세션에 사용자 정보 저장
+                session.setAttribute("US_ID", userEmail);
+                session.setAttribute("US_NICK", userNick);
+
+                // 여기서 필요에 따라 DB에 저장하거나 추가적인 로직 수행 가능
+
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    private String getUserInfo(String accessToken) throws IOException {
+        String requestUrl = "https://kapi.kakao.com/v2/user/me";
+        URL url = new URL(requestUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setDoOutput(true);
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == 200) { // 성공
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            return response.toString();
+        } else {
+            return null;
+        }
+    }
+
+
+    // 기타 회원가입, 로그인, 비밀번호 변경 등의 메서드는 위의 코드를 참고하여 구현할 수 있습니다.
 	
 	//회원가입 폼
 	@GetMapping("register")

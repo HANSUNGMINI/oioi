@@ -13,7 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
-    <title>공지사항</title>
+    <title>커뮤니티 게시판</title>
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
@@ -201,7 +201,15 @@
 	    element.style.fontWeight = 'bold';
 	    element.textContent = "> " + previousText;
 }
-
+	
+	
+	function confirmDelete(CM_IDX) {
+        if (confirm("삭제하시겠습니까?")) {
+            location.href = 'boardDelete?CM_IDX=' + CM_IDX;
+        }
+    }
+	
+	
 
 </script>
 
@@ -237,10 +245,17 @@
 								<em class="em"><b>날짜</b></em>
 								<em>${boardDetail.CM_REG_DATE}</em>
 				  			</div>
-				  			
-							
 							<div class = "view_cont" style="width: 850px; height: 600px; ">
-				  				<p style="font-size: 18px; padding-top: 30px;">
+				  				<p style="font-size: 20px; padding-top: 30px;">
+				  					<c:if test="${boardDetail.CM_IMAGE1 != null}">
+				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE1}" alt="#" style="width: 200px; height: 200px; ">
+				  					</c:if>
+				  					<c:if test="${boardDetail.CM_IMAGE2 != null}">
+				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE2}" alt="#" style="width: 200px; height: 200px;">
+				  					</c:if>
+				  					<c:if test="${boardDetail.CM_IMAGE3 != null}">
+				  						<img src="${pageContext.request.contextPath}/resources/upload/${boardDetail.CM_IMAGE3}" alt="#" style="width: 200px; height: 200px;">
+				  					</c:if>
 				  					${boardDetail.CM_CONTENT}
 								</p>
 				  			</div>
@@ -248,8 +263,8 @@
 					    
 					     <div class="button-container" style="padding:4px">
 			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
-			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify'" style="margin-right:10px;">
-			 				<input type="button"  value = "삭제" class="btn btn-primary" >
+			 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify?CM_IDX=${boardDetail.CM_IDX}'" style="margin-right:10px;">
+			 				<input type="button"  value = "삭제" class="btn btn-primary" onclick="confirmDelete(${boardDetail.CM_IDX})">
 			 			</div>	
 				    </form>
 				 </div>

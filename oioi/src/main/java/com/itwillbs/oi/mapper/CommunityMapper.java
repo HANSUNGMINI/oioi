@@ -18,4 +18,6 @@ public interface CommunityMapper {
 
 	int selectCM_IDX();
 
+	int deleteBoard(Map<String, Object> map);
+
 }

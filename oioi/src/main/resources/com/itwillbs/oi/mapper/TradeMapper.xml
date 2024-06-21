@@ -26,7 +26,7 @@
             , #{PD_IMAGE} -- PD_IMAGE
             , #{PD_PRICE} -- PD_PRICE
             , #{PD_PRICE_OFFER} -- PD_PRICE_OFFER
-            , 0 -- PD_STATUS 판매전임으로 0
+            , #{PD_STATUS} -- PD_STATUS 
             , #{PD_CONDITION} -- PD_CONDITION
             , #{PD_TRADE_METHOD} -- PD_TRADE_METHOD
             , #{PD_SAFE_TRADE} -- PD_SAFE_TRADE
@@ -56,6 +56,19 @@
 		ON p.PD_IMAGE = i.IMG_IDX
 		WHERE PD_IDX = #{PD_IDX}
 	</select>
+	
+	<select id="getProductStatus">
+		select name , code , value  
+		from common c 
+		where name = 'PD_STATUS';
+	</select>
+	
+	<update id="updateReadCount">
+		UPDATE product
+		SET PD_READCOUNT = PD_READCOUNT + 1
+		WHERE PD_IDX = #{pd_idx}
+	</update>
+	
 </mapper>
 
 
