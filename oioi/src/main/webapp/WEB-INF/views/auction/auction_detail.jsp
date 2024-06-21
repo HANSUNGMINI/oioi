@@ -21,7 +21,8 @@
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	
-	<!-- StyleSheet -->
+	<!-- css(채팅) -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
 	
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
@@ -80,7 +81,7 @@
 		    	
 		    });
 	    	
-	    	connect();
+// 	    	connect();
 	    });
 
 	
@@ -95,25 +96,61 @@
 	        };
 	        
 	        ws.onmessage = function(event) {
+	        	
+	        	
 	            console.log('받은 메세지 - ' + event.data);
 	            var respose = JSON.parse(event.data);
 	            console.log("respose.APD_IDX : " + respose.APD_IDX);
 	            console.log("respose.MSG : " + respose.MSG);
-	            console.log("respose.US_ID : " + respose.US_ID);
+	            console.log("respose.US_ID(보낸 메세지 주인) : " + respose.US_ID);
+	            var session_id = "${sessionScope.US_ID}";
+	            console.log("session_id : " + session_id);
 	            
-	            $.ajax({
-	            	url : "saveMsg",
-	            	type : "post",
-	            	data : {
-	            		ACR_IDX : respose.APD_IDX,
-	            		ACM_CONTENT : respose.MSG,
-	            		ACM_USER : respose.US_ID
-	            	},
-	            	dataType : "JSON",
-	            	success: function(response) {
-	                    console.log('저장 성공');
-	                }
-	            });
+	            
+	            //세션아이디와 메세지 작성자가 일치하면 오른쪽 불일치면 왼쪽
+	            var html ='';
+	            if(session_id == respose.US_ID){
+	            	console.log("일치");
+	            	html += '<li class="clearfix" class="chatViewMe">' + 
+	                '<div class="message other-message float-right">' +
+	                respose.MSG +
+	                '</div>' +
+	           		'</li>';
+	            	$('.chatView').append(html);
+	            }else {
+	            	console.log("불일치");
+	            	html += '<li class="clearfix" class="chatViewYou">' + 
+	            	'<div class="message-avatar">' +
+	            	'<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
+	            	respose.US_ID +
+	            	'</div>' +
+	                '<div class="message my-message">' +
+	                respose.MSG +
+	                '</div>' +
+	           		'</li>';
+	            	$('.chatView').append(html);
+	            }
+	            
+	            
+	            
+	            
+	            var chatView = $('#chatView');
+	        	var newMsg = $('<div>').text(respose.MSG);
+	        	chatView.append(newMsg);
+	        	
+// 	            $.ajax({
+// 	            	url : "saveMsg",
+// 	            	type : "post",
+// 	            	data : {
+// 	            		ACR_IDX : respose.APD_IDX,
+// 	            		ACM_CONTENT : respose.MSG,
+// 	            		ACM_USER : respose.US_ID
+// 	            	},
+// 	            	dataType : "JSON",
+// 	            	success: function(response) {
+// 	                    console.log('저장 성공');
+// 	                }
+// 	            });
 	        };
 	        
 	        ws.onclose = function(event) {
@@ -186,44 +223,30 @@
 													<%-- 채팅 내역 --%>
 									                <div class="chat-history" style="background-color: #e9e9e9; padding: 20px;">
 									
-									                    <ul class="m-b-0">
-									                        
-									                        <li class="clearfix">
-									                            <div class="message-data text-right">
-									                            	<%-- 로그인 한 사람 이미지 --%>
-									                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=50" alt="avatar">
-									                            </div>
-									                            <div class="message other-message float-right">
-									                            	김유신 바보
-									                           		<small class="message-data-time" style="margin-right:0px">10:10 AM</small>
-									                            </div>
-									                            
-									                        </li>
-									                        
-									                        <li class="clearfix">
+									                    <ul class="chatView" style="height: 360px; overflow-y: auto;">
+									                        <li class="clearfix" id="chatViewYou">
+									                        	<div class="message-avatar">
+																	<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
+																	한숑
+																</div>
 									                            <div class="message my-message">
 									                            	이자민 바보
 									                            	<small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>
 									                            </div>
-									                                                          
 									                        </li>
-									                                                       
-									                        
 									                    </ul>
 									                </div>
 													
 													
 									                <%-- 메세지 전송 --%>
-									                <div class="chat-message clearfix" style="margin-bottom:0px">
-									                 	<!-- 사진 미리보기 영역 -->
-														<div id="preview-container" style="display: flex; margin-top: 3px; margin-bottom:10px"></div>
+									                <div class="" style="margin-bottom:0px;">
 														
-									                    <div class="input-group mb-0">
+									                    <div class="input-group">
 											                <%-- 전송란 --%>
-									                        <input type="text" class="form-control" id="sendMsg" placeholder="메세지를 입력하세요">                                    
+									                        <input type="text" class="m-b-0" style="width: 461px;" id="sendMsg" placeholder="메세지를 입력하세요">                                    
 									
 									                        <%-- 전송버튼 --%>
-									                        <div class="input-group-prepend">
+									                        <div class="">
 <!-- 									                            <a id="btnSend"><i class="bi bi-reply-fill"></i></a> -->
 <!-- 									                            <div class="input-group-text"> -->
 <!-- 										                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
@@ -236,30 +259,37 @@
 
 																
 									                        </div>
-									                        <button id ="btnSend">전송</button>
+									                        <button class="btn" id ="btnSend">전송</button>
 									                        
 									                    </div>
                 									</div>
 												</div>
 											</div>
+											
+											<!-- 다시 -->
+											
+											
+											
+											
+											
 											<!--/ End Description -->
 											<!-- Color -->
-											<div class="color" style="margin-top: 30px;">
+<!-- 											<div class="color" style="margin-top: 30px;"> -->
 												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
 												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
-											</div>
+<!-- 											</div> -->
 											<!--/ End Color -->
 											<!-- Size -->
-											<div class="size" style="margin-top: 20px;">
-												<h4>Size</h4>
-												<ul>
-													<li><a href="#" class="one">S</a></li>
-													<li><a href="#" class="two">M</a></li>
-													<li><a href="#" class="three">L</a></li>
-													<li><a href="#" class="four">XL</a></li>
-													<li><a href="#" class="four">XXL</a></li>
-												</ul>
-											</div>
+<!-- 											<div class="size" style="margin-top: 20px;"> -->
+<!-- 												<h4>Size</h4> -->
+<!-- 												<ul> -->
+<!-- 													<li><a href="#" class="one">S</a></li> -->
+<!-- 													<li><a href="#" class="two">M</a></li> -->
+<!-- 													<li><a href="#" class="three">L</a></li> -->
+<!-- 													<li><a href="#" class="four">XL</a></li> -->
+<!-- 													<li><a href="#" class="four">XXL</a></li> -->
+<!-- 												</ul> -->
+<!-- 											</div> -->
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
@@ -282,9 +312,6 @@
 												<div class="add-to-cart">
 													<a href="#" class="btn">즉시구매</a>
 												</div>
-												
-												
-												
 											</div>
 											<!--/ End Product Buy -->
 										</div>
