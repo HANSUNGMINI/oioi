@@ -80,8 +80,29 @@
 		    	socket.send(JSON.stringify(dataSend));
 		    	
 		    });
+			
+			var minValue = "${apdDetail.APD_START_PRICE}";
+			var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
+			$('#nowPrice').on('change',function(){
+				
+				nowValue = $(this).val();
+				
+				console.log("nowValue : " + nowValue);
+				console.log("minValue : " + minValue);
+				console.log("maxValue : " + maxValue);
+				
+				//입찰할 가격이 현재입찰가보다 크고 즉시입찰가보다 작아야 한다
+				if(minValue > nowValue || nowValue > maxValue){
+					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
+					return false;
+				}
+				
+				$('#bidding').on('click', function(){
+					console.log(nowValue);
+				});
+				
+			});
 	    	
-// 	    	connect();
 	    });
 
 	
@@ -215,7 +236,9 @@
 											<div class="short">
 												<h4>${apdDetail.APD_NAME}</h4>
 												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${apdDetail.APD_CAREGORY}</a></p>
-												
+												<hr>
+												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
+												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
 <!-- 												<p class="description"> -->
 													
 <!-- 												</p> -->
@@ -223,7 +246,7 @@
 													<%-- 채팅 내역 --%>
 									                <div class="chat-history" style="background-color: #e9e9e9; padding: 20px;">
 									
-									                    <ul class="chatView" style="height: 360px; overflow-y: auto;">
+									                    <ul class="chatView" style="height: 410px; overflow-y: auto;">
 									                        <li class="clearfix" id="chatViewYou">
 									                        	<div class="message-avatar">
 																	<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
@@ -275,8 +298,7 @@
 											<!--/ End Description -->
 											<!-- Color -->
 <!-- 											<div class="color" style="margin-top: 30px;"> -->
-												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
-												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
+												
 <!-- 											</div> -->
 											<!--/ End Color -->
 											<!-- Size -->
@@ -296,17 +318,17 @@
 												<div class="quantity">
 													<h6>입찰가 입력 :</h6>
 													<div class="input-group">
-														<input type="text" name="" class="input-number">
+														<input type="text" class="input-number" id="nowPrice" value="${apdDetail.APD_START_PRICE}">
 													</div>
 												</div>
 												<div class="add-to-cart">
-													<a href="#" class="btn">입찰하기</a>
+													<a href="#" class="btn" id="bidding">입찰하기</a>
 													<a href="#" class="btn min"><i class="ti-heart"></i></a>
 												</div>
 												<div class="quantity" style="margin-top: 5px;">
 													<h6>즉시 구매가 :</h6>
 													<div class="input-group">
-														<input type="text" name="" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}" readonly>
+														<input type="text" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}" readonly>
 													</div>
 												</div>
 												<div class="add-to-cart">
@@ -808,7 +830,7 @@
 	<!-- Countdown JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/finalcountdown.min.js"></script>
 	<!-- Nice Select JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
+<%-- 	<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script> --%>
 	<!-- Ytplayer JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script>
 	<!-- Flex Slider JS -->
