@@ -14,7 +14,6 @@ const table = "common";
 
 
 function putCode(jsonData) {
-	alert(jsonData)
 	$.ajax({
 		type : "PUT",
 		url : "common",
@@ -32,29 +31,6 @@ function putCode(jsonData) {
 			location.reload();
 		}
 	})
-}
-
-function deleteCode(jsonData) {
-	console.log(jsonData);
-	alert(jsonData)
-	if(confirm('정말 삭제하시겠습니까?')) {
-		$.ajax({
-			type : "DELETE",
-			url : "common",
-			contentType : 'application/json; charset=utf-8',
-			data : jsonData, 
-			dataType : "JSON",
-			success : function (response) {
-				if(response < 0) {
-				alert("삭제실패 다시 시도");
-				} else {
-					alert(response + "개 항목 변경완료!");
-				}
-			
-				location.reload();
-			}
-		})
-	}
 }
 
 
@@ -87,4 +63,3 @@ function change(elm, isChecked, code, type) {
 	}
 }
 
-		

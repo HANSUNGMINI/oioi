@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" class="">
 <head>
@@ -19,9 +20,11 @@
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	
 	<style>
+	
 		#buttons {
 			margin : 0px auto;
 		}
+		
 		
 	</style>
 </head>
@@ -42,21 +45,17 @@
 	    	<header class="card-header">
 	        	<p class="card-header-title">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-	          		상품목록
+	          		경매 상품 
 	        	</p>
 	        	
-	        	<select id="type">
-	        		<option value="US_ID">유저 아이디</option>
-	        		<option value="PD_SUBJECT">게시글 제목</option>
-	        		<option value="PD_CATEGORY">카테고리</option>
-	        		
-<!-- 	        		<option value="">태그(보류)</option> -->
+	        	<select id="type" onchange="search()">
+	        		<option value="ALL"> 전체 </option>
+	        		<c:forEach var="auctionList" items="${auctionList}">
+	        			<option value="${auctionList.value}"> ${auctionList.value}</option>
+	        		</c:forEach>
 	        	</select>
-	        	<input type="text" id="keyword" placeholder="검색어 입력">
-	        	<input type="button" id="submitBtn" value="검색">
 	        	
 	      	</header>
-	      	
 	      	<!-- 그리드 -->
 	       	<div id="grid"></div>
 	       	<div id="pagination"></div>
@@ -70,7 +69,10 @@
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_product_list.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_auction_list.js"></script>
+    <script>
+    </script>
+	
 	
 </html>
     

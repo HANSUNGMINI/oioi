@@ -15,8 +15,11 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectProductList(Map<String, Object> data);
 	List<Map<String, Object>> selectAdminList(Map<String, Object> data);
 	List<Map<String, Object>> selectCommonList(Map<String, Object> data);
-	List<Map<String, Object>> selectCategoryList();
+	List<Map<String, Object>> selectAuctionList(Map<String, Object> data);
 	
+	// 셀렉트박스 리스트 조회작업
+	List<Map<String, Object>> selectCodeCategoryList();
+	List<Map<String, Object>> selectAuctionCategoryList();
 	
 	// Status 변경 작업
 	int changeActive(Map<String, Object> data);

@@ -3,6 +3,11 @@ const columns = [
     {header: '아이디', name: 'US_ID'},
     {header: '게시글 제목', name: 'PD_SUBJECT'},
     {header: '카테고리', name: 'PD_CATEGORY'},
+    {header: '상세보기'
+      , name: 'hide'
+      , renderer: {type: detail_btn}
+      , witdh : '50px'
+    },
 ]
 
 // 조회할 테이블

@@ -21,17 +21,16 @@ public class AdminService {
 	public List<Map<String, Object>> selectProductList(Map<String, Object> data){ return adminMapper.selectProductList(data); }
 	public List<Map<String, Object>> selectAdminList(Map<String, Object> data){ return adminMapper.selectAdminList(data); }
 	public List<Map<String, Object>> selectUserList(Map<String, Object> data){ return adminMapper.selectUserList(data); }
+	public List<Map<String, Object>> selectAuctionList(Map<String, Object> data){ return adminMapper.selectAuctionList(data); }
 	// List 조회 끝
 	
 	
+	public List<Map<String, Object>> selectCodeCategoryList(){
+		return adminMapper.selectCodeCategoryList();
+	}
 	
-	
-	
-	
-	
-	
-	public List<Map<String, Object>> selectCategoryList(){
-		return adminMapper.selectCategoryList();
+	public List<Map<String, Object>> selectAuctionCategoryList(){
+		return adminMapper.selectAuctionCategoryList();
 	}
 	
 	public int changeActive(Map<String, Object> data){

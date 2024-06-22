@@ -58,3 +58,31 @@ class common_toggle {
 	  getElement() {return this.el;}
 	  render(props) {}
 }	
+
+
+
+
+
+class detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    var checked = '';
+		
+		if(props.value == 'N'){
+			checked = 'checked';
+		}
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-magnify"></i></span>'
+			+	'</button>'
+		);
+		
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}	

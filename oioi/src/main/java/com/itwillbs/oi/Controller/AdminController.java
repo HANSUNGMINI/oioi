@@ -90,6 +90,7 @@ public class AdminController {
 		}
 		return "admin/admin_user_list";
 	}
+	
 	@GetMapping("admin_chat")
 	public String admin_chat(Model model) {
 		
@@ -112,7 +113,6 @@ public class AdminController {
 	}
 	
 	//==========================
-	// DB작업 후 이동 메소드
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
 							, Model model) {
@@ -134,7 +134,6 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
-	
 	@GetMapping("master_category")
 	public String master_category(Model model) {
 		
@@ -143,12 +142,27 @@ public class AdminController {
 			return "err/fail";
 		}
 		
-		List<Map<String, Object>> categoryList = adminservice.selectCategoryList();
+		List<Map<String, Object>> categoryList = adminservice.selectCodeCategoryList();
 		
 		System.out.println(categoryList);
 		
 		model.addAttribute("categoryList", categoryList);
 		return "admin/admin_common_code_list";
+	}
+	
+	@GetMapping("admin_auction")
+	public String admin_auction(Model model) {
+		
+		if (session.getAttribute("isMaster") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		List<Map<String, Object>> auctionList = adminservice.selectAuctionCategoryList();
+		
+		System.out.println(auctionList);
+		model.addAttribute("auctionList", auctionList);
+		return "admin/admin_auction_list";
 	}
 	
 	//==========================
@@ -168,8 +182,8 @@ public class AdminController {
 			case "user" : result = adminservice.selectUserList(data); break;
 			case "product" : result = adminservice.selectProductList(data); break;
 			case "common" : result = adminservice.selectCommonList(data); break;
+			case "auction" : result = adminservice.selectAuctionList(data); break;
 		}
-		
 		
 		System.out.println(result);
 		return result;
@@ -200,11 +214,9 @@ public class AdminController {
 	public int putCommon(@RequestBody Map<String, Object> map) {
 		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
 		
-		
 		int result = 0;
 		// 수정한 row 작업
 		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)modifiedRows.get("updatedRows");
-		System.out.println(updateRows);
 		if(updateRows != null) {
 			for(Map<String, Object> item : updateRows) {
 				result += adminservice.patchcommon(item);
@@ -213,7 +225,6 @@ public class AdminController {
 		
 		// 추가한 row작업
 		List<Map<String, Object>> createdRows = (List<Map<String, Object>>)modifiedRows.get("createdRows");
-		System.out.println(createdRows);
 		if(createdRows != null) {
 			for(Map<String, Object> item : createdRows) {
 				item.put("target", map.get("target"));
@@ -221,42 +232,15 @@ public class AdminController {
 			}
 		}
 		
-		return result;
-	}
-
-		// 공통코드 삭제
-	@ResponseBody
-	@DeleteMapping("common")
-	public int deleteCommon(@RequestBody Map<String, Object> map) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(map);
-		List<Map<String, Object>> deleteRows = (List<Map<String, Object>>)map.get("deleteRows");
-		
-		int result = 0;
-		
-		for(Map<String, Object> item : deleteRows) {
-			result += adminservice.deleteCommon(item);
+		// 삭제한 row작업
+		List<Map<String, Object>> deletedRows = (List<Map<String, Object>>)modifiedRows.get("deletedRows");
+		if(deletedRows != null) {
+			for(Map<String, Object> item : deletedRows) {
+				item.put("target", map.get("target"));
+				result += adminservice.deleteCommon(item);
+			}
 		}
 		
 		return result;
 	}
-	
-	
-	
-	// ============================================보관용=====================================================
-//	@ResponseBody
-//	@PatchMapping("common")
-//	public int patchCommon(@RequestBody Map<String, Object> map) {
-//		
-//		System.out.println(map);
-//		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
-//		
-//		int result = 0;
-//		
-//		for(Map<String, Object> item : updateRows) {
-//			result += adminservice.patchcommon(item);
-//		}
-//		
-//		return result;
-//	}
 }

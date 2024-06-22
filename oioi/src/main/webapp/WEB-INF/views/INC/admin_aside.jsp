@@ -72,6 +72,13 @@
 		            <span class="menu-item-label">채팅 조회</span>
 	        	</a>
      		 </li>
+			<li class="--set-active-tables-html">
+		     	<a href="admin_auction">
+		            <span class="icon"><i class="mdi mdi-gavel"></i></span>
+		            <span class="menu-item-label">경매 상품 조회</span>
+	        	</a>
+     		 </li>	     		 
+     		
 	      
 	    </ul>
 	    <p class="menu-label">About</p>

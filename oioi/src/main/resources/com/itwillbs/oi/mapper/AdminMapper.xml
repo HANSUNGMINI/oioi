@@ -46,14 +46,39 @@
 		 ORDER BY AD_IDX asc
 	</select>
 	
+	<select id="selectAuctionList" resultType="map">
+		SELECT ap.APD_OWNER
+			 , ap.APD_NAME
+			 , ap.APD_DETAIL
+			 , ap.APD_CATEGORY
+			 , ap.APD_REG_DATE
+		  FROM auction_product ap
+		  LEFT JOIN common c
+			ON ap.APD_STATUS = c.value
+		 WHERE
+		  <choose>
+		  	<when test="!type.equals('ALL')"> c.value = #{type} </when>
+		  	<otherwise> 1 = 1</otherwise>
+		  </choose>
+		 ORDER BY ap.APD_IDX asc
+	</select>
 	
 	
 	
 	
 	<!-- List 조회작업 끝 -->
-	<select id="selectCategoryList" resultType="map">
+	
+	<!-- 셀렉트박스 리스트 조회 -->
+	<select id="selectCodeCategoryList" resultType="map">
 		SELECT *
 		  FROM Mcommon;
+	</select>
+	
+	<select id="selectAuctionCategoryList" resultType="map">
+		SELECT *
+		  FROM common
+		 WHERE name = 'APD_STATUS'
+		 ORDER BY value asc
 	</select>
 	
 	

@@ -1,6 +1,9 @@
 // 한 페이당 보여줄 항목의 갯수 
 const itemsPerPage = 5;
-		
+
+const rowHeaders = ['rowNum','checkbox'];
+
+
 // ready
 $(function(){
 	
@@ -42,7 +45,7 @@ function search() {
 			    data: gridData,
 			    scrollX: false,
 			    scrollY: false,
-			    rowHeaders: ['rowNum','checkbox'],
+			    rowHeaders: rowHeaders,
 			    columns: columns,
 			    pageOptions: {
 		           useClient: true,
@@ -64,10 +67,12 @@ function search() {
 			
 			// 삭제버튼
 			$('#btn-delete').on('click', function () {
-			    const checkedRows = grid.getCheckedRows();
-			    const jsonData = JSON.stringify(checkedRows);
-				deleteCode(jsonData)
-			});
+	            const checkedRows = grid.getCheckedRows();
+	            checkedRows.forEach(row => {
+	                grid.removeRow(row.rowKey);
+	            });
+	        });
+
 			
 			// 추가버튼(row만 추가 DB작업 X)
 			$('#btn-add').on('click', function () {

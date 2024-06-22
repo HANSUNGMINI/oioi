@@ -25,6 +25,10 @@
 			margin : 0px auto;
 		}
 		
+ 		#type {
+			border : 2px solid black; 
+ 		} 
+		
 		
 	</style>
 </head>
@@ -48,7 +52,7 @@
 	          		카테고리
 	        	</p>
 	        	
-	        	<select id="type">
+	        	<select id="type" onchange="search()">
 		        		<c:forEach var="category" items="${categoryList}">
 		        			<option value="${category.name}"> ${category.description}</option>
 		        		</c:forEach>
@@ -60,20 +64,19 @@
       				</button>
      			</div>
      			
-     			<div class="buttons right nowrap">
-      				<button class="button small blue" id="btn-apply" type="button">
-      					<span class="icon"><i class="mdi mdi-lead-pencil"></i></span>
-      				</button>
-     			</div>
-     			
 	        	<div class="buttons right nowrap">
       				<button class="button small red" id="btn-delete" type="button">
       					<span class="icon"><i class="mdi mdi-delete"></i></span>
       				</button>
      			</div>
 	        	
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-apply" type="button">
+      					<span class="icon"><i class="mdi mdi-lead-pencil"></i></span>
+      				</button>
+     			</div>
+	        	
 	      	</header>
-	      	
 	      	<!-- 그리드 -->
 	       	<div id="grid"></div>
 	       	<div id="pagination"></div>
@@ -89,7 +92,6 @@
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin_common_code_list.js"></script>
     <script>
-    
     </script>
 	
 	
