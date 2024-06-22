@@ -33,6 +33,7 @@
 	
 		 // 반복문을 통해 각 키워드를 처리
 	    storedKeywords.forEach(function(keyword) {
+	   // alert("아예 안 되는 거?");
 	        $.ajax({
 	            type: "GET",
 	            url: "recentKeywordProductList",
@@ -42,6 +43,12 @@
 	            dataType: "json",
 	            success: function(response) {
 					let productList = response;
+					//alert(productList);
+					
+					if(productList == '') {
+						let nullDiv = '<div> 최근 검색 목록이 비어 있습니다. </div>'	
+						$("#recentKeywordProduct").append(nullDiv);					
+					}
 					
 					$.each(productList, function(index, pr) {
 						// alert( pr.PD_IMAGE);
