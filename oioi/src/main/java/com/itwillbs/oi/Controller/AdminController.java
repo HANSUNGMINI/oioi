@@ -80,7 +80,7 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		return "admin/admin_user_list";
+		return "admin/admin_board_list";
 	}
 	
 	@GetMapping("admin_report")
@@ -199,10 +199,13 @@ public class AdminController {
 			case "common" : result = adminservice.selectCommonList(data); break;
 			case "auction" : result = adminservice.selectAuctionList(data); break;
 			case "report" : result = adminservice.selectReportList(data); break;
+			case "community" : result = adminservice.selectCommunityList(data); break;
 		}
 		
 		System.out.println(result);
+		System.out.println("@@@");
 		return result;
+		
 	}
 		// status 관리
 	@ResponseBody

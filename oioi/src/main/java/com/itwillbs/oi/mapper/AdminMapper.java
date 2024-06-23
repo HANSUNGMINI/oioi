@@ -18,6 +18,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectCommonList(Map<String, Object> data);
 	List<Map<String, Object>> selectAuctionList(Map<String, Object> data);
 	List<Map<String, Object>> selectReportList(Map<String, Object> data);
+	List<Map<String, Object>> selectCommunityList(Map<String, Object> data);
  	
 	// 셀렉트박스 리스트 조회작업
 	List<Map<String, Object>> selectCodeCategoryList();

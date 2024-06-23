@@ -59,6 +59,35 @@ class common_toggle {
 	  render(props) {}
 }	
 
+class community_detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-link"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let idx = e.closest('tr').find('td:first').text();
+			location.href="boardDetail?CM_IDX=" + idx;
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}
+
+
+
+
+
 class product_detail_btn {
 	constructor(props) {
 	    const el = document.createElement('div');

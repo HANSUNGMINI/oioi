@@ -48,7 +48,7 @@
 		 WHERE 
 		  <choose>
 		  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
-		  	<when test="type.equals('PD_SUBJECT')">PD_SUBJECT) LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('PD_SUBJECT')">PD_SUBJECT LIKE concat('%', #{keyword} , '%')</when>
 		  	<when test="type.equals('PD_CATEGORY')">PD_CATEGORY LIKE concat('%', #{keyword} , '%')</when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
@@ -89,6 +89,23 @@
 	<select id="selectReportList" resultType="map">
 		SELECT *
 		  FROM report
+	</select>
+	
+	<select id="selectCommunityList" resultType="map">
+		SELECT CM_IDX
+			 , CM_ID
+			 , CM_TITLE
+			 , CM_NICK
+			 , CM_CATEGORY
+		  FROM community
+		 WHERE
+		  <choose>
+		  	<when test="type.equals('CM_ID')">CM_ID LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('CM_NICK')">CM_NICK LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('CM_TITLE')">CM_TITLE LIKE concat('%', #{keyword} , '%')</when>
+		  	<otherwise> 1 = 1</otherwise>
+		  </choose>
+		 ORDER BY CM_REG_DATE desc
 	</select>
 	
 	<!-- List 조회작업 끝 -->

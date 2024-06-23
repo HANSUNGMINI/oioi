@@ -23,7 +23,8 @@ public class AdminService {
 	public List<Map<String, Object>> selectAdminList(Map<String, Object> data){ return adminMapper.selectAdminList(data); }
 	public List<Map<String, Object>> selectUserList(Map<String, Object> data){ return adminMapper.selectUserList(data); }
 	public List<Map<String, Object>> selectAuctionList(Map<String, Object> data){ return adminMapper.selectAuctionList(data); }
-	public List<Map<String, Object>> selectReportList(Map<String, Object> data){ return adminMapper.selectAuctionList(data); }
+	public List<Map<String, Object>> selectReportList(Map<String, Object> data){ return adminMapper.selectReportList(data); }
+	public List<Map<String, Object>> selectCommunityList(Map<String, Object> data){ return adminMapper.selectCommunityList(data); }
 	// List 조회 끝
 	
 	// 셀렉트박스 조회
