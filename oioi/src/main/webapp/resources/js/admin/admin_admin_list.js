@@ -52,7 +52,7 @@ function search() {
 			
 s		} // success 끝
 	});
-};ㄴ
+};
 
 
 
@@ -83,4 +83,9 @@ function change(elm, isChecked, id, type) {
 		//취소 선택시 상태 제자리
 		elm.prop('checked', !isChecked);
 	}
+}
+
+
+function addAdmin() {
+	window.open("addAdmin","관리자 추가","width=600, height=300, top=150, left=650");
 }

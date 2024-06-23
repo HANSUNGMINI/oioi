@@ -21,6 +21,7 @@ import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AdminService;
 
 import retrofit2.http.PATCH;
+import retrofit2.http.POST;
 
 /*
  * HTTP 맵핑 종류
@@ -112,6 +113,7 @@ public class AdminController {
 		return "admin/admin_admin_list";
 	}
 	
+	
 	//==========================
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
@@ -153,16 +155,29 @@ public class AdminController {
 	@GetMapping("admin_auction")
 	public String admin_auction(Model model) {
 		
-		if (session.getAttribute("isMaster") == null ) {
-			model.addAttribute("msg", "권한 없음!");
+		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
-		}
+		};
 		
 		List<Map<String, Object>> auctionList = adminservice.selectAuctionCategoryList();
 		
 		System.out.println(auctionList);
 		model.addAttribute("auctionList", auctionList);
 		return "admin/admin_auction_list";
+	}
+	
+	@GetMapping("addAdmin")
+	public String addAdmin(Model model) {
+		
+		if(!CheckAuthority.isAdminMaster(session, model)) {
+			return "err/fail";
+		}
+		
+		List<Map<String, Object>> roleList = adminservice.selectAdminRoleList();
+		
+		model.addAttribute("roleList", roleList);
+		
+		return "admin/admin_add_admin";
 	}
 	
 	//==========================
@@ -243,5 +258,12 @@ public class AdminController {
 		}
 		
 		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("addAdmin")
+	public int addAdmin(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		return adminservice.insertAdminAccount(map);
 	}
 }

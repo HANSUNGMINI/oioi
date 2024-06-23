@@ -41,18 +41,16 @@
 	<section class="section main-section">
 	    <div class="card has-table">
 	    	<header class="card-header">
-	        	<p class="card-header-title">
+	        	<p class="card-header-title" style="width : 95%;">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
 	          		관리자 목록
 	        	</p>
 	        	
-<!-- 	        	<select id="type"> -->
-<!-- 	        		<option value="US_NAME">이름</option> -->
-<!-- 	        		<option value="US_ID">아이디</option> -->
-<!-- 	        		<option value="US_NICK">관리자 등록일</option> -->
-<!-- 	        	</select> -->
-<!-- 	        	<input type="text" id="keyword" placeholder="검색어 입력"> -->
-<!-- 	        	<input type="button" id="submitBtn" value="검색"> -->
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-add-admin" type="button" onclick="addAdmin()">
+      					<span class="icon"><i class="mdi mdi-plus-thick"></i></span>
+      				</button>
+     			</div>
 	        	
 	      	</header>
 	      	

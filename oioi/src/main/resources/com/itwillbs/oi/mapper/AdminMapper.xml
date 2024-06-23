@@ -4,7 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.itwillbs.oi.mapper.AdminMapper">
-
+	<!-- 관리자 -->
+	
+	<select id="selectAdmin" resultType="map">
+		SELECT *
+		  FROM admin
+		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW} AND AD_ACTIVE = 'Y'
+	</select>
+	
+	<insert id="insertAdminAccount">
+		INSERT INTO admin
+		VALUES (
+			   null
+			 , #{AD_ID}
+			 , #{AD_PW}
+			 , #{AD_NAME}
+			 , DATE_FORMAT(NOW(), '%Y-%m-%d')
+			 , 'Y'
+			 , #{RL_TYPE}
+		)
+	</insert>
+	
+	<!-- 관리자 끝 -->
+	
+	
 	<!-- List 조회작업 -->
 	<select id="selectUserList" resultType="map">
 		SELECT *
@@ -83,19 +106,16 @@
 		 ORDER BY value asc
 	</select>
 	
-	
-	
-	<select id="selectAdmin" resultType="map">
+	<select id="selectAdminRoleList" resultType="map">
 		SELECT *
-		  FROM admin
-		 WHERE AD_ID = #{AD_ID} AND AD_PW = #{AD_PW} AND AD_ACTIVE = 'Y'
+		  FROM common
+		 WHERE name = 'ROLE_TYPE' AND code != 'ARL01'
+		 ORDER BY value asc
 	</select>
 	
+	<!-- 셀렉트박스 리스트 조회 끝 -->
 	
-	
-	
-	
-
+	<!-- 공통코드 관리 -->
 	
 	<update id="changeActive">
 		UPDATE admin
@@ -117,8 +137,6 @@
 		 WHERE code = #{code};
 	</update>
 	
-	
-	<!-- 관리자 공통코드 관리 -->
 	<update id="patchcommon">
 		UPDATE common
 		   SET value = #{value}
@@ -141,6 +159,7 @@
 		 WHERE code = #{code}
 	</delete>
 	
+	<!-- 공통관리 끝 -->
 </mapper>
 
 

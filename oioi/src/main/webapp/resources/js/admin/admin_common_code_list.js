@@ -101,7 +101,7 @@ function putCode(jsonData) {
 				alert(response + "개 항목 변경완료!");
 			}
 			
-			location.reload();
+			search();
 		}
 	})
 }
