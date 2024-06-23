@@ -104,7 +104,9 @@
 		from auction_product ap
 		join images i
 		on ap.APD_IMAGE = i.IMG_IDX
-		where APD_IDX = #{APD_IDX}
+		join auction a
+		on ap.APD_IDX = a.APD_IDX
+		where ap.APD_IDX = #{APD_IDX};
 	</select>
 	
 	<select id="selectACR" resultType="hashmap">
@@ -117,6 +119,11 @@
 		auction_chat_room(ACR_IDX)
 		values (#{ACR_IDX})
 	</insert>
+	<update id="updateBid">
+		update auction
+		set BID_US_ID = #{US_ID}, BID_PRICE = #{BID_PRICE}
+		where AT_IDX = #{AT_IDX};
+	</update>
 </mapper>
 
 

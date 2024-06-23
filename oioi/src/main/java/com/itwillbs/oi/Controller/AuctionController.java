@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
@@ -211,6 +212,23 @@ public class AuctionController {
 			service.insertACR(APD_IDX);
 		}
 		return "";
+	}
+	
+	@ResponseBody
+	@PostMapping("auctionBid")
+	public String auctionBid(@RequestParam Map<String, Object> map,Model model) {
+		System.out.println("auctionBid : " + map);
+		
+		int updateBid = service.updateBid(map);
+		System.out.println("updateBid 성공 여부" + updateBid);
+		if(updateBid > 0) {
+			return (String)map.get("BID_PRICE");
+		}else {
+			model.addAttribute("msg", "입찰에 실패하였습니다.");
+			model.addAttribute("targetURL", "auctionRegist");
+	    	return "err/fail";
+		}
+		
 	}
 	
 

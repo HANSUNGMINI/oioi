@@ -62,6 +62,10 @@ public class AuctionService {
 		mapper.insertACR(APD_IDX);
 	}
 
+	public int updateBid(Map<String, Object> map) {
+		return mapper.updateBid(map);
+	}
+
 	
 	
 }

@@ -54,16 +54,16 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			var seller = "${apdDetail.US_ID}";
+			var us_id = "${apdDetail.US_ID}";
 			var apd_idx = "${apdDetail.APD_IDX}";
-			
+			var at_idx = "${apdDetail.AT_IDX}";
 			$('#btnSend').on('click',function(et) {
 				
 				if(${empty apdDetail.US_ID}){
 					alert("로그인 후 사용하세요");
 					return;
 				}
-				console.log("US_ID : " + seller);
+				console.log("US_ID : " + us_id);
 				console.log("socket : "+socket);
 		    	et.preventDefault();
 		    	if(socket.readyState !== 1)return;
@@ -72,7 +72,7 @@
 		    	console.log("msg : " + msg);
 		    	
 		    	var dataSend = {
-		    	        US_ID: seller,
+		    	        US_ID: us_id,
 		    	        APD_IDX: apd_idx,
 		    	        MSG: msg
 		    	};
@@ -99,6 +99,28 @@
 				
 				$('#bidding').on('click', function(){
 					console.log(nowValue);
+					
+					$.ajax({
+						url : "auctionBid",
+						type : "post",
+						data : {
+							AT_IDX : at_idx,
+							US_ID : us_id,
+							BID_PRICE : nowValue
+						},
+						dataType : "JSON",
+	            		success: function(response) {
+	                    	console.log('저장 성공 : ' + response);
+	                    	var html ='';
+	                    	html += '<li class="clearfix" class="chatViewMe">' + 
+	    	                '<div class="message other-message float-right">' +
+	    	                response +
+	    	                '원이 입찰되었습니다.' +
+	    	                '</div>' +
+	    	           		'</li>';
+	    	            	$('.chatView').append(html);
+	                	}
+					});
 				});
 				
 			});
@@ -235,7 +257,7 @@
 											<!-- Description -->
 											<div class="short">
 												<h4>${apdDetail.APD_NAME}</h4>
-												<p class="cat" style="margin-top: -1px;">Category :<a href="#">${apdDetail.APD_CAREGORY}</a></p>
+												<p class="cat" style="margin-top: -1px;">Category : ${apdDetail.APD_CATEGORY}</p>
 												<hr>
 												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
 												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>

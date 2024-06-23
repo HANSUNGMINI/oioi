@@ -29,5 +29,7 @@ public interface AuctionMapper {
 
 	void insertACR(String aPD_IDX);
 
+	int updateBid(Map<String, Object> map);
+
 
 }
