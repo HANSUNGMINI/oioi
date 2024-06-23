@@ -281,6 +281,14 @@
 		    <version>20240303</version>
 		</dependency>
 		
+		<!-- 페이징처리 -->
+		<dependency>
+		    <groupId>com.github.pagehelper</groupId>
+		    <artifactId>pagehelper-spring-boot-starter</artifactId>
+		    <version>1.2.13</version>
+		</dependency>
+		
+		
 		  
 	</dependencies>
     <build>

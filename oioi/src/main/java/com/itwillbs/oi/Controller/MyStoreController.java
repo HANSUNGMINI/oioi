@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,7 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.StoreService;
 import com.itwillbs.oi.service.UserService;
@@ -32,37 +38,38 @@ public class MyStoreController {
 	private StoreService storeService;
 	
 	@GetMapping("myStore")
-	public String myStore(Model model) {
-		
-		// 유저가 아님
-		if(!CheckAuthority.isUser(session, model)) {
-			System.out.println(model.getAttribute("msg"));
-			System.out.println(model.getAttribute("targetURL"));
-			return "err/fail";
-		}
-		
-		String id = (String)session.getAttribute("US_ID");
-		Map<String, String> user = userService.selectMyUser(id);
-		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
-		
-		// 상품 목록을 역순으로 정렬
-		Collections.reverse(myPD);
-		
-		// 상품 목록을 스트림으로 처리하여 각 상품의 등록 시간을 현재 시간과 비교한 결과를 추가
-        List<Map<String, Object>> productList = myPD.stream()
-        	.map(product -> {
-            LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
-            String timeAgo = dateTimeAgo(regDate);
-            product.put("timeAgo", timeAgo);
-//            System.out.println("각 상품들의 정보 : " + product);
-            return product;
-        }).collect(Collectors.toList());
-		
-		model.addAttribute("user", user);
-		model.addAttribute("myPD", productList);
-		
-		return "myStore/my_store";
+	public String myStore(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "3") int pageSize, Model model) {
+	    // 유저가 아님
+	    if(!CheckAuthority.isUser(session, model)) {
+	        System.out.println(model.getAttribute("msg"));
+	        System.out.println(model.getAttribute("targetURL"));
+	        return "err/fail";
+	    }
+	    
+	    String id = (String)session.getAttribute("US_ID");
+	    Map<String, String> user = userService.selectMyUser(id);
+	    List<Map<String, Object>> myPD = storeService.selectMyPd(id);
+	    PageInfo<Map<String, Object>> pageInfo = storeService.pageMyPd(id, pageNum, pageSize);
+	    
+	    // 상품 목록을 역순으로 정렬
+	    Collections.reverse(myPD);
+	    
+	    // 상품 목록을 스트림으로 처리하여 각 상품의 등록 시간을 현재 시간과 비교한 결과를 추가
+	    List<Map<String, Object>> productList = myPD.stream()
+	        .map(product -> {
+	        LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
+	        String timeAgo = dateTimeAgo(regDate);
+	        product.put("timeAgo", timeAgo);
+	        return product;
+	    }).collect(Collectors.toList());
+	    
+	    model.addAttribute("user", user);
+	    model.addAttribute("myPD", productList);
+	    model.addAttribute("pageInfo", pageInfo);
+	    
+	    return "myStore/my_store";
 	}
+
 	
 	
 	@GetMapping("editStore")
@@ -85,12 +92,18 @@ public class MyStoreController {
 		return "myStore/edit_my_store";
 	}
 	
-	
-	
-	
-	
-	
-	
+	@PostMapping("updatePdStatus")
+	@ResponseBody
+	public Map<String, String> updatePdStatus(@RequestBody Map<String, Object> payload) {
+		int pdId = (int) payload.get("id");
+		String newStatus = (String) payload.get("status");
+		
+		storeService.updatePdStatus(pdId, newStatus);
+		
+		Map<String, String> response = new HashMap<>();
+		response.put("message", "Success");
+		return response;
+	}
 
     private String dateTimeAgo(LocalDateTime regDate) {
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
