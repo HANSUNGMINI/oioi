@@ -52,7 +52,7 @@
 	        		
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
-	        	<input type="button" id="submitBtn" value="검색">
+	        	<input type="button" id="submitBtn" value="검색" onclick="search()">
 	        	
 	      	</header>
 	      	
@@ -68,7 +68,7 @@
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_board_list.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_community_list.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
 	
 </html>

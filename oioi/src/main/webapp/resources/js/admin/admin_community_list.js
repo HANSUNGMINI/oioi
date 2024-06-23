@@ -16,11 +16,12 @@ const columns = [
 // 조회할 테이블
 const table = "community";
 
+
 function search() {
 
 	type = $("#type").val();
 	keyword = $("#keyword").val();
-			
+	
 	$.ajax({
 		type : "GET",
 		url : "List",

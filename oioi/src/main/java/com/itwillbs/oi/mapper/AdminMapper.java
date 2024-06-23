@@ -31,4 +31,7 @@ public interface AdminMapper {
 	int deleteCommon(Map<String, Object> data);
 	int changeActive(Map<String, Object> data);
 	int changeHide(Map<String, Object> data);
+	
+	// 기타
+	int patchAuctionProductStatus(Map<String, Object> data);
 }

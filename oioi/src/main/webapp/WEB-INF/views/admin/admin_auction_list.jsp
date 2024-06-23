@@ -54,7 +54,14 @@
 	        			<option value="${auctionList.value}"> ${auctionList.value}</option>
 	        		</c:forEach>
 	        	</select>
-	        	
+	        		
+	        		
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-apply" type="button">
+      					<span class="icon"><i class="mdi mdi-content-save"></i></span>
+      				</button>
+     			</div>
+     				
 	      	</header>
 	      	<!-- 그리드 -->
 	       	<div id="grid"></div>

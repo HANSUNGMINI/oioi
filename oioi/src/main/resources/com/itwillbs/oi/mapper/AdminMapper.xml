@@ -70,11 +70,13 @@
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">
-		SELECT ap.APD_OWNER
+		SELECT ap.APD_IDX
+			 , ap.APD_OWNER
 			 , ap.APD_NAME
 			 , ap.APD_DETAIL
 			 , ap.APD_CATEGORY
 			 , ap.APD_REG_DATE
+			 , ap.APD_STATUS
 		  FROM auction_product ap
 		  LEFT JOIN common c
 			ON ap.APD_STATUS = c.value
@@ -83,7 +85,7 @@
 		  	<when test="!type.equals('ALL')"> c.value = #{type} </when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
-		 ORDER BY ap.APD_IDX asc
+		 ORDER BY ap.APD_REG_DATE desc
 	</select>
 		 
 	<select id="selectReportList" resultType="map">
@@ -177,6 +179,13 @@
 	</delete>
 	
 	<!-- 공통관리 끝 -->
+	
+	
+	<update id="patchAuctionProductStatus">
+		UPDATE auction_product
+		   SET APD_STATUS = #{APD_STATUS}
+		 WHERE APD_IDX = #{APD_IDX}
+	</update>
 </mapper>
 
 

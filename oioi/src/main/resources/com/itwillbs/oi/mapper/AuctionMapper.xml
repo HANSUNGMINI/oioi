@@ -88,7 +88,7 @@
 			#{APD_CONDITION},
 			#{APD_START_PRICE},
 			#{APD_BUY_NOW_PRICE},
-			now()			
+			DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')			
 		)
 	</insert>
 	

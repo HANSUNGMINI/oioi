@@ -39,4 +39,6 @@ public class AdminService {
 	public int insertCommon(Map<String, Object> select){ return adminMapper.insertCommon(select); }
 	public int deleteCommon(Map<String, Object> select){ return adminMapper.deleteCommon(select); }
 	
+	// 다른 거
+	public int patchAuctionProductStatus(Map<String, Object> select){ return adminMapper.patchAuctionProductStatus(select); }
 }

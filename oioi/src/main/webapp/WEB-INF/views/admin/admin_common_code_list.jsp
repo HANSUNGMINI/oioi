@@ -72,7 +72,7 @@
 	        	
 	        	<div class="buttons right nowrap">
       				<button class="button small blue" id="btn-apply" type="button">
-      					<span class="icon"><i class="mdi mdi-lead-pencil"></i></span>
+      					<span class="icon"><i class="mdi mdi-content-save"></i></span>
       				</button>
      			</div>
 	        	

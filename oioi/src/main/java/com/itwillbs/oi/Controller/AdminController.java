@@ -232,7 +232,7 @@ public class AdminController {
 	@PutMapping("common")
 	public int putCommon(@RequestBody Map<String, Object> map) {
 		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
-		
+		String target = map.get("target").toString();
 		int result = 0;
 		// 수정한 row 작업
 		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)modifiedRows.get("updatedRows");
@@ -246,7 +246,7 @@ public class AdminController {
 		List<Map<String, Object>> createdRows = (List<Map<String, Object>>)modifiedRows.get("createdRows");
 		if(createdRows != null) {
 			for(Map<String, Object> item : createdRows) {
-				item.put("target", map.get("target"));
+				item.put("target", target);
 				result += adminservice.insertCommon(item);
 			}
 		}
@@ -255,13 +255,30 @@ public class AdminController {
 		List<Map<String, Object>> deletedRows = (List<Map<String, Object>>)modifiedRows.get("deletedRows");
 		if(deletedRows != null) {
 			for(Map<String, Object> item : deletedRows) {
-				item.put("target", map.get("target"));
+				item.put("target", target);
 				result += adminservice.deleteCommon(item);
 			}
 		}
 		
 		return result;
 	}
+	
+	@ResponseBody
+	@PatchMapping("APD_STATUS")
+	public int APD_STATUS(@RequestBody Map<String, Object> map) {
+		System.out.println(map);
+		int result = 0;
+		
+		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
+		if(updateRows != null) {
+			for(Map<String, Object> item : updateRows) {
+				result += adminservice.patchAuctionProductStatus(item);
+			}
+		}
+
+		return result;
+	}
+	
 	
 	@ResponseBody
 	@PostMapping("addAdmin")
