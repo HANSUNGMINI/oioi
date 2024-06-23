@@ -76,6 +76,21 @@
 		FROM community
 		WHERE CM_IDX = #{CM_IDX};
 	</delete>
+	
+	<update id="updateBoard">
+		<selectKey order="BEFORE" keyProperty="category" resultType="String">
+			SELECT value
+			FROM common c 
+			WHERE code = #{CM_CATEGORY}
+		</selectKey>
+		UPDATE community
+		SET 
+			CM_CATEGORY = #{category} 
+		  , CM_TITLE = #{CM_TITLE}
+		  , CM_CONTENT = #{CM_CONTENT}
+		WHERE
+			CM_IDX = #{CM_IDX}
+	</update>
   
   
   </mapper>

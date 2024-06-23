@@ -20,4 +20,6 @@ public interface CommunityMapper {
 
 	int deleteBoard(Map<String, Object> map);
 
+	int updateBoard(Map<String, Object> boardMap);
+
 }

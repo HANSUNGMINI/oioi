@@ -175,7 +175,7 @@ public class CommunityContorller {
     		
     		int insertCnt = service.insertBoard(map);
     		
-    		if(insertCnt < 0) {
+    		if(insertCnt < 1) {
     			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
     			return "err/fail";
     		}
@@ -209,16 +209,24 @@ public class CommunityContorller {
 		
 		Map<String, Object> boardMap = service.selectBoardDetail(Integer.parseInt(map.get("CM_IDX").toString()));
 		
+		boardMap.put("CM_IDX", map.get("CM_IDX").toString());
+		
 		model.addAttribute("board", boardMap);
 		
 		return "community/board_modify";
 	}
 	
 	@PostMapping("boardModify") // 게시글 수정
-	public String boardModifyPRo(@RequestParam Map<String, Object> boardMap) {
-		System.out.println(boardMap);
+	public String boardModifyPRo(@RequestParam Map<String, Object> boardMap, Model model) {
 		
-		return "boardDetail";
+		int updateCnt = service.updateBoard(boardMap);
+		
+		if(updateCnt < 1) {
+			model.addAttribute("msg", "게시글 등록에 실패하셨습니다.");
+			return "err/fail";
+		}
+		
+		return "redirect:/boardDetail?CM_IDX=" + boardMap.get("CM_IDX");
 	}
 	
 	@GetMapping("boardDelete")

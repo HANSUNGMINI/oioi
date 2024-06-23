@@ -244,15 +244,15 @@
 				  		</div>
 				  	 </div>
 			  		
-			   		<form action="boardMoidfy" method= "post" enctype="multipart/form-data">
-				 		<input type="hidden" name="CM_IDX" value="${CM_IDX}">
+			   		<form action="boardModify" method= "post" enctype="multipart/form-data">
+				 		<input type="hidden" name="CM_IDX" value="${board.CM_IDX}">
 			   			<div class = "detail_view" style="width: 900px; height: 800px;">
 							 <div class ="view_tit">
 				   				<select class="boardCategory" name="CM_CATEGORY">
-									<option value="CC02">질문게시판</option>
-									<option value="CC03">신고게시판</option>
-									<option value="CC04">정보게시판</option>
-									<option value="CC05">친목게시판</option>
+									<option value="CC02" <c:if test="${board.CM_CATEGORY == 'CC02'}">selected</c:if>>질문게시판</option>
+									<option value="CC03" <c:if test="${board.CM_CATEGORY == 'CC03'}">selected</c:if>>신고게시판</option>
+									<option value="CC04" <c:if test="${board.CM_CATEGORY == 'CC04'}">selected</c:if>>정보게시판</option>
+									<option value="CC05" <c:if test="${board.CM_CATEGORY == 'CC05'}">selected</c:if>>친목게시판</option>
 								</select>
 				  				<h3><input type = "text" id="title" value="${board.CM_TITLE}" name = "CM_TITLE" style = "width : 400px" required="required" maxlength="40"> </h3>
 				  			</div>

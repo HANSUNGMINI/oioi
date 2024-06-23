@@ -37,4 +37,8 @@ public class CommunityService {
 		return mapper.deleteBoard(map);
 	}
 
+	public int updateBoard(Map<String, Object> boardMap) {
+		return mapper.updateBoard(boardMap);
+	}
+
 }
