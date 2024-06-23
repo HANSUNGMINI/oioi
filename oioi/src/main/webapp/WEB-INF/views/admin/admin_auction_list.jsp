@@ -68,8 +68,8 @@
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin_auction_list.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
     <script>
     </script>
 	

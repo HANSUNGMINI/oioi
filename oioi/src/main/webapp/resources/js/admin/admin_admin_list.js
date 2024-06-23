@@ -12,6 +12,49 @@ const columns = [
 const table = "admin";	
 
 
+function search() {
+
+	type = $("#type").val();
+	keyword = $("#keyword").val();
+			
+	$.ajax({
+		type : "GET",
+		url : "List",
+		data : {
+			"table" : table,
+			"type" : type,
+			"keyword" : keyword,
+		},
+		dataType : "JSON",
+		success : function (response) {
+			$("#grid").empty();
+			
+			const gridData = []
+			
+				
+			for (let item of response){
+				gridData.push(item);
+			}
+			
+		    const grid = new tui.Grid({
+			    el: document.getElementById('grid'),
+			    data: gridData,
+			    scrollX: false,
+			    scrollY: false,
+			    columns: columns,
+			    pageOptions: {
+		           useClient: true,
+		           perPage: itemsPerPage
+		        },
+		        minBodyHeight : '0',
+		        bodyHeight : 'auto'
+		    });
+			
+s		} // success 끝
+	});
+};ㄴ
+
+
 
 // 권한 변경
 function change(elm, isChecked, id, type) {

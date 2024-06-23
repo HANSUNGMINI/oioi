@@ -16,9 +16,15 @@
 	    <p class="menu-label">LIST</p>
 	    <ul class="menu-list">
 	      <li class="active">
+	        <a href="./">
+	          <span class="icon"><i class="mdi mdi-home"></i></span>
+	          <span class="menu-item-label">메인화면 </span>
+	        </a>
+	      </li>
+	      <li class="active">
 	        <a href="admin">
 	          <span class="icon"><i class="mdi mdi-home"></i></span>
-	          <span class="menu-item-label">메인화면</span>
+	          <span class="menu-item-label"> 관리자 메인화면 </span>
 	        </a>
 	      </li>
 	    </ul>
@@ -61,13 +67,19 @@
 	        	</a>
      		 </li>
 	       	 <li class="--set-active-tables-html">
-		     	<a href="admin_product">
+		     	<a href="admin_board">
+		            <span class="icon"><i class="mdi mdi-clipboard-text-outline"></i></span>
+		            <span class="menu-item-label">게시글 조회</span>
+	        	</a>
+     		 </li>
+	       	 <li class="--set-active-tables-html">
+		     	<a href="admin_report">
 		            <span class="icon"><i class="mdi mdi-alert-circle"></i></span>
 		            <span class="menu-item-label">신고 관리</span>
 	        	</a>
      		 </li>
 	       	 <li class="--set-active-tables-html">
-		     	<a href="admin_product">
+		     	<a href="admin_chat">
 		            <span class="icon"><i class="mdi mdi-chat"></i></span>
 		            <span class="menu-item-label">채팅 조회</span>
 	        	</a>

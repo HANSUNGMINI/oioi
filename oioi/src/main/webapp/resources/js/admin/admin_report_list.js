@@ -1,19 +1,16 @@
-// 컬럼 헤더 
 const columns = [
-    {header: '게시글 번호', name: 'PD_IDX', width: 100 , align: "center"},
-    {header: '아이디', name: 'US_ID'},
-    {header: '게시글 제목', name: 'PD_SUBJECT'},
-    {header: '카테고리', name: 'PD_CATEGORY'},
-    {header: '보기'
-      , name: 'hide'
-      , renderer: {type: product_detail_btn}
-      , width: 50 
-      , align: "center"
-    },
+    {header: '신고번호', name: 'RP_IDX', width : 100, align : "center"},
+    {header: '신고자', name: 'TO_US_ID', width : 200, align : "center"},
+    {header: '신고대상', name: 'FROM_US_NICK', width : 200, align : "center"},
+    {header: '신고사유', name: 'RP_CATEGORY', width : 400, align : "center"},
+    {header: '상세이유', name: 'RP_CONTENT' , width : 500, align : "center"},
+    {header: '신고일자', name: 'RP_TIME' , width : 150, align : "center"},
+    {header: '상태', name: 'RP_STATUS'},
 ]
 
+
 // 조회할 테이블
-const table = "product";
+const table = "report";
 
 function search() {
 

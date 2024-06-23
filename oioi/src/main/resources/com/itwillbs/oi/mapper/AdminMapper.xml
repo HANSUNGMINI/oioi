@@ -62,9 +62,11 @@
 		  </choose>
 		 ORDER BY ap.APD_IDX asc
 	</select>
-	
-	
-	
+		 
+	<select id="selectReportList" resultType="map">
+		SELECT *
+		  FROM report
+	</select>
 	
 	<!-- List 조회작업 끝 -->
 	

@@ -47,7 +47,7 @@
 							<!-- Top Left -->
 							<div class="top-left">
 								<ul class="list-main">
-									<li><i class="ti-headphone-alt"></i> 010 5668 2627 후원좀</li>
+									<li><i class="ti-headphone-alt"></i> 010 5668 2627</li>
 								</ul>
 							</div>
 							<!--/ End Top Left -->
@@ -56,6 +56,12 @@
 							<!-- Top Right -->
 							<div class="right-content">
 							<c:choose>
+								<c:when test="${sessionScope.isAdmin}">
+                                    <ul class="list-main">
+                                        <li><i class="ti-home"></i><a href="admin">관리자 페이지</a></li>
+                                        <li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
+                                    </ul>
+                                </c:when>
 								<c:when test="${empty sessionScope.US_ID}">	
 									<ul class="list-main">
 										<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
@@ -65,6 +71,7 @@
 								</c:when>
 								<c:otherwise>
 									 <c:choose>
+                                        
                                         <c:when test="${not empty sessionScope.KAKAO_LOGIN}">
                                             <ul class="list-main">
                                                 <li>${sessionScope.US_NICK} 님 (카카오)</li>

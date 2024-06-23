@@ -59,27 +59,74 @@ class common_toggle {
 	  render(props) {}
 }	
 
-
-
-
-
-class detail_btn {
+class product_detail_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
 	    el.className = 'buttons nowrap';
 	    
-	    var checked = '';
-		
-		if(props.value == 'N'){
-			checked = 'checked';
-		}
-	    
 	    $(el).append(
 	    		'<button class="button small blue" id="detail_btn" type="button">'
-			+		'<span class="icon"><i class="mdi mdi-magnify"></i></span>'
+			+		'<span class="icon"><i class="mdi mdi-link"></i></span>'
 			+	'</button>'
 		);
 		
+		$(el).on("click", function() {
+			let e = $(this);
+			let idx = e.closest('tr').find('td:first').text();
+			location.href="productDetail?PD_IDX=" + idx;
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}
+
+
+
+class user_detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-account-search-outline"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let id = e.closest('tr').find('td:first').text();
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}	
+
+class user_shop_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-shopping-search"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let id = e.closest('tr').find('td:first').text();
+	    });
+		
+			
 	    this.el = el;
 	  }
 

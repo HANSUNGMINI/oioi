@@ -88,7 +88,7 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		return "admin/admin_user_list";
+		return "admin/admin_report_list";
 	}
 	
 	@GetMapping("admin_chat")
@@ -183,6 +183,7 @@ public class AdminController {
 			case "product" : result = adminservice.selectProductList(data); break;
 			case "common" : result = adminservice.selectCommonList(data); break;
 			case "auction" : result = adminservice.selectAuctionList(data); break;
+			case "report" : result = adminservice.selectReportList(data); break;
 		}
 		
 		System.out.println(result);
