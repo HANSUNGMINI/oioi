@@ -67,7 +67,7 @@
 	        	</a>
      		 </li>
 	       	 <li class="--set-active-tables-html">
-		     	<a href="admin_board">
+		     	<a href="admin_community">
 		            <span class="icon"><i class="mdi mdi-clipboard-text-outline"></i></span>
 		            <span class="menu-item-label">게시글 조회</span>
 	        	</a>

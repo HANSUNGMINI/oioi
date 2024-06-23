@@ -52,13 +52,13 @@
 		  	<when test="type.equals('PD_CATEGORY')">PD_CATEGORY LIKE concat('%', #{keyword} , '%')</when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
-		  ORDER BY PD_IDX asc
+		  ORDER BY PD_UPDATED_DATE DESC
 	</select>
 	
 	<select id="selectCommonList">
 		SELECT *
 		  FROM common
-		 WHERE name = #{type}
+		 WHERE name = #{type} 
 	 	 ORDER BY code asc;	 
 	</select>
 	
@@ -74,12 +74,15 @@
 			 , ap.APD_OWNER
 			 , ap.APD_NAME
 			 , ap.APD_DETAIL
-			 , ap.APD_CATEGORY
+			 , c1.value as APD_CATEGORY
+			 , c2.value as APD_REJECTION
 			 , ap.APD_REG_DATE
 			 , ap.APD_STATUS
 		  FROM auction_product ap
-		  LEFT JOIN common c
-			ON ap.APD_STATUS = c.value
+		   LEFT JOIN common c1
+		    ON ap.APD_CATEGORY = c1.code
+		  LEFT JOIN common c2
+		    ON ap.APD_REJECTION = c2.code
 		 WHERE
 		  <choose>
 		  	<when test="!type.equals('ALL')"> c.value = #{type} </when>
@@ -89,8 +92,17 @@
 	</select>
 		 
 	<select id="selectReportList" resultType="map">
-		SELECT *
-		  FROM report
+		SELECT RP_IDX
+			 , TO_US_ID
+			 , FROM_US_ID
+			 , c1.value AS RP_STATUS
+			 , c2.value AS RP_CATEGORY
+			 , RP_TIME
+		  FROM report rp
+		  LEFT JOIN common c1
+		    ON rp.RP_STATUS = c1.code
+		  LEFT JOIN common c2
+		    ON rp.RP_CATEGORY = c2.code
 	</select>
 	
 	<select id="selectCommunityList" resultType="map">
@@ -115,21 +127,28 @@
 	<!-- 셀렉트박스 리스트 조회 -->
 	<select id="selectCodeCategoryList" resultType="map">
 		SELECT *
-		  FROM Mcommon;
+		  FROM Mcommon
 	</select>
 	
 	<select id="selectAuctionCategoryList" resultType="map">
 		SELECT *
 		  FROM common
-		 WHERE name = 'APD_STATUS'
-		 ORDER BY value asc
+		 WHERE name = 'APD_STATUS' AND hide = 'N'
+		 ORDER BY code asc
+	</select>
+	
+	<select id="selectRejectionList" resultType="map">
+		SELECT *
+		  FROM common
+		 WHERE name = 'APD_REJECTION' AND hide = 'N'
+		 ORDER BY code asc
 	</select>
 	
 	<select id="selectAdminRoleList" resultType="map">
 		SELECT *
 		  FROM common
-		 WHERE name = 'ROLE_TYPE' AND code != 'ARL01'
-		 ORDER BY value asc
+		 WHERE name = 'ROLE_TYPE' AND code != 'ARL01' AND hide = 'Y'
+		 ORDER BY code asc
 	</select>
 	
 	<!-- 셀렉트박스 리스트 조회 끝 -->

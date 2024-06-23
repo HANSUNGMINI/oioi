@@ -31,6 +31,7 @@ public class AdminService {
 	public List<Map<String, Object>> selectCodeCategoryList(){ return adminMapper.selectCodeCategoryList();}
 	public List<Map<String, Object>> selectAuctionCategoryList(){ return adminMapper.selectAuctionCategoryList(); }
 	public List<Map<String, Object>> selectAdminRoleList(){ return adminMapper.selectAdminRoleList(); }
+	public List<Map<String, Object>> selectRejectionList(){ return adminMapper.selectRejectionList(); }
 	
 	// 공통코드 관리
 	public int changeActive(Map<String, Object> data){ return adminMapper.changeActive(data); }

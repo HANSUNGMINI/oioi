@@ -48,10 +48,16 @@
 	          		경매 상품 
 	        	</p>
 	        	
+	        	<select id="rejection" style="display : none">
+	        		<c:forEach var="rejectionList" items="${rejectionList}">
+	        			<option value="${rejectionList.code}"> ${rejectionList.value}</option>
+	        		</c:forEach>
+	        	</select>
+	        	
 	        	<select id="type" onchange="search()">
 	        		<option value="ALL"> 전체 </option>
 	        		<c:forEach var="auctionList" items="${auctionList}">
-	        			<option value="${auctionList.value}"> ${auctionList.value}</option>
+	        			<option value="${auctionList.code}"> ${auctionList.value}</option>
 	        		</c:forEach>
 	        	</select>
 	        		

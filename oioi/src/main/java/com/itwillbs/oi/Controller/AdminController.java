@@ -74,13 +74,13 @@ public class AdminController {
 		return "admin/admin_product_list";
 	}
 	
-	@GetMapping("admin_board")
-	public String admin_board(Model model) {
+	@GetMapping("admin_community")
+	public String admin_community(Model model) {
 		
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		return "admin/admin_board_list";
+		return "admin/admin_community_list";
 	}
 	
 	@GetMapping("admin_report")
@@ -160,9 +160,11 @@ public class AdminController {
 		};
 		
 		List<Map<String, Object>> auctionList = adminservice.selectAuctionCategoryList();
+		List<Map<String, Object>> rejectionList = adminservice.selectRejectionList();
 		
-		System.out.println(auctionList);
 		model.addAttribute("auctionList", auctionList);
+		model.addAttribute("rejectionList", rejectionList);
+		System.out.println(rejectionList);
 		return "admin/admin_auction_list";
 	}
 	

@@ -1,24 +1,31 @@
 const listItems = [];
+const listItems2 = [];
 
 $('#type option').each(function() {
 	if($(this).val() == 'ALL') { return true;}
-    let item = {text: $(this).text() , value : $(this).val() }
+    let item = {text: $(this).text() , value : $(this).text() }
     listItems.push(item);
+});
+
+$('#rejection option').each(function() {
+    let item = {text: $(this).text() , value : $(this).text() }
+    listItems2.push(item);
 });
 
 
 const columns = [
-    {header: '번호', name: 'APD_IDX', width: 100 , align: "center"},
-    {header: '아이디', name: 'APD_OWNER'},
-    {header: '상품명', name: 'APD_NAME'},
-    {header: '제목', name: 'APD_DETAIL'},
-    {header: '카테고리', name: 'APD_CATEGORY'},
+    {header: '번호', name: 'APD_IDX', width: 50 , align: "center"},
+    {header: '아이디', name: 'APD_OWNER', width: 130 , align: "center"},
+    {header: '상품명', name: 'APD_NAME' , align: "center"},
+    {header: '제목', name: 'APD_DETAIL', width: 300},
+    {header: '카테고리', name: 'APD_CATEGORY' , align: "center"},
     {header: '등록일', name: 'APD_REG_DATE'},
     {header: '상태', name: 'APD_STATUS',  
-    	editor: { type: 'select', options: { listItems: listItems} } } ,
-    {header: '상세보기'
-      , renderer: {type: product_detail_btn}
-    },
+    	editor: { type: 'select', options: { listItems: listItems} }, align : "center" } ,
+    {header: '반려 사유', name: 'APD_REJECTION',  
+    	editor: { type: 'select', options: { listItems: listItems2} }, align : "center" } ,
+    {header: '보기'
+      , renderer: {type: product_detail_btn} , width: 50},
 ]
 
 // 조회할 테이블
@@ -90,6 +97,7 @@ function patchStatus(jsonData) {
 				alert(response + "개 항목 변경완료!");
 			}
 			
+			location.reload();
 			search();
 		}
 	})

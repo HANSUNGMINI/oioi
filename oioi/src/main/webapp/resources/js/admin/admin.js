@@ -1,5 +1,5 @@
 // 한 페이당 보여줄 항목의 갯수 
-const itemsPerPage = 5;
+const itemsPerPage = 10;
 
 // ready
 $(function(){

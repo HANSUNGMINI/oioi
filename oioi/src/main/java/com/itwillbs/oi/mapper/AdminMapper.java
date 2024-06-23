@@ -24,6 +24,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectCodeCategoryList();
 	List<Map<String, Object>> selectAuctionCategoryList();
 	List<Map<String, Object>> selectAdminRoleList();
+	List<Map<String, Object>> selectRejectionList();
 	
 	// 공통코드 관리
 	int patchcommon(Map<String, Object> data);

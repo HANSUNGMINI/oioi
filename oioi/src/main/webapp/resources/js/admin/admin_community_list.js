@@ -6,7 +6,6 @@ const columns = [
     {header: '게시글 제목', name: 'CM_TITLE'},
     {header: '카테고리', name: 'CM_CATEGORY'},
     {header: '보기'
-      , name: 'hide'
       , renderer: {type: community_detail_btn}
       , width: 50 
       , align: "center"

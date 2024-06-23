@@ -139,6 +139,30 @@ class user_detail_btn {
 	  render(props) {}
 }	
 
+class report_detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-account-search-outline"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let id = e.closest('tr').find('td:first').text();
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}	
+
 class user_shop_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
