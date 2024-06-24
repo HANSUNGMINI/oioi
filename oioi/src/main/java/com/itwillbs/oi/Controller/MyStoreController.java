@@ -32,19 +32,20 @@ public class MyStoreController {
 	private StoreService storeService;
 	
 	@GetMapping("myStore")
-	public String myStore(Model model) {
+	public String myStore(Map<String, Object>map,Model model) {
+		System.out.println(map);
 		
 		// 유저가 아님
-		if(!CheckAuthority.isUser(session, model)) {
-			System.out.println(model.getAttribute("msg"));
-			System.out.println(model.getAttribute("targetURL"));
-			return "err/fail";
-		}
+//		if(!CheckAuthority.isUser(session, model)) {
+//			System.out.println(model.getAttribute("msg"));
+//			System.out.println(model.getAttribute("targetURL"));
+//			return "err/fail";
+//		}
 		
 		String id = (String)session.getAttribute("US_ID");
 		Map<String, String> user = userService.selectMyUser(id);
 		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
-		
+		System.out.println(myPD);
 		// 상품 목록을 역순으로 정렬
 		Collections.reverse(myPD);
 		

@@ -187,7 +187,9 @@
                         <div class="product-des">
                             <div class="short">
                                 <h4>${user.US_NICK} 님의 상점</h4>
-                                <button class="cucumber-button" onclick="location.href='editStore'">내 상점 관리</button>
+                                <c:if test="${user.US_ID ne sessionScope.user.US_ID}">
+                                	<button class="cucumber-button" onclick="location.href='editStore'">내 상점 관리</button>
+                                </c:if>
                                 <div class="rating-main" id="store-info">
                                     <div>
                                         <i class="fa-solid fa-shop"></i>

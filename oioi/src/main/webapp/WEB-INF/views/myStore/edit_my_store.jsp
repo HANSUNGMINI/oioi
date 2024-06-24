@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
     <style>
+        /* 추가적인 스타일 */
         .btn-edit-store {
             background: linear-gradient(145deg, #7ed957, #5cbf34);
             border: none;
@@ -48,29 +49,8 @@
             background: linear-gradient(145deg, #4da82e, #6fcd4f);
         }
 
-        .pagination-custom {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .pagination-custom .page-item.active .page-link {
-            background-color: #7ed957;
-            border-color: #7ed957;
-        }
-
-        .pagination-custom .page-link {
-            color: #5cbf34;
-        }
-
-        .pagination-custom .page-link:hover {
-            background-color: #5cbf34;
-            border-color: #5cbf34;
-            color: white;
-        }
-
         .table-responsive {
-            overflow-x: hidden; /* 스크롤바 제거 */
+            overflow: visible;
         }
     </style>
 </head>
@@ -82,7 +62,7 @@
             <div class="col-12">
                 <div id="custom-border">
                     <div class="product-des">
-                        <h4>${user.US_NICK} 님의 상품 관리</h4>
+						<h4>${user.US_NICK} 님의 상품 관리</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table">
@@ -102,16 +82,15 @@
                                     <tr>
                                         <td><img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" width="50"></td>
                                         <td>
-                                            <select class="form-control status-select" data-id="${product.PD_IDX}">
+                                            <select class="form-control">
                                                 <option value="판매중" <c:if test="${product.PD_STATUS eq '판매중'}">selected</c:if>>판매중</option>
-                                                <option value="예약상태" <c:if test="${product.PD_STATUS eq '예약상태'}">selected</c:if>>예약상태</option>
                                                 <option value="판매완료" <c:if test="${product.PD_STATUS eq '판매완료'}">selected</c:if>>판매완료</option>
                                             </select>
                                         </td>
                                         <td>${product.PD_SUBJECT}</td>
                                         <td>${product.PD_PRICE} 원</td>
                                         <td>${product.PD_LIKES}</td>
-                                        <td>${product.timeAgo}</td>
+                                        <td>${product.PD_MOD_DATE}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm">수정</button>
                                             <button class="btn btn-danger btn-sm">삭제</button>
@@ -125,26 +104,6 @@
                                 </c:if>
                             </tbody>
                         </table>
-                        <!-- 페이징 네비게이션 -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-custom">
-                                <c:if test="${pageInfo.hasPreviousPage}">
-                                    <li class="page-item">
-                                        <a class="page-link" href="?pageNum=${pageInfo.prePage}">이전</a>
-                                    </li>
-                                </c:if>
-                                <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}">
-                                    <li class="page-item <c:if test="${pageInfo.pageNum == (i + 1)}">active</c:if>">
-                                        <a class="page-link" href="?pageNum=${i + 1}">${i + 1}</a>
-                                    </li>
-                                </c:forEach>
-                                <c:if test="${pageInfo.hasNextPage}">
-                                    <li class="page-item">
-                                        <a class="page-link" href="?pageNum=${pageInfo.nextPage}">다음</a>
-                                    </li>
-                                </c:if>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -189,27 +148,5 @@
 <script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 <!-- Active JS -->
 <script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
-<script>
-$(document).ready(function() {
-    $('.status-select').change(function() {
-        var productId = $(this).data('id');
-        var newStatus = $(this).val();
-        
-        $.ajax({
-            url: 'updatePdStatus',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ id: productId, status: newStatus }),
-            success: function(response) {
-                alert('상태가 성공적으로 업데이트되었습니다.');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating status:', error);
-                alert('상태 업데이트에 실패했습니다.');
-            }
-        });
-    });
-});
-</script>
 </body>
 </html>
