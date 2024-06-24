@@ -213,13 +213,14 @@ public class AuctionController {
 		System.out.println("메세지 ajax : " + map);
 		
 		//처음 채팅을 칠때 채팅방이 존재하지 않아서 채팅방 개설
-		String APD_IDX = (String)map.get("APD_IDX");
-		Map<String, String> selectACR = service.selectACR(APD_IDX);
-		System.out.println("selectACR : " + selectACR);
-		
-		if(selectACR == null) {
-			service.insertACR(APD_IDX);
-		}
+//		String APD_IDX = (String)map.get("APD_IDX");
+//		if()
+//		Map<String, String> selectACR = service.selectACR(APD_IDX);
+//		System.out.println("selectACR : " + selectACR);
+//		
+//		if(selectACR == null) {
+//			service.insertACR(APD_IDX);
+//		}
 		return "";
 	}
 	

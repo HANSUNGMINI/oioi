@@ -81,37 +81,48 @@
 		    	
 		    });
 			
-			var minValue = "${apdDetail.APD_START_PRICE}";
+			var minValue = "${apdDetail.BID_PRICE}";
 			var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
-			$('#nowPrice').on('change',function(){
+// 			$('#nowPrice').on('change',function(){
 				
-				nowValue = $(this).val();
+// 				nowValue = $(this).val();
 				
-				if(${empty sessionScope.US_ID}){
-					alert("로그인 후 입찰하세요.");
-					$(this).val(minValue);
-					return false;
-				}
+// 				if(${empty sessionScope.US_ID}){
+// 					alert("로그인 후 입찰하세요.");
+// 					$(this).val(minValue);
+// 					return false;
+// 				}
 				
-				if(minValue > nowValue || nowValue > maxValue){
-					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
-					return false;
-				}
+// 				if(minValue > nowValue || nowValue > maxValue){
+// 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
+// 					return false;
+// 				}
 				
-				console.log("nowValue : " + nowValue);
-				console.log("minValue : " + minValue);
-				console.log("maxValue : " + maxValue);
+// 				console.log("nowValue : " + nowValue);
+// 				console.log("minValue : " + minValue);
+// 				console.log("maxValue : " + maxValue);
 				
-			});
+// 			});
 				
 				$('#bidding').on('click', function(){
+					nowValue = $('#nowPrice').val();
 					console.log(nowValue);
 					
 					if(${empty sessionScope.US_ID}){
 						alert("로그인 후 입찰하세요.");
-						$(this).val(minValue);
+						$('#nowPrice').val(minValue);
 						return false;
 					}
+					
+					if(minValue > nowValue || nowValue > maxValue){
+	 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
+	 					$('#nowPrice').val(minValue);
+	 					return false;
+	 				}
+					
+	 				console.log("nowValue : " + nowValue);
+	 				console.log("minValue : " + minValue);
+	 				console.log("maxValue : " + maxValue);
 					
 					$.ajax({
 						url : "auctionBid",
@@ -148,14 +159,14 @@
 	
 	    function connect() {
 	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent('${apdDetail.APD_IDX}'));
-	        
+	        var us_id = "${apdDetail.US_ID}";
 	        socket = ws;
 	        ws.onopen = function() {
 	            console.log('연결');
 	        };
 	        
 	        ws.onmessage = function(event) {
-	        	
+	        	console.log("판매자 : " + us_id);
 	        	
 	            console.log('받은 메세지 - ' + event.data);
 	            var respose = JSON.parse(event.data);
@@ -190,26 +201,19 @@
 	            	$('.chatView').append(html);
 	            }
 	            
-	            
-	            
-	            
-	            var chatView = $('#chatView');
-	        	var newMsg = $('<div>').text(respose.MSG);
-	        	chatView.append(newMsg);
-	        	
-// 	            $.ajax({
-// 	            	url : "saveMsg",
-// 	            	type : "post",
-// 	            	data : {
-// 	            		ACR_IDX : respose.APD_IDX,
-// 	            		ACM_CONTENT : respose.MSG,
-// 	            		ACM_USER : respose.US_ID
-// 	            	},
-// 	            	dataType : "JSON",
-// 	            	success: function(response) {
-// 	                    console.log('저장 성공');
-// 	                }
-// 	            });
+	            $.ajax({
+	            	url : "saveMsg",
+	            	type : "post",
+	            	data : {
+	            		ACR_IDX : respose.APD_IDX,
+	            		ACM_CONTENT : respose.MSG,
+	            		ACM_USER : respose.US_ID
+	            	},
+	            	dataType : "JSON",
+	            	success: function(response) {
+	                    console.log('저장 성공');
+	                }
+	            });
 	        };
 	        
 	        ws.onclose = function(event) {
@@ -356,7 +360,7 @@
 												<div class="quantity">
 													<h6>입찰가 입력 :</h6>
 													<div class="input-group">
-														<input type="text" class="input-number" id="nowPrice" value="${apdDetail.APD_START_PRICE}">
+														<input type="text" class="input-number" id="nowPrice" value="${apdDetail.BID_PRICE}">
 													</div>
 												</div>
 												<div class="add-to-cart">
