@@ -60,6 +60,10 @@ public class AuctionController {
 		dbMap.put("US_ID", (String) session.getAttribute("US_ID"));
 		System.out.println("apdDetail : " + dbMap);
 		model.addAttribute("apdDetail", dbMap);
+//		System.out.println(";;;;;;;;;;;;;;;"+dbMap.get("APD_CATEGORY").split("/"));
+//		for(String c : dbMap.get("APD_CATEGORY").split("/")) {
+//			
+//		}
 		
 		return "auction/auction_detail";
 	}
@@ -116,17 +120,22 @@ public class AuctionController {
 		map.put("APD_OWNER", session.getAttribute("US_ID"));
 		
 		//카테고리 정리해서 넣기(value 값 가져와서 저장하기)
-		String[] cateName = service.categoryName(map);
-		System.out.println("cateName : " + cateName);
-		String cn = "";
-		for (int i = 0; i < cateName.length; i++) {
-			
-		    cn += cateName[i];
-		    if (i != cateName.length - 1) {
-		        cn += "/";
-		    }
-		}
-		map.put("APD_CAREGORY", cn);
+//		String[] cateName = service.categoryName(map);
+//		System.out.println("cateName : " + cateName);
+//		String cn = "";
+//		for (int i = 0; i < cateName.length; i++) {
+//			
+//		    cn += cateName[i];
+//		    if (i != cateName.length - 1) {
+//		        cn += "/";
+//		    }
+//		}
+		
+		//다시 카테고리 코드로 넣기
+		String cateName = (String)map.get("cate1") + "/" + (String)map.get("cate2") + "/" + (String)map.get("cate3");
+		System.out.println("카테고리 합치기 : " + cateName);
+		
+		map.put("APD_CATEGORY", cateName);
 		
 		
 		//상품등록
@@ -222,6 +231,8 @@ public class AuctionController {
 		int updateBid = service.updateBid(map);
 		System.out.println("updateBid 성공 여부" + updateBid);
 		if(updateBid > 0) {
+			//상태값을 입찰예정으로 변경
+			service.updateApdStatus((String)map.get("APD_IDX")); 
 			return (String)map.get("BID_PRICE");
 		}else {
 			model.addAttribute("msg", "입찰에 실패하였습니다.");

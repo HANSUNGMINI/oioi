@@ -68,7 +68,7 @@
 			APD_OWNER,
 		    APD_NAME,
 		    APD_DETAIL,
-		    APD_CAREGORY,
+		    APD_CATEGORY,
 		    APD_IMAGE,
 		    APD_STATUS,
 		    APD_DEADLINE,
@@ -81,7 +81,7 @@
 			#{APD_OWNER},
 			#{APD_NAME},
 			#{APD_DETAIL},
-			#{APD_CAREGORY},
+			#{APD_CATEGORY},
 			#{APD_IMAGE},
 			'APD05',
 			#{APD_DEADLINE},
@@ -123,6 +123,11 @@
 		update auction
 		set BID_US_ID = #{US_ID}, BID_PRICE = #{BID_PRICE}
 		where AT_IDX = #{AT_IDX};
+	</update>
+	<update id="updateApdStatus">
+		update auction_product
+		set APD_STATUS = "APD06"
+		where APD_IDX = #{APD_IDX}
 	</update>
 </mapper>
 

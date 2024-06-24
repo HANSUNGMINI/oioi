@@ -87,23 +87,37 @@
 				
 				nowValue = $(this).val();
 				
-				console.log("nowValue : " + nowValue);
-				console.log("minValue : " + minValue);
-				console.log("maxValue : " + maxValue);
+				if(${empty sessionScope.US_ID}){
+					alert("로그인 후 입찰하세요.");
+					$(this).val(minValue);
+					return false;
+				}
 				
-				//입찰할 가격이 현재입찰가보다 크고 즉시입찰가보다 작아야 한다
 				if(minValue > nowValue || nowValue > maxValue){
 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
 					return false;
 				}
 				
+				console.log("nowValue : " + nowValue);
+				console.log("minValue : " + minValue);
+				console.log("maxValue : " + maxValue);
+				
+			});
+				
 				$('#bidding').on('click', function(){
 					console.log(nowValue);
+					
+					if(${empty sessionScope.US_ID}){
+						alert("로그인 후 입찰하세요.");
+						$(this).val(minValue);
+						return false;
+					}
 					
 					$.ajax({
 						url : "auctionBid",
 						type : "post",
 						data : {
+							APD_IDX : apd_idx,
 							AT_IDX : at_idx,
 							US_ID : us_id,
 							BID_PRICE : nowValue
@@ -114,8 +128,10 @@
 	                    	var html ='';
 	                    	html += '<li class="clearfix" class="chatViewMe">' + 
 	    	                '<div class="message other-message float-right">' +
+	    	                us_id +
+	    	                '님께서' +
 	    	                response +
-	    	                '원이 입찰되었습니다.' +
+	    	                '원에 입찰하였습니다.' +
 	    	                '</div>' +
 	    	           		'</li>';
 	    	            	$('.chatView').append(html);
@@ -123,7 +139,7 @@
 					});
 				});
 				
-			});
+			
 	    	
 	    });
 

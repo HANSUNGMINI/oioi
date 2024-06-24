@@ -31,5 +31,7 @@ public interface AuctionMapper {
 
 	int updateBid(Map<String, Object> map);
 
+	void updateApdStatus(String APD_IDX);
+
 
 }
