@@ -12,5 +12,4 @@ public interface StoreMapper {
 
 	void updatePdStatus(int pdId, String newStatus);
 
-	List<Map<String, Object>> pageMyPd(String id);
 }

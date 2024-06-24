@@ -12,14 +12,6 @@
 		WHERE US_ID = #{id}
 	</select>
 	
-	<select id="pageMyPd" resultType="map">
-		SELECT *
-		FROM product p 
-		JOIN images i
-		ON p.PD_IMAGE = i.IMG_IDX
-		WHERE US_ID = #{id}
-	</select>
-	
 	<update id="updatePdStatus">
 		UPDATE product
 		SET PD_STATUS = #{newStatus}
