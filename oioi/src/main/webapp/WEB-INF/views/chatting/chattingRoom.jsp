@@ -24,6 +24,31 @@
  <!-- SweetAlert CSS -->
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+<style>
+   .preView {
+        width: 200px;
+        height: 200px;
+        border: 2px dashed #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+    }
+    .preView img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .file-label {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: #333;
+    }
+</style>
+
 <script type="text/javascript">
 	
 		/* 상세보기 나오기 */
@@ -109,6 +134,10 @@
 			window.opener.location.href="myStore"; 
 			window.close();
 		}
+		
+		
+		/* 파일 업로드 */
+		
 	</script>
 
 </head>
@@ -344,16 +373,26 @@
 			
 			      <!-- Modal body -->
 			      <div class="modal-body">
-			      	<form>
+			      	<form enctype="multipart/form-data">
 			      	
-				      <%-- 체크박스 --%>
-						<label for="n1"><input type="radio" name="notify" id="n1">  &nbsp;욕설 및 비방을 해요</label> <br>
-						<label for="n2"><input type="radio" name="notify" id="n2">  &nbsp;사기인 것 같아요</label> <br>
-						<label for="n3"><input type="radio" name="notify" id="n3">  &nbsp;거래 금지 품목을 팔아요</label> <br>
-						<label for="n4"><input type="radio" name="notify" id="n4">  &nbsp;상품 상태가 안 좋아요</label> <br>
-						<label for="n5"><input type="radio" name="notify" id="n5">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
+				      <%-- 라디오박스 --%>
+						<label for="n1"><input type="radio" name="RP_CATEGORY" id="n1" value="RPC01">  &nbsp;욕설 및 비방을 해요</label> <br>
+						<label for="n2"><input type="radio" name="RP_CATEGORY" id="n2" value="RPC02">  &nbsp;사기인 것 같아요</label> <br>
+						<label for="n3"><input type="radio" name="RP_CATEGORY" id="n3" value="RPC03">  &nbsp;거래 금지 품목을 팔아요</label> <br>
+						<label for="n4"><input type="radio" name="RP_CATEGORY" id="n4" value="RPC04">  &nbsp;상품 상태가 안 좋아요</label> <br>
+						<label for="n5"><input type="radio" name="RP_CATEGORY" id="n5" value="RPC05">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
 						
-						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="notify_content"  id="notify_content" maxlength="300"></textarea>
+						<%-- 파일 --%>
+	                    
+						<label> 상품 이미지<small>(최대 2장)</small></label>
+						
+						<div class="preView" id="previewContainer">
+							<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg" id="previewImage">
+					        <span class="file-label">이미지를 업로드하려면 클릭하세요</span>
+					        <input type="file" accept="image/*" name="addfile" id="addfile" style="display: none;">
+					    </div>
+						
+						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
 					</form>			      
 				  </div>
 				  
