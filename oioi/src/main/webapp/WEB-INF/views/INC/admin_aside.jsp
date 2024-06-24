@@ -78,12 +78,12 @@
 		            <span class="menu-item-label">신고 관리</span>
 	        	</a>
      		 </li>
-	       	 <li class="--set-active-tables-html">
-		     	<a href="admin_chat">
-		            <span class="icon"><i class="mdi mdi-chat"></i></span>
-		            <span class="menu-item-label">채팅 조회</span>
-	        	</a>
-     		 </li>
+<!-- 	       	 <li class="--set-active-tables-html"> -->
+<!-- 		     	<a href="admin_chat"> -->
+<!-- 		            <span class="icon"><i class="mdi mdi-chat"></i></span> -->
+<!-- 		            <span class="menu-item-label">채팅 조회</span> -->
+<!-- 	        	</a> -->
+<!--      		 </li> -->
 			<li class="--set-active-tables-html">
 		     	<a href="admin_auction">
 		            <span class="icon"><i class="mdi mdi-gavel"></i></span>

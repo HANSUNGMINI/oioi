@@ -3,6 +3,7 @@ const itemsPerPage = 10;
 
 // ready
 $(function(){
+
 	search();
 	
 	
@@ -13,7 +14,6 @@ $(function(){
 			search();
 		}
 	});
-	
 	
 });
 

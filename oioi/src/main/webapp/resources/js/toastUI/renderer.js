@@ -1,3 +1,4 @@
+// 관리자 권한 변경 토글
 class AD_toggle {
 	constructor(props) {
 	    const el = document.createElement('label');
@@ -28,7 +29,7 @@ class AD_toggle {
 	  render(props) {}
 }	
 
-
+// 공통코드 사용여부 변경 토글
 class common_toggle {
 	constructor(props) {
 	    const el = document.createElement('label');
@@ -59,6 +60,7 @@ class common_toggle {
 	  render(props) {}
 }	
 
+// 게시글 바로가기 버튼
 class community_detail_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
@@ -85,9 +87,7 @@ class community_detail_btn {
 }
 
 
-
-
-
+// 등록 상품 바로가기
 class product_detail_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
@@ -114,7 +114,7 @@ class product_detail_btn {
 }
 
 
-
+// 유저 상세보기 버튼
 class user_detail_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
@@ -128,7 +128,8 @@ class user_detail_btn {
 		
 		$(el).on("click", function() {
 			let e = $(this);
-			let id = e.closest('tr').find('td:first').text();
+			let num = e.closest('tr').find('td:first').text();
+			window.open("admin_detail?table=user?num=" + num ,"관리자 추가","width=600, height=300, top=150, left=650");
 	    });
 		
 			
@@ -139,30 +140,8 @@ class user_detail_btn {
 	  render(props) {}
 }	
 
-class report_detail_btn {
-	constructor(props) {
-	    const el = document.createElement('div');
-	    el.className = 'buttons nowrap';
-	    
-	    $(el).append(
-	    		'<button class="button small blue" id="detail_btn" type="button">'
-			+		'<span class="icon"><i class="mdi mdi-account-search-outline"></i></span>'
-			+	'</button>'
-		);
-		
-		$(el).on("click", function() {
-			let e = $(this);
-			let id = e.closest('tr').find('td:first').text();
-	    });
-		
-			
-	    this.el = el;
-	  }
 
-	  getElement() {return this.el;}
-	  render(props) {}
-}	
-
+// 유저 상점 바로가기 버튼
 class user_shop_btn {
 	constructor(props) {
 	    const el = document.createElement('div');
@@ -177,6 +156,34 @@ class user_shop_btn {
 		$(el).on("click", function() {
 			let e = $(this);
 			let id = e.closest('tr').find('td:first').text();
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}	
+
+
+
+// 신고 상세보기 버튼
+class report_detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-account-search-outline"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let num = e.closest('tr').find('td:first').text();
+			window.open("admin_detail?table=report?num=" + num ,"관리자 추가","width=600, height=300, top=150, left=650");
 	    });
 		
 			
