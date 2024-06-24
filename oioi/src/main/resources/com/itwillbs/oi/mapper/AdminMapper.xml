@@ -85,7 +85,7 @@
 		    ON ap.APD_REJECTION = c2.code
 		 WHERE
 		  <choose>
-		  	<when test="!type.equals('ALL')"> c.value = #{type} </when>
+		  	<when test="!type.equals('ALL')"> c.code = #{type} </when>
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
 		 ORDER BY ap.APD_REG_DATE desc

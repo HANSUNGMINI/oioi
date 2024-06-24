@@ -8,13 +8,13 @@ $('#type option').each(function() {
 });
 
 $('#rejection option').each(function() {
-    let item = {text: $(this).text() , value : $(this).text() }
+    let item = {text: $(this).val() , value : $(this).text() }
     listItems2.push(item);
 });
 
 
 const columns = [
-    {header: '번호', name: 'APD_IDX', width: 50 , align: "center"},
+    {header: '번호', name: 'APD_IDX', width: 50 , align: "center"}, 
     {header: '아이디', name: 'APD_OWNER', width: 130 , align: "center"},
     {header: '상품명', name: 'APD_NAME' , align: "center"},
     {header: '제목', name: 'APD_DETAIL', width: 300},
