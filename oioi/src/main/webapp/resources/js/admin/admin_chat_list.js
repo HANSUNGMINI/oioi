@@ -1,31 +1,26 @@
+// 컬럼 헤더 
 const columns = [
-    {header: '번호', name: 'US_IDX', width: 50 , align: "center"},
-    {header: '아이디', name: 'US_ID'},
-    {header: '닉네임', name: 'US_NICK'},
-    {header: '회원명', name: 'US_NAME'},
-    {header: '가입일', name: 'US_REG_DATE'},
-    {header: '정보'
-      , renderer: {type: user_detail_btn}
-      , width: 50 
-      , align: "center"
-    },
-    {header: '상점'
-      , renderer: {type: user_shop_btn}
+    {header: '게시글 번호', name: 'CM_IDX', width: 100 , align: "center"},
+    {header: '아이디', name: 'CM_ID'},
+    {header: '닉네임', name: 'CM_NICK'},
+    {header: '게시글 제목', name: 'CM_TITLE'},
+    {header: '카테고리', name: 'CM_CATEGORY'},
+    {header: '보기'
+      , renderer: {type: community_detail_btn}
       , width: 50 
       , align: "center"
     },
 ]
 
-
-
 // 조회할 테이블
-const table = "user";
+const table = "community";
 
-function search() {
+
+function searchChatRoom() {
 
 	type = $("#type").val();
 	keyword = $("#keyword").val();
-			
+	
 	$.ajax({
 		type : "GET",
 		url : "List",

@@ -12,8 +12,6 @@
 	[ 함수 정리 ]
 
 	1. showRecentKeywordProduct()	: 최근 검색한 키워드 연관 상품 출력
-	2. searchProduct() 	: 검색한 상품 검색
-	3. searchAjax() 	: AJAX로 추천 검색어 가져오기
 	
 ============================================================ */
  
@@ -30,7 +28,18 @@
 	
 		/* 최근 검색 기록 가져오기 */
 		const storedKeywords = JSON.parse(localStorage.getItem("keywords")) || [];
+		
+		let isNull = false;
+		if (storedKeywords.length === 0) {
+			isNull = true;
+		}
 	
+		if (isNull) {
+			let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 검색 목록이 비어 있습니다. </div>';
+			$("#noKeyword").append(nullDiv);
+			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
+		}
+		
 		 // 반복문을 통해 각 키워드를 처리
 	    storedKeywords.forEach(function(keyword) {
 	   // alert("아예 안 되는 거?");
@@ -43,12 +52,6 @@
 	            dataType: "json",
 	            success: function(response) {
 					let productList = response;
-					//alert(productList);
-					
-					if(productList == '') {
-						let nullDiv = '<div> 최근 검색 목록이 비어 있습니다. </div>'	
-						$("#recentKeywordProduct").append(nullDiv);					
-					}
 					
 					$.each(productList, function(index, pr) {
 						// alert( pr.PD_IMAGE);
@@ -94,3 +97,4 @@
 	    });
 	
 	} 
+	

@@ -107,13 +107,13 @@
 	</section>
 	<!--/ End Hero Area 2 -->
 	
-	<!-- 최근 본 상품? -->
+	<!-- 인기 상품? -->
 	<div class="product-area most-popular section">
         <div class="container">
             <div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>최근 본 상품</h2>
+						<h2>인기 상품</h2>
 						<a href="#"> 더보기</a>
 					</div>
 				</div>
@@ -156,13 +156,13 @@
     </div>
 	<!-- End Most Popular Area -->
 	
-	<!-- 인기 상품 -->
+	<!-- 최근 본 상품 -->
 	<div class="product-area most-popular section">
         <div class="container">
             <div class="row">
 				<div class="col-12">
 					<div class="section-title">
-						<h2>인기 상품</h2>
+						<h2>최근 본 상품</h2>
 						<a href="#"> 더보기</a>
 					</div>
 				</div>
@@ -216,10 +216,10 @@
 				</div>
             </div>
             <div class="row" >
-                <div class="col-12" >
+                <div class="col-12"  id="noKeyword">
                 	<div class="owl-carousel popular-slider">
                 	<div class="owl-stage-outer" id="recentKeywordProduct" >
-<!--                 	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct"> -->
+<!--                  	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct">  -->
                 	<!--  이곳에 상세 설명 나옴-->
 <!--                 		제품 하나하나 -->
                 		
@@ -250,7 +250,7 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 						제품 하나 끝 -->
-<!-- 	</div> -->
+<!-- 							</div>  -->
                 		</div>
                 	</div>
                 </div>

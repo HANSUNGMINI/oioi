@@ -299,16 +299,14 @@ $(function(){
 				
 				/* 검색창 클릭시 숨기기*/
 				$("#searchKeyword").click(function(e) {
-					$(".recentSearch").css("display","none");
 	            });
 				
 				/* DIV 숨기기 */
 				$(document).on("click", function(e) {
-	                if (!$(e.target).closest(".PopularCenter, .PopularTableBoarder .PopularCenter .RecentborderBottom")) {
-	                    $(".recentSearch").hide();
-	                }
-	            });
-				
+			    if ($(e.target).closest(".popularRank").length > 0 || $(e.target).is("#searchKeyword")) {
+			        $(".recentSearch").hide();
+			    }
+				});
 			}
 		
 		});

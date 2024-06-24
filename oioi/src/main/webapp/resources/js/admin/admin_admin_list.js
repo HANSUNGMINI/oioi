@@ -1,3 +1,5 @@
+
+// 토스트UI 컬럼
 const columns = [
     {header: '아이디', name: 'AD_ID'},
     {header: '관리자 이름', name: 'AD_NAME'},
@@ -11,7 +13,7 @@ const columns = [
 // 조회할 테이블
 const table = "admin";	
 
-
+// 조회 함수
 function search() {
 
 	type = $("#type").val();
@@ -85,7 +87,7 @@ function change(elm, isChecked, id, type) {
 	}
 }
 
-
+// 관리자 추가
 function addAdmin() {
 	window.open("addAdmin","관리자 추가","width=600, height=300, top=150, left=650");
 }

@@ -32,6 +32,10 @@
 	function openChatting(url) {
 		window.open(url, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
 	}
+	
+	function openOIPay() {
+		window.open('oiPay', '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
+	}
 
 	
 </script>
@@ -76,7 +80,7 @@
                                             <ul class="list-main">
                                                 <li>${sessionScope.US_NICK} 님 (카카오)</li>
                                                 <li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
-                                                <li><i class="ti-money"></i><a href="oiPay">OI 페이</a></li>
+                                                <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
                                                 <li><i class="ti-shift-left"></i><a href="kakao_logout">로그아웃</a></li>
                                             </ul>
                                         </c:when>
@@ -84,7 +88,7 @@
 											<ul class="list-main">
 												<li>${US_NICK} 님</li>
 												<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
-												<li><i class="ti-money"></i><a href="oiPay">OI 페이</a></li>
+												<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
 												<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
 											</ul>
 										</c:otherwise>
@@ -125,7 +129,7 @@
 					</div>
 					<div class="col-lg-8 col-md-6 col-12">
 						<div class="search-bar-top">
-							<div class="search-bar" onclick="searchDivOpen()" onblur="searchDivClose()">
+							<div class="search-bar" onclick="showHandler()" onblur="searchDivClose()" id="searchbarDiv">
 								<input type="text" name="search" placeholder="검색어를 입력해 주세요" autocomplete="off" style="width:100%" id="searchKeyword" >
 								<button class="btnn" onclick="searchKeyword()"><i class="ti-search"></i></button>
 
