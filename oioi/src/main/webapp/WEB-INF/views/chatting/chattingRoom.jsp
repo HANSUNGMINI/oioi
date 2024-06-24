@@ -25,28 +25,7 @@
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 <style>
-   .preView {
-        width: 200px;
-        height: 200px;
-        border: 2px dashed #ccc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        position: relative;
-    }
-    .preView img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-    .file-label {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 12px;
-        color: #333;
-    }
+
 </style>
 
 <script type="text/javascript">
@@ -384,13 +363,10 @@
 						
 						<%-- 파일 --%>
 	                    
-						<label> 상품 이미지<small>(최대 2장)</small></label>
+				        <input type="file" accept=".png, .jpeg" multiple>
+						<div id="imagePreview"></div>
 						
-						<div class="preView" id="previewContainer">
-							<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg" id="previewImage">
-					        <span class="file-label">이미지를 업로드하려면 클릭하세요</span>
-					        <input type="file" accept="image/*" name="addfile" id="addfile" style="display: none;">
-					    </div>
+	                    <small>최대 2장 등록 가능합니다</small>
 						
 						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
 					</form>			      

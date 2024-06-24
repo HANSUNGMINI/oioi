@@ -219,7 +219,7 @@
                 <div class="col-12"  id="noKeyword">
                 	<div class="owl-carousel popular-slider">
                 	<div class="owl-stage-outer" id="recentKeywordProduct" >
-<!--                 	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct"> -->
+<!--                  	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct">  -->
                 	<!--  이곳에 상세 설명 나옴-->
 <!--                 		제품 하나하나 -->
                 		
@@ -250,7 +250,7 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 						제품 하나 끝 -->
-<!-- 	</div> -->
+<!-- 							</div>  -->
                 		</div>
                 	</div>
                 </div>
