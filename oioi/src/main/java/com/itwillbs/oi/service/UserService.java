@@ -18,6 +18,22 @@ public class UserService {
 		return mapper.registUser(resultMap);
 	}
 	
+	
+	public Map<String, Object> loginOrRegister(Map<String, Object> userInfo) throws Exception {
+        String userId = (String) userInfo.get("US_ID");
+        Map<String, Object> existingUser = mapper.findUserByUsId(userId);
+        if (existingUser != null) {
+            // 이미 존재하는 사용자 - 업데이트
+            mapper.updateKakaoUser(userInfo);
+            return existingUser;
+        } else {
+            // 존재하지 않는 사용자 - 새 사용자 등록
+            mapper.registKakaoUser(userInfo);
+            return mapper.findUserByUsId(userId); // 삽입 후 사용자 반환
+        }
+    }
+	
+	
 	public boolean isEmptyId(String user_id) {
 		System.out.println(user_id);
 		return mapper.selectCheckID(user_id);
