@@ -34,7 +34,7 @@
 	}
 	
 	function openOIPay() {
-		window.open('oiPay', '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); 
+		window.open('oiPay', '_blank', 'width=500, height=600, left=720, top=200, resizable=no'); 
 	}
 
 	
