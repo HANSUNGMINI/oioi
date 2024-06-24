@@ -37,7 +37,7 @@
 		}
 	
 		if (isNull) {
-			let nullDiv = '<div style="margin:0 auto; text-align:center;"> 최근 검색 목록이 비어 있습니다. </div>';
+			let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 검색 목록이 비어 있습니다. </div>';
 			$("#noKeyword").append(nullDiv);
 			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
 		}
@@ -99,3 +99,4 @@
 	    });
 	
 	} 
+	

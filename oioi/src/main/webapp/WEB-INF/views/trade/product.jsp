@@ -211,29 +211,33 @@
 
 	</script> -->
 	<script>
+	
         $(function() {
+        	
             $(".addImg").on("click", function() {
                 $('#addfile').click();
             });
 
             $("#addfile").on("change", function(event) {
+            	$('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
                 if (this.files.length > 5) {
                     alert("최대 5개의 이미지만 업로드할 수 있습니다.");
                     this.value = ""; // 선택된 파일 초기화
-                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                } else {
-                    $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                    for (var i = 0; i < this.files.length; i++) {
-                        let reader = new FileReader();
-                        reader.onload = function(event) {
-                            var img = document.createElement("img");
-                            img.setAttribute("src", event.target.result);
-                            img.setAttribute("class", "tempImg");
-                            $(".preView").append(img);
-                        };
-                        reader.readAsDataURL(this.files[i]);
-                    }
+                    return;
                 }
+            	
+            	
+                for (var i = 0; i < this.files.length; i++) {
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        var img = document.createElement("img");
+                        img.setAttribute("src", event.target.result);
+                        img.setAttribute("class", "tempImg");
+                        $(".preView").append(img);
+                    };
+                    reader.readAsDataURL(this.files[i]);
+                }
+                
             });
 
             var input = document.querySelector('.tagify');

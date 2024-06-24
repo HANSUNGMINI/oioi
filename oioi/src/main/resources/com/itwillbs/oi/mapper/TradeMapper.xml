@@ -70,7 +70,22 @@
 		WHERE PD_IDX = #{pd_idx}
 	</update>
 	
-	 
+	 <select id="selectFilteredProducts" resultType="map">
+        SELECT *
+        FROM product p
+        JOIN images i ON p.PD_IMAGE = i.IMG_IDX
+        WHERE 1=1
+        <if test="cate1 != null and cate1 != ''">
+            AND p.PD_CATEGORY LIKE CONCAT('%', #{cate1}, '%')
+        </if>
+        <if test="cate2 != null and cate2 != ''">
+            AND p.PD_CATEGORY LIKE CONCAT('%', #{cate2}, '%')
+        </if>
+        <if test="cate3 != null and cate3 != ''">
+            AND p.PD_CATEGORY LIKE CONCAT('%', #{cate3}, '%')
+        </if>
+        ORDER BY p.PD_IDX DESC
+    </select>
 	
 </mapper>
 
