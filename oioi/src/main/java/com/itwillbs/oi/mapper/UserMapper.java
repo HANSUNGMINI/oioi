@@ -65,7 +65,11 @@ public interface UserMapper {
 
 	int updatePasswd(Map<String, Object> user);
 
+	Map<String, Object> findUserByUsId(String US_ID);
 
+    void registKakaoUser(Map<String, Object> userInfo);
+
+    void updateKakaoUser(Map<String, Object> userInfo);
 	
 
 	

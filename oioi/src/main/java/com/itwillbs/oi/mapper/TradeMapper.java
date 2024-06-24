@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Mapper
 public interface TradeMapper {
@@ -24,11 +25,13 @@ public interface TradeMapper {
 
 	int updateReadCount(String pd_idx);
 
-
+	List<Map<String, Object>> selectFilteredProducts(
+			@RequestParam Map<String, String> map);
+}
 		
 
 
 
 	
 
-}
+

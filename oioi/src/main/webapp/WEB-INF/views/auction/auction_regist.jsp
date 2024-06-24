@@ -215,13 +215,13 @@
 											<label>입찰마감기한<span style="color: red; margin-left: 5px;">*</span></label>
 											<div style="display: flex; align-items: center;">
 									            <label style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" name="APD_DEADLINE" value="15" > 15일
+									                <input type="radio" name="APD_DEADLINE" value="3" > 3일
 									            </label>
 									            <label style="display: flex; align-items: center; margin-right: 10px;" >
-									                <input type="radio" name="APD_DEADLINE" value="30" size="5"> 30일
+									                <input type="radio" name="APD_DEADLINE" value="5" size="5"> 5일
 									            </label>
 									            <label style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" name="APD_DEADLINE" value="60"> 60일
+									                <input type="radio" name="APD_DEADLINE" value="7"> 7일
 									            </label>
 									        </div>
 										</div>
@@ -260,28 +260,30 @@
         });
 
         $("#APD_IMAGE").on("change", function(event) {
+        	$('.preView img:gt(0)').remove();
             if (this.files.length > 5) {
                 alert("최대 5개의 이미지만 업로드할 수 있습니다.");
                 this.value = ""; // 선택된 파일 초기화
-                $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-            } else {
-                $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                for (var i = 0; i < this.files.length; i++) {
-                    let reader = new FileReader();
-                    reader.onload = function(event) {
-                        var img = document.createElement("img");
-                        img.setAttribute("src", event.target.result);
-                        img.setAttribute("class", "tempImg");
-                        img.setAttribute("name", "APD_IMAGE");
-                        img.style.width = "100px"; // 원하는 너비로 설정
-                        img.style.height = "100px"; // 원하는 높이로 설정
-                        img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
-                        img.style.margin = "5px"; // 이미지 간의 간격을 추가
-                        $(".preView").append(img);
-                    };
-                    reader.readAsDataURL(this.files[i]);
-                }
+                return;
             }
+            
+            $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+            for (var i = 0; i < this.files.length; i++) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    var img = document.createElement("img");
+                    img.setAttribute("src", event.target.result);
+                    img.setAttribute("class", "tempImg");
+                    img.setAttribute("name", "APD_IMAGE");
+                    img.style.width = "100px"; // 원하는 너비로 설정
+                    img.style.height = "100px"; // 원하는 높이로 설정
+                    img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
+                    img.style.margin = "5px"; // 이미지 간의 간격을 추가
+                    $(".preView").append(img);
+                };
+                reader.readAsDataURL(this.files[i]);
+            }
+            
         });
 
         var input = document.querySelector('.tagify');

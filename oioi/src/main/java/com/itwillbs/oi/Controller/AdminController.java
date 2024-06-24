@@ -98,9 +98,19 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		return "admin/admin_common_code_list";
+		return "admin/admin_chat_list";
 	}
 	
+	@GetMapping("admin_detail")
+	public String admin_detail(@RequestParam Map<String, String> map
+								, Model model) {
+		
+		switch (map.get("table")) {
+		case "user":  break;
+		}
+		
+		return "";
+	}
 	
 	// 최고 관리자용
 	@GetMapping("master_admin")

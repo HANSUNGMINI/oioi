@@ -66,6 +66,12 @@ public class AuctionService {
 		return mapper.updateBid(map);
 	}
 
+	public void updateApdStatus(String APD_IDX) {
+		mapper.updateApdStatus(APD_IDX);
+	}
+
+	
+
 	
 	
 }

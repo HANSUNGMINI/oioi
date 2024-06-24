@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -58,27 +59,47 @@ public class UserController {
             System.out.println("사용자 정보 : " + userInfo);
             if (userInfo != null) {
                 JSONObject userJson = new JSONObject(userInfo);
-                // 카카오 사용자 정보를 이용하여 로그인 처리 (예: 이메일로 회원가입 및 로그인)
+                // 카카오 사용자 정보를 이용하여 로그인 처리
+                String userId = String.valueOf(userJson.getLong("id")); // ID 값을 문자열로 변환하여 저장
                 String userEmail = userJson.getJSONObject("kakao_account").getString("email");
                 String userNick = userJson.getJSONObject("properties").getString("nickname");
                 System.out.println(userEmail);
                 System.out.println(userNick);
-                // 로그인 성공 후 세션에 사용자 정보 저장
-                session.setAttribute("US_ID", userEmail);
-                session.setAttribute("US_NICK", userNick);
-                session.setAttribute("KAKAO_LOGIN", true);
-                session.setAttribute("KAKAO_ACCESS_TOKEN", accessToken); // 액세스 토큰 세션에 저장
-                // 세션에 저장된 US_ID와 US_NICK 콘솔에 출력
-                System.out.println("로그인 시 세션 토큰 : " + session.getAttribute("KAKAO_ACCESS_TOKEN"));
-                System.out.println("세션에 저장된 US_ID: " + session.getAttribute("US_ID"));
-                System.out.println("세션에 저장된 US_NICK: " + session.getAttribute("US_NICK"));
-                // 여기서 필요에 따라 DB에 저장하거나 추가적인 로직 수행 가능
+                // 카카오 사용자 정보를 Map에 저장
+                Map<String, Object> kakaoUserInfo = new HashMap<>();
+                kakaoUserInfo.put("US_ID", userId);
+                kakaoUserInfo.put("US_EMAIL", userEmail);
+                kakaoUserInfo.put("US_NICK", userNick);
+                
+                // DB에 사용자 정보 삽입 또는 업데이트
+                Map<String, Object> loggedInUser = null;
+				try {
+					loggedInUser = service.loginOrRegister(kakaoUserInfo);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+                
+                if (loggedInUser != null) {
+                    // 로그인 성공 후 세션에 사용자 정보 저장
+                    session.setAttribute("US_ID", loggedInUser.get("US_ID"));
+                    session.setAttribute("US_EMAIL", loggedInUser.get("US_EMAIL"));
+                    session.setAttribute("US_NICK", loggedInUser.get("US_NICK"));
+                    session.setAttribute("KAKAO_LOGIN", true);
+                    session.setAttribute("KAKAO_ACCESS_TOKEN", accessToken); // 액세스 토큰 세션에 저장
+                    // 세션에 저장된 US_ID와 US_NICK 콘솔에 출력
+                    System.out.println("로그인 시 세션 토큰 : " + session.getAttribute("KAKAO_ACCESS_TOKEN"));
+                    System.out.println("세션에 저장된 US_ID: " + session.getAttribute("US_ID"));
+                    System.out.println("세션에 저장된 US_EMAIL: " + session.getAttribute("US_EMAIL"));
+                    System.out.println("세션에 저장된 US_NICK: " + session.getAttribute("US_NICK"));
 
-                // 성공 응답 반환
-                JSONObject responseJson = new JSONObject();
-                responseJson.put("success", true);
-                responseJson.put("user", userJson);
-                return ResponseEntity.ok(responseJson.toString());
+                    // 성공 응답 반환
+                    JSONObject responseJson = new JSONObject();
+                    responseJson.put("success", true);
+                    responseJson.put("user", userJson);
+                    return ResponseEntity.ok(responseJson.toString());
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
+                }
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
             }
@@ -87,7 +108,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
-
+    
     private String getUserInfo(String accessToken) throws IOException {
         String requestUrl = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(requestUrl);
@@ -127,12 +148,30 @@ public class UserController {
     }
 
     @GetMapping("kakao_logout")
-    public String logout(HttpSession session) {
-        // 카카오 로그인을 통해 세션에 저장된 액세스 토큰 가져오기
+    public String logout(HttpSession session, HttpServletRequest request) {
+    	// 카카오 로그인을 통해 세션에 저장된 액세스 토큰 가져오기
         String kakaoAccessToken = (String) session.getAttribute("KAKAO_ACCESS_TOKEN");
+        String userId = (String) session.getAttribute("US_ID");
+        String userNick = (String) session.getAttribute("US_NICK");
+
+        // 세션에 저장된 정보 콘솔에 출력
+        System.out.println("로그아웃 시 받아온 토큰 : " + kakaoAccessToken);
+        System.out.println("세션에 저장된 US_ID: " + userId);
+        System.out.println("세션에 저장된 US_NICK: " + userNick);
 
         // 세션 무효화
         session.invalidate();
+
+        // 새로운 세션을 생성하여 무효화된 세션의 정보가 null인지 확인
+        HttpSession newSession = request.getSession(false);
+        if (newSession == null) {
+            System.out.println("세션 무효화 성공!");
+        } else {
+            System.out.println("세션 무효화 실패");
+            System.out.println("KAKAO_ACCESS_TOKEN: " + newSession.getAttribute("KAKAO_ACCESS_TOKEN"));
+            System.out.println("US_ID: " + newSession.getAttribute("US_ID"));
+            System.out.println("US_NICK: " + newSession.getAttribute("US_NICK"));
+        }
 
         if (kakaoAccessToken != null) {
             try {
@@ -216,7 +255,7 @@ public class UserController {
 		
 		if(service.registUser(resultMap) > 0) {
 			model.addAttribute("msg", "회원가입에 성공하셨습니다!");
-			model.addAttribute("US_NICK", (String) resultMap.get("US_NICK")); // Add this line
+			model.addAttribute("US_NICK", (String) resultMap.get("US_NICK")); 
 			return "user/regist_success";
 		} else {
 			model.addAttribute("msg", "회원가입 실패!");

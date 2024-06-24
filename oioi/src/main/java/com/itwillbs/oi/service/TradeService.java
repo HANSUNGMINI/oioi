@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.mapper.AuctionMapper;
 import com.itwillbs.oi.mapper.TradeMapper;
@@ -46,6 +47,8 @@ public class TradeService {
 		return mapper.updateReadCount(pd_idx);
 	}
 	
-	
+	public List<Map<String, Object>> getFilteredProducts(@RequestParam Map<String, String> map) {
+        return mapper.selectFilteredProducts(map);
+    }
 
 }

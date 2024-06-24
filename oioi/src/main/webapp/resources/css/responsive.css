@@ -461,7 +461,7 @@ Version:1.0
 	display: none;
 }
 .header.shop .right-bar {
-	display: none;
+/* 	display: none; */
 }
 .header .middle-inner{
 	width:100%;
@@ -1174,7 +1174,7 @@ Version:1.0
 	display: none;
 }
 .header.shop .right-bar {
-	display: none;
+/* 	display: none; */
 }
 /* Header Search */
 .header.shop .search-top {
