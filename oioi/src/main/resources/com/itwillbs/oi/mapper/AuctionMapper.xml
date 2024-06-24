@@ -116,8 +116,8 @@
 	</select>
 	<insert id="insertACR">
 		insert into
-		auction_chat_room(ACR_IDX)
-		values (#{ACR_IDX})
+		auction_chat_room(ACR_IDX,ACR_STATUS,ACR_DATE)
+		values (#{ACR_IDX},'Y',DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i'))
 	</insert>
 	<update id="updateBid">
 		update auction
@@ -129,6 +129,20 @@
 		set APD_STATUS = "APD06"
 		where APD_IDX = #{APD_IDX}
 	</update>
+	
+	<insert id="insertACM">
+		insert into auction_chat_msg(
+			ACR_IDX,
+		    ACM_USER,
+		    ACM_CONTENT,
+		    ACM_DATE
+		)values(
+			#{ACR_IDX},
+		    #{ACM_USER},
+		    #{ACM_CONTENT},
+		    DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+		)
+	</insert>
 </mapper>
 
 

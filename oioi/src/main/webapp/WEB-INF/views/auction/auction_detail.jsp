@@ -166,40 +166,17 @@
 	        };
 	        
 	        ws.onmessage = function(event) {
+	        	var session_id = "${sessionScope.US_ID}";
 	        	console.log("판매자 : " + us_id);
 	        	
-	            console.log('받은 메세지 - ' + event.data);
+	            console.log('받은 메세지 파싱전 ' + event.data);
 	            var respose = JSON.parse(event.data);
-	            console.log("respose.APD_IDX : " + respose.APD_IDX);
+	            console.log('받은 메세지 파싱후 ' + respose);
+	            console.log("respose.US_ID : " + respose.US_ID);
 	            console.log("respose.MSG : " + respose.MSG);
 	            console.log("respose.US_ID(보낸 메세지 주인) : " + respose.US_ID);
-	            var session_id = "${sessionScope.US_ID}";
+	            
 	            console.log("session_id : " + session_id);
-	            
-	            
-	            //세션아이디와 메세지 작성자가 일치하면 오른쪽 불일치면 왼쪽
-	            var html ='';
-	            if(session_id == respose.US_ID){
-	            	console.log("일치");
-	            	html += '<li class="clearfix" class="chatViewMe">' + 
-	                '<div class="message other-message float-right">' +
-	                respose.MSG +
-	                '</div>' +
-	           		'</li>';
-	            	$('.chatView').append(html);
-	            }else {
-	            	console.log("불일치");
-	            	html += '<li class="clearfix" class="chatViewYou">' + 
-	            	'<div class="message-avatar">' +
-	            	'<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
-	            	respose.US_ID +
-	            	'</div>' +
-	                '<div class="message my-message">' +
-	                respose.MSG +
-	                '</div>' +
-	           		'</li>';
-	            	$('.chatView').append(html);
-	            }
 	            
 	            $.ajax({
 	            	url : "saveMsg",
@@ -210,10 +187,42 @@
 	            		ACM_USER : respose.US_ID
 	            	},
 	            	dataType : "JSON",
-	            	success: function(response) {
-	                    console.log('저장 성공');
+	            	success: function(res) {
+	                    console.log('저장 성공' + res);
+	                    console.log('저장 성공' + res.data.ACR_IDX);
+	                    console.log('저장 성공' + res.data.ACM_USER);
+	                    console.log('저장 성공' + res.data.ACM_CONTENT);
+	                    console.log('저장 성공' + session_id);
+	                    
+	                  //세션아이디와 메세지 작성자가 일치하면 오른쪽 불일치면 왼쪽
+	    	            var html ='';
+	    	            if(session_id == res.data.ACM_USER){
+	    	            	console.log("일치");
+	    	            	html += '<li class="clearfix" class="chatViewMe">' + 
+	    	                '<div class="message other-message float-right">' +
+	    	                res.data.ACM_CONTENT +
+	    	                '</div>' +
+	    	           		'</li>';
+	    	            	$('.chatView').append(html);
+	    	            }else {
+	    	            	console.log("불일치");
+	    	            	html += '<li class="clearfix" class="chatViewYou">' + 
+	    	            	'<div class="message-avatar">' +
+	    	            	'<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
+	    	            	res.data.US_ID +
+	    	            	'</div>' +
+	    	                '<div class="message my-message">' +
+	    	                res.data.ACM_CONTENT +
+	    	                '</div>' +
+	    	           		'</li>';
+	    	            	$('.chatView').append(html);
+	    	            }
 	                }
 	            });
+	            
+	            
+	            
+	            
 	        };
 	        
 	        ws.onclose = function(event) {
