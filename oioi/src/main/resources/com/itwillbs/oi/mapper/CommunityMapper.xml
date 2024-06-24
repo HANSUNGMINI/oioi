@@ -65,7 +65,7 @@
 			, null
 			, null
 			, null
-			, now()
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
 			, #{category}
 			, #{CM_NICK}
 		);
