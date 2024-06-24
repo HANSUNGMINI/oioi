@@ -87,6 +87,37 @@ public class TradeController {
 		
 	}
 	
+	@GetMapping("/filterProducts")
+    @ResponseBody
+    public List<Map<String, Object>> filterProducts(
+            @RequestParam Map<String, String> map,
+            Model model) {
+		System.out.println(map);
+		System.out.println();
+//	 	List<Map<String, String>> productList = tradeService.getProduct(map);
+		System.out.println(tradeService.getFilteredProducts(map));
+        return tradeService.getFilteredProducts(map);
+    }
+
+	 // 상품 상세 페이지
+	@GetMapping("productDetail")
+	public String goDetail(@RequestParam Map<String, String> map, Model model) {
+		System.out.println(map);
+		System.out.println("PD_IDX :" + map.get("PD_IDX"));
+		
+		// 클릭 시 조회 수 + 1
+		String pd_idx = map.get("PD_IDX");
+		int readCountResult = tradeService.updateReadCount(pd_idx);
+		
+		// pd_idx에 따른 정보 조회
+		Map<String, String> dbMap = tradeService.getProductInfo(map);
+		model.addAttribute("productInfo", dbMap);
+		System.out.println(dbMap);
+			
+		return "/trade/product_detail";
+	}
+		
+		
 	
 	// 상품등록 페이지
 	@GetMapping("product")
@@ -254,36 +285,11 @@ public class TradeController {
 	    }
 	}
 	
-	// 상품 상세 페이지
-	@GetMapping("productDetail")
-	public String goDetail(@RequestParam Map<String, String> map, Model model) {
-		System.out.println(map);
-		System.out.println("PD_IDX :" + map.get("PD_IDX"));
-		
-		// 클릭 시 조회 수 + 1
-		String pd_idx = map.get("PD_IDX");
-		int readCountResult = tradeService.updateReadCount(pd_idx);
-		
-		// pd_idx에 따른 정보 조회
-		Map<String, String> dbMap = tradeService.getProductInfo(map);
-		model.addAttribute("productInfo", dbMap);
-		System.out.println(dbMap);
-		
-		// 1
-//		int idx = Integer.parseInt(map.get("PD_IDX"));
-//		
-//		int productInfo = TradeService.getProductInfo(idx);		
-//		
-//		model.addAttribute("productInfo", productInfo);
-//		System.out.println(productInfo);
-		// 2
-//		List<Map<String, String>> productList = TradeService.getProduct();
-//		model.addAttribute("productList", productList);
-//		System.out.println(productList.get(Integer.parseInt(map.get("PD_IDX"))));
-		
-		
-	
-		return "/trade/product_detail";
-	}
-
+//	@ResponseBody
+//	@GetMapping("SelectProductList")
+//	public String SelectProductList(@RequestParam Map<String, String> map
+//								, Model model) {
+//		System.out.println(map);
+//		return "asdf";
+//	}
 }
