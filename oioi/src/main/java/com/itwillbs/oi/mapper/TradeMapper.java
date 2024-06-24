@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Mapper
 public interface TradeMapper {
 
-	List<Map<String, String>> getProductCondition();
+	List<Map<String, String>> selectProductCondition();
 
-	List<Map<String, String>> getTradeMethod();
+	List<Map<String, String>> selectTradeMethod();
 
 	int insertProduct(Map<String, Object> map);
 
@@ -27,6 +27,10 @@ public interface TradeMapper {
 
 	List<Map<String, Object>> selectFilteredProducts(
 			@RequestParam Map<String, String> map);
+
+	List<Map<String, String>> selectProductPriceOffer();
+
+	List<Map<String, String>> selectProductSafeTrade();
 }
 		
 

@@ -56,7 +56,7 @@
     
    <script type="text/javascript">
     $(document).ready(function() {
-    	
+    	var contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
         console.log('cate2:', cate2);
@@ -136,7 +136,7 @@
                            +'             <form action="productDetail" method="get">'
                            +'               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
                            +'               <a href="#" onclick="this.parentNode.submit(); return false;">'
-                           +'                   <img class="default-img" src="/resources/upload/' + product.image1 + '">'
+                           +'                   <img class="default-img" src="' + contextPath + '/resources/upload/' + product.image1 + '">'
 //                            +'                   <img class="default-img" src="' + request.getContextPath() + '/resources/upload/' + product.image1 + '">'
                            +'               </a>'
                            +'           </form>'

@@ -133,7 +133,7 @@
 										<label> 상품상태 </label>
 										<ul>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<li><input type="radio" name="PD_CONDITION" value="${productCondition.value}">${productCondition.value}</li>
+												<li><input type="radio" name="PD_CONDITION" value="${productCondition.code}">${productCondition.value}</li>
 											</c:forEach>
 										</ul>
 									</li>
@@ -150,7 +150,7 @@
 										<label> 거래 방식 </label>
 										<ul>
 											<c:forEach var="tradeMethod" items="${tradeMethod}">
-												<li><input type="radio" name="PD_TRADE_METHOD" value="${tradeMethod.value}">${tradeMethod.value}</li>
+												<li><input type="radio" name="PD_TRADE_METHOD" value="${tradeMethod.code}">${tradeMethod.value}</li>
 											</c:forEach>
 <!-- 											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li> -->
 <!-- 											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li> -->
@@ -162,7 +162,7 @@
 										<label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
-								<input type="hidden" name="PD_STATUS" value="판매 중">
+								<input type="hidden" name="PD_STATUS" value="PD01">
 								<input type="submit" id="subimit" value="등록하기">
 							</form>
 							<!--/ End Form -->

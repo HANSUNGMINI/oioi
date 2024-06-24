@@ -155,17 +155,27 @@ public class TradeController {
 		// 상품 상태
 		List<Map<String, String>> productCondition = tradeService.getProductCondition();
 		model.addAttribute("productCondition", productCondition);
-//		System.out.println(productCondition);
+//		System.out.println("상품상태 : " + productCondition);
 		
 		// 거래 방식
 		List<Map<String, String>> tradeMethod = tradeService.getTradeMethod();
 		model.addAttribute("tradeMethod", tradeMethod);
-		System.out.println(tradeMethod);
+//		System.out.println(tradeMethod);
 		
-		// 상품 상태
+		// 상품 결제 상태
 		List<Map<String, String>> productStatus = tradeService.getProductStatus();
 		model.addAttribute("productStatus", productStatus);
-		System.out.println(productStatus);
+//		System.out.println(productStatus);
+		
+		// 상품 가격 제안 유무 
+		List<Map<String, String>> productPriceOffer = tradeService.getProductPriceOffer();
+		model.addAttribute("productPriceOffer", productPriceOffer);
+		System.out.println(productPriceOffer);
+		
+		// 상품 안전 거래 사용 유무 
+		List<Map<String, String>> productSafeTrade = tradeService.getProductSafeTrade();
+		model.addAttribute("productSafeTrade", productSafeTrade);
+		System.out.println(productSafeTrade);
 		
 		System.out.println("카테1" + cate1);
 		System.out.println("카테2" + cate2);
@@ -196,7 +206,16 @@ public class TradeController {
 		    }
 		}
 		map.put("PD_CATEGORY", cn);
-		
+		if(map.get("PD_PRICE_OFFER") != null) {
+			map.put("PD_PRICE_OFFER", "PPO01");
+		} else {
+			map.put("PD_PRICE_OFFER", "PPO02");
+		}
+		if(map.get("PD_SAFE_TRADE") != null) {
+			map.put("PD_SAFE_TRADE", "PST01");
+		} else {
+			map.put("PD_SAFE_TRADE", "PST02");
+		}
 		System.out.println("##################" + map);
 //		for(MultipartFile mf : files) {
 //			System.out.println(mf);

@@ -16,13 +16,19 @@ public class TradeService {
 	private TradeMapper mapper;
 	
 	public List<Map<String, String>> getProductCondition() {
-		System.out.println("트레이드 서비스 옴(상품 상태)");
-		return mapper.getProductCondition();
+		return mapper.selectProductCondition();
 	}
 
 	public List<Map<String, String>> getTradeMethod() {
-		System.out.println("트레이드 서비스 옴(상품 거래방법)");
-		return mapper.getTradeMethod();
+		return mapper.selectTradeMethod();
+	}
+	
+	public List<Map<String, String>> getProductPriceOffer() {
+		return mapper.selectProductPriceOffer();
+	}
+
+	public List<Map<String, String>> getProductSafeTrade() {
+		return mapper.selectProductSafeTrade();
 	}
 
 	public int insertProduct(Map<String, Object> map) {
@@ -50,5 +56,7 @@ public class TradeService {
 	public List<Map<String, Object>> getFilteredProducts(@RequestParam Map<String, String> map) {
         return mapper.selectFilteredProducts(map);
     }
+
+	
 
 }
