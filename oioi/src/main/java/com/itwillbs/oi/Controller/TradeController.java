@@ -195,6 +195,7 @@ public class TradeController {
 		// 사용자 아이디 가져오기
 		map.put("US_ID", (String)session.getAttribute("US_ID"));
 		// 카테고리 가져오기 
+		System.out.println("ASDAD@ASD@!#@!@!#$#@!$@!" + map.get("cate3"));
 		String[] cateName = Auctionservice.categoryName(map);
 		System.out.println("cateName : " + cateName);
 		String cn = "";
