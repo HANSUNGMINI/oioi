@@ -4,6 +4,8 @@ const columns = [
     {header: '아이디', name: 'US_ID'},
     {header: '게시글 제목', name: 'PD_SUBJECT'},
     {header: '카테고리', name: 'PD_CATEGORY'},
+    {header: '상태', name: 'PD_STATUS'},
+    {header: '등록일', name: 'PD_REG_DATE'},
     {header: '보기'
       , name: 'hide'
       , renderer: {type: product_detail_btn}

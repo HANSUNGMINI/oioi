@@ -63,12 +63,6 @@
       					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
       				</button>
      			</div>
-     			
-	        	<div class="buttons right nowrap">
-      				<button class="button small red" id="btn-delete" type="button">
-      					<span class="icon"><i class="mdi mdi-delete"></i></span>
-      				</button>
-     			</div>
 	        	
 	        	<div class="buttons right nowrap">
       				<button class="button small blue" id="btn-apply" type="button">
