@@ -52,7 +52,8 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	 <!-- 카카오 JavaScript SDK -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+	
 </head>
 <style>
 .login-option {
@@ -73,8 +74,8 @@
 }
 
 .login-images img {
-    width: 250px;
-    height: auto;
+    width: 230px;
+    height: 56px;
     display: block;
     margin: 0 auto; /* 이미지를 중앙에 배치합니다 */
 }
@@ -115,7 +116,7 @@
 									<div class="col-12">
 										<div class="login-images">
 											<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/images/kakao.png"></a>
-											<a href="#" id="naver-login-btn"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
+											<a href="#" id="google-login-btn"><img src="${pageContext.request.contextPath}/resources/images/google.png"></a>
 										</div>
 									</div>
 								</div>
@@ -129,8 +130,8 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 	<script>
- // 카카오 SDK 초기화
+<script>
+	// 카카오 SDK 초기화
  	Kakao.init('76f6b3828f0b7b30e9de07f0dcc7f3ed'); // 발급받은 JavaScript 키를 입력합니다.
 
  	// 카카오 로그인 버튼 클릭 이벤트
@@ -172,60 +173,62 @@
  	        }
  	    });
  	});
- 	
- 	 // 네이버 로그인 초기화
-    var naverLogin = new naver.LoginWithNaverId({
-        clientId: "jYR_TimjsvzQr8BV06yT",
-        callbackUrl: "http://localhost:8081/naver-login",  // 정확한 콜백 URL
-        isPopup: true,
-        callbackHandle: true
+</script>
+<script>
+// 구글 로그인 처리 함수
+function onGoogleSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    // id_token을 서버로 전송하여 로그인 처리
+    fetch('google_login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: id_token })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답 실패!');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // 로그인 성공 시 처리
+            console.log('구글 로그인 성공:', data.user);
+            window.location.href = './'; // 예: 메인 페이지로 이동
+        } else {
+            alert('구글 로그인 실패!');
+        }
+    })
+    .catch(error => {
+        console.error('에러:', error);
+        alert('에러 발생! : ' + error.message);
     });
-    naverLogin.init();
+}
 
- // 네이버 로그인 버튼 클릭 이벤트
-    document.getElementById('naver-login-btn').addEventListener('click', function(e) {
-        e.preventDefault(); // 기본 동작 방지 (이 경우 <a> 태그의 href로의 이동 방지)
-        console.log("네이버 로그인 버튼 클릭됨");
-        
-        // 네이버 로그인 팝업 열기
-        naverLogin.authorize();
-
-        // 네이버 로그인 상태 확인 및 처리
-        naverLogin.getLoginStatus(function(status) {
-            console.log("네이버 로그인 상태: ", status);
-            if (status) {
-                // 로그인 성공 시 액세스 토큰을 서버로 전송
-                fetch('naver_login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ token: naverLogin.accessToken.accessToken })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('네트워크 응답 실패!');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = './'; // 로그인 성공 시 메인 페이지로 이동
-                    } else {
-                        alert('유저 정보 패치 실패!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('에러 발생! : ' + error.message);
-                });
-            } else {
-                console.log('네이버 로그인 실패!');
-            }
+// 구글 클라이언트 ID를 사용하여 Google Sign-In 초기화
+function initializeGoogleSignIn() {
+    gapi.load('auth2', function() {
+        gapi.auth2.init({
+            client_id: '450559380944-t4fdtvtfpegofcnqk13uvsh8d84slol8.apps.googleusercontent.com'
         });
     });
-	</script>
- 	
+}
+initializeGoogleSignIn();
+
+// 구글 로그인 버튼 클릭 이벤트
+document.getElementById('google-login-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signIn().then(function(googleUser) {
+        onGoogleSignIn(googleUser); // 로그인 성공 시 처리하는 함수 호출
+    }).catch(function(error) {
+        console.error('에러:', error);
+        alert('구글 로그인 실패! : ' + error.error);
+    });
+});
+</script>
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
