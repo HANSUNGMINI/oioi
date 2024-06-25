@@ -1,7 +1,9 @@
 package com.itwillbs.oi.Controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +58,14 @@ public class MyStoreController {
 		// 상품 목록을 스트림으로 처리하여 각 상품의 등록 시간을 현재 시간과 비교한 결과를 추가
         List<Map<String, Object>> productList = myPD.stream()
         	.map(product -> {
-            LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
+        		
+        	// new
+        	String dateString = (String)product.get("PD_REG_DATE"); // 변환할 문자열 날짜
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime regDate = LocalDateTime.parse(dateString, formatter);
+//            LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
+            // new
+            
             String timeAgo = dateTimeAgo(regDate);
             product.put("timeAgo", timeAgo);
 //            System.out.println("각 상품들의 정보 : " + product);
