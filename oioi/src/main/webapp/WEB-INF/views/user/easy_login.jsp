@@ -52,6 +52,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	 <!-- 카카오 JavaScript SDK -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 </head>
 <style>
 .login-option {
@@ -114,7 +115,7 @@
 									<div class="col-12">
 										<div class="login-images">
 											<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/images/kakao.png"></a>
-											<a href="#"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
+											<a href="#" id="naver-login-btn"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
 										</div>
 									</div>
 								</div>
@@ -147,31 +148,84 @@
  	            })
  	            .then(response => {
  	                if (!response.ok) {
- 	                    throw new Error('Network response was not ok');
+ 	                    throw new Error('네트워크 응답 실패!');
  	                }
  	                return response.json();
  	            })
  	            .then(data => {
  	                if (data.success) {
  	                    // 서버에서 사용자 정보를 성공적으로 가져왔을 때 처리할 내용
- 	                    console.log('User information:', data.user);
+ 	                    console.log('유저 정보 :', data.user);
  	                    // 예: 메인 페이지로 이동
  	                    window.location.href = './';
  	                } else {
- 	                    alert('Failed to fetch user information');
+ 	                    alert('유저 정보 패치 실패!');
  	                }
  	            })
  	            .catch(error => {
  	                console.error('Error:', error);
- 	                alert('An error occurred: ' + error.message);
+ 	                alert('에러 발생! : ' + error.message);
  	            });
  	        },
  	        fail: function(err) {
- 	            alert('Kakao login failed: ' + JSON.stringify(err));
+ 	            alert('카카오 로그인 실패! : ' + JSON.stringify(err));
  	        }
  	    });
  	});
-    </script>
+ 	
+ 	 // 네이버 로그인 초기화
+    var naverLogin = new naver.LoginWithNaverId({
+        clientId: "jYR_TimjsvzQr8BV06yT",
+        callbackUrl: "http://localhost:8081/naver-login",  // 정확한 콜백 URL
+        isPopup: true,
+        callbackHandle: true
+    });
+    naverLogin.init();
+
+ // 네이버 로그인 버튼 클릭 이벤트
+    document.getElementById('naver-login-btn').addEventListener('click', function(e) {
+        e.preventDefault(); // 기본 동작 방지 (이 경우 <a> 태그의 href로의 이동 방지)
+        console.log("네이버 로그인 버튼 클릭됨");
+        
+        // 네이버 로그인 팝업 열기
+        naverLogin.authorize();
+
+        // 네이버 로그인 상태 확인 및 처리
+        naverLogin.getLoginStatus(function(status) {
+            console.log("네이버 로그인 상태: ", status);
+            if (status) {
+                // 로그인 성공 시 액세스 토큰을 서버로 전송
+                fetch('naver_login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: naverLogin.accessToken.accessToken })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('네트워크 응답 실패!');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = './'; // 로그인 성공 시 메인 페이지로 이동
+                    } else {
+                        alert('유저 정보 패치 실패!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('에러 발생! : ' + error.message);
+                });
+            } else {
+                console.log('네이버 로그인 실패!');
+            }
+        });
+    });
+	</script>
+ 	
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>

@@ -43,16 +43,33 @@
 	</select>
 	
 	<select id="selectProductList" resultType="map">
-		SELECT *
-		  FROM product
-		 WHERE 
+		 WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
+		SELECT PD_IDX
+			 , p.US_ID
+			 , p.PD_SUBJECT
+			 , c.value AS PD_STATUS
+			 , p.PD_REG_DATE
+			 , tmp.PATH AS PD_CATEGORY 
+		  FROM product p 
+		  LEFT JOIN tmp
+		    ON p.PD_CATEGORY = tmp.CTG_CODE
+		  LEFT JOIN common c
+		    ON p.PD_STATUS = c.code
+		 WHERE 1 = 1
 		  <choose>
-		  	<when test="type.equals('US_NAME')">US_NAME LIKE concat('%', #{keyword} , '%')</when>
-		  	<when test="type.equals('PD_SUBJECT')">PD_SUBJECT LIKE concat('%', #{keyword} , '%')</when>
-		  	<when test="type.equals('PD_CATEGORY')">PD_CATEGORY LIKE concat('%', #{keyword} , '%')</when>
-		  	<otherwise> 1 = 1</otherwise>
+		  	<when test="type.equals('US_ID')"> AND US_ID LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('PD_SUBJECT')"> AND PD_SUBJECT LIKE concat('%', #{keyword} , '%')</when>
+		  	<when test="type.equals('PD_CATEGORY')">AND PD_CATEGORY LIKE concat('%', #{keyword} , '%')</when>
 		  </choose>
-		  ORDER BY PD_UPDATED_DATE DESC
+		   ORDER BY PD_REG_DATE DESC;
 	</select>
 	
 	<select id="selectCommonList">
@@ -70,25 +87,33 @@
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">
+		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
 		SELECT ap.APD_IDX
 			 , ap.APD_OWNER
 			 , ap.APD_NAME
 			 , ap.APD_DETAIL
-			 , c1.value as APD_CATEGORY
+			 , tmp.PATH AS APD_CATEGORY
 			 , c2.value as APD_REJECTION
 			 , ap.APD_REG_DATE
 			 , ap.APD_STATUS
 		  FROM auction_product ap
-		   LEFT JOIN common c1
-		    ON ap.APD_CATEGORY = c1.code
+		  LEFT JOIN tmp
+		    ON ap.APD_CATEGORY = tmp.CTG_CODE
 		  LEFT JOIN common c2
 		    ON ap.APD_REJECTION = c2.code
-		 WHERE
+		 WHERE 1 = 1 
 		  <choose>
-		  	<when test="!type.equals('ALL')"> c.code = #{type} </when>
-		  	<otherwise> 1 = 1</otherwise>
+		  	<when test="!type.equals('ALL')"> AND c.code = #{type} </when>
 		  </choose>
-		 ORDER BY ap.APD_REG_DATE desc
+		   ORDER BY ap.APD_REG_DATE DESC;
 	</select>
 		 
 	<select id="selectReportList" resultType="map">
@@ -190,12 +215,6 @@
 			 , DEFAULT
 		);
 	</insert>
-	
-	<delete id="deleteCommon">
-		DELETE
-		  FROM common
-		 WHERE code = #{code}
-	</delete>
 	
 	<!-- 공통관리 끝 -->
 	

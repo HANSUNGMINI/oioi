@@ -27,11 +27,13 @@ public interface AuctionMapper {
 
 	Map<String, String> selectACR(String APD_IDX);
 
-	void insertACR(String aPD_IDX);
+	int insertACR(String aPD_IDX);
 
 	int updateBid(Map<String, Object> map);
 
 	void updateApdStatus(String APD_IDX);
+
+	int insertACM(Map<String, Object> map);
 
 
 }
