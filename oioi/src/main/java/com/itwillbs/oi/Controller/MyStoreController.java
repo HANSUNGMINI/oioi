@@ -50,6 +50,12 @@ public class MyStoreController {
 		String userId = (String)map.get("userId");
 		
 		Map<String, String> user = userService.selectMyUser(userId);
+		if (user == null ) {
+			model.addAttribute("msg", "존재하지 않는 회원입니다");
+			return "err/fail";
+		}
+		
+		
 		List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
 		System.out.println(myPD);
 		// 상품 목록을 역순으로 정렬
