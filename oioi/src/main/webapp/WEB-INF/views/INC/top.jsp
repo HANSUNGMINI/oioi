@@ -87,7 +87,7 @@
 												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
                                                 
                                                 <c:choose>
-													<c:when test="${empty token.access_token}">
+													<c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
 														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
 													</c:when>
 													<c:otherwise>
@@ -103,7 +103,7 @@
 												<li>${US_NICK} 님</li>
 												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
 												<c:choose>
-													<c:when test="${empty token.access_token}">
+													<c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
 														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
 													</c:when>
 													<c:otherwise>

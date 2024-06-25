@@ -40,6 +40,14 @@ public class OipayService {
 			mapper.updateAccessToken(map);
 		}
 	}
+
+
+	public String selectBankAccessToken(String userId) {
+		System.out.println("41111111111111111111111111111111" + userId);
+		return mapper.selectBankAccessToken(userId);
+	}
+
+	
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
 //	public Map getUserInfo(BankTokenVO token) {

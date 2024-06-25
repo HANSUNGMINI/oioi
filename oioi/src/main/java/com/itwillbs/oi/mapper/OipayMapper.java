@@ -18,6 +18,9 @@ public interface OipayMapper {
 
 	// 관리자 엑세스 토큰 정보 조회
 	String selectAdminToken();
+
+	String selectBankAccessToken(String userId);
+
 	
 	// 관리자 엑세스 토큰 정보 저장
 //	void insertAdminToken(BankTokenVO adminToken);

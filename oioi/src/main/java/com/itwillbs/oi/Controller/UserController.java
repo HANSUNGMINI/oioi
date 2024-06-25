@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.service.MailService;
+import com.itwillbs.oi.service.OipayService;
 import com.itwillbs.oi.service.UserService;
 
 @Controller
@@ -35,6 +36,8 @@ public class UserController {
 	private UserService service;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private OipayService oipayService;
 	
 	@GetMapping("login")
 	public String goLogin() {
@@ -287,7 +290,6 @@ public class UserController {
 	}
 	@PostMapping("login")
 	public String loginPro(@RequestParam Map<String, String> loginData, HttpSession session, Model model, BCryptPasswordEncoder passwordEncoder, HttpServletResponse response) {
-	    
 	    String userId = loginData.get("user_id");
 	    String userPasswd = loginData.get("user_passwd");
 	    String rememberId = loginData.get("rememberMe");
@@ -301,6 +303,8 @@ public class UserController {
 	        return "err/fail";
 	    } else { // 로그인 성공
 	        // 세션 객체에 로그인 성공한 아이디 및 닉네임 저장
+	    	String bankAccessToken = oipayService.selectBankAccessToken(userId);
+	    	session.setAttribute("BUI_ACCESS_TOKEN", bankAccessToken);
 	        session.setAttribute("US_ID", userId);
 	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
 	        System.out.println("로그인 아이디: " + userId);
