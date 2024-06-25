@@ -28,6 +28,14 @@
                     location.href = "${targetURL}";
                 }
             }
+            
+            if("${isClose}" == "true") {
+        		if("${targetURL}"!= null) {
+        			window.opener.location.href = "${targetURL}";
+					window.opener.opener.location.reload();
+        		}
+        		window.close();
+        	} 
         });
     </script>
 </body>

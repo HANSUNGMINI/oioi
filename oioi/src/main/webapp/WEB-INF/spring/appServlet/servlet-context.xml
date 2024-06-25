@@ -45,5 +45,7 @@
                 class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
         </websocket:handshake-interceptors>
     </websocket:handlers>
+    
+   	<context:property-placeholder location="classpath:/config/appdata.properties"/>
 	
 </beans:beans>

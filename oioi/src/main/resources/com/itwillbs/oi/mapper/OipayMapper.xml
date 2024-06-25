@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+CREATE TABLE bank_user_info (
+	id VARCHAR(16) PRIMARY KEY,
+	access_token VARCHAR(400) UNIQUE,
+	refresh_token VARCHAR(400) UNIQUE,
+	user_seq_no VARCHAR(10) UNIQUE,
+	user_ci VARCHAR(100) UNIQUE,
+	FOREIGN KEY (id) REFERENCES member(id) ON DELETE CASCADE
+);
+-->
+<mapper namespace="com.itwillbs.oi.mapper.OipayMapper">
+	
+	<!-- 사용자 아이디 조회 - SELECT -->
+	<!-- 전달받은 Map 객체 내의 "id" 속성으로 아이디가 저장되어 있음 -->
+	<select id="selectId" resultType="string">
+		SELECT BUI_ID
+		FROM bank_user_info
+		WHERE BUI_ID = #{id}
+	</select>
+	
+	<!-- 핀테크 엑세스토큰 정보 등록 - INSERT -->
+	<!-- id, access_token, refresh_token, user_seq_no, user_ci 값 저장 -->
+	<!-- 전달받은 Map 객체 내의 "id" 속성으로 아이디가 저장되어 있음 -->
+	<!-- 전달받은 Map 객체 내의 "token" 속성으로 ReponseTokenVO 객체가 저장되어 있음 -->
+	<insert id="insertAccessToken">
+		INSERT
+		INTO bank_user_info
+		VALUES (
+			#{id}
+			, #{token.access_token}
+			, #{token.refresh_token}
+			, #{token.user_seq_no}
+			, null -- user_ci 값은 null 값 전달
+		)
+	</insert>
+	
+	<!-- 핀테크 엑세스토큰 정보 갱신 - UPDATE -->
+	<!-- 아이디가 일치하는 레코드의 access_token, refresh_token, user_seq_no 값 수정 -->
+	<update id="updateAccessToken">
+		UPDATE bank_user_info
+		SET
+			BUI_ACCESS_TOKEN = #{token.access_token}
+			, BUI_REFRESH_TOKEN = #{token.refresh_token}
+			, BUI_USER_SEQ_NO = #{token.user_seq_no}
+		WHERE
+			BUI_ID = #{id}
+	</update>
+	
+	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
+	<!-- WHERE 절의 id 는 "admin" 고정 -->
+	<select id="selectAdminToken" resultType="string">
+		SELECT access_token
+		FROM bank_user_info
+		WHERE id = 'admin'
+	</select>
+	
+	<!-- 관리자 엑세스토큰 정보 등록 - INSERT -->
+	<!-- id 는 "admin" 고정, 전달받은 엑세스토큰만 추가 -->
+	<insert id="insertAdminToken">
+		INSERT INTO bank_user_info
+		VALUES (
+			'admin'
+			, #{access_token}
+			, null
+			, null
+			, null
+		);
+	</insert>
+	
+	<!-- 관리자 엑세스토큰 정보 갱신 - UPDATE -->
+	<!-- WHERE 절의 id 는 "admin" 고정, 전달받은 엑세스토큰만 갱신 -->
+	<update id="updateAdminToken">
+		UPDATE bank_user_info
+		SET access_token = #{access_token}
+		WHERE id = 'admin';
+	</update>
+	
+<!-- 	<select id="selectBankUserInfo" resultType="bankUserInfo"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM bank_user_info as b -->
+<!-- 		LEFT JOIN member AS m -->
+<!-- 		ON b.id = m.id -->
+<!-- 		WHERE b.id = #{id} -->
+<!-- 	</select> -->
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
