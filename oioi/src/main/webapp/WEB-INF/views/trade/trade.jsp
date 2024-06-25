@@ -59,41 +59,29 @@
     	let contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
-        console.log('cate2:', cate2);
-        console.log('cate3:', cate3);
 
         $('#cate1').change(function() {
         	let selectedCate1 = $(this).val();
-            console.log('cate1:', selectedCate1);
-            
             let filteredCate2s = cate2.filter(function(cate) {
                 return cate.UP_CTG_CODE == selectedCate1;
             });
             
-            console.log('filtered cate2s:', filteredCate2s);
-            
             $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
-            
             $.each(filteredCate2s, function(index, cate) {
                 $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
             });
             $('#cate2').prop('disabled', false).niceSelect('update');
-            
             $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
             $('#cate3').prop('disabled', true).niceSelect('update');
         });
         
         $('#cate2').change(function(){
         	let selectedCate2 = $(this).val();
-            console.log('cate2:', selectedCate2);
-            
             let filteredCate3s = cate3.filter(function(cate) {
                 return cate.UP_CTG_CODE == selectedCate2;
             });
-            console.log('filtered cate3s:', filteredCate3s);
             
             $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
-            
             $.each(filteredCate3s, function(index, cate) {
                 $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_NAME));
             });
@@ -104,12 +92,13 @@
             updateProducts();
         });
 
-        function updateProducts() {
+        function updateProducts(isNewFilter = false) {
+			if(isLoading)return;
+			isLoading = true;
+
         	let cate1 = $('#cate1 option:selected').text();
         	let cate2 = $('#cate2 option:selected').text();
         	let cate3 = $('#cate3 option:selected').text();
-
-            console.log('AJAX 요청 전송:', cate1, cate2, cate3);
 
             $.ajax({
                 url: '<%= request.getContextPath() %>/filterProducts',
@@ -117,16 +106,11 @@
                 data: {
                     cate1: cate1,
                     cate2: cate2,
-                    cate3: cate3
+                    cate3: cate3,
                 },
                 success: function(data) {
-//                 	alert("123213123123");
-                    console.log('서버 응답:', data);
-                    $('#productList').empty();
-                    
-                    //
+					$('#productList').empty();
                     //  <img src='/billycar/resources/upload/"
-                    //
                     
                     $.each(data, function(index, product) {
                         $('#productList').append(
@@ -164,6 +148,8 @@
                 }
             });
         }
+        
+        
         
         search();
         

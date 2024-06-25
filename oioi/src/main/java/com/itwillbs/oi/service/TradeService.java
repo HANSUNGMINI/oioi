@@ -1,5 +1,6 @@
 package com.itwillbs.oi.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class TradeService {
 	}
 	
 	public List<Map<String, Object>> getFilteredProducts(@RequestParam Map<String, String> map) {
-        return mapper.selectFilteredProducts(map);
+		return mapper.selectFilteredProducts(map);
     }
 
 	

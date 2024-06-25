@@ -93,7 +93,6 @@ public class TradeController {
             @RequestParam Map<String, String> map,
             Model model) {
 		System.out.println(map);
-		System.out.println();
 //	 	List<Map<String, String>> productList = tradeService.getProduct(map);
 		System.out.println(tradeService.getFilteredProducts(map));
         return tradeService.getFilteredProducts(map);
@@ -196,17 +195,17 @@ public class TradeController {
 		map.put("US_ID", (String)session.getAttribute("US_ID"));
 		// 카테고리 가져오기 
 		System.out.println("ASDAD@ASD@!#@!@!#$#@!$@!" + map.get("cate3"));
-		String[] cateName = Auctionservice.categoryName(map);
-		System.out.println("cateName : " + cateName);
-		String cn = "";
-		for (int i = 0; i < cateName.length; i++) {
-			
-		    cn += cateName[i];
-		    if (i != cateName.length - 1) {
-		        cn += "/";
-		    }
-		}
-		map.put("PD_CATEGORY", cn);
+//		String[] cateName = Auctionservice.categoryName(map);
+//		System.out.println("cateName : " + cateName);
+//		String cn = "";
+//		for (int i = 0; i < cateName.length; i++) {
+//			
+//		    cn += cateName[i];
+//		    if (i != cateName.length - 1) {
+//		        cn += "/";
+//		    }
+//		}
+		map.put("PD_CATEGORY", map.get("cate3"));
 		if(map.get("PD_PRICE_OFFER") != null) {
 			map.put("PD_PRICE_OFFER", "PPO01");
 		} else {

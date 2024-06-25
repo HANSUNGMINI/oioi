@@ -25,8 +25,7 @@ public interface TradeMapper {
 
 	int updateReadCount(String pd_idx);
 
-	List<Map<String, Object>> selectFilteredProducts(
-			@RequestParam Map<String, String> map);
+	List<Map<String, Object>> selectFilteredProducts(@RequestParam Map<String, String> map);
 
 	List<Map<String, String>> selectProductPriceOffer();
 
