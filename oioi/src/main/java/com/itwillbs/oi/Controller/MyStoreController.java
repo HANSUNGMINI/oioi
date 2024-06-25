@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.StoreService;
@@ -32,8 +33,9 @@ public class MyStoreController {
 	private StoreService storeService;
 	
 	@GetMapping("myStore")
-	public String myStore(Map<String, Object>map,Model model) {
-		System.out.println(map);
+	public String myStore(@RequestParam Map<String, Object>map,Model model) {
+		System.out.println("여기에는 뭐가 있을까요 ? " + map);
+		System.out.println(map.get("userId"));
 		
 		// 유저가 아님
 //		if(!CheckAuthority.isUser(session, model)) {
@@ -42,9 +44,11 @@ public class MyStoreController {
 //			return "err/fail";
 //		}
 		
-		String id = (String)session.getAttribute("US_ID");
-		Map<String, String> user = userService.selectMyUser(id);
-		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
+//		String id = (String)session.getAttribute("US_ID");
+		String userId = (String)map.get("userId");
+		
+		Map<String, String> user = userService.selectMyUser(userId);
+		List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
 		System.out.println(myPD);
 		// 상품 목록을 역순으로 정렬
 		Collections.reverse(myPD);

@@ -79,7 +79,7 @@
                                         <c:when test="${not empty sessionScope.KAKAO_LOGIN}">
                                             <ul class="list-main">
                                                 <li>${sessionScope.US_NICK} 님 (카카오)</li>
-                                                <li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
+                                                <li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
                                                 <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
                                                 <li><i class="ti-shift-left"></i><a href="kakao_logout">로그아웃</a></li>
                                             </ul>
@@ -87,7 +87,7 @@
                                         <c:otherwise>
 											<ul class="list-main">
 												<li>${US_NICK} 님</li>
-												<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
+												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
 												<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
 												<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
 											</ul>
