@@ -23,9 +23,10 @@
 
  <!-- SweetAlert CSS -->
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
 <style>
-		.tempImg {
+/* 사진 등록 */
+	
+	 .tempImg {
             display: block;
             margin: 10px 0;
              width: 100px;
@@ -64,8 +65,8 @@
 		    text-align: center;
 		    line-height: 18px;
 		}
+	     
 </style>
-
 <script type="text/javascript">
 	
 		/* 상세보기 나오기 */
@@ -207,6 +208,9 @@
 		        });
 		    });
 		});
+		
+		
+		
 	</script>
 
 </head>
@@ -456,12 +460,15 @@
 		                    
 					         <input type="file" id="fileInput" style="display: none;" accept=".png, .jpeg" multiple>
 							<div class="preView">
-								<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg" id="uploadTrigger">
+								<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
 							</div>
 						</div>
 						
 						<%-- 내용 입력 --%>
-						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+						<textarea placeholder="내용을 입력하세요"
+						
+						
+						 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
 					</form>			      
 				  </div>
 				  

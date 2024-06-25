@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MainMapper {
 
 	List<Map<String, Object>> selectRecentKeywordProduct(Map<String, String> map);
+
+	List<Map<String, Object>> getPopularProcuts();
 	
 }
