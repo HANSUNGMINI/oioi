@@ -19,4 +19,14 @@ public class ChattingService {
 	public List<Map<String, String>> getReportCategory() {
 		return mapper.selectReportCategory();
 	}
+
+	// 채팅 시 필요한 유저 정보 가져오기
+	public Map<String, String> getUserInfo(Map<String, String> map) {
+		return mapper.getUserInfo(map);
+	}
+
+	// 리뷰 카테고리 가져오기
+	public List<Map<String, String>> getReviewCategory() {
+		return mapper.selectReviewCategory();
+	}
 }

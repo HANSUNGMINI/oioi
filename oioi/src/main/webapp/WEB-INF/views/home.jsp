@@ -167,12 +167,12 @@
 				<div class="col-12">
 					<div class="section-title">
 						<h2>최근 본 상품</h2>
-						<a href="#"> 더보기</a>
+<!-- 						<a href="#"> 더보기</a> -->
 					</div>
 				</div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" id="noProduct">
                     <div class="owl-carousel popular-slider">
 						<!-- 제품 하나하나 -->
 						<div class="single-product">

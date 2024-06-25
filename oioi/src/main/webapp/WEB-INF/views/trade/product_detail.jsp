@@ -250,7 +250,7 @@
     	 	var userId = '${productInfo.US_ID}';
     	 	var productId = '${productInfo.PD_IDX}';
     	 	
-    	 	window.open('Chatting?US_ID=' + userId + '&PD_IDX='+ productId, '_blank','width=500, height=700, left=720, top=200, resizable=no'); 
+    	 	window.open('Chatting?TO_ID=' + userId + '&PD_IDX='+ productId, '_blank','width=500, height=700, left=720, top=200, resizable=no'); 
 	    }
 	    
 	    /* localStorage 저장하기 */

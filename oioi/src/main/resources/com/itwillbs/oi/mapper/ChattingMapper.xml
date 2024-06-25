@@ -10,6 +10,20 @@
 		FROM common
 		WHERE hide != 'Y' AND name='REPORT_CATEGORY';
 	</select>
+	
+	<select id="selectReviewCategory" resultType="hashmap">
+		SELECT code, value
+		FROM common
+		WHERE hide != 'Y' AND name='REVIEW_CATEGORY';
+	</select>
+	
+	<select id="getUserInfo" resultType="hashmap">
+		SELECT u.US_NICK, p.PD_SUBJECT
+		FROM `user` u
+		JOIN product p 
+		ON p.US_ID = u.US_ID
+		WHERE u.US_ID = #{TO_ID} AND p.PD_IDX = #{PD_IDX}
+	</select>
 </mapper>
 
 

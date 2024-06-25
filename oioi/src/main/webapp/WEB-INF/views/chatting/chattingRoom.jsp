@@ -153,7 +153,14 @@
 			window.close();
 		}
 		
-		
+		/* 제품 상세보기 바로가기 */
+		function goProductDetail() {
+			let idx = '${param.PD_IDX}'
+			
+			window.opener.location.href="productDetail?PD_IDX=" + idx ; 
+			window.close();	
+		}
+ 		
 		/* 파일 업로드 */
 		document.addEventListener("DOMContentLoaded", function() {
 		    const fileInput = document.getElementById('fileInput');
@@ -235,7 +242,13 @@
                                 <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="avatar">
                             </a>
                             <div class="chat-about">
-                                <h6 class="m-b-0">닉네임</h6>
+                            
+                                <h6 class="m-b-0">
+                                	<c:choose>
+                                		<c:when test="${empty info.US_NICK}"> 탈퇴한 회원입니다 </c:when>
+                                		<c:otherwise>${info.US_NICK}</c:otherwise>
+                                	</c:choose>
+                            	</h6>
                                 <small> 신선도 : 38.5 </small>
                             </div>
                         </div>
@@ -265,7 +278,7 @@
                 <%-- 채팅 내역 --%>
                 <div class="chat-history" >
 					<div style="background-color:#EAEAEA; text-align: center; padding : 3px; margin-top: -20px; margin-bottom:10px">
-						<a href="javascript:void(0);" data-toggle="modal" data-target="#detail_model">나이키 신발</a>에 대한 이야기를 시작해 보세요
+						<a href="javascript:void(0);" onclick="goProductDetail()">${info.PD_SUBJECT}</a>에 대한 이야기를 시작해 보세요
 					</div>
 
                     <ul class="m-b-0">
@@ -444,9 +457,9 @@
 			        <h4 class="modal-title">신고하기</h4>
 			      </div>
 			
+		      	<form action="report" method="post" enctype="multipart/form-data">
 			      <!-- Modal body -->
 			      <div class="modal-body">
-			      	<form enctype="multipart/form-data">
 			      	
 				      <%-- 라디오박스 --%>
 				      	<c:forEach var="report" items="${reportMap}">
@@ -469,7 +482,6 @@
 						
 						
 						 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
-					</form>			      
 				  </div>
 				  
 			      <!-- Modal footer -->
@@ -478,6 +490,7 @@
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 			      </div>
 			
+				</form>			      
 			    </div>
 			  </div>
 			</div>     
@@ -498,12 +511,11 @@
 			       <form action="reviewWrite" method="post">
 			       		<div id="review_category" style="text-align: justify;">
 				       		<%-- 체크박스 --%>
-				       		<label for="chk1"><input type="checkbox" id="chk1" name="chk2"> &nbsp;답장이 빨라요</label><br>
-				       		<label for="chk2"><input type="checkbox" id="chk2" name="chk2"> &nbsp;친절해요</label><br>
-				       		<label for="chk3"><input type="checkbox" id="chk3" name="chk3"> &nbsp;물건 상태가 좋아요</label><br>
-				       		<label for="chk4"><input type="checkbox" id="chk4" name="chk4"> &nbsp;포장이 깔끔해요</label><br>
-				       		<label for="chk5"><input type="checkbox" id="chk5" name="chk5"> &nbsp;상품 설명과 실제 상품이 동일해요</label><br>
-				       		<label for="chk6"><input type="checkbox" id="chk6" name="chk6"> &nbsp;기타</label><br>
+				       		<c:forEach var="review" items="${reviewMap}">
+				       			<c:set var="i" value="${i+1}"></c:set>
+					       		<label for="chk${i}"><input type="checkbox" name="RV_CATEGORY" id="chk${i}" value="${review.code}"> &nbsp;${review.value}</label><br>
+				       		</c:forEach>
+
 			       		</div>
 			      		<hr>
 			       
@@ -531,44 +543,43 @@
 
 		<%-- 제품 상세보기 --%>
 			
-			<div class="modal" id="detail_model">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
+<!-- 			<div class="modal" id="detail_model"> -->
+<!-- 			  <div class="modal-dialog"> -->
+<!-- 			    <div class="modal-content"> -->
 			
-			      <!-- Modal Header -->
-			      <div class="modal-header">
-			        <h4 class="modal-title">제품 상세보기</h4>
-			      </div>
+<!-- 			      Modal Header -->
+<!-- 			      <div class="modal-header"> -->
+<!-- 			        <h4 class="modal-title">제품 상세보기</h4> -->
+<!-- 			      </div> -->
 			
-			      <!-- Modal body -->
-			      <div class="modal-body">
+<!-- 			      Modal body -->
+<!-- 			      <div class="modal-body"> -->
 			      
-			      	<%-- 이미지 --%>
-			      	<div class="img-container">
-			      		<img id="pd_img" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/3e8455ad-c00c-4996-a85a-b5c4d38c6ae2/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png">
-			      	</div>
+<%-- 			      	이미지 --%>
+<!-- 			      	<div class="img-container"> -->
+<!-- 			      		<img id="pd_img" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/3e8455ad-c00c-4996-a85a-b5c4d38c6ae2/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png"> -->
+<!-- 			      	</div> -->
 			      	
-			      	<div style="padding:10px; text-align: center">
-				      	상품명 : <span>신발</span> <span class="price-dec">예약 중</span> <br>
-				      	가격 : <span>10000원</span><br>
-				      	상세설명
-				      	<div style= "border:1px solid #ccc; border-radius: 8px; height:40%">
-				      		깨끗함 안 신음
-				      	</div>
-			      	</div>
+<!-- 			      	<div style="padding:10px; text-align: center"> -->
+<!-- 				      	상품명 : <span>신발</span> <span class="price-dec">예약 중</span> <br> -->
+<!-- 				      	가격 : <span>10000원</span><br> -->
+<!-- 				      	상세설명 -->
+<!-- 				      	<div style= "border:1px solid #ccc; border-radius: 8px; height:40%"> -->
+<!-- 				      		깨끗함 안 신음 -->
+<!-- 				      	</div> -->
+<!-- 			      	</div> -->
 			      	
-			      </div>
+<!-- 			      </div> -->
 			
-			      <!-- Modal footer -->
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-			      </div>
+<!-- 			      Modal footer -->
+<!-- 			      <div class="modal-footer"> -->
+<!-- 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button> -->
+<!-- 			      </div> -->
 			
-			    </div>
-			  </div>
-			</div>     
+<!-- 			    </div> -->
+<!-- 			  </div> -->
+<!-- 			</div>      -->
 			
-
             
             <!-- 부트스트랩 -->
             

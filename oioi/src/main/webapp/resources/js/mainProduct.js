@@ -6,23 +6,70 @@
 	[ id 및 class명 정리 ]
 
 	1. storedKeywords 		= 최근 검색 기록
+	2. storedProducts		= 최근 본 상품 목록
 	
 -------------------------------------------------------
 
 	[ 함수 정리 ]
 
 	1. showRecentKeywordProduct()	: 최근 검색한 키워드 연관 상품 출력
+	2. showRecentLookProduct()		: 최근 본 상품 목록 출력
 	
 ============================================================ */
  
  $(function(){
-	// alert(JSON.parse(localStorage.getItem("keywords")) || []);
 	
 	/* 최근 검색한 키워드 연관 상품 함수 호출 */
 	// TODO
 	showRecentKeywordProduct();
 	
+	
+	/* 최근 본 상품 함수 호출 */
+	showRecentLookProduct();
+	
 }) // ready 이벤트 끝
+
+	/* 최근 본 상품 */
+	function showRecentLookProduct() {
+		let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+		//alert(storedProducts);
+		
+		let isNull = false;
+		if (storedProducts.length === 0) {
+			isNull = true;
+		}
+	
+		if (isNull) {
+			let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 본 상품 목록이 비어 있습니다. </div>';
+			$("#noProduct").append(nullDiv);
+			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
+		}
+		
+        $.ajax({
+            type: "GET",
+            url: "recentKeywordProductList",
+            data: {
+                "keyword": storedKeywords
+            },
+            dataType: "json",
+            success: function(response) {
+				let productList = response;
+				
+				$.each(productList, function(index, pr) {
+					// alert( pr.PD_IMAGE);
+				
+					// 뽑아내기
+					let productDetail = 
+						
+					
+						$("#recentKeywordProduct").append(productDetail);
+					
+				});
+            }
+        });
+		
+		
+	}
 
 	/* 검색 기록 기반 상품 불러오기 */
 	function showRecentKeywordProduct() {
