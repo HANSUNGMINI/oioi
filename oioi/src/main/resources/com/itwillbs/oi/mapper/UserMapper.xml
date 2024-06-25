@@ -28,6 +28,7 @@
 			, #{US_PHONE}
 			, #{US_GENDER}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
+			, '오이마켓'
 			, 0
 		)
 	</insert>
@@ -37,7 +38,7 @@
     </select>
 
     <insert id="registKakaoUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_REG_DATE, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_REG_DATE, US_PLATFORM, US_STATUS)
         VALUES (
         #{US_ID}, 
         #{US_NAME},
@@ -45,6 +46,7 @@
         #{US_EMAIL}, 
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
+        '카카오',
         0)
     </insert>
 
@@ -52,7 +54,8 @@
         UPDATE user
         SET US_NAME = #{US_NAME},
         	US_NICK = #{US_NICK},
-            US_EMAIL = #{US_EMAIL}
+            US_EMAIL = #{US_EMAIL},
+            US_PLATFORM = '카카오'
         WHERE US_ID = #{US_ID}
     </update>
 	
