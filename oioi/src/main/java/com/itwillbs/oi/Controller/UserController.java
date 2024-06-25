@@ -69,6 +69,7 @@ public class UserController {
                 Map<String, Object> kakaoUserInfo = new HashMap<>();
                 kakaoUserInfo.put("US_ID", userId);
                 kakaoUserInfo.put("US_EMAIL", userEmail);
+                kakaoUserInfo.put("US_NAME", userNick);
                 kakaoUserInfo.put("US_NICK", userNick);
                 
                 // DB에 사용자 정보 삽입 또는 업데이트

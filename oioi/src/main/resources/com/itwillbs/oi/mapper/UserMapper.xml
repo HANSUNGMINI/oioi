@@ -37,9 +37,10 @@
     </select>
 
     <insert id="registKakaoUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NICK, US_EMAIL, US_REG_DATE, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_REG_DATE, US_STATUS)
         VALUES (
         #{US_ID}, 
+        #{US_NAME},
         #{US_NICK}, 
         #{US_EMAIL}, 
         DATE_FORMAT(NOW(), 
@@ -49,7 +50,8 @@
 
     <update id="updateKakaoUser" parameterType="map">
         UPDATE user
-        SET US_NICK = #{US_NICK},
+        SET US_NAME = #{US_NAME},
+        	US_NICK = #{US_NICK},
             US_EMAIL = #{US_EMAIL}
         WHERE US_ID = #{US_ID}
     </update>
