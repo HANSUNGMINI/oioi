@@ -172,9 +172,9 @@
 	            console.log('받은 메세지 파싱전 ' + event.data);
 	            var respose = JSON.parse(event.data);
 	            console.log('받은 메세지 파싱후 ' + respose);
-	            console.log("respose.US_ID : " + respose.US_ID);
-	            console.log("respose.MSG : " + respose.MSG);
-	            console.log("respose.US_ID(보낸 메세지 주인) : " + respose.US_ID);
+// 	            console.log("respose.US_ID : " + respose.US_ID);
+// 	            console.log("respose.MSG : " + respose.MSG);
+// 	            console.log("respose.US_ID(보낸 메세지 주인) : " + respose.US_ID);
 	            
 	            console.log("session_id : " + session_id);
 	            

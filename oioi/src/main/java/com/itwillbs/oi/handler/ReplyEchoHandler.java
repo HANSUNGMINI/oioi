@@ -15,6 +15,13 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import kotlinx.serialization.json.Json;
+
 
 public class ReplyEchoHandler extends TextWebSocketHandler{
 	
@@ -61,6 +68,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 //			JsonObject jo = new JsonObject();
 //			jo.addProperty("US_ID", US_ID);
 //			jo.addProperty("MSG", message.getPayload());
+			
 			System.out.println("보내기전 sessions 수  : " + sessions.toString());
 			String jsonMessage = message.getPayload();
 			for (WebSocketSession sess : sessions) {
