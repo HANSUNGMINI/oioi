@@ -173,61 +173,61 @@
  	        }
  	    });
  	});
-</script>
-<script>
-// 구글 로그인 처리 함수
-function onGoogleSignIn(googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    // id_token을 서버로 전송하여 로그인 처리
-    fetch('google_login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token: id_token })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('네트워크 응답 실패!');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // 로그인 성공 시 처리
-            console.log('구글 로그인 성공:', data.user);
-            window.location.href = './'; // 예: 메인 페이지로 이동
-        } else {
-            alert('구글 로그인 실패!');
-        }
-    })
-    .catch(error => {
-        console.error('에러:', error);
-        alert('에러 발생! : ' + error.message);
-    });
-}
+ 	
+	function initializeGoogleSignIn() {
+		gapi.load('auth2', function() {
+			gapi.auth2.init({
+                 client_id: '450559380944-t4fdtvtfpegofcnqk13uvsh8d84slol8.apps.googleusercontent.com'
+             });
+         });
+     }
+     
+     function onGoogleSignIn(googleUser) {
+         var id_token = googleUser.getAuthResponse().id_token;
+         fetch('google_login', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({ token: id_token })
+         })
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+             return response.json();
+         })
+         .then(data => {
+             if (data.success) {
+                 console.log('Google login success:', data.user);
+                 window.location.href = './';
+             } else {
+                 alert('Google login failed!');
+             }
+         })
+         .catch(error => {
+             console.error('Error:', error);
+             alert('Error occurred: ' + error.message);
+         });
+     }
 
-// 구글 클라이언트 ID를 사용하여 Google Sign-In 초기화
-function initializeGoogleSignIn() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '450559380944-t4fdtvtfpegofcnqk13uvsh8d84slol8.apps.googleusercontent.com'
-        });
-    });
-}
-initializeGoogleSignIn();
+     function googleSignIn() {
+         var auth2 = gapi.auth2.getAuthInstance();
+         auth2.signIn().then(function(googleUser) {
+             onGoogleSignIn(googleUser);
+         }).catch(function(error) {
+             console.error('Error:', error);
+             alert('팝업이 닫혔습니다. 다시 시도해 주세요!!');
+         });
+     }
 
-// 구글 로그인 버튼 클릭 이벤트
-document.getElementById('google-login-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signIn().then(function(googleUser) {
-        onGoogleSignIn(googleUser); // 로그인 성공 시 처리하는 함수 호출
-    }).catch(function(error) {
-        console.error('에러:', error);
-        alert('구글 로그인 실패! : ' + error.error);
-    });
-});
+     document.addEventListener('DOMContentLoaded', function() {
+         initializeGoogleSignIn();
+         document.getElementById('google-login-btn').addEventListener('click', function(e) {
+             e.preventDefault();
+             googleSignIn();
+         });
+     });
 </script>
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
