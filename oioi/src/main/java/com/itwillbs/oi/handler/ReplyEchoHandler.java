@@ -26,7 +26,7 @@ import kotlinx.serialization.json.Json;
 
 public class ReplyEchoHandler extends TextWebSocketHandler{
 	
-	private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
+		private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
 //		List<String> sessions = new ArrayList<>();
 		private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 	

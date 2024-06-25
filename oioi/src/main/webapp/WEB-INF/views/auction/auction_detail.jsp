@@ -177,10 +177,13 @@
 	            
 	         	//접속자수표시
 	            var html ='';
+	            $('#sessionSize').empty().append(html);
 	            html += '<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
 	            response.SESSION_SIZE+
 	            '명</a></span>';
 	            $('#sessionSize').append(html);
+	            
+	            
 	         	// 두번째 파싱
 	            var res;
 	            if (response.DATA) {
@@ -230,7 +233,7 @@
 	    	            	html += '<li class="clearfix" class="chatViewYou">' + 
 	    	            	'<div class="message-avatar">' +
 	    	            	'<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
-	    	            	res.data.US_ID +
+	    	            	res.data.ACM_USER +
 	    	            	'</div>' +
 	    	                '<div class="message my-message">' +
 	    	                res.data.ACM_CONTENT +

@@ -131,12 +131,13 @@ public class AuctionController {
 //		    }
 //		}
 		
-		//다시 카테고리 코드로 넣기
-		String cateName = (String)map.get("cate1") + "/" + (String)map.get("cate2") + "/" + (String)map.get("cate3");
-		System.out.println("카테고리 합치기 : " + cateName);
+//		//다시 카테고리 코드로 넣기
+//		String cateName = (String)map.get("cate1") + "/" + (String)map.get("cate2") + "/" + (String)map.get("cate3");
+//		System.out.println("카테고리 합치기 : " + cateName);
 		
-		map.put("APD_CATEGORY", cateName);
+		String cate3 = (String)map.get("cate3");
 		
+		map.put("APD_CATEGORY", cate3);
 		
 		//상품등록
 	    String saveDir = session.getServletContext().getRealPath(uploadDir);
