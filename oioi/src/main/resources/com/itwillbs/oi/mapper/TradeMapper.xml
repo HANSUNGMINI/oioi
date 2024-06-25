@@ -43,8 +43,8 @@
             , #{PD_CONDITION} -- PD_CONDITION
             , #{PD_TRADE_METHOD} -- PD_TRADE_METHOD
             , #{PD_SAFE_TRADE} -- PD_SAFE_TRADE
-            , NOW() -- PD_REG_DATE
-            , NOW() --PD_UPDATED_DATE
+            , DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') -- PD_REG_DATE
+            , DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') -- PD_UPDATED_DATE
             , 0 -- PD_READCOUNT
             , #{PD_TEMP_SAVE} -- PD_TEMP_SAVE
             , #{PD_TAG1} -- PD_TAG1

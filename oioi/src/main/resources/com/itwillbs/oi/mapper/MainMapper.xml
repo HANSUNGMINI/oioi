@@ -6,6 +6,8 @@
 <mapper namespace="com.itwillbs.oi.mapper.MainMapper">
 
 	<select id="selectRecentKeywordProduct" resultType="hashmap">
+	<![CDATA[
+	-- MainMapper > selectRecentKeywordProduct 
 		SELECT 
 		    PD_IDX, 
 		    PD_SUBJECT, 
@@ -13,37 +15,51 @@
 		    PD_IMAGE,
 		    PD_STATUS,
 		    CASE
-		        WHEN PD_STATUS = '판매 중' THEN 'out-of-stock'
-		        WHEN PD_STATUS = '예약 상태' THEN 'price-dec'
-		        WHEN PD_STATUS = '판매 완료' THEN 'new' 
-		    END AS PD_STATUS_COLOR,
+		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
+		        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
+		        WHEN PD_STATUS = 'PDS03' THEN 'new' 
+		    END AS PD_STATUS_COLOR, -- 수정 필요
 		    CASE 
-		        WHEN TIMEDIFF(NOW(), PD_REG_DATE) &lt; '00:01:00' THEN CONCAT(TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()), ' 분전')
-		        WHEN TIMEDIFF(NOW(), PD_REG_DATE) &lt; '24:00:00' THEN CONCAT(TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()), ' 시간전')
+		        WHEN TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, PD_REG_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()), ' 시간전')
 		        ELSE CONCAT(TIMESTAMPDIFF(DAY, PD_REG_DATE, NOW()), ' 일전')
 		    END AS RD_DATE
 		FROM product p
-		WHERE PD_TAG1 LIKE CONCAT('%', #{keyword}, '%')
-         OR PD_TAG2 LIKE CONCAT('%', #{keyword}, '%')
-         OR PD_TAG3 LIKE CONCAT('%', #{keyword}, '%')
-         OR PD_TAG4 LIKE CONCAT('%', #{keyword}, '%')
-         OR PD_TAG5 LIKE CONCAT('%', #{keyword}, '%')
-         OR PD_SUBJECT LIKE CONCAT('%', #{keyword}, '%')
-         ORDER BY PD_IDX 
+		WHERE 1=1
+        AND CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
+        ORDER BY PD_IDX 
+         ]]>
+	</select>
+	
+	<select id="getPopularProcuts" resultType="hashmap">
+		
+	<![CDATA[
+	
+		SELECT PD_IDX, 
+		    PD_SUBJECT, 
+		    PD_PRICE, 
+		    PD_IMAGE,
+		    c.value AS 'PD_STATUS_VALUE',
+		    CASE
+		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
+		        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
+		        WHEN PD_STATUS = 'PDS03' THEN 'new'  
+		    END AS PD_STATUS_COLOR,
+		    CASE 
+		        WHEN TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, PD_REG_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, PD_REG_DATE, NOW()), ' 일전')
+		    END AS RD_DATE
+		 FROM product p
+		 JOIN common c
+		 ON p.PD_STATUS = c.code
+		 WHERE PD_STATUS != 'PDS03' 
+		 ORDER BY PD_READCOUNT DESC
+		 LIMIT 10
+		 ]]>
 	</select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

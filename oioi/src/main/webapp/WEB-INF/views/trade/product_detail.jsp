@@ -157,6 +157,7 @@
 										<ul class="nav nav-tabs" id="myTab" role="tablist">
 											<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">상품 설명</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" id="sellerInfoTab" role="tab" onclick="myStore()">판매자 정보보기</a></li>
+											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
 										</ul>
 										<!--/ End Tab Nav -->
 									</div>
@@ -234,11 +235,55 @@
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
 	
 	<script type="text/javascript">
+	
+	$(function(){
+		makeProducts();
+	})
+	
 	    function myStore() {
 	        var userId = '${productInfo.US_ID}';
 	        console.log(userId);
 	        window.location.href = 'myStore?userId=' + userId;
 	    }
+	    
+	    function goChatting(){
+    	 	var userId = '${productInfo.US_ID}';
+    	 	var productId = '${productInfo.PD_IDX}';
+    	 	
+    	 	window.open('Chatting?US_ID=' + userId + '&PD_IDX='+ productId, '_blank','width=500, height=700, left=720, top=200, resizable=no'); 
+	    }
+	    
+	    /* localStorage 저장하기 */
+	     function makeProducts() {
+			
+	    	// 클릭한 상품의 IDX 저장
+	    	let pro_id = '${productInfo.PD_IDX}';
+			
+			if(pro_id != "" && pro_id != null){
+			
+				//******************** 최근 본 상품 보관함 생성 ************************
+				// 로컬스토리지에 저장할 키의 이름
+				const localStorageKey = 'products';
+				
+				// 기존의 저장된 키워드 배열 가져오기
+				let products = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+				
+				// 포함되어 있지 않을 경우 새로운 상품 목록 추가하기 
+				if (!products.includes(products)) {
+					products.push(pro_id);
+				}
+				
+				// 최대 갯수를 초과하는 경우 가장 오래된 데이터부터 제거
+				if (products.length > 10) {
+					products = products.slice(products.length - 10);
+				}
+				
+				// 로컬스토리지에 업데이트된 키워드 배열 저장
+				localStorage.setItem(localStorageKey, JSON.stringify(products));
+				//********************  최근 본 상품 보관함 생성 ************************
+			}
+		}
+	    
 	</script>
 </body>
 </html>

@@ -56,17 +56,17 @@
     
    <script type="text/javascript">
     $(document).ready(function() {
-    	var contextPath = '<%= request.getContextPath() %>';
+    	let contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
         console.log('cate2:', cate2);
         console.log('cate3:', cate3);
 
         $('#cate1').change(function() {
-            var selectedCate1 = $(this).val();
+        	let selectedCate1 = $(this).val();
             console.log('cate1:', selectedCate1);
             
-            var filteredCate2s = cate2.filter(function(cate) {
+            let filteredCate2s = cate2.filter(function(cate) {
                 return cate.UP_CTG_CODE == selectedCate1;
             });
             
@@ -84,10 +84,10 @@
         });
         
         $('#cate2').change(function(){
-            var selectedCate2 = $(this).val();
+        	let selectedCate2 = $(this).val();
             console.log('cate2:', selectedCate2);
             
-            var filteredCate3s = cate3.filter(function(cate) {
+            let filteredCate3s = cate3.filter(function(cate) {
                 return cate.UP_CTG_CODE == selectedCate2;
             });
             console.log('filtered cate3s:', filteredCate3s);
@@ -105,9 +105,9 @@
         });
 
         function updateProducts() {
-            var cate1 = $('#cate1 option:selected').text();
-            var cate2 = $('#cate2 option:selected').text();
-            var cate3 = $('#cate3 option:selected').text();
+        	let cate1 = $('#cate1 option:selected').text();
+        	let cate2 = $('#cate2 option:selected').text();
+        	let cate3 = $('#cate3 option:selected').text();
 
             console.log('AJAX 요청 전송:', cate1, cate2, cate3);
 
@@ -137,7 +137,6 @@
                            +'               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
                            +'               <a href="#" onclick="this.parentNode.submit(); return false;">'
                            +'                   <img class="default-img" src="' + contextPath + '/resources/upload/' + product.image1 + '">'
-//                            +'                   <img class="default-img" src="' + request.getContextPath() + '/resources/upload/' + product.image1 + '">'
                            +'               </a>'
                            +'           </form>'
                            +'           <div class="button-head">'
@@ -170,29 +169,6 @@
         
         
     }); // ready 끝
-    
-    
-//     function search() {
-//     	const cate1 = $("#cate1").val();
-//     	const cate2 = $("#cate2").val();
-//     	const cate3 = $("#cate3").val();
-    	
-//     	$.ajax({
-// 			type : "GET",
-// 			url : "SelectProductList",
-// 			data : {
-// 				"cate1" = cate1,	
-// 				"cate2" = cate2,	
-// 				"cate3" = cate3,	
-// 			},
-// 			dataType : "JSON",
-// 			success : function(response){
-// 				alert("11111");
-// 				alert(response);
-// 			}
-//     	})
-    	
-//     }
     
 </script>
 

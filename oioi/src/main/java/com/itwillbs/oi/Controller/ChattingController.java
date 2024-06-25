@@ -45,6 +45,11 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
+		// 상품 목록 및 유저 정보 불러오기
+		
+		
+		// 채팅 목록 불러오기 
+		
 		// 신고 카테고리 불러오기
 		List<Map<String, String>> reportMap = service.getReportCategory();
 		model.addAttribute("reportMap", reportMap);

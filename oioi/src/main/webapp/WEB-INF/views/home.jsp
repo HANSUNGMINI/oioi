@@ -121,34 +121,38 @@
             <div class="row">
                 <div class="col-12">
                     <div class="owl-carousel popular-slider">
-						<!-- 제품 하나하나 -->
-						<div class="single-product">
-							<div class="product-img">
-								<a href="product-details.html">
-									<img class="default-img"  src="https://image.msscdn.net/images/goods_img/20231213/3754860/3754860_17025174767964_500.jpg"  alt="#">
-<!-- 									<img class="hover-img"   alt="#"> -->
-									<span class="out-of-stock">판매 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
-								</a>
-								<div class="button-head">
-									<div class="product-action">
-										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+                    
+                    	<c:forEach var="popular" items="${popularProducts}">
+							<!-- 제품 하나하나 -->
+							<div class="single-product">
+								<div class="product-img">
+									<a href="productDetail?PD_IDX=${popular.PD_IDX}">
+										<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${popular.PD_IMAGE}">
+	<!-- 									<img class="hover-img"   alt="#"> -->
+										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+									</a>
+									<div class="button-head">
+										<div class="product-action">
+											<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+										</div>
+										<div class="product-action-2">
+											<a title="Add to cart" href="productDetail?PD_IDX=${popular.PD_IDX}">상품 상세페이지로 바로가기</a>
+										</div>
 									</div>
-									<div class="product-action-2">
-										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
+								</div>
+								<div class="product-content">
+									<h3><a href="product-details.html">${popular.PD_SUBJECT}</a></h3>
+									<div class="product-price">
+										<!-- 세일 기준 -->
+	<!-- 									<span class="old">이전가격</span> -->
+										<span>${popular.PD_PRICE}</span>
+										<span class="pro_time" style="float:right; color:gray"><small>${popular.RD_DATE}</small></span>
 									</div>
 								</div>
 							</div>
-							<div class="product-content">
-								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
-								<div class="product-price">
-									<!-- 세일 기준 -->
-<!-- 									<span class="old">이전가격</span> -->
-									<span>70,000원</span>
-									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
-								</div>
-							</div>
-						</div>
-						<!-- 제품 하나 끝 -->
+							<!-- 제품 하나 끝 -->
+                    	</c:forEach>
+                    
                     </div>
                 </div>
             </div>
@@ -220,37 +224,7 @@
                 	<div class="owl-carousel popular-slider">
                 	<div class="owl-stage-outer" id="recentKeywordProduct" >
 <!--                  	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct">  -->
-                	<!--  이곳에 상세 설명 나옴-->
-<!--                 		제품 하나하나 -->
-                		
-<!-- 						<div class="single-product"> -->
-<!-- 							<div class="product-img"> -->
-<!-- 								<a href="product-details.html"> -->
-<!-- 									<img class="default-img"  src="https://image.msscdn.net/images/goods_img/20231213/3754860/3754860_17025174767964_500.jpg"  alt="#"> -->
-<!-- <!-- 									<img class="hover-img"   alt="#"> --> 
-<!-- 									<span class="out-of-stock">판매 중</span> out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
-<!-- 								</a> -->
-<!-- 								<div class="button-head"> -->
-<!-- 									<div class="product-action"> -->
-<!-- 										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a> -->
-<!-- 									</div> -->
-<!-- 									<div class="product-action-2"> -->
-<!-- 										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="product-content"> -->
-<!-- 								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3> -->
-<!-- 								<div class="product-price"> -->
-<!-- 									세일 기준 -->
-<!-- <!-- 									<span class="old">이전가격</span> --> 
-<!-- 									<span>70,000원</span> -->
-<!-- 									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						제품 하나 끝 -->
-<!-- 							</div>  -->
+                	<!-- 이곳에 상세 설명 나옴-->
                 		</div>
                 	</div>
                 </div>

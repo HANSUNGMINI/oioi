@@ -18,4 +18,9 @@ public class MainService {
 	public List<Map<String, Object>> getRecentKeywordProduct(Map<String, String> map) {
 		return mapper.selectRecentKeywordProduct(map);
 	}
+
+	// 인기 상품 가져오기
+	public List<Map<String, Object>> getPopularProcuts() {
+		return mapper.getPopularProcuts();
+	}
 }
