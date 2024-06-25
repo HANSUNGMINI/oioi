@@ -69,6 +69,7 @@ public class UserController {
                 Map<String, Object> kakaoUserInfo = new HashMap<>();
                 kakaoUserInfo.put("US_ID", userId);
                 kakaoUserInfo.put("US_EMAIL", userEmail);
+                kakaoUserInfo.put("US_NAME", userNick);
                 kakaoUserInfo.put("US_NICK", userNick);
                 
                 // DB에 사용자 정보 삽입 또는 업데이트
@@ -183,7 +184,85 @@ public class UserController {
 
         return "redirect:/";
     }
-	    
+    @GetMapping("/naver-login")
+    public String naverLoginCallback() {
+        // 네이버 로그인 콜백 페이지 처리 로직을 여기에 추가합니다.
+        // 일반적으로 콜백 후 리디렉션할 페이지를 반환합니다.
+        return "redirect:/"; // 메인 페이지로 리디렉션
+    }
+    
+    
+ // 네이버 로그인 처리 메서드
+    @PostMapping("naver_login")
+    @ResponseBody
+    public ResponseEntity<?> naverLogin(@RequestBody String tokenJson, HttpSession session) {
+        JSONObject tokenObj = new JSONObject(tokenJson);
+        String accessToken = tokenObj.getString("token");
+        System.out.println("네이버 로그인 토큰 : " + accessToken);
+        try {
+            String userInfo = getUserInfoFromNaver(accessToken);
+            System.out.println("네이버 사용자 정보 : " + userInfo);
+            if (userInfo != null) {
+                JSONObject userJson = new JSONObject(userInfo);
+                System.out.println(userJson);
+
+//                // 네이버 사용자 정보를 이용하여 로그인 처리
+//                String userId = userJson.getJSONObject("response").getString("id"); // 네이버에서 제공하는 사용자 ID
+//                String userEmail = userJson.getJSONObject("response").getString("email");
+//                String userNick = userJson.getJSONObject("response").getString("nickname");
+
+//                // 세션에 사용자 정보 저장
+//                session.setAttribute("US_ID", userId);
+//                session.setAttribute("US_EMAIL", userEmail);
+//                session.setAttribute("US_NICK", userNick);
+//                session.setAttribute("NAVER_LOGIN", true);
+//                session.setAttribute("NAVER_ACCESS_TOKEN", accessToken); // 액세스 토큰 세션에 저장
+
+//                // 세션에 저장된 정보 콘솔에 출력
+//                System.out.println("로그인 시 세션 토큰 : " + session.getAttribute("NAVER_ACCESS_TOKEN"));
+//                System.out.println("세션에 저장된 US_ID: " + session.getAttribute("US_ID"));
+//                System.out.println("세션에 저장된 US_EMAIL: " + session.getAttribute("US_EMAIL"));
+//                System.out.println("세션에 저장된 US_NICK: " + session.getAttribute("US_NICK"));
+
+                // 성공 응답 반환
+                JSONObject responseJson = new JSONObject();
+                responseJson.put("success", true);
+                responseJson.put("user", userJson);
+                return ResponseEntity.ok(responseJson.toString());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
+        }
+    }
+
+    // 네이버 API를 통해 사용자 정보 가져오는 메서드
+    private String getUserInfoFromNaver(String accessToken) throws IOException {
+        String apiUrl = "https://openapi.naver.com/v1/nid/me";
+        URL url = new URL(apiUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setDoOutput(true);
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == 200) { // 성공
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            return response.toString();
+        } else {
+            return null;
+        }
+    }
+
+    
 	//회원가입 폼
 	@GetMapping("register")
 	public String goRegister() {

@@ -34,12 +34,7 @@
 	}
 	
 	function openOIPay() {
-			window.open('oiPay', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
-	}
-	
-	function connectAct() {
-// 			window.open('connectAct', '_blank', 'width=550, height=335, left=720, top=200, resizable=no'); 
-			window.open('connectAct', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
+		window.open('oiPay', '_blank', 'width=500, height=600, left=720, top=200, resizable=no'); 
 	}
 
 	
@@ -84,33 +79,16 @@
                                         <c:when test="${not empty sessionScope.KAKAO_LOGIN}">
                                             <ul class="list-main">
                                                 <li>${sessionScope.US_NICK} 님 (카카오)</li>
-                                                <li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
-                                                
-                                                <c:choose>
-													<c:when test="${empty token.access_token}">
-														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:when>
-													<c:otherwise>
-														<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:otherwise>
-												</c:choose>
-                                                
+                                                <li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
+                                                <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
                                                 <li><i class="ti-shift-left"></i><a href="kakao_logout">로그아웃</a></li>
                                             </ul>
                                         </c:when>
                                         <c:otherwise>
 											<ul class="list-main">
 												<li>${US_NICK} 님</li>
-												<li><i class="ti-home"></i><a href="myStore">내 상점</a></li>
-												<c:choose>
-													<c:when test="${empty token.access_token}">
-														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:when>
-													<c:otherwise>
-														<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:otherwise>
-												</c:choose>
-												
+												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
+												<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
 												<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
 											</ul>
 										</c:otherwise>

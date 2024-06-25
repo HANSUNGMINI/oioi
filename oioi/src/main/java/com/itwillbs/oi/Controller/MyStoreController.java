@@ -1,7 +1,9 @@
 package com.itwillbs.oi.Controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.StoreService;
@@ -32,8 +35,9 @@ public class MyStoreController {
 	private StoreService storeService;
 	
 	@GetMapping("myStore")
-	public String myStore(Map<String, Object>map,Model model) {
-		System.out.println(map);
+	public String myStore(@RequestParam Map<String, Object>map,Model model) {
+		System.out.println("여기에는 뭐가 있을까요 ? " + map);
+		System.out.println(map.get("userId"));
 		
 		// 유저가 아님
 //		if(!CheckAuthority.isUser(session, model)) {
@@ -42,9 +46,17 @@ public class MyStoreController {
 //			return "err/fail";
 //		}
 		
-		String id = (String)session.getAttribute("US_ID");
-		Map<String, String> user = userService.selectMyUser(id);
-		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
+//		String id = (String)session.getAttribute("US_ID");
+		String userId = (String)map.get("userId");
+		
+		Map<String, String> user = userService.selectMyUser(userId);
+		if (user == null ) {
+			model.addAttribute("msg", "존재하지 않는 회원입니다");
+			return "err/fail";
+		}
+		
+		
+		List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
 		System.out.println(myPD);
 		// 상품 목록을 역순으로 정렬
 		Collections.reverse(myPD);
@@ -52,7 +64,14 @@ public class MyStoreController {
 		// 상품 목록을 스트림으로 처리하여 각 상품의 등록 시간을 현재 시간과 비교한 결과를 추가
         List<Map<String, Object>> productList = myPD.stream()
         	.map(product -> {
-            LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
+        		
+        	// new
+        	String dateString = (String)product.get("PD_REG_DATE"); // 변환할 문자열 날짜
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime regDate = LocalDateTime.parse(dateString, formatter);
+//            LocalDateTime regDate = (LocalDateTime) product.get("PD_REG_DATE");
+            // new
+            
             String timeAgo = dateTimeAgo(regDate);
             product.put("timeAgo", timeAgo);
 //            System.out.println("각 상품들의 정보 : " + product);

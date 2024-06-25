@@ -263,15 +263,6 @@ public class AdminController {
 			}
 		}
 		
-		// 삭제한 row작업
-		List<Map<String, Object>> deletedRows = (List<Map<String, Object>>)modifiedRows.get("deletedRows");
-		if(deletedRows != null) {
-			for(Map<String, Object> item : deletedRows) {
-				item.put("target", target);
-				result += adminservice.deleteCommon(item);
-			}
-		}
-		
 		return result;
 	}
 	

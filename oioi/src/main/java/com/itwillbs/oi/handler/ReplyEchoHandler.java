@@ -1,6 +1,7 @@
 package com.itwillbs.oi.handler;
 
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,10 +16,17 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import kotlinx.serialization.json.Json;
+
 
 public class ReplyEchoHandler extends TextWebSocketHandler{
 	
-	private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
+		private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
 //		List<String> sessions = new ArrayList<>();
 		private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 	
@@ -27,25 +35,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 			System.out.println("session값 : " + session);
 			System.out.println("session.getAttributes()값 : " + session.getAttributes());
-//			Map<String, Object> attributes = session.getAttributes();
-//			String US_ID = (String) attributes.get("US_ID");
 			sessions.add(session);
-//			logger.info("Connection Established: " + session);
-//			System.out.println("afterConnectionEstablished : " + session.getAttributes());
-//			Map<String, Object> attributes = session.getAttributes();
-//			System.out.println("dd : " + attributes.get("US_ID"));
-//			
-//			sessions.add((WebSocketSession)attributes.get("US_ID"));
-//			WebSocketSession US_ID = (WebSocketSession) attributes.get("US_ID");
-//			
-//			System.out.println("US_ID : " + US_ID);
-			
-//			// 중복 확인
-//			if (!sessions.contains(US_ID)) {
-//			    sessions.add(US_ID);
-//			}
-			
-//			System.out.println("확인 : "+sessions.toString());
 			
 		}
 		//어떠한 메세지를 보냈을때
@@ -58,11 +48,13 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 			
 			// 받은 메시지를 그대로 클라이언트에게 응답으로 보냄
 			
-//			JsonObject jo = new JsonObject();
-//			jo.addProperty("US_ID", US_ID);
-//			jo.addProperty("MSG", message.getPayload());
+			JsonObject jo = new JsonObject();
+			jo.addProperty("US_ID", US_ID);
+			jo.addProperty("SESSION_SIZE", sessions.size());
+			jo.addProperty("DATA", message.getPayload());
+			
 			System.out.println("보내기전 sessions 수  : " + sessions.toString());
-			String jsonMessage = message.getPayload();
+			String jsonMessage = jo.toString();
 			for (WebSocketSession sess : sessions) {
 	            if (sess.isOpen()) {
 	                sess.sendMessage(new TextMessage(jsonMessage));

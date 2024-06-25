@@ -128,7 +128,7 @@ public class TradeController {
 		
 		//중분류
 		List<Map<String, String>> cate2 = Auctionservice.getCategory2();
-		System.out.println("cate2 : " + cate2);
+//		System.out.println("cate2 : " + cate2);
 		JsonArray jCate2 = new JsonArray();
 		for(Map<String, String> c2 : cate2) {
 			JsonObject jo = new JsonObject();
@@ -141,7 +141,7 @@ public class TradeController {
 		
 		//소분류
 		List<Map<String, String>> cate3 = Auctionservice.getCategory3();
-		System.out.println("cate3 : " + cate3);
+//		System.out.println("cate3 : " + cate3);
 		JsonArray jCate3 = new JsonArray();
 		for(Map<String, String> c3 : cate3) {
 			JsonObject jo3 = new JsonObject();
@@ -195,6 +195,7 @@ public class TradeController {
 		// 사용자 아이디 가져오기
 		map.put("US_ID", (String)session.getAttribute("US_ID"));
 		// 카테고리 가져오기 
+		System.out.println("ASDAD@ASD@!#@!@!#$#@!$@!" + map.get("cate3"));
 		String[] cateName = Auctionservice.categoryName(map);
 		System.out.println("cateName : " + cateName);
 		String cn = "";

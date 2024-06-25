@@ -155,7 +155,8 @@ class user_shop_btn {
 		
 		$(el).on("click", function() {
 			let e = $(this);
-			let id = e.closest('tr').find('td:first').text();
+			let id = e.closest('tr').find('td:eq(1)').text();
+			location.href="myStore?userId=" + id;
 	    });
 		
 			

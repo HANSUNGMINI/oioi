@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,11 +23,50 @@
 
  <!-- SweetAlert CSS -->
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
 <style>
-
+/* 사진 등록 */
+	
+	 .tempImg {
+            display: block;
+            margin: 10px 0;
+             width: 100px;
+            height: 100px;
+        }
+        .addImg {
+            cursor: pointer;
+        }
+        .preView {
+            display: flex;
+            gap: 10px;
+        }
+        .previewImg {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .previewImgWrapper {
+	    position: relative;
+	    display: inline-block;
+	    margin: 5px;
+		}
+		
+		.deleteBtn {
+		    position: absolute;
+		    top: 5px;
+		    right: 5px;
+		    background-color: red;
+		    color: white;
+		    border: none;
+		    border-radius: 50%;
+		    cursor: pointer;
+		    font-size: 12px;
+		    width: 20px;
+		    height: 20px;
+		    text-align: center;
+		    line-height: 18px;
+		}
+	     
 </style>
-
 <script type="text/javascript">
 	
 		/* 상세보기 나오기 */
@@ -116,6 +155,61 @@
 		
 		
 		/* 파일 업로드 */
+		document.addEventListener("DOMContentLoaded", function() {
+		    const fileInput = document.getElementById('fileInput');
+		    const uploadTrigger = document.getElementById('uploadTrigger');
+		    const previewContainer = document.querySelector('.preView');
+		
+		    uploadTrigger.addEventListener('click', function() {
+		        if (document.querySelectorAll('.previewImg').length < 2) {
+		            fileInput.click();
+		        } else {
+		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
+		        }
+		    });
+		
+		    fileInput.addEventListener('change', function(event) {
+		        const files = event.target.files;
+		        if (files.length + document.querySelectorAll('.previewImg').length > 2) {
+		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
+		            fileInput.value = "";
+		            return;
+		        } else {
+		        	document.querySelector("#uploadTrigger").style.display = "none";
+		        }
+		        
+		        Array.from(files).forEach(file => {
+		            if (file.type.startsWith('image/')) {
+		                const reader = new FileReader();
+		                reader.onload = function(e) {
+		                    const imgWrapper = document.createElement('div');
+		                    imgWrapper.classList.add('previewImgWrapper');
+
+		                    const img = document.createElement('img');
+		                    img.src = e.target.result;
+		                    img.classList.add('previewImg');
+
+		                    const deleteBtn = document.createElement('button');
+		                    deleteBtn.textContent = 'X';
+		                    deleteBtn.classList.add('deleteBtn');
+		                    deleteBtn.addEventListener('click', function() {
+		                        imgWrapper.remove();
+		                        if (document.querySelectorAll('.previewImgWrapper').length < 2) {
+		                            document.querySelector("#uploadTrigger").style.display = "block";
+		                        }
+		                    });
+
+		                    imgWrapper.appendChild(img);
+		                    imgWrapper.appendChild(deleteBtn);
+		                    previewContainer.appendChild(imgWrapper);
+		                }
+		                reader.readAsDataURL(file);
+		            }
+		        });
+		    });
+		});
+		
+		
 		
 	</script>
 
@@ -355,20 +449,26 @@
 			      	<form enctype="multipart/form-data">
 			      	
 				      <%-- 라디오박스 --%>
-						<label for="n1"><input type="radio" name="RP_CATEGORY" id="n1" value="RPC01">  &nbsp;욕설 및 비방을 해요</label> <br>
-						<label for="n2"><input type="radio" name="RP_CATEGORY" id="n2" value="RPC02">  &nbsp;사기인 것 같아요</label> <br>
-						<label for="n3"><input type="radio" name="RP_CATEGORY" id="n3" value="RPC03">  &nbsp;거래 금지 품목을 팔아요</label> <br>
-						<label for="n4"><input type="radio" name="RP_CATEGORY" id="n4" value="RPC04">  &nbsp;상품 상태가 안 좋아요</label> <br>
-						<label for="n5"><input type="radio" name="RP_CATEGORY" id="n5" value="RPC05">  &nbsp;기타 부적절한 행위가 있어요</label> <br>
+				      	<c:forEach var="report" items="${reportMap}">
+				      		<c:set var="i" value="${i+1}"></c:set>
+							<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+				      	</c:forEach>
 						
 						<%-- 파일 --%>
-	                    
-				        <input type="file" accept=".png, .jpeg" multiple>
-						<div id="imagePreview"></div>
+						<div style="padding:5px;">
+		                    <small>이미지는 최대 2장 등록 가능합니다</small>
+		                    
+					         <input type="file" id="fileInput" style="display: none;" accept=".png, .jpeg" multiple>
+							<div class="preView">
+								<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
+							</div>
+						</div>
 						
-	                    <small>최대 2장 등록 가능합니다</small>
+						<%-- 내용 입력 --%>
+						<textarea placeholder="내용을 입력하세요"
 						
-						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+						
+						 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
 					</form>			      
 				  </div>
 				  

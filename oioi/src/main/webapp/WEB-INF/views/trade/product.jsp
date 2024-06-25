@@ -162,7 +162,7 @@
 										<label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" checked>안전 거래 사용</label>
 									</li>															
 								</ul>
-								<input type="hidden" name="PD_STATUS" value="PD01">
+								<input type="hidden" name="PD_STATUS" value="PDS01">
 								<input type="submit" id="subimit" value="등록하기">
 							</form>
 							<!--/ End Form -->

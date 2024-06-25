@@ -9,7 +9,9 @@
 		FROM product p 
 		JOIN images i
 		ON p.PD_IMAGE = i.IMG_IDX
-		WHERE US_ID = #{id}
+		JOIN user u
+		  ON p.US_ID = u.US_ID
+		WHERE p.US_ID = #{id} AND u.US_STATUS = '0';  
 	</select>
 	
 	<update id="updatePdStatus">
