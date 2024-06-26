@@ -53,10 +53,13 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script type="text/javascript">
+		var us_id = "${apdDetail.US_ID}";
+		var apd_idx = "${apdDetail.APD_IDX}";
+		var at_idx = "${apdDetail.AT_IDX}";
+		var session_id = "${sessionScope.US_ID}";
+	
 		$(function(){
-			var us_id = "${apdDetail.US_ID}";
-			var apd_idx = "${apdDetail.APD_IDX}";
-			var at_idx = "${apdDetail.AT_IDX}";
+			
 			$('#btnSend').on('click',function(et) {
 				
 				if(${empty apdDetail.US_ID}){
@@ -64,6 +67,7 @@
 					return;
 				}
 				console.log("US_ID : " + us_id);
+				console.log("session_id(jsp) : " + session_id);
 				console.log("socket : "+socket);
 		    	et.preventDefault();
 		    	if(socket.readyState !== 1)return;
@@ -83,26 +87,6 @@
 			
 			var minValue = "${apdDetail.BID_PRICE}";
 			var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
-// 			$('#nowPrice').on('change',function(){
-				
-// 				nowValue = $(this).val();
-				
-// 				if(${empty sessionScope.US_ID}){
-// 					alert("로그인 후 입찰하세요.");
-// 					$(this).val(minValue);
-// 					return false;
-// 				}
-				
-// 				if(minValue > nowValue || nowValue > maxValue){
-// 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
-// 					return false;
-// 				}
-				
-// 				console.log("nowValue : " + nowValue);
-// 				console.log("minValue : " + minValue);
-// 				console.log("maxValue : " + maxValue);
-				
-// 			});
 				
 				$('#bidding').on('click', function(){
 					nowValue = $('#nowPrice').val();
@@ -149,120 +133,7 @@
 	                	}
 					});
 				});
-				
-			
-	    	
 	    });
-
-	
-	    var socket = null;
-	
-	    function connect() {
-	        ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent('${apdDetail.APD_IDX}'));
-	        var us_id = "${apdDetail.US_ID}";
-	        socket = ws;
-	        ws.onopen = function() {
-	            console.log('연결');
-	        };
-	        
-	        ws.onmessage = function(event) {
-	        	var session_id = "${sessionScope.US_ID}";
-	        	console.log("판매자 : " + us_id);
-	        	
-	            console.log('받은 메세지 파싱전 ' + event.data);
-	            var response = JSON.parse(event.data);
-	            
-	            console.log('response.SESSION_SIZE : ' + response.SESSION_SIZE);
-	            
-	            
-	         	//접속자수표시
-	            var html ='';
-	            $('#sessionSize').empty().append(html);
-	            html += '<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
-	            response.SESSION_SIZE+
-	            '명</a></span>';
-	            $('#sessionSize').append(html);
-	            
-	            
-	         	// 두번째 파싱
-	            var res;
-	            if (response.DATA) {
-	                res = JSON.parse(response.DATA);
-	            } else {
-	                console.error('DATA 필드가 존재하지 않습니다.');
-	                return;
-	            }
-
-	            console.log('받은 메세지 파싱후 ' + res);
-	            console.log('res.US_ID : ' + res.US_ID);
-	            console.log('res.APD_IDX : ' + res.APD_IDX);
-	            console.log('res.MSG : ' + res.MSG);
-	            
-	            console.log("session_id : " + session_id);
-	            
-	            
-	            
-	            $.ajax({
-	            	url : "saveMsg",
-	            	type : "post",
-	            	data : {
-	            		ACR_IDX : res.APD_IDX,
-	            		ACM_CONTENT : res.MSG,
-	            		ACM_USER : res.US_ID
-	            	},
-	            	dataType : "JSON",
-	            	success: function(res) {
-	                    console.log('저장 성공' + res);
-	                    console.log('저장 성공' + res.data.ACR_IDX);
-	                    console.log('저장 성공' + res.data.ACM_USER);
-	                    console.log('저장 성공' + res.data.ACM_CONTENT);
-	                    console.log('저장 성공' + session_id);
-	                    
-	                  //세션아이디와 메세지 작성자가 일치하면 오른쪽 불일치면 왼쪽
-	    	            var html ='';
-	    	            if(session_id == res.data.ACM_USER){
-	    	            	console.log("일치");
-	    	            	html += '<li class="clearfix" class="chatViewMe">' + 
-	    	                '<div class="message other-message float-right">' +
-	    	                res.data.ACM_CONTENT +
-	    	                '</div>' +
-	    	           		'</li>';
-	    	            	$('.chatView').append(html);
-	    	            }else {
-	    	            	console.log("불일치");
-	    	            	html += '<li class="clearfix" class="chatViewYou">' + 
-	    	            	'<div class="message-avatar">' +
-	    	            	'<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
-	    	            	res.data.ACM_USER +
-	    	            	'</div>' +
-	    	                '<div class="message my-message">' +
-	    	                res.data.ACM_CONTENT +
-	    	                '</div>' +
-	    	           		'</li>';
-	    	            	$('.chatView').append(html);
-	    	            }
-	                }
-	            });
-	            
-	            
-	            
-	            
-	        };
-	        
-	        ws.onclose = function(event) {
-	            console.log('종료');
-	        };
-	        
-	        ws.onerror = function(error) {
-	            console.log('error: ' + error);
-	        };
-	    }
-	    
-	    window.onload = function() {
-	        connect();
-	    };
-	    
-	    
 	</script>
 	
 	
@@ -311,6 +182,8 @@
 											<div class="short">
 												<h4>${apdDetail.APD_NAME}</h4>
 												<p class="cat" style="margin-top: -1px;">Category : ${apdDetail.APD_CATEGORY}</p>
+												     
+												
 												<hr>
 												<p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p>
 												<p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p>
@@ -410,6 +283,56 @@
 												</div>
 												<div class="add-to-cart">
 													<a href="#" class="btn">즉시구매</a>
+													<a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#notify_model">신고</a>
+													
+													<%-- 신고하기 --%>
+													<div class="modal" id="notify_model">
+										              <div class="modal-dialog">
+										                <div class="modal-content">
+										            
+										                  <!-- Modal Header -->
+										                  <div class="modal-header">
+										                    <h4 class="modal-title">신고하기</h4>
+										                  </div>
+										            
+										                <form action="report" method="post" enctype="multipart/form-data">
+										                  <!-- Modal body -->
+										                  <div class="modal-body">
+										                    
+										                      <%-- 라디오박스 --%>
+										                        <c:forEach var="report" items="${reportMap}">
+										                            <c:set var="i" value="${i+1}"></c:set>
+										                            <label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+										                        </c:forEach>
+										                        
+										                        <%-- 파일 --%>
+										                        <div style="padding:5px;">
+										                            <small>이미지는 최대 2장 등록 가능합니다</small>
+										                            
+										                             <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
+										                            <div class="preView">
+										                                <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
+										                            </div>
+										                        </div>
+										                        
+										                        <%-- 내용 입력 --%>
+										                        <textarea placeholder="내용을 입력하세요"
+										                        
+										                        
+										                         style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+										                  </div>
+										                  
+										                  <!-- Modal footer -->
+										                  <div class="modal-footer">
+										                    <button type="submit" class="btn btn-success">신고하기</button>
+										                    <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+										                  </div>
+										                    <input type="hidden" name="TO_ID" value="${param.TO_ID}">
+										                    <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+										                </form>                 
+										                </div>
+										              </div>
+										            </div>
 												</div>
 											</div>
 											<!--/ End Product Buy -->
@@ -808,81 +731,8 @@
                 </div>
             </div>
     </div>
-    <!-- Modal end -->
 				
-	<!-- Start Footer Area -->
-	<footer class="footer">
-			<!-- Footer Top -->
-			<div class="footer-top section">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-5 col-md-6 col-12">
-							<!-- Single Widget -->
-							<div class="single-footer about">
-								<div class="logo">
-									<a href="index.html"><img src="images/logo2.png" alt="#"></a>
-								</div>
-								<p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue,  magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
-								<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">+0123 456 789</a></span></p>
-							</div>
-							<!-- End Single Widget -->
-						</div>
-						<div class="col-lg-2 col-md-6 col-12">
-							<!-- Single Widget -->
-							<div class="single-footer links">
-								<h4>Information</h4>
-								<ul>
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Faq</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Help</a></li>
-								</ul>
-							</div>
-							<!-- End Single Widget -->
-						</div>
-						<div class="col-lg-2 col-md-6 col-12">
-							<!-- Single Widget -->
-							<div class="single-footer links">
-								<h4>Customer Service</h4>
-								<ul>
-									<li><a href="#">Payment Methods</a></li>
-									<li><a href="#">Money-back</a></li>
-									<li><a href="#">Returns</a></li>
-									<li><a href="#">Shipping</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-								</ul>
-							</div>
-							<!-- End Single Widget -->
-						</div>
-						<div class="col-lg-3 col-md-6 col-12">
-							<!-- Single Widget -->
-							<div class="single-footer social">
-								<h4>Get In Tuch</h4>
-								<!-- Single Widget -->
-								<div class="contact">
-									<ul>
-										<li>NO. 342 - London Oxford Street.</li>
-										<li>012 United Kingdom.</li>
-										<li>info@eshop.com</li>
-										<li>+032 3456 7890</li>
-									</ul>
-								</div>
-								<!-- End Single Widget -->
-								<ul>
-									<li><a href="#"><i class="ti-facebook"></i></a></li>
-									<li><a href="#"><i class="ti-twitter"></i></a></li>
-									<li><a href="#"><i class="ti-flickr"></i></a></li>
-									<li><a href="#"><i class="ti-instagram"></i></a></li>
-								</ul>
-							</div>
-							<!-- End Single Widget -->
-						</div>
-					</div>
-				</div>
-			</div>
-    <!-- Modal end -->
-	<header><jsp:include page="../INC/bottom.jsp"></jsp:include></header>
+	<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

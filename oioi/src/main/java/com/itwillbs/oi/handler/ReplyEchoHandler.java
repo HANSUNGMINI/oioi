@@ -34,7 +34,13 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 			System.out.println("session값 : " + session);
-			System.out.println("session.getAttributes()값 : " + session.getAttributes());
+			System.out.println("session.getAttributes()값 전값 : " + session.getAttributes());
+			
+			String uri = session.getUri().toString();
+		    String apdIdx = uri.substring(uri.indexOf("APD_IDX=") + "APD_IDX=".length());
+		    System.out.println("session에 넣을 apdIdx 값 : " + apdIdx);
+		    session.getAttributes().put("APD_IDX", apdIdx);
+		    System.out.println("session.getAttributes()값 전후값 : " + session.getAttributes());
 			sessions.add(session);
 			
 		}
@@ -42,26 +48,36 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 		@Override
 		protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 			
-			Map<String, Object> attributes = session.getAttributes();
-			String US_ID = (String) attributes.get("US_ID");
-			System.out.println("handleTextMessage(message) : " + message.getPayload());
-			
-			// 받은 메시지를 그대로 클라이언트에게 응답으로 보냄
-			
-			JsonObject jo = new JsonObject();
-			jo.addProperty("US_ID", US_ID);
-			jo.addProperty("SESSION_SIZE", sessions.size());
-			jo.addProperty("DATA", message.getPayload());
-			
-			System.out.println("보내기전 sessions 수  : " + sessions.toString());
-			String jsonMessage = jo.toString();
-			for (WebSocketSession sess : sessions) {
-	            if (sess.isOpen()) {
+	        Map<String, Object> attributes = session.getAttributes();
+	        String US_ID = (String) attributes.get("US_ID");
+	        String APD_IDX = (String) attributes.get("APD_IDX");
+	        
+	        System.out.println("handleTextMessage(message) : " + message.getPayload());
+	        
+	        // 받은 메시지를 동일한 APD_IDX를 가진 세션에만 응답으로 보냄
+	        JsonObject jo = new JsonObject();
+	        jo.addProperty("US_ID", US_ID);
+	        jo.addProperty("SESSION_SIZE", getSessionCountApdIdx(APD_IDX)); 
+	        jo.addProperty("DATA", message.getPayload());
+	        
+	        System.out.println("보내기전 sessions 수  : " + sessions.toString());
+	        String jsonMessage = jo.toString();
+	        
+	        for (WebSocketSession sess : sessions) {
+	            if (sess.isOpen() && APD_IDX.equals(sess.getAttributes().get("APD_IDX"))) {
 	                sess.sendMessage(new TextMessage(jsonMessage));
 	            }
 	        }
-//			session.sendMessage(new TextMessage(jsonMessage));
 			
+		}
+		private int getSessionCountApdIdx(String APD_IDX) {
+			int count = 0;
+	        for (WebSocketSession sess : sessions) {
+	            if (APD_IDX.equals(sess.getAttributes().get("APD_IDX"))) {
+	                count++;
+	            }
+	        }
+	        return count;
 		}
 		//커넥션이 끝났을때
 		@Override
