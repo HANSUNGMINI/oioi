@@ -471,7 +471,7 @@
 						<div style="padding:5px;">
 		                    <small>이미지는 최대 2장 등록 가능합니다</small>
 		                    
-					         <input type="file" id="fileInput" style="display: none;" accept=".png, .jpeg" multiple>
+					         <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
 							<div class="preView">
 								<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
 							</div>
@@ -489,7 +489,8 @@
 			        <button type="submit" class="btn btn-success">신고하기</button>
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 			      </div>
-			
+					<input type="hidden" name="TO_ID" value="${param.TO_ID}">
+					<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
 				</form>			      
 			    </div>
 			  </div>

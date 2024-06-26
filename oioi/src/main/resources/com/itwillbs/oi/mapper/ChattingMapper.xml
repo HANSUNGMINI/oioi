@@ -24,6 +24,21 @@
 		ON p.US_ID = u.US_ID
 		WHERE u.US_ID = #{TO_ID} AND p.PD_IDX = #{PD_IDX}
 	</select>
+	
+	<insert id="insertReport">
+		INSERT INTO report
+		VALUES (
+			NULL
+			, #{TO_ID}
+			, #{FROM_US_ID}
+			, 'RS01'
+			, #{RP_CATEGORY}
+			, #{RP_CONTENT}
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			, #{RP_IMG1}
+			, #{RP_IMG2}
+		)
+	</insert>
 </mapper>
 
 
