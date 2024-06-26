@@ -44,6 +44,7 @@ function search() {
 			    scrollX: false,
 			    scrollY: false,
 			    columns: columns,
+			    rowHeaders: ['rowNum'],
 			    pageOptions: {
 		           useClient: true,
 		           perPage: itemsPerPage

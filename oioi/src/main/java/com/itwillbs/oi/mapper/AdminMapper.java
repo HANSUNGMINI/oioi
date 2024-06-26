@@ -19,12 +19,14 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectAuctionList(Map<String, Object> data);
 	List<Map<String, Object>> selectReportList(Map<String, Object> data);
 	List<Map<String, Object>> selectCommunityList(Map<String, Object> data);
+	List<Map<String, Object>> selectCategoryList(Map<String, Object> data);
  	
 	// 셀렉트박스 리스트 조회작업
 	List<Map<String, Object>> selectCodeCategoryList();
 	List<Map<String, Object>> selectAuctionCategoryList();
 	List<Map<String, Object>> selectAdminRoleList();
 	List<Map<String, Object>> selectRejectionList();
+	List<Map<String, Object>> selectCategoryCodeList();
 	
 	// 공통코드 관리
 	int patchcommon(Map<String, Object> data);
@@ -32,6 +34,12 @@ public interface AdminMapper {
 	int deleteCommon(Map<String, Object> data);
 	int changeActive(Map<String, Object> data);
 	int changeHide(Map<String, Object> data);
+	
+	// 카테고리 코드 관리
+	
+	int patchCategory(Map<String, Object> select);
+	int insertCategory(Map<String, Object> select);
+	int changeCTG_Hide(Map<String, Object> select);
 	
 	// 기타
 	int patchAuctionProductStatus(Map<String, Object> data);

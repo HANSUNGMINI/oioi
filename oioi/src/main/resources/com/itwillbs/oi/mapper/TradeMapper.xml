@@ -71,10 +71,19 @@
 <!-- 		WHERE PD_IDX = #{PD_IDX}; -->
 <!-- 	</select> -->
 	<select id="selectProductInfo" resultType="hashmap">
+	 WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
 	 SELECT 
         p.PD_IDX,
         p.US_ID,
-        p.PD_CATEGORY,
+        tmp.PATH AS PD_CATEGORY, 
         p.PD_SUBJECT,
         p.PD_CONTENT,
         p.PD_IMAGE,
@@ -112,6 +121,8 @@
         common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE'
     LEFT JOIN 
         images i ON p.PD_IMAGE = i.IMG_IDX
+    LEFT JOIN 
+    	tmp ON p.PD_CATEGORY = tmp.CTG_CODE
     WHERE 
         p.PD_IDX = #{PD_IDX}
     ORDER BY 

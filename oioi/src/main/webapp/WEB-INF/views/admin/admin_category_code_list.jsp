@@ -16,6 +16,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	<!-- 토스트UI -->
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />	
+	<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-tree/latest/tui-tree.css"/>
 	<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css">
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	
@@ -24,12 +25,6 @@
 		#buttons {
 			margin : 0px auto;
 		}
-		
- 		#type {
-			border : 2px solid black; 
- 		} 
-		
-		
 	</style>
 </head>
 <body>
@@ -49,15 +44,28 @@
 	    	<header class="card-header">
 	        	<p class="card-header-title">
 	          	<span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-	          		코드 카테고리
+	          		상품 카테고리
 	        	</p>
 	        	
-	        	<select id="type" onchange="search()">
-		        		<c:forEach var="category" items="${categoryList}">
-		        			<option value="${category.name}"> ${category.description}</option>
-		        		</c:forEach>
-	        	</select>
-		        	
+	        	
+				<ul class="categor-list" style="display : flex; height: 20px; margin : auto 0px;">
+	            	<li>
+	                    <select id="type" onchange="search(this.value, false)">
+	                    	<option value=""> 대분류를 선택하시오 </option>
+	                        <c:forEach var="cate1" items="${categoryList}">
+	                            <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
+	                        </c:forEach>
+	                    </select>
+	                </li>
+	               
+	                <li>          
+	                    <select id="type2" disabled onchange="search2(this.value)">
+	                        <option value=""> 중분류를 선택하시오</option>
+	                    </select>
+	                </li>
+	            </ul>
+				
+						        	
 	        	<div class="buttons right nowrap">
       				<button class="button small green" id="btn-add" type="button">
       					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
@@ -70,10 +78,16 @@
       				</button>
      			</div>
 	        	
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-add" type="button" onclick="location.reload()">
+      					<span class="icon"><i class="mdi mdi-reload"></i></span>
+      				</button>
+     			</div>
+	        	
+	        	
 	      	</header>
 	      	<!-- 그리드 -->
 	       	<div id="grid"></div>
-	       	<div id="pagination"></div>
 		</div>	
 	</section>
 	</div>
@@ -81,9 +95,12 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
+ 	<script src="https://uicdn.toast.com/tui-code-snippet/latest/tui-code-snippet.js"></script>
+ 	<script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
+	<script src="https://uicdn.toast.com/tui-tree/latest/tui-tree.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_common_code_list.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/admin_category_code_list.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
     <script>
     </script>

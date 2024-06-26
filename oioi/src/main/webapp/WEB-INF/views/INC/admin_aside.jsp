@@ -45,7 +45,12 @@
 	            			</a>
 	          			</li>
 	          			<li>
-	            			<a href="master_category">
+	            			<a href="master_common_category">
+	              				<span>공통코드 변경</span>
+	            			</a>
+	          			</li>
+	          			<li>
+	            			<a href="master_product_category">
 	              				<span>카테고리 변경</span>
 	            			</a>
 	          			</li>

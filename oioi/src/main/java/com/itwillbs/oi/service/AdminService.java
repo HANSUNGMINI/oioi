@@ -25,6 +25,7 @@ public class AdminService {
 	public List<Map<String, Object>> selectAuctionList(Map<String, Object> data){ return adminMapper.selectAuctionList(data); }
 	public List<Map<String, Object>> selectReportList(Map<String, Object> data){ return adminMapper.selectReportList(data); }
 	public List<Map<String, Object>> selectCommunityList(Map<String, Object> data){ return adminMapper.selectCommunityList(data); }
+	public List<Map<String, Object>> selectCategoryList(Map<String, Object> data){ return adminMapper.selectCategoryList(data); }
 	// List 조회 끝
 	
 	// 셀렉트박스 조회
@@ -32,13 +33,18 @@ public class AdminService {
 	public List<Map<String, Object>> selectAuctionCategoryList(){ return adminMapper.selectAuctionCategoryList(); }
 	public List<Map<String, Object>> selectAdminRoleList(){ return adminMapper.selectAdminRoleList(); }
 	public List<Map<String, Object>> selectRejectionList(){ return adminMapper.selectRejectionList(); }
+	public List<Map<String, Object>> selectCategoryCodeList(){ return adminMapper.selectCategoryCodeList(); }
 	
 	// 공통코드 관리
 	public int changeActive(Map<String, Object> data){ return adminMapper.changeActive(data); }
 	public int changeHide(Map<String, Object> select){ return adminMapper.changeHide(select); }
 	public int patchcommon(Map<String, Object> select){ return adminMapper.patchcommon(select); }
 	public int insertCommon(Map<String, Object> select){ return adminMapper.insertCommon(select); }
-	public int deleteCommon(Map<String, Object> select){ return adminMapper.deleteCommon(select); }
+	
+	// 카테고리 코드 관리
+	public int patchCategory(Map<String, Object> select){ return adminMapper.patchCategory(select); }
+	public int insertCategory(Map<String, Object> select){ return adminMapper.insertCategory(select); }
+	public int changeCTG_Hide(Map<String, Object> select){ return adminMapper.changeCTG_Hide(select); }
 	
 	// 다른 거
 	public int patchAuctionProductStatus(Map<String, Object> select){ return adminMapper.patchAuctionProductStatus(select); }

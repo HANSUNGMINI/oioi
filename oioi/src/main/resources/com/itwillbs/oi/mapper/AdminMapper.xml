@@ -128,6 +128,8 @@
 		    ON rp.RP_STATUS = c1.code
 		  LEFT JOIN common c2
 		    ON rp.RP_CATEGORY = c2.code
+		 WHERE c1.code = 'RS01'
+		 ORDER BY RP_IDX
 	</select>
 	
 	<select id="selectCommunityList" resultType="map">
@@ -145,6 +147,15 @@
 		  	<otherwise> 1 = 1</otherwise>
 		  </choose>
 		 ORDER BY CM_REG_DATE desc
+	</select>
+	
+	<select id="selectCategoryList">
+		SELECT CTG_CODE
+		     , CTG_NAME
+		     , CTG_HIDE 
+		     , UP_CTG_CODE
+		  FROM category
+		 WHERE UP_CTG_CODE = #{type};
 	</select>
 	
 	<!-- List 조회작업 끝 -->
@@ -174,6 +185,13 @@
 		  FROM common
 		 WHERE name = 'ROLE_TYPE' AND code != 'ARL01' AND hide = 'Y'
 		 ORDER BY code asc
+	</select>
+	
+	<select id="selectCategoryCodeList" resultType="map">
+		SELECT *
+		  FROM category
+		 WHERE UP_CTG_CODE = 'T'
+		 ORDER BY UP_CTG_CODE asc
 	</select>
 	
 	<!-- 셀렉트박스 리스트 조회 끝 -->
@@ -218,6 +236,34 @@
 	
 	<!-- 공통관리 끝 -->
 	
+	<!-- 카테고리 코드 관리 -->
+	<update id="patchCategory">
+		UPDATE category
+		   SET CTG_NAME = #{CTG_NAME}
+		 WHERE CTG_CODE = #{CTG_CODE}
+	</update>
+	
+	<insert id="insertCategory">
+		INSERT INTO category
+		VALUES (null
+			 , #{target}
+			 , #{code}
+			 , #{value}
+			 , DEFAULT
+		);
+	</insert>
+	
+	<update id="changeCTG_Hide">
+		UPDATE category
+		   SET
+		   <choose>
+				<when test="value">  CTG_HIDE = 'N'</when>		   
+				<when test="!value"> CTG_HIDE = 'Y'</when>		   
+		   </choose>
+		 WHERE CTG_CODE = #{code};
+	</update>
+	
+	<!-- 카테고리 코드 관리 끝 -->
 	
 	<update id="patchAuctionProductStatus">
 		UPDATE auction_product

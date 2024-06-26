@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AdminService;
+import com.itwillbs.oi.service.AuctionService;
+import com.itwillbs.oi.service.TradeService;
 
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -36,6 +40,10 @@ import retrofit2.http.POST;
 public class AdminController {
 	@Autowired
 	private AdminService adminservice;
+	@Autowired
+	private AuctionService auctionService;
+	@Autowired
+	private TradeService tradeService;
 	@Autowired
 	private HttpSession session;
 	
@@ -146,7 +154,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
-	@GetMapping("master_category")
+	@GetMapping("master_common_category")
 	public String master_category(Model model) {
 		
 		if (session.getAttribute("isMaster") == null ) {
@@ -160,6 +168,20 @@ public class AdminController {
 		
 		model.addAttribute("categoryList", categoryList);
 		return "admin/admin_common_code_list";
+	}
+	
+	@GetMapping("master_product_category")
+	public String master_product_category(Model model) {
+		
+		if (session.getAttribute("isMaster") == null ) {
+			model.addAttribute("msg", "권한 없음!");
+			return "err/fail";
+		}
+		
+		List<Map<String, Object>> categoryList = adminservice.selectCategoryCodeList();
+		model.addAttribute("categoryList", categoryList);
+		
+		return "admin/admin_category_code_list";
 	}
 	
 	@GetMapping("admin_auction")
@@ -212,6 +234,7 @@ public class AdminController {
 			case "auction" : result = adminservice.selectAuctionList(data); break;
 			case "report" : result = adminservice.selectReportList(data); break;
 			case "community" : result = adminservice.selectCommunityList(data); break;
+			case "category" : result = adminservice.selectCategoryList(data); break;
 		}
 		
 		System.out.println(result);
@@ -231,8 +254,8 @@ public class AdminController {
 		switch (target) {
 			case "AD_ACTIVE" : result = adminservice.changeActive(data); break;
 			case "hide" : result = adminservice.changeHide(data); break;
+			case "CTG_HIDE" : result = adminservice.changeCTG_Hide(data); break;
 		}
-		
 		return result;
 	}
 	
@@ -243,6 +266,9 @@ public class AdminController {
 	@ResponseBody
 	@PutMapping("common")
 	public int putCommon(@RequestBody Map<String, Object> map) {
+		
+		System.out.println(map);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
 		String target = map.get("target").toString();
 		int result = 0;
@@ -251,6 +277,36 @@ public class AdminController {
 		if(updateRows != null) {
 			for(Map<String, Object> item : updateRows) {
 				result += adminservice.patchcommon(item);
+			}
+		}
+		
+		// 추가한 row작업
+		List<Map<String, Object>> createdRows = (List<Map<String, Object>>)modifiedRows.get("createdRows");
+		if(createdRows != null) {
+			for(Map<String, Object> item : createdRows) {
+				item.put("target", target);
+				result += adminservice.insertCommon(item);
+			}
+		}
+		
+		return result;
+	}
+	
+	@ResponseBody
+	@PutMapping("category")
+	public int category(@RequestBody Map<String, Object> map) {
+		
+		System.out.println(map);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
+		String target = map.get("target").toString();
+		int result = 0;
+		
+		// 수정한 row 작업
+		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)modifiedRows.get("updatedRows");
+		if(updateRows != null) {
+			for(Map<String, Object> item : updateRows) {
+				result += adminservice.patchCategory(item);
 			}
 		}
 		

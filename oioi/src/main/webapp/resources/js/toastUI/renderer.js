@@ -60,6 +60,37 @@ class common_toggle {
 	  render(props) {}
 }	
 
+// 카테고리 코드 사용여부 변경 토글
+class category_toggle {
+	constructor(props) {
+	    const el = document.createElement('label');
+	    el.className = 'toggle';
+	    
+	    var checked = '';
+		
+		if(props.value == 'N'){
+			checked = 'checked';
+		}
+	    
+	    $(el).append(
+	    		'<input role="switch" type="checkbox" class="toggle_check" ' + checked + '/>'
+		);
+				
+	    $(el).on("change", 'input[type="checkbox"]', function() {
+	    	let elm = $(this);
+	    	let isChecked = elm.prop('checked');
+            let id = elm.closest('tr').find('td:first').text();
+	    	let type = 'CTG_HIDE';
+            change(elm, isChecked, id, type);
+	    });
+		
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}	
+
 // 게시글 바로가기 버튼
 class community_detail_btn {
 	constructor(props) {
