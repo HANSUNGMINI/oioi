@@ -197,7 +197,14 @@
                         <div class="col-lg-3 col-12 border-right">
                             <div class="single-team">
                                 <div class="image">
-                                    <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#">
+                                	<c:choose>
+									    <c:when test="${empty user.US_PROFILE}">
+									        <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#">
+									    </c:when>
+									    <c:otherwise>
+									        <img src="${user.US_PROFILE}" width="256px;" height="193px;" alt="#">
+									    </c:otherwise>
+									</c:choose>
                                 </div>
                             </div>
                         </div>

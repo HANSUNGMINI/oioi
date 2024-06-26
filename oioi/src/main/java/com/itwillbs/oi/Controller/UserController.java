@@ -1,14 +1,19 @@
 package com.itwillbs.oi.Controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,14 +74,21 @@ public class UserController {
                 String userId = String.valueOf(userJson.getLong("id")); // ID 값을 문자열로 변환하여 저장
                 String userEmail = userJson.getJSONObject("kakao_account").getString("email");
                 String userNick = userJson.getJSONObject("properties").getString("nickname");
+                String thumbnailImage = userJson.getJSONObject("properties").getString("thumbnail_image"); // 썸네일 이미지 URL 가져오기
+                
                 System.out.println(userEmail);
                 System.out.println(userNick);
+                
+             // 이미지 크기 조정 및 Base64 인코딩
+//                String resizedProfile = resizeProfile(thumbnailImage, 256, 193);
+                
                 // 카카오 사용자 정보를 Map에 저장
                 Map<String, Object> kakaoUserInfo = new HashMap<>();
                 kakaoUserInfo.put("US_ID", userId);
                 kakaoUserInfo.put("US_EMAIL", userEmail);
                 kakaoUserInfo.put("US_NAME", userNick);
                 kakaoUserInfo.put("US_NICK", userNick);
+                kakaoUserInfo.put("US_PROFILE", thumbnailImage);
                 
                 // DB에 사용자 정보 삽입 또는 업데이트
                 Map<String, Object> loggedInUser = null;
@@ -115,7 +127,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
-    
+//    // 이미지 크기 조정 메서드
+//    private String resizeProfile(String imageUrl, int targetWidth, int targetHeight) throws IOException {
+//        URL url = new URL(imageUrl);
+//        BufferedImage originalImage = ImageIO.read(url);
+//        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+//        Graphics2D g = resizedImage.createGraphics();
+//        g.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+//        g.dispose();
+//
+//        // 이미지를 바이트 배열로 변환하여 Base64 인코딩
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write(resizedImage, "jpg", baos);
+//        baos.flush();
+//        byte[] imageInByte = baos.toByteArray();
+//        baos.close();
+//
+//        return Base64.getEncoder().encodeToString(imageInByte);
+//    }
     private String getUserInfo(String accessToken) throws IOException {
         String requestUrl = "https://kapi.kakao.com/v2/user/me";
         URL url = new URL(requestUrl);
@@ -511,4 +540,21 @@ public class UserController {
 		
 		return "redirect:/login";
 	}
+	
+//    @GetMapping("/store")
+//    public String showUserStorePage(@RequestParam("userId") String userId, Model model) {
+//        // 여기서 userId는 사용자의 고유 식별자입니다. 이를 기반으로 사용자 정보를 조회하고 JSP에 전달합니다.
+//        
+//        // 예시에서는 사용자 정보를 임의로 생성하여 모델에 추가합니다.
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("US_NICK", "사용자 닉네임");
+//        user.put("US_PROFILE", "사용자 프로필 이미지 Base64 데이터"); // 실제 이미지 데이터는 여기에 추가
+//        
+//        // 모델에 사용자 정보 추가
+//        model.addAttribute("user", user);
+//
+//        // 여기서 "user/store"는 JSP 파일의 경로입니다. 실제 프로젝트에서는 경로에 맞게 수정해야 합니다.
+//        return "user/store";
+//    }
+	
 }
