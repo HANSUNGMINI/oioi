@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -117,47 +118,48 @@ public class OipayApiClient {
 		return responseEntity.getBody();
 	}
 
-//	// 2.2. 사용자/서비스 관리 - 2.2.1. 사용자정보조회 API - GET
-//	// https://testapi.openbanking.or.kr/v2.0/user/me
-//	public Map requestUserInfo(BankTokenVO token) {
-//		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
-//		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 add() 메서드로 헤더 정보 추가
-//		//    (추가할 헤더 정보가 복수개일 경우 LinkedMultiValueMap 객체 활용도 가능)
-//		//    (=> HttpHeaders 객체 생성 시 생성자에 LinkedMultiValueMap 객체 전달)
-//		HttpHeaders headers = new HttpHeaders();
-//		// 1-1) 헤더 정보를 문자열 형태로 동일하게 설정할 경우 - add() 메서드 활용
-//		// => 헤더명 : "Authorization"
-//		//    헤더값 : "Bearer" 문자열과 엑세스토큰 문자열 결합(공백으로 구분)
-//		headers.add("Authorization", "Bearer " + token.getAccess_token());
-////		headers.set
-//		
-//		// 2. 헤더와 바디를 묶어서 관리하는 HttpEntity 객체 생성
-//		//    => 생성자 파라미터로 헤더 정보 관리하는 HttpHeaders 객체 전달 가능
-//		//    => 제네릭타입은 String 타입 지정(모든 헤더 정보는 문자열로 관리됨)
-//		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
-//		
-//		// 3. HTTP 요청에 필요한 URI 정보 생성
-//		// => GET 방식 요청 시 전달할 파라미터는 queryParam() 메서드로 직접 전달 가능
-//		URI uri = UriComponentsBuilder
-//				.fromUriString(base_url) // 기본 요청 주소
-//				.path("/v2.0/user/me") // 작업 요청 상세 주소(세부 경로)
-//				.queryParam("user_seq_no", token.getUser_seq_no()) // 파라미터
-//				.encode() // 주소 인코딩
-//				.build()  // UriComponents 타입 객체 생성
-//				.toUri(); // URI 타입 객체로 변환
-//		
-//		// 4. RESTful API 요청을 위한 RestTemplate 객체 생성
-//		RestTemplate restTemplate = new RestTemplate();
-//		
-//		// 5. RestTemplate 객체의 exchange() 메서드 호출하여 HTTP 요청 수행 - GET
-//		// => 파라미터 : URI 객체, 요청 방식, HttpEntity 객체, 응답데이터 파싱하여 관리할 클래스타입
-//		// => 리턴타입 : ResponseEntity<Map>
-//		ResponseEntity<Map> responseEntity 
-//					= restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Map.class);
-//					
-//		// 6. ResponseEntity 객체의 getBody() 메서드 호출하여 응답데이터 파싱 결과 객체 리턴
-//		return responseEntity.getBody();
-//	}
+	// 2.2. 사용자/서비스 관리 - 2.2.1. 사용자정보조회 API - GET
+	// https://testapi.openbanking.or.kr/v2.0/user/me
+	public Map requestUserInfo(Map<String, Object> token) {
+		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
+		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 add() 메서드로 헤더 정보 추가
+		//    (추가할 헤더 정보가 복수개일 경우 LinkedMultiValueMap 객체 활용도 가능)
+		//    (=> HttpHeaders 객체 생성 시 생성자에 LinkedMultiValueMap 객체 전달)
+		HttpHeaders headers = new HttpHeaders();
+		// 1-1) 헤더 정보를 문자열 형태로 동일하게 설정할 경우 - add() 메서드 활용
+		// => 헤더명 : "Authorization"
+		//    헤더값 : "Bearer" 문자열과 엑세스토큰 문자열 결합(공백으로 구분)
+//		System.out.println("@@@@@@@@@@@@######" + token.get("BUI_ACCESS_TOKEN"));
+		headers.add("Authorization", "Bearer " + token.get("BUI_ACCESS_TOKEN"));
+//		headers.set
+		
+		// 2. 헤더와 바디를 묶어서 관리하는 HttpEntity 객체 생성
+		//    => 생성자 파라미터로 헤더 정보 관리하는 HttpHeaders 객체 전달 가능
+		//    => 제네릭타입은 String 타입 지정(모든 헤더 정보는 문자열로 관리됨)
+		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
+		
+		// 3. HTTP 요청에 필요한 URI 정보 생성
+		// => GET 방식 요청 시 전달할 파라미터는 queryParam() 메서드로 직접 전달 가능
+		URI uri = UriComponentsBuilder
+				.fromUriString(base_url) // 기본 요청 주소
+				.path("/v2.0/user/me") // 작업 요청 상세 주소(세부 경로)
+				.queryParam("user_seq_no", token.get("BUI_USER_SEQ_NO")) // 파라미터
+				.encode() // 주소 인코딩
+				.build()  // UriComponents 타입 객체 생성
+				.toUri(); // URI 타입 객체로 변환
+		
+		// 4. RESTful API 요청을 위한 RestTemplate 객체 생성
+		RestTemplate restTemplate = new RestTemplate();
+		
+		// 5. RestTemplate 객체의 exchange() 메서드 호출하여 HTTP 요청 수행 - GET
+		// => 파라미터 : URI 객체, 요청 방식, HttpEntity 객체, 응답데이터 파싱하여 관리할 클래스타입
+		// => 리턴타입 : ResponseEntity<Map>
+		ResponseEntity<Map> responseEntity 
+					= restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Map.class);
+					
+		// 6. ResponseEntity 객체의 getBody() 메서드 호출하여 응답데이터 파싱 결과 객체 리턴
+		return responseEntity.getBody();
+	}
 //
 //	// 2.3. 계좌조회 서비스(사용자) - 2.3.1. 잔액조회 API
 //	// https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num

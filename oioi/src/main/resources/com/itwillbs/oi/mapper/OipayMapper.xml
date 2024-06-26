@@ -56,6 +56,14 @@ CREATE TABLE bank_user_info (
 		WHERE BUI_ID = #{userId}
 	</select>
 	
+	<select id="selectBankUserInfo" resultType="map">
+		SELECT *
+		FROM bank_user_info
+		WHERE BUI_ACCESS_TOKEN = #{access_token}
+	</select>
+	
+	
+	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
 	<!-- WHERE 절의 id 는 "admin" 고정 -->
 	<select id="selectAdminToken" resultType="string">
