@@ -63,12 +63,59 @@
 		ORDER BY PD_IDX DESC ;
 	</select>
 	
+<!-- 	<select id="selectProductInfo" resultType="hashmap"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM product p -->
+<!-- 		JOIN images i -->
+<!-- 		ON p.PD_IMAGE = i.IMG_IDX -->
+<!-- 		WHERE PD_IDX = #{PD_IDX}; -->
+<!-- 	</select> -->
 	<select id="selectProductInfo" resultType="hashmap">
-		SELECT *
-		FROM product p
-		JOIN images i
-		ON p.PD_IMAGE = i.IMG_IDX
-		WHERE PD_IDX = #{PD_IDX};
+	 SELECT 
+        p.PD_IDX,
+        p.US_ID,
+        p.PD_CATEGORY,
+        p.PD_SUBJECT,
+        p.PD_CONTENT,
+        p.PD_IMAGE,
+        p.PD_PRICE,
+        cp1.value AS PD_PRICE_OFFER,
+        cp2.value AS PD_STATUS,
+        cp3.value AS PD_CONDITION,
+        cp4.value AS PD_TRADE_METHOD,
+        cp5.value AS PD_SAFE_TRADE,
+        p.PD_REG_DATE,
+        p.PD_UPDATED_DATE,
+        p.PD_READCOUNT,
+        p.PD_TEMP_SAVE,
+        p.PD_TAG1,
+        p.PD_TAG2,
+        p.PD_TAG3,
+        p.PD_TAG4,
+        p.PD_TAG5,
+        i.image1,
+        i.image2,
+        i.image3,
+        i.image4,
+        i.image5
+    FROM 
+        product p
+    LEFT JOIN 
+        common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER'
+    LEFT JOIN 
+        common cp2 ON p.PD_STATUS = cp2.code AND cp2.name = 'PD_STATUS'
+    LEFT JOIN 
+        common cp3 ON p.PD_CONDITION = cp3.code AND cp3.name = 'PD_CONDTION'
+    LEFT JOIN 
+        common cp4 ON p.PD_TRADE_METHOD = cp4.code AND cp4.name = 'PD_METHOD'
+    LEFT JOIN 
+        common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE'
+    LEFT JOIN 
+        images i ON p.PD_IMAGE = i.IMG_IDX
+    WHERE 
+        p.PD_IDX = #{PD_IDX}
+    ORDER BY 
+        p.PD_REG_DATE DESC;
 	</select>
 	
 	<select id="getProductStatus">

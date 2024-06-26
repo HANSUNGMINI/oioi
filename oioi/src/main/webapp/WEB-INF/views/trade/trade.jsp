@@ -55,6 +55,11 @@
     </style>
     
    <script type="text/javascript">
+	let isLoading = false;
+	let isEmpty = false;
+	
+	
+	
     $(document).ready(function() {
     	let contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
@@ -106,7 +111,7 @@
                 data: {
                     cate1: cate1,
                     cate2: cate2,
-                    cate3: cate3,
+                    cate3: cate3
                 },
                 success: function(data) {
 					$('#productList').empty();
