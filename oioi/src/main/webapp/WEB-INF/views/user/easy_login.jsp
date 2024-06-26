@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
@@ -52,9 +54,9 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	 <!-- 카카오 JavaScript SDK -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 	
 </head>
+
 <style>
 .login-option {
 	text-align: center;
@@ -82,7 +84,17 @@
 </style>
 
 <body class="js">
-
+<%
+    String clientId = "jYR_TimjsvzQr8BV06yT";//애플리케이션 클라이언트 아이디값";
+    String redirectURI = URLEncoder.encode("http://localhost:8081/oi/naver_callback", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+         + "&client_id=" + clientId
+         + "&redirect_uri=" + redirectURI
+         + "&state=" + state;
+    session.setAttribute("state", state);
+ %>
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
 		<!-- Breadcrumbs -->
@@ -116,7 +128,7 @@
 									<div class="col-12">
 										<div class="login-images">
 											<a href="#" id="kakao-login-btn"><img src="${pageContext.request.contextPath}/resources/images/kakao.png"></a>
-											<a href="#" id="google-login-btn"><img src="${pageContext.request.contextPath}/resources/images/google.png"></a>
+											<a href="<%=apiURL%>" id="naver-login-btn"><img src="${pageContext.request.contextPath}/resources/images/naver.png"></a>
 										</div>
 									</div>
 								</div>
@@ -174,60 +186,6 @@
  	    });
  	});
  	
-	function initializeGoogleSignIn() {
-		gapi.load('auth2', function() {
-			gapi.auth2.init({
-                 client_id: '450559380944-t4fdtvtfpegofcnqk13uvsh8d84slol8.apps.googleusercontent.com'
-             });
-         });
-     }
-     
-     function onGoogleSignIn(googleUser) {
-         var id_token = googleUser.getAuthResponse().id_token;
-         fetch('google_login', {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({ token: id_token })
-         })
-         .then(response => {
-             if (!response.ok) {
-                 throw new Error('Network response was not ok');
-             }
-             return response.json();
-         })
-         .then(data => {
-             if (data.success) {
-                 console.log('Google login success:', data.user);
-                 window.location.href = './';
-             } else {
-                 alert('Google login failed!');
-             }
-         })
-         .catch(error => {
-             console.error('Error:', error);
-             alert('Error occurred: ' + error.message);
-         });
-     }
-
-     function googleSignIn() {
-         var auth2 = gapi.auth2.getAuthInstance();
-         auth2.signIn().then(function(googleUser) {
-             onGoogleSignIn(googleUser);
-         }).catch(function(error) {
-             console.error('Error:', error);
-             alert('팝업이 닫혔습니다. 다시 시도해 주세요!!');
-         });
-     }
-
-     document.addEventListener('DOMContentLoaded', function() {
-         initializeGoogleSignIn();
-         document.getElementById('google-login-btn').addEventListener('click', function(e) {
-             e.preventDefault();
-             googleSignIn();
-         });
-     });
 </script>
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

@@ -59,6 +59,18 @@
         WHERE US_ID = #{US_ID}
     </update>
 	
+	<insert id="registNaverUser" parameterType="map">
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_REG_DATE, US_PLATFORM, US_STATUS)
+        VALUES (
+        #{US_ID}, 
+        #{US_NAME},
+        #{US_NICK}, 
+        #{US_EMAIL}, 
+        DATE_FORMAT(NOW(), 
+        '%Y-%m-%d %H:%i:%s'), 
+        '네이버',
+        0)
+    </insert>
 	
 	<select id="selectUser" resultType="hashmap">
 			SELECT * 
@@ -102,15 +114,6 @@
 		 AND   US_ID = 	  #{user_id}
 		 AND   US_EMAIL = #{user_email}
 	</select>
-	
-<!-- 	<select id="selectForgotPwPhone"> -->
-<!-- 		SELECT * -->
-<!-- 		  FROM user  -->
-<!-- 		 WHERE -->
-<!-- 			   US_Name =  #{phone_US_Name}   -->
-<!-- 		 AND   US_PHONE = #{US_PHONE} -->
-<!-- 		 AND   US_ID = 	  #{US_ID} -->
-<!-- 	</select> -->
 	
 	<select id="selectUserData">
 		SELECT COUNT(*)
@@ -196,7 +199,7 @@
         WHERE US_NICK = #{nickname}
     </select>
 	
-	    <!-- 필드를 업데이트하는 메소드 -->
+    <!-- 필드를 업데이트하는 메소드 -->
     <update id="updateField">
         UPDATE user
         SET
@@ -205,6 +208,20 @@
         <if test="field == 'phone'">US_PHONE = #{value}</if>
         WHERE US_ID = #{userId}
     </update>
+	
+	<select id="selectUserId" resultType="boolean">
+		SELECT *
+		FROM user
+		WHERE US_ID = #{US_ID}
+	</select>
+	
+	<update id="updateNaverUser" parameterType="map">
+		UPDATE user
+        SET US_NAME = #{US_NAME},
+        	US_NICK = #{US_NICK},
+            US_EMAIL = #{US_EMAIL}
+        WHERE US_ID = #{US_ID}
+	</update>
 	
 </mapper>
 

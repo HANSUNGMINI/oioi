@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.oi.service.MailService;
 import com.itwillbs.oi.service.OipayService;
 import com.itwillbs.oi.service.UserService;
@@ -188,8 +191,124 @@ public class UserController {
         return "redirect:/";
     }
     
+    @GetMapping("naver_callback")
+    public String naverCallback(HttpServletRequest request, HttpSession session) {
+        String clientId = "jYR_TimjsvzQr8BV06yT"; // 네이버 애플리케이션 클라이언트 아이디값
+        String clientSecret = "gr5_JyaxfB"; // 네이버 애플리케이션 시크릿값
+        String code = request.getParameter("code");
+        String state = request.getParameter("state");
+        String redirectURI = "http://localhost:8081/oi/naver_callback"; // 네이버 애플리케이션 콜백 URI
 
+        try {
+            String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"
+                    + "&client_id=" + clientId
+                    + "&client_secret=" + clientSecret
+                    + "&redirect_uri=" + URLEncoder.encode(redirectURI, "UTF-8")
+                    + "&code=" + code
+                    + "&state=" + state;
 
+            URL url = new URL(apiUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else { // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            br.close();
+
+            String response = sb.toString();
+            
+            // JSON 형태로 파싱하여 콘솔에 출력
+            System.out.println("네이버 로그인 성공! 사용자 정보:");
+            System.out.println(response);
+
+            // JSON 데이터 파싱
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response);
+            String accessToken = jsonNode.get("access_token").asText();
+            String tokenType = jsonNode.get("token_type").asText(); // 예시에서는 사용하지 않음
+
+            // 사용자 정보 요청
+            String userInfoUrl = "https://openapi.naver.com/v1/nid/me";
+            URL userInfoApiUrl = new URL(userInfoUrl);
+            HttpURLConnection userInfoCon = (HttpURLConnection) userInfoApiUrl.openConnection();
+            userInfoCon.setRequestMethod("GET");
+            userInfoCon.setRequestProperty("Authorization", tokenType + " " + accessToken);
+
+            int userInfoResponseCode = userInfoCon.getResponseCode();
+            BufferedReader userInfoBr;
+            if (userInfoResponseCode == 200) {
+                userInfoBr = new BufferedReader(new InputStreamReader(userInfoCon.getInputStream()));
+            } else {
+                userInfoBr = new BufferedReader(new InputStreamReader(userInfoCon.getErrorStream()));
+            }
+
+            StringBuilder userInfoSb = new StringBuilder();
+            String userInfoLine;
+            while ((userInfoLine = userInfoBr.readLine()) != null) {
+                userInfoSb.append(userInfoLine);
+            }
+            userInfoBr.close();
+
+            String userInfoResponse = userInfoSb.toString();
+            System.out.println("네이버 사용자 정보:");
+            System.out.println(userInfoResponse);
+
+            // JSON 데이터 파싱하여 필요한 정보 추출
+            JsonNode userInfoJson = objectMapper.readTree(userInfoResponse);
+            String userId = userInfoJson.get("response").get("id").asText();
+            String userNick = userInfoJson.get("response").get("nickname").asText();
+            String userEmail = userInfoJson.get("response").get("email").asText();
+            
+            // 유저정보 map에 저장
+            Map<String, Object> naverUserInfo = new HashMap<>();
+            naverUserInfo.put("US_ID", userId);
+            naverUserInfo.put("US_NAME", userNick);
+            naverUserInfo.put("US_NICK", userNick);
+            naverUserInfo.put("US_EMAIL", userEmail);
+            
+            // 네이버 사용자 정보를 DB에 저장
+            Object result;
+            if (service.isExistUserId(userId)) {
+                // 이미 존재하는 사용자일 경우 업데이트
+            	 result = service.updateUserFromNaver(naverUserInfo);
+            } else {
+                // 존재하지 않는 사용자일 경우 삽입
+            	 result = service.insertUserFromNaver(naverUserInfo);
+            }
+            
+            // 결과에 따라 처리
+            if (result != null) {
+                // 세션에 저장
+            	session.setAttribute("NAVER_LOGIN", true);
+            	session.setAttribute("US_ID", userId);
+                session.setAttribute("US_NICK", userNick);
+                // 세션 정보 확인
+                System.out.println("네이버 로그인 성공! 사용자 정보:");
+                System.out.println("userId: " + userId);
+                System.out.println("userNick: " + userNick);
+                System.out.println("userEmail: " + userEmail);
+                return "redirect:/"; // 로그인 후 리다이렉트할 경로
+            } else {
+                return "err/fail"; // DB 처리 실패 등의 예외 상황
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "err/fail"; // 예외 발생 시 처리
+        }
+    }
+    
+    
 	//회원가입 폼
 	@GetMapping("register")
 	public String goRegister() {

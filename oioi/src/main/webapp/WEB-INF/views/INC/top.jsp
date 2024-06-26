@@ -64,59 +64,76 @@
 						<div class="col-lg-8 col-md-12 col-12">
 							<!-- Top Right -->
 							<div class="right-content">
-							<c:choose>
-								<c:when test="${sessionScope.isAdmin}">
-                                    <ul class="list-main">
-                                        <li><i class="ti-home"></i><a href="admin">관리자 페이지</a></li>
-                                        <li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
-                                    </ul>
-                                </c:when>
-								<c:when test="${empty sessionScope.US_ID}">	
-									<ul class="list-main">
-										<li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
-										<li><i class="ti-shift-right"></i><a href="login">로그인</a></li>
-										<li><i class="ti-wand"></i><a href="easy_login">간편 로그인</a></li>
-									</ul>
-								</c:when>
-								<c:otherwise>
-									 <c:choose>
-                                        
-                                        <c:when test="${not empty sessionScope.KAKAO_LOGIN}">
-                                            <ul class="list-main">
-                                                <li>${sessionScope.US_NICK} 님 (카카오)</li>
-												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
-                                                
-                                                <c:choose>
-													<c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
-														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:when>
-													<c:otherwise>
-														<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:otherwise>
-												</c:choose>
-                                                
-                                                <li><i class="ti-shift-left"></i><a href="kakao_logout">로그아웃</a></li>
-                                            </ul>
-                                        </c:when>
-                                        <c:otherwise>
-											<ul class="list-main">
-												<li>${US_NICK} 님</li>
-												<li><i class="ti-home"></i><a href="myStore?userId=${US_ID}">내 상점</a></li>
-												<c:choose>
-													<c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
-														<li  onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:when>
-													<c:otherwise>
-														<li  onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
-													</c:otherwise>
-												</c:choose>
-												
-												<li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
-											</ul>
-										</c:otherwise>
-									</c:choose>
-						 		</c:otherwise>
-                            </c:choose>
+							    <c:choose>
+							        <c:when test="${sessionScope.isAdmin}">
+							            <ul class="list-main">
+							                <li><i class="ti-home"></i><a href="admin">관리자 페이지</a></li>
+							                <li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
+							            </ul>
+							        </c:when>
+							        <c:when test="${empty sessionScope.US_ID}">    
+							            <ul class="list-main">
+							                <li><i class="ti-power-off"></i><a href="adminlogin">관리자 로그인</a></li>
+							                <li><i class="ti-shift-right"></i><a href="login">로그인</a></li>
+							                <li><i class="ti-wand"></i><a href="easy_login">간편 로그인</a></li>
+							            </ul>
+							        </c:when>
+							        <c:otherwise>
+							            <c:choose>
+							                <c:when test="${not empty sessionScope.KAKAO_LOGIN}">
+							                    <ul class="list-main">
+							                        <li>${sessionScope.US_NICK} 님 (카카오)</li>
+							                        <li><i class="ti-home"></i><a href="myStore?userId=${sessionScope.US_ID}">내 상점</a></li>
+							                        
+							                        <c:choose>
+							                            <c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
+							                                <li onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:when>
+							                            <c:otherwise>
+							                                <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:otherwise>
+							                        </c:choose>
+							                        
+							                        <li><i class="ti-shift-left"></i><a href="kakao_logout">로그아웃</a></li>
+							                    </ul>
+							                </c:when>
+							                <c:when test="${not empty sessionScope.NAVER_LOGIN}">
+							                    <ul class="list-main">
+							                        <li>${sessionScope.US_NICK} 님 (네이버)</li>
+							                        <li><i class="ti-home"></i><a href="myStore?userId=${sessionScope.US_ID}">내 상점</a></li>
+							                        
+							                        <c:choose>
+							                            <c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
+							                                <li onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:when>
+							                            <c:otherwise>
+							                                <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:otherwise>
+							                        </c:choose>
+							                        
+							                        <li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
+							                    </ul>
+							                </c:when>
+							                <c:otherwise>
+							                    <ul class="list-main">
+							                        <li>${sessionScope.US_NICK} 님</li>
+							                        <li><i class="ti-home"></i><a href="myStore?userId=${sessionScope.US_ID}">내 상점</a></li>
+							                        
+							                        <c:choose>
+							                            <c:when test="${empty sessionScope.BUI_ACCESS_TOKEN}">
+							                                <li onclick="connectAct()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:when>
+							                            <c:otherwise>
+							                                <li onclick="openOIPay()" style="cursor: pointer;"><i class="ti-money"></i>OI 페이</li>
+							                            </c:otherwise>
+							                        </c:choose>
+							                        
+							                        <li><i class="ti-shift-left"></i><a href="logout">로그아웃</a></li>
+							                    </ul>
+							                </c:otherwise>
+							            </c:choose>
+							        </c:otherwise>
+							    </c:choose>
 							</div>
 							<!-- End Top Right -->
 						</div>

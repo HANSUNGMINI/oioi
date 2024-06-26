@@ -70,6 +70,15 @@ public interface UserMapper {
     void registKakaoUser(Map<String, Object> userInfo);
 
     void updateKakaoUser(Map<String, Object> userInfo);
+   
+    // 네이버 로그인 
+ 	boolean selectUserId(String userId);
+
+ 	int updateNaverUser(Map<String, Object> naverUserInfo);
+ 	
+ 	int registNaverUser(Map<String, Object> naverUserInfo);
+	
+	
 	
 
 	

@@ -33,6 +33,18 @@ public class UserService {
         }
     }
 	
+	// 네이버 로그인 
+	public boolean isExistUserId(String userId) {
+		return mapper.selectUserId(userId);
+	}
+
+	public Object updateUserFromNaver(Map<String, Object> naverUserInfo) {
+		return mapper.updateNaverUser(naverUserInfo);
+	}
+	
+	public Object insertUserFromNaver(Map<String, Object> naverUserInfo) {
+		return mapper.registNaverUser(naverUserInfo);
+	}
 	
 	public boolean isEmptyId(String user_id) {
 		System.out.println(user_id);
@@ -77,23 +89,6 @@ public class UserService {
 		return isAuthSuccess;
 	}
 	
-
-//	public MemberVO getMember(MemberVO member) { // 회원 검색
-//		
-//		return mapper.selectMember(member);
-//	}
-//
-//	public MemberVO forgotId(MemberVO member) { // 아이디 찾기
-//		
-//		return mapper.selectForgotId(member);
-//	}
-//	
-//	public MemberVO forgotPw(MemberVO member) { // 비밀번호 찾기
-//		
-//		return mapper.selectForgotPw(member);
-//	}
-
-
 	public int selectMemberCount() {
 		return mapper.selectMemberCount();
 	}
@@ -134,7 +129,6 @@ public class UserService {
 	}
 
 	
-	
     // 필드를 업데이트하는 메소드
     public boolean updateField(String userId, String field, String value) {
         return mapper.updateField(userId, field, value);
@@ -144,67 +138,8 @@ public class UserService {
     	
         return !mapper.isNicknameTaken(nickname);
     }
-	
-	
 
-
+    
 
 	
-
-	
-
-	
-
-	
-//	public void registMailAuthInfo(MailAuthInfoVO mailAuthInfo) {
-//		// 기존 인증정보 존재 여부 확인을 위해 인증정보 조회 요청
-//		// MemberMapper - selectMailAuthInfo() 메서드 호출
-//		// => 파라미터 : MailAuthInfoVO 객체   리턴타입 : Map<String, String>(dbAuthInfo)
-//		Map<String, String> dbAuthInfo = mapper.selectMailAuthInfo(mailAuthInfo);
-////		System.out.println(dbAuthInfo);
-//		
-//		// 인증정보 조회 결과 판별
-//		if(dbAuthInfo == null) { // 기존 인증정보 없음(인증메일 발송 이력 없음)
-//			// 새 인증정보 등록을 위해 insertMailAuthInfo() 메서드 호출하여 등록 작업 요청(INSERT)
-//			mapper.insertMailAuthInfo(mailAuthInfo);
-//		} else { // 기존 인증정보 있음(인증메일 발송 이력 있음)
-//			// 기존 인증정보 갱신을 위해 updateMailAuthInfo() 메서드 호출하여 수정 작업 요청(UPDATE)
-//			mapper.updateMailAuthInfo(mailAuthInfo);
-//		}
-//		
-//	}
-
-
-	
-
-
-	
-
-
-	
-
-
-//	public int modifyPasswd(MemberVO member) {
-//	
-//		return mapper.updatePasswd(member);
-//	}
-
-
-//	public String forgotIdPhone(Map<String, String> map) {
-//		return mapper.selectForgotIdPhone(map);
-//	}
-
-
-//	public MemberVO forgotPwPhone(Map<String, String> map) {
-//		return mapper.selectForgotPwPhone(map);
-//	}
-
-
-
-	
-
-
-	
-
-
 }
