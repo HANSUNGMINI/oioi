@@ -298,6 +298,7 @@ public class UserController {
             String userId = userInfoJson.get("response").get("id").asText();
             String userNick = userInfoJson.get("response").get("nickname").asText();
             String userEmail = userInfoJson.get("response").get("email").asText();
+            String userProfile = userInfoJson.get("response").get("profile_image").asText();
             
             // 유저정보 map에 저장
             Map<String, Object> naverUserInfo = new HashMap<>();
@@ -305,6 +306,7 @@ public class UserController {
             naverUserInfo.put("US_NAME", userNick);
             naverUserInfo.put("US_NICK", userNick);
             naverUserInfo.put("US_EMAIL", userEmail);
+            naverUserInfo.put("US_PROFILE", userProfile);
             
             // 네이버 사용자 정보를 DB에 저장
             Object result;
