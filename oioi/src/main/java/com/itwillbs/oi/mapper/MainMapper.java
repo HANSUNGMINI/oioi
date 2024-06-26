@@ -11,5 +11,7 @@ public interface MainMapper {
 	List<Map<String, Object>> selectRecentKeywordProduct(Map<String, String> map);
 
 	List<Map<String, Object>> getPopularProcuts();
+
+	List<Map<String, String>> getRecentLookProduct(int product);
 	
 }

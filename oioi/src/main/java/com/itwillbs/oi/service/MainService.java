@@ -23,4 +23,9 @@ public class MainService {
 	public List<Map<String, Object>> getPopularProcuts() {
 		return mapper.getPopularProcuts();
 	}
+
+	// 최근 본 상품 가져오기
+	public List<Map<String, String>> getRecentLookProduct(int product) {
+		return mapper.getRecentLookProduct(product);
+	}
 }
