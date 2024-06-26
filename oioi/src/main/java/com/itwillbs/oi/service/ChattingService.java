@@ -29,4 +29,8 @@ public class ChattingService {
 	public List<Map<String, String>> getReviewCategory() {
 		return mapper.selectReviewCategory();
 	}
+
+	public int insertReport(Map<String, String> map) {
+		return mapper.insertReport(map);
+	}
 }
