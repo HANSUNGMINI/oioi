@@ -62,7 +62,7 @@
             <div class="col-12">
                 <div id="custom-border">
                     <div class="product-des">
-						<h4>${user.US_NICK} 님의 상품 관리</h4>
+                        <h4>${user.US_NICK} 님의 상품 관리</h4>
                     </div>
                     <div class="table-responsive">
                         <table class="table">
@@ -82,15 +82,16 @@
                                     <tr>
                                         <td><img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" width="50"></td>
                                         <td>
-                                            <select class="form-control">
-                                                <option value="판매중" <c:if test="${product.PD_STATUS eq '판매중'}">selected</c:if>>판매중</option>
-                                                <option value="판매완료" <c:if test="${product.PD_STATUS eq '판매완료'}">selected</c:if>>판매완료</option>
+                                            <select class="form-control" onchange="updatePDS('${product.PD_IDX}', this.value)">
+                                                <c:forEach var="code" items="${code}">
+                                                    <option value="${code.code}" <c:if test="${code.code eq product.PD_STATUS}">selected</c:if>>${code.value}</option>
+                                                </c:forEach>
                                             </select>
                                         </td>
                                         <td>${product.PD_SUBJECT}</td>
                                         <td>${product.PD_PRICE} 원</td>
                                         <td>${product.PD_LIKES}</td>
-                                        <td>${product.PD_MOD_DATE}</td>
+                                        <td>${product.PD_UPDATED_DATE}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm">수정</button>
                                             <button class="btn btn-danger btn-sm">삭제</button>
@@ -111,6 +112,23 @@
     </div>
 </section>
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
+<script type="text/javascript">
+    function updatePDS(pdId, status) {
+        $.ajax({
+            url: 'updatePDS',
+            type: 'POST',
+            data: { pdId: pdId, status: status }, 
+            success: function(response){
+                alert('상태가 성공적으로 업데이트되었습니다.');
+                location.reload();  // 페이지 새로고침
+            },
+            error: function(error) {
+                console.error("Error updating product status:", error);
+                alert('상태 업데이트에 실패하였습니다.');
+            }
+        });
+    }
+</script>
 
 <!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

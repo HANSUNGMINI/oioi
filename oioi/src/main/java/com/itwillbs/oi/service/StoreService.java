@@ -16,9 +16,17 @@ public class StoreService {
 	public List<Map<String, Object>> selectMyPd(String id) {
 		return mapper.selectMyPd(id);
 	}
-	
 
-	public void updatePdStatus(int pdId, String newStatus) {
-		mapper.updatePdStatus(pdId, newStatus);
+	// 상품상태 업데이트
+	public boolean updatePDStatus(String pdId, String status) {
+//		System.out.println("IDX : " + pdId + "status : " + status);
+        int result = mapper.updatePDStatus(pdId, status);
+        return result > 0;  // 업데이트 성공 시 true 반환
 	}
+
+	public List<Map<String, String>> getCommonCode(String codeName) {
+		
+		return mapper.getCommonCode(codeName);
+	}
+
 }

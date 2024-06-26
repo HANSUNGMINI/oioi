@@ -13,10 +13,14 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.StoreService;
@@ -55,7 +59,8 @@ public class MyStoreController {
 			return "err/fail";
 		}
 		
-		
+        // 공통 코드를 조회하여 모델에 추가
+        List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
 		List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
 		System.out.println(myPD);
 		// 상품 목록을 역순으로 정렬
@@ -99,12 +104,35 @@ public class MyStoreController {
 		Map<String, String> user = userService.selectMyUser(id);
 		List<Map<String, Object>> myPD = storeService.selectMyPd(id);
 		
+        // 공통 코드를 조회하여 모델에 추가
+        List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
+        
+        model.addAttribute("code", code);
 		model.addAttribute("user", user);
 		model.addAttribute("myPD", myPD);
 		
 		return "myStore/edit_my_store";
 	}
 	
+	
+	// 상품 상태 업데이트
+	@ResponseBody
+	@PostMapping("updatePDS")
+	public ResponseEntity<?> updateProductStatus(@RequestParam Map<String, Object> params) {
+	    String pdId = (String) params.get("pdId");
+	    String status = (String) params.get("status");
+	    
+//	    System.out.println("IDX : " + pdId);
+//	    System.out.println("status : " + status);
+	    
+	    boolean result = storeService.updatePDStatus(pdId, status);
+	    
+	    if (result) {
+	        return ResponseEntity.ok().build();
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update product status");
+	    }
+	}
 	
 	
 	
