@@ -43,4 +43,8 @@ public interface AdminMapper {
 	
 	// 기타
 	int patchAuctionProductStatus(Map<String, Object> data);
+	
+	Map<String, Object> selectDetailUser(Map<String, Object> data);
+	Map<String, Object> selectDetailReport(Map<String, Object> data);
+	Map<String, Object> selectDetailAP(Map<String, Object> data);
 }

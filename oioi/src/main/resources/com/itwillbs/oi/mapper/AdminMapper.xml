@@ -103,12 +103,14 @@
 			 , tmp.PATH AS APD_CATEGORY
 			 , c2.value as APD_REJECTION
 			 , ap.APD_REG_DATE
-			 , ap.APD_STATUS
+			 , c1.value as APD_STATUS
 		  FROM auction_product ap
 		  LEFT JOIN tmp
 		    ON ap.APD_CATEGORY = tmp.CTG_CODE
 		  LEFT JOIN common c2
 		    ON ap.APD_REJECTION = c2.code
+		  LEFT JOIN common c1
+		    ON ap.APD_STATUS = c1.code
 		 WHERE 1 = 1 
 		  <choose>
 		  	<when test="!type.equals('ALL')"> AND c.code = #{type} </when>
@@ -120,7 +122,6 @@
 		SELECT RP_IDX
 			 , TO_US_ID
 			 , FROM_US_ID
-			 , c1.value AS RP_STATUS
 			 , c2.value AS RP_CATEGORY
 			 , RP_TIME
 		  FROM report rp
@@ -129,7 +130,7 @@
 		  LEFT JOIN common c2
 		    ON rp.RP_CATEGORY = c2.code
 		 WHERE c1.code = 'RS01'
-		 ORDER BY RP_IDX
+		 ORDER BY RP_IDX DESC
 	</select>
 	
 	<select id="selectCommunityList" resultType="map">
@@ -270,6 +271,26 @@
 		   SET APD_STATUS = #{APD_STATUS}
 		 WHERE APD_IDX = #{APD_IDX}
 	</update>
+	
+	
+	<select id="selectDetailUser">
+		SELECT *
+		  FROM user
+		 WHERE US_ID = #{target}
+	</select>
+	
+	<select id="selectDetailReport">
+		SELECT *
+		  FROM report
+		 WHERE RP_IDX = #{target}
+	</select>
+	
+	<select id="selectDetailAP">
+		SELECT *
+		  FROM auction_product
+		 WHERE APD_IDX = #{target}
+	</select>
+	
 </mapper>
 
 

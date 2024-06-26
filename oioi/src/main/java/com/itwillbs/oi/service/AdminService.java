@@ -48,4 +48,7 @@ public class AdminService {
 	
 	// 다른 거
 	public int patchAuctionProductStatus(Map<String, Object> select){ return adminMapper.patchAuctionProductStatus(select); }
+	public Map<String, Object> selectDetailUser(Map<String, Object> map){ return adminMapper.selectDetailUser(map); }
+	public Map<String, Object> selectDetailReport(Map<String, Object> map){ return adminMapper.selectDetailReport(map); }
+	public Map<String, Object> selectDetailAP(Map<String, Object> map){ return adminMapper.selectDetailAP(map); }
 }

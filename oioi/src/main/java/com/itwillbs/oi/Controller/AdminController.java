@@ -110,14 +110,17 @@ public class AdminController {
 	}
 	
 	@GetMapping("admin_detail")
-	public String admin_detail(@RequestParam Map<String, String> map
+	public String admin_detail(@RequestParam Map<String, Object> map
 								, Model model) {
+		String page = "";
 		
-		switch (map.get("table")) {
-		case "user":  break;
+		switch ((String)map.get("table")) {
+			case "user": model.addAttribute("user", adminservice.selectDetailUser(map)); page = "admin_detail_user"; break;
+			case "report": model.addAttribute("report", adminservice.selectDetailUser(map)); page = "admin_detail_report"; break;
+			case "auctionProduct": model.addAttribute("product", adminservice.selectDetailUser(map)); page = "admin_detail_auction_product"; break;
 		}
 		
-		return "";
+		return "admin/" + page;
 	}
 	
 	// 최고 관리자용

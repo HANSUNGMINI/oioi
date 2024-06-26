@@ -1,16 +1,4 @@
 const listItems = [];
-const listItems2 = [];
-
-$('#type option').each(function() {
-	if($(this).val() == 'ALL') { return true;}
-    let item = {text: $(this).text() , value : $(this).text() }
-    listItems.push(item);
-});
-
-$('#rejection option').each(function() {
-    let item = {text: $(this).val() , value : $(this).text() }
-    listItems2.push(item);
-});
 
 
 const columns = [
@@ -20,10 +8,8 @@ const columns = [
     {header: '제목', name: 'APD_DETAIL', width: 300},
     {header: '카테고리', name: 'APD_CATEGORY' , align: "center"},
     {header: '등록일', name: 'APD_REG_DATE'},
-    {header: '상태', name: 'APD_STATUS',  
-    	editor: { type: 'select', options: { listItems: listItems} }, align : "center" } ,
-    {header: '반려 사유', name: 'APD_REJECTION',  
-    	editor: { type: 'select', options: { listItems: listItems2} }, align : "center" } ,
+    {header: '상태', name: 'APD_STATUS'},
+    {header: '반려 사유', name: 'APD_REJECTION'},
     {header: '보기'
       , renderer: {type: product_detail_btn} , width: 50},
 ]

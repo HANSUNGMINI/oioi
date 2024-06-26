@@ -132,8 +132,8 @@ class product_detail_btn {
 		
 		$(el).on("click", function() {
 			let e = $(this);
-			let idx = e.closest('tr').find('td:first').text();
-			location.href="productDetail?PD_IDX=" + idx;
+			let target = e.closest('tr').find('td:first').text();
+			window.open("admin_detail?table=auctionProduct&target=" + target ,"옥션상품","width=600, height=300, top=150, left=650");
 	    });
 		
 			
@@ -159,8 +159,8 @@ class user_detail_btn {
 		
 		$(el).on("click", function() {
 			let e = $(this);
-			let num = e.closest('tr').find('td:first').text();
-			window.open("admin_detail?table=user?num=" + num ,"관리자 추가","width=600, height=300, top=150, left=650");
+			let target = e.closest('tr').find('td:eq(1)').text();
+			window.open("admin_detail?table=user&target=" + target ,"유저 상세","width=600, height=300, top=150, left=650");
 	    });
 		
 			
@@ -214,8 +214,8 @@ class report_detail_btn {
 		
 		$(el).on("click", function() {
 			let e = $(this);
-			let num = e.closest('tr').find('td:first').text();
-			window.open("admin_detail?table=report?num=" + num ,"관리자 추가","width=600, height=300, top=150, left=650");
+			let target = e.closest('tr').find('td:first').text();
+			window.open("admin_detail?table=report&target=" + target ,"신고 상세","width=600, height=300, top=150, left=650");
 	    });
 		
 			
@@ -225,3 +225,4 @@ class report_detail_btn {
 	  getElement() {return this.el;}
 	  render(props) {}
 }	
+
