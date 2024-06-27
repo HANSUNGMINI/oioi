@@ -74,9 +74,9 @@ public class TradeController {
 		model.addAttribute("cate3", jCate3);
 		
 		
-		List<Map<String, String>> productList = tradeService.getProduct();
-		model.addAttribute("getProduct", productList);
-		System.out.println(productList);
+//		List<Map<String, String>> productList = tradeService.getProduct();
+//		model.addAttribute("getProduct", productList);
+//		System.out.println(productList);
 		
 		
 		System.out.println("카테1" + cate1);
@@ -92,11 +92,41 @@ public class TradeController {
     @ResponseBody
     public List<Map<String, Object>> filterProducts(
             @RequestParam Map<String, String> map,
-            @RequestParam int pageNum,
-            @RequestParam int listLimit) {
+            @RequestParam("pageNum") int pageNum,
+            @RequestParam("listLimit") int listLimit) {
+        
         int startRow = (pageNum - 1) * listLimit;
-        return tradeService.getFilteredProducts(map.get("cate1"), map.get("cate2"), map.get("cate3"), startRow, listLimit);
+        Map<String, Object> params = new HashMap<>(map);
+        params.put("startRow", startRow);
+        params.put("listLimit", listLimit);
+
+        return tradeService.getFilteredProducts(params);
     }
+//    public List<Map<String, Object>> filterProducts(
+//            @RequestParam(required = false) String cate1,
+//            @RequestParam(required = false) String cate2,
+//            @RequestParam(required = false) String cate3,
+//            @RequestParam(defaultValue = "1") int pageNum,
+//            @RequestParam(defaultValue = "12") int listLimit) {
+//        
+//        int startRow = (pageNum - 1) * listLimit;
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("cate1", cate1);
+//        params.put("cate2", cate2);
+//        params.put("cate3", cate3);
+//        params.put("startRow", startRow);
+//        params.put("listLimit", listLimit);
+//        
+//        return tradeService.getFilteredProducts(params);
+//	}
+//    public List<Map<String, Object>> filterProducts(
+//            @RequestParam Map<String, String> map,
+//            @RequestParam int pageNum,
+//            @RequestParam int listLimit) {
+//        int startRow = (pageNum - 1) * listLimit;
+//        return tradeService.getFilteredProducts(map.get("cate1"), map.get("cate2"), map.get("cate3"), startRow, listLimit);
+//    }
 
 //    public List<Map<String, Object>> filterProducts(
 //            @RequestParam(required = false) String cate1,
