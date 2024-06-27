@@ -283,7 +283,13 @@
 									<div class="navbar-collapse">	
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
-												<li><a href="trade">거래</a></li>												
+												<li><a href="trade">거래</a></li>
+												<li><a href="#">경매<i class="ti-angle-down"></i></a>
+													<ul class="dropdown">
+														<li><a href="auctionRegist">경매상품등록</a></li>
+														<li><a href="auction">경매리스트</a></li>
+													</ul>
+												</li>												
 												<li><a href="community">커뮤니티</a></li>												
 												<li><a href="notice">고객센터</a></li>												
 												<!-- 지우지마 -->

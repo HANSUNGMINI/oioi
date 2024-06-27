@@ -62,16 +62,20 @@ public class AuctionService {
 		return mapper.insertACR(APD_IDX);
 	}
 
-	public int updateBid(Map<String, Object> map) {
-		return mapper.updateBid(map);
+	public int updateApdBid(Map<String, Object> map) {
+		return mapper.updateApdBid(map);
 	}
 
-	public void updateApdStatus(String APD_IDX) {
-		mapper.updateApdStatus(APD_IDX);
+	public int updateApdStatus(String APD_IDX) {
+		return mapper.updateApdStatus(APD_IDX);
 	}
 
 	public int insertACM(Map<String, Object> map) {
 		return mapper.insertACM(map);
+	}
+
+	public int insertBid(Map<String, Object> map) {
+		return mapper.insertBid(map);
 	}
 
 	

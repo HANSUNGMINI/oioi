@@ -58,7 +58,25 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
+	<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">리스트</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+	
 	
 	<!-- 다시 -->
 	<!-- Start Product Area -->
@@ -77,6 +95,7 @@
 							<div class="nav-main">
 								<!-- Tab Nav -->
 								<ul class="nav nav-tabs" id="myTab" role="tablist">
+									<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#man" role="tab">Man</a></li>
 									<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#man" role="tab">Man</a></li>
 									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#women" role="tab">Woman</a></li>
 									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#kids" role="tab">Kids</a></li>

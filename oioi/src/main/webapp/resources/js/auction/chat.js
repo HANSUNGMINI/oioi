@@ -44,7 +44,6 @@ function connect() {
         console.log("session_id : " + session_id);
         
         
-        
         $.ajax({
         	url : "saveMsg",
         	type : "post",
@@ -60,7 +59,8 @@ function connect() {
                 console.log('저장 성공' + res.data.ACM_USER);
                 console.log('저장 성공' + res.data.ACM_CONTENT);
                 console.log('저장 성공' + session_id);
-                
+              
+              
               //세션아이디와 메세지 작성자가 일치하면 오른쪽 불일치면 왼쪽
 	            var html ='';
 	            if(session_id == res.data.ACM_USER){

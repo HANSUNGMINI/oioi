@@ -60,6 +60,7 @@
 	
 		$(function(){
 			
+			
 			$('#btnSend').on('click',function(et) {
 				
 				if(${empty apdDetail.US_ID}){
@@ -85,54 +86,70 @@
 		    	
 		    });
 			
-			var minValue = "${apdDetail.BID_PRICE}";
+			var minValue = $('#nowPrice').val();
 			var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
 				
-				$('#bidding').on('click', function(){
-					nowValue = $('#nowPrice').val();
-					console.log(nowValue);
-					
-					if(${empty sessionScope.US_ID}){
-						alert("로그인 후 입찰하세요.");
-						$('#nowPrice').val(minValue);
-						return false;
-					}
-					
-					if(minValue > nowValue || nowValue > maxValue){
-	 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
-	 					$('#nowPrice').val(minValue);
-	 					return false;
-	 				}
-					
-	 				console.log("nowValue : " + nowValue);
-	 				console.log("minValue : " + minValue);
-	 				console.log("maxValue : " + maxValue);
-					
-					$.ajax({
-						url : "auctionBid",
-						type : "post",
-						data : {
-							APD_IDX : apd_idx,
-							AT_IDX : at_idx,
-							US_ID : us_id,
-							BID_PRICE : nowValue
-						},
-						dataType : "JSON",
-	            		success: function(response) {
-	                    	console.log('저장 성공 : ' + response);
-	                    	var html ='';
-	                    	html += '<li class="clearfix" class="chatViewMe">' + 
-	    	                '<div class="message other-message float-right">' +
-	    	                us_id +
-	    	                '님께서' +
-	    	                response +
-	    	                '원에 입찰하였습니다.' +
-	    	                '</div>' +
-	    	           		'</li>';
-	    	            	$('.chatView').append(html);
-	                	}
-					});
+			$('#bidding').on('click', function(){
+				nowValue = $('#nowPrice').val();
+				console.log(nowValue);
+				
+				if(${empty sessionScope.US_ID}){
+					alert("로그인 후 입찰하세요.");
+					$('#nowPrice').val(minValue);
+					return false;
+				}
+				console.log("nowValue : " + nowValue);
+ 				console.log("minValue : " + minValue);
+ 				console.log("maxValue : " + maxValue);
+				if(minValue >= nowValue || nowValue > maxValue){
+ 					alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
+ 					$('#nowPrice').val(minValue);
+ 					return false;
+ 				}else if(nowValue == maxValue){
+ 					//입찰가가 즉시구매가랑 같을때 경매 종료
+ 					$.ajax({
+ 						url : "auctionClose",
+ 						tyle : "post",
+ 						data : {
+ 							AT_IDX : apd_idx,
+ 							BID_USER : session_id,
+ 							BID_PRICE : nowValue
+ 						},
+ 						dataType : "JSON",
+ 						success: function(response) {
+ 							console.log("성공 : " + response);
+ 						}
+ 					});
+ 					
+ 				}
+				
+ 				
+				
+				$.ajax({
+					url : "auctionBid",
+					type : "post",
+					data : {
+						APD_IDX : apd_idx,
+						AT_IDX : at_idx,
+						FINAL_BID_USER : us_id,
+						FINAL_BID_PRICE : nowValue
+					},
+					dataType : "JSON",
+            		success: function(response) {
+                    	console.log('저장 성공 : ' + response);
+                    	var html ='';
+                    	html += '<li class="clearfix" class="chatViewMe">' + 
+    	                '<div class="message other-message float-right">' +
+    	                us_id +
+    	                '님께서' +
+    	                response +
+    	                '원에 입찰하였습니다.' +
+    	                '</div>' +
+    	           		'</li>';
+    	            	$('.chatView').append(html);
+                	}
 				});
+			});
 	    });
 	</script>
 	
@@ -140,10 +157,26 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 		
-		
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="notice">상세페이지</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- End Breadcrumbs -->
+		
 				
 		<!-- Shop Single -->
 		<section class="shop single section">
@@ -193,17 +226,21 @@
 												<div class="chat" style="margin-top: 10px;">
 													<%-- 채팅 내역 --%>
 									                <div class="chat-history" style="background-color: #e9e9e9; padding: 20px;">
-									
+<!-- 														<div class="chatNo"> -->
+<!-- 															진행중인 대화가 없습니다. -->
+<!-- 														</div> -->
 									                    <ul class="chatView" style="height: 410px; overflow-y: auto;">
 									                        <li class="clearfix" id="chatViewYou">
-									                        	<div class="message-avatar">
-																	<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-																	한숑
-																</div>
-									                            <div class="message my-message">
-									                            	이자민 바보
-									                            	<small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>
-									                            </div>
+<!-- 									                        	<div class="message-avatar"> -->
+<!-- 																	<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
+<!-- 																	한숑 -->
+<!-- 																</div> -->
+<!-- 									                            <div class="message my-message"> -->
+<!-- 									                            	이자민 바보 -->
+<!-- 									                            	<small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small> -->
+<!-- 									                            </div> -->
+																	
+
 									                        </li>
 									                    </ul>
 									                </div>
@@ -268,7 +305,7 @@
 												<div class="quantity">
 													<h6>입찰가 입력 :</h6>
 													<div class="input-group">
-														<input type="text" class="input-number" id="nowPrice" value="${apdDetail.BID_PRICE}">
+														<input type="text" class="input-number" id="nowPrice" value="${apdDetail.FINAL_BID_PRICE}">
 													</div>
 												</div>
 												<div class="add-to-cart">
