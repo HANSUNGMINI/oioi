@@ -310,7 +310,7 @@ public class UserController {
             
             // 네이버 사용자 정보를 DB에 저장
             Object result;
-            if (service.isExistUserId(userId)) {
+            if (service.isExistUserId(userId) > 0) {
                 // 이미 존재하는 사용자일 경우 업데이트
             	 result = service.updateUserFromNaver(naverUserInfo);
             } else {

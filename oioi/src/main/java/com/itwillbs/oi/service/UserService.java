@@ -34,7 +34,7 @@ public class UserService {
     }
 	
 	// 네이버 로그인 
-	public boolean isExistUserId(String userId) {
+	public int isExistUserId(String userId) {
 		return mapper.selectUserId(userId);
 	}
 

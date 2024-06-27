@@ -214,8 +214,8 @@
         WHERE US_ID = #{userId}
     </update>
 	
-	<select id="selectUserId" resultType="boolean">
-		SELECT *
+	<select id="selectUserId">
+		SELECT count(*)
 		FROM user
 		WHERE US_ID = #{US_ID}
 	</select>
