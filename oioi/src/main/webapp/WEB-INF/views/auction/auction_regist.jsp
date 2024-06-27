@@ -114,24 +114,25 @@
 </head>
 <body class="js">
 
-	<header><jsp:include page="../INC/auctionTop.jsp"></jsp:include></header>
+	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
-		<!-- Breadcrumbs -->
-		<div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="bread-inner">
-							<ul class="bread-list">
-								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="blog-single.html">경매 상품 등록</a></li>
-							</ul>
-						</div>
+	<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="notice">등록</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- End Breadcrumbs -->
+	</div>
+	<!-- End Breadcrumbs -->
 		
 		<!-- Shop Login -->
 		<section class="shop login section">

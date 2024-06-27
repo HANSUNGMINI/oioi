@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,16 +241,38 @@ public class AuctionController {
 	@PostMapping("auctionBid")
 	public String auctionBid(@RequestParam Map<String, Object> map,Model model) {
 		System.out.println("auctionBid : " + map);
+		//기록을 위해 bidding 테이블에 추가
 		
-		int updateBid = service.updateBid(map);
-		System.out.println("updateBid 성공 여부" + updateBid);
-		if(updateBid > 0) {
-			//상태값을 입찰예정으로 변경
-			service.updateApdStatus((String)map.get("APD_IDX")); 
-			return (String)map.get("BID_PRICE");
+//		int updateBid = service.updateBid(map);
+//		System.out.println("updateBid 성공 여부" + updateBid);
+//		if(updateBid > 0) {
+//			//상태값을 입찰예정으로 변경
+//			service.updateApdStatus((String)map.get("APD_IDX")); 
+//			return (String)map.get("BID_PRICE");
+//		}else {
+//			model.addAttribute("msg", "입찰에 실패하였습니다.");
+//			model.addAttribute("targetURL", "auctionRegist");
+//	    	return "err/fail";
+//		}
+		
+		int updateApdStatus = service.updateApdStatus((String)map.get("APD_IDX"));
+		if(updateApdStatus > 0) {
+			System.out.println("경매중 상태 변경 성공");
+			//경매테이블 갱신
+			service.updateApdBid(map);
+			System.out.println("경매테이블 경신 성공!");
+			//기록을 위해 bidding 테이블에 추가
+			int insertBidSuccess = service.insertBid(map);
+			if(insertBidSuccess == 0) {
+				model.addAttribute("msg", "입찰실패");
+				model.addAttribute("targetURL", "./");
+		    	return "err/fail";
+			}
+			
+			return (String)map.get("FINAL_BID_PRICE");
 		}else {
-			model.addAttribute("msg", "입찰에 실패하였습니다.");
-			model.addAttribute("targetURL", "auctionRegist");
+			model.addAttribute("msg", "입찰기간이 아닙니다.");
+			model.addAttribute("targetURL", "./");
 	    	return "err/fail";
 		}
 		

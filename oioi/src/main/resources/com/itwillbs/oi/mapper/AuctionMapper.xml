@@ -130,8 +130,8 @@
             a.AT_IDX,
             a.AT_START_TIME,
             a.AT_END_TIME,
-            a.BID_US_ID,
-            a.BID_PRICE
+            a.FINAL_BID_USER,
+            a.FINAL_BID_PRICE
 		from auction_product ap
 		join images i
 		on ap.APD_IMAGE = i.IMG_IDX
@@ -152,9 +152,9 @@
 		auction_chat_room(ACR_IDX,ACR_STATUS,ACR_DATE)
 		values (#{ACR_IDX},'Y',DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i'))
 	</insert>
-	<update id="updateBid">
+	<update id="updateApdBid">
 		update auction
-		set BID_US_ID = #{US_ID}, BID_PRICE = #{BID_PRICE}
+		set FINAL_BID_USER = #{FINAL_BID_USER}, FINAL_BID_PRICE = #{FINAL_BID_PRICE}
 		where AT_IDX = #{AT_IDX};
 	</update>
 	<update id="updateApdStatus">
@@ -173,6 +173,20 @@
 			#{ACR_IDX},
 		    #{ACM_USER},
 		    #{ACM_CONTENT},
+		    DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+		)
+	</insert>
+	
+	<insert id="insertBid">
+		insert into bidding(
+			APD_IDX,
+			BID_USER,
+		    BID_PRICE,
+		    BID_TIME
+		)values(
+			#{APD_IDX},
+		    #{FINAL_BID_USER},
+		    #{FINAL_BID_PRICE},
 		    DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 		)
 	</insert>

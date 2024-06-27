@@ -45,10 +45,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+        }
+
         #custom-border {
             border: 1px solid #ccc; 
             padding: 10px; 
             position: relative;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
         }
 
         #store-info {
@@ -140,11 +148,15 @@
             padding: 10px;
             text-align: center;
             position: relative;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .product-item img {
             max-width: 100%;
             height: auto;
+            border-radius: 5px;
         }
 
         .overlay {
@@ -163,6 +175,7 @@
             justify-content: center;
             font-size: 24px;
             font-weight: bold;
+            border-radius: 5px;
         }
 
         .product-info-bottom {
@@ -185,6 +198,51 @@
             font-size: 12px;
             color: #777;
         }
+
+        #profile-pic-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #change-pic-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: none; 
+        }
+
+        #profile-pic-container:hover #change-pic-button {
+            display: block; 
+        }
+
+        #intro-text p {
+            margin-top: 10px;
+            color: #666;
+        }
+
+        #edit-area {
+            margin-top: 10px;
+        }
+
+        #edit-button, #save-button {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #edit-button:hover, #save-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body class="js">
@@ -196,15 +254,16 @@
                     <div class="row" id="custom-border">
                         <div class="col-lg-3 col-12 border-right">
                             <div class="single-team">
-                                <div class="image">
+                                <div id="profile-pic-container">
                                 	<c:choose>
 									    <c:when test="${empty user.US_PROFILE}">
-									        <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#">
+									        <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#" width="256px;" height="193px;">
 									    </c:when>
 									    <c:otherwise>
 									        <img src="${user.US_PROFILE}" width="256px;" height="193px;" alt="#">
 									    </c:otherwise>
 									</c:choose>
+                                    <input type="file" id="change-pic-button" value="프로필 사진 변경" name="file1">
                                 </div>
                             </div>
                         </div>
@@ -429,6 +488,7 @@
                 this.value = lines.slice(0, 4).join('\n');
             }
         });
+
     </script>
 </body>
 </html>
