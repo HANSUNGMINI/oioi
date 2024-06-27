@@ -25,7 +25,7 @@ public class MainService {
 	}
 
 	// 최근 본 상품 가져오기
-	public List<Map<String, String>> getRecentLookProduct(int product) {
+	public List<Map<String, Object>> getRecentLookProduct(int product) {
 		return mapper.getRecentLookProduct(product);
 	}
 }

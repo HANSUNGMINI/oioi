@@ -163,34 +163,7 @@
             </div>
             <div class="row">
                 <div class="col-12" id="noProduct">
-                    <div class="owl-carousel popular-slider">
-						<!-- 제품 하나하나 -->
-						<div class="single-product">
-							<div class="product-img">
-								<a href="product-details.html">
-									<img class="default-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2fb6ff59-aca1-4f1f-a836-0888d4f119a6/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png"  alt="#">
-									<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
-								</a>
-								<div class="button-head">
-									<div class="product-action">
-										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-									</div>
-									<div class="product-action-2">
-										<a title="Add to cart" href="#">상품 상세페이지로 바로가기</a>
-									</div>
-								</div>
-							</div>
-							<div class="product-content">
-								<h3><a href="product-details.html">제품 이름 넣는곳</a></h3>
-								<div class="product-price">
-									<!-- 세일 기준 -->
-<!-- 									<span class="old">이전가격</span> -->
-									<span>80,000원</span>
-									<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
-								</div>
-							</div>
-						</div>
-						<!-- 제품 하나 끝 -->
+                    <div class="owl-carousel popular-slider" id="recentLookProduct">
                     </div>
                 </div>
             </div>

@@ -12,6 +12,6 @@ public interface MainMapper {
 
 	List<Map<String, Object>> getPopularProcuts();
 
-	List<Map<String, String>> getRecentLookProduct(int product);
+	List<Map<String, Object>> getRecentLookProduct(int product);
 	
 }

@@ -77,12 +77,19 @@ function connectChat() {
     ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
 	socket = ws;
     
+    debugger;
     ws.onopen = function() {
         console.log('연결');
     };
     
-    ws.onmessage = function(event) { 
-		console.log("메세지 " + event.data + '\n');    	
+    ws.onmessage = function(event) {
+    	 
+    	 console.log("현재 접속자 아이디 : " + US_ID);    	
+    	 console.log("판매자 아이디 : " + TO_ID);    	
+    	 console.log("물건 번호 : " + PD_IDX);
+    	 
+    	 console.log('받은 메세지 파싱전 ' + event.data);
+         var response = JSON.parse(event.data);		
     }
     
     ws.onclose = function(event) {
@@ -95,11 +102,26 @@ function connectChat() {
     
     $(function(){
 	     $('#sendMsg').on('click', function(evt) {
-	    	 evt.preventDefault();
-	    	 if(socket.readyState !== 1) return;
+	    	  debugger;
+	    	console.log("현재 접속자 아이디 : " + '${sessionScope.US_ID}');    	
+	    	console.log("판매자 아이디 : " + '${param.TO_ID}');    	
+	    	console.log("물건 번호 : " + '${param.PD_IDX}');
+			console.log("socket : "+socket);
+	    	evt.preventDefault();
+	    	if(socket.readyState !== 1)return;
+	    	
 	    	 let msg = $('#textMsg').val();
-// 	    	 let img = $('#file-input').val();
-	    	 socket.send(msg);
+	    	console.log("msg : " + msg);
+	    	
+	    	var dataSend = {
+	    	        US_ID: '${sessionScope.US_ID}',
+	    	        TO_ID: '${param.TO_ID}',
+	    	        PD_IDX: '${param.PD_IDX}',
+	    	        msg : msg
+	    	};
+	    	
+	    	alert(dataSend)
+	    	socket.send(dataSend);
 	     });
 	     
 	    connectChat(); 

@@ -46,7 +46,6 @@
 			return;  // 최근 본 상품이 없을 경우 
 		}
 		
-		
         $.ajax({
             type: "GET",
             url: "recentLookProductList",
@@ -55,23 +54,53 @@
             },
             dataType: "json",
             success: function(response) {
+				
 				let productList = response;
+				
+				var owl = $("#recentLookProduct")
 				
 				$.each(productList, function(index, pr) {
 					// alert( pr.PD_IMAGE);
 				
 					// 뽑아내기
 					let productDetail = 
+						 '	<div class="owl-item">'
+						+'	<div class="single-product">'
+						+'		<div class="product-img">'
+						+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
+						+' 				<img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + pr.PD_IMAGE + '">'
+						+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						+'			</a>'
+						+'			<div class="button-head">'
+						+'				<div class="product-action">'
+						+'					<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>'
+						+'				</div>'
+						+'				<div class="product-action-2">'
+						+'					<a title="Add to cart" href="productDetail?PD_IDX='+ pr.PD_IDX +'">상품 상세페이지로 바로가기</a>'
+						+'				</div>'
+						+'			</div>'
+						+'		</div>'
+						+'		<div class="product-content">'
+						+'			<h3><a href="product-details.html">'+ pr.PD_SUBJECT +'</a></h3>'
+						+'			<div class="product-price">'
+						+'				<span>'+ pr.PD_PRICE +' 원</span>'
+						+'				<span class="pro_time" style="float:right; color:gray"><small>'+ pr.RD_DATE +'</small></span>'
+						+'			</div>'
+						+'		</div>'
+						+'	</div>'
+						+'	</div>'
 						
-					
-						$("#recentKeywordProduct").append(productDetail);
-					
+						owl.trigger('add.owl.carousel', [$(productDetail)]);		
 				});
+				
+				owl.trigger('refresh.owl.carousel');
+				owl.trigger("initialize");
+				
             }
         });
-		
-		
-	}
+	
+	} 
+	
 
 	/* 검색 기록 기반 상품 불러오기 */
 	function showRecentKeywordProduct() {
