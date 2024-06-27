@@ -81,10 +81,11 @@
 		
 		/* 거래완료 */
 		function transaction() {
+			let nick = '${info.US_NICK}';
 			
 			Swal.fire({
-				   title: '거래 완료하시겠습니까?',
-				   text: '거래 완료 버튼 클릭 시, 페이가 송금되며 취소 불가능합니다',
+				   title: nick + '님과 거래 확정하시겠습니까?',
+// 				   text: ',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -227,7 +228,7 @@
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853;">
-          <a href="#" onClick="history.back()"><i class="bi bi-chevron-left" style="font-size: 2rem; color: white;"></i></a>
+          <a href="#" onClick="location.href='ChatList'"><i class="bi bi-chevron-left" style="font-size: 2rem; color: white;"></i></a>
    	</div>
    	
    	
@@ -257,14 +258,17 @@
                         <div class="col-lg-6 hidden-sm text-right">
                             <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#notify_model">신고</a>
                             <a href="javascript:void(0);" class="btn btn-success" onclick="showDetail()"><i class="bi bi-list"></i></a>
+                            
 	                        <div id="detail">
 	                        	<ul>
-		                        	<li><a id="d2" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-		                        	<li><a id="d3" onclick="transaction()">거래 완료</a></li>
+		                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
+		                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
+		                        	<li><a id="d3" onclick="">안전 결제</a></li>
 		                        	<li><a id="d4" data-toggle="modal" data-target="#fraud_model">사기 이력 조회</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
+	                        
 	                        <div id="review">
 	                        	<ul>
 	                        		<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
@@ -542,46 +546,6 @@
 			  </div>
 			</div>     
 
-		<%-- 제품 상세보기 --%>
-			
-<!-- 			<div class="modal" id="detail_model"> -->
-<!-- 			  <div class="modal-dialog"> -->
-<!-- 			    <div class="modal-content"> -->
-			
-<!-- 			      Modal Header -->
-<!-- 			      <div class="modal-header"> -->
-<!-- 			        <h4 class="modal-title">제품 상세보기</h4> -->
-<!-- 			      </div> -->
-			
-<!-- 			      Modal body -->
-<!-- 			      <div class="modal-body"> -->
-			      
-<%-- 			      	이미지 --%>
-<!-- 			      	<div class="img-container"> -->
-<!-- 			      		<img id="pd_img" src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/3e8455ad-c00c-4996-a85a-b5c4d38c6ae2/v2k-%EB%9F%B0-%EC%8B%A0%EB%B0%9C-TeZkXP2L.png"> -->
-<!-- 			      	</div> -->
-			      	
-<!-- 			      	<div style="padding:10px; text-align: center"> -->
-<!-- 				      	상품명 : <span>신발</span> <span class="price-dec">예약 중</span> <br> -->
-<!-- 				      	가격 : <span>10000원</span><br> -->
-<!-- 				      	상세설명 -->
-<!-- 				      	<div style= "border:1px solid #ccc; border-radius: 8px; height:40%"> -->
-<!-- 				      		깨끗함 안 신음 -->
-<!-- 				      	</div> -->
-<!-- 			      	</div> -->
-			      	
-<!-- 			      </div> -->
-			
-<!-- 			      Modal footer -->
-<!-- 			      <div class="modal-footer"> -->
-<!-- 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button> -->
-<!-- 			      </div> -->
-			
-<!-- 			    </div> -->
-<!-- 			  </div> -->
-<!-- 			</div>      -->
-			
-            
             <!-- 부트스트랩 -->
             
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

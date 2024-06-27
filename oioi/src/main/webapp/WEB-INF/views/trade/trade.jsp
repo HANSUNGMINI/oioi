@@ -57,7 +57,8 @@
    <script type="text/javascript">
 	let isLoading = false;
 	let isEmpty = false;
-	
+	let searchType = '';
+	let pageNum = 1;
 	
 	
     $(document).ready(function() {
@@ -113,6 +114,7 @@
                     cate2: cate2,
                     cate3: cate3
                 },
+                dataType: "json",
                 success: function(data) {
 					$('#productList').empty();
                     //  <img src='/billycar/resources/upload/"

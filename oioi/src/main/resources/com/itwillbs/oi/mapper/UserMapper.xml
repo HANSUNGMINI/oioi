@@ -40,7 +40,7 @@
     </select>
 
     <insert id="registKakaoUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROIFLE US_REG_DATE, US_PLATFORM, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS)
         VALUES (
         #{US_ID}, 
         #{US_NAME},
@@ -64,12 +64,13 @@
     </update>
 	
 	<insert id="registNaverUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_REG_DATE, US_PLATFORM, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS)
         VALUES (
         #{US_ID}, 
         #{US_NAME},
         #{US_NICK}, 
         #{US_EMAIL}, 
+        #{US_PROFILE},
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '네이버',
@@ -213,8 +214,8 @@
         WHERE US_ID = #{userId}
     </update>
 	
-	<select id="selectUserId" resultType="boolean">
-		SELECT *
+	<select id="selectUserId">
+		SELECT count(*)
 		FROM user
 		WHERE US_ID = #{US_ID}
 	</select>
@@ -223,7 +224,8 @@
 		UPDATE user
         SET US_NAME = #{US_NAME},
         	US_NICK = #{US_NICK},
-            US_EMAIL = #{US_EMAIL}
+            US_EMAIL = #{US_EMAIL},
+            US_PROFILE = #{US_PROFILE}
         WHERE US_ID = #{US_ID}
 	</update>
 	

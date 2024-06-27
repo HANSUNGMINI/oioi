@@ -100,12 +100,45 @@
 	</select>
 	
 	<select id="selectApdDetail" resultType="hashmap">
-		select *
+		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
+		select 
+			ap.APD_IDX,
+            ap.APD_OWNER,
+            ap.APD_NAME,
+            ap.APD_DETAIL,
+            tmp.PATH AS APD_CATEGORY,
+            i.image1,
+            i.image2,
+            i.image3,
+            i.image4,
+            i.image5,
+            ap.APD_STATUS,
+            ap.APD_REJECTION,
+            ap.APD_DEADLINE,
+            ap.APD_CONDITION,
+            ap.APD_START_PRICE,
+            ap.APD_BUY_NOW_PRICE,
+            ap.APD_REG_DATE,
+            a.AT_IDX,
+            a.AT_START_TIME,
+            a.AT_END_TIME,
+            a.BID_US_ID,
+            a.BID_PRICE
 		from auction_product ap
 		join images i
 		on ap.APD_IMAGE = i.IMG_IDX
 		join auction a
 		on ap.APD_IDX = a.APD_IDX
+		JOIN tmp
+		on ap.APD_CATEGORY = tmp.CTG_CODE
 		where ap.APD_IDX = #{APD_IDX};
 	</select>
 	

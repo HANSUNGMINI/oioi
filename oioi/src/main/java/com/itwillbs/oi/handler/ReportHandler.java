@@ -67,6 +67,8 @@ public class ReportHandler {
                 } catch (IllegalStateException | IOException e) {
                     e.printStackTrace();
                 }
+            }  else {
+            	map.put("RP_IMG" + (i+1), null);
             }
             
             

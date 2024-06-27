@@ -126,24 +126,29 @@
 									<div class="size">
 										<h3>거래 옵션</h3>
 										<ul>
-											<li><p class="four"><span>상품 상태 : ${productInfo.PD_CONDITION}</span></p></li><br>
-											<li><p class="one"><span>가격 흥정 : ${productInfo.PD_PRICE_OFFER}</span></p></li><br>
+											<li><p class="one"><span>상품 상태 : ${productInfo.PD_CONDITION}</span></p></li><br>
+											<li><p class="two"><span>가격 흥정 : ${productInfo.PD_PRICE_OFFER}</span></p></li><br>
 											<li><p class="three"><span>거래 방식 :  ${productInfo.PD_TRADE_METHOD}</span></p></li><br>
-											<li><p class="two"><span>안전 거래 : ${productInfo.PD_SAFE_TRADE}</span></p></li><br>
+											<li><p class="four"><span>안전 거래 : ${productInfo.PD_SAFE_TRADE}</span></p></li><br>
 											<li><p class="five"><span>거래 상태 : ${productInfo.PD_STATUS}</span></p></li><br>
 										</ul>
 									</div>
 									<!--/ End Size -->
 									<!-- Product Buy -->
 									<div class="product-buy">
-										<div class="quantity">
-											<h6>찜하기</h6>
-										</div>
-										<div class="add-to-cart">
-											<a href="#" class="btn min"><i class="ti-heart"></i></a>
-										</div>
-										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p>
-										<p class="availability">연관 상품 갯수? or 태그 : 뭘로하까</p>
+										<ul class="nav nav-tabs" id="myTab" role="tablist">
+											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab">♥</a></li>
+											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
+											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
+										</ul>
+<!-- 										<div class="quantity"> -->
+<!-- 											<h6>찜하기</h6> -->
+<!-- 										</div> -->
+<!-- 										<div class="add-to-cart"> -->
+<!-- 											<a href="#" class="btn min"><i class="ti-heart"></i></a> -->
+<!-- 										</div> -->
+<%-- 										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p> --%>
+<!-- 										<p class="availability">연관 상품 갯수? or 태그 : 뭘로하까</p> -->
 									</div>
 									<!--/ End Product Buy -->
 								</div>
@@ -157,7 +162,7 @@
 										<ul class="nav nav-tabs" id="myTab" role="tablist">
 											<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">상품 설명</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" id="sellerInfoTab" role="tab" onclick="myStore()">판매자 정보보기</a></li>
-											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
+<!-- 											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li> -->
 										</ul>
 										<!--/ End Tab Nav -->
 									</div>

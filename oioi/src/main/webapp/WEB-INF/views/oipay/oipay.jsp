@@ -323,7 +323,9 @@
                             <div class="chargeMoney">
                                 <form class="charge" method="post">
                                 	<!-- 잔액 조회 -->
-                                	<h5>🥒오이머니 잔액 : ￦50,000,000</h5>
+                                	<h6>연결계좌 : ${actUserInfo.res_list[0].bank_name} - ${actUserInfo.res_list[0].account_num_masked}</h6>
+                                	<br>
+                                	<h5>🥒오이머니 잔액 : </h5>
                                 
                                 	<br>
                                     <!-- 충전 금액 선택 -->

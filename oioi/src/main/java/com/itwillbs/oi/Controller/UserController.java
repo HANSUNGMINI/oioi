@@ -296,8 +296,9 @@ public class UserController {
             // JSON 데이터 파싱하여 필요한 정보 추출
             JsonNode userInfoJson = objectMapper.readTree(userInfoResponse);
             String userId = userInfoJson.get("response").get("id").asText();
-            String userNick = userInfoJson.get("response").get("nickname").asText();
+            String userNick = userInfoJson.get("response").get("nickname").asText() + " (네이버)";
             String userEmail = userInfoJson.get("response").get("email").asText();
+            String userProfile = userInfoJson.get("response").get("profile_image").asText();
             
             // 유저정보 map에 저장
             Map<String, Object> naverUserInfo = new HashMap<>();
@@ -305,10 +306,11 @@ public class UserController {
             naverUserInfo.put("US_NAME", userNick);
             naverUserInfo.put("US_NICK", userNick);
             naverUserInfo.put("US_EMAIL", userEmail);
+            naverUserInfo.put("US_PROFILE", userProfile);
             
             // 네이버 사용자 정보를 DB에 저장
             Object result;
-            if (service.isExistUserId(userId)) {
+            if (service.isExistUserId(userId) > 0) {
                 // 이미 존재하는 사용자일 경우 업데이트
             	 result = service.updateUserFromNaver(naverUserInfo);
             } else {

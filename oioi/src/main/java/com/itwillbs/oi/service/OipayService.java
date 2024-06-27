@@ -2,6 +2,8 @@ package com.itwillbs.oi.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class OipayService {
 	
 	@Autowired
 	private OipayMapper mapper;
+	
+	@Autowired
+	HttpSession session;
 	
 	// 엑세스토큰 발급 요청
 	public Map<String, Object> getAccessToken(Map<String, String> authResponse) {
@@ -43,8 +48,15 @@ public class OipayService {
 
 
 	public String selectBankAccessToken(String userId) {
-		System.out.println("41111111111111111111111111111111" + userId);
 		return mapper.selectBankAccessToken(userId);
+	}
+	
+	public Map<String, Object> selectUserBankInfo(String access_token) {
+		return mapper.selectBankUserInfo(access_token);
+	}
+
+	public Map getUserInfo(Map<String, Object> token) {
+		return bankApiClient.requestUserInfo(token);
 	}
 
 	

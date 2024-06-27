@@ -32,7 +32,8 @@
 	/* 최근 본 상품 */
 	function showRecentLookProduct() {
 		let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-		//alert(storedProducts);
+		storedProducts = storedProducts.join(',');
+		// alert(storedProducts);
 		
 		let isNull = false;
 		if (storedProducts.length === 0) {
@@ -42,14 +43,14 @@
 		if (isNull) {
 			let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 본 상품 목록이 비어 있습니다. </div>';
 			$("#noProduct").append(nullDiv);
-			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
+			return;  // 최근 본 상품이 없을 경우 
 		}
 		
         $.ajax({
             type: "GET",
-            url: "recentKeywordProductList",
+            url: "recentLookProductList",
             data: {
-                "keyword": storedKeywords
+                "recentProduct": storedProducts
             },
             dataType: "json",
             success: function(response) {
@@ -91,6 +92,9 @@
 			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
 		}
 		
+		// TODO
+		return;
+		
 		 // 반복문을 통해 각 키워드를 처리
 	  	 // alert("아예 안 되는 거?");
         $.ajax({
@@ -108,9 +112,9 @@
 				
 					// 뽑아내기
 					let productDetail = 
-						 '<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;">'
-						+'<div class="owl-item active" style="width: 285px; margin-right: 0px;">'
-						+'	<!-- 제품 하나하나 -->'
+						// '<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;">'
+						//+'<div class="owl-item active" style="width: 285px; margin-right: 0px;">'
+						 '	<!-- 제품 하나하나 -->'
 						+'	<div class="single-product">'
 						+'		<div class="product-img">'
 						+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
@@ -135,10 +139,9 @@
 						+'		</div>'
 						+'	</div>'
 						+'	<!-- 제품 하나 끝 -->'
-						+'	</div>'
-					    +'	</div>'
+						// +'	</div>'
+					    // +'	</div>'
 						
-					
 						$("#recentKeywordProduct").append(productDetail);
 					
 				});
