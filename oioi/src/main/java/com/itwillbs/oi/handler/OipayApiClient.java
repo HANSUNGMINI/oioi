@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 // @Component 어노테이션 사용 시 @Service, @Repository 등의 어노테이션을 대체 가능
 // => 보편적인 용도의 클래스에 적용
@@ -216,8 +220,7 @@ public class OipayApiClient {
 //
 //	// 2.5. 계좌이체 서비스 - 2.5.1. 출금이체 API
 //	// https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num
-//	public Map requestWithdraw(Map<String, Object> map) {
-//		BankTokenVO token = (BankTokenVO)map.get("token");
+//	public Map requestWithdraw(Map<String, Object> actUserInfo) {
 //		
 //		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
 //		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가
@@ -225,9 +228,10 @@ public class OipayApiClient {
 //		// 1-1) 헤더 정보를 문자열 형태로 동일하게 설정할 경우 - add() 메서드 활용
 //		// => 헤더명 : "Authorization"
 //		//    헤더값 : "Bearer" 문자열과 엑세스토큰 문자열 결합(공백으로 구분)
-////		headers.add("Authorization", "Bearer " + token.getAccess_token());
+//		headers.add("Authorization", "Bearer " + token.getAccess_token());
 //		// 1-2) Bearer 토큰 형식으로 엑세스토큰 전달 시 setBearerAuth() 메서드 활용 가능
-//		headers.setBearerAuth(token.getAccess_token());
+//		System.out.println("999999999999999" + actUserInfo.get("access_token"));
+//		headers.setBearerAuth(actUserInfo.get("access_token").toString());
 //		
 //		// 전송할 컨텐츠 타입이 "application/json; charset=UTF-8" 타입을 요구하므로
 //		// setContentType() 메서드 활용하여 JSON 타입으로 설정
@@ -241,8 +245,8 @@ public class OipayApiClient {
 //		// 3. 요청 파라미터를 JSON 형식의 데이터로 생성
 //		// => org.json.JSONObject 클래스 또는 com.google.code.gson.Gson 클래스 활용
 //		// 3-1) JSONObject 클래스 활용 => put() 메서드로 JSON 데이터 추가
-////		JSONObject jo = new JSONObject();
-////		jo.put("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
+//		JSONObject jo = new JSONObject();
+//		jo.put("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
 //		// => 이후 JSON 데이터 전달 시 jo.toString() 메서드 호출하여 문자열로 변환하여 전달
 //		
 //		// 3-2) Gson 클래스와 JsonObject 클래스 활용(JsonObject 클래스명 주의! JSONObject 아님!!)
@@ -254,12 +258,12 @@ public class OipayApiClient {
 //		// ---------- 핀테크 이용기관 정보 ----------
 //		jsonObject.addProperty("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
 //		jsonObject.addProperty("cntr_account_type", "N"); // 약정 계좌/계정 구분("N" : 계좌)
-////		jsonObject.addProperty("cntr_account_num", "23062003999"); // 약정 계좌/계정 번호(핀테크 서비스 기관 계좌)
+//		jsonObject.addProperty("cntr_account_num", "23062003999"); // 약정 계좌/계정 번호(핀테크 서비스 기관 계좌)
 //		jsonObject.addProperty("cntr_account_num", cntr_account_num); // appdata.properties 파일 내의 값 활용
-//		jsonObject.addProperty("dps_print_content", map.get("id") + "_출금"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
+//		jsonObject.addProperty("dps_print_content", "오이머니 충전"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
 //		
 //		// ---------- 요청 고객(출금 계좌) 정보 ----------
-//		jsonObject.addProperty("fintech_use_num", (String)map.get("withdraw_fintech_use_num")); // 출금계좌 핀테크이용번호 
+//		jsonObject.addProperty("fintech_use_num", (String)actUserInfo.get("withdraw_fintech_use_num")); // 출금계좌 핀테크이용번호 
 //		jsonObject.addProperty("wd_print_content", "아이티윌_입금"); // 출금계좌인자내역(출금되는 계좌에 출력할 메세지)
 //		jsonObject.addProperty("tran_amt", (String)map.get("tran_amt")); // 거래금액
 //		jsonObject.addProperty("tran_dtime", bankValueGenerator.getTranDTime()); // 요청일시
@@ -296,15 +300,15 @@ public class OipayApiClient {
 //		logger.info(">>>>>>>> 출금 이체 요청 결과 : " + responseEntity.getBody());
 //		
 //		return responseEntity.getBody();
-//		/*
-//		 * [ 테스트 데이터 등록 방법 - 출금이체 ]
-//		 * 사용자 일련번호, 핀테크이용번호 : 출금 계좌 고객 정보
-//		 * => 출금기관 대표코드, 출금계좌번호(출력용 포함) 자동으로 입력됨
-//		 * 송금인 실명 : 출금 계좌 고객 성명
-//		 * 거래금액 : tran_amt 값 입력
-//		 * 입금계좌인자내역 : dps_print_content 값 입력(출금 계좌 고객 성명)
-//		 * 수취인 성명 : 핀테크 이용기관 계좌 예금주명 입력(최종 수취인 아님!)
-//		 */
+		/*
+		 * [ 테스트 데이터 등록 방법 - 출금이체 ]
+		 * 사용자 일련번호, 핀테크이용번호 : 출금 계좌 고객 정보
+		 * => 출금기관 대표코드, 출금계좌번호(출력용 포함) 자동으로 입력됨
+		 * 송금인 실명 : 출금 계좌 고객 성명
+		 * 거래금액 : tran_amt 값 입력
+		 * 입금계좌인자내역 : dps_print_content 값 입력(출금 계좌 고객 성명)
+		 * 수취인 성명 : 핀테크 이용기관 계좌 예금주명 입력(최종 수취인 아님!)
+		 */
 //	}
 //
 //	// 2.1.2. 토큰발급 API - 센터인증 이용기관 토큰발급 API (2-legged) (관리자 토큰 발급용)
@@ -656,6 +660,7 @@ public class OipayApiClient {
 //		 * 수취인 성명 : req_client_name 값 입력(입금(송금) 대상 고객 계좌 예금주명(최종 수취인))
 //		 */
 //	}
+
 	
 }
 

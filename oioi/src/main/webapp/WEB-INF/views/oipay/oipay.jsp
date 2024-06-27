@@ -65,7 +65,7 @@
         margin: 10px; /* 라디오 버튼 간 간격 조정 */
     }
 
-    .charge input[type="text"] {
+    .charge input[type="number"] {
         margin-top: 10px;
         margin-bottom: 10px;
         padding: 10px;
@@ -238,7 +238,7 @@
         text-decoration: none;
     }
     
-	#chargeInput{
+	#amtInput{
 		width : 90%;
 		margin-top: 20px;
 	}
@@ -253,7 +253,7 @@
             padding: 15px; /* 작은 화면에 대한 패딩 조정 */
         }
 
-        .charge input[type="text"] {
+        .charge input[type="number"] {
             width: 100%; /* 작은 화면에서 텍스트 입력 필드 너비를 100%로 설정 */
             max-width: none; /* 최대 너비 제한 해제 */
         }
@@ -266,7 +266,15 @@
         }
     }
     
-   
+	input[type=number]::-webkit-outer-spin-button,
+	input[type=number]::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	    margin: 0;
+	}
+	
+	input[type=number] {
+	    -moz-appearance: textfield; /* Firefox에서 화살표 제거 */
+	}
     
 
 </style>
@@ -278,43 +286,48 @@
 			$("input[name='chargeAmt']").prop("checked", false);
 		});
 		
-//     	if($("#amtInput").val() != null || $("#amtInput").val() != "") {
-//     		 $("input[name='chargeAmt']").prop('disabled', true);
-//     	} else {
-//     		 $("input[name='chargeAmt']").prop('disabled', false);
-//     	}
+		// 모든 라디오 버튼 요소를 가져옴
+		let radioButtons = document.querySelectorAll('input[name="chargeAmt"]');
 
-// 		if ($("input[name='chargeAmt']:checked").length) {
-// 		    $("#amtInput").val($("input[name='chargeAmt']:checked").val());
-// 		}
-		
+		// 텍스트 입력 요소를 가져옴
+		let amtInput = document.getElementById('amtInput');
+
+		// 라디오 버튼에 클릭 이벤트 리스너 추가
+		radioButtons.forEach((radio) => {
+		    radio.addEventListener('click', () => {
+		        if (radio.checked) {
+		            amtInput.value = radio.value; // 선택된 라디오 버튼의 value를 텍스트 입력 필드에 설정
+		        }
+		    });
+		});
+
+
         // 충전하기 버튼 클릭 시
-//         $(".payCharge").click(function () {
+        $(".payCharge").click(function () {
         	
-//         	let chargeAmt = $("input[name='chargeAmt']:checked").val();
-//         	let amtInput = $("#amtInput").val();
+        	let chargeAmt = $("input[name='chargeAmt']:checked").val();
+        	let amtInput = $("#amtInput").val();
         	
-//         	if(chargeAmt) {
-//         		$.ajax({
-//                 type: "POST",
-//                 url: "payCharge", 
-// 				data: {
-                	
-//                 },
-//                 dataType : {
-                	
-//                 },
-//                 success: function (response) {
-                    
-//                 },
-//                 error: function () {
-//                     alert("충전하기 요청 실패");
-//                 }
-//             });
+        	if(chargeAmt) {
+        		$.ajax({
+                type: "POST",
+                url: "payCharge", 
+				data: {
+                	"chargeAmt" : chargeAmt,
+                	"amtInput" : amtInput,
+                },
+                dataType : "json",
+                success: function (response) {
+                    alert(amtInput+ "머니가 충전되었습니다.");
+                },
+                error: function () {
+                    alert("충전하기 요청 실패");
+                }
+            });
         		
-//         	}
+        	}
             
-//         });
+        });
 
         // 출금하기 버튼 클릭 시
 //         $(".payRefund").click(function () {
@@ -338,6 +351,12 @@
         
         
     });
+    
+    function ischecked(ischecked) {
+		alert(thiischecked);
+		
+	}
+    
 </script>
 
 </head>
@@ -367,14 +386,14 @@
                                 	<br>
                                     <!-- 충전 금액 선택 -->
                                     <div id="price" >
-                                        <label><input type="radio" value="5000" name="chargeAmt" id="5000">&nbsp;&nbsp;&nbsp;5000원</label>
+                                        <label><input type="radio" value="5000" name="chargeAmt">&nbsp;&nbsp;&nbsp;5000원</label>
                                         <label><input type="radio" value="10000" name="chargeAmt"> 10000원</label>
                                         <label><input type="radio" value="15000" name="chargeAmt"> 15000원</label>
                                         <label><input type="radio" value="20000" name="chargeAmt"> 20000원</label>
                                         <label><input type="radio" value="25000" name="chargeAmt"> 25000원</label>
                                         <label><input type="radio" value="30000" name="chargeAmt"> 30000원</label>
                                     </div>
-                                    <input type="text" id="amtInput"  placeholder="금액을 입력하세요">
+                                    <input type="number" id="amtInput"  placeholder="금액을 입력하세요(숫자만 입력 가능합니다)">
                                     <br>
                                     <!-- 충전 및 출금 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->

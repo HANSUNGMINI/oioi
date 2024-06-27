@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.handler.CheckAuthority;
@@ -72,41 +73,39 @@ public class OipayController {
 		Map<String, Object> token = service.selectUserBankInfo(access_token);
 //		System.out.println(")))))))))))))))))))))))))))" + token);
 		Map actUserInfo = service.getUserInfo(token);
-		System.out.println("@@@@@@@@@@@@@@@" + actUserInfo);
+//		System.out.println("@@@@@@@@@@@@@@@" + actUserInfo);
 		
 		model.addAttribute("actUserInfo", actUserInfo);
+		session.setAttribute("actUserInfo", actUserInfo);
 		
 		return "oipay/oipay";
 	}
 	
-	@GetMapping("payCharge")
-	public String payCharge(HttpSession session) {
+	@PostMapping("payCharge")
+	public String payCharge(HttpSession session, Model model,
+							@RequestParam String amtInput, @RequestParam String chargeAmt) {
 		
 		// 엑세스 토큰 관련 정보가 저장된 BankTokenVO 객체 가져오기
-		System.out.println(session.getAttribute("BUI_ACCESS_TOKEN"));
+		String access_token = (String)session.getAttribute("BUI_ACCESS_TOKEN");
+		Map actUserInfo = (Map)session.getAttribute("actUserInfo");
+		Map token = (Map)session.getAttribute("token");
+		System.out.println("@@@@@@@@@@@@@@@" + actUserInfo);
+		System.out.println(chargeAmt);
+		System.out.println(amtInput);
 		
+		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
+			return "err/fail";
+		}
 		
-		// 세션 체크
-		// 1) 세션 아이디가 없을 경우 fail.jsp 포워딩 처리("잘못된 접근입니다", "./" 경로 전달)
-		// 2) 세션에 저장된 엑세스토큰(access_token)이 없을 경우 fail.jsp 포워딩 처리
-		//    => "계좌 인증 수행 필수!" 메세지 및 "MemberInfo" 경로 전달
-//		if(session.getAttribute("sId") == null) {
-//			model.addAttribute("msg", "잘못된 접근입니다");
-//			model.addAttribute("targetURL", "./");
-//			return "result_process/fail";
-//		} else if(token == null || token.getAccess_token() == null) {
-//			model.addAttribute("msg", "계좌 인증 수행 필수!");
-//			model.addAttribute("targetURL", "MemberInfo");
-//			return "result_process/fail";
-//		}
+		if(access_token == null) {
+			model.addAttribute("msg", "잘못된 접근입니다😓😓");
+			return "err/fail";
+		}
 		
-//		map.put("token", token);
-//		map.put("id", (String)session.getAttribute("sId"));
-//		logger.info(">>>>>>>>>>> 출금 요청 정보 : " + map);
 		
 		// BankService - withdraw() 메서드 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : Map(withdrawResult)
-//		Map withdrawResult = bankService.withdraw(map);
+//		Map withdrawResult = service.withdraw(actUserInfo);
 		
 //		logger.info(">>>>>>>>>>> 출금 요청 결과(withdrawResult) : " + withdrawResult);
 		
@@ -116,6 +115,8 @@ public class OipayController {
 		
 		return "";
 	}
+	
+	
 	@GetMapping("payRefund")
 	public String payRefund() {
 		

@@ -59,6 +59,10 @@ public class OipayService {
 		return bankApiClient.requestUserInfo(token);
 	}
 
+//	public Map withdraw(Map actUserInfo) {
+//		return bankApiClient.requestWithdraw(actUserInfo);
+//	}
+
 	
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
