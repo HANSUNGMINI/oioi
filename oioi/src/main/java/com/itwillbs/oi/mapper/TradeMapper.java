@@ -29,13 +29,19 @@ public interface TradeMapper {
 
 	List<Map<String, String>> selectProductSafeTrade();
 	
+	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
+	 
+//	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
+	
+//	List<Map<String, Object>> selectFilteredProducts(
+//	        @Param("cate1") String cate1,
+//	        @Param("cate2") String cate2,
+//	        @Param("cate3") String cate3,
+//	        @Param("startRow") int startRow,
+//	        @Param("listLimit") int listLimit);
+	
 //	List<Map<String, Object>> selectFilteredProducts(@Param("cate1") String cate1, @Param("cate2") String cate2, @Param("cate3") String cate3, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
-	  List<Map<String, Object>> selectFilteredProducts(
-		        @Param("cate1") String cate1,
-		        @Param("cate2") String cate2,
-		        @Param("cate3") String cate3,
-		        @Param("startRow") int startRow,
-		        @Param("listLimit") int listLimit);
+	  
 }
 		
 

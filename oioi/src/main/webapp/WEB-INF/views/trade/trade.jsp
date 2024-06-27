@@ -60,12 +60,270 @@
     let pageNum = 1;
     let listLimit = 12;
 
+    $(document).ready(function() {
+        let contextPath = '<%= request.getContextPath() %>';
+        let cate2 = JSON.parse('${cate2}');
+        let cate3 = JSON.parse('${cate3}');
+
+        $('#cate1').change(function() {
+            let selectedCate1 = $(this).val();
+            let filteredCate2s = cate2.filter(function(cate) {
+                return cate.UP_CTG_CODE == selectedCate1;
+            });
+
+            $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+            $.each(filteredCate2s, function(index, cate) {
+                $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate2').prop('disabled', false).niceSelect('update');
+            $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+            $('#cate3').prop('disabled', true).niceSelect('update');
+        });
+
+        $('#cate2').change(function() {
+            let selectedCate2 = $(this).val();
+            let filteredCate3s = cate3.filter(function(cate) {
+                return cate.UP_CTG_CODE == selectedCate2;
+            });
+
+            $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+            $.each(filteredCate3s, function(index, cate) {
+                $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate3').prop('disabled', false).niceSelect('update');
+        });
+
+        $('#cate3').change(function() {
+            pageNum = 1;
+            isEmpty = false;
+            updateProducts(true);
+        });
+
+        function updateProducts(isNewFilter = false) {
+            if (isLoading) return;
+            isLoading = true;
+
+            if (isNewFilter) {
+                $('#productList').empty();
+            }
+
+            let cate1 = $('#cate1').val() || "";
+            let cate2 = $('#cate2').val() || "";
+            let cate3 = $('#cate3').val() || "";
+
+            $.ajax({
+                url: contextPath + '/filterProducts',
+                type: 'GET',
+                data: {
+                    cate1: cate1,
+                    cate2: cate2,
+                    cate3: cate3,
+                    pageNum: pageNum,
+                    listLimit: listLimit
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.length === 0) {
+                        isEmpty = true;
+                    } else {
+                        $.each(data, function(index, product) {
+                            $('#productList').append(
+                                '<div class="col-lg-4 col-md-6 col-12">'
+                                + '    <div class="single-product">'
+                                + '        <div class="product-img">'
+                                + '             <form action="productDetail" method="get">'
+                                + '               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
+                                + '               <a href="#" onclick="this.parentNode.submit(); return false;">'
+                                + '                   <img class="default-img" src="' + contextPath + '/resources/upload/' + product.image1 + '">'
+                                + '               </a>'
+                                + '           </form>'
+                                + '           <div class="button-head">'
+                                + '           <div class="product-action">'
+                                + '               <a title="Wishlist" href="#"><i class="ti-heart"></i><span>찜하기</span></a>'
+                                + '           </div>'
+                                + '           <div class="product-action-2">'
+                                + '               <a title="Add to cart" href="#"></a>'
+                                + '           </div>'
+                                + '       </div>'
+                                + '       </div>'
+                                + '       <div class="product-content">'
+                                + '           <h3><a href="product-details.html">'+ product.PD_SUBJECT +'</a></h3>'
+                                + '           <div class="product-price">'
+                                + '               <span>'+ product.PD_PRICE +'</span>'
+                                + '           </div>'
+                                + '       </div>'
+                                + '   </div>'
+                                + '</div>'
+                            );
+                        });
+                        pageNum++;
+                    }
+                    isLoading = false;
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX 요청 오류:', error);
+                    isLoading = false;
+                }
+            });
+        }
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading && !isEmpty) {
+                updateProducts();
+            }
+        });
+
+        // 페이지 로드 시 초기 데이터 불러오기
+        updateProducts(); 
+    });
+</script>
+
+
+    
+    
+    
+    <!--  
+    <script type="text/javascript">
+    let isLoading = false;
+    let isEmpty = false;
+    let pageNum = 1;
+    let listLimit = 12;
+    let cate1 = '';
+    let cate2 = '';
+    let cate3 = '';
+
+    function loadProducts(isNewFilter = false) {
+        if (isLoading) return;
+        isLoading = true;
+
+        if (isNewFilter) {
+            pageNum = 1;
+            $('#productList').empty();
+        }
+
+        $.ajax({
+<%--             url: '<%= request.getContextPath() %>/filterProducts', --%>
+            type: 'GET',
+            data: {
+                cate1: cate1,
+                cate2: cate2,
+                cate3: cate3,
+                pageNum: pageNum,
+                listLimit: listLimit
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data.length > 0) {
+                    $.each(data, function(index, product) {
+                        $('#productList').append(
+                            '<div class="col-lg-4 col-md-6 col-12">'
+                            + '    <div class="single-product">'
+                            + '        <div class="product-img">'
+                            + '             <form action="productDetail" method="get">'
+                            + '               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
+                            + '               <a href="#" onclick="this.parentNode.submit(); return false;">'
+<%--                             + '                   <img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + product.image1 + '">' --%>
+                            + '               </a>'
+                            + '           </form>'
+                            + '           <div class="button-head">'
+                            + '           <div class="product-action">'
+                            + '               <a title="Wishlist" href="#"><i class="ti-heart"></i><span>찜하기</span></a>'
+                            + '           </div>'
+                            + '           <div class="product-action-2">'
+                            + '               <a title="Add to cart" href="#"></a>'
+                            + '           </div>'
+                            + '       </div>'
+                            + '       </div>'
+                            + '       <div class="product-content">'
+                            + '           <h3><a href="product-details.html">'+ product.PD_SUBJECT +'</a></h3>'
+                            + '           <div class="product-price">'
+                            + '               <span>'+ product.PD_PRICE +'</span>'
+                            + '           </div>'
+                            + '       </div>'
+                            + '   </div>'
+                            + '</div>'
+                        );
+                    });
+                    isEmpty = false;
+                    pageNum++;
+                } else {
+                    isEmpty = true;
+                }
+                isLoading = false;
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 오류:', error);
+                isLoading = false;
+            }
+        });
+    }
+
+    $(document).ready(function() {
+<%--         let contextPath = '<%= request.getContextPath() %>'; --%>
+        let cate2Data = JSON.parse('${cate2}');
+        let cate3Data = JSON.parse('${cate3}');
+
+        $('#cate1').change(function() {
+            cate1 = $(this).val();
+            let filteredCate2s = cate2Data.filter(function(cate) {
+                return cate.UP_CTG_CODE == cate1;
+            });
+
+            $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+            $.each(filteredCate2s, function(index, cate) {
+                $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate2').prop('disabled', false).niceSelect('update');
+            $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+            $('#cate3').prop('disabled', true).niceSelect('update');
+        });
+
+        $('#cate2').change(function() {
+            cate2 = $(this).val();
+            let filteredCate3s = cate3Data.filter(function(cate) {
+                return cate.UP_CTG_CODE == cate2;
+            });
+
+            $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+            $.each(filteredCate3s, function(index, cate) {
+                $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate3').prop('disabled', false).niceSelect('update');
+        });
+
+        $('#cate3').change(function() {
+            cate3 = $(this).val();
+            loadProducts(true);
+        });
+
+        // 페이지 로드 시 초기 데이터 불러오기
+        loadProducts(true);
+
+        // 무한 스크롤 이벤트 핸들러
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading && !isEmpty) {
+                loadProducts(false);
+            }
+        });
+    });
+
+
+    </script>
+    -->
+    <!-- 	전체 무한 스크롤은 가능 필터링x
+     
+    <script type="text/javascript">
+    let isLoading = false;
+    let isEmpty = false;
+    let pageNum = 1;
+    let listLimit = 12;
+
     function loadProducts(cate1, cate2, cate3) {
         if (isLoading) return;
         isLoading = true;
 
         $.ajax({
-            url: '<%= request.getContextPath() %>/filterProducts',
+<%--             url: '<%= request.getContextPath() %>/filterProducts', --%>
             type: 'GET',
             data: {
                 cate1: cate1,
@@ -88,7 +346,7 @@
                         + '             <form action="productDetail" method="get">'
                         + '               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
                         + '               <a href="#" onclick="this.parentNode.submit(); return false;">'
-                        + '                   <img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + product.image1 + '">'
+<%--                         + '                   <img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + product.image1 + '">' --%>
                         + '               </a>'
                         + '           </form>'
                         + '           <div class="button-head">'
@@ -121,7 +379,7 @@
     }
 
     $(document).ready(function() {
-        let contextPath = '<%= request.getContextPath() %>';
+<%--         let contextPath = '<%= request.getContextPath() %>'; --%>
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
 
@@ -178,6 +436,7 @@
 
 
     </script>
+     -->
 </head>
 <body class="js">
     <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
