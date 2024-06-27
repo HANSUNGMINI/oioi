@@ -52,18 +52,8 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	
 	<style type="text/css">
-		#recentKeywordProduct {
-	    display: flex;
-	    flex-wrap: nowrap; 
-	    justify-content: flex-start;
-	    align-items: flex-start; 
-	}
-	
-	
-	#recentKeywordProduct > div {
-	    margin-right: 10px; 
-	}
-	
+		.owl-stage {
+		}
 	
 	</style>	
 </head>
@@ -221,7 +211,8 @@
             </div>
             <div class="row" >
                 <div class="col-12"  id="noKeyword">
-                	<div class="owl-carousel popular-slider" id="recentKeywordProduct">
+                <!-- popular-slider owl-carousel -->
+                	<div class="popular-slider owl-carousel" id="recentKeywordProduct">
                 		<!-- <div class="owl-stage-outer" id="recentKeywordProduct" > -->
 <!--                  	<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;" id="recentKeywordProduct">  -->
                 	<!-- 이곳에 상세 설명 나옴-->
@@ -350,7 +341,7 @@
 	<footer><jsp:include page="INC/bottom.jsp"></jsp:include></footer>
  	
  	<!-- 상품 불러오기 -->
- < <script src="${pageContext.request.contextPath}/resources/js/mainProduct.js"></script> 
+  	<script src="${pageContext.request.contextPath}/resources/js/mainProduct.js"></script> 
  
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

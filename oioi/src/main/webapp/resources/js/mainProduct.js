@@ -46,6 +46,7 @@
 			return;  // 최근 본 상품이 없을 경우 
 		}
 		
+		
         $.ajax({
             type: "GET",
             url: "recentLookProductList",
@@ -92,9 +93,6 @@
 			return;  // 검색 기록이 없을 경우 여기서 함수를 종료
 		}
 		
-		// TODO
-		return;
-		
 		 // 반복문을 통해 각 키워드를 처리
 	  	 // alert("아예 안 되는 거?");
         $.ajax({
@@ -105,7 +103,10 @@
             },
             dataType: "json",
             success: function(response) {
+            
 				let productList = response;
+				
+				var owl = $("#recentKeywordProduct")
 				
 				$.each(productList, function(index, pr) {
 					// alert( pr.PD_IMAGE);
@@ -114,12 +115,12 @@
 					let productDetail = 
 						// '<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 285px;">'
 						//+'<div class="owl-item active" style="width: 285px; margin-right: 0px;">'
-						 '	<!-- 제품 하나하나 -->'
+						 '	<div class="owl-item">'
 						+'	<div class="single-product">'
 						+'		<div class="product-img">'
 						+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
 						+' 				<img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + pr.PD_IMAGE + '">'
-						+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
 						+'			</a>'
 						+'			<div class="button-head">'
 						+'				<div class="product-action">'
@@ -138,13 +139,15 @@
 						+'			</div>'
 						+'		</div>'
 						+'	</div>'
-						+'	<!-- 제품 하나 끝 -->'
-						// +'	</div>'
+						+'	</div>'
 					    // +'	</div>'
 						
-						$("#recentKeywordProduct").append(productDetail);
-					
+						owl.trigger('add.owl.carousel', [$(productDetail)]);		
 				});
+				
+				owl.trigger('refresh.owl.carousel');
+				owl.trigger("initialize");
+				
             }
         });
 	

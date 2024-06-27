@@ -273,33 +273,70 @@
 
 <script>
     $(document).ready(function () {
+	
+		$("#amtInput").on("input", function() { // 금액 입력 시 라디오버튼 체크해제
+			$("input[name='chargeAmt']").prop("checked", false);
+		});
+		
+//     	if($("#amtInput").val() != null || $("#amtInput").val() != "") {
+//     		 $("input[name='chargeAmt']").prop('disabled', true);
+//     	} else {
+//     		 $("input[name='chargeAmt']").prop('disabled', false);
+//     	}
+
+// 		if ($("input[name='chargeAmt']:checked").length) {
+// 		    $("#amtInput").val($("input[name='chargeAmt']:checked").val());
+// 		}
+		
         // 충전하기 버튼 클릭 시
-        $(".payCharge").click(function () {
-            $.ajax({
-                url: "payCharge", // 충전하기 요청을 보낼 URL
-                method: "GET",
-                success: function (response) {
-                    $(".charge").html(response); // 서버 응답 데이터를 .charge div에 표시
-                },
-                error: function () {
-                    alert("충전하기 요청 실패");
-                }
-            });
-        });
+//         $(".payCharge").click(function () {
+        	
+//         	let chargeAmt = $("input[name='chargeAmt']:checked").val();
+//         	let amtInput = $("#amtInput").val();
+        	
+//         	if(chargeAmt) {
+//         		$.ajax({
+//                 type: "POST",
+//                 url: "payCharge", 
+// 				data: {
+                	
+//                 },
+//                 dataType : {
+                	
+//                 },
+//                 success: function (response) {
+                    
+//                 },
+//                 error: function () {
+//                     alert("충전하기 요청 실패");
+//                 }
+//             });
+        		
+//         	}
+            
+//         });
 
         // 출금하기 버튼 클릭 시
-        $(".payRefund").click(function () {
-            $.ajax({
-                url: "yourRefundUrl", // 출금하기 요청을 보낼 URL
-                method: "GET",
-                success: function (response) {
-                    $(".refund").html(response); // 서버 응답 데이터를 .refund div에 표시
-                },
-                error: function () {
-                    alert("출금하기 요청 실패");
-                }
-            });
-        });
+//         $(".payRefund").click(function () {
+//             $.ajax({
+//                 type: "POST",
+//                 url: "yourRefundUrl", 
+//                 data: {
+                	
+//                 },
+//                 dataType : {
+                	
+//                 },
+//                 success: function (response) {
+                    
+//                 },
+//                 error: function () {
+//                     alert("출금하기 요청 실패");
+//                 }
+//             });
+//         });
+        
+        
     });
 </script>
 
@@ -337,7 +374,7 @@
                                         <label><input type="radio" value="25000" name="chargeAmt"> 25000원</label>
                                         <label><input type="radio" value="30000" name="chargeAmt"> 30000원</label>
                                     </div>
-                                    <input type="text" id = "chargeInput" placeholder="금액을 입력하세요">
+                                    <input type="text" id="amtInput"  placeholder="금액을 입력하세요">
                                     <br>
                                     <!-- 충전 및 출금 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->

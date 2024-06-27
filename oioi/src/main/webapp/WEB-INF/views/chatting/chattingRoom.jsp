@@ -23,6 +23,9 @@
 
  <!-- SweetAlert CSS -->
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+ 
+ <!-- j -->
+ <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <style>
 /* 사진 등록 */
 	
@@ -68,159 +71,42 @@
 	     
 </style>
 <script type="text/javascript">
-	
-		/* 상세보기 나오기 */
-		function showDetail(){
-			let datail= document.querySelector("#detail");
-			if (detail.style.display == "none") {
-				detail.style.display = "block";
-			} else {
-				detail.style.display = "none";
-			}
-		}
-		
-		/* 거래완료 */
-		function transaction() {
-			let nick = '${info.US_NICK}';
-			
-			Swal.fire({
-				   title: nick + '님과 거래 확정하시겠습니까?',
-// 				   text: ',
-				   icon: 'warning',
-				   
-				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-				   confirmButtonText: '완료', // confirm 버튼 텍스트 지정
-				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-				   
-				   reverseButtons: false, // 버튼 순서 거꾸로
-				   
-				}).then(result => {
-				   // 만약 Promise리턴을 받으면,
-				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-				   
-				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
-						document.querySelector("#detail").style.display = "none";
-						document.querySelector("#review").style.display = "block";
-				   }
-				});
-			
-		}
-		
-		/* 대화방 나가기 */
-		function exit() {
-			
-			Swal.fire({
-				   title: '대화방을 나가시겠습니까?',
-				   text: '대화 내용이 모두 삭제됩니다',
-				   icon: 'warning',
-				   
-				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
-				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-				   confirmButtonText: '나가기', // confirm 버튼 텍스트 지정
-				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-				   
-				   reverseButtons: false, // 버튼 순서 거꾸로
-				   
-				}).then(result => {
-				   // 만약 Promise리턴을 받으면,
-				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-				   		// 채팅방 나가기
-				   }
-				});
-			
-		}
+var socket = null;
 
-		/* 별점 매기기 */
-		function setRating(value, reservIdx) {
-		    var ratingValueId = "ratingValue" + reservIdx;
-		    document.getElementById(ratingValueId).value = value;
-		    
-		    var stars = document.querySelectorAll("#rating" + reservIdx + " span");
-		    for (var i = 0; i < stars.length; i++) {
-		        if (i < value) {
-		            stars[i].innerHTML = '<i class="bi bi-star-fill" style="color: #FFE000;"></i>';
-		        } else {
-		            stars[i].innerHTML = '<i class="bi bi-star-fill"></i>';
-		        }
-		    }
-		}
-		
-		/* 상점 바로가기 */
-		function goStore(){
-			window.opener.location.href="myStore"; 
-			window.close();
-		}
-		
-		/* 제품 상세보기 바로가기 */
-		function goProductDetail() {
-			let idx = '${param.PD_IDX}'
-			
-			window.opener.location.href="productDetail?PD_IDX=" + idx ; 
-			window.close();	
-		}
- 		
-		/* 파일 업로드 */
-		document.addEventListener("DOMContentLoaded", function() {
-		    const fileInput = document.getElementById('fileInput');
-		    const uploadTrigger = document.getElementById('uploadTrigger');
-		    const previewContainer = document.querySelector('.preView');
-		
-		    uploadTrigger.addEventListener('click', function() {
-		        if (document.querySelectorAll('.previewImg').length < 2) {
-		            fileInput.click();
-		        } else {
-		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
-		        }
-		    });
-		
-		    fileInput.addEventListener('change', function(event) {
-		        const files = event.target.files;
-		        if (files.length + document.querySelectorAll('.previewImg').length > 2) {
-		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
-		            fileInput.value = "";
-		            return;
-		        } else {
-		        	document.querySelector("#uploadTrigger").style.display = "none";
-		        }
-		        
-		        Array.from(files).forEach(file => {
-		            if (file.type.startsWith('image/')) {
-		                const reader = new FileReader();
-		                reader.onload = function(e) {
-		                    const imgWrapper = document.createElement('div');
-		                    imgWrapper.classList.add('previewImgWrapper');
-
-		                    const img = document.createElement('img');
-		                    img.src = e.target.result;
-		                    img.classList.add('previewImg');
-
-		                    const deleteBtn = document.createElement('button');
-		                    deleteBtn.textContent = 'X';
-		                    deleteBtn.classList.add('deleteBtn');
-		                    deleteBtn.addEventListener('click', function() {
-		                        imgWrapper.remove();
-		                        if (document.querySelectorAll('.previewImgWrapper').length < 2) {
-		                            document.querySelector("#uploadTrigger").style.display = "block";
-		                        }
-		                    });
-
-		                    imgWrapper.appendChild(img);
-		                    imgWrapper.appendChild(deleteBtn);
-		                    previewContainer.appendChild(imgWrapper);
-		                }
-		                reader.readAsDataURL(file);
-		            }
-		        });
-		    });
-		});
-		
-		
-		
-	</script>
-
+function connectChat() {
+    ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+	socket = ws;
+    
+    ws.onopen = function() {
+        console.log('연결');
+    };
+    
+    ws.onmessage = function(event) { 
+		console.log("메세지 " + event.data + '\n');    	
+    }
+    
+    ws.onclose = function(event) {
+    	console.log("연결 해제");
+    	// setTimeout(function(){connect();, 1000}); 
+    }
+    
+    ws.onerror = function(event) {console.log("에러");}
+}
+    
+    $(function(){
+	     $('#sendMsg').on('click', function(evt) {
+	    	 evt.preventDefault();
+	    	 if(socket.readyState !== 1) return;
+	    	 let msg = $('#textMsg').val();
+// 	    	 let img = $('#file-input').val();
+	    	 socket.send(msg);
+	     });
+	     
+	    connectChat(); 
+    	
+    });
+    
+</script>
 </head>
 <body>
 	 <!-- SweetAlert JS -->
@@ -319,66 +205,22 @@
 					
                     <div class="input-group mb-0">
 		                <%-- 전송란 --%>
-                        <input type="text" class="form-control" placeholder="메세지를 입력하세요">                                    
+                        <input type="text" class="form-control" placeholder="메세지를 입력하세요" id="textMsg">                                    
 
                         <%-- 전송버튼 --%>
                         <div class="input-group-prepend">
-                            <a class="input-group-text"><i class="bi bi-reply-fill"></i></a>
+                            <a class="input-group-text" id="sendMsg"><i class="bi bi-reply-fill"></i></a>
 <!--                             <div class="input-group-text"> -->
 <!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
 							<label for="file-input" class="input-group-text file-input-label">
-						        <i class="bi bi-camera-fill" style="color: #353535;"></i>
+						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i>
 						    </label>
 						    <input type="file" id="file-input" style="display: none;">
 <!--                             </div> -->
                         </div>
                     </div>
-                    
-                   
                 </div>
             </div>
-            
-            <script>
-            
-            	/* 사진 미리 보기*/
-	            document.getElementById('file-input').addEventListener('change', function(event) {
-			    const previewContainer = document.getElementById('preview-container');
-			    previewContainer.innerHTML = ''; // 이전 미리보기 초기화
-			
-			    const files = event.target.files;
-			
-			    for (let i = 0; i < files.length; i++) {
-			        const file = files[i];
-			
-			        if (file.type.startsWith('image/')) {
-			            const reader = new FileReader();
-			
-			            reader.onload = function(e) {
-			                const previewItem = document.createElement('div');
-			                previewItem.classList.add('preview-item');
-			
-			                const img = document.createElement('img');
-			                img.src = e.target.result;
-			
-			                const deleteButton = document.createElement('button');
-			                deleteButton.innerText = '×';
-			                deleteButton.classList.add('delete-button');
-			                deleteButton.addEventListener('click', function() {
-			                    previewContainer.removeChild(previewItem);
-			                    // 파일 입력값 초기화
-			                    document.getElementById('file-input').value = '';
-			                });
-			
-			                previewItem.appendChild(img);
-			                previewItem.appendChild(deleteButton);
-			                previewContainer.appendChild(previewItem);
-			            }
-			
-			            reader.readAsDataURL(file);
-			        }
-			    }
-			});
-			</script>
             
             <%-- 운송장 등록 --%>
 			
@@ -551,5 +393,162 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    
+    
+    
+    <script type="text/javascript">
+	
+		/* 상세보기 나오기 */
+		function showDetail(){
+			let datail= document.querySelector("#detail");
+			if (detail.style.display == "none") {
+				detail.style.display = "block";
+			} else {
+				detail.style.display = "none";
+			}
+		}
+		
+		/* 거래완료 */
+		function transaction() {
+			let nick = '${info.US_NICK}';
+			
+			Swal.fire({
+				   title: nick + '님과 거래 확정하시겠습니까?',
+// 				   text: ',
+				   icon: 'warning',
+				   
+				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+				   confirmButtonText: '완료', // confirm 버튼 텍스트 지정
+				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				   
+				   reverseButtons: false, // 버튼 순서 거꾸로
+				   
+				}).then(result => {
+				   // 만약 Promise리턴을 받으면,
+				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   
+				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
+						document.querySelector("#detail").style.display = "none";
+						document.querySelector("#review").style.display = "block";
+				   }
+				});
+			
+		}
+		
+		/* 대화방 나가기 */
+		function exit() {
+			
+			Swal.fire({
+				   title: '대화방을 나가시겠습니까?',
+				   text: '대화 내용이 모두 삭제됩니다',
+				   icon: 'warning',
+				   
+				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+				   confirmButtonText: '나가기', // confirm 버튼 텍스트 지정
+				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				   
+				   reverseButtons: false, // 버튼 순서 거꾸로
+				   
+				}).then(result => {
+				   // 만약 Promise리턴을 받으면,
+				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   		// 채팅방 나가기
+				   }
+				});
+			
+		}
+
+		/* 별점 매기기 */
+		function setRating(value, reservIdx) {
+		    var ratingValueId = "ratingValue" + reservIdx;
+		    document.getElementById(ratingValueId).value = value;
+		    
+		    var stars = document.querySelectorAll("#rating" + reservIdx + " span");
+		    for (var i = 0; i < stars.length; i++) {
+		        if (i < value) {
+		            stars[i].innerHTML = '<i class="bi bi-star-fill" style="color: #FFE000;"></i>';
+		        } else {
+		            stars[i].innerHTML = '<i class="bi bi-star-fill"></i>';
+		        }
+		    }
+		}
+		
+		/* 상점 바로가기 */
+		function goStore(){
+			window.opener.location.href="myStore"; 
+			window.close();
+		}
+		
+		/* 제품 상세보기 바로가기 */
+		function goProductDetail() {
+			let idx = '${param.PD_IDX}'
+			
+			window.opener.location.href="productDetail?PD_IDX=" + idx ; 
+			window.close();	
+		}
+ 		
+		/* 파일 업로드 */
+		document.addEventListener("DOMContentLoaded", function() {
+		    const fileInput = document.getElementById('fileInput');
+		    const uploadTrigger = document.getElementById('uploadTrigger');
+		    const previewContainer = document.querySelector('.preView');
+		
+		    uploadTrigger.addEventListener('click', function() {
+		        if (document.querySelectorAll('.previewImg').length < 2) {
+		            fileInput.click();
+		        } else {
+		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
+		        }
+		    });
+		
+		    fileInput.addEventListener('change', function(event) {
+		        const files = event.target.files;
+		        if (files.length + document.querySelectorAll('.previewImg').length > 2) {
+		            alert("이미지 파일은 최대 2개까지 첨부할 수 있습니다.");
+		            fileInput.value = "";
+		            return;
+		        } else {
+		        	document.querySelector("#uploadTrigger").style.display = "none";
+		        }
+		        
+		        Array.from(files).forEach(file => {
+		            if (file.type.startsWith('image/')) {
+		                const reader = new FileReader();
+		                reader.onload = function(e) {
+		                    const imgWrapper = document.createElement('div');
+		                    imgWrapper.classList.add('previewImgWrapper');
+
+		                    const img = document.createElement('img');
+		                    img.src = e.target.result;
+		                    img.classList.add('previewImg');
+
+		                    const deleteBtn = document.createElement('button');
+		                    deleteBtn.textContent = 'X';
+		                    deleteBtn.classList.add('deleteBtn');
+		                    deleteBtn.addEventListener('click', function() {
+		                        imgWrapper.remove();
+		                        if (document.querySelectorAll('.previewImgWrapper').length < 2) {
+		                            document.querySelector("#uploadTrigger").style.display = "block";
+		                        }
+		                    });
+
+		                    imgWrapper.appendChild(img);
+		                    imgWrapper.appendChild(deleteBtn);
+		                    previewContainer.appendChild(imgWrapper);
+		                }
+		                reader.readAsDataURL(file);
+		            }
+		        });
+		    });
+		});
+		
+		
+		
+	</script>
+    
 </body>
 </html>
