@@ -188,21 +188,21 @@
 						<div class="right-bar">
 							
 							<!-- 알림 -->
-							<div class="single-bar shopping">
-								<a href="#" class="single-icon"><i class="ti-bell"></i> <span class="total-count">0</span></a>
+							<div class="sinlge-bar shopping">
+								<a href="#" class="single-icon"><i class="ti-bell" aria-hidden="true"></i></a>
 								<!-- Push List -->
 								<div class="shopping-item">
-								    <div class="dropdown-cart-header">
-								        <span>알림 갯수</span>
-								    </div>
-								    <ul class="shopping-list" id="notification-list">
-								        <!-- 알림 항목들이 여기에 추가될 예정 -->
-								    </ul>
-								    <div class="bottom">
-								        <a href="#" class="btn animate" id="clear-notifications">모두 지우기</a>
-								    </div>
+									<div class="dropdown-cart-header">
+									    <span>알림 갯수</span>
+									</div>
+									<ul class="shopping-list" id="notification-list">
+									    <!-- 알림 항목들이 여기에 추가될 예정 -->
+									</ul>
+									<div class="bottom">
+									    <a href="#" class="btn animate" id="clear-notifications">모두 지우기</a>
+									</div>
 								</div>
-       							<!--/ End Push List -->
+								<!--/ End Push List -->
 							</div>
 							
 							<div class="sinlge-bar">
@@ -321,7 +321,7 @@
 		</div>
 		<!--/ End Header Inner -->
 	</header>
-	<script src="${pageContext.request.contextPath}/resources/js/push/notify.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>
 </html>
