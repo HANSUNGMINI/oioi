@@ -13,7 +13,7 @@
 		    PD_SUBJECT, 
 		    PD_PRICE, 
 		    PD_IMAGE,
-		    PD_STATUS,
+		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
 		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
 		        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
@@ -26,6 +26,8 @@
 		        ELSE CONCAT(TIMESTAMPDIFF(DAY, PD_REG_DATE, NOW()), ' 일전')
 		    END AS RD_DATE
 		FROM product p
+		JOIN common c
+		ON p.PD_STATUS = c.code
 		WHERE PD_STATUS != 'PDS03' 
         AND CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
         ORDER BY PD_IDX 
@@ -83,7 +85,7 @@
 		 FROM product p
 		 JOIN common c
 		 ON p.PD_STATUS = c.code
-		 WHERE PD_STATUS != 'PDS03' AND PD_IDX = #{prodcut}
+		 WHERE PD_IDX = #{prodcut}
 		 ]]>
 	</select>
 </mapper>

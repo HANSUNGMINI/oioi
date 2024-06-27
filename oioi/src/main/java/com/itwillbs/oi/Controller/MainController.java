@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,7 +28,6 @@ public class MainController {
 	public List<Map<String, Object>> recentKeywordProductList(@RequestParam Map<String, String> map, Model model) {
 		System.out.println(map);
 		List<Map<String, Object>> productList = service.getRecentKeywordProduct(map);
-		System.out.println(">>>>> productList " + productList);
 		model.addAttribute("productList", productList);
 		
 		return productList;
@@ -56,13 +56,19 @@ public class MainController {
         // 결과 출력
         System.out.println(productSet); // [50, 32, 49, 45]
 	
-        List<Map<String, String>> productList = null;
-        
-        // 데이터 뽑아오기
-        for (int product : productSet) {
-        	productList = service.getRecentLookProduct(product);
+        // 최종 결과를 담을 리스트를 초기화합니다.
+        List<Map<String, String>> productList = new ArrayList<>();
+
+        // 각 상품 ID에 대해 서비스를 통해 상품 정보를 가져와 리스트에 추가합니다.
+        for (int productId : productSet) {
+            List<Map<String, String>> products = service.getRecentLookProduct(productId);
+            if (!products.isEmpty()) {
+                productList.addAll(products);
+            }
         }
-        
+
+        // 결과를 출력합니다. (디버깅용)
+        System.out.println("최근 본 상품입니다 " + productList);
         
 		return "";
 	}
