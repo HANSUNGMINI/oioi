@@ -43,7 +43,7 @@ public class TradeController {
 	@GetMapping("trade")
 	public String goTrade( Model model) {
 		
-		// 카테고리 대분류
+		 //카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);
 		
@@ -83,6 +83,7 @@ public class TradeController {
 		System.out.println("카테2" + cate2);
 		System.out.println("카테3" + cate3);
 		
+		
 		return "trade/trade";
 		
 	}
@@ -91,12 +92,27 @@ public class TradeController {
     @ResponseBody
     public List<Map<String, Object>> filterProducts(
             @RequestParam Map<String, String> map,
-            Model model) {
-		System.out.println(map);
-//	 	List<Map<String, String>> productList = tradeService.getProduct(map);
-		System.out.println(tradeService.getFilteredProducts(map));
-        return tradeService.getFilteredProducts(map);
+            @RequestParam int pageNum,
+            @RequestParam int listLimit) {
+        int startRow = (pageNum - 1) * listLimit;
+        return tradeService.getFilteredProducts(map.get("cate1"), map.get("cate2"), map.get("cate3"), startRow, listLimit);
     }
+
+//    public List<Map<String, Object>> filterProducts(
+//            @RequestParam(required = false) String cate1,
+//            @RequestParam(required = false) String cate2,
+//            @RequestParam(required = false) String cate3,
+//            @RequestParam(defaultValue = "1") int pageNum,
+//            @RequestParam(defaultValue = "12") int listLimit,
+//            Model model) {
+////        System.out.println(map);
+//
+//        // 페이지네이션 처리
+//        int startRow = (pageNum - 1) * listLimit;
+//
+//        System.out.println(tradeService.getFilteredProducts(cate1, cate2, cate3, startRow, listLimit));
+//        return tradeService.getFilteredProducts(cate1, cate2, cate3, startRow, listLimit);
+//    }
 
 	 // 상품 상세 페이지
 	@GetMapping("productDetail")

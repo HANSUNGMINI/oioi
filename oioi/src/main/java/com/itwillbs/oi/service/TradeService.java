@@ -54,9 +54,13 @@ public class TradeService {
 		return mapper.updateReadCount(pd_idx);
 	}
 	
-	public List<Map<String, Object>> getFilteredProducts(@RequestParam Map<String, String> map) {
-		return mapper.selectFilteredProducts(map);
+//	public List<Map<String, Object>> getFilteredProducts(String cate1, String cate2, String cate3, int startRow, int listLimit) {
+//        return mapper.selectFilteredProducts(cate1, cate2, cate3, startRow, listLimit);
+//    }
+	public List<Map<String, Object>> getFilteredProducts(String cate1, String cate2, String cate3, int startRow, int listLimit) {
+        return mapper.selectFilteredProducts(cate1, cate2, cate3, startRow, listLimit);
     }
+    
 
 	
 

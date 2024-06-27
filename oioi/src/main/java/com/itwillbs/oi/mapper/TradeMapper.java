@@ -25,11 +25,17 @@ public interface TradeMapper {
 
 	int updateReadCount(String pd_idx);
 
-	List<Map<String, Object>> selectFilteredProducts(@RequestParam Map<String, String> map);
-
 	List<Map<String, String>> selectProductPriceOffer();
 
 	List<Map<String, String>> selectProductSafeTrade();
+	
+//	List<Map<String, Object>> selectFilteredProducts(@Param("cate1") String cate1, @Param("cate2") String cate2, @Param("cate3") String cate3, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	  List<Map<String, Object>> selectFilteredProducts(
+		        @Param("cate1") String cate1,
+		        @Param("cate2") String cate2,
+		        @Param("cate3") String cate3,
+		        @Param("startRow") int startRow,
+		        @Param("listLimit") int listLimit);
 }
 		
 
