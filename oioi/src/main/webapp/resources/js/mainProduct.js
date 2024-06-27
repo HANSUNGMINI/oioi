@@ -142,7 +142,6 @@
 						// +'	</div>'
 					    // +'	</div>'
 						
-					
 						$("#recentKeywordProduct").append(productDetail);
 					
 				});
