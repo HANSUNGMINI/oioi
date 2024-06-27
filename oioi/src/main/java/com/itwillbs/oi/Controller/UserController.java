@@ -296,7 +296,7 @@ public class UserController {
             // JSON 데이터 파싱하여 필요한 정보 추출
             JsonNode userInfoJson = objectMapper.readTree(userInfoResponse);
             String userId = userInfoJson.get("response").get("id").asText();
-            String userNick = userInfoJson.get("response").get("nickname").asText();
+            String userNick = userInfoJson.get("response").get("nickname").asText() + " (네이버)";
             String userEmail = userInfoJson.get("response").get("email").asText();
             String userProfile = userInfoJson.get("response").get("profile_image").asText();
             

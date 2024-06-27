@@ -99,7 +99,7 @@
 							                </c:when>
 							                <c:when test="${not empty sessionScope.NAVER_LOGIN}">
 							                    <ul class="list-main">
-							                        <li>${sessionScope.US_NICK} 님 (네이버)</li>
+							                        <li>${sessionScope.US_NICK} 님 </li>
 							                        <li><i class="ti-home"></i><a href="myStore?userId=${sessionScope.US_ID}">내 상점</a></li>
 							                        
 							                        <c:choose>
