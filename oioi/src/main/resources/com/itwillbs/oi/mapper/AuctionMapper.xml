@@ -93,10 +93,13 @@
 	</insert>
 	
 	<select id="selectApdList" resultType="hashmap">
-		select *
-		from auction_product ap
-		join images img
-		on ap.APD_IMAGE = img.IMG_IDX;
+		SELECT *
+		FROM auction_product ap
+		JOIN images img ON ap.APD_IMAGE = img.IMG_IDX
+		JOIN common c ON ap.APD_STATUS = c.code
+		WHERE APD_STATUS LIKE 'APD0%'
+		AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '09';
+				
 	</select>
 	
 	<select id="selectApdDetail" resultType="hashmap">

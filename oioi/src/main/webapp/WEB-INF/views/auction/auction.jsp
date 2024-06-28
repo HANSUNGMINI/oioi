@@ -51,9 +51,7 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<script type="text/javascript">
-		function auctionDetail() {
-				
-		}
+		
 	</script>
 </head>
 <body class="js">
@@ -95,28 +93,38 @@
 							<div class="nav-main">
 								<!-- Tab Nav -->
 								<ul class="nav nav-tabs" id="myTab" role="tablist">
-									<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#man" role="tab">Man</a></li>
-									<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#man" role="tab">Man</a></li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#women" role="tab">Woman</a></li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#kids" role="tab">Kids</a></li>
+									<li class="nav-item"><a class="nav-link active" role="tab">판매중</a></li>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#women" role="tab">예약중</a></li>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#kids" role="tab">경매종료</a></li>
 								</ul>
 								<!--/ End Tab Nav -->
 							</div>
+							
 							<div class="tab-content" id="myTabContent">
 								<!-- Start Single Tab -->
-								<div class="tab-pane fade show active" id="man" role="tabpanel">
-										<div class="tab-single">
-											<div class="row">
-												<c:forEach var="apd" items="${apdList}">
+								<div class="tab-pane fade" id="women" role="tabpanel">
+									<div class="tab-single">
+										<div class="row">
+											<c:forEach var="apd" items="${apdList}">
+												<div class="col-xl-3 col-lg-4 col-md-4 col-12">
 													<div class="single-product">
 														<div class="product-img">
-															<a href="product-details.html">
-																<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1}"  alt="#">
-																<span class="price-dec">예약 중</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+															<a href="javascript:void(0)" onclick="return apdDetailView('${apd.APD_IDX}')">
+																<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1}">
+																<!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+																<c:if test="${apd.APD_STATUS eq 'APD05'}">
+																	<span class="out-of-stock">판매중</span>
+																</c:if>
+																<c:if test="${apd.APD_STATUS eq 'APD06'}">
+																	<span class="price-dec">입찰중</span>
+																</c:if>
+																
 															</a>
 															<div class="button-head">
 																<div class="product-action">
-																	<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
+																	<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+																	<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+																	<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
 																</div>
 																<div class="product-action-2">
 																	<form action="auctionDetail">
@@ -129,52 +137,13 @@
 														<div class="product-content">
 															<h3><a href="product-details.html">${apd.APD_NAME}</a></h3>
 															<div class="product-price">
-																<!-- 세일 기준 -->
-							<!-- 									<span class="old">이전가격</span> -->
-																<span>판매시작가 : <fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span><br>
-																<span>즉시구매가 : <fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
-																<span class="pro_time" style="float:right; color:gray"><small>7시간 전</small></span>
+																<span>[판매시작가] <fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span><br>
+																<span>[즉시구매가] <fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
 															</div>
-														</div>
-													</div>
-													</c:forEach>
-											</div>
-										</div>
-									
-								</div>
-								<!--/ End Single Tab -->
-								<!-- Start Single Tab -->
-								<div class="tab-pane fade" id="women" role="tabpanel">
-									<div class="tab-single">
-										<div class="row">
-											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="product-details.html">
-															<img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-															<img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-															<span class="out-of-stock">Hot</span>
-														</a>
-														<div class="button-head">
-															<div class="product-action">
-																<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-																<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-															</div>
-															<div class="product-action-2">
-																<a title="Add to cart" href="#">Add to cart</a>
-															</div>
-														</div>
-													</div>
-													<div class="product-content">
-														<h3><a href="product-details.html">Black Sunglass For Women</a></h3>
-														<div class="product-price">
-															<span class="old">$60.00</span>
-															<span>$50.00</span>
 														</div>
 													</div>
 												</div>
-											</div>
+											</c:forEach>
 										</div>
 									</div>
 								</div>

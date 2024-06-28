@@ -61,10 +61,7 @@ public class AuctionController {
 		dbMap.put("US_ID", (String) session.getAttribute("US_ID"));
 		System.out.println("apdDetail : " + dbMap);
 		model.addAttribute("apdDetail", dbMap);
-//		System.out.println(";;;;;;;;;;;;;;;"+dbMap.get("APD_CATEGORY").split("/"));
-//		for(String c : dbMap.get("APD_CATEGORY").split("/")) {
-//			
-//		}
+		
 		
 		return "auction/auction_detail";
 	}
