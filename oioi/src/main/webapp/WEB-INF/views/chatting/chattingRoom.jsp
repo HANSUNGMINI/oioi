@@ -71,63 +71,93 @@
 	     
 </style>
 <script type="text/javascript">
-var socket = null;
 
-function connectChat() {
-    ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
-	socket = ws;
-    
-    debugger;
-    ws.onopen = function() {
-        console.log('연결');
-    };
-    
-    ws.onmessage = function(event) {
-    	 
-    	 console.log("현재 접속자 아이디 : " + US_ID);    	
-    	 console.log("판매자 아이디 : " + TO_ID);    	
-    	 console.log("물건 번호 : " + PD_IDX);
-    	 
-    	 console.log('받은 메세지 파싱전 ' + event.data);
-         var response = JSON.parse(event.data);		
-    }
-    
-    ws.onclose = function(event) {
-    	console.log("연결 해제");
-    	// setTimeout(function(){connect();, 1000}); 
-    }
-    
-    ws.onerror = function(event) {console.log("에러");}
-}
-    
+	/*
+		[ 함수 정리 ]
+		1. connectChat() 					: 웹소켓 연결
+		2. sendMessage()					: 메세지를 서버로 전송
+		3. appendMessage(msg, align_type) 	: 메세지를 DIV에 추가하여 보여준다	*/
+
     $(function(){
+	    connectChat();
+	    
+    	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
-	    	  debugger;
-	    	console.log("현재 접속자 아이디 : " + '${sessionScope.US_ID}');    	
-	    	console.log("판매자 아이디 : " + '${param.TO_ID}');    	
-	    	console.log("물건 번호 : " + '${param.PD_IDX}');
-			console.log("socket : "+socket);
-	    	evt.preventDefault();
-	    	if(socket.readyState !== 1)return;
-	    	
-	    	 let msg = $('#textMsg').val();
+	    	let msg = $('#textMsg').val();
 	    	console.log("msg : " + msg);
-	    	
-	    	var dataSend = {
-	    	        US_ID: '${sessionScope.US_ID}',
-	    	        TO_ID: '${param.TO_ID}',
-	    	        PD_IDX: '${param.PD_IDX}',
-	    	        msg : msg
-	    	};
-	    	
-	    	alert(dataSend)
-	    	socket.send(dataSend);
+	    	sendMessage();
 	     });
-	     
-	    connectChat(); 
-    	
+	    
+	   // 채팅 입력창에 키를 누를 때마다 이벤트 핸들링
+		$("#textMsg").on("keypress",function(event){
+			let keyCode = event.keyCode;
+			if(keyCode == 13) {
+				sendMessage();
+			}
+		});
     });
     
+    let ws; // 웹소켓 객체가 저장될 변수
+    
+    function connectChat() {
+        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws.onopen = onOpen; // 연결 시 발생
+		ws.onclose = onClose; // 연결해제 시 발생
+		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
+		ws.onerror = onError; // 에러 발생 시 발생
+    }
+    
+    // -------------------------------------------------------
+    
+    function onOpen() {
+		console.log("웹 소켓 연결")
+    }
+    function onClose() {
+		console.log("onClose()");
+	}
+	function onMessage(event) {
+		appendMessage(event.data, "left");
+	}
+	function onError() {
+		console.log("onError()");
+	}
+    
+    // -------------------------------------------------------
+    function sendMessage() {
+    	let msg = $("#textMsg").val(); 
+    	
+    	// 입력하지 않았을 경우, 전송을 막는다
+    	if(msg == '') {
+    		$("#textMsg").focus();
+    		return;
+    	}
+    	
+    	// 서버측으로 메세지 전송
+    	ws.send(msg);
+    	
+    	// div 출력
+    	appendMessage(msg,"right");
+    	
+    	// 초기화
+    	$("#chatMsg").val("");
+		$("#chatMsg").focus();
+    }
+    
+    function appendMessage(msg, align_type) {
+    	
+    	let chat = ' <li class="clearfix">'
+    				+'<div class="message-data text-right">'
+    				+' <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">'
+    				+ '</div>'
+    				+ '<div class="message other-message float-right">' + msg + '</div>'
+    				+ '<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
+    				+ '</li>'		
+    	
+    	$("#chatArea").append(chat);
+    				
+    	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
+		$("#chatArea").scrollTop($("#chatArea").height() - $("#chat").height()); 
+    }
 </script>
 </head>
 <body>
@@ -193,11 +223,11 @@ function connectChat() {
 						<a href="javascript:void(0);" onclick="goProductDetail()">${info.PD_SUBJECT}</a>에 대한 이야기를 시작해 보세요
 					</div>
 
-                    <ul class="m-b-0">
-                        
+                    <ul class="m-b-0" id="chatArea">
+                    
+                        <%--
                         <li class="clearfix">
                             <div class="message-data text-right">
-                            	<%-- 로그인 한 사람 이미지 --%>
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
                             <div class="message other-message float-right"> 김유신 바보 </div>
@@ -215,7 +245,7 @@ function connectChat() {
                         <li class="clearfix">
                             <div class="message my-message"> 다 바보</div><small class="message-data-time">10:10 AM</small>
                         </li>
-                        
+                         --%>
                     </ul>
                 </div>
 				

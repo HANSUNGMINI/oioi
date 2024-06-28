@@ -42,6 +42,7 @@ public class ChattingController {
 		if(!CheckAuthority.isUser(session, model)) {
 			System.out.println(model.getAttribute("msg"));
 			System.out.println(model.getAttribute("targetURL"));
+			model.addAttribute("isClose", true);
 			return "err/fail";
 		}
 		
@@ -57,6 +58,7 @@ public class ChattingController {
 		if(!CheckAuthority.isUser(session, model)) {
 			System.out.println(model.getAttribute("msg"));
 			System.out.println(model.getAttribute("targetURL"));
+			model.addAttribute("isClose", true);
 			return "err/fail";
 		}
 		
@@ -87,6 +89,7 @@ public class ChattingController {
 		
 //		ReportHandler report = new ReportHandler();
 //		int insertCount = report.reportProcess(map, files);
+		
 		
 		// [파일 업로드 처리] ---------------------------------------------------------
 			System.out.println(">>>>>" + files);

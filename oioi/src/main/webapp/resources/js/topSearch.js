@@ -96,6 +96,7 @@ $(function(){
 			searchAjax();
 		}
 	}) 
+	
 
 }); /* ready 이벤트 끝 */
 

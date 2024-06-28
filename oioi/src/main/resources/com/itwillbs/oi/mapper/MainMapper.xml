@@ -33,7 +33,7 @@
         ORDER BY PD_IDX 
          ]]>
 	</select>
-	
+
 	<select id="getPopularProcuts" resultType="hashmap">
 		
 	<![CDATA[

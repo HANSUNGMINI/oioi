@@ -22,6 +22,12 @@
             confirmButtonText: 'OK'
         }).then((result) => {
             if (result.isConfirmed) {
+            	
+            	if("${isClose}") {
+            		window.opener.location.reload(); // 부모창 리프레시
+            		window.close();
+            	}
+            	
                 if ("${targetURL}" == "") {
                     history.back();
                 } else {
