@@ -93,7 +93,7 @@
                                         <td>${product.PD_LIKES}</td>
                                         <td>${product.PD_UPDATED_DATE}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm">수정</button>
+                                            <button class="btn btn-primary btn-sm" onclick= "location.href='productModify?PD_IDX=${product.PD_IDX}'">수정</button>
                                             <button class="btn btn-danger btn-sm">삭제</button>
                                         </td>
                                     </tr>

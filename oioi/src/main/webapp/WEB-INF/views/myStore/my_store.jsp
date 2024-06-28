@@ -439,12 +439,14 @@
     <script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
 
     <script>
+        // 소개글 수정 버튼 클릭 시 편집 영역을 표시하고, 기존 텍스트를 텍스트 영역에 삽입
         document.getElementById("edit-button").addEventListener("click", function() {
             document.getElementById("intro-text").style.display = "none";
             document.getElementById("edit-area").style.display = "block";
             document.getElementById("intro-textarea").value = document.querySelector("#intro-text p").innerText;
         });
 
+        // 소개글 확인 버튼 클릭 시 텍스트를 업데이트하고 편집 영역을 숨김
         document.getElementById("save-button").addEventListener("click", function() {
             const newText = document.getElementById("intro-textarea").value;
             document.querySelector("#intro-text p").innerText = newText;
@@ -452,6 +454,7 @@
             document.getElementById("edit-area").style.display = "none";
         });
 
+        // 텍스트 영역에서 입력할 때 최대 4줄로 제한
         document.getElementById("intro-textarea").addEventListener("input", function() {
             const lines = this.value.split('\n');
             if (lines.length > 4) {
@@ -459,6 +462,7 @@
             }
         });
 
+        // 프로필 사진 업로드 처리
         document.getElementById("profile-pic-input").addEventListener("change", function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -466,13 +470,14 @@
                 formData.append('profilePic', file);
 
                 $.ajax({
-                    url: 'uploadProfilePic',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
+                    url: 'uploadProfilePic',  // 업로드할 서버의 URL
+                    type: 'POST',             // 요청 타입
+                    data: formData,           // 업로드할 데이터
+                    processData: false,       // 파일 업로드이므로 데이터를 쿼리 스트링으로 변환하지 않음
+                    contentType: false,       // 파일 업로드이므로 contentType 설정하지 않음
                     success: function(response) {
                         if (response.success) {
+                            // 업로드 성공 시, 프로필 사진 업데이트
                             document.getElementById("profile-pic").src = response.imageUrl;
                         } else {
                             alert('이미지 업로드에 실패했습니다.');

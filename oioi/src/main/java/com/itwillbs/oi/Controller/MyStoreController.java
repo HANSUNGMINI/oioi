@@ -162,6 +162,15 @@ public class MyStoreController {
 
         return response;
     }
+    
+    // 상품 수정
+    
+    @GetMapping("productModify")
+    public String productModify(@RequestParam Map<String, Object> map, Model model) {
+    	System.out.println("상품 수정 컨트롤러 : " + map);
+    	
+    	return "";
+    }
 
     // 상품 상태 업데이트
     @ResponseBody
