@@ -57,8 +57,9 @@ CREATE TABLE bank_user_info (
 	</select>
 	
 	<select id="selectBankUserInfo" resultType="map">
-		SELECT *
-		FROM bank_user_info
+		SELECT bui.* , u.US_OIMONEY 
+		FROM bank_user_info bui JOIN `user` u
+		ON bui.BUI_ID = u.US_ID 
 		WHERE BUI_ACCESS_TOKEN = #{access_token}
 	</select>
 	
