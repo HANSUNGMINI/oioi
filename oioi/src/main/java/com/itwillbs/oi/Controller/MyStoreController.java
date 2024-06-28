@@ -169,6 +169,7 @@ public class MyStoreController {
     public String productModify(@RequestParam Map<String, Object> map, Model model) {
     	System.out.println("상품 수정 컨트롤러 : " + map);
     	
+    	
     	return "";
     }
 
