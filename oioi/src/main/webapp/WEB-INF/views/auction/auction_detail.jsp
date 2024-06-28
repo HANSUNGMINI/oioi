@@ -109,7 +109,7 @@
  					//입찰가가 즉시구매가랑 같을때 경매 종료
  					$.ajax({
  						url : "auctionClose",
- 						tyle : "post",
+ 						type : "post",
  						data : {
  							AT_IDX : apd_idx,
  							BID_USER : session_id,
