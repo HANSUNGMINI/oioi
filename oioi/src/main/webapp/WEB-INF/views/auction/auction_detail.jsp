@@ -59,10 +59,19 @@
 		var session_id = "${sessionScope.US_ID}";
 	
 		$(function(){
-			
+			$('#sendMsg').on('keypress',function(et) {
+				let keyCode = et.keyCode;
+				if(keyCode == 13) {
+		            sendMessage(et);
+		         }
+			});
 			
 			$('#btnSend').on('click',function(et) {
-				
+				sendMessage(et);
+		    });
+			
+			
+			function sendMessage(event){
 				if(${empty apdDetail.US_ID}){
 					alert("로그인 후 사용하세요");
 					return;
@@ -70,7 +79,7 @@
 				console.log("US_ID : " + us_id);
 				console.log("session_id(jsp) : " + session_id);
 				console.log("socket : "+socket);
-		    	et.preventDefault();
+				event.preventDefault();
 		    	if(socket.readyState !== 1)return;
 		    	
 		    	let msg = $('input#sendMsg').val();
@@ -83,8 +92,7 @@
 		    	};
 		    	
 		    	socket.send(JSON.stringify(dataSend));
-		    	
-		    });
+			}
 			
 			var minValue = $('#nowPrice').val();
 			var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";

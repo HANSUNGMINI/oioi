@@ -71,6 +71,7 @@ function connect() {
 	                '</div>' +
 	           		'</li>';
 	            	$('.chatView').append(html);
+	            	$(".chatView").scrollTop($(".chatView")[0].scrollHeight);
 	            }else {
 	            	console.log("불일치");
 	            	html += '<li class="clearfix" class="chatViewYou">' + 
@@ -83,6 +84,7 @@ function connect() {
 	                '</div>' +
 	           		'</li>';
 	            	$('.chatView').append(html);
+	            	$(".chatView").scrollTop($(".chatView")[0].scrollHeight);
 	            }
             }
         });
