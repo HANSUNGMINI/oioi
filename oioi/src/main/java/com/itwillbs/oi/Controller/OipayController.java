@@ -75,6 +75,7 @@ public class OipayController {
 		Map actUserInfo = service.getUserInfo(token);
 //		System.out.println("@@@@@@@@@@@@@@@" + actUserInfo);
 		
+		model.addAttribute("token", token);
 		model.addAttribute("actUserInfo", actUserInfo);
 		session.setAttribute("actUserInfo", actUserInfo);
 		

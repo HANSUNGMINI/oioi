@@ -381,17 +381,17 @@
                                 	<!-- 잔액 조회 -->
                                 	<h6>연결계좌 : ${actUserInfo.res_list[0].bank_name} - ${actUserInfo.res_list[0].account_num_masked}</h6>
                                 	<br>
-                                	<h5>🥒오이머니 잔액 : </h5>
+                                	<h5>🥒오이머니 잔액 : ￦${token.US_OIMONEY}</h5>
                                 
                                 	<br>
                                     <!-- 충전 금액 선택 -->
                                     <div id="price" >
-                                        <label><input type="radio" value="5000" name="chargeAmt">&nbsp;&nbsp;&nbsp;5000원</label>
-                                        <label><input type="radio" value="10000" name="chargeAmt"> 10000원</label>
-                                        <label><input type="radio" value="15000" name="chargeAmt"> 15000원</label>
-                                        <label><input type="radio" value="20000" name="chargeAmt"> 20000원</label>
-                                        <label><input type="radio" value="25000" name="chargeAmt"> 25000원</label>
-                                        <label><input type="radio" value="30000" name="chargeAmt"> 30000원</label>
+                                        <label><input type="radio" value="5000" name="chargeAmt">&nbsp;&nbsp;&nbsp;5,000원</label>
+                                        <label><input type="radio" value="10000" name="chargeAmt"> 10,000원</label>
+                                        <label><input type="radio" value="15000" name="chargeAmt"> 15,000원</label>
+                                        <label><input type="radio" value="20000" name="chargeAmt"> 20,000원</label>
+                                        <label><input type="radio" value="25000" name="chargeAmt"> 25,000원</label>
+                                        <label><input type="radio" value="30000" name="chargeAmt"> 30,000원</label>
                                     </div>
                                     <input type="number" id="amtInput"  placeholder="금액을 입력하세요(숫자만 입력 가능합니다)">
                                     <br>
