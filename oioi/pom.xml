@@ -178,10 +178,19 @@
         </dependency>
 		<!-- 웹소켓0617 끝-->
 		
+		<!-- 네이버 로그인용 jackson 코드 -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>com.fasterxml.jackson.core</groupId> -->
+<!-- 		    <artifactId>jackson-databind</artifactId> -->
+<!-- 		    <version>2.13.0</version> 최신 버전 확인해서 사용 -->
+<!-- 		</dependency> -->
+
+		<!-- 네이버 로그인용 gson 코드 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.13.0</version> <!-- 최신 버전 확인해서 사용 -->
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.11.0</version>
 		</dependency>
 		
 		<!-- AspectJ -->
@@ -293,6 +302,12 @@
 <!-- 		    <artifactId>pagehelper-spring-boot-starter</artifactId> -->
 <!-- 		    <version>1.2.13</version> -->
 <!-- 		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.10.1</version>
+	</dependency>
 		
 		
 		  
