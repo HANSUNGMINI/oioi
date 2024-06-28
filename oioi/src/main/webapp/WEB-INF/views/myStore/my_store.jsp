@@ -10,7 +10,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='copyright' content=''>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
     <title>내 상점</title>
@@ -214,11 +213,11 @@
             padding: 5px 10px;
             cursor: pointer;
             border-radius: 5px;
-            display: none; 
+            display: none;
         }
 
         #profile-pic-container:hover #change-pic-button {
-            display: block; 
+            display: block;
         }
 
         #intro-text p {
@@ -255,15 +254,18 @@
                         <div class="col-lg-3 col-12 border-right">
                             <div class="single-team">
                                 <div id="profile-pic-container">
-                                	<c:choose>
-									    <c:when test="${empty user.US_PROFILE}">
-									        <img src="${pageContext.request.contextPath}/resources/images/test.png" alt="#" width="256px;" height="193px;">
-									    </c:when>
-									    <c:otherwise>
-									        <img src="${user.US_PROFILE}" width="256px;" height="193px;" alt="#">
-									    </c:otherwise>
-									</c:choose>
-                                    <input type="file" id="change-pic-button" value="프로필 사진 변경" name="file1">
+                                    <c:choose>
+                                        <c:when test="${empty user.US_PROFILE}">
+                                            <img id="profile-pic" src="${pageContext.request.contextPath}/resources/images/test.png" alt="#" width="256px;" height="193px;">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img id="profile-pic" src="${user.US_PROFILE}" width="256px;" height="193px;" alt="#">
+                                        </c:otherwise>
+                                    </c:choose>
+									<c:if test="${user.US_ID eq sessionScope.US_ID}">
+                                   		<label for="profile-pic-input" id="change-pic-button">프로필 사진 변경</label>
+                                    	<input type="file" id="profile-pic-input" name="file1" style="display:none;">
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -316,8 +318,6 @@
                                         <c:if test="${user.US_ID eq sessionScope.US_ID}">
                                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#choice" role="tab">찜</a></li>
                                         </c:if>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#following" role="tab">팔로잉</a></li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#follower" role="tab">팔로워</a></li>
                                     </ul>
                                 </div>
                                 <div class="tab-content" id="myTabContent">
@@ -347,8 +347,8 @@
                                                                     <div class="product-info-bottom">
                                                                         <div class="product-price">${product.PD_PRICE} 원</div>
                                                                         <div class="product-date">${product.timeAgo}</div>
-                                                                    </div>
-                                                                </a>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </c:forEach>
                                                     </div>
@@ -390,36 +390,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="following" role="tabpanel">
-                                        <div class="tab-single">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="single-des">
-                                                        <h5>팔로잉 0</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="single-des">
-                                                        <p>아직 팔로우한 사람이 없습니다.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="follower" role="tabpanel">
-                                        <div class="tab-single">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="single-des">
-                                                        <h5>팔로워 0</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="single-des">
-                                                        <p>아직 이 상점을 팔로우한 사람이 없습니다.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -489,6 +459,31 @@
             }
         });
 
+        document.getElementById("profile-pic-input").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('profilePic', file);
+
+                $.ajax({
+                    url: 'uploadProfilePic',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            document.getElementById("profile-pic").src = response.imageUrl;
+                        } else {
+                            alert('이미지 업로드에 실패했습니다.');
+                        }
+                    },
+                    error: function() {
+                        alert('이미지 업로드 중 오류가 발생했습니다.');
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

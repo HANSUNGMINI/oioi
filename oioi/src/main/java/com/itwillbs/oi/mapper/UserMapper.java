@@ -77,7 +77,8 @@ public interface UserMapper {
  	int updateNaverUser(Map<String, Object> naverUserInfo);
  	
  	int registNaverUser(Map<String, Object> naverUserInfo);
-	
+
+ 	int updateUserProfile(@Param("userId") String userId, @Param("fileUrl") String fileUrl);	
 	
 	
 

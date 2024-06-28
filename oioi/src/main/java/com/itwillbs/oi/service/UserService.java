@@ -139,6 +139,13 @@ public class UserService {
         return !mapper.isNicknameTaken(nickname);
     }
 
+
+    // 프로필 사진 변경
+	public boolean updateUserProfile(String userId, String fileUrl) {
+		
+        return mapper.updateUserProfile(userId, fileUrl) > 0;
+	}
+
     
 
 	

@@ -229,6 +229,12 @@
         WHERE US_ID = #{US_ID}
 	</update>
 	
+	<update id="updateUserProfile">
+        UPDATE user
+        SET US_PROFILE = #{fileUrl}
+        WHERE US_ID = #{userId}
+	</update>
+	
 </mapper>
 
 
