@@ -44,7 +44,7 @@ public class AuctionController {
    
    @GetMapping("auction")
    public String Auction(Model model,@RequestParam(defaultValue = "") String APD_STATUS) {
-      List<Map<String, String>> apdList = service.selectApdList(APD_STATUS);
+      List<Map<String, Object>> apdList = service.selectApdList(APD_STATUS);
       System.out.println("apdList : " + apdList);
       
       model.addAttribute("apdList", apdList);
@@ -54,12 +54,12 @@ public class AuctionController {
    
    @ResponseBody
    @PostMapping("auction")
-   public String AuctionPro(Model model,@RequestParam String APD_STATUS) {
+   public List<Map<String, Object>> AuctionPro(Model model,@RequestParam String APD_STATUS) {
 	   System.out.println("APD_STATUS(Post)" + APD_STATUS);
 	   
-	   List<Map<String, String>> apdList = service.selectApdList(APD_STATUS);
+	   List<Map<String, Object>> apdList = service.selectApdList(APD_STATUS);
 	   System.out.println("apdList : " + apdList);
-	   return "gd";
+	   return apdList;
    }
    
    @GetMapping("auctionDetail")

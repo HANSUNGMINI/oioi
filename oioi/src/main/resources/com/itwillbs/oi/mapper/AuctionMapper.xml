@@ -97,19 +97,19 @@
 		FROM auction_product ap
 		JOIN images img ON ap.APD_IMAGE = img.IMG_IDX
 		JOIN common c ON ap.APD_STATUS = c.code
-		<if test="#{APD_STATUS eq null}">
+		<if test="APD_STATUS == ''">
 		WHERE APD_STATUS LIKE 'APD0%'
 		AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '09';
 		</if>
-<!-- 		<if test="#{APD_STATUS eq 'APD05'}"> -->
-<!-- 		WHERE APD_STATUS = 'APD05'; -->
-<!-- 		</if> -->
-<!-- 		<if test="#{APD_STATUS eq 'APD06'"> -->
-<!-- 		WHERE APD_STATUS = 'APD06'; -->
-<!-- 		</if> -->
-<!-- 		<if test="#{APD_STATUS eq 'APD07'"> -->
-<!-- 		WHERE APD_STATUS = 'APD07'; -->
-<!-- 		</if> -->
+		<if test="APD_STATUS == 'APD05'">
+		WHERE APD_STATUS = 'APD05';
+		</if>
+		<if test="APD_STATUS == 'APD06'">
+		WHERE APD_STATUS = 'APD06';
+		</if>
+		<if test="APD_STATUS == 'APD07'">
+		WHERE APD_STATUS = 'APD07';
+		</if>
 	</select>
 	
 	<select id="selectApdDetail" resultType="hashmap">

@@ -46,7 +46,7 @@ public class AuctionService {
 		return mapper.categoryName(map);
 	}
 
-	public List<Map<String, String>> selectApdList(String APD_STATUS) {
+	public List<Map<String, Object>> selectApdList(String APD_STATUS) {
 		return mapper.selectApdList(APD_STATUS);
 	}
 
