@@ -54,7 +54,7 @@
    
    <script type="text/javascript">
       $(function(){
-          
+    	  status("");
       });
       function status(value) {
           console.log("status : " + value);

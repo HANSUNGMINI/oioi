@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.service.AuctionService;
+import com.itwillbs.oi.service.ChattingService;
 import com.itwillbs.oi.service.TradeService;
 
 @Controller
@@ -42,14 +43,12 @@ public class AuctionController {
    @Autowired
    private TradeService TradeService;
    
+   @Autowired
+   private ChattingService ChatReportService;
+   
    @GetMapping("auction")
-   public String Auction(Model model,@RequestParam(defaultValue = "") String APD_STATUS) {
-      List<Map<String, Object>> apdList = service.selectApdList(APD_STATUS);
-      System.out.println("apdList : " + apdList);
-      
-      model.addAttribute("apdList", apdList);
+   public String Auction() {
       return "auction/auction";
-      
    }
    
    @ResponseBody
@@ -66,11 +65,15 @@ public class AuctionController {
    public String auctionDetail(@RequestParam Map<String, String> map, Model model,HttpSession session) {
       System.out.println("auctionDetail(map) : " + map);
       
+      //상품정보가져오기
       Map<String, String> dbMap = service.selectApdDetail(map);
+      System.out.println("상품정보 확인 : " + dbMap);
       dbMap.put("US_ID", (String) session.getAttribute("US_ID"));
-      System.out.println("apdDetail : " + dbMap);
       model.addAttribute("apdDetail", dbMap);
       
+      // 신고 카테고리 불러오기
+   	  List<Map<String, String>> reportMap = ChatReportService.getReportCategory();
+   	  model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
       
       return "auction/auction_detail";
    }
@@ -282,6 +285,15 @@ public class AuctionController {
           return "err/fail";
       }
       
+   }
+   
+   @ResponseBody
+   @PostMapping("biddingChart")
+   public List<Map<String, String>> biddingChart(@RequestParam int APD_IDX) {
+	   System.out.println("biddingChart : " + APD_IDX);
+	   List<Map<String, String>> dbMap = service.selectBidChart(APD_IDX);
+	   System.out.println("biddingChart(dbMap) : " + dbMap);
+	   return dbMap;
    }
    
 

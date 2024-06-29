@@ -140,6 +140,7 @@
             ap.APD_START_PRICE,
             ap.APD_BUY_NOW_PRICE,
             ap.APD_REG_DATE,
+            ap.APD_DELIVERY,
             a.AT_IDX,
             a.AT_START_TIME,
             a.AT_END_TIME,
@@ -203,6 +204,11 @@
 		    DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 		)
 	</insert>
+	<select id="selectBidChart" resultType="hashmap">
+		select BID_PRICE, DATE_FORMAT(BID_TIME, '%m월%d일') as BID_TIME
+		from bidding
+		where APD_IDX = 32;
+	</select>
 </mapper>
 
 

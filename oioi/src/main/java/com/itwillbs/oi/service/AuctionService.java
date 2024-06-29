@@ -78,6 +78,10 @@ public class AuctionService {
 		return mapper.insertBid(map);
 	}
 
+	public List<Map<String, String>> selectBidChart(int APD_IDX) {
+		return mapper.selectBidChart(APD_IDX);
+	}
+
 	
 
 	
