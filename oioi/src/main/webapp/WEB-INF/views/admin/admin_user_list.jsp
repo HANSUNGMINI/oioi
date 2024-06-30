@@ -27,13 +27,13 @@
 </head>
 <body>
 	<div id="app">
-<%-- 	<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav> --%>
+	<nav class="app-header navbar navbar-expand bg-body" ><jsp:include page="../INC/admin_nav.jsp"></jsp:include></nav>
 	<aside class="aside is-placed-left is-expanded"><jsp:include page="../INC/admin_aside.jsp"></jsp:include></aside>
 	<section class="is-title-bar">
 		<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
 			<ul>
-				<li>Admin</li>
-				<li>Tables</li>
+				<li>관리자</li>
+				<li>회원</li>
 			</ul>
 		</div>
 	</section>

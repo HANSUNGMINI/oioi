@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.oi.mapper.AdminMapper;
 
@@ -52,7 +53,14 @@ public class AdminService {
 	public Map<String, Object> selectDetailReport(Map<String, Object> map){ return adminMapper.selectDetailReport(map); }
 	public Map<String, Object> selectDetailAP(Map<String, Object> map){ return adminMapper.selectDetailAP(map); }
 	
-	public int insertAuctionProduct(Map<String, String> map){ return adminMapper.insertAuctionProduct(map); }
 	public int updateReporStatus(Map<String, String> map){ return adminMapper.updateReporStatus(map); }
+	@Transactional
+	public int updateUpdateAPD(Map<String, String> map){
+		// APD05 상품등록 일 때 
+		if(map.get("APD_STATUS").equals("APD05")) {
+			adminMapper.insertAuctionProduct(map);
+		}
+		return adminMapper.updateUpdateAPD(map); 
+	}
 	
 }

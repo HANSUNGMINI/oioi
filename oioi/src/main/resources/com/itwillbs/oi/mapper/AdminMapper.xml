@@ -279,18 +279,6 @@
 	
 	<!-- 카테고리 코드 관리 끝 -->
 	
-	<insert id="insertAuctionProduct">
-		INSERT INTO auction
-		VALUES (
-			   NULL
-		     , #{APD_IDX}
-		     , DATE_FORMAT(NOW(), '%Y-%m-%d')
-<!-- 		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{} DAY), '%Y-%m-%d') -->
-		     , NULL
-		     , #{APD_START_PRICE}
-		 )
-	</insert>
-	
 	
 	<select id="selectDetailUser" resultType="map">
 		SELECT *
@@ -362,6 +350,27 @@
 		   SET RP_STATUS = #{RP_STATUS}
 		 WHERE RP_IDX = #{RP_IDX}
 	</update>
+	
+	<insert id="insertAuctionProduct">
+		INSERT INTO auction
+		VALUES (
+			   NULL
+		     , #{APD_IDX}
+		     , DATE_FORMAT(NOW(), '%Y-%m-%d')
+<!-- 		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{} DAY), '%Y-%m-%d') -->
+		     , NULL
+		     , #{APD_START_PRICE}
+		 )
+	</insert>
+	
+	
+	<update id="updateUpdateAPD">
+		UPDATE auction_product
+		   SET APD_STATUS = #{APD_STATUS}
+		     <if test="APD_REJECTION != 'RS01'"> , APD_REJECTION = #{APD_REJECTION} </if>
+		 WHERE APD_IDX = #{APD_IDX}
+	</update>
+	
 </mapper>
 
 

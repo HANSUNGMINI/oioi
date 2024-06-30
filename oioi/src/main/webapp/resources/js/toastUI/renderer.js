@@ -133,7 +133,7 @@ class product_detail_btn {
 		$(el).on("click", function() {
 			let e = $(this);
 			let target = e.closest('tr').find('td:first').text();
-			window.open("admin_detail?table=auctionProduct&target=" + target ,"옥션상품","width=600, height=300, top=150, left=650");
+			window.open("admin_detail?table=auctionProduct&target=" + target ,"옥션상품","width=1200, height=800, top=150, left=500");
 	    });
 		
 			
@@ -215,7 +215,7 @@ class report_detail_btn {
 		$(el).on("click", function() {
 			let e = $(this);
 			let target = e.closest('tr').find('td:first').text();
-			window.open("admin_detail?table=report&target=" + target ,"신고 상세","width=600, height=300, top=150, left=650");
+			window.open("admin_detail?table=report&target=" + target ,"신고 상세","width=1200, height=700, top=150, left=500");
 	    });
 		
 			

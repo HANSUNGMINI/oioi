@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,15 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AdminService;
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
-
-import retrofit2.http.PATCH;
-import retrofit2.http.POST;
 
 /*
  * HTTP 맵핑 종류
@@ -144,17 +138,6 @@ public class AdminController {
 	
 	
 	//==========================
-//	@PostMapping("updateAPD")
-//	public String updateAPD(@RequestParam Map<String, String> map
-//							, Model model) {
-//		
-//		if(map.get("APD_STATUS").equals("APD05")) {
-//			adminservice.insertAuctionProduct(map);
-//		}
-//		
-//		adminservice.updateAuctionProduct(map);
-//		return"";
-//	}
 	
 	
 	@PostMapping("admin")
@@ -215,6 +198,8 @@ public class AdminController {
 			return "err/fail";
 		};
 		
+		List<Map<String, Object>> auctionList = adminservice.selectAuctionCategoryList();
+		model.addAttribute("auctionList", auctionList);
 		return "admin/admin_auction_list";
 	}
 	
@@ -343,5 +328,11 @@ public class AdminController {
 	@PostMapping("reportStatus")
 	public int reportStatus(@RequestParam Map<String, String> map) {
 		return adminservice.updateReporStatus(map);
+	}
+	
+	@ResponseBody
+	@PostMapping("updateAPD")
+	public int updateAPD(@RequestParam Map<String, String> map) {
+		return adminservice.updateUpdateAPD(map);
 	}
 }

@@ -35,8 +35,8 @@
 	<section class="is-title-bar">
 		<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
 			<ul>
-				<li>Admin</li>
-				<li>Tables</li>
+				<li>관리자</li>
+				<li>옥션</li>
 			</ul>
 		</div>
 	</section>

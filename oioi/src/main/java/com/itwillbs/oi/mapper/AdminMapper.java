@@ -45,6 +45,7 @@ public interface AdminMapper {
 	// 기타
 	int insertAuctionProduct(Map<String, String> data);
 	int updateReporStatus(Map<String, String> data);
+	int updateUpdateAPD(Map<String, String> data);
 	
 	Map<String, Object> selectDetailUser(Map<String, Object> data);
 	Map<String, Object> selectDetailReport(Map<String, Object> data);
