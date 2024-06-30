@@ -33,10 +33,10 @@
 	function showRecentLookProduct() {
 		let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
 		storedProducts = storedProducts.join(',');
-		// alert(storedProducts);
 		
 		let isNull = false;
 		if (storedProducts.length === 0) {
+			//alert("이건 떠?")
 			isNull = true;
 		}
 	
@@ -56,6 +56,12 @@
             success: function(response) {
 				
 				let productList = response;
+				
+				if (productList == '') {
+					let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 본 상품 목록이 비어 있습니다. </div>';
+					$("#noProduct").append(nullDiv);
+					return;  // 최근 본 상품이 없을 경우 
+				}
 				
 				var owl = $("#recentLookProduct")
 				
@@ -134,6 +140,12 @@
             success: function(response) {
             
 				let productList = response;
+				
+				if (productList == '') {
+					let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 검색 목록이 비어 있습니다. </div>';
+					$("#noKeyword").append(nullDiv);
+					return;  // 최근 본 상품이 없을 경우 
+				}
 				
 				var owl = $("#recentKeywordProduct")
 				

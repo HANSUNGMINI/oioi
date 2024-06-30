@@ -139,8 +139,8 @@
     	appendMessage(msg,"right");
     	
     	// 초기화
-    	$("#chatMsg").val("");
-		$("#chatMsg").focus();
+    	$("#textMsg").val("");
+		$("#textMsg").focus();
     }
     
     function appendMessage(msg, align_type) {
