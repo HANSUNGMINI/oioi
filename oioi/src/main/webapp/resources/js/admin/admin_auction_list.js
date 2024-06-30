@@ -1,5 +1,3 @@
-const listItems = [];
-
 
 const columns = [
     {header: '번호', name: 'APD_IDX', width: 50 , align: "center"}, 
@@ -65,26 +63,3 @@ function search() {
 		} // success 끝
 	});
 };
-
-
-
-function patchStatus(jsonData) {
-	$.ajax({
-		type : "PATCH",
-		url : "APD_STATUS",
-		contentType : 'application/json; charset=utf-8',
-		data : jsonData,
-		dataType : "JSON",
-		success : function (response) {
-			
-			if(response == 0) {
-				alert("변경실패 다시 시도");
-			} else {
-				alert(response + "개 항목 변경완료!");
-			}
-			
-			location.reload();
-			search();
-		}
-	})
-}

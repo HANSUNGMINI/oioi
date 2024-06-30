@@ -48,25 +48,12 @@
 	          		경매 상품 
 	        	</p>
 	        	
-	        	<select id="rejection" style="display : none">
-	        		<c:forEach var="rejectionList" items="${rejectionList}">
-	        			<option value="${rejectionList.code}"> ${rejectionList.value}</option>
-	        		</c:forEach>
-	        	</select>
-	        	
 	        	<select id="type" onchange="search()">
 	        		<option value="ALL"> 전체 </option>
 	        		<c:forEach var="auctionList" items="${auctionList}">
 	        			<option value="${auctionList.code}"> ${auctionList.value}</option>
 	        		</c:forEach>
 	        	</select>
-	        		
-	        		
-	        	<div class="buttons right nowrap">
-      				<button class="button small blue" id="btn-apply" type="button">
-      					<span class="icon"><i class="mdi mdi-content-save"></i></span>
-      				</button>
-     			</div>
      				
 	      	</header>
 	      	<!-- 그리드 -->

@@ -53,6 +53,6 @@ function search() {
 		        bodyHeight : 'auto'
 		    });
 			
-s		} // success 끝
+		} // success 끝
 	});
 };

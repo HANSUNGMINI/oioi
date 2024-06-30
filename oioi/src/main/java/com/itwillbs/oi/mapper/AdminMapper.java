@@ -27,6 +27,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectAdminRoleList();
 	List<Map<String, Object>> selectRejectionList();
 	List<Map<String, Object>> selectCategoryCodeList();
+	List<Map<String, Object>> selectOptionList(String name);
 	
 	// 공통코드 관리
 	int patchcommon(Map<String, Object> data);
@@ -42,7 +43,8 @@ public interface AdminMapper {
 	int changeCTG_Hide(Map<String, Object> select);
 	
 	// 기타
-	int patchAuctionProductStatus(Map<String, Object> data);
+	int insertAuctionProduct(Map<String, String> data);
+	int updateReporStatus(Map<String, String> data);
 	
 	Map<String, Object> selectDetailUser(Map<String, Object> data);
 	Map<String, Object> selectDetailReport(Map<String, Object> data);

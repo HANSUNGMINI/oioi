@@ -107,15 +107,15 @@
 		  FROM auction_product ap
 		  LEFT JOIN tmp
 		    ON ap.APD_CATEGORY = tmp.CTG_CODE
-		  LEFT JOIN common c2
-		    ON ap.APD_REJECTION = c2.code
 		  LEFT JOIN common c1
 		    ON ap.APD_STATUS = c1.code
-		 WHERE 1 = 1 
+		  LEFT JOIN common c2
+		    ON ap.APD_REJECTION = c2.code
+		 WHERE 1 = 1
 		  <choose>
-		  	<when test="!type.equals('ALL')"> AND c.code = #{type} </when>
+		  	<when test="!type.equals('ALL')"> AND c1.code = #{type} </when>
 		  </choose>
-		   ORDER BY ap.APD_REG_DATE DESC;
+		   ORDER BY ap.APD_REG_DATE DESC
 	</select>
 		 
 	<select id="selectReportList" resultType="map">
@@ -130,6 +130,11 @@
 		  LEFT JOIN common c2
 		    ON rp.RP_CATEGORY = c2.code
 		 WHERE c1.code = 'RS01'
+	 	<choose>
+		  	<when test="type.equals('TO_US_ID')"> AND TO_US_ID LIKE concat('%', #{keyword} , '%') </when>
+		  	<when test="type.equals('FROM_US_ID')"> AND FROM_US_ID LIKE concat('%', #{keyword} , '%') </when>
+		  	<otherwise> 1 = 1</otherwise>
+	    </choose>
 		 ORDER BY RP_IDX DESC
 	</select>
 	
@@ -150,7 +155,7 @@
 		 ORDER BY CM_REG_DATE desc
 	</select>
 	
-	<select id="selectCategoryList">
+	<select id="selectCategoryList" resultType="map">
 		SELECT CTG_CODE
 		     , CTG_NAME
 		     , CTG_HIDE 
@@ -194,6 +199,14 @@
 		 WHERE UP_CTG_CODE = 'T'
 		 ORDER BY UP_CTG_CODE asc
 	</select>
+	
+	<select id="selectOptionList" resultType="map">
+		SELECT code, value
+		  FROM common
+		 WHERE name = #{name} AND hide = 'N'
+		 ORDER BY code asc;
+	</select>
+	
 	
 	<!-- 셀렉트박스 리스트 조회 끝 -->
 	
@@ -266,31 +279,89 @@
 	
 	<!-- 카테고리 코드 관리 끝 -->
 	
-	<update id="patchAuctionProductStatus">
-		UPDATE auction_product
-		   SET APD_STATUS = #{APD_STATUS}
-		 WHERE APD_IDX = #{APD_IDX}
-	</update>
+	<insert id="insertAuctionProduct">
+		INSERT INTO auction
+		VALUES (
+			   NULL
+		     , #{APD_IDX}
+		     , DATE_FORMAT(NOW(), '%Y-%m-%d')
+<!-- 		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{} DAY), '%Y-%m-%d') -->
+		     , NULL
+		     , #{APD_START_PRICE}
+		 )
+	</insert>
 	
 	
-	<select id="selectDetailUser">
+	<select id="selectDetailUser" resultType="map">
 		SELECT *
 		  FROM user
 		 WHERE US_ID = #{target}
 	</select>
 	
-	<select id="selectDetailReport">
-		SELECT *
-		  FROM report
+	<select id="selectDetailReport" resultType="map">
+		SELECT rp.RP_IDX 
+			 , rp.TO_US_ID
+		     , rp.FROM_US_ID
+		     , c1.value AS RP_STATUS
+		     , c2.value AS RP_CATEGORY
+		     , rp.RP_CONTENT
+		     , rp.RP_TIME
+		     , rp.RP_IMG1
+		     , rp.RP_IMG2
+		  FROM report rp
+		  LEFT JOIN common c1
+		    ON rp.RP_STATUS = c1.code
+		  LEFT JOIN common c2
+		    ON rp.RP_CATEGORY= c2.code
 		 WHERE RP_IDX = #{target}
 	</select>
 	
-	<select id="selectDetailAP">
-		SELECT *
-		  FROM auction_product
-		 WHERE APD_IDX = #{target}
+	<select id="selectDetailAP" resultType="map">
+		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
+		SELECT ap.APD_OWNER
+             , ap.APD_NAME
+             , ap.APD_DETAIL
+			 , tmp.PATH AS APD_CATEGORY
+             , c1.value as APD_STATUS
+			 , c2.value as APD_REJECTION
+			 , ap.APD_REG_DATE
+			 , ap.APD_DEADLINE
+             , c3.value as APD_CONDITION
+             , ap.APD_START_PRICE
+             , ap.APD_BUY_NOW_PRICE
+             , ap.APD_DELIVERY
+             , img.image1
+             , img.image2
+             , img.image3
+             , img.image4
+             , img.image5
+		  FROM auction_product ap
+		  LEFT JOIN tmp
+		    ON ap.APD_CATEGORY = tmp.CTG_CODE
+		  LEFT JOIN common c1
+		    ON ap.APD_STATUS = c1.code
+		  LEFT JOIN common c2
+		    ON ap.APD_REJECTION = c2.code
+		  LEFT JOIN common c3
+		    ON ap.APD_CONDITION = c3.code
+		  LEFT JOIN images img
+		    ON ap.APD_IMAGE = img.IMG_IDX
+		 WHERE ap.APD_IDX = #{target}
 	</select>
 	
+	<update id="updateReporStatus">
+		UPDATE report
+		   SET RP_STATUS = #{RP_STATUS}
+		 WHERE RP_IDX = #{RP_IDX}
+	</update>
 </mapper>
 
 

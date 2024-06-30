@@ -34,6 +34,7 @@ public class AdminService {
 	public List<Map<String, Object>> selectAdminRoleList(){ return adminMapper.selectAdminRoleList(); }
 	public List<Map<String, Object>> selectRejectionList(){ return adminMapper.selectRejectionList(); }
 	public List<Map<String, Object>> selectCategoryCodeList(){ return adminMapper.selectCategoryCodeList(); }
+	public List<Map<String, Object>> selectOptionList(String name){ return adminMapper.selectOptionList(name); }
 	
 	// 공통코드 관리
 	public int changeActive(Map<String, Object> data){ return adminMapper.changeActive(data); }
@@ -47,8 +48,11 @@ public class AdminService {
 	public int changeCTG_Hide(Map<String, Object> select){ return adminMapper.changeCTG_Hide(select); }
 	
 	// 다른 거
-	public int patchAuctionProductStatus(Map<String, Object> select){ return adminMapper.patchAuctionProductStatus(select); }
 	public Map<String, Object> selectDetailUser(Map<String, Object> map){ return adminMapper.selectDetailUser(map); }
 	public Map<String, Object> selectDetailReport(Map<String, Object> map){ return adminMapper.selectDetailReport(map); }
 	public Map<String, Object> selectDetailAP(Map<String, Object> map){ return adminMapper.selectDetailAP(map); }
+	
+	public int insertAuctionProduct(Map<String, String> map){ return adminMapper.insertAuctionProduct(map); }
+	public int updateReporStatus(Map<String, String> map){ return adminMapper.updateReporStatus(map); }
+	
 }

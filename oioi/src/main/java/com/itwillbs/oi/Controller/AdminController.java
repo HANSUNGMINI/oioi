@@ -116,8 +116,17 @@ public class AdminController {
 		
 		switch ((String)map.get("table")) {
 			case "user": model.addAttribute("user", adminservice.selectDetailUser(map)); page = "admin_detail_user"; break;
-			case "report": model.addAttribute("report", adminservice.selectDetailUser(map)); page = "admin_detail_report"; break;
-			case "auctionProduct": model.addAttribute("product", adminservice.selectDetailUser(map)); page = "admin_detail_auction_product"; break;
+			
+			// 커밋 내역
+			case "report": 
+				model.addAttribute("report", adminservice.selectDetailReport(map));
+				model.addAttribute("rpStatusSelectBox", adminservice.selectOptionList("REPORT_STATUS"));
+				page = "admin_detail_report"; break;
+			case "auctionProduct": 
+				model.addAttribute("product", adminservice.selectDetailAP(map));
+				model.addAttribute("apdStatusSelectBox", adminservice.selectOptionList("APD_STATUS"));
+				model.addAttribute("apdRejectionSelectBox", adminservice.selectOptionList("APD_REJECTION"));
+				page = "admin_detail_auction_product"; break;
 		}
 		
 		return "admin/" + page;
@@ -126,7 +135,6 @@ public class AdminController {
 	// 최고 관리자용
 	@GetMapping("master_admin")
 	public String master_admin(Model model) {
-		
 		if(!CheckAuthority.isAdminMaster(session, model)) {
 			return "err/fail";
 		}
@@ -136,6 +144,19 @@ public class AdminController {
 	
 	
 	//==========================
+//	@PostMapping("updateAPD")
+//	public String updateAPD(@RequestParam Map<String, String> map
+//							, Model model) {
+//		
+//		if(map.get("APD_STATUS").equals("APD05")) {
+//			adminservice.insertAuctionProduct(map);
+//		}
+//		
+//		adminservice.updateAuctionProduct(map);
+//		return"";
+//	}
+	
+	
 	@PostMapping("admin")
 	public String adminLogin(@RequestParam Map<String, String> admin
 							, Model model) {
@@ -194,12 +215,6 @@ public class AdminController {
 			return "err/fail";
 		};
 		
-		List<Map<String, Object>> auctionList = adminservice.selectAuctionCategoryList();
-		List<Map<String, Object>> rejectionList = adminservice.selectRejectionList();
-		
-		model.addAttribute("auctionList", auctionList);
-		model.addAttribute("rejectionList", rejectionList);
-		System.out.println(rejectionList);
 		return "admin/admin_auction_list";
 	}
 	
@@ -240,8 +255,6 @@ public class AdminController {
 			case "category" : result = adminservice.selectCategoryList(data); break;
 		}
 		
-		System.out.println(result);
-		System.out.println("@@@");
 		return result;
 		
 	}
@@ -249,7 +262,6 @@ public class AdminController {
 	@ResponseBody
 	@PatchMapping("status")
 	public int changeStatus(@RequestBody Map<String, Object> data, Model model) {
-		System.out.println(data);
 		
 		String target = data.get("type").toString();
 		int result = 0;
@@ -270,8 +282,6 @@ public class AdminController {
 	@PutMapping("common")
 	public int putCommon(@RequestBody Map<String, Object> map) {
 		
-		System.out.println(map);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
 		String target = map.get("target").toString();
 		int result = 0;
@@ -298,9 +308,6 @@ public class AdminController {
 	@ResponseBody
 	@PutMapping("category")
 	public int category(@RequestBody Map<String, Object> map) {
-		
-		System.out.println(map);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> modifiedRows = (Map<String, Object>)map.get("modifiedRows");
 		String target = map.get("target").toString();
 		int result = 0;
@@ -325,27 +332,16 @@ public class AdminController {
 		return result;
 	}
 	
-	@ResponseBody
-	@PatchMapping("APD_STATUS")
-	public int APD_STATUS(@RequestBody Map<String, Object> map) {
-		System.out.println(map);
-		int result = 0;
-		
-		List<Map<String, Object>> updateRows = (List<Map<String, Object>>)map.get("updatedRows");
-		if(updateRows != null) {
-			for(Map<String, Object> item : updateRows) {
-				result += adminservice.patchAuctionProductStatus(item);
-			}
-		}
-
-		return result;
-	}
-	
 	
 	@ResponseBody
 	@PostMapping("addAdmin")
 	public int addAdmin(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
 		return adminservice.insertAdminAccount(map);
+	}
+	
+	@ResponseBody
+	@PostMapping("reportStatus")
+	public int reportStatus(@RequestParam Map<String, String> map) {
+		return adminservice.updateReporStatus(map);
 	}
 }

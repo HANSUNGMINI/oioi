@@ -46,9 +46,8 @@
 	        	</p>
 	        	
 	        	<select id="type">
-	        		<option value="US_NAME">이름</option>
-	        		<option value="US_ID">아이디</option>
-	        		<option value="US_NICK">닉네임</option>
+	        		<option value="TO_US_ID">신고자</option>
+	        		<option value="FROM_US_ID">신고대상</option>
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	<input type="button" id="submitBtn" value="검색">
