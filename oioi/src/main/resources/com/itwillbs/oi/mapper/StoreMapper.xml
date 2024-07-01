@@ -11,7 +11,7 @@
 		ON p.PD_IMAGE = i.IMG_IDX
 		JOIN user u
 		  ON p.US_ID = u.US_ID
-		WHERE p.US_ID = #{id} AND u.US_STATUS = '0';  
+		WHERE p.US_ID = #{id} AND u.US_STATUS = 'US01';  
 	</select>
 	
 	<update id="updatePDStatus">

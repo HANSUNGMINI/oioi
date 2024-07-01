@@ -280,7 +280,7 @@
                                         <div>
                                             <i class="fa-solid fa-shop"></i>
                                             <div id="store-column">상점오픈일</div>
-                                            <div>1 일 전</div>
+                                            <div>${user.open}</div>
                                         </div>
                                         <div>
                                             <i class="fa-solid fa-person"></i>

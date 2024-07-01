@@ -65,11 +65,18 @@ public class MyStoreController {
             model.addAttribute("msg", "존재하지 않는 회원입니다");
             return "err/fail";
         }
-
+        
+        String openDate = user.get("US_REG_DATE");
+        System.out.println("시작 날짜 : <<<<<<<<" + openDate);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime userOpenDate = LocalDateTime.parse(openDate, formatter1);
+        String open = dateTimeAgo(userOpenDate);
+        user.put("open", open);
+        
         // 공통 코드를 조회하여 모델에 추가
         List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
         List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
-        System.out.println(myPD);
+        System.out.println("상품" + myPD);
         // 상품 목록을 역순으로 정렬
         Collections.reverse(myPD);
 
@@ -88,7 +95,7 @@ public class MyStoreController {
                     // System.out.println("각 상품들의 정보 : " + product);
                     return product;
                 }).collect(Collectors.toList());
-
+        
         model.addAttribute("user", user);
         model.addAttribute("myPD", productList);
 
