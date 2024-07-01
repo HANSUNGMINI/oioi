@@ -36,8 +36,8 @@ function addAdmin(){
 			<input type="text" name="AD_ID" placeholder="아이디">		
 			<input type="password" name="AD_PW"placeholder="사용할 비밀번호">
 			<select name="RL_TYPE">
-        		<c:forEach var="role" items="${roleList}">
-        			<option value="${role.value}"> ${role.value}</option>
+        		<c:forEach var="role" items="${roleSelectBox}">
+        			<option value="${role.code}"> ${role.value}</option>
         		</c:forEach>
         	</select>
         	<input type="button" value="등록" onclick="addAdmin()">

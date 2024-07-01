@@ -53,7 +53,11 @@
 <!-- 	        		<option value="">태그(보류)</option> -->
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
-	        	<input type="button" id="submitBtn" value="검색">
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-add" type="button" onclick="search()">
+      					<span class="icon"><i class="mdi mdi-text-search"></i></span>
+      				</button>
+     			</div>
 	        	
 	      	</header>
 	      	

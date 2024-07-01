@@ -70,6 +70,7 @@
       				<button class="button small green" id="btn-add" type="button">
       					<span class="icon"><i class="mdi mdi-plus-box-multiple"></i></span>
       				</button>
+      				
      			</div>
 	        	
 	        	<div class="buttons right nowrap">

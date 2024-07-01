@@ -129,12 +129,25 @@
 		    ON rp.RP_STATUS = c1.code
 		  LEFT JOIN common c2
 		    ON rp.RP_CATEGORY = c2.code
-		 WHERE c1.code = 'RS01'
-	 	<choose>
-		  	<when test="type.equals('TO_US_ID')"> AND TO_US_ID LIKE concat('%', #{keyword} , '%') </when>
-		  	<when test="type.equals('FROM_US_ID')"> AND FROM_US_ID LIKE concat('%', #{keyword} , '%') </when>
-		  	<otherwise> 1 = 1</otherwise>
-	    </choose>
+		 WHERE 
+		 <choose>
+			 <when test="isPast.equals('true')"> 
+			 	c1.code != 'RS01'
+			 	<choose>
+				  	<when test="type.equals('TO_US_ID')"> AND TO_US_ID LIKE concat('%', #{keyword} , '%') </when>
+				  	<when test="type.equals('FROM_US_ID')"> AND FROM_US_ID LIKE concat('%', #{keyword} , '%') </when>
+				  	<otherwise> AND 1 = 1 </otherwise>
+	    		</choose>
+			 </when>
+			 <otherwise>
+			 	c1.code = 'RS01'
+			 	<choose>
+				  	<when test="type.equals('TO_US_ID')"> AND TO_US_ID LIKE concat('%', #{keyword} , '%') </when>
+				  	<when test="type.equals('FROM_US_ID')"> AND FROM_US_ID LIKE concat('%', #{keyword} , '%') </when>
+				  	<otherwise> AND 1 = 1 </otherwise>
+	    		</choose>
+			 </otherwise>
+		 </choose>
 		 ORDER BY RP_IDX DESC
 	</select>
 	
@@ -279,11 +292,36 @@
 	
 	<!-- 카테고리 코드 관리 끝 -->
 	
-	
 	<select id="selectDetailUser" resultType="map">
-		SELECT *
-		  FROM user
-		 WHERE US_ID = #{target}
+<!-- 		SELECT u.US_ID -->
+<!-- 			 , u.US_NAME -->
+<!-- 			 , u.US_NICK -->
+<!-- 			 , u.US_EMAIL -->
+<!-- 			 , u.US_POST_CODE -->
+<!-- 			 , u.US_ADDRESS1 -->
+<!-- 			 , u.US_ADDRESS2 -->
+<!-- 			 , u.US_PHONE -->
+<!-- 			 , u.US_PROFILE -->
+<!-- 			 , u.US_REG_DATE -->
+<!-- 			 , u.US_PLATFORM -->
+<!-- 			 , u.US_OIMONEY -->
+<!-- 			 , c1.value AS US_STATUS -->
+<!-- 			 , (SELECT count(RP_STATUS) FROM report r WHERE FROM_US_ID = u.US_ID AND RP_STATUS = 'RS02') AS RP_COUNT -->
+<!-- 		     , (SELECT count(US_ID) FROM product p  WHERE US_ID = u.US_ID) AS PD_COUNT -->
+<!-- 		     , (SELECT count(CM_ID) FROM community c  WHERE CM_ID = u.US_ID) AS CM_COUNT -->
+<!-- 		     , (SELECT count(APD_OWNER) FROM auction_product ap  WHERE APD_OWNER = u.US_ID) AS APD_COUNT -->
+<!-- 		  FROM user u -->
+<!-- 		  LEFT JOIN common c1 -->
+<!-- 		    ON u.US_STATUS = c1.code -->
+<!-- 		 WHERE US_ID = #{target} -->
+
+			SELECT * 
+			     , (SELECT count(RP_STATUS) FROM report r WHERE FROM_US_ID = u.US_ID AND RP_STATUS = 'RS02') AS RP_COUNT
+			     , (SELECT count(US_ID) FROM product p  WHERE US_ID = u.US_ID) AS PD_COUNT
+			     , (SELECT count(CM_ID) FROM community c  WHERE CM_ID = u.US_ID) AS CM_COUNT
+			     , (SELECT count(APD_OWNER) FROM auction_product ap  WHERE APD_OWNER = u.US_ID) AS APD_COUNT
+			FROM `user` u
+			WHERE u.US_ID = #{target};
 	</select>
 	
 	<select id="selectDetailReport" resultType="map">
@@ -345,10 +383,16 @@
 		 WHERE ap.APD_IDX = #{target}
 	</select>
 	
-	<update id="updateReporStatus">
+	<update id="updateReportStatus">
 		UPDATE report
 		   SET RP_STATUS = #{RP_STATUS}
 		 WHERE RP_IDX = #{RP_IDX}
+	</update>
+	
+	<update id="updateUserStatus">
+		UPDATE user
+		   SET US_STATUS = #{US_STATUS}
+		 WHERE US_ID = #{US_ID}
 	</update>
 	
 	<insert id="insertAuctionProduct">

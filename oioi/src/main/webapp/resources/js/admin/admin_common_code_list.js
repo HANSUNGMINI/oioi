@@ -57,13 +57,10 @@ function search() {
 			$('#btn-apply').on('click', function () {
 				const target = $('#type').val();
 				const modifiedRows = grid.getModifiedRows();
-				console.log(modifiedRows);
-				console.log(modifiedRows.updateRows);
-				console.log(modifiedRows.updateRows.get(0).code);
 				const dataToSend = {target: target,modifiedRows: modifiedRows};
 			    const jsonData = JSON.stringify(dataToSend);
 			    
-				// putCode(jsonData)
+				putCode(jsonData)
 			});
 			
 			// 추가버튼(row만 추가 DB작업 X)
