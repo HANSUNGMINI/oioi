@@ -29,4 +29,14 @@ public class StoreService {
 		return mapper.getCommonCode(codeName);
 	}
 
+	// 방문자수 늘리기
+	public void VisitCount(String userId) {
+		mapper.VisitCount(userId);
+	}
+
+	// 방문자수 가져오기
+	public int getVisitCount(String userId) {
+		return mapper.getVisitCount(userId);
+	}
+
 }

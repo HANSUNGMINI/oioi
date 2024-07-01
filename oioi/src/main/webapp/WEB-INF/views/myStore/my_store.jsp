@@ -285,7 +285,7 @@
                                         <div>
                                             <i class="fa-solid fa-person"></i>
                                             <div id="store-column">상점방문수</div>
-                                            <div>0 명</div>
+                                            <div>${visitCount} 명</div>
                                         </div>
                                         <div>
                                             <i class="fa-solid fa-bag-shopping"></i>

@@ -25,4 +25,17 @@
 		FROM common
 		WHERE name = #{codeName}
 	</select>
+	
+	<update id="VisitCount">
+		UPDATE user 
+		SET US_VISIT = US_VISIT + 1 
+		WHERE US_ID = #{userId}
+	</update>
+	
+	<select id="getVisitCount">
+		SELECT US_VISIT 
+		FROM user 
+		WHERE US_ID = #{userId}
+	</select>
+	
 </mapper>

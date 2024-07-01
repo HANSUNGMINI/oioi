@@ -18,4 +18,8 @@ public interface StoreMapper {
 	// 공통코드에서 상품 판매 코드 가져오기
 	List<Map<String, String>> getCommonCode(@Param("codeName") String codeName);
 
+	void VisitCount(@Param("userId") String userId);
+
+	int getVisitCount(@Param("userId") String userId);
+
 }

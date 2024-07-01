@@ -66,12 +66,17 @@ public class MyStoreController {
             return "err/fail";
         }
         
+        // 방문자 수 증가
+        storeService.VisitCount(userId);
+        int visitCount = storeService.getVisitCount(userId);
+        
         String openDate = user.get("US_REG_DATE");
         System.out.println("시작 날짜 : <<<<<<<<" + openDate);
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime userOpenDate = LocalDateTime.parse(openDate, formatter1);
         String open = dateTimeAgo(userOpenDate);
         user.put("open", open);
+        model.addAttribute("visitCount", visitCount);
         
         // 공통 코드를 조회하여 모델에 추가
         List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
