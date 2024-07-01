@@ -70,7 +70,7 @@
 			, null
 			, null
 			, null
-			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 			, #{category}
 			, #{CM_NICK}
 		);
