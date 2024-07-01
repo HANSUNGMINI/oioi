@@ -7,19 +7,24 @@
   	
   	<select id="selectBoardList" resultType="map">
   		SELECT
-  		*, (SELECT
-  			 COUNT(*) 
-  			 FROM community
-  			 WHERE 1=1
-  			 <if test="type != null and type != ''and type != '전체 게시판'">
-		  		AND CM_CATEGORY = #{type}
-			</if>
-  			 )
-  			 AS count
+  			CM_IDX
+  			, CM_TITLE
+  			, CM_REG_DATE
+  			, CM_CATEGORY
+  			, CM_NICK
+	  		, (SELECT
+	  			 COUNT(*) 
+	  			 FROM community
+	  			 WHERE 1=1
+	  			 <if test="type != null and type != ''and type != '전체 게시판'">
+			  		AND CM_CATEGORY = #{type}
+				</if>
+	  			 )
+	  			 AS count
   		FROM community
-  			 WHERE 1=1
+  				 WHERE 1=1
 		<if test="type != null and type != '' and type != '전체 게시판'">
-		  AND CM_CATEGORY = #{type}
+			AND CM_CATEGORY = #{type}
 		</if>
   		ORDER BY CM_IDX desc
   	
