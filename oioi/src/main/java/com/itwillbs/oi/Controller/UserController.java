@@ -74,15 +74,12 @@ public class UserController {
                 System.out.println(userEmail);
                 System.out.println(userNick);
                 
-             // 이미지 크기 조정 및 Base64 인코딩
-//                String resizedProfile = resizeProfile(thumbnailImage, 256, 193);
-                
                 // 카카오 사용자 정보를 Map에 저장
                 Map<String, Object> kakaoUserInfo = new HashMap<>();
                 kakaoUserInfo.put("US_ID", userId);
                 kakaoUserInfo.put("US_EMAIL", userEmail);
                 kakaoUserInfo.put("US_NAME", userNick);
-                kakaoUserInfo.put("US_NICK", userNick);
+                kakaoUserInfo.put("US_NICK", userNick + " (Kakao)");
                 kakaoUserInfo.put("US_PROFILE", thumbnailImage);
                 
                 // DB에 사용자 정보 삽입 또는 업데이트
@@ -122,24 +119,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false}");
         }
     }
-//    // 이미지 크기 조정 메서드
-//    private String resizeProfile(String imageUrl, int targetWidth, int targetHeight) throws IOException {
-//        URL url = new URL(imageUrl);
-//        BufferedImage originalImage = ImageIO.read(url);
-//        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-//        Graphics2D g = resizedImage.createGraphics();
-//        g.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-//        g.dispose();
-//
-//        // 이미지를 바이트 배열로 변환하여 Base64 인코딩
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        ImageIO.write(resizedImage, "jpg", baos);
-//        baos.flush();
-//        byte[] imageInByte = baos.toByteArray();
-//        baos.close();
-//
-//        return Base64.getEncoder().encodeToString(imageInByte);
-//    }
     
     @GetMapping("naver_callback")
 	public String naverCallback(HttpServletRequest request, HttpSession session) {
@@ -217,14 +196,15 @@ public class UserController {
 			JsonObject userInfoJson = JsonParser.parseString(userInfoResponse).getAsJsonObject();
 			JsonObject responseJson = userInfoJson.getAsJsonObject("response");
 			String userId = responseJson.get("id").getAsString();
-			String userNick = responseJson.get("nickname").getAsString() + " (네이버)";
+			String userName = responseJson.get("name").getAsString();
+			String userNick = responseJson.get("nickname").getAsString() + " (Naver)";
 			String userEmail = responseJson.get("email").getAsString();
 			String userProfile = responseJson.get("profile_image").getAsString();
 	
 	          // 유저정보 map에 저장
 			Map<String, Object> naverUserInfo = new HashMap<>();
 			naverUserInfo.put("US_ID", userId);
-			naverUserInfo.put("US_NAME", userNick);
+			naverUserInfo.put("US_NAME", userName);
 			naverUserInfo.put("US_NICK", userNick);
 			naverUserInfo.put("US_EMAIL", userEmail);
 			naverUserInfo.put("US_PROFILE", userProfile);
@@ -248,6 +228,7 @@ public class UserController {
 	              // 세션 정보 확인
 				System.out.println("네이버 로그인 성공! 사용자 정보:");
 				System.out.println("userId: " + userId);
+				System.out.println("userName: " + userName);
 				System.out.println("userNick: " + userNick);
 				System.out.println("userEmail: " + userEmail);
 					
@@ -406,7 +387,7 @@ public class UserController {
 		resultMap.put("US_ADDRESS2", (String)userMap.get("user_address2"));
 		resultMap.put("US_GENDER", (String)userMap.get("user_gender"));
 		resultMap.put("US_PHONE", userPhone);
-		
+		resultMap.put("US_PROFILE", "https://ssl.pstatic.net/static/pwe/address/img_profile.png");
 		if(service.registUser(resultMap) > 0) {
 			model.addAttribute("msg", "회원가입에 성공하셨습니다!");
 			model.addAttribute("US_NICK", (String) resultMap.get("US_NICK")); 

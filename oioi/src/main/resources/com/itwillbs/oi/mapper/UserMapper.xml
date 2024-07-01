@@ -27,10 +27,10 @@
 			, #{US_ADDRESS2}
 			, #{US_PHONE}
 			, #{US_GENDER}
-			, null
+			, #{US_PROFILE}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
 			, '오이마켓'
-			, 0
+			, 'US01'
 			, '0'
 		)
 	</insert>
@@ -50,7 +50,7 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '카카오',
-        0)
+        'US01')
     </insert>
 
     <update id="updateKakaoUser" parameterType="map">
@@ -74,7 +74,7 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '네이버',
-        0)
+        'US01')
     </insert>
 	
 	<select id="selectUser" resultType="hashmap">
