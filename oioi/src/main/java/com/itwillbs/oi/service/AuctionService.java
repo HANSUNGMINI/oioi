@@ -82,7 +82,7 @@ public class AuctionService {
 		return mapper.selectBidChart(APD_IDX);
 	}
 
-	public List<String> getNewAuctionItems() {
+	public List<Map<String, Object>> getNewAuctionItems() {
 		return mapper.selectAuctionList();
 	}
 

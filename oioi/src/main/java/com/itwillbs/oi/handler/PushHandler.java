@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,19 @@ public class PushHandler extends TextWebSocketHandler {
             userSessions.put(senderId, session);
 
             // 웹소켓 연결 시 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
-            List<String> newItems = auctionService.getNewAuctionItems();
+            List<Map<String, Object>> newItems = auctionService.getNewAuctionItems();
             if (!newItems.isEmpty()) {
-                sendNotificationToClient(session, "새로운 경매물품이 등록되었습니다!");
+                JSONArray jsonArray = new JSONArray();
+                for (Map<String, Object> item : newItems) {
+                    JSONObject jsonItem = new JSONObject();
+                    jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
+                    jsonItem.put("APD_NAME", item.get("APD_NAME"));
+                    jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
+                    jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
+                    jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
+                    jsonArray.put(jsonItem);
+                }
+                sendNotificationToClient(session, jsonArray.toString());
             }
         }
     }

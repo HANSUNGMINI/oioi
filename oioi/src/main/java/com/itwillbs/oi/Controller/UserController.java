@@ -126,7 +126,8 @@ public class UserController {
 		String clientSecret = "gr5_JyaxfB"; // 네이버 애플리케이션 시크릿값
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
-		String redirectURI = "http://localhost:8081/oi/naver_callback"; // 네이버 애플리케이션 콜백 URI
+		String redirectURI = "http://c3d2401t1.itwillbs.com/oioi/naver_callback"; // 네이버 애플리케이션 콜백 URI
+//		String redirectURI = "http://localhost:8081/oioi/naver_callback"; // 네이버 애플리케이션 콜백 URI
 	
 		try {
 			String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"

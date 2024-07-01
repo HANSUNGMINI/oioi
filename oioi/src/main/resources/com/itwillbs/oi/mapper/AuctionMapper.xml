@@ -210,10 +210,16 @@
 		where APD_IDX = 32;
 	</select>
 	
-	<select id="selectAuctionList" resultType="String">
+	<select id="selectAuctionList" resultType="hashmap">
 		SELECT APD_NAME
-        FROM auction_product
-        WHERE APD_STATUS = 'APD05'
+			  ,APD_REG_DATE 
+			  ,APD_START_PRICE
+			  ,APD_BUY_NOW_PRICE
+			  , i.image1 AS APD_IMAGE  
+		FROM auction_product ap
+		LEFT JOIN images i 
+		ON i.IMG_IDX = ap.APD_IMAGE 
+		WHERE APD_STATUS = 'APD05';
 	</select>
 	
 </mapper>
