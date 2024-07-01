@@ -244,9 +244,23 @@
 	});
 </script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
-<!-- Preloader -->
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="blog-single.html">커뮤니티</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 <!-- Start Blog Single -->
-<section class="blog-single shop-blog grid section" > <!-- style="height: 700px;" -->
+<section class="blog-single shop-blog grid section" style="padding: 10px 0px 100px;"> <!-- style="height: 700px;" -->
 	<div class="container">
 		<div class="row">
 			<%-- 사이드바 --%>
@@ -264,9 +278,6 @@
 					</div>
 				</div>
 			</div>
-			
-		
-			
 		<%-- 본문 --%>
 		 <div class="col-lg-9 col-12" id="highlighted-row"> 
 			 <div class="row">
