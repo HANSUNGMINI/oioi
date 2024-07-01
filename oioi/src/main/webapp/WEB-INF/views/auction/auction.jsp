@@ -53,67 +53,147 @@
    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
    
    <script type="text/javascript">
+	  let isLoading = false;
+	  let isEmpty = false;
+	  let pageNum = 1;
+	  let listLimit = 4;
+	  let statusValue = "";
+   
       $(function(){
-    	  status("");
-      });
-      function status(value) {
-          console.log("status : " + value);
-          
-          $.ajax({
-        	 url : "auction",
-        	 type : "POST",
-        	 data : {
-        		 APD_STATUS : value
-        	 },
-        	 dataType : "JSON",
-        	 success : function(data){
-        		 console.log("성공 : " + data);
-        		 var html ='';
-        		 $('#statusList').empty().append(html);
-        		  
-       			 data.forEach(function(item, index) {
-       				html += '<div class="col-xl-3 col-lg-4 col-md-4 col-12">' 
-       	                + '<div class="single-product">' 
-       	                + '<div class="product-img">' 
-       	                + '<a href="javascript:void(0)" onclick="return apdDetailView(\'' + item.APD_IDX + '\')">' 
-       	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.image1 + '">';
-       	            
-       	            // 상태에 따라 다른 span 태그를 추가
-       	            if (item.APD_STATUS === 'APD05') {
-       	                html += '<span class="out-of-stock">판매중</span>';
-       	            } else if (item.APD_STATUS === 'APD06') {
-       	                html += '<span class="price-dec">입찰중</span>';
-       	            }
-       	            
-       	            html += '</a>' 
-       	                + '<div class="button-head">' 
-       	                + '<div class="product-action">' 
-       	                + '<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class="ti-eye"></i><span>Quick Shop</span></a>' 
-       	                + '<a title="Wishlist" href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>' 
-       	                + '<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>' 
-       	                + '</div>' 
-       	                + '<div class="product-action-2">' 
-       	                + '<form action="auctionDetail">' 
-       	                + '<input type="hidden" name="APD_IDX" value="' + item.APD_IDX + '">' 
-       	                + '<input type="submit" value="상세 페이지로 이동">' 
-       	                + '</form>' 
-       	                + '</div>' 
-       	                + '</div>' 
-       	                + '</div>' 
-       	                + '<div class="product-content">' 
-       	                + '<h3><a href="product-details.html">' + item.APD_NAME + '</a></h3>' 
-       	                + '<div class="product-price">' 
-       	                + '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>' 
-       	                + '<span>[즉시구매가] ' + new Intl.NumberFormat().format(item.APD_BUY_NOW_PRICE) + '원</span>' 
-       	                + '</div>' 
-       	                + '</div>' 
-       	                + '</div>' 
-       	                + '</div>';
-       		     });
-                 $('#statusList').append(html);
-        	 }
+        
+	      function status(value, isNewFilter = false) {
+	          console.log("status : " + value);
+	          if (isLoading) return;
+	          isLoading = true;
+	          
+	          if (isNewFilter) {
+	              $('#statusList').empty();
+	              pageNum = 1;
+	          }
+	          
+	          $.ajax({
+	        	 url : "auction",
+	        	 type : "POST",
+	        	 data : {
+	        		 APD_STATUS : value,
+	        		 pageNum: pageNum,
+	                 listLimit: listLimit
+	        	 },
+	        	 dataType : "JSON",
+	        	 success : function(data){
+	        		 console.log("성공 : " + data);
+	        		 if(data.length === 0){
+	        			 isEmpty = true;
+	        		 }else{
+// 	        			 var html ='';
+// 	            		 $('#statusList').empty().append(html);
+	            		 $.each(data, function(index, item) {
+	            			 $('#statusList').append(
+	                                 '<div class="col-xl-3 col-lg-4 col-md-4 col-12">'
+	                                + '<div class="single-product">' 
+		           	                + '<div class="product-img">' 
+		           	                + '<a href="javascript:void(0)" onclick="return apdDetailView(\'' + item.APD_IDX + '\')">' 
+		           	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.image1 + '">'
+// 		           	          		// 상태에 따라 다른 span 태그를 추가
+// 		 	           	            if (item.APD_STATUS === 'APD05') {
+// 		 	           	                html + '<span class="out-of-stock">판매중</span>';
+// 		 	           	            } else if (item.APD_STATUS === 'APD06') {
+// 		 	           	                html + '<span class="price-dec">입찰중</span>';
+// 		 	           	            }
+	           	                	+ '</a>'
+	           	                	+ '<div class="button-head">' 
+		           	                + '<div class="product-action">' 
+		           	                + '<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class="ti-eye"></i><span>Quick Shop</span></a>' 
+		           	                + '<a title="Wishlist" href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>' 
+		           	                + '<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>' 
+		           	                + '</div>' 
+		           	                + '<div class="product-action-2">' 
+		           	                + '<form action="auctionDetail">' 
+		           	                + '<input type="hidden" name="APD_IDX" value="' + item.APD_IDX + '">' 
+		           	                + '<input type="submit" value="상세 페이지로 이동">' 
+		           	                + '</form>' 
+		           	                + '</div>' 
+		           	                + '</div>' 
+		           	                + '</div>' 
+		           	                + '<div class="product-content">' 
+		           	                + '<h3><a href="product-details.html">' + item.APD_NAME + '</a></h3>' 
+		           	                + '<div class="product-price">' 
+		           	                + '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>' 
+		           	                + '<span>[즉시구매가] ' + new Intl.NumberFormat().format(item.APD_BUY_NOW_PRICE) + '원</span>' 
+		           	                + '</div>' 
+		           	                + '</div>' 
+		           	                + '</div>' 
+		           	                + '</div>'
+	                             );
+	            		 });
+	            		 
+// 	           			 data.forEach(function(item, index) {
+// 	           				html += '<div class="col-xl-3 col-lg-4 col-md-4 col-12">' 
+// 	           	                + '<div class="single-product">' 
+// 	           	                + '<div class="product-img">' 
+// 	           	                + '<a href="javascript:void(0)" onclick="return apdDetailView(\'' + item.APD_IDX + '\')">' 
+<%-- 	           	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.image1 + '">'; --%>
+	           	            
+// 	           	            // 상태에 따라 다른 span 태그를 추가
+// 	           	            if (item.APD_STATUS === 'APD05') {
+// 	           	                html += '<span class="out-of-stock">판매중</span>';
+// 	           	            } else if (item.APD_STATUS === 'APD06') {
+// 	           	                html += '<span class="price-dec">입찰중</span>';
+// 	           	            }
+	           	            
+// 	           	            html += '</a>' 
+// 	           	                + '<div class="button-head">' 
+// 	           	                + '<div class="product-action">' 
+// 	           	                + '<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class="ti-eye"></i><span>Quick Shop</span></a>' 
+// 	           	                + '<a title="Wishlist" href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>' 
+// 	           	                + '<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>' 
+// 	           	                + '</div>' 
+// 	           	                + '<div class="product-action-2">' 
+// 	           	                + '<form action="auctionDetail">' 
+// 	           	                + '<input type="hidden" name="APD_IDX" value="' + item.APD_IDX + '">' 
+// 	           	                + '<input type="submit" value="상세 페이지로 이동">' 
+// 	           	                + '</form>' 
+// 	           	                + '</div>' 
+// 	           	                + '</div>' 
+// 	           	                + '</div>' 
+// 	           	                + '<div class="product-content">' 
+// 	           	                + '<h3><a href="product-details.html">' + item.APD_NAME + '</a></h3>' 
+// 	           	                + '<div class="product-price">' 
+// 	           	                + '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>' 
+// 	           	                + '<span>[즉시구매가] ' + new Intl.NumberFormat().format(item.APD_BUY_NOW_PRICE) + '원</span>' 
+// 	           	                + '</div>' 
+// 	           	                + '</div>' 
+// 	           	                + '</div>' 
+// 	           	                + '</div>';
+	           	                
+// 		           	         $('#statusList').append(html);
+// 		           		     });
+		        		 pageNum++;
+	        		 }
+	        		 isLoading = false;
+	        	 },
+	        	 error: function(xhr, status, error) {
+	                 console.error('AJAX 요청 오류:', error);
+	                 isLoading = false;
+	             }
+	          });
+	      }
+	      
+		  status(statusValue);
+		  
+		  $('.nav-link').click(function(e) {
+		        e.preventDefault(); // 링크 클릭 기본 동작 방지
+		        currentStatus = $(this).attr('data-status');
+		        status(currentStatus, true); // 새로운 필터로 데이터 요청
+		  });
+    	  
+    	  $(window).scroll(function() {
+              if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading && !isEmpty) {
+            	  status(statusValue);
+              }
           });
-      }
+      });
+      
    </script>
 </head>
 <body class="js">
@@ -213,53 +293,13 @@
                   <div class="product-info">
                      <div class="nav-main">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                           <li class="nav-item"><a class="nav-link" onclick="status('APD05')">판매중</a></li>
-                           <li class="nav-item"><a class="nav-link" onclick="status('APD06')">입찰중</a></li>
-                           <li class="nav-item"><a class="nav-link" onclick="status('APD07')">경매마감</a></li>
-                        </ul>
+						    <li class="nav-item"><a class="nav-link" href="#" data-status="APD05">판매중</a></li>
+						    <li class="nav-item"><a class="nav-link" href="#" data-status="APD06">입찰중</a></li>
+						    <li class="nav-item"><a class="nav-link" href="#" data-status="APD07">경매마감</a></li>
+						</ul>
                      </div>
 							<div>
-                              <div class="row" id="statusList">
-                                 <c:forEach var="apd" items="${apdList}">
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                       <div class="single-product">
-                                          <div class="product-img">
-                                             <a href="javascript:void(0)" onclick="return apdDetailView('${apd.APD_IDX}')">
-                                                <img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1}">
-                                                <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
-                                                <c:if test="${apd.APD_STATUS eq 'APD05'}">
-                                                   <span class="out-of-stock">판매중</span>
-                                                </c:if>
-                                                <c:if test="${apd.APD_STATUS eq 'APD06'}">
-                                                   <span class="price-dec">입찰중</span>
-                                                </c:if>
-                                                
-                                             </a>
-                                             <div class="button-head">
-                                                <div class="product-action">
-                                                   <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                   <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                                                   <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                                                </div>
-                                                <div class="product-action-2">
-                                                   <form action="auctionDetail">
-                                                      <input type="hidden" name="APD_IDX" value="${apd.APD_IDX}">
-                                                      <input type="submit" value="상세 페이지로 이동">
-                                                   </form>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="product-content">
-                                             <h3><a href="product-details.html">${apd.APD_NAME}</a></h3>
-                                             <div class="product-price">
-                                                <span>[판매시작가] <fmt:formatNumber value="${apd.APD_START_PRICE}" pattern="#,###"/>원</span><br>
-                                                <span>[즉시구매가] <fmt:formatNumber value="${apd.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </c:forEach>
-                              </div>
+                              <div class="row" id="statusList"></div>
                            </div>
                            <div>
                         </div>

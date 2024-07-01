@@ -53,10 +53,21 @@ public class AuctionController {
    
    @ResponseBody
    @PostMapping("auction")
-   public List<Map<String, Object>> AuctionPro(Model model,@RequestParam String APD_STATUS) {
-	   System.out.println("APD_STATUS(Post)" + APD_STATUS);
+   public List<Map<String, Object>> AuctionPro(
+		   Model model,
+		   @RequestParam("APD_STATUS") String APD_STATUS,
+		   @RequestParam("pageNum") int pageNum,
+           @RequestParam("listLimit") int listLimit) {
+	   System.out.println("APD_STATUS : " + APD_STATUS);
+	   System.out.println("pageNum : " + pageNum);
+	   System.out.println("listLimit : " + listLimit);
+	   int startRow = (pageNum - 1) * listLimit;
+	   Map<String, Object> params = new HashMap<>();
+       params.put("startRow", startRow);
+       params.put("listLimit", listLimit);
+       params.put("APD_STATUS", APD_STATUS);
 	   
-	   List<Map<String, Object>> apdList = service.selectApdList(APD_STATUS);
+	   List<Map<String, Object>> apdList = service.selectApdList(params);
 	   System.out.println("apdList : " + apdList);
 	   return apdList;
    }

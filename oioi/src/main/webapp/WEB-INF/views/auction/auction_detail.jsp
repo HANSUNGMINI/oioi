@@ -213,6 +213,33 @@
          });
       });
       
+      //배송상태를 가져오기
+      var t_key = $('#t_key').val();
+      var t_code = $('#t_code').val();
+      var t_invoice = $('#t_invoice').val();
+      
+//       $('#deliveryAlert').on('click', function(){
+//     	 console.log("확인");
+    	 
+//     	 $.ajax({
+//         	 url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
+//         	 type : "GET",
+//         	 data: {
+//                  t_key: t_key,
+//                  t_code: t_code,
+//                  t_invoice: t_invoice
+//              },
+//              success: function(response) {
+//             	 console.log(response);
+//             	 var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
+//                  var deliveryLevel = latestStatus.level;
+                 
+//                  // 배송 상태 출력
+//                  console.log("Delivery Level: " + deliveryLevel);
+//              }
+//           });
+//       });
+      
       
     });
    
@@ -545,6 +572,7 @@
 								            <button type="submit" class="btn">배송조회</button>
 								        </form>
                                     </div>
+                                    <input type="button" id="deliveryAlert" value="배송정보 확인">
                                  </div>
                                  <!--/ End Product Buy -->
                               </div>
