@@ -321,6 +321,34 @@
 		</div>
 		<!--/ End Header Inner -->
 	</header>
+	 <!-- JavaScript 및 WebSocket 관련 스크립트 -->
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        var socket = new WebSocket("ws://localhost:8081/oi/push"); // WebSocket 주소에 맞게 설정
+
+        socket.onmessage = function(event) {
+            var message = event.data;
+
+            // 새로운 경매물품 알림을 받으면 처리
+            if (message === "새로운 경매물품이 등록되었습니다!") {
+                // 알림 리스트에 항목 추가
+                var notificationItem = '<li>' +
+                    '<span class="item-name">' + message + '</span>' +
+                    '</li>';
+                
+                $("#notification-list").append(notificationItem);
+            }
+        };
+
+        // 알림 모두 지우기 버튼 클릭 이벤트 처리
+        $("#clear-notifications").click(function(e) {
+            e.preventDefault();
+            $("#notification-list").empty(); // 모든 알림 삭제
+        });
+    });
+
+    </script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>

@@ -209,6 +209,13 @@
 		from bidding
 		where APD_IDX = 32;
 	</select>
+	
+	<select id="selectAuctionList" resultType="String">
+		SELECT APD_NAME
+        FROM auction_product
+        WHERE APD_STATUS = 'APD05'
+	</select>
+	
 </mapper>
 
 

@@ -39,5 +39,7 @@ public interface AuctionMapper {
 
 	List<Map<String, String>> selectBidChart(int aPD_IDX);
 
+	List<String> selectAuctionList();
+
 
 }

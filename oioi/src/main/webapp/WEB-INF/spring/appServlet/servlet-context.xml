@@ -38,10 +38,12 @@
 	<!-- 웹소켓 핸들러 -->
     <beans:bean id="replyEchochoHandler" class="com.itwillbs.oi.handler.ReplyEchoHandler" />
     <beans:bean id="ProductChattingHandler" class="com.itwillbs.oi.handler.ProductChattingHandler" />
+    <beans:bean id="pushHandler" class="com.itwillbs.oi.handler.PushHandler" />
 	
 	<websocket:handlers>
         <websocket:mapping handler="replyEchochoHandler" path="/replyEcho" />
         <websocket:mapping handler="ProductChattingHandler" path="/productChat" />
+        <websocket:mapping handler="pushHandler" path="/push" />
         <websocket:handshake-interceptors>
             <beans:bean
                 class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
