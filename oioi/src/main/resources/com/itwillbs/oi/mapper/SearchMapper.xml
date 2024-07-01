@@ -67,6 +67,7 @@
 			, PD_SUBJECT
 			, i.image1 AS 'IMG'
 			, PD_CONTENT
+			, PD_PRICE
 			, c.value AS 'PD_STATUS_VALUE'
 			, CASE
 			        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'

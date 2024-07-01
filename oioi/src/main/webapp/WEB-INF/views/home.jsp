@@ -135,7 +135,7 @@
 									<div class="product-price">
 										<!-- 세일 기준 -->
 	<!-- 									<span class="old">이전가격</span> -->
-										<span>${popular.PD_PRICE}</span>
+										<span>${popular.PD_PRICE} 원</span>
 										<span class="pro_time" style="float:right; color:gray"><small>${popular.RD_DATE}</small></span>
 									</div>
 								</div>

@@ -88,13 +88,14 @@
                    			'<h3 style="text-align: center;">📢 <span style="color:#34A853">' + keyword + '</span>(으)로 검색하신 결과입니다</h3>'   
                         );  
                        $.each(productList, function(index, product) {
+                    	   
                            $('#productList').append(
                                '<div class="col-lg-4 col-md-6 col-12">'
                                + '    <div class="single-product">'
                                + '        <div class="product-img">'
                                + '              <a href="productDetail?PD_IDX='+ product.PD_IDX +'">'
                                + '                   <img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + product.IMG + '">'
-                               + '					 <span class="' + ${product.PD_STATUS_COLOR}+ '">' + ${product.PD_STATUS_VALUE} +'</span> '
+                               + '					 <span class="' + product.PD_STATUS_COLOR+ '">' + product.PD_STATUS_VALUE +'</span> '
                                + '               </a>'
                                + '           <div class="button-head">'
                                + '           <div class="product-action">'
@@ -105,7 +106,7 @@
                                + '       <div class="product-content">'
                                + '           <h3><a href="product-details.html">'+ product.PD_SUBJECT +'</a></h3>'
                                + '           <div class="product-price">'
-                               + '               <span>'+ product.PD_PRICE +'</span>'
+                               + '               <span>'+ product.PD_PRICE +' 원 </span>'
                                + '           </div>'
                                + '       </div>'
                                + '   </div>'
