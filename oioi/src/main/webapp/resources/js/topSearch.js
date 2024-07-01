@@ -186,7 +186,7 @@ $(function(){
 			//******************** 최근 검색어 보관함 ************************
 		
 			/* 글자 클릭 시 이동 */
-			var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
+			var searchKeywordUrl = "researchProduct?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
 			window.location.href = searchKeywordUrl;
 		}
 		
@@ -196,7 +196,7 @@ $(function(){
 	/* 검색어로 이동하는 주소 설정 */ 
 	function sendKeyword(element) {
 		var keyword = $(element).text(); // 클릭된 요소의 텍스트 값 가져오기
-		var searchKeywordUrl = "trade?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
+		var searchKeywordUrl = "researchProduct?keyword=" + encodeURIComponent(keyword); /* ^__^  주소 */
 		window.location.href = searchKeywordUrl;
 		searchKeyword(keyword);
 		SaveWord(keyword);

@@ -95,8 +95,10 @@
 				sendMessage();
 			}
 		});
+	   
     });
-    
+		
+		
     let ws; // 웹소켓 객체가 저장될 변수
     
     function connectChat() {
@@ -116,6 +118,7 @@
 		console.log("onClose()");
 	}
 	function onMessage(event) {
+		console.log(event.data);
 		appendMessage(event.data, "left");
 	}
 	function onError() {
@@ -156,7 +159,7 @@
     	$("#chatArea").append(chat);
     				
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
-		$("#chatArea").scrollTop($("#chatArea").height() - $("#chat").height()); 
+    	$(".chat").scrollTop($(".chat")[0].scrollHeight);
     }
 </script>
 </head>
@@ -230,21 +233,10 @@
                             <div class="message-data text-right">
                                 <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
                             </div>
-                            <div class="message other-message float-right"> 김유신 바보 </div>
+                            <div class="message other-message float-right"> 바보 </div>
                             <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
                         </li>
                         
-                        <li class="clearfix">
-                            <div class="message my-message"> 이자민 바보 </div>
-                            <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small>                              
-                        </li>
-                                                       
-                        <li class="clearfix">
-                            <div class="message my-message"> 이시윤 바보</div><small class="message-data-time">10:10 AM</small>
-                        </li>
-                        <li class="clearfix">
-                            <div class="message my-message"> 다 바보</div><small class="message-data-time">10:10 AM</small>
-                        </li>
                          --%>
                     </ul>
                 </div>

@@ -70,5 +70,25 @@ public class SearchController {
 		
 		return popularList;
 	}
+	
+	// 검색 이동
+	@GetMapping("researchProduct")
+	public String goResearchProduct() {
+		
+		return "trade/searchProduct";
+	}
+	
+	// 검색어 가져오기
+	@ResponseBody
+	@GetMapping("researchProductList")
+	public List<Map<String, Object>> goResearch(@RequestParam Map map, Model model) {
+		System.out.println("실행이 왜 안됨");
+		System.out.println("넘어오나 " + map);
+		List<Map<String, Object>> productList = service.getSearchProducts(map);
+		System.out.println(productList);
+		model.addAttribute("productList", productList);
+		
+		return productList;
+	}
 
 }

@@ -119,7 +119,7 @@
 									<a href="productDetail?PD_IDX=${popular.PD_IDX}">
 										<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${popular.PD_IMAGE}">
 	<!-- 									<img class="hover-img"   alt="#"> -->
-										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 노란색 -->
+										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
 									</a>
 									<div class="button-head">
 										<div class="product-action">

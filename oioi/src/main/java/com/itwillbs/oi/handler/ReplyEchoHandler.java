@@ -54,7 +54,6 @@ public class ReplyEchoHandler extends TextWebSocketHandler{
 	        
 	        System.out.println("handleTextMessage(message) : " + message.getPayload());
 	        
-	        // 받은 메시지를 동일한 APD_IDX를 가진 세션에만 응답으로 보냄
 	        JsonObject jo = new JsonObject();
 	        jo.addProperty("US_ID", US_ID);
 	        jo.addProperty("SESSION_SIZE", getSessionCountApdIdx(APD_IDX)); 

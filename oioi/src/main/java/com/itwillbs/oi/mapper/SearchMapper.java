@@ -19,5 +19,7 @@ public interface SearchMapper {
 
 	List<Map<String, Object>> selectPopularKeyword(); // 인기 검색어 1 ~ 20 가져오기
 
+	List<Map<String, Object>> getSearchProducts(Map map); // 검색한 상품 가져오기
+
 
 }
