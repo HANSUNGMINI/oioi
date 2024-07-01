@@ -144,6 +144,8 @@
 					"APD_STATUS" : $("#APD_STATUS").val(),
 					"APD_REJECTION" : $("#APD_REJECTION").val(),
 					"APD_IDX" : "${param.target}",
+					"APD_DEADLINE" : "${product.APD_DEADLINE}",
+					"APD_START_PRICE" : "${product.APD_START_PRICE}"
 				},
 				dataType : "JSON",
 				success : function (response) {

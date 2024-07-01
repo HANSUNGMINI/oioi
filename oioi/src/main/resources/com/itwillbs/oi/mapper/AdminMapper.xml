@@ -400,8 +400,8 @@
 		VALUES (
 			   NULL
 		     , #{APD_IDX}
-		     , DATE_FORMAT(NOW(), '%Y-%m-%d')
-<!-- 		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{} DAY), '%Y-%m-%d') -->
+		     , DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{APD_DEADLINE} DAY), '%Y-%m-%d %H:%i')
 		     , NULL
 		     , #{APD_START_PRICE}
 		 )
