@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -183,6 +184,52 @@ public class CommunityContorller {
         	return "redirect:/boardDetail?CM_IDX=" + map.get("CM_IDX");
 
 	}
+	
+	@ResponseBody
+	@PostMapping("admin-uploadImage")
+	public String uploadImage(@RequestParam("file") MultipartFile file, HttpSession session) {
+		if (file.isEmpty()) {
+		    return "{\"url\":\"\"}";
+		}
+		
+		String uploadDir = "resources/upload";
+		String saveDir = session.getServletContext().getRealPath(uploadDir);
+		System.out.println("실제 업로드 경로(session): " + saveDir);
+		
+		LocalDate today = LocalDate.now();
+		String datePattern = "yyyy/MM/dd";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
+		String subDir = today.format(dtf);
+		
+		saveDir += "/" + subDir;
+		Path path = Paths.get(saveDir);
+		
+		try {
+		    Files.createDirectories(path);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		String fileName = UUID.randomUUID().toString().substring(0, 8) + "_" + file.getOriginalFilename();
+		String webUrl = uploadDir + "/" + subDir + "/" + fileName;
+		
+		try {
+		    if (!file.getOriginalFilename().equals("")) {
+		        file.transferTo(new File(saveDir, fileName));
+		    }
+		} catch (IllegalStateException | IOException e) {
+		    e.printStackTrace();
+		}
+		
+		System.out.println("파일 저장 경로: " + saveDir + "/" + fileName);
+		System.out.println("웹 접근 경로: " + webUrl);
+		
+		JSONObject jsonResponse = new JSONObject();
+		jsonResponse.put("url", webUrl.replace("\\", "/"));
+		    
+		    return jsonResponse.toString();
+	}
+
 	
 	@GetMapping("boardDetail") // 게시글 상세보기
 	public String boardDetail(Map<String, Object> map, @RequestParam int CM_IDX, Model model) {

@@ -12,6 +12,8 @@
 	<meta name="copyright" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- 썸머노트 -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 	<!-- Title Tag  -->
     <title>게시판 작성</title>
 	<!-- Web Font -->
@@ -45,12 +47,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-	
-	<!-- 썸머노트 -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-	
+		<!-- 썸머노트 -->
+<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 </head>
 
 <style>
@@ -284,20 +285,58 @@
 			  			
 						
 						<textarea id="summernote" style = "background-color:white" name = "CM_CONTENT" required="required" maxlength="500"></textarea>
-						    <script>
-						    $('#summernote').summernote({
-						        tabsize: 2,
-						        height: 550,
-						        toolbar: [
-						          ['style', ['style']],
-						          ['font', ['bold', 'underline', 'clear']],
-						          ['color', ['color']],
-						          ['para', ['ul', 'ol', 'paragraph']],
-						          ['table', ['table']],
-						          ['insert', ['link', 'picture', 'video']],
-						          ['view', ['fullscreen', 'codeview', 'help']]
-						        ]
-						      });
+
+
+					    <script>
+// 					    function uploadImage(file) {
+// 					        var data = new FormData();
+// 					        data.append('file', file);
+
+// 					        $.ajax({
+// 					            url: 'admin-uploadImage',
+// 					            type: 'POST',
+// 					            data: data,
+// 					            contentType: false,
+// 					            processData: false,
+// 					            success: function(response) {
+// 					                var jsonResponse = JSON.parse(response);
+// 					                var imageUrl = jsonResponse.url;
+// 					                console.log(imageUrl);
+// 					                $('#summernote').summernote('insertImage', imageUrl, function ($image) {
+// 					                    $image.attr('src', imageUrl);
+// 					                    $image.attr('class', 'img-responsive');
+// 					                });
+					           
+// 					            }
+// 					        });
+// 					    }
+					    
+					    $('#summernote').summernote({
+					        placeholder: '공지를 입력하세요.',
+					        tabsize: 1,
+					        height: 550,
+					        toolbar: [
+					            ['style', ['style']],
+					            ['font', ['bold', 'underline', 'clear']],
+					            ['color', ['color']],
+					            ['para', ['ul', 'ol', 'paragraph']],
+					            ['table', ['table']],
+					            ['insert', ['link', 'picture', 'video']],
+					            ['view', ['fullscreen', 'codeview', 'help']],
+					            ['height', ['height']]
+					        ],
+// 					        callbacks: {
+// 					            onImageUpload: function(files) {
+// 					                for (var i = 0; i < files.length; i++) {
+// 					                    uploadImage(files[i]);
+// 					                }
+// 					            }
+// 					        }
+					    });
+
+
+
+
 						    </script>
 					    </div>
 					    
@@ -333,8 +372,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/owl-carousel.js"></script>
 <!-- Magnific Popup JS -->
 <script src="${pageContext.request.contextPath}/resources/js/magnific-popup.js"></script>
-<!-- Fancybox JS -->
-<script src="${pageContext.request.contextPath}/resources/js/facnybox.min.js"></script>
 <!-- Waypoints JS -->
 <script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
 <!-- Countdown JS -->
@@ -352,5 +389,7 @@
 <!-- Easing JS -->
 <script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 <!-- Active JS -->
-<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/active.js"></script> 
+
+
 </body>
