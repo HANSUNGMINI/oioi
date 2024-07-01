@@ -9,7 +9,7 @@ const columns = [
     {header: '상태', name: 'APD_STATUS'},
     {header: '반려 사유', name: 'APD_REJECTION'},
     {header: '보기'
-      , renderer: {type: product_detail_btn} , width: 50},
+      , renderer: {type: apd_detail_btn} , width: 50},
 ]
 
 // 조회할 테이블

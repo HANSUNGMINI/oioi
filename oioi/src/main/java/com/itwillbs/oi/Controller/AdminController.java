@@ -109,9 +109,10 @@ public class AdminController {
 		String page = "";
 		
 		switch ((String)map.get("table")) {
-			case "user": model.addAttribute("user", adminservice.selectDetailUser(map)); page = "admin_detail_user"; break;
-			
-			// 커밋 내역
+			case "user": 
+				model.addAttribute("user", adminservice.selectDetailUser(map));
+				model.addAttribute("usStatusSelectBox", adminservice.selectOptionList("USER_STATUS"));
+				page = "admin_detail_user"; break;
 			case "report": 
 				model.addAttribute("report", adminservice.selectDetailReport(map));
 				model.addAttribute("rpStatusSelectBox", adminservice.selectOptionList("REPORT_STATUS"));
@@ -210,9 +211,7 @@ public class AdminController {
 			return "err/fail";
 		}
 		
-		List<Map<String, Object>> roleList = adminservice.selectAdminRoleList();
-		
-		model.addAttribute("roleList", roleList);
+		model.addAttribute("roleSelectBox", adminservice.selectOptionList("ROLE_TYPE"));
 		
 		return "admin/admin_add_admin";
 	}
@@ -327,7 +326,13 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("reportStatus")
 	public int reportStatus(@RequestParam Map<String, String> map) {
-		return adminservice.updateReporStatus(map);
+		return adminservice.updateReportStatus(map);
+	}
+	
+	@ResponseBody
+	@PostMapping("userStatus")
+	public int userStatus(@RequestParam Map<String, String> map) {
+		return adminservice.updateUserStatus(map);
 	}
 	
 	@ResponseBody

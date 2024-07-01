@@ -133,7 +133,34 @@ class product_detail_btn {
 		$(el).on("click", function() {
 			let e = $(this);
 			let target = e.closest('tr').find('td:first').text();
-			window.open("admin_detail?table=auctionProduct&target=" + target ,"옥션상품","width=1200, height=800, top=150, left=500");
+			location.href="productDetail?PD_IDX=" + target;
+	    });
+		
+			
+	    this.el = el;
+	  }
+
+	  getElement() {return this.el;}
+	  render(props) {}
+}
+
+
+// 경매 상품 상세 보기
+class apd_detail_btn {
+	constructor(props) {
+	    const el = document.createElement('div');
+	    el.className = 'buttons nowrap';
+	    
+	    $(el).append(
+	    		'<button class="button small blue" id="detail_btn" type="button">'
+			+		'<span class="icon"><i class="mdi mdi-link"></i></span>'
+			+	'</button>'
+		);
+		
+		$(el).on("click", function() {
+			let e = $(this);
+			let target = e.closest('tr').find('td:first').text();
+			window.open("admin_detail?table=auctionProduct&target=" + target ,"옥션 상세","width=1200, height=700, top=150, left=500");
 	    });
 		
 			
@@ -160,7 +187,7 @@ class user_detail_btn {
 		$(el).on("click", function() {
 			let e = $(this);
 			let target = e.closest('tr').find('td:eq(1)').text();
-			window.open("admin_detail?table=user&target=" + target ,"유저 상세","width=600, height=300, top=150, left=650");
+			window.open("admin_detail?table=user&target=" + target ,"유저 상세","width=1200, height=700, top=150, left=500");
 	    });
 		
 			

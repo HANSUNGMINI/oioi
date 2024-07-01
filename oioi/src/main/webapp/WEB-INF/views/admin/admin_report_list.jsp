@@ -50,8 +50,16 @@
 	        		<option value="FROM_US_ID">신고대상</option>
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
-	        	<input type="button" id="submitBtn" value="검색">
 	        	
+	        	<div class="buttons right nowrap">
+      				<button class="button small blue" id="btn-add" type="button">
+      					<span class="icon"><i class="mdi mdi-text-search"></i></span>
+      				</button>
+     			</div>
+	        	
+	        	<div class="buttons right nowrap">
+		        	<input type="checkbox" id="selectPastReport"> 이전 내용 검색
+     			</div>
 	      	</header>
 	      	
 	      	<!-- 그리드 -->

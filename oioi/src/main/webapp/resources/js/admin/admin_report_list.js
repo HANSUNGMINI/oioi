@@ -26,7 +26,8 @@ function search() {
 		data : {
 			"table" : table,
 			"type" : type,
-			"keyword" : keyword,
+			"keyword" : keyword, 
+			"isPast" : $("#selectPastReport").is(":checked"),
 		},
 		dataType : "JSON",
 		success : function (response) {
@@ -56,3 +57,4 @@ function search() {
 		} // success 끝
 	});
 };
+
