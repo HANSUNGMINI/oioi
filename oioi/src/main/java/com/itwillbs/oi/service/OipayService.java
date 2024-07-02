@@ -62,7 +62,11 @@ public class OipayService {
 	public Map withdraw(Map<String, Object> map) {
 		return bankApiClient.requestWithdraw(map);
 	}
-	
+
+	public void updateOimoney(Map<String, Object> map) {
+		mapper.updateOimoney(map);
+	}
+
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
 //	public Map getUserInfo(BankTokenVO token) {
