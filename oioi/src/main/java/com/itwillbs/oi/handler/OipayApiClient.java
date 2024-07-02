@@ -3,6 +3,7 @@ package com.itwillbs.oi.handler;
 import java.net.URI;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,17 +165,15 @@ public class OipayApiClient {
 		// 6. ResponseEntity 객체의 getBody() 메서드 호출하여 응답데이터 파싱 결과 객체 리턴
 		return responseEntity.getBody();
 	}
-//
-//	// 2.3. 계좌조회 서비스(사용자) - 2.3.1. 잔액조회 API
-//	// https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num
-//	// => 잔액조회 테스트 데이터가 등록되어 있는 경우에만 사용 가능(없을 경우 응답 에러 전송됨)
+
+	// 2.3. 계좌조회 서비스(사용자) - 2.3.1. 잔액조회 API
+	// https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num
+	// => 잔액조회 테스트 데이터가 등록되어 있는 경우에만 사용 가능(없을 경우 응답 에러 전송됨)
 //	public Map requestAccountDetail(Map<String, Object> map) {
 //		BankTokenVO token = (BankTokenVO)map.get("token");
 //		
 //		String bank_tran_id = bankValueGenerator.getBankTranId();
 //		String tran_dtime = bankValueGenerator.getTranDTime();
-//		logger.info(">>>>>>>> 은행거래고유번호(bank_tran_id) : " + bank_tran_id);
-//		logger.info(">>>>>>>> 요청일시(tran_dtime) : " + tran_dtime);
 //		
 //		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
 //		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 add() 메서드로 헤더 정보 추가
@@ -217,89 +216,89 @@ public class OipayApiClient {
 //		// 6. ResponseEntity 객체의 getBody() 메서드 호출하여 응답데이터 파싱 결과 객체 리턴
 //		return responseEntity.getBody();
 //	}
-//
-//	// 2.5. 계좌이체 서비스 - 2.5.1. 출금이체 API
-//	// https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num
-//	public Map requestWithdraw(Map<String, Object> actUserInfo) {
-//		
-//		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
-//		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가
-//		HttpHeaders headers = new HttpHeaders();
-//		// 1-1) 헤더 정보를 문자열 형태로 동일하게 설정할 경우 - add() 메서드 활용
-//		// => 헤더명 : "Authorization"
-//		//    헤더값 : "Bearer" 문자열과 엑세스토큰 문자열 결합(공백으로 구분)
+
+	// 2.5. 계좌이체 서비스 - 2.5.1. 출금이체 API
+	// https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num
+	public Map requestWithdraw(Map<String, Object> map) {
+		
+		Map<String, Object> token = (Map<String, Object>)map.get("token");
+		System.out.println("requestWithdraw---------" + token);
+		System.out.println("map+++++++++++" + map);
+		
+		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
+		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가
+		HttpHeaders headers = new HttpHeaders();
+		// 1-1) 헤더 정보를 문자열 형태로 동일하게 설정할 경우 - add() 메서드 활용
+		// => 헤더명 : "Authorization"
+		//    헤더값 : "Bearer" 문자열과 엑세스토큰 문자열 결합(공백으로 구분)
 //		headers.add("Authorization", "Bearer " + token.getAccess_token());
-//		// 1-2) Bearer 토큰 형식으로 엑세스토큰 전달 시 setBearerAuth() 메서드 활용 가능
+		// 1-2) Bearer 토큰 형식으로 엑세스토큰 전달 시 setBearerAuth() 메서드 활용 가능
 //		System.out.println("999999999999999" + actUserInfo.get("access_token"));
-//		headers.setBearerAuth(actUserInfo.get("access_token").toString());
-//		
-//		// 전송할 컨텐츠 타입이 "application/json; charset=UTF-8" 타입을 요구하므로
-//		// setContentType() 메서드 활용하여 JSON 타입으로 설정
-//		// => 전송 파라미터로 MediaType.APPLICATION_JSON 상수 활용
-//		//    (주의! APPLICATION_JSON_UTF8 상수는 사용하지 않음 = Deprecated)
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		
-//		// 2. 요청에 필요한 URI 정보 생성 => 문자열로 바로 생성
-//		String url = base_url + "/v2.0/transfer/withdraw/fin_num";
-//		
-//		// 3. 요청 파라미터를 JSON 형식의 데이터로 생성
-//		// => org.json.JSONObject 클래스 또는 com.google.code.gson.Gson 클래스 활용
-//		// 3-1) JSONObject 클래스 활용 => put() 메서드로 JSON 데이터 추가
-//		JSONObject jo = new JSONObject();
-//		jo.put("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
-//		// => 이후 JSON 데이터 전달 시 jo.toString() 메서드 호출하여 문자열로 변환하여 전달
-//		
-//		// 3-2) Gson 클래스와 JsonObject 클래스 활용(JsonObject 클래스명 주의! JSONObject 아님!!)
-//		// 1) Gson 클래스 인스턴스 생성
-//		Gson gson = new Gson();
-//		// 2) JsonObject 클래스 인스턴스 생성
-//		JsonObject jsonObject = new JsonObject(); // 기본 생성자만 제공됨
-//		// 3) JsonObject 객체의 addProperty() 메서드 호출하여 JSON 데이터 추가
-//		// ---------- 핀테크 이용기관 정보 ----------
-//		jsonObject.addProperty("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
-//		jsonObject.addProperty("cntr_account_type", "N"); // 약정 계좌/계정 구분("N" : 계좌)
+		headers.setBearerAuth(token.get("BUI_ACCESS_TOKEN").toString());
+		
+		// 전송할 컨텐츠 타입이 "application/json; charset=UTF-8" 타입을 요구하므로
+		// setContentType() 메서드 활용하여 JSON 타입으로 설정
+		// => 전송 파라미터로 MediaType.APPLICATION_JSON 상수 활용
+		//    (주의! APPLICATION_JSON_UTF8 상수는 사용하지 않음 = Deprecated)
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		// 2. 요청에 필요한 URI 정보 생성 => 문자열로 바로 생성
+		String url = base_url + "/v2.0/transfer/withdraw/fin_num";
+		
+		// 3. 요청 파라미터를 JSON 형식의 데이터로 생성
+		// => org.json.JSONObject 클래스 또는 com.google.code.gson.Gson 클래스 활용
+		// 3-1) JSONObject 클래스 활용 => put() 메서드로 JSON 데이터 추가
+		JSONObject jo = new JSONObject();
+		jo.put("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
+		// => 이후 JSON 데이터 전달 시 jo.toString() 메서드 호출하여 문자열로 변환하여 전달
+		
+		// 3-2) Gson 클래스와 JsonObject 클래스 활용(JsonObject 클래스명 주의! JSONObject 아님!!)
+		// 1) Gson 클래스 인스턴스 생성
+		Gson gson = new Gson();
+		// 2) JsonObject 클래스 인스턴스 생성
+		JsonObject jsonObject = new JsonObject(); // 기본 생성자만 제공됨
+		// 3) JsonObject 객체의 addProperty() 메서드 호출하여 JSON 데이터 추가
+		// ---------- 핀테크 이용기관 정보 ----------
+		jsonObject.addProperty("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호(참가기관)
+		jsonObject.addProperty("cntr_account_type", "N"); // 약정 계좌/계정 구분("N" : 계좌)
 //		jsonObject.addProperty("cntr_account_num", "23062003999"); // 약정 계좌/계정 번호(핀테크 서비스 기관 계좌)
-//		jsonObject.addProperty("cntr_account_num", cntr_account_num); // appdata.properties 파일 내의 값 활용
-//		jsonObject.addProperty("dps_print_content", "오이머니 충전"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
-//		
-//		// ---------- 요청 고객(출금 계좌) 정보 ----------
-//		jsonObject.addProperty("fintech_use_num", (String)actUserInfo.get("withdraw_fintech_use_num")); // 출금계좌 핀테크이용번호 
-//		jsonObject.addProperty("wd_print_content", "아이티윌_입금"); // 출금계좌인자내역(출금되는 계좌에 출력할 메세지)
-//		jsonObject.addProperty("tran_amt", (String)map.get("tran_amt")); // 거래금액
-//		jsonObject.addProperty("tran_dtime", bankValueGenerator.getTranDTime()); // 요청일시
-//		jsonObject.addProperty("req_client_name", (String)map.get("withdraw_user_name")); // 요청고객성명(출금계좌)
-//		jsonObject.addProperty("req_client_fintech_use_num", (String)map.get("withdraw_fintech_use_num")); // 요청고객핀테크이용번호(출금계좌)
-//		// => 요청고객 계좌번호 미사용 시 핀테크 이용번호 설정 필수!
-//		jsonObject.addProperty("req_client_num", ((String)map.get("id")).toUpperCase()); // 요청고객회원번호(아이디처럼 사용) => 영문자 모두 대문자 변환 
-//		jsonObject.addProperty("transfer_purpose", "ST"); // 이체 용도(송금 : TR, 결제 : ST 등) 
-//		
-//		
-//		// ---------- 수취 고객(실제 최종 입금 대상) 정보 ----------
-//		// 최종적으로 금액을 수신하는 계좌에 대한 정보
-//		// 이 정보(3가지)는 피싱 등의 사고 발생 시 지급 정지 등을 위한 정보로 실제 검증 수행 X
-//		jsonObject.addProperty("recv_client_name", "아이티윌"); // 최종수취고객성명(입금대상)
-//		jsonObject.addProperty("recv_client_bank_code", "002"); // // 최종수취고객계좌 개설기관 표준코드(입금대상)
-//		jsonObject.addProperty("recv_client_account_num", "23062003999"); // 최종수취고객계좌번호(입금대상)
-//
-//		// 최종 요청 파라미터 확인
-//		// => Gson 객체의 toJson() 메서드 호출하여 파라미터로 JsonObject 객체 전달
-//		logger.info(">>>>>>>> 출금이체 요청 JSON 데이터 : " + gson.toJson(jsonObject));
-//		
-//		
-//		// 4. 요청에 사용될 데이터를 관리하는 HttpEntity 객체 생성
-//		// => 파라미터 데이터(body)로 JsonObject 객체를 문자열로 변환하여 전달, 헤더도 전달
-//		HttpEntity<String> httpEntity = new HttpEntity<String>(gson.toJson(jsonObject), headers);
-//		logger.info(">>>>>>>> httpEntity.getHeaders() : " + httpEntity.getHeaders());
-//		logger.info(">>>>>>>> httpEntity.getBody() : " + httpEntity.getBody());
-//		
-//		
-//		// 5. RESTful API 요청을 위한 RestTemplate 객체의 exchange() 메서드 호출하여
-//		//    POST 방식 HTTP 요청 수행
-//		RestTemplate restTemplate = new RestTemplate();
-//		ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Map.class);
-//		logger.info(">>>>>>>> 출금 이체 요청 결과 : " + responseEntity.getBody());
-//		
-//		return responseEntity.getBody();
+		jsonObject.addProperty("cntr_account_num", cntr_account_num); // appdata.properties 파일 내의 값 활용
+		jsonObject.addProperty("dps_print_content", "오이머니 충전"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
+		
+		// ---------- 요청 고객(출금 계좌) 정보 ----------
+		jsonObject.addProperty("fintech_use_num", (String)map.get("fintech_use_num")); // 출금계좌 핀테크이용번호 
+		jsonObject.addProperty("wd_print_content", "오이머니 충전"); // 출금계좌인자내역(출금되는 계좌에 출력할 메세지)
+		jsonObject.addProperty("tran_amt", (String)map.get("amtInput")); // 거래금액
+		jsonObject.addProperty("tran_dtime", bankValueGenerator.getTranDTime()); // 요청일시
+		jsonObject.addProperty("req_client_name", (String)map.get("account_holder_name")); // 요청고객성명(출금계좌)
+		jsonObject.addProperty("req_client_fintech_use_num", (String)map.get("fintech_use_num")); // 요청고객핀테크이용번호(출금계좌)
+		// => 요청고객 계좌번호 미사용 시 핀테크 이용번호 설정 필수!
+		jsonObject.addProperty("req_client_num", ((String)map.get("id")).toUpperCase()); // 요청고객회원번호(아이디처럼 사용) => 영문자 모두 대문자 변환 
+		jsonObject.addProperty("transfer_purpose", "ST"); // 이체 용도(송금 : TR, 결제 : ST 등) 
+		
+		
+		// ---------- 수취 고객(실제 최종 입금 대상) 정보 ----------
+		// 최종적으로 금액을 수신하는 계좌에 대한 정보
+		// 이 정보(3가지)는 피싱 등의 사고 발생 시 지급 정지 등을 위한 정보로 실제 검증 수행 X
+		jsonObject.addProperty("recv_client_name", "오이마켓"); // 최종수취고객성명(입금대상)
+		jsonObject.addProperty("recv_client_bank_code", "002"); // // 최종수취고객계좌 개설기관 표준코드(입금대상)
+		jsonObject.addProperty("recv_client_account_num", "23062003999"); // 최종수취고객계좌번호(입금대상)
+
+		// 최종 요청 파라미터 확인
+		// => Gson 객체의 toJson() 메서드 호출하여 파라미터로 JsonObject 객체 전달
+		
+		
+		// 4. 요청에 사용될 데이터를 관리하는 HttpEntity 객체 생성
+		// => 파라미터 데이터(body)로 JsonObject 객체를 문자열로 변환하여 전달, 헤더도 전달
+		HttpEntity<String> httpEntity = new HttpEntity<String>(gson.toJson(jsonObject), headers);
+		
+		
+		// 5. RESTful API 요청을 위한 RestTemplate 객체의 exchange() 메서드 호출하여
+		//    POST 방식 HTTP 요청 수행
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Map.class);
+		
+		return responseEntity.getBody();
 		/*
 		 * [ 테스트 데이터 등록 방법 - 출금이체 ]
 		 * 사용자 일련번호, 핀테크이용번호 : 출금 계좌 고객 정보
@@ -309,8 +308,8 @@ public class OipayApiClient {
 		 * 입금계좌인자내역 : dps_print_content 값 입력(출금 계좌 고객 성명)
 		 * 수취인 성명 : 핀테크 이용기관 계좌 예금주명 입력(최종 수취인 아님!)
 		 */
-//	}
-//
+	}
+
 //	// 2.1.2. 토큰발급 API - 센터인증 이용기관 토큰발급 API (2-legged) (관리자 토큰 발급용)
 //	public BankTokenVO requestAdminAccessToken() {
 //		// 금융결제원 오픈API 의 토큰 발급 API 요청 작업 수행 및 처리

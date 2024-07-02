@@ -51,18 +51,17 @@ public class OipayService {
 		return mapper.selectBankAccessToken(userId);
 	}
 	
-	public Map<String, Object> selectUserBankInfo(String access_token) {
-		return mapper.selectBankUserInfo(access_token);
+	public Map<String, Object> selectUserBankInfo(Object object) {
+		return mapper.selectBankUserInfo(object);
 	}
 
 	public Map getUserInfo(Map<String, Object> token) {
 		return bankApiClient.requestUserInfo(token);
 	}
 
-//	public Map withdraw(Map actUserInfo) {
-//		return bankApiClient.requestWithdraw(actUserInfo);
-//	}
-
+	public Map withdraw(Map<String, Object> map) {
+		return bankApiClient.requestWithdraw(map);
+	}
 	
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청

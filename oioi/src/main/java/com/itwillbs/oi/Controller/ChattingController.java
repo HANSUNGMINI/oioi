@@ -112,7 +112,7 @@ public class ChattingController {
 		            e.printStackTrace();
 		        }
 			    
-//					    Map<String, String> fileMap = new HashMap<>();
+//				Map<String, String> fileMap = new HashMap<>();
 		        for (int i = 0; i < files.length && i < 2; i++) {
 		            MultipartFile file = files[i];
 		            if (!file.isEmpty()) {

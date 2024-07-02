@@ -305,7 +305,7 @@
 					        <thead>
 					            <tr class="tr1">
 					                <th id="th1" class="board_num">번호</th>
-					                <th id="th1" class="board_category">게시판</th>
+					                <th id="th1" class="board_category">게시판</th>   
 					                <th id="th1" class="board_title">제목</th>
 					                <th id="th1" class="board_writer">작성자</th>
 					                <th id="th1" class="board_date">작성일</th>

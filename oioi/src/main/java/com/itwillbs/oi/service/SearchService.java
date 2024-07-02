@@ -38,5 +38,9 @@ public class SearchService {
 		return mapper.selectPopularKeyword();
 	}
 
+	public List<Map<String, Object>> getSearchProducts(Map map) {
+		return mapper.getSearchProducts(map);
+	}
+
 	
 }

@@ -21,7 +21,7 @@ public interface OipayMapper {
 
 	String selectBankAccessToken(String userId);
 
-	Map<String, Object> selectBankUserInfo(String access_token);
+	Map<String, Object> selectBankUserInfo(Object object);
 
 	
 	// 관리자 엑세스 토큰 정보 저장

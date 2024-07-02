@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -307,6 +308,9 @@
         	
         	let chargeAmt = $("input[name='chargeAmt']:checked").val();
         	let amtInput = $("#amtInput").val();
+        	let fintech_use_num = $("#fintech_use_num").val();
+        	let account_holder_name = $("#account_holder_name").val();
+        	let account_num_masked = $("#account_num_masked").val();
         	
         	if(chargeAmt) {
         		$.ajax({
@@ -315,10 +319,19 @@
 				data: {
                 	"chargeAmt" : chargeAmt,
                 	"amtInput" : amtInput,
+                	"fintech_use_num" : fintech_use_num,
+                	"account_holder_name" : account_holder_name,
+                	"account_num_masked" : account_num_masked
                 },
-                dataType : "json",
+//                 dataType : "json",
                 success: function (response) {
-                    alert(amtInput+ "머니가 충전되었습니다.");
+                    if(response != null){
+                    	alert(amtInput+ "머니가 충전되었습니다.");
+                    	window.close();
+                    } else{
+                    	alert("충전 실패😭😭");
+                    }
+                    
                 },
                 error: function () {
                     alert("충전하기 요청 실패");
@@ -379,7 +392,7 @@
                             <div class="chargeMoney">
                                 <form class="charge" method="post">
                                 	<!-- 잔액 조회 -->
-                                	<h6>연결계좌 : ${actUserInfo.res_list[0].bank_name} - ${actUserInfo.res_list[0].account_num_masked}</h6>
+                                	<h6>연결계좌 : ${bankUserInfo.res_list[0].bank_name} - ${bankUserInfo.res_list[0].account_num_masked}</h6>
                                 	<br>
                                 	<h5>🥒오이머니 잔액 : ￦${token.US_OIMONEY}</h5>
                                 
@@ -394,6 +407,15 @@
                                         <label><input type="radio" value="30000" name="chargeAmt"> 30,000원</label>
                                     </div>
                                     <input type="number" id="amtInput"  placeholder="금액을 입력하세요(숫자만 입력 가능합니다)">
+									<c:forEach var="account" items="${bankUserInfo.res_list}">
+										<tr>
+											<td>
+												<input type="hidden" name="fintech_use_num" id="fintech_use_num" value="${account.fintech_use_num}">
+												<input type="hidden" name="account_holder_name" id="account_holder_name" value="${account.account_holder_name}">
+												<input type="hidden" name="account_num_masked" id="account_num_masked" value="${account.account_num_masked}">
+											</td>
+										</tr>
+									</c:forEach>
                                     <br>
                                     <!-- 충전 및 출금 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->

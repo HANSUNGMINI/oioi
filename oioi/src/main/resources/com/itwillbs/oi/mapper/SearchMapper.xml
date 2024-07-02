@@ -5,21 +5,28 @@
  
 <mapper namespace="com.itwillbs.oi.mapper.SearchMapper">
 	<select id="selectRecommendList" resultType="map">
-		SELECT 
-			CASE 
-				WHEN PD_TAG1 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG1
-				WHEN PD_TAG2 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG2
-				WHEN PD_TAG3 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG3
-				WHEN PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG4
-				WHEN PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%') THEN PD_TAG5
-				ELSE NULL 
-			END AS recommend_tag
-		FROM product
-		WHERE PD_TAG1 LIKE CONCAT('%', #{searchKeyWord}, '%')
-		     OR PD_TAG2 LIKE CONCAT('%', #{searchKeyWord}, '%')
-		     OR PD_TAG3 LIKE CONCAT('%', #{searchKeyWord}, '%')
-		     OR PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%')
-		     OR PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%');
+		SELECT DISTINCT recommend_tag
+		FROM (
+		    SELECT PD_TAG1 AS recommend_tag
+		    FROM product
+		    WHERE PD_TAG1 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		    UNION
+		    SELECT PD_TAG2 AS recommend_tag
+		    FROM product
+		    WHERE PD_TAG2 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		    UNION
+		    SELECT PD_TAG3 AS recommend_tag
+		    FROM product
+		    WHERE PD_TAG3 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		    UNION
+		    SELECT PD_TAG4 AS recommend_tag
+		    FROM product
+		    WHERE PD_TAG4 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		    UNION
+		    SELECT PD_TAG5 AS recommend_tag
+		    FROM product
+		    WHERE PD_TAG5 LIKE CONCAT('%', #{searchKeyWord}, '%')
+		) AS combined_tags;
  	</select>
  	
  	<select id="selectDuplicate" resultType="int">
@@ -37,13 +44,14 @@
  		VALUES (
  			#{SR_IDX} + 1,
  			#{keyword},
-			1
+			1,
+			DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
  		)
  	</insert>
  	
  	<update id="updateCount">
  		UPDATE search_keyword
- 		SET SR_COUNT = SR_COUNT + 1
+ 		SET SR_COUNT = SR_COUNT + 1, SR_TIME = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
  		WHERE SR_KEYWORD = #{keyword};
  	</update>
  	
@@ -52,6 +60,27 @@
 		FROM search_keyword
 		ORDER BY SR_COUNT DESC
 		LIMIT 20;
+ 	</select>
+ 	
+ 	<select id="getSearchProducts" resultType="hashmap">
+ 		SELECT PD_IDX
+			, PD_SUBJECT
+			, i.image1 AS 'IMG'
+			, PD_CONTENT
+			, PD_PRICE
+			, c.value AS 'PD_STATUS_VALUE'
+			, CASE
+			        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
+			        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
+			        WHEN PD_STATUS = 'PDS03' THEN 'new'  
+			    END AS PD_STATUS_COLOR
+		FROM product p 
+		JOIN common c 
+		ON p.PD_STATUS = c.code
+		JOIN images i
+		ON p.PD_IMAGE = i.IMG_IDX
+		WHERE CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
+		ORDER BY PD_IDX; 
  	</select>
 </mapper>
 

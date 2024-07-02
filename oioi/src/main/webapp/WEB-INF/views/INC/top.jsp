@@ -12,6 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/topChatting.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/push/alarm.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
     var jq171 = jQuery.noConflict(true); // 이 버전의 jQuery를 별도의 변수에 저장하고, noConflict 모드로 설정
@@ -189,14 +190,20 @@
 							
 							<!-- 알림 -->
 							<div class="sinlge-bar shopping">
-								<a href="#" class="single-icon"><i class="ti-bell" aria-hidden="true"></i></a>
+								<a href="#" class="single-icon"><i class="ti-bell" aria-hidden="true" id="notification-icon"></i></a>
 								<!-- Push List -->
 								<div class="shopping-item">
-									<div class="dropdown-cart-header">
-									    <span>알림 갯수</span>
+									<div class="dropdown-cart-header" id="notification-push">
+										
 									</div>
 									<ul class="shopping-list" id="notification-list">
 									    <!-- 알림 항목들이 여기에 추가될 예정 -->
+<!-- 									    <li> -->
+<!-- 											<a class="cart-img" href="#"><img src="images/product-1.jpg" alt="#"></a> -->
+<!-- 											<h4><a href="#">Woman Ring</a></h4> -->
+<!-- 											<p class="quantity">1x - <span class="amount">$99.00</span></p> -->
+<!-- 										</li> -->
+
 									</ul>
 									<div class="bottom">
 									    <a href="#" class="btn animate" id="clear-notifications">모두 지우기</a>
@@ -321,6 +328,48 @@
 		</div>
 		<!--/ End Header Inner -->
 	</header>
+	 <!-- JavaScript 및 WebSocket 관련 스크립트 -->
+    <script>
+    $(document).ready(function() {
+        var socket = new WebSocket('ws://localhost:8081/oi/push');
+
+        socket.onopen = function() {
+            console.log("웹소켓 연결 성공");
+        };
+
+        socket.onmessage = function(event) {
+            try {
+                var items = JSON.parse(event.data);
+                items.forEach(function(item) {
+                    var notificationItem = 
+                    	'<li>' +
+                        '<p class="quantity">' +
+                            '상품명: ' + item.APD_NAME + '<br>' +
+                            '등록 날짜: ' + item.APD_REG_DATE + '<br>' +
+                            '시작 가격: ' + item.APD_START_PRICE + '<br>' +
+                            '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
+                        '</p>' +
+                    '</li>';
+                    $('#notification-list').append(notificationItem);
+                });
+            } catch (e) {
+                console.error("메시지 파싱 오류:", e, event.data);
+            }
+        };
+
+        socket.onerror = function(error) {
+            console.error("웹소켓 오류 발생:", error);
+        };
+
+        socket.onclose = function(event) {
+            console.log("웹소켓 연결 종료", event);
+        };
+
+        $('#clear-notifications').on('click', function() {
+            $('#notification-list').empty();
+        });
+    });
+</script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>

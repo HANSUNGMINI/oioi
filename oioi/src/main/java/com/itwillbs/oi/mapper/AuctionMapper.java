@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AuctionMapper {
@@ -21,7 +22,7 @@ public interface AuctionMapper {
 
 	String[] categoryName(Map<String, Object> map);
 
-	List<Map<String, Object>> selectApdList(String APD_STATUS);
+	List<Map<String, Object>> selectApdList(@Param("params") Map<String, Object> params);
 
 	Map<String, String> selectApdDetail(Map<String, String> map);
 
@@ -38,6 +39,8 @@ public interface AuctionMapper {
 	int insertBid(Map<String, Object> map);
 
 	List<Map<String, String>> selectBidChart(int aPD_IDX);
+
+	List<Map<String, Object>> selectAuctionList();
 
 
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -17,12 +18,14 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.JsonObject;
+
 
 
 public class ProductChattingHandler extends TextWebSocketHandler{
 	
 	List<WebSocketSession> sessions = new ArrayList<>();
-	Map<String, WebSocketSession> userSessions = new HashMap<>();
+	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); 
 	
     private static final String  uploadDir = "/resources/upload"; // 파일 저장 경로
 	private static final Logger logger = LoggerFactory.getLogger(ProductChattingHandler.class);
@@ -48,8 +51,9 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 			session.getAttributes().put("TO_ID", toId);
 			session.getAttributes().put("PD_IDX", pdIdx);
 		    System.out.println("session.getAttributes()값 후값 : " + session.getAttributes()); // US_NICK=배소금, US_ID=soeunee1, TO_ID=siyun_9094, PD_IDX=49
-			
-			sessions.add(session);
+		    
+			users.put(session.getId(), session);
+			System.out.println("클라이언트 목록 : " + users);
 		}
 		
 		
@@ -58,14 +62,29 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 	    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { 
 			System.out.println("메세지 session값 : " + session + " message : " + message);
 
-			 Map<String, Object> attributes = session.getAttributes();
+			Map<String, Object> attributes = session.getAttributes();
 	        String US_ID = (String) attributes.get("US_ID"); // 세션 아이디 (현재 대화창에 들어와 있는 사람)
 	        String TO_ID = (String) attributes.get("TO_ID"); // 판매자 (물건을 올린 사람)
 	        String PD_IDX = (String) attributes.get("PD_IDX"); // 물건 아이디
 	        
 	        System.out.println("세션 아이디 : " + US_ID + " 판매자 아이디 : " + TO_ID + " 물건 아이디 : " + PD_IDX); // 세션 아이디 : soeunee1 판매자 아이디 : siyun_9094 물건 아이디 : 49
 			
-			String msg = message.getPayload();
+	        JsonObject jo = new JsonObject();
+	        jo.addProperty("US_ID", US_ID);
+	        jo.addProperty("TO_ID", TO_ID); 
+	        jo.addProperty("PD_IDX", PD_IDX);
+	        jo.addProperty("msg", message.getPayload());
+	        
+	        String jsonInfo = jo.toString();
+	        
+	        
+			// 각 세션에 메세지 전송
+			for(WebSocketSession ws : users.values()) {
+				
+				if(!ws.getId().equals(session.getId())) {
+					ws.sendMessage(new TextMessage( message.getPayload()));
+				}
+			}
 		
 		}
 		
