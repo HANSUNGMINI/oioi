@@ -88,18 +88,20 @@ public class OipayController {
 	
 	@ResponseBody
 	@PostMapping("payCharge") // 출금
-	public Map payCharge(HttpSession session, Model model,
+	public String payCharge(HttpSession session, Model model,
 							@RequestParam Map<String, Object> map) {
 		
 		// 엑세스 토큰 관련 정보가 저장된 BankTokenVO 객체 가져오기
 		String access_token = (String)session.getAttribute("BUI_ACCESS_TOKEN");
 		
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
-			return null;
+			model.addAttribute("msg", "로그인 후 이용해주세요.");
+			return "err/error";
 		}
 		
 		if(access_token == null) {
-			return null;
+			model.addAttribute("msg", "계좌 연결 후 이용해주세요.");
+			return "err/error";
 		}
 		
 		Map token = (Map)session.getAttribute("token");
@@ -113,12 +115,21 @@ public class OipayController {
 		// BankService - withdraw() 메서드 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : Map(withdrawResult)
 		Map withdrawResult = service.withdraw(map);
-//		System.out.println("withdrawResult00000000000000" + withdrawResult);
+		System.out.println("withdrawResult>>>>>>>>>>" + withdrawResult);
 		
 		// 출금 요청 결과 객체 저장 후 bank_withdraw_result 페이지로 포워딩
 //		model.addAttribute("withdrawResult", withdrawResult);
+//		System.out.println(withdrawResult.get("rsp_code"));
+		if(withdrawResult.get("rsp_code").equals("A0000")) {
+			System.out.println(map.get("amtInput"));
+			System.out.println(map.get("id"));
+			service.updateOimoney(map);
+		} else {
+			model.addAttribute("msg", "충전에 실패했습니다😓😓");
+			return "err/error";
+		}
 		
-		return withdrawResult;
+		return withdrawResult.toString();
 	}
 	
 	
