@@ -13,5 +13,6 @@ public interface MainMapper {
 	List<Map<String, Object>> getPopularProcuts();
 
 	List<Map<String, Object>> getRecentLookProduct(int product);
+
 	
 }

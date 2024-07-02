@@ -229,28 +229,25 @@
                             </ul>
                         </div>
                         <!--/ End Single Widget -->
+                        
                         <!-- Single Widget -->
                         <div class="single-widget recent-post">
                             <h3 class="title">최근 본 상품</h3>
                             <!-- Single Post -->
-                            <div class="single-post first">
-                                <div class="image">
-                                    <img src="https://via.placeholder.com/75x75" alt="#">
-                                </div>
-                                <div class="content">
-                                    <h5><a href="#">최근 본 상품</a></h5>
-                                    <p class="price">100억</p>
-                                    <ul class="reviews">
-                                        <li class="yellow"><i class="ti-star"></i></li>
-                                        <li class="yellow"><i class="ti-star"></i></li>
-                                        <li class="yellow"><i class="ti-star"></i></li>
-                                        <li><i class="ti-star"></i></li>
-                                        <li><i class="ti-star"></i></li>
-                                    </ul>
-                                </div>
+                            <div class="single-post first" id="recentProduct">
+<!--                                 <div class="image"> -->
+<!--                                     <img src="https://via.placeholder.com/75x75" alt="#"> -->
+<!--                                 </div> -->
+<!--                                 <div class="content"> -->
+<!--                                     <h5><a href="#">최근 본 상품</a></h5> -->
+<!--                                     <small>8시간 전</small> -->
+<!--                                     <p class="price">100억</p> -->
+<!--                                 </div> -->
                             </div>
                             <!-- End Single Post -->
                         </div>
+                        
+                        
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
@@ -427,7 +424,10 @@
     <!-- Modal end -->
     
     <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
- 
+
+	<!-- 최근 본 상품 js --> 
+    <script src="${pageContext.request.contextPath}/resources/js/trade/tradeRecentProduct.js"></script>
+    
     <!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
