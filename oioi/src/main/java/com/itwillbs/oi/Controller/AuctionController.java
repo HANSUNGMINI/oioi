@@ -131,30 +131,16 @@ public class AuctionController {
    }
    
    @PostMapping("auctionRegist")
-   public String auctionRegistPro(Model model,@RequestParam Map<String, Object> map,
+   public String auctionRegistPro(Model model, @RequestParam Map<String, Object> map,
          @RequestPart("APD_IMAGE") MultipartFile[] files,
+         @RequestPart("APD_MAIN_IMAGE") MultipartFile mainFile,
          HttpSession session) {
       System.out.println("auctionRegist - post(map) : " + map);
       System.out.println("auctionRegist - post(files) : " + files);
+      System.out.println("auctionRegist - post(file) : " + mainFile);
       
       //US_ID 담기
       map.put("APD_OWNER", session.getAttribute("US_ID"));
-      
-      //카테고리 정리해서 넣기(value 값 가져와서 저장하기)
-//      String[] cateName = service.categoryName(map);
-//      System.out.println("cateName : " + cateName);
-//      String cn = "";
-//      for (int i = 0; i < cateName.length; i++) {
-//         
-//          cn += cateName[i];
-//          if (i != cateName.length - 1) {
-//              cn += "/";
-//          }
-//      }
-      
-//      //다시 카테고리 코드로 넣기
-//      String cateName = (String)map.get("cate1") + "/" + (String)map.get("cate2") + "/" + (String)map.get("cate3");
-//      System.out.println("카테고리 합치기 : " + cateName);
       
       String cate3 = (String)map.get("cate3");
       
@@ -177,7 +163,7 @@ public class AuctionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       
+       //상세이미지
        Map<String, String> fileMap = new HashMap<>();
         for (int i = 0; i < files.length && i < 5; i++) {
             MultipartFile file = files[i];
@@ -194,6 +180,19 @@ public class AuctionController {
                 }
             }
         }
+        
+        //메인이미지 넣기
+        if(!mainFile.isEmpty()) {
+        	String uuid = UUID.randomUUID().toString();
+            String fileName = uuid.substring(0, 8) + "_" + mainFile.getOriginalFilename();
+            try {
+            	mainFile.transferTo(new File(saveDir, fileName));
+            	map.put("APD_MAIN_IMAGE", subDir + File.separator + fileName);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+        }
+        
         //images테이블에 먼저 넣기
         System.out.println("fileMap : "+fileMap);
         
