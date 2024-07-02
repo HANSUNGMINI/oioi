@@ -161,6 +161,11 @@
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
     	$(".chat").scrollTop($(".chat")[0].scrollHeight);
     }
+    
+   function purchase() {
+	   window.open('purchase', '_blank', 'width=600, height=700, left=720, top=200, resizable=no'); 
+	   
+   }
 </script>
 </head>
 <body>
@@ -204,7 +209,7 @@
 	                        	<ul>
 		                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
 		                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
-		                        	<li><a id="d3" onclick="">안전 결제</a></li>
+		                        	<li><a id="d3" onclick="purchase()">안전 결제</a></li>
 		                        	<li><a id="d4" data-toggle="modal" data-target="#fraud_model">사기 이력 조회</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>

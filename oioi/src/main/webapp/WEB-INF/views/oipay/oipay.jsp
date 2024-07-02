@@ -325,6 +325,7 @@
                 success: function (response) {
                     if(response != null){
                     	alert(amtInput.value+ "머니가 충전되었습니다.");
+                    	window.opener.location.reload();
                     	window.close();
                     } else{
                     	alert("충전 실패😭😭");
@@ -363,10 +364,6 @@
         
     });
     
-    function ischecked(ischecked) {
-		alert(thiischecked);
-		
-	}
     
 </script>
 

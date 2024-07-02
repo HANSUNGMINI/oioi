@@ -139,5 +139,10 @@ public class OipayController {
 		
 		return "";
 	}
+	
+	@GetMapping("purchase")
+	public String purhcase() {
+		return "oipay/payment";
+	}
 
 }
