@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +49,9 @@ public class MyStoreController {
     private StoreService storeService;
 
     @GetMapping("myStore")
-    public String myStore(@RequestParam Map<String, Object> map, Model model) {
+    public String myStore(@RequestParam Map<String, Object> map, Model model, 
+    		@CookieValue(value = "storeVisit", defaultValue = "false") String storeVisit,
+    		HttpServletResponse response) {
         System.out.println("여기에는 뭐가 있을까요 ? " + map);
         System.out.println(map.get("userId"));
 
@@ -67,7 +72,15 @@ public class MyStoreController {
         }
         
         // 방문자 수 증가
-        storeService.VisitCount(userId);
+        if (!storeVisit.equals("true")) {
+        	storeService.VisitCount(userId);
+            Cookie cookie = new Cookie("storeVisit", "true");
+            cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1시간
+            response.addCookie(cookie);
+        }
+        int salesCount = storeService.getSalesCount(userId);
+        model.addAttribute("salesCount", salesCount);
+        
         int visitCount = storeService.getVisitCount(userId);
         
         String openDate = user.get("US_REG_DATE");
@@ -174,6 +187,40 @@ public class MyStoreController {
 
         return response;
     }
+    
+    
+    @PostMapping("editText")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> saveIntro(@RequestParam("editText") String editText) {
+        String userId = (String) session.getAttribute("US_ID");
+
+        Map<String, Object> response = new HashMap<>();
+
+        // 유저 아이디가 없으면 에러 반환
+        if (userId == null) {
+            System.out.println("로그인이 필요합니다.");
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        // 소개글 저장 로직
+        boolean isUpdated = userService.updateText(userId, editText);
+        System.out.println("결과 " + isUpdated);
+        if (isUpdated) {
+            response.put("success", true);
+            return ResponseEntity.ok(response);
+        } else {
+            System.out.println("소개글 저장 중 오류가 발생했습니다.");
+            response.put("success", false);
+            response.put("message", "소개글 저장 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    
+    
+    
     
     // 상품 수정
     

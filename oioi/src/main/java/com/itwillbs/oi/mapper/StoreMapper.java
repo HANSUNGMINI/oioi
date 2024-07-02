@@ -22,4 +22,6 @@ public interface StoreMapper {
 
 	int getVisitCount(@Param("userId") String userId);
 
+	int getSalesCount(@Param("userId") String userId);
+
 }

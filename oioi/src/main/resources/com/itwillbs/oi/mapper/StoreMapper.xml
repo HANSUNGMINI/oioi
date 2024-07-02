@@ -38,4 +38,10 @@
 		WHERE US_ID = #{userId}
 	</select>
 	
+    <select id="getSalesCount" resultType="int">
+        SELECT COUNT(*) 
+        FROM product
+        WHERE US_ID = #{userId} AND PD_STATUS = 'PDS03';
+    </select>
+	
 </mapper>

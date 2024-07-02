@@ -290,7 +290,7 @@
                                         <div>
                                             <i class="fa-solid fa-bag-shopping"></i>
                                             <div id="store-column">상품판매</div>
-                                            <div>0 회</div>
+                                            <div>${salesCount} 회</div>
                                         </div>
                                     </div>
                                     <hr>
@@ -299,7 +299,7 @@
                                     <c:if test="${user.US_ID eq sessionScope.US_ID}">
                                         <button id="edit-button" type="button">소개글 수정</button>
                                     </c:if>
-                                    <p>소개글을 작성해주세요.</p>
+                                    <p>${user.US_TEXT}</p>
                                 </div>
                                 <div id="edit-area" style="display: none;">
                                     <textarea id="intro-textarea" rows="3" maxlength="150"></textarea>
@@ -446,13 +446,31 @@
             document.getElementById("intro-textarea").value = document.querySelector("#intro-text p").innerText;
         });
 
-        // 소개글 확인 버튼 클릭 시 텍스트를 업데이트하고 편집 영역을 숨김
+		// 소개글 확인 버튼 클릭 시 텍스트를 업데이트하고 편집 영역을 숨김
         document.getElementById("save-button").addEventListener("click", function() {
-            const newText = document.getElementById("intro-textarea").value;
-            document.querySelector("#intro-text p").innerText = newText;
-            document.getElementById("intro-text").style.display = "block";
-            document.getElementById("edit-area").style.display = "none";
-        });
+		    const newText = document.getElementById("intro-textarea").value;
+		
+		    $.ajax({
+		        url: 'editText',  // 소개글 저장을 위한 서버의 URL
+		        type: 'POST',      // 요청 타입
+		        data: { editText: newText }, // 전송할 데이터
+		        success: function(response) {
+		            console.log("서버 응답: ", response);
+		            if (response.success) {
+		                // 업데이트 성공 시, 소개글 텍스트 업데이트
+		                document.querySelector("#intro-text p").innerText = newText;
+		                document.getElementById("intro-text").style.display = "block";
+		                document.getElementById("edit-area").style.display = "none";
+		            } else {
+		                alert('소개글 저장에 실패했습니다: ' + response.message);
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            console.log("AJAX 요청 오류: ", status, error);
+		            alert('소개글 저장 중 오류가 발생했습니다.');
+		        }
+		    });
+		});
 
         // 텍스트 영역에서 입력할 때 최대 4줄로 제한
         document.getElementById("intro-textarea").addEventListener("input", function() {

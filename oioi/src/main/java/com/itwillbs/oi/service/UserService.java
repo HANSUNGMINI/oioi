@@ -146,6 +146,13 @@ public class UserService {
         return mapper.updateUserProfile(userId, fileUrl) > 0;
 	}
 
+
+	// 소개글 수정
+	public boolean updateText(String userId, String editText) {
+		
+		return mapper.updateText(userId, editText) > 0;
+	}
+
     
 
 	

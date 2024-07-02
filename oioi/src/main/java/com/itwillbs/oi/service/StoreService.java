@@ -39,4 +39,8 @@ public class StoreService {
 		return mapper.getVisitCount(userId);
 	}
 
+	public int getSalesCount(String userId) {
+		return mapper.getSalesCount(userId);
+	}
+
 }

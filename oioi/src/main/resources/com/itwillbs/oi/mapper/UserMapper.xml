@@ -235,6 +235,12 @@
         WHERE US_ID = #{userId}
 	</update>
 	
+	<update id="updateText">
+		UPDATE user
+		SET US_TEXT = #{editText}
+		WHERE US_ID = #{userId}
+	</update>
+	
 </mapper>
 
 
