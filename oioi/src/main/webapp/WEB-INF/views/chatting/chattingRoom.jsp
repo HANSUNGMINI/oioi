@@ -182,6 +182,11 @@
 		$("#chat-history").scrollTop($("#chatArea").height() - $("#chat-history").height()); 
     	
     }
+    
+    function purchase() {
+ 	   window.open('purchase', '_blank', 'width=600, height=700, left=720, top=200, resizable=no'); 
+ 	   
+    }
 </script>
 </head>
 <body>
@@ -229,7 +234,7 @@
 			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
 	                        		</c:if>
 	                        		
-		                        	<li><a id="d3" onclick="">안전 결제</a></li>
+		                        	<li><a id="d3" onclick="purchase()">안전 결제</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
