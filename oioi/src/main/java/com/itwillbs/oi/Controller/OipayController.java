@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.OipayService;
+import com.itwillbs.oi.service.TradeService;
+
+import kotlin.reflect.jvm.internal.impl.types.model.TypeSystemOptimizationContext;
 
 @Controller
 public class OipayController {
 	@Autowired
 	private OipayService service;
+	@Autowired
+	private TradeService tradeService;
 	
 	@GetMapping("connectAct")
 	public String connectAct(HttpSession session, Model model) {
@@ -140,8 +145,14 @@ public class OipayController {
 		return "";
 	}
 	
+//	@ResponseBody
 	@GetMapping("purchase")
-	public String purhcase() {
+	public String purhcase(@RequestParam Map<String, String> map) {
+		System.out.println(map);
+		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
+		Map<String, Object> product = tradeService.selectTradePDInfo(PD_IDX);
+		System.out.println(product);
+				
 		return "oipay/payment";
 	}
 
