@@ -210,8 +210,44 @@
 	
 
 	</script> -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-	
+	// 주석된거 수정중 
+// 	$(function() {
+//         var selectedFiles = []; // 사용자가 선택한 파일들을 저장하는 배열
+
+//         $(".addImg").on("click", function() {
+//             $('#addfile').click();
+//         });
+
+//         $("#addfile").on("change", function(event) {
+//             if (this.files.length > 5) {
+//                 alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+//                 this.value = ""; // 선택된 파일 초기화
+//                 return;
+//             }
+
+//             // 파일 선택 시마다 selectedFiles 배열에 파일을 추가
+//             for (var i = 0; i < this.files.length; i++) {
+//                 selectedFiles.push(this.files[i]);
+//             }
+
+//             // 파일 선택 순서대로 미리보기 이미지 생성
+//             $('.preView').empty(); // 기존 미리보기 이미지 제거
+//             $(".preView").append('<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">');
+//             for (var i = 0; i < selectedFiles.length; i++) {
+//                 let reader = new FileReader();
+//                 reader.onload = function(event) {
+//                     var img = document.createElement("img");
+//                     img.setAttribute("src", event.target.result);
+//                     img.setAttribute("class", "tempImg");
+//                     $(".preView").append(img);
+//                 };
+//                 reader.readAsDataURL(selectedFiles[i]);
+//             }
+//         });
+// 	});
+
         $(function() {
         	
             $(".addImg").on("click", function() {
@@ -220,6 +256,9 @@
 
             $("#addfile").on("change", function(event) {
             	$('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
+            	 for (var i = 0; i < this.files.length; i++) {
+            	        console.log(this.files[i].name);
+            	    }
                 if (this.files.length > 5) {
                     alert("최대 5개의 이미지만 업로드할 수 있습니다.");
                     this.value = ""; // 선택된 파일 초기화
