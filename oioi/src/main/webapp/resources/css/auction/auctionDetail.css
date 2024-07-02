@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+   .tempImg {
+          display: block;
+          margin: 10px 0;
+           width: 100px;
+          height: 100px;
+      }
+      .addImg {
+          cursor: pointer;
+      }
+      .preView {
+          display: flex;
+          gap: 10px;
+      }
+      .previewImg {
+          width: 100px;
+          height: 100px;
+      }
+      
+      .previewImgWrapper {
+     position: relative;
+     display: inline-block;
+     margin: 5px;
+    }
+    
+    .deleteBtn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 12px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 18px;
+    }
+    
+    .priceAlign {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           margin-top: 10px; /* 필요에 따라 조정 */
+       }
+    .cat, .price {
+        margin: 0;
+    }
+    
+    .messageCenter {
+       text-align: center;
+    }
