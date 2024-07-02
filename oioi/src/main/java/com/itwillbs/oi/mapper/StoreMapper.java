@@ -24,4 +24,6 @@ public interface StoreMapper {
 
 	int getSalesCount(@Param("userId") String userId);
 
+	Map<String, Object> getProductById(@Param("idx") int idx);
+
 }

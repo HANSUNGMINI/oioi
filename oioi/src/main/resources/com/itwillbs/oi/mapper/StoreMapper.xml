@@ -43,5 +43,11 @@
         FROM product
         WHERE US_ID = #{userId} AND PD_STATUS = 'PDS03';
     </select>
+    
+    <select id="getProductById">
+    	SELECT *
+    	FROM product
+    	WHERE PD_IDX = #{idx}
+    </select>
 	
 </mapper>

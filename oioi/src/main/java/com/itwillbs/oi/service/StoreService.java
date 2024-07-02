@@ -43,4 +43,9 @@ public class StoreService {
 		return mapper.getSalesCount(userId);
 	}
 
+	public Map<String, Object> getProductById(int idx) {
+		
+		return mapper.getProductById(idx);
+	}
+
 }
