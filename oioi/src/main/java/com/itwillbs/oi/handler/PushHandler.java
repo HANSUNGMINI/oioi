@@ -28,7 +28,7 @@ public class PushHandler extends TextWebSocketHandler {
 
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-
+    
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String senderId = getUserId(session);

@@ -222,7 +222,8 @@
 		FROM auction_product ap
 		LEFT JOIN images i 
 		ON i.IMG_IDX = ap.APD_IMAGE 
-		WHERE APD_STATUS = 'APD05';
+		WHERE APD_STATUS = 'APD05'
+		ORDER BY APD_REG_DATE DESC;
 	</select>
 	
 </mapper>
