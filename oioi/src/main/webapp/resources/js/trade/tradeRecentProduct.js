@@ -9,17 +9,15 @@
 ============================================================ */
  
  $(function(){
+ 	showRecentLookProduct()
 	
 	/* 최근 본 상품 함수 호출 */
-	showRecentLookProduct();
+	let contextPath = '<%= request.getContextPath() %>';
 	
-}) // ready 이벤트 끝
-
 	/* 최근 본 상품 */
 	function showRecentLookProduct() {
 		let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
 		storedProducts = storedProducts.join(',');
-		let contextPath = '<%= request.getContextPath() %>';
 		
 		let isNull = false;
 		if (storedProducts.length === 0) {
@@ -52,7 +50,7 @@
 				$.each(productList, function(index, pr) {
 					let productDetail = 
 						  	' <div class="image">'
-                           +'          <img src="' + contextPath + '/resources/upload/' + pr.IMG + '">'
+                           + '    <img src="' + contextPath + '/resources/upload/' + pr.IMG + '">'
                            +' </div>'
                            +'     <div class="content">'
                            +'         <h5><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
@@ -68,3 +66,5 @@
         });
 	
 	}
+}) // ready 이벤트 끝
+
