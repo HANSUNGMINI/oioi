@@ -62,10 +62,13 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
-		// 닉네임 및 상품 제목 가져오기
+		// 닉네임 및 상품 제목 가져오기 + 상대방 프로필
 		Map<String, String> info = service.getUserInfo(map);
 		System.out.println(">>>>>> " + info);
 		
+		// 내 프로필 불러오기
+		Map<String, String> myInfo = service.getMyInfo(map);
+		System.out.println(myInfo);
 		// 채팅 목록 불러오기 
 		
 		// 리뷰 카테고리 불러오기
@@ -75,7 +78,8 @@ public class ChattingController {
 		List<Map<String, String>> reportMap = service.getReportCategory();
 
 		// model에 담아서 정보 보내기
-		model.addAttribute("info", info); // 상대방 닉네임 + 상품 정보
+		model.addAttribute("info", info); // 상대방 닉네임 + 상품 정보 + 상대방 프로필 
+		model.addAttribute("myInfo", myInfo); // 내 프로필 
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		
@@ -150,4 +154,16 @@ public class ChattingController {
         
 	}
 	
+	@PostMapping("delivery")
+	public String goDelivery(@RequestParam Map map, Model model) {
+		System.out.println("운송장 map : " + map);
+		
+		return "";
+	}
+	
+	@GetMapping("tradeDecide")
+	public String goTradeDecide(@RequestParam Map map, Model model) {
+		System.out.println("판매완료 map : " + map);
+		return "";
+	}
 }

@@ -12,7 +12,7 @@
 		    PD_IDX, 
 		    PD_SUBJECT, 
 		    PD_PRICE, 
-		    PD_IMAGE,
+		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
 		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
@@ -28,6 +28,8 @@
 		FROM product p
 		JOIN common c
 		ON p.PD_STATUS = c.code
+		JOIN images i
+		ON p.PD_IMAGE = i.IMG_IDX
 		WHERE PD_STATUS != 'PDS03' 
         AND CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
         ORDER BY PD_IDX 
@@ -41,7 +43,7 @@
 		SELECT PD_IDX, 
 		    PD_SUBJECT, 
 		    PD_PRICE, 
-		    PD_IMAGE,
+		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
 		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
@@ -57,6 +59,8 @@
 		 FROM product p
 		 JOIN common c
 		 ON p.PD_STATUS = c.code
+		 JOIN images i
+		 ON p.PD_IMAGE = i.IMG_IDX
 		 WHERE PD_STATUS != 'PDS03' 
 		 ORDER BY PD_READCOUNT DESC
 		 LIMIT 10
@@ -69,7 +73,7 @@
 		SELECT PD_IDX, 
 		    PD_SUBJECT, 
 		    PD_PRICE, 
-		    PD_IMAGE,
+		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
 		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
@@ -85,6 +89,8 @@
 		 FROM product p
 		 JOIN common c
 		 ON p.PD_STATUS = c.code
+	 	 JOIN images i
+		 ON p.PD_IMAGE = i.IMG_IDX
 		 WHERE PD_IDX = #{prodcut}
 		 ]]>
 	</select>

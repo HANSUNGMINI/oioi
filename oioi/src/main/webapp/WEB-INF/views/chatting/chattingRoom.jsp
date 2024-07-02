@@ -76,10 +76,13 @@
 		[ 함수 정리 ]
 		1. connectChat() 					: 웹소켓 연결
 		2. sendMessage()					: 메세지를 서버로 전송
-		3. appendMessage(msg, align_type) 	: 메세지를 DIV에 추가하여 보여준다	*/
+		3. appendMessage(msg, align_type) 	: 메세지를 DIV에 추가하여 보여준다
+		4. toJsonString(type, msg) 			: 문자열을 JSON 타입으로 변환 */
 
     $(function(){
 	    connectChat();
+	    
+	    window.scrollTo(0, document.body.scrollHeight);
 	    
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
@@ -119,13 +122,22 @@
 	}
 	function onMessage(event) {
 		console.log(event.data);
-		appendMessage(event.data, "left");
+		appendMessage(event.data, "left","my");
 	}
 	function onError() {
 		console.log("onError()");
 	}
     
     // -------------------------------------------------------
+    function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달
+    	let data = {
+    		type : type,
+    		msg : msg
+    	};
+    
+    	return JSON.stringify(data)
+    }
+    
     function sendMessage() {
     	let msg = $("#textMsg").val(); 
     	
@@ -139,27 +151,36 @@
     	ws.send(msg);
     	
     	// div 출력
-    	appendMessage(msg,"right");
+    	appendMessage(msg,"right","other");
     	
     	// 초기화
     	$("#textMsg").val("");
 		$("#textMsg").focus();
     }
     
-    function appendMessage(msg, align_type) {
+    function appendMessage(msg, align_type, who) {
     	
-    	let chat = ' <li class="clearfix">'
-    				+'<div class="message-data text-right">'
-    				+' <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">'
+    	let userImg = ''
+    		
+    	if(align_type == "right") {
+    		userImg = '${myInfo.US_PROFILE}'
+    	} else { 
+    		userImg = "${info.US_PROFILE}"
+    	}
+    	
+    	let chat = ' <li class="clearfix" id="userMsg">'
+    				+'<div class="message-data text-' + align_type +'">'
+    				+' <img src="'+ userImg +'">'
     				+ '</div>'
-    				+ '<div class="message other-message float-right">' + msg + '</div>'
-    				+ '<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
+    				+ '<div class="message ' + who +'-message float-' + align_type +'">' + msg + '</div>'
     				+ '</li>'		
+    				+ '<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
     	
     	$("#chatArea").append(chat);
     				
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
-    	$(".chat").scrollTop($(".chat")[0].scrollHeight);
+		$("#chat-history").scrollTop($("#chatArea").height() - $("#chat-history").height()); 
+    	
     }
 </script>
 </head>
@@ -181,7 +202,7 @@
                         <div class="col-lg-6">
                         	<%-- 사용자 정보 --%>
                             <a href="javascript:void(0);" onclick="goStore()">
-                                <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="avatar">
+                                <img src="${info.US_PROFILE}" alt="avatar">
                             </a>
                             <div class="chat-about">
                             
@@ -202,10 +223,13 @@
                             
 	                        <div id="detail">
 	                        	<ul>
-		                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-		                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
+	                        		
+	                        		<c:if test="${param.TO_ID eq sessionScope.US_ID}">
+			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
+			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
+	                        		</c:if>
+	                        		
 		                        	<li><a id="d3" onclick="">안전 결제</a></li>
-		                        	<li><a id="d4" data-toggle="modal" data-target="#fraud_model">사기 이력 조회</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
@@ -272,69 +296,41 @@
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			
-			      <!-- Modal Header -->
-			      <div class="modal-header">
-			        <h4 class="modal-title">운송장 등록</h4>
-			      </div>
-			
-			      <!-- Modal body -->
-			      <div class="modal-body">
-			      
-			      	<%-- 택배사 선택 --%>
-			        <select name="deliver_category" id="deliver_category" style = "margin-left : 15px">
-	 					<option value =""> 택배사 선택 </option>
-	 					<option value ="reservation"> 대한통운 </option>
-	 					<option value ="function"> 우체국택배 </option>
-	 					<option value ="price"> 편의점택배 </option>
-	 				</select>
-	
-			      	<%-- 운송장 번호 --%>
-			      	<input type="text" placeholder="운송장번호를 입력해 주세요" id="num" required="required">
-			      </div>
-			
-			      <!-- Modal footer -->
-			      <div class="modal-footer">
-			        <button type="submit" class="btn btn-success">등록</button>
-			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-			      </div>
-			
+				<form action="delivery" method="post">
+				      <!-- Modal Header -->
+				      <div class="modal-header">
+				        <h4 class="modal-title">운송장 등록</h4>
+				      </div>
+				
+				      <!-- Modal body -->
+				      <div class="modal-body">
+				      
+				      	<%-- 택배사 선택 --%>
+				        <select name="DV_METHOD" id="deliver_category" style = "margin-left : 15px">
+		 					<option value =""> 택배사 선택 </option>
+		 					<option value ="daehan"> 대한통운 </option>
+		 					<option value ="post"> 우체국택배 </option>
+		 					<option value ="gs"> GS 편의점택배 </option>
+		 					<option value ="cu"> CU 편의점택배 </option>
+		 				</select>
+		
+				      	<%-- 운송장 번호 --%>
+				      	<input type="text" name="DV_NUM" placeholder="운송장번호를 입력해 주세요" id="num" required="required">
+				      </div>
+				
+				      <!-- Modal footer -->
+				      <div class="modal-footer">
+				        <button type="submit" class="btn btn-success">등록</button>
+				        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+				        <input type="hidden" name="US_ID" value="${param.TO_ID}">
+						<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+				      </div>
+			     </form>
 			    </div>
 			  </div>
 			</div>     
 			
-            <%-- 사기 이력 조회 --%>
-			
-			<div class="modal" id="fraud_model">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			
-			      <!-- Modal Header -->
-			      <div class="modal-header">
-			        <h4 class="modal-title">신고 이력 조회</h4>
-			      </div>
-			
-			      <!-- Modal body -->
-			      <div class="modal-body">
-			      
-			      	<%-- 계좌 번호 입력 --%>
-			      	계좌번호 조회 &nbsp;
-			      	<input type="text" placeholder="계좌번호를 입력해 주세요" id="num"> <button type="submit" class="btn btn-success">조회</button>
-					<div id="fraud_result"></div>
-					<hr>
-			      	휴대번호 조회 &nbsp;
-			      	<input type="text" placeholder="휴대번호를 입력해 주세요" id="num"> <button type="submit" class="btn btn-success">조회</button>
-			      	<div id="fraud_result"></div>
-			      </div>
-			
-			      <!-- Modal footer -->
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-			      </div>
-			
-			    </div>
-			  </div>
-			</div>     
-			
+           
 			
             <%-- 신고하기 --%>
 			
@@ -441,7 +437,17 @@
     
     
     <script type="text/javascript">
-	
+		/*
+		[함수 정리] 
+		1. showDetail() 				: 상세보기 나오기
+		2. transaction()				: 판매완료
+		3. exit()						: 대화방 나가기
+		4. setRating(value, reservIdx) 	: 별점 매기기
+		5. goStore()					: 상점 바로가기
+		6. goProductDetail()			: 거래 상품 디테일 바로라기
+		*/
+    
+		
 		/* 상세보기 나오기 */
 		function showDetail(){
 			let datail= document.querySelector("#detail");
@@ -452,7 +458,7 @@
 			}
 		}
 		
-		/* 거래완료 */
+		/* 판매완료 */
 		function transaction() {
 			let nick = '${info.US_NICK}';
 			
@@ -474,6 +480,7 @@
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   
 				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
+				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
 						document.querySelector("#detail").style.display = "none";
 						document.querySelector("#review").style.display = "block";
 				   }
@@ -523,7 +530,7 @@
 		
 		/* 상점 바로가기 */
 		function goStore(){
-			window.opener.location.href="myStore"; 
+			window.opener.location.href="myStore?userId=${param.TO_ID}"; 
 			window.close();
 		}
 		

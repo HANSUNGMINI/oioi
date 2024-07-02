@@ -231,7 +231,7 @@
                         <!--/ End Single Widget -->
                         <!-- Single Widget -->
                         <div class="single-widget recent-post">
-                            <h3 class="title">최근 본 상품 -흠-</h3>
+                            <h3 class="title">최근 본 상품</h3>
                             <!-- Single Post -->
                             <div class="single-post first">
                                 <div class="image">
