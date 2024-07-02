@@ -259,7 +259,7 @@
                                             <img id="profile-pic" src="${pageContext.request.contextPath}/resources/images/test.png" alt="#" width="256px;" height="193px;">
                                         </c:when>
                                         <c:otherwise>
-                                            <img id="profile-pic" src="${user.US_PROFILE}" width="256px;" height="193px;" alt="#">
+                                            <img id="profile-pic" src="${user.US_PROFILE}" width="287px;" height="204px;" alt="#">
                                         </c:otherwise>
                                     </c:choose>
 									<c:if test="${user.US_ID eq sessionScope.US_ID}">

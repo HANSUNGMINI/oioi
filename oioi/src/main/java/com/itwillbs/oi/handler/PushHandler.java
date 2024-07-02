@@ -36,24 +36,30 @@ public class PushHandler extends TextWebSocketHandler {
             logger.info(senderId + " 연결됨");
             userSessions.put(senderId, session);
 
-            // 웹소켓 연결 시 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
+            // 웹소켓 연결 시 최신 3개의 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
             List<Map<String, Object>> newItems = auctionService.getNewAuctionItems();
-            if (!newItems.isEmpty()) {
-                JSONArray jsonArray = new JSONArray();
-                for (Map<String, Object> item : newItems) {
-                    JSONObject jsonItem = new JSONObject();
-                    jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
-                    jsonItem.put("APD_NAME", item.get("APD_NAME"));
-                    jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
-                    jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
-                    jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
-                    jsonArray.put(jsonItem);
+            
+            // 최신순 3개까지만 출력
+            int count = 0;
+            JSONArray jsonArray = new JSONArray();
+            for (Map<String, Object> item : newItems) {
+                JSONObject jsonItem = new JSONObject();
+                jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
+                jsonItem.put("APD_NAME", item.get("APD_NAME"));
+                jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
+                jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
+                jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
+                jsonArray.put(jsonItem);
+                
+                count++;
+                if (count >= 3) {
+                    break;
                 }
+            }
                 sendNotificationToClient(session, jsonArray.toString());
             }
         }
-    }
-
+    
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 클라이언트에서 메시지를 받았을 때 처리할 로직
