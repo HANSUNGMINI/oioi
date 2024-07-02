@@ -173,7 +173,7 @@
 						+'			</div>'
 						+'		</div>'
 						+'		<div class="product-content">'
-						+'			<h3><a href="product-details.html">'+ pr.PD_SUBJECT +'</a></h3>'
+						+'			<h3><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h3>'
 						+'			<div class="product-price">'
 						+'				<span>'+ pr.PD_PRICE +' 원</span>'
 						+'				<span class="pro_time" style="float:right; color:gray"><small>'+ pr.RD_DATE +'</small></span>'

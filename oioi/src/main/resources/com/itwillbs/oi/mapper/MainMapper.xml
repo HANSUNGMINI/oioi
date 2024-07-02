@@ -94,6 +94,28 @@
 		 WHERE PD_IDX = #{prodcut}
 		 ]]>
 	</select>
+	
+	<select id="getTradeRecentLookProduct" resultType="hashmap">
+			<![CDATA[
+		-- MainMapper > getTradeRecentLookProduct
+		SELECT PD_IDX, 
+		    PD_SUBJECT, 
+		    PD_PRICE, 
+		    i.image1 AS 'IMG',
+		    CASE 
+		        WHEN TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, PD_REG_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, PD_REG_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, PD_REG_DATE, NOW()), ' 일전')
+		    END AS RD_DATE
+		 FROM product p
+		 JOIN common c
+		 ON p.PD_STATUS = c.code
+	 	 JOIN images i
+		 ON p.PD_IMAGE = i.IMG_IDX
+		 WHERE PD_IDX = #{prodcutId}
+		 ]]>
+	</select>
 </mapper>
 
 
