@@ -18,11 +18,17 @@
 	</select>
 	
 	<select id="getUserInfo" resultType="hashmap">
-		SELECT u.US_NICK, p.PD_SUBJECT
+		SELECT u.US_NICK, p.PD_SUBJECT, u.US_PROFILE
 		FROM `user` u
 		JOIN product p 
 		ON p.US_ID = u.US_ID
 		WHERE u.US_ID = #{TO_ID} AND p.PD_IDX = #{PD_IDX}
+	</select>
+	
+	<select id="getMyInfo" resultType="hashmap">
+		SELECT u.US_PROFILE
+		FROM `user` u
+		WHERE u.US_ID = #{US_ID}
 	</select>
 	
 	<insert id="insertReport">
