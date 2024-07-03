@@ -9,10 +9,10 @@
 ============================================================ */
  
  $(function(){
- 	showRecentLookProduct()
+ 	showRecentLookProduct();
 	
 	/* 최근 본 상품 함수 호출 */
-	let contextPath = '<%= request.getContextPath() %>';
+	let contextPath = "<%=request.getContextPath()%>";
 	
 	/* 최근 본 상품 */
 	function showRecentLookProduct() {
@@ -48,6 +48,7 @@
 				}
 				
 				$.each(productList, function(index, pr) {
+				
 					let productDetail = 
 						  	' <div class="image">'
                            + '    <img src="' + contextPath + '/resources/upload/' + pr.IMG + '">'
