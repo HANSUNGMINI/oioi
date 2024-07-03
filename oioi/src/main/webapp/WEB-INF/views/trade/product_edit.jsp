@@ -88,16 +88,28 @@
             <div class="login-form">
                 <h2>상품수정</h2>
                 <!-- Form -->
-                <form class="regForm" action="product" method="post" enctype="multipart/form-data">
+                <form class="regForm" action="productModify" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
                     <ul>
                         <li>
                             <label> 상품 이미지<small>(최대 5장)</small></label>
                             <input type="file" accept="image/*" name="addfile" multiple id="addfile" style="display : none">
                             <div class="preView">
-                                <c:forEach var="img" items="${product.images}">
-                                    <img src="${img}" class="tempImg">
-                                </c:forEach>
+                                <c:if test="${not empty product.image1}">
+                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image1}" class="tempImg">
+                                </c:if>
+                                <c:if test="${not empty product.image2}">
+                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image2}" class="tempImg">
+                                </c:if>
+                                <c:if test="${not empty product.image3}">
+                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image3}" class="tempImg">
+                                </c:if>
+                                <c:if test="${not empty product.image4}">
+                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image4}" class="tempImg">
+                                </c:if>
+                                <c:if test="${not empty product.image5}">
+                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image5}" class="tempImg">
+                                </c:if>
                                 <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
                             </div>
                         </li>
@@ -137,7 +149,7 @@
                         <li>
                             <label> 가격 </label>
                             <input type="text" id="price" name="PD_PRICE" placeholder="원" value="${product.PD_PRICE}"><br>
-                            <label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" <c:if test="${product.PD_PRICE_OFFER == 'true'}">checked</c:if>>가격 제안 가능</label>
+                            <label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" <c:if test="${product.PD_PRICE_OFFER == 'on'}">checked</c:if>>가격 제안 가능</label>
                         </li>
                         <li>
                             <label> 상품설명</label>
@@ -153,7 +165,7 @@
                         </li>
                         <li>
                             <label> 안전 거래 여부 </label>
-                            <label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" <c:if test="${product.PD_SAFE_TRADE == 'true'}">checked</c:if>>안전 거래 사용</label>
+                            <label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" <c:if test="${product.PD_SAFE_TRADE == 'on'}">checked</c:if>>안전 거래 사용</label>
                         </li>
                     </ul>
                     <input type="hidden" name="PD_STATUS" value="PDS01">
