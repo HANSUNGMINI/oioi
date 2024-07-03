@@ -51,7 +51,7 @@
 				
 					let productDetail = 
 						  	' <div class="image">'
-                           + '    <img src="' + contextPath + '/resources/upload/' + pr.IMG + '">'
+                           + '    <img src="/oi/resources/upload/' + pr.IMG + '">'
                            +' </div>'
                            +'     <div class="content">'
                            +'         <h5><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'

@@ -13,9 +13,15 @@ public interface ChattingMapper {
 	List<Map<String, String>> selectReviewCategory(); // 리뷰 카테고리 가져오기
 	// ------------------------------------------
 	
+	// ----------- 정보 가져오기 ----------------
 	Map<String, String> getUserInfo(Map<String, String> map); // 채팅 시 필요한 유저 정보 가져오기 
-	int insertReport(Map<String, String> map); // 신고 처리
 	Map<String, String> getMyInfo(Map<String, String> map); // 채팅 시 내 정보 가져오기
+	// -------------------------------------------
+	
+	// ----------- 정보 처리하기 ----------------
+	int insertReport(Map<String, String> map); // 신고 처리
+	int insertReview(Map<String, String> map); // 리뷰 처리
+	// -------------------------------------------
 
 
 }
