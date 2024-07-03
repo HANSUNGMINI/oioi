@@ -86,6 +86,10 @@ public class AuctionService {
 		return mapper.selectAuctionList();
 	}
 
+	public List<Map<String, Object>> apdPopular() {
+		return mapper.apdPopular();
+	}
+
 	
 
 	

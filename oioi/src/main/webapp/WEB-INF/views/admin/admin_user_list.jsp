@@ -6,9 +6,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Tables - Admin One Tailwind CSS Admin Dashboard</title>
+	<title>오이마켓 - 관리자 페이지</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?v=1652870200386">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	
 	<!--  아이콘 -->
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">

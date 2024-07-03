@@ -1,9 +1,11 @@
 package com.itwillbs.oi.handler;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,17 +20,21 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
     private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
-
+    private Map<String, String> userSessions = new ConcurrentHashMap<String,String>();
     // 커넥션이 연결됐을 때(접속을 성공했을 때마다)
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String uri = session.getUri().toString();
         String apdIdx = uri.substring(uri.indexOf("APD_IDX=") + "APD_IDX=".length());
         String usId = (String) session.getAttributes().get("US_ID");
-
+        
+        
+        userSessions.put("usId", usId);
         session.getAttributes().put("APD_IDX", apdIdx);
         sessions.add(session);
-
+        
+        System.out.println("session 누구누구있는지 : " + userSessions.toString());
+        
         // 접속 메시지
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "ENTER");

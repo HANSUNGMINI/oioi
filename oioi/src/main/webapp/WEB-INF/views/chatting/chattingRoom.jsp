@@ -35,7 +35,8 @@
 		3. appendMessage(msg, align_type) 	: 메세지를 DIV에 추가하여 보여준다
 		4. toJsonString(type, msg) 			: 문자열을 JSON 타입으로 변환
 		5. purchase(TO_ID, PD_IDX)			: 안전결제 창으로 넘어감
-		6. sysMessage(msg)					: 시스템 메세지 출력 */
+		6. sysMessage(msg)					: 시스템 메세지 출력
+		7. saveInfo(data.msg)				: ajax로 DB에 저장			*/
 
     $(function(){
 	    connectChat();
@@ -74,19 +75,39 @@
     
     function onOpen() {
 		console.log("웹 소켓 연결")
+		
+		let data = {
+			"US_ID" : "${param.US_ID}",
+			"TYPE"	: "ENTER_CHAT"
+		};
+		
+		let jsonData = JSON.stringify(data);
+		ws.send(jsonData);
     }
+    
     function onClose() {
 		console.log("onClose()");
 	}
 	function onMessage(event) { // 다른 사람 거 나오기
-		console.log(event.data);
-		appendMessage(event.data, "left","my");
+		let data = JSON.parse(event.data);
+		appendMessage(data.msg, "left","my");
 	}
+	
 	function onError() {
 		console.log("onError()");
 	}
     
-	
+    // -------------------------------------------------------
+	function saveInfo(message) {
+    	let WHO_ID = "${param.US_ID}";
+    	let TO_ID = "${param.TO_ID}";
+    	let FROM_ID = '${param.US_ID}';
+    	
+//     	if(TO_ID != WHO_ID) {
+// 			FROM_ID = WHO_ID	
+//     	}
+    }
+    	
     // -------------------------------------------------------
     function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
@@ -112,6 +133,9 @@
     	
     	// div 출력
     	appendMessage(msg,"right","other");
+    	
+    	// DB 저장
+    	saveInfo(msg);
     	
     	// 초기화
     	$("#textMsg").val("");
@@ -145,7 +169,7 @@
     	$("#chatArea").append(chat);
     				
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
-		$("#chat-history").scrollTop($("#chatArea").height() - $("#chat-history").height()); 
+		$('#chat-history').scrollTop($('#chat-history').prop('#chat-history'));
     	
     }
 

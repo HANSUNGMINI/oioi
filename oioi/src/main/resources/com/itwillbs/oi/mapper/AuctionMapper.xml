@@ -95,10 +95,24 @@
 	</insert>
 	
 	<select id="selectApdList" resultType="hashmap">
-		SELECT *
+		<![CDATA[
+		SELECT *,
+		CASE
+			WHEN ap.APD_STATUS = 'APD07' THEN 'out-of-stock'
+			WHEN ap.APD_STATUS = 'APD06' THEN 'price-dec'
+			WHEN ap.APD_STATUS = 'APD05' THEN 'new' 
+		END AS APD_STATUS_COLOR,
+		CASE 
+			WHEN TIMESTAMPDIFF(MINUTE, a.AT_START_TIME, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, a.AT_START_TIME, NOW()), ' 초전')
+			WHEN TIMESTAMPDIFF(HOUR, a.AT_START_TIME, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, a.AT_START_TIME, NOW()), ' 분전')
+			WHEN TIMESTAMPDIFF(HOUR, a.AT_START_TIME, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, a.AT_START_TIME, NOW()), ' 시간전')
+			ELSE CONCAT(TIMESTAMPDIFF(DAY, a.AT_START_TIME, NOW()), ' 일전')
+		END AS RD_DATE
 		FROM auction_product ap
 		JOIN images img ON ap.APD_IMAGE = img.IMG_IDX
 		JOIN common c ON ap.APD_STATUS = c.code
+		JOIN auction a ON ap.APD_IDX = a.APD_IDX
+		]]>
 		<if test="params.APD_STATUS == ''">
 		WHERE APD_STATUS LIKE 'APD0%'
 		AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '09'
@@ -112,7 +126,8 @@
 		<if test="params.APD_STATUS == 'APD07'">
 		WHERE APD_STATUS = 'APD07'
 		</if>
-		LIMIT #{params.startRow}, #{params.listLimit};
+		LIMIT #{params.startRow}, #{params.listLimit}
+		
 	</select>
 	
 	<select id="selectApdDetail" resultType="hashmap">
@@ -225,7 +240,31 @@
 		WHERE APD_STATUS = 'APD05'
 		ORDER BY APD_REG_DATE DESC;
 	</select>
-	
+	<select id="apdPopular" resultType="hashmap">
+	<![CDATA[
+		SELECT ap.*, COUNT(b.APD_IDX) AS bid_count,
+		CASE
+			WHEN ap.APD_STATUS = 'APD07' THEN 'out-of-stock'
+			WHEN ap.APD_STATUS = 'APD06' THEN 'price-dec'
+			WHEN ap.APD_STATUS = 'APD05' THEN 'new' 
+		END AS APD_STATUS_COLOR,
+		CASE 
+			WHEN TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, ap.APD_REG_DATE, NOW()), ' 초전')
+			WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()), ' 분전')
+			WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()), ' 시간전')
+			ELSE CONCAT(TIMESTAMPDIFF(DAY, ap.APD_REG_DATE, NOW()), ' 일전')
+		END AS RD_DATE,
+		c.value as APD_STATUS_VALUE
+		FROM auction_product ap
+		JOIN bidding b
+		ON ap.APD_idx = b.APD_IDX
+		JOIN common c
+		on ap.APD_STATUS = c.code
+		GROUP BY ap.APD_idx, c.value
+		ORDER BY bid_count DESC
+		limit 5
+		]]>
+	</select>
 </mapper>
 
 
