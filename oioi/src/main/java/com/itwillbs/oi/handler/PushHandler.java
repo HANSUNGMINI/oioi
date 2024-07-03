@@ -28,12 +28,9 @@ public class PushHandler extends TextWebSocketHandler {
 
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-<<<<<<< HEAD
     Map<String, WebSocketSession> pushSessions = new HashMap<>();
 
-=======
     
->>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	String senderId = getUserId(session);
