@@ -46,8 +46,12 @@
     
     <select id="getProductById">
     	SELECT *
-    	FROM product
-    	WHERE PD_IDX = #{idx}
+		FROM 
+		    product p
+		JOIN 
+		    images i ON p.PD_IMAGE = i.IMG_IDX
+		WHERE 
+		    p.PD_IDX = #{idx};
     </select>
-	
+    
 </mapper>

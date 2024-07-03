@@ -145,13 +145,21 @@ public class OipayController {
 	
 //	@ResponseBody
 	@GetMapping("purchase")
-	public String purhcase(@RequestParam Map<String, String> map, Model model) {
+	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		System.out.println(map);
+		// 상품정보 가져오기
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
 		System.out.println(product);
 		
+		// 머니 정보 가져오기
+		String id = (String)session.getAttribute("US_ID");
+//		System.out.println(id);
+		int oiMoney = service.selectOiMoney(id);
+//		System.out.println(oiMoney);
+		
 		model.addAttribute("product", product);
+		model.addAttribute("oimoney", oiMoney);
 				
 		return "oipay/payment";
 	}

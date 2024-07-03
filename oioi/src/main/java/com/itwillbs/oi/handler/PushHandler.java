@@ -16,8 +16,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
 import com.itwillbs.oi.service.AuctionService;
-import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
 
 @Component
 public class PushHandler extends TextWebSocketHandler {
@@ -30,8 +30,7 @@ public class PushHandler extends TextWebSocketHandler {
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
     Map<String, WebSocketSession> adminSessions = new HashMap<>();
-
-    
+    private Gson gson = new Gson();
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	String senderId = getUserId(session);
@@ -62,19 +61,30 @@ public class PushHandler extends TextWebSocketHandler {
                 }
             }
                 sendNotificationToClient(session, jsonArray.toString());
-            } else if (isAdmin) {
-            	adminSessions.put("admin", session);
-            }
+        } else if (isAdmin) {
+        	Map<String, Object> map = (Map<String, Object>)session.getAttributes().get("admin");
+        	adminSessions.put((String)map.get("AD_ID"), session);
         }
+        
+//        for(WebSocketSession admins : adminSessions.values()) {
+//			admins.sendMessage(new TextMessage("ㅎㅋ"));
+//			System.out.println(Integer.toString(userSessions.keySet().size()));
+//			System.out.println("!!!!!!!!");
+//		}
+    }
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     	String msg = message.getPayload();
-    	
-    	if(msg.equals("moreReport")) {
+    	Map<String, Object> map = gson.fromJson(msg, Map.class);
+    	String type = (String)map.get("type");
+    	System.out.println(type);
+    	if(type.equals("toAdmin")) {
     		for(WebSocketSession admins : adminSessions.values()) {
-        		admins.sendMessage(new TextMessage("report"));
-        	}
+    			admins.sendMessage(new TextMessage(msg));
+    		}
+    	} else if (type.equals("toUsers")) {
+    		// 여따가 써라 이.시.윤
     	}
     	
     }
@@ -107,5 +117,9 @@ public class PushHandler extends TextWebSocketHandler {
         } catch (Exception e) {
             logger.error("알림 전송 실패: " + e.getMessage());
         }
+    }
+    
+    private void sendNotificationToAdmin(WebSocketSession session, String message) {
+    	// TODO
     }
 }

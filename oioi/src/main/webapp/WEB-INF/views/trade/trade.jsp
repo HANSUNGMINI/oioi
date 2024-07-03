@@ -147,7 +147,7 @@
                                 + '       </div>'
                                 + '       </div>'
                                 + '       <div class="product-content">'
-                                + '           <h3><a href="product-details.html">'+ product.PD_SUBJECT +'</a></h3>'
+                                + '           <h3><a href="productDetail?PD_IDX='+ product.PD_IDX +'">'+ product.PD_SUBJECT +'</a></h3>'
                                 + '           <div class="product-price">'
                                 + '               <span>'+ product.PD_PRICE +'</span>'
                                 + '           </div>'
@@ -190,7 +190,7 @@
     		}
     	
     		if (isNull) {
-    			let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 본 상품 목록이 비어 있습니다. </div>';
+    			let nullDiv = '<div style="margin-top: 50px; font-size:13px; text-align:center; height: 50px; color:#34A853"> 최근 본 상품 목록이 비어 있습니다. </div>';
     			$("#recentProduct").append(nullDiv);
     			return;  // 최근 본 상품이 없을 경우 
     		}
@@ -206,7 +206,7 @@
     				let productList = response;
     				
     				if (productList == '') {
-    					let nullDiv = '<div style="margin:0 auto; text-align:center; height: 100px;"> 최근 본 상품 목록이 비어 있습니다. </div>';
+    					let nullDiv = '<div style="margin-top: 50px; font-size:13px; text-align:center; height: 50px;color:#34A853"> 최근 본 상품 목록이 비어 있습니다. </div>';
     					$("#recentProduct").append(nullDiv);
     					return;  // 최근 본 상품이 없을 경우 
     				}
@@ -221,7 +221,7 @@
                                + '  </a>'
                                +' </div>'
                                +'     <div class="content">'
-                               +'         <h5><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
+                               +'         <h5 style="text-overflow: ellipsis;"><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
                                +'        <small>'+ pr.RD_DATE +'</small>'
                                +'        <p class="price">'+ pr.PD_PRICE +' 원'
                                +' </div>'
@@ -290,7 +290,7 @@
                         
                         <!-- Single Widget -->
                         <div class="single-widget recent-post" >
-                            <h3 class="title" id="recentProduct">최근 본 상품</h3>
+                            <h3 class="title" id="recentProduct" style="text-align:center;">최근 본 상품</h3>
                             <!-- Single Post -->
                             
 <!--                                 <div class="image"> -->

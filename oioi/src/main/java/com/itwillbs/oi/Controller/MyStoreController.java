@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -238,15 +240,20 @@ public class MyStoreController {
     
     @GetMapping("productModify")
     public String productModify(@RequestParam Map<String, Object> map, Model model) {
+    	
     	System.out.println("상품 수정 컨트롤러 : " + map.get("PD_IDX"));
+    	
     	int pdIdx = Integer.parseInt((String) map.get("PD_IDX"));
         // 상품 정보를 DB에서 가져오기
         Map<String, Object> product = storeService.getProductById(pdIdx);
-
+        
         if (product == null) {
-            model.addAttribute("msg", "존재하지 않는 상품입니다.");
-            return "err/fail";
+        	model.addAttribute("msg", "존재하지 않는 상품입니다.");
+        	return "err/fail";
         }
+        System.out.println("상품 정보 : " + product);
+        
+        
         
      // 카테고리 대분류
      		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
@@ -310,6 +317,110 @@ public class MyStoreController {
         model.addAttribute("product", product);
         return "trade/product_edit";
     }
+    
+// // 상품 수정 업데이트하기
+// 	@PostMapping("productModify")
+// 	public String submitProduct(@RequestParam Map<String, Object> map, Model model
+// 			,@RequestPart("addfile") MultipartFile[] files, HttpSession session
+// 			) {
+// 		
+// 		
+// 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + map); //작성값 다 가져오기
+// 		System.out.println(map.get("PD_TAG"));
+// 		// 사용자 아이디 가져오기
+// 		map.put("US_ID", (String)session.getAttribute("US_ID"));
+// 		// 카테고리 가져오기 
+// 		System.out.println("ASDAD@ASD@!#@!@!#$#@!$@!" + map.get("cate3"));
+//
+// 		map.put("PD_CATEGORY", map.get("cate3"));
+// 		if(map.get("PD_PRICE_OFFER") != null) {
+// 			map.put("PD_PRICE_OFFER", "PPO01");
+// 		} else {
+// 			map.put("PD_PRICE_OFFER", "PPO02");
+// 		}
+// 		if(map.get("PD_SAFE_TRADE") != null) {
+// 			map.put("PD_SAFE_TRADE", "PST01");
+// 		} else {
+// 			map.put("PD_SAFE_TRADE", "PST02");
+// 		}
+// 		System.out.println("##################" + map);
+//
+// 	    // 파일 저장
+//        String saveDir = session.getServletContext().getRealPath(uploadDir);
+// 	    System.out.println("saveDir" + saveDir);
+// 	    String subDir = "";
+// 	    
+// 	    LocalDate today = LocalDate.now();
+// 	    String datePattern = "yyyy/MM/dd";
+// 	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
+// 	    subDir = today.format(dtf);
+// 	    saveDir += "/" + subDir;
+// 	    
+// 	    try {
+//             Path path = Paths.get(saveDir);
+//             Files.createDirectories(path);
+//         } catch (IOException e) {
+//             e.printStackTrace();
+//         }
+// 	    
+// 	    Map<String, String> fileMap = new HashMap<>();
+//         for (int i = 0; i < files.length && i < 5; i++) {
+//             MultipartFile file = files[i];
+//             if (!file.isEmpty()) {
+//                 String uuid = UUID.randomUUID().toString();
+//                 String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
+//                 try {
+//                     file.transferTo(new File(saveDir, fileName));
+//                     fileMap.put("image" + (i+1), subDir + File.separator + fileName);
+//                     
+//                     
+//                 } catch (IllegalStateException | IOException e) {
+//                     e.printStackTrace();
+//                 }
+//             }
+//         }
+//      // 태그 배열로 들어와서 따로 맵에 처리
+//         if(map.get("PD_TAG") != "") {
+//         	String tagsString = (String) map.get("PD_TAG");
+//             String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
+//             for (int i = 0; i < tags.length && i < 5; i++) {
+//                 map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
+//             }
+//         } 
+//         
+//         //images테이블에 먼저 넣기
+//         System.out.println("fileMap : " + fileMap);
+//         
+//         int ImgIdx = Auctionservice.insertImg(fileMap);
+//         System.out.println("ImgIdx : " + ImgIdx);
+// 	    
+// 	    if(ImgIdx > 0) {
+// 	    	//상품등록 (ImgIdx는 상품등록 PD_IMAGE에 넣기)
+// 	    	map.put("PD_IMAGE", ImgIdx);
+// 		    System.out.println("상품등록하기전 최종 확인 : " + map);
+// 		    
+// 	    	int pdSuccess = tradeService.insertProduct(map);
+// 		    System.out.println("pdSuccess : " + pdSuccess);
+// 		    
+// 		    if(pdSuccess > 0) {
+// 		    	
+// 		    	model.addAttribute("msg", "상품 등록 성공! ");
+// 				model.addAttribute("targetURL", "trade");
+// 				return "err/success";
+// 		    }else {
+// 		    	model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
+// 		    	model.addAttribute("targetURL", "product");
+// 		    	
+// 		    	return "err/fail";
+// 		    }
+// 	    }else {
+// 	    	model.addAttribute("msg", "이미지 등록에 실패하였습니다.");
+// 	    	model.addAttribute("targetURL", "product");
+// 	    	
+// 	    	return "err/fail";
+// 	    }
+// 	}
+    
 
     // 상품 상태 업데이트
     @ResponseBody

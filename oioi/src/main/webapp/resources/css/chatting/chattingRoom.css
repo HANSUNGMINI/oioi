@@ -548,4 +548,81 @@
 	    line-height: 24px;
 	}
 	
+	/* 별점 */
+	#rating fieldset{
+	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	    border: 0; /* 필드셋 테두리 제거 */
+	}
+	#rating  input[type=radio]{
+	    display: none; /* 라디오박스 감춤 */
+	}
+	#rating label{
+	    font-size: 2em; /* 이모지 크기 */
+	    color: transparent; /* 기존 이모지 컬러 제거 */
+	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+	}
 	
+	#rating label:hover{
+	    text-shadow: 0 0 0 #FFE400; /* 마우스 호버 */
+	}
+	#rating label:hover ~ label{
+	    text-shadow: 0 0 0 #FFE400; /* 마우스 호버 뒤에오는 이모지들 */
+	}
+	
+	#rating fieldset{
+	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	    direction: rtl; /* 이모지 순서 반전 */
+	    border: 0; /* 필드셋 테두리 제거 */
+	}
+	
+	#rating fieldset legend{
+	    text-align: center;
+	    font-size : 18px;
+	}
+	
+	#rating input[type=radio]:checked ~ label{
+	    text-shadow: 0 0 0 #FFE400; /* 마우스 클릭 체크 */
+	}
+	
+	/*사진 등록*/
+	
+	 .tempImg {
+            display: block;
+            margin: 10px 0;
+             width: 100px;
+            height: 100px;
+        }
+        .addImg {
+            cursor: pointer;
+        }
+        .preView {
+            display: flex;
+            gap: 10px;
+        }
+        .previewImg {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .previewImgWrapper {
+	    position: relative;
+	    display: inline-block;
+	    margin: 5px;
+		}
+		
+		.deleteBtn {
+		    position: absolute;
+		    top: 5px;
+		    right: 5px;
+		    background-color: red;
+		    color: white;
+		    border: none;
+		    border-radius: 50%;
+		    cursor: pointer;
+		    font-size: 12px;
+		    width: 20px;
+		    height: 20px;
+		    text-align: center;
+		    line-height: 18px;
+		}
+	     	

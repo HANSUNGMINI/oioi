@@ -18,17 +18,31 @@
     <script>
     	const msg = "${msg}";
     	
-		if("${notify}" == true){
+		if("${notify}" == "true"){
 			// ~~~~~~~~~~~~~~~김유신~~~~~~~~~~~~~~~~~~
 			let socket = new WebSocket('ws://localhost:8081/oi/push');
 			socket.onopen = function (){
 				if(msg == "신고 접수 완료되었습니다") {
-					socket.send("report");
+// 					socket.send("checkReport");
+					socket.send(toJsonString("toAdmin", "checkReport"));
 				} else if (msg == "등록성공! 1차검수가 완료되면 상품을 보내주세요."){
-					socket.send("apd");
+// 					socket.send("checkApd");
+					socket.send(toJsonString("toAdmin", "checkApd"));
 				}
 			};
 		};
+		
+		function toJsonString(type, msg){
+			let data = {
+				type : type,
+				msg : msg
+			};
+			
+			return JSON.stringify(data);
+		}
+		
+		
+		
     
         Swal.fire({
             title: '성공!',
