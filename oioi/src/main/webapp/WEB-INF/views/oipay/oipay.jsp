@@ -390,7 +390,7 @@
                                 	<!-- 잔액 조회 -->
                                 	<h6>연결계좌 : ${bankUserInfo.res_list[0].bank_name} - ${bankUserInfo.res_list[0].account_num_masked}</h6>
                                 	<br>
-                                	<h5>🥒오이머니 잔액 : ￦<fmt:formatNumber value="${token.US_OIMONEY}" pattern="#,###"/></h5>
+                                	<h5>오이머니 잔액 : 🥒<fmt:formatNumber value="${token.US_OIMONEY}" pattern="#,###"/></h5>
                                 
                                 	<br>
                                     <!-- 충전 금액 선택 -->

@@ -71,6 +71,34 @@ CREATE TABLE bank_user_info (
 			US_ID = #{id}
 	</update>
 	
+	<select id="selectTradePDInfo" resultType="map">
+		SELECT
+			p.PD_SUBJECT
+			, p.PD_PRICE
+			, p.PD_IMAGE
+			, p.US_ID
+			, c.value AS PD_STATUS
+			, i.image1
+	        , i.image2
+	        , i.image3
+	        , i.image4
+	        , i.image5
+		FROM 
+	        product p
+		LEFT JOIN 
+	        images i ON p.PD_IMAGE = i.IMG_IDX
+        LEFT JOIN 
+    		common c ON p.PD_STATUS = c.code AND c.name = 'PD_STATUS'
+	    WHERE 
+	    	PD_IDX = #{PD_IDX}
+	</select>
+	
+	<select id="selectOiMoney" resultType="int">
+		SELECT US_OIMONEY
+		FROM user
+		WHERE US_ID = #{id}
+	</select>
+	
 	
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
@@ -111,23 +139,7 @@ CREATE TABLE bank_user_info (
 <!-- 	</select> -->
 
 
-	<select id="selectTradePDInfo" resultType="map">
-		SELECT
-			p.PD_SUBJECT
-			, p.PD_PRICE
-			, p.PD_IMAGE
-			, i.image1
-	        , i.image2
-	        , i.image3
-	        , i.image4
-	        , i.image5
-        FROM 
-	        product p
-		LEFT JOIN 
-	        images i ON p.PD_IMAGE = i.IMG_IDX
-	    WHERE 
-	    	PD_IDX = #{PD_IDX}
-	</select>
+
 	
 </mapper>
 
