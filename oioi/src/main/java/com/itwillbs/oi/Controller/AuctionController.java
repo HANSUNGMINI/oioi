@@ -47,7 +47,11 @@ public class AuctionController {
    private ChattingService ChatReportService;
    
    @GetMapping("auction")
-   public String Auction() {
+   public String Auction(Model model) {
+	   List<Map<String, Object>> map = service.apdPopular();
+	   System.out.println("apdPopular(map) : " + map);
+	   
+	   model.addAttribute("apdPopular", map);
       return "auction/auction";
    }
    

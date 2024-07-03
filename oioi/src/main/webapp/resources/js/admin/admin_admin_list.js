@@ -1,4 +1,3 @@
-
 // 토스트UI 컬럼
 const columns = [
     {header: '아이디', name: 'AD_ID'},

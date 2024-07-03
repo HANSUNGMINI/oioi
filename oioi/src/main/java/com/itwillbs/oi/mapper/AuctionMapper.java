@@ -42,5 +42,7 @@ public interface AuctionMapper {
 
 	List<Map<String, Object>> selectAuctionList();
 
+	List<Map<String, Object>> apdPopular();
+
 
 }
