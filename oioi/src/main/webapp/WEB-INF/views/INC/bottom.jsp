@@ -101,6 +101,6 @@
 			</div>
 		</div>
 	</footer>
-	<script src="${pageContext.request.contextPath}/resources/js/auction/chat.js"></script>
+<%-- 	<script src="${pageContext.request.contextPath}/resources/js/auction/chat.js"></script> --%>
 </body>
 </html>

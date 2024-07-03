@@ -30,7 +30,13 @@ public class ChattingService {
 		return mapper.selectReviewCategory();
 	}
 
+	// 신고하기
 	public int insertReport(Map<String, String> map) {
 		return mapper.insertReport(map);
+	}
+
+	// 내 정보
+	public Map<String, String> getMyInfo(Map<String, String> map) {
+		return mapper.getMyInfo(map);
 	}
 }

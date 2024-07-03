@@ -304,21 +304,19 @@
 
 
         // 충전하기 버튼 클릭 시
-        $(".payCharge").click(function () {
+        $(".payCharge").on("click", function () {
         	
-        	let chargeAmt = $("input[name='chargeAmt']:checked").val();
-        	let amtInput = $("#amtInput").val();
-        	let fintech_use_num = $("#fintech_use_num").val();
+        	
+	       	let fintech_use_num = $("#fintech_use_num").val();
         	let account_holder_name = $("#account_holder_name").val();
         	let account_num_masked = $("#account_num_masked").val();
         	
-        	if(chargeAmt) {
+        	if(amtInput.value) {
         		$.ajax({
                 type: "POST",
                 url: "payCharge", 
 				data: {
-                	"chargeAmt" : chargeAmt,
-                	"amtInput" : amtInput,
+                	"amtInput" : amtInput.value,
                 	"fintech_use_num" : fintech_use_num,
                 	"account_holder_name" : account_holder_name,
                 	"account_num_masked" : account_num_masked
@@ -326,14 +324,15 @@
 //                 dataType : "json",
                 success: function (response) {
                     if(response != null){
-                    	alert(amtInput+ "머니가 충전되었습니다.");
+                    	alert(amtInput.value+ "머니가 충전되었습니다.");
+                    	window.opener.location.reload();
                     	window.close();
                     } else{
                     	alert("충전 실패😭😭");
                     }
                     
                 },
-                error: function () {
+                error: function (err) {
                     alert("충전하기 요청 실패");
                 }
             });
@@ -365,10 +364,6 @@
         
     });
     
-    function ischecked(ischecked) {
-		alert(thiischecked);
-		
-	}
     
 </script>
 
@@ -390,7 +385,7 @@
                         </div>
                         <div class="inbox-message">
                             <div class="chargeMoney">
-                                <form class="charge" method="post">
+                                <form class="charge">
                                 	<!-- 잔액 조회 -->
                                 	<h6>연결계좌 : ${bankUserInfo.res_list[0].bank_name} - ${bankUserInfo.res_list[0].account_num_masked}</h6>
                                 	<br>

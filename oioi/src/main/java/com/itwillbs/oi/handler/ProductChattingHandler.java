@@ -18,66 +18,39 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 
 
 public class ProductChattingHandler extends TextWebSocketHandler{
 	
-	List<WebSocketSession> sessions = new ArrayList<>();
-	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); 
-	
-    private static final String  uploadDir = "/resources/upload"; // 파일 저장 경로
-	private static final Logger logger = LoggerFactory.getLogger(ProductChattingHandler.class);
+		private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); // 현재 들어와 있는 세션 정보 
+		private Map<String, String> userSessions = new ConcurrentHashMap<String, String>(); // 저장된 세션 정보들
+		private Gson gson = new Gson();
 	
 		//커넥션이 연결 됫을때(접속을 성공했을때마다)
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 			
-			// << 세션에 필요한 정보를 저장한다 >> 
-			// 현재 대화창을 보내는 사람, 판매자, 물건 아이디
-			// 현재 대화창을 보내는 사람 == 판매자일 경우, 후에 DB에 TO_ID에 저장
-			// 현재 대화창을 보내는 사람 != 판매자일 경우, 후에 DB에 FROM_ID에 저장
-			
-			System.out.println("session값 : " + session);
-			System.out.println("session.getAttributes()값 전값 : " + session.getAttributes()); // US_NICK=배소금, US_ID=soeunee1
-			
-			String uri = session.getUri().toString(); 
-			System.out.println("uri :" + uri); // ws://localhost:8081/oi/productChat?TO_ID=siyun_9094&PD_IDX=49
-			String toId = (String) uri.subSequence(uri.indexOf("=")+1, uri.indexOf("&")); // siyun_9094
-			String pdIdx = (String) uri.subSequence(uri.lastIndexOf("=")+1, uri.length()); // 49
-
-			System.out.println("to_id : " + toId + " pdIdx : " + pdIdx); // to_id : siyun_9094 pdIdx : 49
-			session.getAttributes().put("TO_ID", toId);
-			session.getAttributes().put("PD_IDX", pdIdx);
-		    System.out.println("session.getAttributes()값 후값 : " + session.getAttributes()); // US_NICK=배소금, US_ID=soeunee1, TO_ID=siyun_9094, PD_IDX=49
-		    
 			users.put(session.getId(), session);
-			System.out.println("클라이언트 목록 : " + users);
+			System.out.println("클라이언트 목록 ( " + users.keySet().size() + " 명)");
+			
+			// Map 객체(userSessions) 에 사용자 정보 저장
+//			userSessions.put(session.getAttributes().get("id").toString(), session.getId());
+//			System.out.println("사용자 목록 ( " + userSessions.keySet().size() + "명 ) : " + userSessions);
 		}
 		
 		
 		// 텍스트
 		@Override
 	    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { 
-			System.out.println("메세지 session값 : " + session + " message : " + message);
 
-			Map<String, Object> attributes = session.getAttributes();
-	        String US_ID = (String) attributes.get("US_ID"); // 세션 아이디 (현재 대화창에 들어와 있는 사람)
-	        String TO_ID = (String) attributes.get("TO_ID"); // 판매자 (물건을 올린 사람)
-	        String PD_IDX = (String) attributes.get("PD_IDX"); // 물건 아이디
-	        
-	        System.out.println("세션 아이디 : " + US_ID + " 판매자 아이디 : " + TO_ID + " 물건 아이디 : " + PD_IDX); // 세션 아이디 : soeunee1 판매자 아이디 : siyun_9094 물건 아이디 : 49
+			// 만약 1:1 채팅 기능을 통해 상대방을 지정하여 메세지 전송 시
+			// 세션 아이디로 상대방의 객체 알아내는 방법
 			
-	        JsonObject jo = new JsonObject();
-	        jo.addProperty("US_ID", US_ID);
-	        jo.addProperty("TO_ID", TO_ID); 
-	        jo.addProperty("PD_IDX", PD_IDX);
-	        jo.addProperty("msg", message.getPayload());
-	        
-	        String jsonInfo = jo.toString();
-	        
-	        
+			System.out.println("어떤 메세지" + message.getPayload());
+			
 			// 각 세션에 메세지 전송
 			for(WebSocketSession ws : users.values()) {
 				
@@ -87,6 +60,8 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 			}
 		
 		}
+		
+		// 각 웹소켓 세션들에게 메세지 전송
 		
 		// 파일 업로드
 		@Override
@@ -99,6 +74,13 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 		@Override
 		public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 			System.out.println("연결 해제 session값 : " + session + " status : " + status);
+			
+			users.remove(session.getId());
+			System.out.println("클라이언트 목록 : " + users.keySet().size() + " 명");
+			
+			// 사용자 정보 저장된 Map 객체 (userSession) 내에서 종료 요청이 발생한 웹소켓의 세션 아이디 제거
+			// (HttpSession의 세션 아이디는 유지)
+			
 		}
 
 }

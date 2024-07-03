@@ -229,11 +229,16 @@
 									</div>
 									<div class="col-12">
 										<div class="regForm">
+											<label> 상품 메인 이미지<small>(규격)</small></label>
+											<input type="file" accept="image/*" id="APD_MAIN_IMAGE" name="APD_MAIN_IMAGE" class="form-control" required="required">
+											<div class="mainPreView"></div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="regForm">
 											<label> 상품 이미지<small>(최대 5장)</small></label>
 											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" required="required">
-											<div class="preView">
-<%-- 												<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png"  class="tempImg addImg"> --%>
-											</div>
+											<div class="preView"></div>
 										</div>
 									</div>
 									<div class="col-12" style="margin-top: 50px;">
@@ -256,14 +261,11 @@
 	<!-- Jquery -->
 	<script>
 	$(function() {
-        $(".APD_IMAGE").on("click", function() {
-            $('#addfile').click();
-        });
 
         $("#APD_IMAGE").on("change", function(event) {
         	$('.preView img:gt(0)').remove();
-            if (this.files.length > 5) {
-                alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+            if (this.files.length > 4) {
+                alert("최대 4개의 이미지만 업로드할 수 있습니다.");
                 this.value = ""; // 선택된 파일 초기화
                 return;
             }
@@ -285,6 +287,34 @@
                 reader.readAsDataURL(this.files[i]);
             }
             
+        });
+        
+        //썸내일
+        $("#APD_MAIN_IMAGE").on("change", function(event) {
+            // 미리보기 이미지를 모두 제거
+            $(".mainPreView").empty();
+            
+            if (this.files.length > 1) {
+                alert("한 개의 이미지 파일만 업로드할 수 있습니다.");
+                this.value = ""; // 선택된 파일 초기화
+                return;
+            }
+            
+            if (this.files.length == 1) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    var img = document.createElement("img");
+                    img.setAttribute("src", event.target.result);
+                    img.setAttribute("class", "tempImg");
+                    img.setAttribute("name", "APD_MAIN_IMAGE");
+                    img.style.width = "100px"; // 원하는 너비로 설정
+                    img.style.height = "100px"; // 원하는 높이로 설정
+                    img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
+                    img.style.margin = "5px"; // 이미지 간의 간격을 추가
+                    $(".mainPreView").append(img);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
         });
 
         var input = document.querySelector('.tagify');

@@ -63,6 +63,14 @@ CREATE TABLE bank_user_info (
 		WHERE BUI_ACCESS_TOKEN = #{access_token}
 	</select>
 	
+	<update id="updateOimoney">
+		UPDATE user
+		SET
+			US_OIMONEY = US_OIMONEY + #{amtInput}
+		WHERE
+			US_ID = #{id}
+	</update>
+	
 	
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->

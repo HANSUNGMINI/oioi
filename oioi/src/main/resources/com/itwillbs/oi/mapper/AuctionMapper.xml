@@ -75,7 +75,8 @@
 		    APD_CONDITION,
 		    APD_START_PRICE,
 		    APD_BUY_NOW_PRICE,
-		    APD_REG_DATE
+		    APD_REG_DATE,
+		    APD_MAIN_IMAGE
 		)
 		VALUES(
 			#{APD_OWNER},
@@ -88,7 +89,8 @@
 			#{APD_CONDITION},
 			#{APD_START_PRICE},
 			#{APD_BUY_NOW_PRICE},
-			DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')			
+			DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i'),
+			#{APD_MAIN_IMAGE}		
 		)
 	</insert>
 	
@@ -208,7 +210,7 @@
 	<select id="selectBidChart" resultType="hashmap">
 		select BID_PRICE, DATE_FORMAT(BID_TIME, '%m월%d일') as BID_TIME
 		from bidding
-		where APD_IDX = 32;
+		where APD_IDX = #{APD_IDX};
 	</select>
 	
 	<select id="selectAuctionList" resultType="hashmap">
@@ -220,7 +222,8 @@
 		FROM auction_product ap
 		LEFT JOIN images i 
 		ON i.IMG_IDX = ap.APD_IMAGE 
-		WHERE APD_STATUS = 'APD05';
+		WHERE APD_STATUS = 'APD05'
+		ORDER BY APD_REG_DATE DESC;
 	</select>
 	
 </mapper>

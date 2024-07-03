@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
+import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.StoreService;
+import com.itwillbs.oi.service.TradeService;
 import com.itwillbs.oi.service.UserService;
 
 @Controller
@@ -38,6 +45,14 @@ public class MyStoreController {
 
     @Autowired
     HttpSession session;
+    
+	String uploadDir = "/resources/upload";
+	
+	@Autowired 
+	private TradeService tradeService;
+	
+	@Autowired
+	private AuctionService Auctionservice;
 
     @Autowired
     private UserService userService;
@@ -46,7 +61,9 @@ public class MyStoreController {
     private StoreService storeService;
 
     @GetMapping("myStore")
-    public String myStore(@RequestParam Map<String, Object> map, Model model) {
+    public String myStore(@RequestParam Map<String, Object> map, Model model, 
+    		@CookieValue(value = "storeVisit", defaultValue = "false") String storeVisit,
+    		HttpServletResponse response) {
         System.out.println("여기에는 뭐가 있을까요 ? " + map);
         System.out.println(map.get("userId"));
 
@@ -67,7 +84,15 @@ public class MyStoreController {
         }
         
         // 방문자 수 증가
-        storeService.VisitCount(userId);
+        if (!storeVisit.equals("true")) {
+        	storeService.VisitCount(userId);
+            Cookie cookie = new Cookie("storeVisit", "true");
+            cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1시간
+            response.addCookie(cookie);
+        }
+        int salesCount = storeService.getSalesCount(userId);
+        model.addAttribute("salesCount", salesCount);
+        
         int visitCount = storeService.getVisitCount(userId);
         
         String openDate = user.get("US_REG_DATE");
@@ -175,14 +200,115 @@ public class MyStoreController {
         return response;
     }
     
+    
+    @PostMapping("editText")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> saveIntro(@RequestParam("editText") String editText) {
+        String userId = (String) session.getAttribute("US_ID");
+
+        Map<String, Object> response = new HashMap<>();
+
+        // 유저 아이디가 없으면 에러 반환
+        if (userId == null) {
+            System.out.println("로그인이 필요합니다.");
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        // 소개글 저장 로직
+        boolean isUpdated = userService.updateText(userId, editText);
+        System.out.println("결과 " + isUpdated);
+        if (isUpdated) {
+            response.put("success", true);
+            return ResponseEntity.ok(response);
+        } else {
+            System.out.println("소개글 저장 중 오류가 발생했습니다.");
+            response.put("success", false);
+            response.put("message", "소개글 저장 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    
+    
+    
+    
     // 상품 수정
     
     @GetMapping("productModify")
     public String productModify(@RequestParam Map<String, Object> map, Model model) {
-    	System.out.println("상품 수정 컨트롤러 : " + map);
-    	
-    	
-    	return "";
+    	System.out.println("상품 수정 컨트롤러 : " + map.get("PD_IDX"));
+    	int pdIdx = Integer.parseInt((String) map.get("PD_IDX"));
+        // 상품 정보를 DB에서 가져오기
+        Map<String, Object> product = storeService.getProductById(pdIdx);
+
+        if (product == null) {
+            model.addAttribute("msg", "존재하지 않는 상품입니다.");
+            return "err/fail";
+        }
+        
+     // 카테고리 대분류
+     		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
+     		model.addAttribute("cate1", cate1);
+     		
+     		//중분류
+     		List<Map<String, String>> cate2 = Auctionservice.getCategory2();
+//     		System.out.println("cate2 : " + cate2);
+     		JsonArray jCate2 = new JsonArray();
+     		for(Map<String, String> c2 : cate2) {
+     			JsonObject jo = new JsonObject();
+     			jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
+     			jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
+     			jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
+     			jCate2.add(jo);
+     		}
+     		model.addAttribute("cate2", jCate2);
+     		
+     		//소분류
+     		List<Map<String, String>> cate3 = Auctionservice.getCategory3();
+//     		System.out.println("cate3 : " + cate3);
+     		JsonArray jCate3 = new JsonArray();
+     		for(Map<String, String> c3 : cate3) {
+     			JsonObject jo3 = new JsonObject();
+     			jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
+     			jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
+     			jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
+     			jCate3.add(jo3);
+     		}
+     		model.addAttribute("cate3", jCate3);
+     		
+     		// 상품 상태
+     		List<Map<String, String>> productCondition = tradeService.getProductCondition();
+     		model.addAttribute("productCondition", productCondition);
+//     		System.out.println("상품상태 : " + productCondition);
+     		
+     		// 거래 방식
+     		List<Map<String, String>> tradeMethod = tradeService.getTradeMethod();
+     		model.addAttribute("tradeMethod", tradeMethod);
+//     		System.out.println(tradeMethod);
+     		
+     		// 상품 결제 상태
+     		List<Map<String, String>> productStatus = tradeService.getProductStatus();
+     		model.addAttribute("productStatus", productStatus);
+//     		System.out.println(productStatus);
+     		
+     		// 상품 가격 제안 유무 
+     		List<Map<String, String>> productPriceOffer = tradeService.getProductPriceOffer();
+     		model.addAttribute("productPriceOffer", productPriceOffer);
+     		System.out.println(productPriceOffer);
+     		
+     		// 상품 안전 거래 사용 유무 
+     		List<Map<String, String>> productSafeTrade = tradeService.getProductSafeTrade();
+     		model.addAttribute("productSafeTrade", productSafeTrade);
+     		System.out.println(productSafeTrade);
+     		
+     		System.out.println("카테1" + cate1);
+     		System.out.println("카테2" + cate2);
+     		System.out.println("카테3" + cate3);
+
+        model.addAttribute("product", product);
+        return "trade/product_edit";
     }
 
     // 상품 상태 업데이트

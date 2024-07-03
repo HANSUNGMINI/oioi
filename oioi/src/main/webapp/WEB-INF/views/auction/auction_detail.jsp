@@ -51,70 +51,20 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/auction/auctionDetail.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<style>
-	/* 사진 등록 */
-   	.tempImg {
-           display: block;
-           margin: 10px 0;
-            width: 100px;
-           height: 100px;
-       }
-       .addImg {
-           cursor: pointer;
-       }
-       .preView {
-           display: flex;
-           gap: 10px;
-       }
-       .previewImg {
-           width: 100px;
-           height: 100px;
-       }
-       
-       .previewImgWrapper {
-      position: relative;
-      display: inline-block;
-      margin: 5px;
-     }
-     
-     .deleteBtn {
-         position: absolute;
-         top: 5px;
-         right: 5px;
-         background-color: red;
-         color: white;
-         border: none;
-         border-radius: 50%;
-         cursor: pointer;
-         font-size: 12px;
-         width: 20px;
-         height: 20px;
-         text-align: center;
-         line-height: 18px;
-     }
-     
-     .priceAlign {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px; /* 필요에 따라 조정 */
-        }
-        .cat, .price {
-            margin: 0;
-        }
-     
-        
-</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script type="text/javascript">
+   var socket = null;
    var us_id = "${apdDetail.US_ID}";
    var apd_idx = "${apdDetail.APD_IDX}";
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
 
    $(function(){
+     connect();
+      
       $('#sendMsg').on('keypress',function(et) {
          let keyCode = et.keyCode;
          if(keyCode == 13) {
@@ -128,26 +78,27 @@
       
       
       function sendMessage(event){
-         if(${empty apdDetail.US_ID}){
-            alert("로그인 후 사용하세요");
-            return;
-         }
-         console.log("US_ID : " + us_id);
-         console.log("session_id(jsp) : " + session_id);
-         console.log("socket : "+socket);
-         event.preventDefault();
-          if(socket.readyState !== 1)return;
-          
-          let msg = $('input#sendMsg').val();
-          console.log("msg : " + msg);
-          
-          var dataSend = {
-                  US_ID: us_id,
-                  APD_IDX: apd_idx,
-                  MSG: msg
-          };
-          
-          socket.send(JSON.stringify(dataSend));
+    	  if(${empty apdDetail.US_ID}){
+              alert("로그인 후 사용하세요");
+              return;
+           }
+           event.preventDefault();
+           if(socket.readyState !== 1) return;
+            
+           let msg = $('input#sendMsg').val();
+           if (!msg.trim()) return;
+            
+           var dataSend = {
+               US_ID: us_id,
+               APD_IDX: apd_idx,
+               MSG: msg
+           };
+           
+           saveMessage(dataSend);
+           
+           socket.send(JSON.stringify(dataSend));
+           appendMessage(us_id, msg, "right");
+           $('input#sendMsg').val('');
       }
       
       var minValue = $('#nowPrice').val();
@@ -219,19 +170,19 @@
       var t_invoice = $('#t_invoice').val();
       
 //       $('#deliveryAlert').on('click', function(){
-//     	 console.log("확인");
-    	 
-//     	 $.ajax({
-//         	 url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
-//         	 type : "GET",
-//         	 data: {
+//         console.log("확인");
+        
+//         $.ajax({
+//             url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
+//             type : "GET",
+//             data: {
 //                  t_key: t_key,
 //                  t_code: t_code,
 //                  t_invoice: t_invoice
 //              },
 //              success: function(response) {
-//             	 console.log(response);
-//             	 var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
+//                 console.log(response);
+//                 var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
 //                  var deliveryLevel = latestStatus.level;
                  
 //                  // 배송 상태 출력
@@ -242,6 +193,99 @@
       
       
     });
+   
+   function connect() {
+      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      var us_id = "${apdDetail.US_ID}";
+      socket = ws;
+   ws.onopen = function() {
+   console.log('경매 연결');
+   appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center");
+   socket.send(toJsonString("ENTER", ""));
+   };
+   
+   ws.onmessage = function(event) {
+       var response = JSON.parse(event.data);
+       console.log('받은 메시지:', response);
+
+       // 접속자 수 표시
+       var html = '';
+       $('#sessionSize').empty().append(html);
+       html += '<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
+           response.SESSION_SIZE + '명</a></span>';
+       $('#sessionSize').append(html);
+  	   
+       if (response.type === "ENTER" || response.type === "LEAVE") {
+           appendMessage("System", response.msg, "center");
+       } else if (response.type === "SESSION_SIZE") {
+           $('#sessionSize').empty().append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' + response.SESSION_SIZE + '명</a></span>');
+       } else if (response.type === "TALK") {
+           var res = JSON.parse(response.DATA);
+           console.log("res : " + res);
+           if (res.US_ID === session_id) {
+               appendMessage(res.US_ID, res.MSG, "right");
+           } else {
+               appendMessage(res.US_ID, res.MSG, "left");
+           }
+           saveMessage(res);
+       }
+   };
+   
+   ws.onclose = function(event) {
+       console.log('종료');
+   };
+
+   ws.onerror = function(error) {
+       console.log('error: ' + error);
+   };
+
+   }
+
+   function appendMessage(sender, msg, align_type) {
+       var html = '';
+       if (align_type === "right") {
+           html += '<li class="clearfix chatViewMe">' +
+               '<div class="message other-message float-right">' +
+               msg +
+               '</div>' +
+               '</li>';
+       } else if (align_type === "left") {
+           html += '<li class="clearfix chatViewYou">' +
+               '<div class="message-avatar">' +
+               '<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
+               sender +
+               '</div>' +
+               '<div class="message my-message">' +
+               msg +
+               '</div>' +
+               '</li>';
+       } else if (align_type === "center") {
+           html += '<li class="clearfix chatViewMe">' +
+               '<div class="messageCenter">' +
+               msg +
+               '</div>' +
+               '</li>';
+       }
+       $('.chatView').append(html);
+       $(".chatView").scrollTop($(".chatView")[0].scrollHeight);
+   }
+
+   function saveMessage(res) {
+       $.ajax({
+           url: "saveMsg",
+           type: "post",
+           data: {
+               ACR_IDX: res.APD_IDX,
+               ACM_CONTENT: res.MSG,
+               ACM_USER: res.US_ID
+           },
+           dataType: "JSON",
+           success: function(response) {
+               console.log('DB저장 성공' + response);
+           }
+       });
+   }    
+   
    
    /* 파일 업로드 */
    document.addEventListener("DOMContentLoaded", function() {
@@ -351,54 +395,54 @@
                                     </ul>
                                  </div>
                                  <div>
-                                    	<canvas id="myChart"></canvas>
-                                    	<script type="text/javascript">
-                                    		$(function() {
-                                    			console.log("차트");
-                                    			
-                                    			$.ajax({
-                                    				url : "biddingChart",
-                                    				type : "post",
-                                    				data : {
-                                    					APD_IDX : "${apdDetail.APD_IDX}"
-                                    				},
-                                    				dataType : "json",
-                                    				success : function(data){
-                                    					console.log("data : " + data);
-                                    					var BID_PRICE = data.map(item => item.BID_PRICE);
-                                    					var BID_TIME = data.map(item => item.BID_TIME);
-                                    					
-                                    					console.log("BID_PRICE : " + BID_PRICE);
-                                    					console.log("BID_TIME : " + BID_TIME);
-                                    					//차트
-            	                                    	const ctx = document.getElementById('myChart').getContext('2d');
-            									        new Chart(ctx, {
-            									            type: 'line',
-            									            data: {
-            									                labels: BID_TIME,
-            									                datasets: [{
-            									                    label: '경매 입찰표',
-            									                    data: BID_PRICE,
-            									                    borderWidth: 1,
-            									                    borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
-            									                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // 채우기 색상
-            									                    fill: false // 채우기 여부 (선 차트의 경우 false)
-            									                }]
-            									            },
-            									            options: {
-            									                scales: {
-            									                    y: {
-            									                        beginAtZero: true
-            									                    }
-            									                }
-            									            }
-            									        });
-                                    				}
-                                    			});
-                                    		});
-                                    	
-	                                    	
-                                    	</script>
+                                       <canvas id="myChart"></canvas>
+                                       <script type="text/javascript">
+                                          $(function() {
+                                             console.log("차트");
+                                             
+                                             $.ajax({
+                                                url : "biddingChart",
+                                                type : "post",
+                                                data : {
+                                                   APD_IDX : "${apdDetail.APD_IDX}"
+                                                },
+                                                dataType : "json",
+                                                success : function(data){
+                                                   console.log("data : " + data);
+                                                   var BID_PRICE = data.map(item => item.BID_PRICE);
+                                                   var BID_TIME = data.map(item => item.BID_TIME);
+                                                   
+                                                   console.log("BID_PRICE : " + BID_PRICE);
+                                                   console.log("BID_TIME : " + BID_TIME);
+                                                   //차트
+                                                      const ctx = document.getElementById('myChart').getContext('2d');
+                                               new Chart(ctx, {
+                                                   type: 'line',
+                                                   data: {
+                                                       labels: BID_TIME,
+                                                       datasets: [{
+                                                           label: '경매 입찰표',
+                                                           data: BID_PRICE,
+                                                           borderWidth: 1,
+                                                           borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
+                                                           backgroundColor: 'rgba(75, 192, 192, 0.2)', // 채우기 색상
+                                                           fill: false // 채우기 여부 (선 차트의 경우 false)
+                                                       }]
+                                                   },
+                                                   options: {
+                                                       scales: {
+                                                           y: {
+                                                               beginAtZero: true
+                                                           }
+                                                       }
+                                                   }
+                                               });
+                                                }
+                                             });
+                                          });
+                                       
+                                          
+                                       </script>
                                     </div>
                                  <!-- End Images slider -->
                               </div>
@@ -416,18 +460,18 @@
 <%--                                     <p class="price"><span class="discount">시작 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/></p> --%>
 <%--                                     <p class="price"><span class="discount">현재 가격 </span>￦<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/></p> --%>
                                     <div class="priceAlign">
-                                    	<div>
-                                    		<p class="cat" style="margin-top: -1px;">판매시작가</p>
-                                    		<p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/>원</p>
-                                    	</div>
-                                    	<div>
-                                    		<p class="cat" style="margin-top: -1px;">즉시구매가</p>
-                                    		<p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</p>
-                                    	</div>
-                                    	<div>
-                                    		<p class="cat" style="margin-top: -1px;">현재입찰가</p>
-                                    		<p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.FINAL_BID_PRICE}" pattern="#,###"/>원</p>
-                                    	</div>
+                                       <div>
+                                          <p class="cat" style="margin-top: -1px;">판매시작가</p>
+                                          <p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.APD_START_PRICE}" pattern="#,###"/>원</p>
+                                       </div>
+                                       <div>
+                                          <p class="cat" style="margin-top: -1px;">즉시구매가</p>
+                                          <p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</p>
+                                       </div>
+                                       <div>
+                                          <p class="cat" style="margin-top: -1px;">현재입찰가</p>
+                                          <p class="price" style="margin-top: -2px;"><fmt:formatNumber value="${apdDetail.FINAL_BID_PRICE}" pattern="#,###"/>원</p>
+                                       </div>
                                     </div>
 <!--                                     <p class="description"> -->
                                        
@@ -485,56 +529,56 @@
                                             
                                             <!-- ------------------------------------------------------------ -->
                                            <%-- 신고하기 --%>
-	                                       <div class="modal" id="notify_model">
-	                                            <div class="modal-dialog">
-	                                              <div class="modal-content">
-	                                          
-	                                                <!-- Modal Header -->
-	                                                <div class="modal-header">
-	                                                  <h4 class="modal-title" style="text-align: left;">신고하기</h4>
-	                                                </div>
-	                                              <form action="report" method="post" enctype="multipart/form-data">
-	                                                <!-- Modal body -->
-	                                                <div class="modal-body">
-	                                                  	<%--셀렉트 박스 --%>
-												        <select name="deliver_category" id="deliver_category" style = "margin-left : 15px">
-										 					<option value =""> 택배사 선택 </option>
-										 					<option value ="reservation"> 대한통운 </option>
-										 					<option value ="function"> 우체국택배 </option>
-										 					<option value ="price"> 편의점택배 </option>
-										 				</select>
-	                                                  	<br>
-	                                                    <%-- 라디오박스 --%>
-	                                                      <c:forEach var="report" items="${reportMap}">
-	                                                          <c:set var="i" value="${i+1}"></c:set>
-	                                                          <label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
-	                                                      </c:forEach>
-	                                                      
-	                                                      <%-- 파일 --%>
-	                                                      <div style="padding:5px;">
-	                                                          <small>이미지는 최대 2장 등록 가능합니다</small>
-	                                                          
-	                                                           <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
-	                                                          <div class="preView">
-	                                                              <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
-	                                                          </div>
-	                                                      </div>
-	                                                      
-	                                                      <%-- 내용 입력 --%>
-	                                                      <textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
-	                                                </div>
-	                                                
-	                                                <!-- Modal footer -->
-	                                                <div class="modal-footer">
-	                                                  <button type="submit" class="btn btn-success">신고하기</button>
-	                                                  <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-	                                                </div>
-	                                                  <input type="hidden" name="TO_ID" value="${param.TO_ID}">
-	                                                  <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
-	                                              </form>                 
-	                                              </div>
-	                                            </div>
-	                                          </div>
+                                          <div class="modal" id="notify_model">
+                                               <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                             
+                                                   <!-- Modal Header -->
+                                                   <div class="modal-header">
+                                                     <h4 class="modal-title" style="text-align: left;">신고하기</h4>
+                                                   </div>
+                                                 <form action="report" method="post" enctype="multipart/form-data">
+                                                   <!-- Modal body -->
+                                                   <div class="modal-body">
+                                                        <%--셀렉트 박스 --%>
+                                            <select name="deliver_category" id="deliver_category" style = "margin-left : 15px">
+                                              <option value =""> 택배사 선택 </option>
+                                              <option value ="reservation"> 대한통운 </option>
+                                              <option value ="function"> 우체국택배 </option>
+                                              <option value ="price"> 편의점택배 </option>
+                                           </select>
+                                                        <br>
+                                                       <%-- 라디오박스 --%>
+                                                         <c:forEach var="report" items="${reportMap}">
+                                                             <c:set var="i" value="${i+1}"></c:set>
+                                                             <label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+                                                         </c:forEach>
+                                                         
+                                                         <%-- 파일 --%>
+                                                         <div style="padding:5px;">
+                                                             <small>이미지는 최대 2장 등록 가능합니다</small>
+                                                             
+                                                              <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
+                                                             <div class="preView">
+                                                                 <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
+                                                             </div>
+                                                         </div>
+                                                         
+                                                         <%-- 내용 입력 --%>
+                                                         <textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+                                                   </div>
+                                                   
+                                                   <!-- Modal footer -->
+                                                   <div class="modal-footer">
+                                                     <button type="submit" class="btn btn-success">신고하기</button>
+                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                                   </div>
+                                                     <input type="hidden" name="TO_ID" value="${param.TO_ID}">
+                                                     <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+                                                 </form>                 
+                                                 </div>
+                                               </div>
+                                             </div>
                                             
                                             
                                             
@@ -566,11 +610,11 @@
                                     </div>
                                     <div class="add-to-cart" style="margin-top: 5px;">
                                        <form action="https://info.sweettracker.co.kr/tracking/5" method="post">
-								              <input type="hidden" id="t_key" name="t_key" value="4ipWvXbpAF8xJuQEvZYWFQ">
-								              <input type="hidden" name="t_code" id="t_code" value="04">
-								              <input type="hidden" name="t_invoice" id="t_invoice" value="${apdDetail.APD_DELIVERY}">
-								            <button type="submit" class="btn">배송조회</button>
-								        </form>
+                                      <input type="hidden" id="t_key" name="t_key" value="4ipWvXbpAF8xJuQEvZYWFQ">
+                                      <input type="hidden" name="t_code" id="t_code" value="04">
+                                      <input type="hidden" name="t_invoice" id="t_invoice" value="${apdDetail.APD_DELIVERY}">
+                                    <button type="submit" class="btn">배송조회</button>
+                                </form>
                                     </div>
                                     <input type="button" id="deliveryAlert" value="배송정보 확인">
                                  </div>

@@ -93,7 +93,7 @@
 	                                + '<div class="single-product">' 
 		           	                + '<div class="product-img">' 
 		           	                + '<a href="javascript:void(0)" onclick="return apdDetailView(\'' + item.APD_IDX + '\')">' 
-		           	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.image1 + '">'
+		           	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.APD_MAIN_IMAGE + '">'
 // 		           	          		// 상태에 따라 다른 span 태그를 추가
 // 		 	           	            if (item.APD_STATUS === 'APD05') {
 // 		 	           	                html + '<span class="out-of-stock">판매중</span>';

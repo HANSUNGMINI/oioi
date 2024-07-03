@@ -221,7 +221,7 @@
 							<div class="sinlge-bar shopping" >
 							
 							
-								<a <c:if test="${not empty sessionScope.US_ID}"> href="ChatList" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" </c:if> class="single-icon" >
+								<a <c:if test="${not empty sessionScope.US_ID}"> href="ChatList?US_ID=${sessionScope.US_ID}" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" </c:if> class="single-icon" >
 									<i class="bi bi-chat-text"></i>
 									<c:if test="${not empty sessionScope.US_ID}">
 										<span class="total-count">2</span>

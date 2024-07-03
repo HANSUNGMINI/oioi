@@ -28,4 +28,5 @@ public class MainService {
 	public List<Map<String, Object>> getRecentLookProduct(int product) {
 		return mapper.getRecentLookProduct(product);
 	}
+
 }
