@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자 추가</title>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <script>
 
 function addAdmin(){
