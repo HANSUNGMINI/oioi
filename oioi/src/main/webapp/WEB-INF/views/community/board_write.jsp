@@ -20,6 +20,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	<!-- StyleSheet -->
 	<script src="https://kit.fontawesome.com/ef42a902c7.js" crossorigin="anonymous"></script>
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 	<!-- Magnific Popup -->

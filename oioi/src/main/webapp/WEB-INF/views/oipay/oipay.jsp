@@ -12,7 +12,7 @@
 
 <!-- 부트스트랩 CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -326,8 +326,8 @@
                 success: function (response) {
                     if(response != null){
                     	alert(amtInput.value+ "머니가 충전되었습니다.");
-                    	window.opener.location.reload();
-                    	window.close();
+//                     	window.opener.location.reload();
+                    	window.location.reload();
                     } else{
                     	alert("충전 실패😭😭");
                     }

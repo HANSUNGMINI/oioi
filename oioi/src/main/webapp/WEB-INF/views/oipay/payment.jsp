@@ -12,7 +12,7 @@
 
 <!-- 부트스트랩 CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +66,7 @@
 
 
     .purchase .payCharge,
-    .purchase .payRefund {
+    .purchase .purchaseBtn {
         background-color: #34a853;
         color: white;
         text-decoration: none;
@@ -78,7 +78,7 @@
         margin-left: 10px; /* 버튼 사이의 좌우 마진 추가 */
     }
 
-    .purchase .payRefund {
+    .purchase .purchaseBtn {
         background-color: #e53935; /* 출금 버튼 색상 조정 */
     }
 
@@ -242,7 +242,7 @@
 
 
         .purchase .payCharge,
-        .purchase .payRefund {
+        .purchase .purchaseBtn {
 /*             width: 90%; /* 작은 화면에서 버튼 너비를 100%로 설정 */ */
             margin-left: 0; /* 왼쪽 마진 제거 */
             margin-top: 10px; /* 위쪽 마진 추가 */
@@ -274,6 +274,13 @@
 	function openOIPay() {
 		window.open('oiPay', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
 	}
+	
+	function checkPurchase() {
+	    if(confirm("결제 하시겠습니까?")) {
+	        return true;
+	    }
+	    return false; 
+	}
 
 
 </script>
@@ -296,7 +303,7 @@
                         </div>
                         <div class="inbox-message">
                             <div class="chargeMoney">
-                                <form class="purchase">
+                                <form class="purchase" method="post" onsubmit="return checkPurchase();">
                                 	<h5>🥒오이마켓 안전결제🥒</h5>
                                 	<br>
                                 	<br>
@@ -323,7 +330,7 @@
                                     <!-- 충전 및 결제 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->
                                         <input type="button" class="payCharge" onclick="openOIPay()" value="충전하기">
-                                        <input type="button" class="payRefund" value="결제하기">
+                                        <input type="submit" class="purchaseBtn" value="결제하기">
 <!--                                     </div> -->
                                 </form>
                             </div>

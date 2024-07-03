@@ -108,7 +108,7 @@ public class OipayController {
 		}
 		
 		Map token = (Map)session.getAttribute("token");
-		System.out.println("token ----------------------" + token);
+//		System.out.println("token ----------------------" + token);
 //		Map bankUserInfo = service.getUserInfo(token);
 //		System.out.println("bankUserInfo+++++++++++++++" + bankUserInfo);
 		map.put("token", token);
@@ -118,14 +118,14 @@ public class OipayController {
 		// BankService - withdraw() 메서드 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : Map(withdrawResult)
 		Map withdrawResult = service.withdraw(map);
-		System.out.println("withdrawResult>>>>>>>>>>" + withdrawResult);
+//		System.out.println("withdrawResult>>>>>>>>>>" + withdrawResult);
 		
 		// 출금 요청 결과 객체 저장 후 bank_withdraw_result 페이지로 포워딩
 //		model.addAttribute("withdrawResult", withdrawResult);
 //		System.out.println(withdrawResult.get("rsp_code"));
 		if(withdrawResult.get("rsp_code").equals("A0000")) {
-			System.out.println(map.get("amtInput"));
-			System.out.println(map.get("id"));
+//			System.out.println(map.get("amtInput"));
+//			System.out.println(map.get("id"));
 			service.updateOimoney(map);
 		} else {
 			model.addAttribute("msg", "충전에 실패했습니다😓😓");
@@ -143,20 +143,22 @@ public class OipayController {
 		return "";
 	}
 	
-//	@ResponseBody
 	@GetMapping("purchase")
 	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {
+		
 		System.out.println(map);
+		
 		// 상품정보 가져오기
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
+		
 		System.out.println(product);
 		
 		// 머니 정보 가져오기
 		String id = (String)session.getAttribute("US_ID");
-//		System.out.println(id);
 		int oiMoney = service.selectOiMoney(id);
-//		System.out.println(oiMoney);
+		
+		System.out.println(oiMoney);
 		
 		model.addAttribute("product", product);
 		model.addAttribute("oimoney", oiMoney);
@@ -164,4 +166,12 @@ public class OipayController {
 		return "oipay/payment";
 	}
 
+	
+	@PostMapping("purchase")
+	public String purchasePro() {
+		
+		
+		
+		return "";
+	}
 }

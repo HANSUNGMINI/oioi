@@ -20,6 +20,7 @@
 	<script src="https://kit.fontawesome.com/ef42a902c7.js" crossorigin="anonymous"></script>
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	<!-- Magnific Popup -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.min.css">
 	<!-- Font Awesome -->
