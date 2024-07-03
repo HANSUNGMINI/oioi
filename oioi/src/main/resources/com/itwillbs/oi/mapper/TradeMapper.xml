@@ -214,23 +214,7 @@
 	    LIMIT #{params.startRow}, #{params.listLimit}
 	</select>
 	
-	<select id="selectTradePDInfo" resultType="map">
-		SELECT
-			p.PD_SUBJECT
-			, p.PD_PRICE
-			, p.PD_IMAGE
-			, i.image1
-	        , i.image2
-	        , i.image3
-	        , i.image4
-	        , i.image5
-        FROM 
-	        product p
-		LEFT JOIN 
-	        images i ON p.PD_IMAGE = i.IMG_IDX
-	    WHERE 
-	    	PD_IDX = #{PD_IDX}
-	</select>
+	
 		 
 	
 <!-- 	<select id="selectFilteredProducts" resultType="map"> -->

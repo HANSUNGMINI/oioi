@@ -16,77 +16,50 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.google.gson.Gson;
+import com.itwillbs.oi.service.AdminService;
 import com.itwillbs.oi.service.AuctionService;
 
 @Component
-public class PushHandler extends TextWebSocketHandler {
-
+public class AdminNotifyHandler extends TextWebSocketHandler {
     @Autowired
     private AuctionService auctionService;
+    
+    @Autowired
+    private AdminService AdminService;
 
-    private static final Logger logger = LoggerFactory.getLogger(PushHandler.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(AdminNotifyHandler.class);
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-    Map<String, WebSocketSession> adminSessions = new HashMap<>();
-    private Gson gson = new Gson();
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-    	String senderId = getUserId(session);
-    	boolean isAdmin = session.getAttributes().get("isAdmin") == null ? false : true;
-    	
-        if (senderId != null) {
+    	Map<String, Object> httpSession = session.getAttributes();
+        String senderId = getUserId(session);
+        if ((boolean)httpSession.get("isAdmin")) {
             logger.info(senderId + " 연결됨");
             userSessions.put(senderId, session);
 
-            // 웹소켓 연결 시 최신 3개의 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
+            // 웹소켓 연결 시 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
             List<Map<String, Object>> newItems = auctionService.getNewAuctionItems();
-            
-            // 최신순 3개까지만 출력
-            int count = 0;
-            JSONArray jsonArray = new JSONArray();
-            for (Map<String, Object> item : newItems) {
-                JSONObject jsonItem = new JSONObject();
-                jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
-                jsonItem.put("APD_NAME", item.get("APD_NAME"));
-                jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
-                jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
-                jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
-                jsonArray.put(jsonItem);
-                
-                count++;
-                if (count >= 3) {
-                    break;
+            if (!newItems.isEmpty()) {
+                JSONArray jsonArray = new JSONArray();
+                for (Map<String, Object> item : newItems) {
+                    JSONObject jsonItem = new JSONObject();
+                    jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
+                    jsonItem.put("APD_NAME", item.get("APD_NAME"));
+                    jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
+                    jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
+                    jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
+                    jsonArray.put(jsonItem);
                 }
-            }
                 sendNotificationToClient(session, jsonArray.toString());
-        } else if (isAdmin) {
-        	Map<String, Object> map = (Map<String, Object>)session.getAttributes().get("admin");
-        	adminSessions.put((String)map.get("AD_ID"), session);
+            }
         }
-        
-//        for(WebSocketSession admins : adminSessions.values()) {
-//			admins.sendMessage(new TextMessage("ㅎㅋ"));
-//			System.out.println(Integer.toString(userSessions.keySet().size()));
-//			System.out.println("!!!!!!!!");
-//		}
     }
-    
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    	String msg = message.getPayload();
-    	Map<String, Object> map = gson.fromJson(msg, Map.class);
-    	String type = (String)map.get("type");
-    	System.out.println(type);
-    	if(type.equals("toAdmin")) {
-    		for(WebSocketSession admins : adminSessions.values()) {
-    			admins.sendMessage(new TextMessage(msg));
-    		}
-    	} else if (type.equals("toUsers")) {
-    		// 여따가 써라 이.시.윤
-    	}
-    	
+        // 클라이언트에서 메시지를 받았을 때 처리할 로직
     }
 
     @Override
@@ -117,9 +90,5 @@ public class PushHandler extends TextWebSocketHandler {
         } catch (Exception e) {
             logger.error("알림 전송 실패: " + e.getMessage());
         }
-    }
-    
-    private void sendNotificationToAdmin(WebSocketSession session, String message) {
-    	// TODO
     }
 }

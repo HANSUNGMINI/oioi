@@ -336,7 +336,7 @@
         socket.onopen = function() {
             console.log("웹소켓 연결 성공");
         };
-
+        
         socket.onmessage = function(event) {
             try {
                 var items = JSON.parse(event.data);

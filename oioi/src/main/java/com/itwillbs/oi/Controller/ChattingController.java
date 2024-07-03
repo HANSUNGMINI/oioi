@@ -149,21 +149,39 @@ public class ChattingController {
 			return "err/fail";
         } else {
         	model.addAttribute("msg", "신고 접수 완료되었습니다");
+        	model.addAttribute("notify", true);
         	return "err/success";
         }
         
 	}
 	
 	@PostMapping("delivery")
-	public String goDelivery(@RequestParam Map map, Model model) {
+	public String goDelivery(@RequestParam Map<String, Object> map, Model model) {
 		System.out.println("운송장 map : " + map);
 		
 		return "";
 	}
 	
+	// 판매 완료
 	@GetMapping("tradeDecide")
-	public String goTradeDecide(@RequestParam Map map, Model model) {
+	public String goTradeDecide(@RequestParam Map<String, String> map, Model model) {
 		System.out.println("판매완료 map : " + map);
+		
 		return "";
+	}
+	
+	@PostMapping("reviewWrite")
+	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
+		System.out.println("리뷰 작성 map : " + map);
+		
+		int successCnt = service.insertReview(map);
+		
+		if(successCnt < 1) {
+        	model.addAttribute("msg","리뷰 작성 실패하셨습니다. \\n 다시 시도해 주세요");
+			return "err/fail";
+        } else {
+        	model.addAttribute("msg", "리뷰 작성 완료되었습니다");
+        	return "err/success";
+        }
 	}
 }

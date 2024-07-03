@@ -26,50 +26,6 @@
  
  <!-- j -->
  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<style>
-/* 사진 등록 */
-	
-	 .tempImg {
-            display: block;
-            margin: 10px 0;
-             width: 100px;
-            height: 100px;
-        }
-        .addImg {
-            cursor: pointer;
-        }
-        .preView {
-            display: flex;
-            gap: 10px;
-        }
-        .previewImg {
-            width: 100px;
-            height: 100px;
-        }
-        
-        .previewImgWrapper {
-	    position: relative;
-	    display: inline-block;
-	    margin: 5px;
-		}
-		
-		.deleteBtn {
-		    position: absolute;
-		    top: 5px;
-		    right: 5px;
-		    background-color: red;
-		    color: white;
-		    border: none;
-		    border-radius: 50%;
-		    cursor: pointer;
-		    font-size: 12px;
-		    width: 20px;
-		    height: 20px;
-		    text-align: center;
-		    line-height: 18px;
-		}
-	     
-</style>
 <script type="text/javascript">
 
 	/*
@@ -77,7 +33,9 @@
 		1. connectChat() 					: 웹소켓 연결
 		2. sendMessage()					: 메세지를 서버로 전송
 		3. appendMessage(msg, align_type) 	: 메세지를 DIV에 추가하여 보여준다
-		4. toJsonString(type, msg) 			: 문자열을 JSON 타입으로 변환 */
+		4. toJsonString(type, msg) 			: 문자열을 JSON 타입으로 변환
+		5. purchase(TO_ID, PD_IDX)			: 안전결제 창으로 넘어감
+		6. sysMessage(msg)					: 시스템 메세지 출력 */
 
     $(function(){
 	    connectChat();
@@ -120,7 +78,7 @@
     function onClose() {
 		console.log("onClose()");
 	}
-	function onMessage(event) {
+	function onMessage(event) { // 다른 사람 거 나오기
 		console.log(event.data);
 		appendMessage(event.data, "left","my");
 	}
@@ -128,6 +86,7 @@
 		console.log("onError()");
 	}
     
+	
     // -------------------------------------------------------
     function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
@@ -138,6 +97,7 @@
     	return JSON.stringify(data)
     }
     
+    // -----------------------------------------------------------
     function sendMessage() {
     	let msg = $("#textMsg").val(); 
     	
@@ -148,7 +108,7 @@
     	}
     	
     	// 서버측으로 메세지 전송
-    	ws.send(msg);
+    	ws.send(toJsonString("TALK",msg));
     	
     	// div 출력
     	appendMessage(msg,"right","other");
@@ -158,6 +118,12 @@
 		$("#textMsg").focus();
     }
     
+    // -----------------------------------------------------------
+	function sysMessage(msg){
+    	
+    }    
+    
+    // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
     	
     	let userImg = ''
@@ -169,12 +135,12 @@
     	}
     	
     	let chat = ' <li class="clearfix" id="userMsg">'
-    				+'<div class="message-data text-' + align_type +'">'
-    				+' <img src="'+ userImg +'">'
-    				+ '</div>'
-    				+ '<div class="message ' + who +'-message float-' + align_type +'">' + msg + '</div>'
+    				+'	<div class="message-data text-' + align_type +'">'
+    				+'	 <img src="'+ userImg +'">'
+    				+ '	</div>'
+    				+ '	<div class="message ' + who +'-message float-' + align_type +'">' + msg + '</div>'
+    				+ '	<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
     				+ '</li>'		
-    				+ '<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
     	
     	$("#chatArea").append(chat);
     				
@@ -182,6 +148,9 @@
 		$("#chat-history").scrollTop($("#chatArea").height() - $("#chat-history").height()); 
     	
     }
+
+    // -----------------------------------------------------------
+    
     function purchase(TO_ID, PD_IDX) {
  	   window.open('purchase?TO_ID=' + TO_ID + '&PD_IDX=' + PD_IDX , '_blank', 'width=600, height=700, left=720, top=200, resizable=no'); 
  	   
@@ -194,7 +163,7 @@
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853;">
-          <a href="#" onClick="location.href='ChatList'"><i class="bi bi-chevron-left" style="font-size: 2rem; color: white;"></i></a>
+          <a href="#" onClick="location.href='ChatList?US_ID=${sessionScope.US_ID}'"><i class="bi bi-chevron-left" style="font-size: 2rem; color: white;"></i></a>
    	</div>
    	
    	
@@ -228,10 +197,10 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-	                        		<c:if test="${param.TO_ID eq sessionScope.US_ID}">
+<%-- 	                        		<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
 			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
-	                        		</c:if>
+<%-- 	                        		</c:if> --%>
 		                        	<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
@@ -254,7 +223,6 @@
 					</div>
 
                     <ul class="m-b-0" id="chatArea">
-                    
                         <%--
                         <li class="clearfix">
                             <div class="message-data text-right">
@@ -336,6 +304,8 @@
            
 			
             <%-- 신고하기 --%>
+		
+			
 			
 			<div class="modal" id="notify_model">
 			  <div class="modal-dialog">
@@ -396,37 +366,42 @@
 			        <h4 class="modal-title">리뷰 작성하기</h4>
 			      </div>
 			
+		       <form action="reviewWrite" method="post" name="review_fr" onsubmit="return validateForm()">
 			      <!-- Modal body -->
 			      <div class="modal-body">
-			       <form action="reviewWrite" method="post">
 			       		<div id="review_category" style="text-align: justify;">
 				       		<%-- 체크박스 --%>
 				       		<c:forEach var="review" items="${reviewMap}">
 				       			<c:set var="i" value="${i+1}"></c:set>
 					       		<label for="chk${i}"><input type="checkbox" name="RV_CATEGORY" id="chk${i}" value="${review.code}"> &nbsp;${review.value}</label><br>
 				       		</c:forEach>
-
+				       		 <input type="hidden" name="RV_CATEGORYS" id="RV_CATEGORYS">
 			       		</div>
 			      		<hr>
 			       
 		       		    <div id="rating">
-			       			별점을 선택해 주세요 <br>
-						   <span onclick=""><i class="bi bi-star"></i></span>
-                           <span onclick=""><i class="bi bi-star"></i></span>
-                           <span onclick=""><i class="bi bi-star"></i></span>
-                           <span onclick=""><i class="bi bi-star"></i></span>
-                           <span onclick=""><i class="bi bi-star"></i></span>
+					        <fieldset>
+		                        <div id="emojiDisplay" style="font-size: 20px"></div>
+<!-- 					            <legend>별점을 선택해 주세요</legend> -->
+					            <input type="radio" name="RV_STAR" value="5" id="rate1"><label for="rate1">⭐</label>
+					            <input type="radio" name="RV_STAR" value="4" id="rate2"><label for="rate2">⭐</label>
+					            <input type="radio" name="RV_STAR" value="3" id="rate3"><label for="rate3">⭐</label>
+					            <input type="radio" name="RV_STAR" value="2" id="rate4"><label for="rate4">⭐</label>
+					            <input type="radio" name="RV_STAR" value="1" id="rate5"><label for="rate5">⭐</label>
+					        </fieldset>
                         </div>
-						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="review_content"  id="review_content" maxlength="600" required="required"></textarea>			      
-                   </form>
+						<textarea placeholder="내용을 입력하세요" style = "resize : none" name="RV_CONTENT"  id="review_content" maxlength="600" required="required"></textarea>			      
 				  </div>
 				  
 			      <!-- Modal footer -->
 			      <div class="modal-footer">
 			        <button type="submit" class="btn btn-success">리뷰 작성하기</button>
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+			        <input type="hidden" name="TO_US_ID" value="${param.TO_ID}">
+			        <input type="hidden" name="FROM_US_ID" value="${param.US_ID}">
 			      </div>
 			
+                   </form>
 			    </div>
 			  </div>
 			</div>     
@@ -441,13 +416,14 @@
     
     <script type="text/javascript">
 		/*
-		[함수 정리] 
+		     [함수 정리] 
 		1. showDetail() 				: 상세보기 나오기
 		2. transaction()				: 판매완료
 		3. exit()						: 대화방 나가기
 		4. setRating(value, reservIdx) 	: 별점 매기기
 		5. goStore()					: 상점 바로가기
 		6. goProductDetail()			: 거래 상품 디테일 바로라기
+		7. validateForm() 				: 리뷰 유효성 검사 및 체크박스 합치기
 		*/
     
 		
@@ -460,6 +436,80 @@
 				detail.style.display = "none";
 			}
 		}
+		
+		/* [ 리뷰 ] */
+		/* 별점 개수에 따른 이모지 */
+		document.addEventListener('DOMContentLoaded', (event) => {
+	    const emojiDisplay = document.getElementById('emojiDisplay');
+	    const ratings = document.getElementsByName('RV_STAR');
+	    const checkboxes = document.getElementsByName('RV_CATEGORY');
+	    
+	    // 이모지
+	    const emojis = {
+	        5: "아주 좋았어요 🥰",
+	        4: "좋아요 😃",
+	        3: "그냥 그랬어요 😐",
+	        2: "별로였어요 😕",
+	        1: "최악이였어요 😢"
+	    };
+	
+	    ratings.forEach(rating => {
+	        rating.addEventListener('change', (event) => {
+	            const selectedValue = event.target.value;
+	            emojiDisplay.textContent = emojis[selectedValue];
+	        });
+	    });
+	    
+	    // 체크박스 선택 제한
+	    checkboxes.forEach(checkbox => {
+	        checkbox.addEventListener('change', (event) => {
+	            const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+	            if (selectedCheckboxes.length > 4) {
+	                Swal.fire({
+	                    title: '최대 4개까지 선택하실 수 있습니다',
+	                    icon: 'warning',
+	                });
+	                event.target.checked = false;
+	            }
+	        });
+	    });
+	});
+		
+		/* 리뷰 유효성 검사 및 체크박스 합치기 */
+		function validateForm() {
+		    const checkboxes = document.getElementsByName('RV_CATEGORY');
+		    const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+		
+		    const ratings = document.getElementsByName('RV_STAR');
+		    const isRatingSelected = Array.from(ratings).some(rating => rating.checked);
+		    
+		    if (!isChecked) {
+		        Swal.fire({
+		            title: '리뷰 카테고리를 선택해 주세요',         // Alert 제목
+		            text: '하나 이상 선택해 주세요.',  // Alert 내용
+		            icon: 'warning',                         // Alert 타입
+		        });
+		        return false;
+		    }
+		    
+		    if (!isRatingSelected) {
+		        Swal.fire({
+		            title: '별점을 선택해 주세요.',         // Alert 제목
+		            icon: 'warning',                         // Alert 타입
+		        });
+		        return false;
+		    }
+		
+		    // 체크된 체크박스 값을 결합하여 숨겨진 입력 필드에 설정
+		    const selectedValues = Array.from(checkboxes)
+		                                .filter(checkbox => checkbox.checked)
+		                                .map(checkbox => checkbox.value)
+		                                .join('/');
+		    document.getElementById('RV_CATEGORYS').value = selectedValues;
+		    
+		    return true;
+		}
+		
 		
 		/* 판매완료 */
 		function transaction() {
@@ -483,7 +533,7 @@
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   
 				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
-				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
+// 				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
 						document.querySelector("#detail").style.display = "none";
 						document.querySelector("#review").style.display = "block";
 				   }
@@ -516,21 +566,7 @@
 			
 		}
 
-		/* 별점 매기기 */
-		function setRating(value, reservIdx) {
-		    var ratingValueId = "ratingValue" + reservIdx;
-		    document.getElementById(ratingValueId).value = value;
-		    
-		    var stars = document.querySelectorAll("#rating" + reservIdx + " span");
-		    for (var i = 0; i < stars.length; i++) {
-		        if (i < value) {
-		            stars[i].innerHTML = '<i class="bi bi-star-fill" style="color: #FFE000;"></i>';
-		        } else {
-		            stars[i].innerHTML = '<i class="bi bi-star-fill"></i>';
-		        }
-		    }
-		}
-		
+	
 		/* 상점 바로가기 */
 		function goStore(){
 			window.opener.location.href="myStore?userId=${param.TO_ID}"; 

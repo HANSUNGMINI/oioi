@@ -147,7 +147,7 @@
                                 + '       </div>'
                                 + '       </div>'
                                 + '       <div class="product-content">'
-                                + '           <h3><a href="product-details.html">'+ product.PD_SUBJECT +'</a></h3>'
+                                + '           <h3><a href="productDetail?PD_IDX='+ product.PD_IDX +'">'+ product.PD_SUBJECT +'</a></h3>'
                                 + '           <div class="product-price">'
                                 + '               <span>'+ product.PD_PRICE +'</span>'
                                 + '           </div>'
@@ -175,6 +175,64 @@
 
         // 페이지 로드 시 초기 데이터 불러오기
         updateProducts(); 
+    	
+    	/* 최근 본 상품 함수 호출 */
+    	showRecentLookProduct();
+    	
+    	/* 최근 본 상품 */
+    	function showRecentLookProduct() {
+    		let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    		storedProducts = storedProducts.join(',');
+    		
+    		let isNull = false;
+    		if (storedProducts.length === 0) {
+    			isNull = true;
+    		}
+    	
+    		if (isNull) {
+    			let nullDiv = '<div style="margin-top: 50px; font-size:13px; text-align:center; height: 50px; color:#34A853"> 최근 본 상품 목록이 비어 있습니다. </div>';
+    			$("#recentProduct").append(nullDiv);
+    			return;  // 최근 본 상품이 없을 경우 
+    		}
+    		
+            $.ajax({
+                type: "GET",
+                url: "recentLookProductList",
+                data: {
+                    "recentProduct": storedProducts
+                },
+                dataType: "json",
+                success: function(response) {
+    				let productList = response;
+    				
+    				if (productList == '') {
+    					let nullDiv = '<div style="margin-top: 50px; font-size:13px; text-align:center; height: 50px;color:#34A853"> 최근 본 상품 목록이 비어 있습니다. </div>';
+    					$("#recentProduct").append(nullDiv);
+    					return;  // 최근 본 상품이 없을 경우 
+    				}
+    				
+    				$.each(productList, function(index, pr) {
+    				
+    					let productDetail = 
+    							'<div class="single-post first" >'
+    						   + ' <div class="image">'
+    						   +'	<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
+                               + '    <img src="' + contextPath + '/resources/upload/' + pr.IMG + '">'
+                               + '  </a>'
+                               +' </div>'
+                               +'     <div class="content">'
+                               +'         <h5 style="text-overflow: ellipsis;"><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
+                               +'        <small>'+ pr.RD_DATE +'</small>'
+                               +'        <p class="price">'+ pr.PD_PRICE +' 원'
+                               +' </div>'
+                               +' </div>'
+                               
+                          $("#recentProduct").append(productDetail);
+    				});
+    				
+                }
+            });
+    	}
     });
 </script>
 
@@ -231,10 +289,10 @@
                         <!--/ End Single Widget -->
                         
                         <!-- Single Widget -->
-                        <div class="single-widget recent-post">
-                            <h3 class="title">최근 본 상품</h3>
+                        <div class="single-widget recent-post" >
+                            <h3 class="title" id="recentProduct" style="text-align:center;">최근 본 상품</h3>
                             <!-- Single Post -->
-                            <div class="single-post first" id="recentProduct">
+                            
 <!--                                 <div class="image"> -->
 <!--                                     <img src="https://via.placeholder.com/75x75" alt="#"> -->
 <!--                                 </div> -->
@@ -243,7 +301,7 @@
 <!--                                     <small>8시간 전</small> -->
 <!--                                     <p class="price">100억</p> -->
 <!--                                 </div> -->
-                            </div>
+<!--                             </div> -->
                             <!-- End Single Post -->
                         </div>
                         
@@ -426,7 +484,7 @@
     <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 
 	<!-- 최근 본 상품 js --> 
-    <script src="${pageContext.request.contextPath}/resources/js/trade/tradeRecentProduct.js"></script>
+<%--     <script src="${pageContext.request.contextPath}/resources/js/trade/tradeRecentProduct.js"></script> --%>
     
     <!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

@@ -45,6 +45,19 @@
 			, #{RP_IMG2}
 		)
 	</insert>
+	
+	<insert id="insertReview">
+		INSERT INTO review
+		VALUES (
+			NULL
+			,#{TO_US_ID}
+			,#{FROM_US_ID}
+			,#{RV_STAR}
+			,#{RV_CATEGORYS}
+			,#{RV_CONTENT}
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')	
+		)
+	</insert>
 </mapper>
 
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -257,7 +258,14 @@
 	input[type=number] {
 	    -moz-appearance: textfield; /* Firefox에서 화살표 제거 */
 	}
-    
+	
+	#prodcut img {
+		width: 230px;
+		height: auto;
+		border-radius: 20px;
+/* 		border: 1px solid #000;  */
+	}
+	
 
 </style>
 
@@ -291,24 +299,29 @@
                                 <form class="purchase">
                                 	<h5>🥒오이마켓 안전결제🥒</h5>
                                 	<br>
+                                	<br>
                                     <!-- 거래 정보 -->
                                     <div id="prodcut" >
-                                    
-                                        
+										<div id="image">
+											<img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="#">
+										</div>
+										<div id="info">
+											<h4>📝상품 정보</h4>
+											<hr>
+											<h5>거래상태 : ${product.PD_STATUS}</h5>
+											<h5>판매자 : ${product.US_ID}</h5>
+											<h5>상품명 : ${product.PD_SUBJECT}</h5>
+											<h5>가격 : <fmt:formatNumber value="${product.PD_PRICE}" pattern="#,###"/>원</h5>
+										</div>
                                     </div>
-									<c:forEach var="account" items="${bankUserInfo.res_list}">
-										<tr>
-											<td>
-												<input type="hidden" name="fintech_use_num" id="fintech_use_num" value="${account.fintech_use_num}">
-												<input type="hidden" name="account_holder_name" id="account_holder_name" value="${account.account_holder_name}">
-												<input type="hidden" name="account_num_masked" id="account_num_masked" value="${account.account_num_masked}">
-											</td>
-										</tr>
-									</c:forEach>
                                     <br>
-                                    <!-- 충전 및 출금 버튼 -->
+                                    <hr>
+                                    <!-- 오이페이 정보 -->
+                                    <br>
+										<h6>보유 오이머니 : 🥒<fmt:formatNumber value="${oimoney}" pattern="#,###"/></h6>
+                                    <br>
+                                    <!-- 충전 및 결제 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->
-										<h6>보유 오이머니 : 🥒${token.US_OIMONEY}</h6>
                                         <input type="button" class="payCharge" onclick="openOIPay()" value="충전하기">
                                         <input type="button" class="payRefund" value="결제하기">
 <!--                                     </div> -->

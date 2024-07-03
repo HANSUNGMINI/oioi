@@ -5,6 +5,16 @@
 <head>
 <meta charset="UTF-8">
 </head>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script>
+	$(document).ready(function() {
+		var socket = new WebSocket('ws://localhost:8081/oi/push');
+	    socket.onmessage = function(event) {
+	    	alert(event.data);
+	    };
+	});
+
+</script>
 <body>
 	<nav id="navbar-main" class="navbar is-fixed-top">
 		<div class="navbar-brand">
@@ -18,6 +28,9 @@
 		  </a>
 		</div>
 		<div class="navbar-menu" id="navbar-menu">
+		
+		<p id="p">접속중인 계정 : 바로 나야 ㅋ / 현재 접속중인 유저 수 /</p> 
+		
 			<div class="navbar-end">
 		    	<div class="navbar-item dropdown has-divider">
 		      		<a class="navbar-link">
