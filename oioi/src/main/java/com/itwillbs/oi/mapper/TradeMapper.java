@@ -31,7 +31,7 @@ public interface TradeMapper {
 	
 	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
 
-	Map<String, Object> selectTradePDInfo(int PD_IDX);
+	
 	 
 //	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
 	

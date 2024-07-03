@@ -61,9 +61,7 @@ public class TradeService {
 //		return mapper.selectFilteredProducts(params);
 //	}
 
-	public Map<String, Object> selectTradePDInfo(int PD_IDX) {
-		return mapper.selectTradePDInfo(PD_IDX);
-	}
+	
 	
 //	public List<Map<String, Object>> getFilteredProducts(String cate1, String cate2, String cate3, int startRow, int listLimit) {
 //        return mapper.selectFilteredProducts(cate1, cate2, cate3, startRow, listLimit);

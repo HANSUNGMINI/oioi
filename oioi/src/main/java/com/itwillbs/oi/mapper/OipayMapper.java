@@ -24,6 +24,8 @@ public interface OipayMapper {
 	Map<String, Object> selectBankUserInfo(Object object);
 
 	void updateOimoney(Map<String, Object> map);
+	
+	Map<String, Object> selectTradePDInfo(int PD_IDX);
 
 	
 	// 관리자 엑세스 토큰 정보 저장

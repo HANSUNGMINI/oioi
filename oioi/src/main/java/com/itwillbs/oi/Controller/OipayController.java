@@ -25,8 +25,6 @@ import kotlin.reflect.jvm.internal.impl.types.model.TypeSystemOptimizationContex
 public class OipayController {
 	@Autowired
 	private OipayService service;
-	@Autowired
-	private TradeService tradeService;
 	
 	@GetMapping("connectAct")
 	public String connectAct(HttpSession session, Model model) {
@@ -147,11 +145,13 @@ public class OipayController {
 	
 //	@ResponseBody
 	@GetMapping("purchase")
-	public String purhcase(@RequestParam Map<String, String> map) {
+	public String purhcase(@RequestParam Map<String, String> map, Model model) {
 		System.out.println(map);
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
-		Map<String, Object> product = tradeService.selectTradePDInfo(PD_IDX);
+		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
 		System.out.println(product);
+		
+		model.addAttribute("product", product);
 				
 		return "oipay/payment";
 	}

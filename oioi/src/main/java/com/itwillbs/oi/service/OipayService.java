@@ -67,6 +67,9 @@ public class OipayService {
 		mapper.updateOimoney(map);
 	}
 
+	public Map<String, Object> selectTradePDInfo(int PD_IDX) {
+		return mapper.selectTradePDInfo(PD_IDX);
+	}
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
 //	public Map getUserInfo(BankTokenVO token) {

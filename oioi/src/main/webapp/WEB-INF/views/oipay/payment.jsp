@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -257,7 +258,14 @@
 	input[type=number] {
 	    -moz-appearance: textfield; /* Firefox에서 화살표 제거 */
 	}
-    
+	
+	#prodcut img {
+		width: 230px;
+		height: auto;
+		border-radius: 20px;
+/* 		border: 1px solid #000;  */
+	}
+	
 
 </style>
 
@@ -293,8 +301,16 @@
                                 	<br>
                                     <!-- 거래 정보 -->
                                     <div id="prodcut" >
-                                    
-                                        
+										<div id="image">
+											<img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="#">
+										</div>
+										<div id="info">
+											<h4>📝상품 정보</h4>
+											<hr>
+											<br>
+											<h5>제목 : ${product.PD_SUBJECT}</h5>
+											<h5>가격 : <fmt:formatNumber value="${product.PD_PRICE}" pattern="#,###"/></h5>
+										</div>
                                     </div>
 									<c:forEach var="account" items="${bankUserInfo.res_list}">
 										<tr>
