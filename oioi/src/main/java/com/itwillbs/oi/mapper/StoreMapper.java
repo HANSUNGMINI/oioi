@@ -26,4 +26,9 @@ public interface StoreMapper {
 
 	Map<String, Object> getProductById(@Param("idx") int idx);
 
+	int updateImages(Map<String, String> fileMap);
+
+	int updateProduct(Map<String, Object> productInfo);
+
+
 }

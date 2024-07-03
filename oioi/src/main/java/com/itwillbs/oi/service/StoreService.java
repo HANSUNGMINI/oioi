@@ -48,5 +48,14 @@ public class StoreService {
 		return mapper.getProductById(idx);
 	}
 
+   public int updateProduct(Map<String, Object> productInfo, Map<String, String> fileMap) {
+	        // DB 업데이트 로직
+		int imgIdx = mapper.updateImages(fileMap);
+		System.out.println("이거" + imgIdx);
+		productInfo.put("PD_IMAGE", imgIdx);
+		return mapper.updateProduct(productInfo);
+	}
+
+
 
 }
