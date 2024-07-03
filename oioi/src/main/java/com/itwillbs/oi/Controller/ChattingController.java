@@ -149,6 +149,7 @@ public class ChattingController {
 			return "err/fail";
         } else {
         	model.addAttribute("msg", "신고 접수 완료되었습니다");
+        	model.addAttribute("notify", true);
         	return "err/success";
         }
         

@@ -17,6 +17,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.itwillbs.oi.service.AuctionService;
+import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
 
 @Component
 public class PushHandler extends TextWebSocketHandler {
@@ -28,18 +29,14 @@ public class PushHandler extends TextWebSocketHandler {
 
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-    Map<String, WebSocketSession> pushSessions = new HashMap<>();
+    Map<String, WebSocketSession> adminSessions = new HashMap<>();
 
     
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	String senderId = getUserId(session);
-    	// 신고, 경매 물품 등록 시, 그리고 관리자 일 때
-    	if((boolean)session.getAttributes().get("isAdmin")) {
-    		pushSessions.put("admin", session);
-    	}
+    	boolean isAdmin = session.getAttributes().get("isAdmin") == null ? false : true;
     	
-       
         if (senderId != null) {
             logger.info(senderId + " 연결됨");
             userSessions.put(senderId, session);
@@ -65,19 +62,21 @@ public class PushHandler extends TextWebSocketHandler {
                 }
             }
                 sendNotificationToClient(session, jsonArray.toString());
+            } else if (isAdmin) {
+            	adminSessions.put("admin", session);
             }
         }
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    	String jsonMsg = message.getPayload();
-		System.out.println("전송받은 메세지(jsonMsg) : " + jsonMsg);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // 일단 관리자한테 보내기
-//    	for(WebSocketSession admins : pushSessions.values()) {
-//    		admins.sendMessage(new TextMessage("알림알림"));
-//    	}
+    	String msg = message.getPayload();
+    	
+    	if(msg.equals("moreReport")) {
+    		for(WebSocketSession admins : adminSessions.values()) {
+        		admins.sendMessage(new TextMessage("report"));
+        	}
+    	}
+    	
     }
 
     @Override

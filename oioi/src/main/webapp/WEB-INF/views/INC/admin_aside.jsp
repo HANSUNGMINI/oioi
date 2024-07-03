@@ -12,7 +12,6 @@
 	    <div>오이마켓</div>
 	  </div>
 	  <div class="menu is-menu-main">
-	    <p class="menu-label">LIST</p>
 	    <ul class="menu-list">
 	      <li class="active">
 	        <a href="./">
@@ -26,8 +25,14 @@
 	          <span class="menu-item-label"> 관리자 메인화면 </span>
 	        </a>
 	      </li>
+	      <li class="active">
+	        <a href="logout">
+	          <span class="icon"><i class="mdi mdi-logout"></i></span>
+	          <span class="menu-item-label"> 로그아웃 </span>
+	        </a>
+	      </li>
 	    </ul>
-	    <p class="menu-label">Examples</p>
+	    <p class="menu-label">관리 항목</p>
 	    <ul class="menu-list">
 	    	<!--  최고 관리자  -->
 	    	<c:if test="${isMaster eq true}">
@@ -93,6 +98,7 @@
 		            <span class="icon"><i class="mdi mdi-gavel"></i></span>
 		            <span class="menu-item-label">경매 상품 조회</span>
 	        	</a>
-     		 </li>	     		 
+     		 </li>	  
+     		    		 
 	    </ul>
 	  </div>
