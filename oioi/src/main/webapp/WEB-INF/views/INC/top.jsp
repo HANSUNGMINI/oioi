@@ -335,7 +335,6 @@
 
         socket.onopen = function() {
             console.log("웹소켓 연결 성공");
-            socket.send("그렇지 ㅋ");
         };
         
         socket.onmessage = function(event) {

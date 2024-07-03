@@ -86,16 +86,6 @@
 		console.log("onError()");
 	}
     
-	// ~~~~~~~~~~~~~~~김유신~~~~~~~~~~~~~~~~~~
-	let socket = new WebSocket('ws://localhost:8081/oi/push');
-	socket.onopen = function(){
-		console.log("? 연결");
-		socket.send("연결 ㅇㅇ; 진짜임");
-	}
-	socket.onclose = function(){
-		console.log("꺼지는데?");
-		socket.send("연결 ㅇㅇ; 진짜임");
-	}
 	
     // -------------------------------------------------------
     function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달

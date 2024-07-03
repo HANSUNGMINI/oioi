@@ -16,6 +16,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
 import com.itwillbs.oi.service.AuctionService;
 
 @Component
@@ -28,18 +29,13 @@ public class PushHandler extends TextWebSocketHandler {
 
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-    Map<String, WebSocketSession> pushSessions = new HashMap<>();
-
-    
+    Map<String, WebSocketSession> adminSessions = new HashMap<>();
+    private Gson gson = new Gson();
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	String senderId = getUserId(session);
-    	// 신고, 경매 물품 등록 시, 그리고 관리자 일 때
-    	if((boolean)session.getAttributes().get("isAdmin")) {
-    		pushSessions.put("admin", session);
-    	}
+    	boolean isAdmin = session.getAttributes().get("isAdmin") == null ? false : true;
     	
-       
         if (senderId != null) {
             logger.info(senderId + " 연결됨");
             userSessions.put(senderId, session);
@@ -65,19 +61,32 @@ public class PushHandler extends TextWebSocketHandler {
                 }
             }
                 sendNotificationToClient(session, jsonArray.toString());
-            }
+        } else if (isAdmin) {
+        	Map<String, Object> map = (Map<String, Object>)session.getAttributes().get("admin");
+        	adminSessions.put((String)map.get("AD_ID"), session);
         }
+        
+//        for(WebSocketSession admins : adminSessions.values()) {
+//			admins.sendMessage(new TextMessage("ㅎㅋ"));
+//			System.out.println(Integer.toString(userSessions.keySet().size()));
+//			System.out.println("!!!!!!!!");
+//		}
+    }
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    	String jsonMsg = message.getPayload();
-		System.out.println("전송받은 메세지(jsonMsg) : " + jsonMsg);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // 일단 관리자한테 보내기
-//    	for(WebSocketSession admins : pushSessions.values()) {
-//    		admins.sendMessage(new TextMessage("알림알림"));
-//    	}
+    	String msg = message.getPayload();
+    	Map<String, Object> map = gson.fromJson(msg, Map.class);
+    	String type = (String)map.get("type");
+    	System.out.println(type);
+    	if(type.equals("toAdmin")) {
+    		for(WebSocketSession admins : adminSessions.values()) {
+    			admins.sendMessage(new TextMessage(msg));
+    		}
+    	} else if (type.equals("toUsers")) {
+    		// 여따가 써라 이.시.윤
+    	}
+    	
     }
 
     @Override
@@ -108,5 +117,9 @@ public class PushHandler extends TextWebSocketHandler {
         } catch (Exception e) {
             logger.error("알림 전송 실패: " + e.getMessage());
         }
+    }
+    
+    private void sendNotificationToAdmin(WebSocketSession session, String message) {
+    	// TODO
     }
 }

@@ -282,6 +282,9 @@ public class AdminController {
 		if(createdRows != null) {
 			for(Map<String, Object> item : createdRows) {
 				item.put("target", target);
+				System.out.println("@@@@@@@@@@@@@@@@@@");
+				System.out.println(item);
+				System.out.println("@@@@@@@@@@@@@@@@@@");
 				result += adminservice.insertCommon(item);
 			}
 		}

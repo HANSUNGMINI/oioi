@@ -210,8 +210,9 @@ public class AuctionController {
           
           if(apdSuccess > 0) {
              
-             model.addAttribute("msg", "등록성공! 1차검수가 완료되면 상품을 보내주세요.");
+            model.addAttribute("msg", "등록성공! 1차검수가 완료되면 상품을 보내주세요.");
             model.addAttribute("targetURL", "auction");
+            model.addAttribute("notify", true);
             return "err/success";
           }else {
              model.addAttribute("msg", "상품등록에 실패하였습니다.\n다시 상품등록을 해주세요.");
