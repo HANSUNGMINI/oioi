@@ -528,57 +528,60 @@
                                             </div>
                                             
                                             <!-- ------------------------------------------------------------ -->
-                                           <%-- 신고하기 --%>
-                                          <div class="modal" id="notify_model">
-                                               <div class="modal-dialog">
-                                                 <div class="modal-content">
-                                             
-                                                   <!-- Modal Header -->
-                                                   <div class="modal-header">
-                                                     <h4 class="modal-title" style="text-align: left;">신고하기</h4>
-                                                   </div>
-                                                 <form action="report" method="post" enctype="multipart/form-data">
-                                                   <!-- Modal body -->
-                                                   <div class="modal-body">
-                                                        <%--셀렉트 박스 --%>
-                                            <select name="deliver_category" id="deliver_category" style = "margin-left : 15px">
-                                              <option value =""> 택배사 선택 </option>
-                                              <option value ="reservation"> 대한통운 </option>
-                                              <option value ="function"> 우체국택배 </option>
-                                              <option value ="price"> 편의점택배 </option>
-                                           </select>
-                                                        <br>
-                                                       <%-- 라디오박스 --%>
-                                                         <c:forEach var="report" items="${reportMap}">
-                                                             <c:set var="i" value="${i+1}"></c:set>
-                                                             <label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
-                                                         </c:forEach>
-                                                         
-                                                         <%-- 파일 --%>
-                                                         <div style="padding:5px;">
-                                                             <small>이미지는 최대 2장 등록 가능합니다</small>
-                                                             
-                                                              <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
-                                                             <div class="preView">
-                                                                 <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
-                                                             </div>
-                                                         </div>
-                                                         
-                                                         <%-- 내용 입력 --%>
-                                                         <textarea placeholder="내용을 입력하세요" style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
-                                                   </div>
-                                                   
-                                                   <!-- Modal footer -->
-                                                   <div class="modal-footer">
-                                                     <button type="submit" class="btn btn-success">신고하기</button>
-                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-                                                   </div>
-                                                     <input type="hidden" name="TO_ID" value="${param.TO_ID}">
-                                                     <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
-                                                 </form>                 
-                                                 </div>
-                                               </div>
-                                             </div>
+                                           <div class="modal fade" id="notify_model" tabindex="-1" role="dialog" aria-labelledby="notifyModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="notifyModelLabel">신고하기</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="report" method="post" enctype="multipart/form-data">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- 셀렉트 박스 -->
+                    <div class="form-group">
+                        <label for="deliver_category">신고할 사람</label>
+                        <select name="deliver_category" id="deliver_category" class="form-control" style="width: 200px;">
+                            <option value="">택배사 선택</option>
+                            <option value="reservation">대한통운</option>
+                            <option value="function">우체국택배</option>
+                            <option value="price">편의점택배</option>
+                        </select>
+                    </div>
+                    <!-- 라디오박스 -->
+                    <div class="form-group">
+                        <label>신고 사유</label><br>
+                        <c:forEach var="report" items="${reportMap}">
+				      		<c:set var="i" value="${i+1}"></c:set>
+							<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+				      	</c:forEach>
+                    </div>
+                    <!-- 파일 -->
+                    <div class="form-group">
+                        <label for="fileInput">이미지는 최대 2장 등록 가능합니다</label>
+                        <input type="file" id="fileInput" name="RP_IMG" accept=".png, .jpeg" multiple class="form-control-file">
+                    </div>
+                    <!-- 내용 입력 -->
+                    <div class="form-group">
+                        <label for="RP_CONTENT">내용을 입력하세요</label>
+                        <textarea name="RP_CONTENT" id="RP_CONTENT" class="form-control" rows="3" maxlength="300" placeholder="내용을 입력하세요"></textarea>
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">신고하기</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                </div>
+                <input type="hidden" name="TO_ID" value="${param.TO_ID}">
+                <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+            </form>
+        </div>
+    </div>
+</div>
+
                                             
                                             
                                             
