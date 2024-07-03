@@ -5,6 +5,29 @@
 <head>
 <meta charset="UTF-8">
 </head>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script>
+	$(document).ready(function() {
+		var socket = new WebSocket('ws://localhost:8081/oi/push');
+
+        socket.onopen = function() {
+            console.log("웹소켓 연결 성공");
+        };
+	
+	    socket.onmessage = function(event) {
+	        console.log(event.data);
+	    };
+	
+	    socket.onerror = function(error) {
+	        console.error("웹소켓 오류 발생:", error);
+	    };
+	
+	    socket.onclose = function(event) {
+	        console.log("웹소켓 연결 종료", event);
+	    };
+	});
+
+</script>
 <body>
 	<nav id="navbar-main" class="navbar is-fixed-top">
 		<div class="navbar-brand">

@@ -15,6 +15,15 @@
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
+    	if("${msg}" == "신고 접수 완료되었습니다"){
+			// ~~~~~~~~~~~~~~~김유신~~~~~~~~~~~~~~~~~~
+			const socket = new WebSocket('ws://localhost:8081/oi/push');
+			socket.onopen = function(){
+				console.log("소켓 연결은 됐는데");
+				socket.send("흠 왜 안돔;ㅇㅁㄴㅇ");
+			}
+    	}
+    
         Swal.fire({
             title: '성공!',
             text: "${msg}",

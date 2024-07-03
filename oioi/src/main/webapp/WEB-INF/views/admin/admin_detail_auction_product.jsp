@@ -44,6 +44,16 @@
 		}
 	
 	</style>
+	<script>
+		$(function(){
+			const status = $("#APD_STATUS").val();
+			// 거래 완료 상태 시 셀렉트박스 dsiabled
+			// 하드코딩 맘에 안듬
+			if (status === 'APD09') {
+				$('#APD_STATUS').prop('disabled', true).niceSelect('update');
+			}
+		})
+	</script>
 </head>
 <body class="js">
 		<!-- Shop Single -->

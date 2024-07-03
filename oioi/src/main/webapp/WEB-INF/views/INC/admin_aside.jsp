@@ -4,9 +4,8 @@
 <!DOCTYPE html>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-	$("#test").on("click", function(){
-		$(".section").load("user");
-	})
+	
+
 
 </script>
 <div class="aside-tools">
@@ -95,8 +94,5 @@
 		            <span class="menu-item-label">경매 상품 조회</span>
 	        	</a>
      		 </li>	     		 
-     		
-	      
 	    </ul>
-	    <p class="menu-label">About</p>
 	  </div>

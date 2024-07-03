@@ -125,6 +125,17 @@
 		console.log("onError()");
 	}
     
+	// ~~~~~~~~~~~~~~~김유신~~~~~~~~~~~~~~~~~~
+	let socket = new WebSocket('ws://localhost:8081/oi/push');
+	socket.onopen = function(){
+		console.log("? 연결");
+		socket.send("연결 ㅇㅇ; 진짜임");
+	}
+	socket.onclose = function(){
+		console.log("꺼지는데?");
+		socket.send("연결 ㅇㅇ; 진짜임");
+	}
+	
     // -------------------------------------------------------
     function sendMessage() {
     	let msg = $("#textMsg").val(); 
@@ -337,6 +348,8 @@
 			
 			
             <%-- 신고하기 --%>
+		
+			
 			
 			<div class="modal" id="notify_model">
 			  <div class="modal-dialog">

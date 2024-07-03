@@ -16,30 +16,26 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.itwillbs.oi.service.AdminService;
 import com.itwillbs.oi.service.AuctionService;
 
 @Component
-public class PushHandler extends TextWebSocketHandler {
-
+public class AdminNotifyHandler extends TextWebSocketHandler {
     @Autowired
     private AuctionService auctionService;
+    
+    @Autowired
+    private AdminService AdminService;
 
-    private static final Logger logger = LoggerFactory.getLogger(PushHandler.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(AdminNotifyHandler.class);
     List<WebSocketSession> sessions = new ArrayList<>();
     Map<String, WebSocketSession> userSessions = new HashMap<>();
-    Map<String, WebSocketSession> pushSessions = new HashMap<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-    	String senderId = getUserId(session);
-    	// 신고, 경매 물품 등록 시, 그리고 관리자 일 때
-    	if((boolean)session.getAttributes().get("isAdmin")) {
-    		pushSessions.put("admin", session);
-    	}
-    	
-       
-        if (senderId != null) {
+    	Map<String, Object> httpSession = session.getAttributes();
+        String senderId = getUserId(session);
+        if ((boolean)httpSession.get("isAdmin")) {
             logger.info(senderId + " 연결됨");
             userSessions.put(senderId, session);
 
@@ -63,14 +59,7 @@ public class PushHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-    	System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    	String jsonMsg = message.getPayload();
-		System.out.println("전송받은 메세지(jsonMsg) : " + jsonMsg);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // 일단 관리자한테 보내기
-//    	for(WebSocketSession admins : pushSessions.values()) {
-//    		admins.sendMessage(new TextMessage("알림알림"));
-//    	}
+        // 클라이언트에서 메시지를 받았을 때 처리할 로직
     }
 
     @Override
