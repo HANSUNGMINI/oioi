@@ -10,7 +10,7 @@
 	$(document).ready(function() {
 		var socket = new WebSocket('ws://localhost:8081/oi/push');
 	    socket.onmessage = function(event) {
-	        console.log(event.data);
+	    	alert(event.data);
 	    };
 	});
 
@@ -29,12 +29,12 @@
 		</div>
 		<div class="navbar-menu" id="navbar-menu">
 		
-		<p>접속중인 계정 : 바로 나야 ㅋ / 현재 접속중인 유저 수 /</p> 
+		<p id="p">접속중인 계정 : 바로 나야 ㅋ / 현재 접속중인 유저 수 /</p> 
 		
 			<div class="navbar-end">
 		    	<div class="navbar-item dropdown has-divider">
 		      		<a class="navbar-link">
-			        	<span class="icon"><i class="mdi mdi-	menu"></i></span>
+			        	<span class="icon"><i class="mdi mdi-menu"></i></span>
 			        	<span>${admin.AD_NAME}</span>
 			        	<span class="icon"><i class="mdi mdi-chevron-down"></i></span>
 		      		</a>

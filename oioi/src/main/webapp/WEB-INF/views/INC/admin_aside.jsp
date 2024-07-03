@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-	
-
 
 </script>
 <div class="aside-tools">
