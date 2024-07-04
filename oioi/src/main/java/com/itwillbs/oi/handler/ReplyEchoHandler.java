@@ -14,6 +14,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class ReplyEchoHandler extends TextWebSocketHandler {
@@ -29,7 +30,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         String usId = (String) session.getAttributes().get("US_ID");
         
         
-        userSessions.put("usId", usId);
+        userSessions.put(session.getId(), usId);
         session.getAttributes().put("APD_IDX", apdIdx);
         sessions.add(session);
         
@@ -44,10 +45,17 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         broadcastMessage(apdIdx, jo.toString(), session);
         
         // 접속한 사용자에게만 접속자 수 보내기
- 		JsonObject userJo = new JsonObject();
- 		userJo.addProperty("type", "SESSION_SIZE");
- 		userJo.addProperty("SESSION_SIZE", getSessionCount(apdIdx));
- 		session.sendMessage(new TextMessage(userJo.toString()));
+// 		JsonObject userJo = new JsonObject();
+// 		userJo.addProperty("type", "SESSION_SIZE");
+// 		
+// 		session.sendMessage(new TextMessage(userJo.toString()));
+ 		
+ 		//누구누구 접속했는지 확인
+ 		JsonObject users = new JsonObject();
+ 		users.addProperty("type", "USER_LIST");
+ 		users.add("users", new Gson().toJsonTree(userSessions.values()));
+ 		users.addProperty("SESSION_SIZE", getSessionCount(apdIdx));
+ 		session.sendMessage(new TextMessage(users.toString()));
     }
 
     // 어떠한 메시지를 보냈을 때
@@ -97,7 +105,7 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         String apdIdx = (String) session.getAttributes().get("APD_IDX");
         String usId = (String) session.getAttributes().get("US_ID");
         sessions.remove(session);
-
+        userSessions.remove(session.getId());
         // 퇴장 메시지
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "LEAVE");

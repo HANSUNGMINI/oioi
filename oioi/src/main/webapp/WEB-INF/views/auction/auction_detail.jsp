@@ -201,21 +201,16 @@
    ws.onopen = function() {
    console.log('경매 연결');
    appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center");
-   socket.send(toJsonString("ENTER", ""));
+//    socket.send(toJsonString("ENTER", ""));
    
 //    socket.send(JSON.stringify(dataSend));
    };
    
    ws.onmessage = function(event) {
        var response = JSON.parse(event.data);
-       console.log('받은 메시지:', response);
-
-       // 접속자 수 표시
-       var html = '';
-       $('#sessionSize').empty().append(html);
-       html += '<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
-           response.SESSION_SIZE + '명</a></span>';
-       $('#sessionSize').append(html);
+       console.log('받은 메시지 :', response.SESSION_SIZE);
+       console.log('받은 메시지 :', response.type);
+		       
   	   
        if (response.type === "ENTER" || response.type === "LEAVE") {
            appendMessage("System", response.msg, "center");
@@ -230,7 +225,24 @@
                appendMessage(res.US_ID, res.MSG, "left");
            }
            saveMessage(res);
-       }
+       } else if(response.type === 'USER_LIST'){
+    	   //신고할 사람(접속한 사람)
+           console.log('접속한 사람 :' + response.users);
+           var users = response.users;
+           console.log('접속한 사람 파싱:' + users);
+           $('#reportUser').empty();
+           $.each(users, function(index, us) {
+        	   $('#reportUser').append('<option value="' + us + '">' + us + '</option>');
+           });
+           
+          // 접속자 수 표시
+   		  console.log("SESSION_SIZE : " + response.SESSION_SIZE);
+          
+          $('#sessionSize').empty();
+       	  $('#sessionSize').append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
+                  response.SESSION_SIZE + '명</a></span>');
+          
+       } 
    };
    
    ws.onclose = function(event) {
@@ -556,11 +568,7 @@
                     <!-- 셀렉트 박스 -->
                     <div class="form-group">
                         <label for="deliver_category">신고할 사람</label>
-                        <select name="deliver_category" id="deliver_category" class="form-control" style="width: 200px;">
-                            <option value="">택배사 선택</option>
-                            <option value="reservation">대한통운</option>
-                            <option value="function">우체국택배</option>
-                            <option value="price">편의점택배</option>
+                        <select name="reportUser" id="reportUser" class="form-control" style="width: 200px;">
                         </select>
                     </div>
                     <!-- 라디오박스 -->
