@@ -141,13 +141,13 @@
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
 										</ul>
+										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p>
 <!-- 										<div class="quantity"> -->
 <!-- 											<h6>찜하기</h6> -->
 <!-- 										</div> -->
 <!-- 										<div class="add-to-cart"> -->
 <!-- 											<a href="#" class="btn min"><i class="ti-heart"></i></a> -->
 <!-- 										</div> -->
-<%-- 										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p> --%>
 <!-- 										<p class="availability">연관 상품 갯수? or 태그 : 뭘로하까</p> -->
 									</div>
 									<!--/ End Product Buy -->

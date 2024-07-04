@@ -250,6 +250,8 @@
 
         $(function() {
         	
+        	
+        	
             $(".addImg").on("click", function() {
                 $('#addfile').click();
             });

@@ -126,7 +126,7 @@
     WHERE 
         p.PD_IDX = #{PD_IDX}
     ORDER BY 
-        p.PD_REG_DATE DESC;
+        p.PD_UPDATED_DATE;
 	</select>
 	
 	<select id="getProductStatus">

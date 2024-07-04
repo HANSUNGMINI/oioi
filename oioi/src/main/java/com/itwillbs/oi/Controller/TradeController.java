@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
 
@@ -42,6 +43,8 @@ public class TradeController {
 	// 거래 메인페이지
 	@GetMapping("trade")
 	public String goTrade( Model model) {
+		
+		
 		
 		 //카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
@@ -166,7 +169,12 @@ public class TradeController {
 	
 	// 상품등록 페이지
 	@GetMapping("product")
-	public String goProductRegist(Model model) {
+	public String goProductRegist(Model model, HttpSession session) {
+		
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.addAttribute("targetURL", "login"));
+			return "err/fail";
+		}
 		// 카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);
