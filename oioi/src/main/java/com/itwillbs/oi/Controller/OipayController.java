@@ -143,7 +143,7 @@ public class OipayController {
 		return "";
 	}
 	
-	@GetMapping("purchase")
+	@GetMapping("purchase") //결제페이지
 	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		
 //		System.out.println(map);
@@ -166,7 +166,7 @@ public class OipayController {
 	}
 
 	
-	@PostMapping("purchase")
+	@PostMapping("purchase") // 결제
 	public String purchasePro(@RequestParam Map<String, String> map, HttpSession session, Model model) {
 		String US_ID = (String)session.getAttribute("US_ID");
 		map.put("US_ID", US_ID);
@@ -184,6 +184,7 @@ public class OipayController {
 		service.purchaseByOimoney(map);
 		
 		model.addAttribute("msg", "결제가 완료되었습니다😊🎉");
+		model.addAttribute("openerReload", true);
 		model.addAttribute("isClose", true);
 		return "err/success";
 	}
