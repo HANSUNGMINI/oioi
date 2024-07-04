@@ -297,7 +297,7 @@
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
 												<li><a href="trade">거래</a></li>
-												<li><a href="#">경매<i class="ti-angle-down"></i></a>
+												<li><a href="auction">경매<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
 														<li><a href="auctionRegist">경매상품등록</a></li>
 														<li><a href="auction">경매리스트</a></li>
