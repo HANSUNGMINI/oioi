@@ -46,25 +46,6 @@
 	
 </script>
 </head>
- <style>
-     .sinlge-bar .single-icon {
-         position: relative;
-     }
-
-     .notification-highlight {
-         color: red !important; /* 색상 변경 */
-         animation: shake 0.5s; /* 흔들림 효과 */
-         animation-iteration-count: infinite;
-     }
-
-     @keyframes shake {
-         0% { transform: rotate(0deg); }
-         25% { transform: rotate(30deg); }
-         50% { transform: rotate(0deg); }
-         75% { transform: rotate(-30deg); }
-         100% { transform: rotate(0deg); }
-     }
- </style>
 <body>
 <header class="header shop v2">
 		<!-- Topbar -->
@@ -371,6 +352,12 @@
                         '</p>' +
                         '</li>';
                     $('#notification-list').append(notificationItem);
+
+                    // 알림 아이콘에 카운트 추가
+                    var icon = $('#notification-icon');
+                    var count = $('<span class="total-count">!</span>'); // 알림 카운트 생성
+                    icon.after(count); // 알림 카운트를 아이콘 뒤에 추가
+
                 }
             } catch (e) {
                 console.error("메시지 파싱 오류:", e, event.data);
@@ -387,6 +374,7 @@
 
         $('#clear-notifications').on('click', function() {
             $('#notification-list').empty();
+            $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
         });
     });
     </script>
