@@ -44,5 +44,9 @@ public interface AuctionMapper {
 
 	Map<String, Object> selectNewAuction();
 
+	int updateApdBuyStatus(Map<String, Object> map);
+
+	void auctionFinalBid(Map<String, Object> map);
+
 
 }

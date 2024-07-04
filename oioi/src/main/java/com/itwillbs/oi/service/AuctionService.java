@@ -90,6 +90,14 @@ public class AuctionService {
 		return mapper.apdPopular();
 	}
 
+	public int apdBuyStatus(Map<String, Object> map) {
+		return mapper.updateApdBuyStatus(map);
+	}
+
+	public void auctionFinalBid(Map<String, Object> map) {
+		mapper.auctionFinalBid(map);
+	}
+
 	
 
 	

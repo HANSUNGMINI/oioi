@@ -55,6 +55,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
    var socket = null;
    var us_id = "${apdDetail.US_ID}";
@@ -65,7 +66,8 @@
 
    $(function(){
      connect();
-      
+     
+     
       $('#sendMsg').on('keypress',function(et) {
          let keyCode = et.keyCode;
          if(keyCode == 13) {
@@ -192,7 +194,9 @@
 //           });
 //       });
       
+    
       
+    
     });
    
    function connect() {
@@ -371,6 +375,7 @@
    
 </head>
 <body class="js">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
    <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
       
       <!-- Breadcrumbs -->
@@ -630,7 +635,34 @@
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
-                                       <a href="#" class="btn">즉시구매</a>
+                                       <a href="#" class="btn" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
+                                       <script type="text/javascript">
+                                       		function auctionBuy(APD_IDX){
+                                       			let us_id = "${sessionScope.US_ID}";
+                                       			let buy_price = "${apdDetail.APD_BUY_NOW_PRICE}";
+                                       			if (!us_id || us_id === 'null') {
+                                       				Swal.fire({
+                                    		            title: '로그인 후 이용이 가능합니다.',         // Alert 제목
+                                    		            text: '로그인 후 충전하시고 구매하셔야합니다',  // Alert 내용
+                                    		            icon: 'warning',                         // Alert 타입
+                                    		        });
+                                    		        return false;
+                                                }
+                                       			$.ajax({
+                                                    url : "auctionBuy",
+                                                    type : "post",
+                                                    data : {
+                                                       APD_IDX : APD_IDX,
+                                                       Buyer : us_id,
+                                                       FINAL_BID_PRICE : buy_price
+                                                    },
+                                                    dataType : "JSON",
+                                                    success: function(response) {
+                                                       console.log("성공 : " + response);
+                                                    }
+                                                 });
+                                       		}
+                                       </script>
                                        <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#notify_model">신고</a>
                                     </div>
                                     <div class="add-to-cart" style="margin-top: 5px;">

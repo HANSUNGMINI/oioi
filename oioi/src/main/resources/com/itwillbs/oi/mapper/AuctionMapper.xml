@@ -187,7 +187,7 @@
 	<update id="updateApdBid">
 		update auction
 		set FINAL_BID_USER = #{FINAL_BID_USER}, FINAL_BID_PRICE = #{FINAL_BID_PRICE}
-		where AT_IDX = #{AT_IDX};
+		where APD_IDX = #{APD_IDX};
 	</update>
 	<update id="updateApdStatus">
 		update auction_product
@@ -269,6 +269,12 @@
 		limit 5
 		]]>
 	</select>
+	
+	<update id="updateApdBuyStatus">
+		update auction_product
+		set APD_STATUS = 'APD07'
+		where APD_IDX = #{APD_IDX}
+	</update>
 </mapper>
 
 

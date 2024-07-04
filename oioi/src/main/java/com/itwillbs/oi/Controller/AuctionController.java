@@ -265,19 +265,6 @@ public class AuctionController {
    @PostMapping("auctionBid")
    public String auctionBid(@RequestParam Map<String, Object> map,Model model) {
       System.out.println("auctionBid : " + map);
-      //기록을 위해 bidding 테이블에 추가
-      
-//      int updateBid = service.updateBid(map);
-//      System.out.println("updateBid 성공 여부" + updateBid);
-//      if(updateBid > 0) {
-//         //상태값을 입찰예정으로 변경
-//         service.updateApdStatus((String)map.get("APD_IDX")); 
-//         return (String)map.get("BID_PRICE");
-//      }else {
-//         model.addAttribute("msg", "입찰에 실패하였습니다.");
-//         model.addAttribute("targetURL", "auctionRegist");
-//          return "err/fail";
-//      }
       
       int updateApdStatus = service.updateApdStatus((String)map.get("APD_IDX"));
       if(updateApdStatus > 0) {
@@ -309,6 +296,33 @@ public class AuctionController {
 	   List<Map<String, String>> dbMap = service.selectBidChart(APD_IDX);
 	   System.out.println("biddingChart(dbMap) : " + dbMap);
 	   return dbMap;
+   }
+   
+   @PostMapping("auctionBuy")
+   public String auctionBuy(@RequestParam Map<String, Object> map, Model model) {
+	   System.out.println("auctionBuy(map) : " + map);
+	   
+	   //경매상품 상태 변경
+	   int buySuccess = service.apdBuyStatus(map);
+	   
+	   if(buySuccess > 0) {
+		   //경매 테이블 갱신
+		   map.put("FINAL_BID_USER", map.get("Buyer"));
+		   service.updateApdBid(map);
+		   System.out.println("auction갱신 성공");
+		   
+		   //입찰테이블 추가
+		   service.insertBid(map);
+		   System.out.println("입찰 성공");
+		   
+		   model.addAttribute("msg", "즉시 구매가 완료되었습니다.");
+		   model.addAttribute("targetURL", "./");
+		   return "err/success";
+	   }else {
+		   model.addAttribute("msg", "즉시 구매가 실패하였습니다.");
+		   return "err/fail";
+	   }
+	   
    }
    
 
