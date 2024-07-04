@@ -230,6 +230,7 @@
 	
 	<select id="selectNewAuction" resultType="map">
 		SELECT a.AT_IDX
+			 , apd.APD_IDX
 			 , apd.APD_NAME
 		     , apd.APD_REG_DATE
 		     , apd.APD_START_PRICE

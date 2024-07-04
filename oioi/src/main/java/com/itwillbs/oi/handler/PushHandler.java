@@ -62,6 +62,7 @@ public class PushHandler extends TextWebSocketHandler {
     		   Map<String, Object> newItem = auctionService.getNewAuctionItems();
                JSONObject jsonItem = new JSONObject();
                jsonItem.put("APD_IMAGE", newItem.get("APD_IMAGE"));
+               jsonItem.put("APD_IDX", newItem.get("APD_IDX"));
                jsonItem.put("APD_NAME", newItem.get("APD_NAME"));
                jsonItem.put("APD_REG_DATE", newItem.get("APD_REG_DATE"));
                jsonItem.put("APD_START_PRICE", newItem.get("APD_START_PRICE"));

@@ -343,7 +343,7 @@
                 if (data.msg === "registAPD") {
                     var item = data.item;
                     var notificationItem = 
-                        '<li>' +
+                    	'<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
                         '<p class="quantity">' +
                             '상품명: ' + item.APD_NAME + '<br>' +
                             '등록 날짜: ' + item.APD_REG_DATE + '<br>' +
@@ -375,6 +375,12 @@
         $('#clear-notifications').on('click', function() {
             $('#notification-list').empty();
             $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
+        });
+        
+     	// 알림 항목 클릭 시 상세 페이지로 이동
+        $('#notification-list').on('click', '.notification-item', function() {
+            var apdIdx = $(this).data('apd-idx');
+            window.location.href = 'auctionDetail?APD_IDX=' + apdIdx;
         });
     });
     </script>
