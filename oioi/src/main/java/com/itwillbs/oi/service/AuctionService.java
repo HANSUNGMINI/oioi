@@ -82,8 +82,8 @@ public class AuctionService {
 		return mapper.selectBidChart(APD_IDX);
 	}
 
-	public List<Map<String, Object>> getNewAuctionItems() {
-		return mapper.selectAuctionList();
+	public Map<String, Object> getNewAuctionItems() {
+		return mapper.selectNewAuction();
 	}
 
 	public List<Map<String, Object>> apdPopular() {

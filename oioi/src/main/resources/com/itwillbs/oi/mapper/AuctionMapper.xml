@@ -84,7 +84,7 @@
 			#{APD_DETAIL},
 			#{APD_CATEGORY},
 			#{APD_IMAGE},
-			'APD01',
+			'APD05',
 			#{APD_DEADLINE},
 			#{APD_CONDITION},
 			#{APD_START_PRICE},
@@ -151,7 +151,6 @@
             i.image3,
             i.image4,
             i.image5,
-            ap.APD_OWNER,
             ap.APD_STATUS,
             ap.APD_REJECTION,
             ap.APD_DEADLINE,
@@ -229,18 +228,21 @@
 		where APD_IDX = #{APD_IDX};
 	</select>
 	
-	<select id="selectAuctionList" resultType="hashmap">
-		SELECT APD_NAME
-			  ,APD_REG_DATE 
-			  ,APD_START_PRICE
-			  ,APD_BUY_NOW_PRICE
-			  , i.image1 AS APD_IMAGE  
-		FROM auction_product ap
-		LEFT JOIN images i 
-		ON i.IMG_IDX = ap.APD_IMAGE 
-		WHERE APD_STATUS = 'APD05'
-		ORDER BY APD_REG_DATE DESC;
+	<select id="selectNewAuction" resultType="map">
+		SELECT a.AT_IDX
+			 , apd.APD_NAME
+		     , apd.APD_REG_DATE
+		     , apd.APD_START_PRICE
+		     , apd.APD_BUY_NOW_PRICE
+		     , i.image1
+		FROM auction a
+		LEFT JOIN auction_product apd
+		  ON a.APD_IDX = apd.APD_IDX
+		LEFT JOIN images i
+		  ON apd.APD_IMAGE  = i.IMG_IDX
+		WHERE AT_IDX = (SELECT max(AT_IDX) FROM auction a2)
 	</select>
+	
 	<select id="apdPopular" resultType="hashmap">
 	<![CDATA[
 		SELECT ap.*, COUNT(b.APD_IDX) AS bid_count,

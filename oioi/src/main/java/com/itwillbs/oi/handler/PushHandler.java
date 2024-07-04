@@ -37,37 +37,14 @@ public class PushHandler extends TextWebSocketHandler {
     	boolean isAdmin = session.getAttributes().get("isAdmin") == null ? false : true;
     	System.out.println("흠");
     	
-        if (senderId != null) {
-            logger.info(senderId + " 연결됨");
-            userSessions.put(senderId, session);
-
-            // 웹소켓 연결 시 최신 3개의 APD05인 상품이 있는지 조회하여 알림을 클라이언트로 전송
-            List<Map<String, Object>> newItems = auctionService.getNewAuctionItems();
-            
-            // 최신순 3개까지만 출력
-            int count = 0;
-            JSONArray jsonArray = new JSONArray();
-            for (Map<String, Object> item : newItems) {
-                JSONObject jsonItem = new JSONObject();
-                jsonItem.put("APD_IMAGE", item.get("APD_IMAGE"));
-                jsonItem.put("APD_NAME", item.get("APD_NAME"));
-                jsonItem.put("APD_REG_DATE", item.get("APD_REG_DATE"));
-                jsonItem.put("APD_START_PRICE", item.get("APD_START_PRICE"));
-                jsonItem.put("APD_BUY_NOW_PRICE", item.get("APD_BUY_NOW_PRICE"));
-                jsonArray.put(jsonItem);
-                
-                count++;
-                if (count >= 3) {
-                    break;
-                }
-            }
-                sendNotificationToClient(session, jsonArray.toString());
-        } else if (isAdmin) {
-        	Map<String, Object> map = (Map<String, Object>)session.getAttributes().get("admin");
-        	adminSessions.put((String)map.get("AD_ID"), session);
-        }
-        
-    }
+    	 if (senderId != null) {
+             logger.info(senderId + " 연결됨");
+             userSessions.put(senderId, session);
+         } else if (isAdmin) {
+             Map<String, Object> map = (Map<String, Object>) session.getAttributes().get("admin");
+             adminSessions.put((String) map.get("AD_ID"), session);
+         }
+     }
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -81,13 +58,26 @@ public class PushHandler extends TextWebSocketHandler {
     			admins.sendMessage(new TextMessage(msg));
     		}
     	} else if (type.equals("toUsers")) {
-    		// 여따가 써라 이.시.윤
-    		for(WebSocketSession user : userSessions.values()) {
-    			user.sendMessage(new TextMessage(msg));
-    		}
+    		// 새로운 경매 물품 등록 정보 조회
+    		   Map<String, Object> newItem = auctionService.getNewAuctionItems();
+               JSONObject jsonItem = new JSONObject();
+               jsonItem.put("APD_IMAGE", newItem.get("APD_IMAGE"));
+               jsonItem.put("APD_NAME", newItem.get("APD_NAME"));
+               jsonItem.put("APD_REG_DATE", newItem.get("APD_REG_DATE"));
+               jsonItem.put("APD_START_PRICE", newItem.get("APD_START_PRICE"));
+               jsonItem.put("APD_BUY_NOW_PRICE", newItem.get("APD_BUY_NOW_PRICE"));
+
+               JSONObject notificationMessage = new JSONObject();
+               notificationMessage.put("msg", "registAPD");
+               notificationMessage.put("item", jsonItem);
+
+               for (WebSocketSession user : userSessions.values()) {
+                   user.sendMessage(new TextMessage(notificationMessage.toString()));
+               }
     	}
+	}
     	
-    }
+    
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

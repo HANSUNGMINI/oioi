@@ -46,6 +46,25 @@
 	
 </script>
 </head>
+ <style>
+     .sinlge-bar .single-icon {
+         position: relative;
+     }
+
+     .notification-highlight {
+         color: red !important; /* 색상 변경 */
+         animation: shake 0.5s; /* 흔들림 효과 */
+         animation-iteration-count: infinite;
+     }
+
+     @keyframes shake {
+         0% { transform: rotate(0deg); }
+         25% { transform: rotate(30deg); }
+         50% { transform: rotate(0deg); }
+         75% { transform: rotate(-30deg); }
+         100% { transform: rotate(0deg); }
+     }
+ </style>
 <body>
 <header class="header shop v2">
 		<!-- Topbar -->
@@ -338,25 +357,21 @@
         };
         
         socket.onmessage = function(event) {
-        	var items = JSON.parse(event.data);
-        	if(items.msg == "registAPD") {
-        		alert("등록됐어 씨빨");
-        	}
-        	return;
             try {
-                var items = JSON.parse(event.data);
-                items.forEach(function(item) {
+                var data = JSON.parse(event.data);
+                if (data.msg === "registAPD") {
+                    var item = data.item;
                     var notificationItem = 
-                    	'<li>' +
+                        '<li>' +
                         '<p class="quantity">' +
                             '상품명: ' + item.APD_NAME + '<br>' +
                             '등록 날짜: ' + item.APD_REG_DATE + '<br>' +
                             '시작 가격: ' + item.APD_START_PRICE + '<br>' +
                             '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
                         '</p>' +
-                    '</li>';
+                        '</li>';
                     $('#notification-list').append(notificationItem);
-                });
+                }
             } catch (e) {
                 console.error("메시지 파싱 오류:", e, event.data);
             }
@@ -374,7 +389,7 @@
             $('#notification-list').empty();
         });
     });
-</script>
+    </script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>
