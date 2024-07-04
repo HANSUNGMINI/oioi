@@ -352,11 +352,10 @@
                     var notificationItem = 
                         '<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
                         '<a class="cart-img" href="#"><img src="' + imagePath + '" alt="#"></a>' +
-                        '<p class="quantity">' +
-                            '상품명: ' + item.APD_NAME + '<br>' +
+                        '<h4>제품명: ' + item.APD_NAME + '<br>' +
                             '시작 가격: ' + item.APD_START_PRICE + '<br>' +
                             '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
-                        '</p>' +
+                        '</h4>' +
                         '</li>';
                     $('#notification-list').append(notificationItem);
 

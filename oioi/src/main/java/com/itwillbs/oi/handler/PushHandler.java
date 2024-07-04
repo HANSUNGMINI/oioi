@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,7 +29,8 @@ public class PushHandler extends TextWebSocketHandler {
     private static final Logger logger = LoggerFactory.getLogger(PushHandler.class);
 
     List<WebSocketSession> sessions = new ArrayList<>();
-    Map<String, WebSocketSession> userSessions = new HashMap<>();
+    
+    Map<String, WebSocketSession> userSessions = new ConcurrentHashMap<String, WebSocketSession>();
     Map<String, WebSocketSession> adminSessions = new HashMap<>();
     private Gson gson = new Gson();
     @Override
@@ -44,6 +46,8 @@ public class PushHandler extends TextWebSocketHandler {
              Map<String, Object> map = (Map<String, Object>) session.getAttributes().get("admin");
              adminSessions.put((String) map.get("AD_ID"), session);
          }
+    	 
+    	 System.out.println("asdddddddddddddddd : " + userSessions);
      }
     
     @Override
@@ -71,8 +75,10 @@ public class PushHandler extends TextWebSocketHandler {
                JSONObject notificationMessage = new JSONObject();
                notificationMessage.put("msg", "registAPD");
                notificationMessage.put("item", jsonItem);
-
+               
                for (WebSocketSession user : userSessions.values()) {
+            	   System.out.println("유저수 : " + userSessions.size());
+            	   System.out.println("asddddddddddddddd2222222d한명의 유저 : " + user);
                    user.sendMessage(new TextMessage(notificationMessage.toString()));
                }
     	}
