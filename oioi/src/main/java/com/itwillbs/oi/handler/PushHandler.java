@@ -82,6 +82,9 @@ public class PushHandler extends TextWebSocketHandler {
     		}
     	} else if (type.equals("toUsers")) {
     		// 여따가 써라 이.시.윤
+    		for(WebSocketSession user : userSessions.values()) {
+    			user.sendMessage(new TextMessage(msg));
+    		}
     	}
     	
     }

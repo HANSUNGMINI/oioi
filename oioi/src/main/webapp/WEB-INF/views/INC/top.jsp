@@ -338,6 +338,11 @@
         };
         
         socket.onmessage = function(event) {
+        	var items = JSON.parse(event.data);
+        	if(items.msg == "registAPD") {
+        		alert("등록됐어 씨빨");
+        	}
+        	return;
             try {
                 var items = JSON.parse(event.data);
                 items.forEach(function(item) {
