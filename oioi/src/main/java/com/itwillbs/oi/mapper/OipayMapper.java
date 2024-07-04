@@ -29,6 +29,10 @@ public interface OipayMapper {
 
 	int selectOiMoney(String id);
 
+	void updatePdStatus(Map<String, String> map);
+
+	void updateUseOimoney(Map<String, String> map);
+
 	
 	// 관리자 엑세스 토큰 정보 저장
 //	void insertAdminToken(BankTokenVO adminToken);

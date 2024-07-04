@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.oi.handler.OipayApiClient;
 import com.itwillbs.oi.mapper.OipayMapper;
@@ -73,6 +74,13 @@ public class OipayService {
 
 	public int selectOiMoney(String id) {
 		return mapper.selectOiMoney(id);
+	}
+
+	@Transactional
+	public void purchaseByOimoney(Map<String, String> map) {
+		mapper.updatePdStatus(map);
+		mapper.updateUseOimoney(map);
+		
 	}
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청

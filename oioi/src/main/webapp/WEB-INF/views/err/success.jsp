@@ -57,12 +57,18 @@
             }
             
             if("${isClose}" == "true") {
-        		if("${targetURL}"!= null) {
+        		if("${targetURL}"!= "") {
         			window.opener.location.href = "${targetURL}";
 					window.opener.opener.location.reload();
         		}
         		window.close();
         	} 
+            
+            
+            if ("${openerReload}" == "true") {
+    			window.opener.location.reload();
+    		}
+            
         });
     </script>
 </body>
