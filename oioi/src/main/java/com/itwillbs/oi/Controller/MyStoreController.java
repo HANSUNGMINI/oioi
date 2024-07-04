@@ -105,6 +105,10 @@ public class MyStoreController {
         user.put("open", open);
         model.addAttribute("visitCount", visitCount);
         
+        // 리뷰 데이터 가져오기
+        List<Map<String, Object>> reviews = storeService.getReviewsByStoreId(userId);
+        model.addAttribute("reviews", reviews);
+        
         // 공통 코드를 조회하여 모델에 추가
         List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
         List<Map<String, Object>> myPD = storeService.selectMyPd(userId);

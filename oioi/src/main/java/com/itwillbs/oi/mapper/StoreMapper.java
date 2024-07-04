@@ -30,5 +30,6 @@ public interface StoreMapper {
 
 	int updateProduct(Map<String, Object> productInfo);
 
+	List<Map<String, Object>> selectReviewsByStoreId(String userId);
 
 }

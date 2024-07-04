@@ -56,6 +56,11 @@ public class StoreService {
 		return mapper.updateProduct(productInfo);
 	}
 
+   public List<Map<String, Object>> getReviewsByStoreId(String userId) {
+	   
+		return mapper.selectReviewsByStoreId(userId);
+	}
+   
 
 
 }

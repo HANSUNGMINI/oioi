@@ -179,7 +179,7 @@
 
         .product-info-bottom {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end; /* 텍스트를 오른쪽으로 정렬 */
             align-items: center;
             margin-top: 10px;
         }
@@ -242,6 +242,41 @@
         #edit-button:hover, #save-button:hover {
             background-color: #218838;
         }
+
+        .star-rating {
+            color: #ffcc00;
+            font-size: 1.2em;
+        }
+
+        .review-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .review-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .review-item .review-content {
+            flex-grow: 1;
+        }
+
+        .review-item .review-categories {
+            margin-top: 10px;
+        }
+
+        .review-item .review-categories span {
+            display: inline-block;
+            margin-right: 5px;
+            padding: 5px 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body class="js">
@@ -262,9 +297,9 @@
                                             <img id="profile-pic" src="${user.US_PROFILE}" width="287px;" height="204px;" alt="#">
                                         </c:otherwise>
                                     </c:choose>
-									<c:if test="${user.US_ID eq sessionScope.US_ID}">
-                                   		<label for="profile-pic-input" id="change-pic-button">프로필 사진 변경</label>
-                                    	<input type="file" id="profile-pic-input" name="file1" style="display:none;">
+                                    <c:if test="${user.US_ID eq sessionScope.US_ID}">
+                                        <label for="profile-pic-input" id="change-pic-button">프로필 사진 변경</label>
+                                        <input type="file" id="profile-pic-input" name="file1" style="display:none;">
                                     </c:if>
                                 </div>
                             </div>
@@ -347,8 +382,8 @@
                                                                     <div class="product-info-bottom">
                                                                         <div class="product-price">${product.PD_PRICE} 원</div>
                                                                         <div class="product-date">${product.timeAgo}</div>
-                                                                    </a>
-                                                                </div>
+                                                                    </div>
+                                                                </a>
                                                             </div>
                                                         </c:forEach>
                                                     </div>
@@ -366,12 +401,43 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="single-des">
-                                                        <h5>상점 후기 0</h5>
+                                                        <h5>상점 후기 ${fn:length(reviews)}</h5>
                                                     </div>
                                                     <hr>
-                                                    <div class="single-des">
-                                                        <p>상점후기가 없습니다.</p>
-                                                    </div>
+                                                    <c:if test="${empty reviews}">
+                                                        <div class="single-des">
+                                                            <p>상점후기가 없습니다.</p>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:forEach var="review" items="${reviews}">
+                                                        <div class="review-item">
+                                                            <img src="${review.FROM_US_PROFILE}" alt="${review.FROM_US_ID}">
+                                                            <div class="review-content">
+                                                                <div>
+                                                                    <strong>${review.FROM_US_ID}</strong>
+                                                                    <div class="star-rating">
+                                                                        <c:forEach var="i" begin="1" end="${review.RV_STAR}">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </c:forEach>
+                                                                        <c:forEach var="i" begin="${review.RV_STAR + 1}" end="5">
+                                                                            <i class="fa fa-star-o"></i>
+                                                                        </c:forEach>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="productDetail?PD_IDX=${review.PD_IDX}">${review.PD_SUBJECT}</a>
+                                                                </div>
+                                                                <p>${review.RV_CONTENT}</p>
+                                                                <div class="review-categories">
+                                                                    <c:forEach var="category" items="${fn:split(review.RV_CATEGORY, '/')}">
+                                                                        <span>${category}</span>
+                                                                    </c:forEach>
+                                                                </div>
+                                                                <small>${review.RV_TIME}</small>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </c:forEach>
                                                 </div>
                                             </div>
                                         </div>
@@ -446,31 +512,31 @@
             document.getElementById("intro-textarea").value = document.querySelector("#intro-text p").innerText;
         });
 
-		// 소개글 확인 버튼 클릭 시 텍스트를 업데이트하고 편집 영역을 숨김
+        // 소개글 확인 버튼 클릭 시 텍스트를 업데이트하고 편집 영역을 숨김
         document.getElementById("save-button").addEventListener("click", function() {
-		    const newText = document.getElementById("intro-textarea").value;
-		
-		    $.ajax({
-		        url: 'editText',  // 소개글 저장을 위한 서버의 URL
-		        type: 'POST',      // 요청 타입
-		        data: { editText: newText }, // 전송할 데이터
-		        success: function(response) {
-		            console.log("서버 응답: ", response);
-		            if (response.success) {
-		                // 업데이트 성공 시, 소개글 텍스트 업데이트
-		                document.querySelector("#intro-text p").innerText = newText;
-		                document.getElementById("intro-text").style.display = "block";
-		                document.getElementById("edit-area").style.display = "none";
-		            } else {
-		                alert('소개글 저장에 실패했습니다: ' + response.message);
-		            }
-		        },
-		        error: function(xhr, status, error) {
-		            console.log("AJAX 요청 오류: ", status, error);
-		            alert('소개글 저장 중 오류가 발생했습니다.');
-		        }
-		    });
-		});
+            const newText = document.getElementById("intro-textarea").value;
+
+            $.ajax({
+                url: 'editText',  // 소개글 저장을 위한 서버의 URL
+                type: 'POST',      // 요청 타입
+                data: { editText: newText }, // 전송할 데이터
+                success: function(response) {
+                    console.log("서버 응답: ", response);
+                    if (response.success) {
+                        // 업데이트 성공 시, 소개글 텍스트 업데이트
+                        document.querySelector("#intro-text p").innerText = newText;
+                        document.getElementById("intro-text").style.display = "block";
+                        document.getElementById("edit-area").style.display = "none";
+                    } else {
+                        alert('소개글 저장에 실패했습니다: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("AJAX 요청 오류: ", status, error);
+                    alert('소개글 저장 중 오류가 발생했습니다.');
+                }
+            });
+        });
 
         // 텍스트 영역에서 입력할 때 최대 4줄로 제한
         document.getElementById("intro-textarea").addEventListener("input", function() {

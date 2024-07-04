@@ -216,8 +216,10 @@
 
         //카테고리 ==================================================================
         $(document).ready(function() {
+        	let cate1 = JSON.parse('${cate1}'); // 자바쌤이 여기까지 봐주셨음
             let cate2 = JSON.parse('${cate2}');
             let cate3 = JSON.parse('${cate3}');
+            debugger;
             console.log('cate2:', cate2);
             console.log('cate3:', cate3);
 
