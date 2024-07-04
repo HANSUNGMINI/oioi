@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<!-- 파비콘 -->
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 		
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
@@ -196,11 +198,15 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-<%-- 	                        		<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
+<%-- 	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
-<%-- 	                        		</c:if> --%>
-		                        	<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
+<!-- 			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li> -->
+<%-- 	                        	</c:if> --%>
+
+									<c:if test="${info.PD_STATUS eq 'PDS01'}">
+		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
+		                        	</c:if>
+	    	                    	<li><a id="d4" onclick="transaction()">구매확정</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
@@ -315,7 +321,7 @@
 			        <h4 class="modal-title">신고하기</h4>
 			      </div>
 			
-		      	<form action="report" method="post" enctype="multipart/form-data">
+		      	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			      	
@@ -365,7 +371,7 @@
 			        <h4 class="modal-title">리뷰 작성하기</h4>
 			      </div>
 			
-		       <form action="reviewWrite" method="post" name="review_fr" onsubmit="return validateForm()">
+		       <form action="reviewWrite" method="post" name="review_fr" onsubmit="return validateReview()">
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			       		<div id="review_category" style="text-align: justify;">
@@ -422,7 +428,8 @@
 		4. setRating(value, reservIdx) 	: 별점 매기기
 		5. goStore()					: 상점 바로가기
 		6. goProductDetail()			: 거래 상품 디테일 바로라기
-		7. validateForm() 				: 리뷰 유효성 검사 및 체크박스 합치기
+		7. validateReview() 			: 리뷰 유효성 검사 및 체크박스 합치기
+		8. validateReport()				: 신고 유효성 검사
 		*/
     
 		
@@ -435,6 +442,28 @@
 				detail.style.display = "none";
 			}
 		}
+		/* [ 신고 ] */
+		function validateReport() {
+		    const radios = document.getElementsByName('RP_CATEGORY');
+		    let isChecked = false;
+		    
+		    for (const radio of radios) {
+		        if (radio.checked) {
+		            isChecked = true;
+		            break;
+		        }
+		    }
+		    
+		    if (!isChecked) {
+		    	Swal.fire({
+                    title: '카테고리를 선택해 주세요',
+                    icon: 'warning',
+                });
+		        return false;
+		    }
+		    
+		    return true;
+		}		
 		
 		/* [ 리뷰 ] */
 		/* 별점 개수에 따른 이모지 */
@@ -475,7 +504,7 @@
 	});
 		
 		/* 리뷰 유효성 검사 및 체크박스 합치기 */
-		function validateForm() {
+		function validateReview() {
 		    const checkboxes = document.getElementsByName('RV_CATEGORY');
 		    const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 		
@@ -510,13 +539,13 @@
 		}
 		
 		
-		/* 판매완료 */
+		/* 구매확정 */
 		function transaction() {
 			let nick = '${info.US_NICK}';
 			
 			Swal.fire({
-				   title: nick + '님과 거래 확정하시겠습니까?',
-// 				   text: ',
+				   title: '구매 확정하시겠습니까?',
+				   text: '구매 확정 시, 돈이 송금되며 취소 불가능합니다.',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음

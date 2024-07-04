@@ -62,7 +62,7 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
-		// 닉네임 및 상품 제목 가져오기 + 상대방 프로필
+		// 닉네임 및 상품 제목 가져오기 + 상대방 프로필 + 상품 상태
 		Map<String, String> info = service.getUserInfo(map);
 		System.out.println(">>>>>> " + info);
 		
