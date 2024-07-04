@@ -61,6 +61,7 @@
    var apd_idx = "${apdDetail.APD_IDX}";
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
+   console.log("session_id : " + session_id);
 
    $(function(){
      connect();
@@ -566,9 +567,10 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <!-- 셀렉트 박스 -->
+                    <input type="hidden" name="TO_ID" value="${sessionScope.US_ID}">
                     <div class="form-group">
                         <label for="deliver_category">신고할 사람</label>
-                        <select name="reportUser" id="reportUser" class="form-control" style="width: 200px;">
+                        <select name="FROM_US_ID" id="reportUser" class="form-control" style="width: 200px;">
                         </select>
                     </div>
                     <!-- 라디오박스 -->

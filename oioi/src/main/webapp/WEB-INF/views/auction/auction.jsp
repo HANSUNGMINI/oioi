@@ -192,7 +192,7 @@
 							<!-- 제품 하나하나 -->
 							<div class="single-product">
 								<div class="product-img">
-									<a href="productDetail?PD_IDX=${popular.APD_IDX}">
+									<a href="auctionDetail?APD_IDX=${popular.APD_IDX}">
 										<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${popular.APD_MAIN_IMAGE}">
 	<!-- 									<img class="hover-img"   alt="#"> -->
 										<span class="${popular.APD_STATUS_COLOR}">${popular.APD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
@@ -202,7 +202,7 @@
 											<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
 										</div>
 										<div class="product-action-2">
-											<a title="Add to cart" href="productDetail?PD_IDX=${popular.APD_IDX}">상품 상세페이지로 바로가기</a>
+											<a title="Add to cart" href="auctionDetail?APD_IDX=${popular.APD_IDX}">상품 상세페이지로 바로가기</a>
 										</div>
 									</div>
 								</div>

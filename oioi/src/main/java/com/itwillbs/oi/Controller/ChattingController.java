@@ -90,7 +90,7 @@ public class ChattingController {
 	public String reportUser(@RequestParam Map<String, String> map
 							, @RequestParam("RP_IMG") MultipartFile[] files
 							, Model model) {
-		
+		System.out.println("report(map) : " + map);
 //		ReportHandler report = new ReportHandler();
 //		int insertCount = report.reportProcess(map, files);
 		
