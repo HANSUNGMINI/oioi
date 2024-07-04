@@ -331,6 +331,7 @@
 	 <!-- JavaScript 및 WebSocket 관련 스크립트 -->
     <script>
     $(document).ready(function() {
+   	 	var contextPath = '<%= request.getContextPath() %>';
         var socket = new WebSocket('ws://localhost:8081/oi/push');
 
         socket.onopen = function() {
@@ -342,11 +343,17 @@
                 var data = JSON.parse(event.data);
                 if (data.msg === "registAPD") {
                     var item = data.item;
+                    
+                    // 알림 메시지 추가
+                    $('#notification-push').html('<span>새로운 경매정보가 도착하였습니다. <br> 지금 바로 참여해보세요!</span>');
+                    // 이미지 경로 설정
+                	var imagePath = contextPath + '/resources/upload/' + item.APD_IMAGE;
+
                     var notificationItem = 
-                    	'<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
+                        '<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
+                        '<a class="cart-img" href="#"><img src="' + imagePath + '" alt="#"></a>' +
                         '<p class="quantity">' +
                             '상품명: ' + item.APD_NAME + '<br>' +
-                            '등록 날짜: ' + item.APD_REG_DATE + '<br>' +
                             '시작 가격: ' + item.APD_START_PRICE + '<br>' +
                             '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
                         '</p>' +
@@ -356,7 +363,7 @@
                     // 알림 아이콘에 카운트 추가
                     var icon = $('#notification-icon');
                     var count = $('<span class="total-count">!</span>'); // 알림 카운트 생성
-                    icon.after(count); // 알림 카운트를 아이콘 뒤에 추가
+                    icon.after(count); // 알림 카운트 추가
 
                 }
             } catch (e) {
@@ -375,6 +382,7 @@
         $('#clear-notifications').on('click', function() {
             $('#notification-list').empty();
             $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
+            $('#notification-push').empty(); // 알림 메시지 제거
         });
         
      	// 알림 항목 클릭 시 상세 페이지로 이동
@@ -383,6 +391,7 @@
             window.location.href = 'auctionDetail?APD_IDX=' + apdIdx;
         });
     });
+
     </script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>

@@ -235,7 +235,7 @@
 		     , apd.APD_REG_DATE
 		     , apd.APD_START_PRICE
 		     , apd.APD_BUY_NOW_PRICE
-		     , i.image1
+		     , i.image1 AS APD_IMAGE
 		FROM auction a
 		LEFT JOIN auction_product apd
 		  ON a.APD_IDX = apd.APD_IDX
