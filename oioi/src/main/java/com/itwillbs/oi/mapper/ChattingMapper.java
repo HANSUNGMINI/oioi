@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.itwillbs.oi.vo.ProductChatVO;
+
 @Mapper
 public interface ChattingMapper {
 
@@ -22,6 +24,8 @@ public interface ChattingMapper {
 	int insertReport(Map<String, String> map); // 신고 처리
 	int insertReview(Map<String, String> map); // 리뷰 처리
 	// -------------------------------------------
+
+	// ----------- 채팅 ----------------
 
 
 }

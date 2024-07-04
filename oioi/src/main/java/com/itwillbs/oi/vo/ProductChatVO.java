@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class ProductChatVO {
 	private String type;
 	private String msg;
-	private String roomId;
+	private String TO_ID;
 	private String US_ID;
-	private String unReadCount;
+	private String PD_IDX;
 	
 	
 	// type 변수에 사용될 값을 상수로 생성

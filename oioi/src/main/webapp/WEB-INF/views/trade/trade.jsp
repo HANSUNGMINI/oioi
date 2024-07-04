@@ -52,6 +52,10 @@
         .single-widget.category {
             height: 250px;        
         }
+        
+        #recentProduct{
+        	color : #34A853
+        }
     </style>
     
     <script type="text/javascript">
@@ -222,7 +226,7 @@
                                +' </div>'
                                +'     <div class="content">'
                                +'         <h5 style="text-overflow: ellipsis;"><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
-                               +'        <small>'+ pr.RD_DATE +'</small>'
+                               +'        <small style="color:black">'+ pr.RD_DATE +'</small>'
                                +'        <p class="price">'+ pr.PD_PRICE +' 원'
                                +' </div>'
                                +' </div>'
@@ -290,7 +294,7 @@
                         
                         <!-- Single Widget -->
                         <div class="single-widget recent-post" >
-                            <h3 class="title" id="recentProduct" style="text-align:center;">최근 본 상품</h3>
+                            <h3 class="title" id="recentProduct" style="text-align:center;"> 👕 최근 본 상품 👕 </h3>
                             <!-- Single Post -->
                             
 <!--                                 <div class="image"> -->

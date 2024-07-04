@@ -74,15 +74,8 @@
     // -------------------------------------------------------
     
     function onOpen() {
+    	startChat();
 		console.log("웹 소켓 연결")
-		
-		let data = {
-			"US_ID" : "${param.US_ID}",
-			"TYPE"	: "ENTER_CHAT"
-		};
-		
-		let jsonData = JSON.stringify(data);
-		ws.send(jsonData);
     }
     
     function onClose() {
@@ -98,20 +91,21 @@
 	}
     
     // -------------------------------------------------------
-	function saveInfo(message) {
-    	let WHO_ID = "${param.US_ID}";
+    function startChat() {
     	let TO_ID = "${param.TO_ID}";
-    	let FROM_ID = '${param.US_ID}';
-    	
-//     	if(TO_ID != WHO_ID) {
-// 			FROM_ID = WHO_ID	
-//     	}
+    	sendMessage(toJsonString("INIT", TO_ID, "", ""));
+    }
+    
+    // -------------------------------------------------------
+	function saveInfo(message) {
     }
     	
     // -------------------------------------------------------
-    function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달
+    function toJsonString(type, TO_ID, room_id, msg){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
     		type : type,
+    		TO_ID : TO_ID,
+			room_id : room_id,
     		msg : msg
     	};
     
@@ -119,27 +113,8 @@
     }
     
     // -----------------------------------------------------------
-    function sendMessage() {
-    	let msg = $("#textMsg").val(); 
-    	
-    	// 입력하지 않았을 경우, 전송을 막는다
-    	if(msg == '') {
-    		$("#textMsg").focus();
-    		return;
-    	}
-    	
-    	// 서버측으로 메세지 전송
-    	ws.send(toJsonString("TALK",msg));
-    	
-    	// div 출력
-    	appendMessage(msg,"right","other");
-    	
-    	// DB 저장
-    	saveInfo(msg);
-    	
-    	// 초기화
-    	$("#textMsg").val("");
-		$("#textMsg").focus();
+    function sendMessage(type, TO_ID, room_id, msg) {
+    	ws.send(toJsonString(type, TO_ID, room_id, msg));
     }
     
     // -----------------------------------------------------------
