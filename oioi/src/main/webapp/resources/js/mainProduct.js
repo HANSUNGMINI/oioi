@@ -66,7 +66,7 @@
 				var owl = $("#recentLookProduct")
 				
 				$.each(productList, function(index, pr) {
-					// alert( pr.PD_IMAGE);
+					//alert( pr.IMG);
 				
 					// 뽑아내기
 					let productDetail = 

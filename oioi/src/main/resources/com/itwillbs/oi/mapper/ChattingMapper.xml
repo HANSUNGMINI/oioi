@@ -58,7 +58,8 @@
 			,#{RV_STAR}
 			,#{RV_CATEGORYS}
 			,#{RV_CONTENT}
-			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')	
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			,#{PD_IDX}	
 		)
 	</insert>
 	

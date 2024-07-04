@@ -200,7 +200,7 @@
 	                        		
 <%-- 	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-<!-- 			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li> -->
+			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li>
 <%-- 	                        	</c:if> --%>
 
 									<c:if test="${info.PD_STATUS eq 'PDS01'}">
@@ -404,6 +404,7 @@
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 			        <input type="hidden" name="TO_US_ID" value="${param.TO_ID}">
 			        <input type="hidden" name="FROM_US_ID" value="${param.US_ID}">
+			        <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
 			      </div>
 			
                    </form>
@@ -430,6 +431,7 @@
 		6. goProductDetail()			: 거래 상품 디테일 바로라기
 		7. validateReview() 			: 리뷰 유효성 검사 및 체크박스 합치기
 		8. validateReport()				: 신고 유효성 검사
+		9. soldout()					: 판매 완료
 		*/
     
 		
@@ -441,6 +443,34 @@
 			} else {
 				detail.style.display = "none";
 			}
+		}
+		
+		/* [ 판매 완료 ] */
+		function soldout() {
+			Swal.fire({
+				   title: '판매 완료로 변경하시겠습니까?',
+// 				   text: '',
+				   icon: 'warning',
+				   
+				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+				   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+				   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+				   confirmButtonText: '완료', // confirm 버튼 텍스트 지정
+				   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+				   
+				   reverseButtons: false, // 버튼 순서 거꾸로
+				   
+				}).then(result => {
+				   // 만약 Promise리턴을 받으면,
+				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   
+				      Swal.fire('판매 완료되었습니다.', '감사합니다', 'success');
+//				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
+						document.querySelector("#detail").style.display = "none";
+						document.querySelector("#review").style.display = "block";
+				   }
+				});
+			
 		}
 		/* [ 신고 ] */
 		function validateReport() {
@@ -562,8 +592,6 @@
 				   
 				      Swal.fire('거래 완료되었습니다.', '감사합니다', 'success');
 // 				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
-						document.querySelector("#detail").style.display = "none";
-						document.querySelector("#review").style.display = "block";
 				   }
 				});
 			
