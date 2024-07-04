@@ -159,13 +159,27 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
+					
 					if(response > 0 ) {
 						alert("성공적으로 변경되었습니다!")
 					} else {
 						alert("변경에 실패했습니다")
 					}
-				}
+					
+					var socket = new WebSocket('ws://localhost:8081/oi/push');
+					socket.send(toJsonString("toUsers", "registAPD"));
+					
+				} // success 끝
 			})
+		}
+		
+		function toJsonString(type, msg){
+			let data = {
+				type : type,
+				msg : msg
+			};
+			
+			return JSON.stringify(data);
 		}
 	</script>
 	<!-- Jquery -->

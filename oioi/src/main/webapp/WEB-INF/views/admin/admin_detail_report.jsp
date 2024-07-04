@@ -88,8 +88,8 @@
 										<h4>신고 내용 상세</h4>
 									</div>
 									<div class="color" style="margin-top: 30px;">
-										<p class="price"><span class="discount">신고자</span> : ${report.TO_US_ID}</p>
-										<p class="price"><span class="discount">신고 대상자</span>: ${report.FROM_US_ID}</p><br>
+										<p class="price"><span class="discount">신고자</span> : ${report.FROM_US_ID}</p>
+										<p class="price"><span class="discount">신고 대상자</span>: ${report.TO_US_ID}</p><br>
 									</div>
 									<hr>
 									<div class="size">
