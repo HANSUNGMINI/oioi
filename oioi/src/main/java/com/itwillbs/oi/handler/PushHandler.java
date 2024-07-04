@@ -35,6 +35,7 @@ public class PushHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     	String senderId = getUserId(session);
     	boolean isAdmin = session.getAttributes().get("isAdmin") == null ? false : true;
+    	System.out.println("흠");
     	
         if (senderId != null) {
             logger.info(senderId + " 연결됨");
@@ -66,15 +67,11 @@ public class PushHandler extends TextWebSocketHandler {
         	adminSessions.put((String)map.get("AD_ID"), session);
         }
         
-//        for(WebSocketSession admins : adminSessions.values()) {
-//			admins.sendMessage(new TextMessage("ㅎㅋ"));
-//			System.out.println(Integer.toString(userSessions.keySet().size()));
-//			System.out.println("!!!!!!!!");
-//		}
     }
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    	System.out.println(message.getPayload());
     	String msg = message.getPayload();
     	Map<String, Object> map = gson.fromJson(msg, Map.class);
     	String type = (String)map.get("type");

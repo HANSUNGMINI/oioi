@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
     <title> 상세이미지 </title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src = "${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	<!-- Favicon -->
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
@@ -162,12 +162,19 @@
 					
 					if(response > 0 ) {
 						alert("성공적으로 변경되었습니다!")
+						
+						if($("#APD_STATUS").val() == "APD05") {
+							let socket = new WebSocket('ws://localhost:8081/oi/push');
+							socket.onopen = function (){
+								socket.send(toJsonString("toUsers", "registAPD"));
+							};
+						}
+						
 					} else {
 						alert("변경에 실패했습니다")
 					}
 					
-					var socket = new WebSocket('ws://localhost:8081/oi/push');
-					socket.send(toJsonString("toUsers", "registAPD"));
+					
 					
 				} // success 끝
 			})
@@ -178,7 +185,6 @@
 				type : type,
 				msg : msg
 			};
-			
 			return JSON.stringify(data);
 		}
 	</script>
