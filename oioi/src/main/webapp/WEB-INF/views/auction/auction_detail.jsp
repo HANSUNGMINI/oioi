@@ -202,6 +202,8 @@
    console.log('경매 연결');
    appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center");
    socket.send(toJsonString("ENTER", ""));
+   
+//    socket.send(JSON.stringify(dataSend));
    };
    
    ws.onmessage = function(event) {
@@ -242,7 +244,15 @@
    }
 
    function appendMessage(sender, msg, align_type) {
+	   var seller = "${apdDetail.APD_OWNER}";
+	   console.log("us_id(sender비교전) : " + seller);
+	   console.log("sender(sender비교전) : " + sender);
        var html = '';
+       if(seller == sender){
+		   sender = sender + '(판매자)';
+	   }
+       
+       console.log("sender(sender비교전) : " + sender);
        if (align_type === "right") {
            html += '<li class="clearfix chatViewMe">' +
                '<div class="message other-message float-right">' +
@@ -250,6 +260,8 @@
                '</div>' +
                '</li>';
        } else if (align_type === "left") {
+    	   
+    	   
            html += '<li class="clearfix chatViewYou">' +
                '<div class="message-avatar">' +
                '<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +

@@ -56,7 +56,6 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         Map<String, Object> attributes = session.getAttributes();
         String US_ID = (String) attributes.get("US_ID");
         String APD_IDX = (String) attributes.get("APD_IDX");
-
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "TALK");
         jo.addProperty("US_ID", US_ID);
