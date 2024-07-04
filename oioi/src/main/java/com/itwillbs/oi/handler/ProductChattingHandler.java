@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -16,24 +17,18 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.itwillbs.oi.service.ChattingService;
 import com.itwillbs.oi.vo.ProductChatVO;
 
 
 public class ProductChattingHandler extends TextWebSocketHandler{
     
+		@Autowired
+		private ChattingService service;
+	
         private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); // 현재 들어와 있는 세션 정보 
         private Map<String, String> userSessions = new ConcurrentHashMap<String, String>(); // 저장된 세션 정보들
         private Gson gson = new Gson();
-        
-        // {채팅방1 = {유저1 = 세션값, 유저2 = 세션값}}
-        private Map<String, Map<String, WebSocketSession>> roomMap;
-        
-        public ProductChattingHandler() {
-            roomMap = new HashMap<String, Map<String, WebSocketSession>>();
-        }
-    
-        // 채팅방 목록 <방 번호, ArrayList<session> >이 들어간다.
-        private Map<String, ArrayList<WebSocketSession>> RoomList = new ConcurrentHashMap<String, ArrayList<WebSocketSession>>();
         
         //커넥션이 연결 됫을때(접속을 성공했을때마다)
         @Override
@@ -52,16 +47,12 @@ public class ProductChattingHandler extends TextWebSocketHandler{
         // 텍스트
         @Override
         public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { 
-            // 만약 1:1 채팅 기능을 통해 상대방을 지정하여 메세지 전송 시
-            // 세션 아이디로 상대방의 객체 알아내는 방법
-            String sId = session.getAttributes().get("US_ID").toString();
-            String wsSessionId = userSessions.get(sId);
-            WebSocketSession receiverWsSession = users.get(wsSessionId);
             
             String jsonMsg = message.getPayload();
             System.out.println("전송받은 메세지의 payload : " + jsonMsg); // {"type":"TALK","msg":"ㅎㅇ"} 
             
             ProductChatVO chat = gson.fromJson(jsonMsg, ProductChatVO.class); // 
+
             System.out.println("chat >>> " + chat);
             sendMessage(session, chat);
         
@@ -90,6 +81,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 //          super.handleTextMessage(session, message);
             
         }
+        
         //커넥션이 끝났을때
         @Override
         public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

@@ -18,7 +18,10 @@
 	</select>
 	
 	<select id="getUserInfo" resultType="hashmap">
-		SELECT u.US_NICK, p.PD_SUBJECT, u.US_PROFILE
+		SELECT u.US_NICK
+			, p.PD_SUBJECT
+			, u.US_PROFILE
+			, p.PD_STATUS
 		FROM `user` u
 		JOIN product p 
 		ON p.US_ID = u.US_ID
@@ -58,6 +61,8 @@
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')	
 		)
 	</insert>
+	
+
 </mapper>
 
 

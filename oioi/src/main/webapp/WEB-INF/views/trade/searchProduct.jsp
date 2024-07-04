@@ -14,7 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
     <title> 판매페이지 </title>
-    <!-- Favicon -->
+	<!-- 파비콘 -->
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
     <!-- <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> -->
     <!-- Web Font -->    
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
@@ -81,7 +82,7 @@
                    if (productList.length === 0) {
                 	   $('#searchInfo').empty();
                 	   $('#searchInfo').append(
-                		'<h3 style="text-align: center;"> 검색한 결과가 존재하지 않습니다. 😢</h3>'	   
+                		'<h3 style="text-align: center;"> <span style="color:#34A853">' + keyword + '</span> (으)로 검색한 결과가 존재하지 않습니다. 😢</h3>'	   
                 	   );
                    } else { 
                 	   $('#searchInfo').append(

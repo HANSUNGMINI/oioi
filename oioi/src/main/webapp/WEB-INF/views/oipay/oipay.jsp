@@ -307,7 +307,6 @@
         // 충전하기 버튼 클릭 시
         $(".payCharge").on("click", function () {
         	
-        	
 	       	let fintech_use_num = $("#fintech_use_num").val();
         	let account_holder_name = $("#account_holder_name").val();
         	let account_num_masked = $("#account_num_masked").val();
@@ -326,8 +325,9 @@
                 success: function (response) {
                     if(response != null){
                     	alert(amtInput.value+ "머니가 충전되었습니다.");
-//                     	window.opener.location.reload();
+                    	window.opener.location.reload();
                     	window.location.reload();
+                    	
                     } else{
                     	alert("충전 실패😭😭");
                     }
@@ -340,30 +340,37 @@
         		
         	}
             
-        });
+        }); // 충전버튼
 
         // 출금하기 버튼 클릭 시
-//         $(".payRefund").click(function () {
-//             $.ajax({
-//                 type: "POST",
-//                 url: "yourRefundUrl", 
-//                 data: {
-                	
-//                 },
-//                 dataType : {
-                	
-//                 },
-//                 success: function (response) {
-                    
-//                 },
-//                 error: function () {
-//                     alert("출금하기 요청 실패");
-//                 }
-//             });
-//         });
+        $(".payRefund").click(function () {
+        	
+        	let fintech_use_num = $("#fintech_use_num").val();
+        	let account_holder_name = $("#account_holder_name").val();
+        	let account_num_masked = $("#account_num_masked").val();
+        	
+        	if(amtInput.value) {
+	            $.ajax({
+	                type: "POST",
+	                url: "yourRefundUrl", 
+	                data: {
+	                	
+	                },
+	                dataType : {
+	                	
+	                },
+	                success: function (response) {
+	                    
+	                },
+	                error: function () {
+	                    alert("출금하기 요청 실패");
+	                }
+	            });
+        	}
+        }); // 출금버튼
         
         
-    });
+    }); // ready
     
     
 </script>

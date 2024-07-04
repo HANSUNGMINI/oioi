@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<!-- 파비콘 -->
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 		
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
@@ -74,15 +76,8 @@
     // -------------------------------------------------------
     
     function onOpen() {
+    	startChat();
 		console.log("웹 소켓 연결")
-		
-		let data = {
-			"US_ID" : "${param.US_ID}",
-			"TYPE"	: "ENTER_CHAT"
-		};
-		
-		let jsonData = JSON.stringify(data);
-		ws.send(jsonData);
     }
     
     function onClose() {
@@ -98,20 +93,21 @@
 	}
     
     // -------------------------------------------------------
-	function saveInfo(message) {
-    	let WHO_ID = "${param.US_ID}";
+    function startChat() {
     	let TO_ID = "${param.TO_ID}";
-    	let FROM_ID = '${param.US_ID}';
-    	
-//     	if(TO_ID != WHO_ID) {
-// 			FROM_ID = WHO_ID	
-//     	}
+    	sendMessage(toJsonString("INIT", TO_ID, "", ""));
+    }
+    
+    // -------------------------------------------------------
+	function saveInfo(message) {
     }
     	
     // -------------------------------------------------------
-    function toJsonString(type, msg){ // 파라미터들을 객체로 묶은 후 전달
+    function toJsonString(type, TO_ID, room_id, msg){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
     		type : type,
+    		TO_ID : TO_ID,
+			room_id : room_id,
     		msg : msg
     	};
     
@@ -119,27 +115,8 @@
     }
     
     // -----------------------------------------------------------
-    function sendMessage() {
-    	let msg = $("#textMsg").val(); 
-    	
-    	// 입력하지 않았을 경우, 전송을 막는다
-    	if(msg == '') {
-    		$("#textMsg").focus();
-    		return;
-    	}
-    	
-    	// 서버측으로 메세지 전송
-    	ws.send(toJsonString("TALK",msg));
-    	
-    	// div 출력
-    	appendMessage(msg,"right","other");
-    	
-    	// DB 저장
-    	saveInfo(msg);
-    	
-    	// 초기화
-    	$("#textMsg").val("");
-		$("#textMsg").focus();
+    function sendMessage(type, TO_ID, room_id, msg) {
+    	ws.send(toJsonString(type, TO_ID, room_id, msg));
     }
     
     // -----------------------------------------------------------
@@ -221,11 +198,15 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-<%-- 	                        		<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
+<%-- 	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li>
-<%-- 	                        		</c:if> --%>
-		                        	<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
+<!-- 			                        	<li><a id="d2" onclick="transaction()">판매 완료</a></li> -->
+<%-- 	                        	</c:if> --%>
+
+									<c:if test="${info.PD_STATUS eq 'PDS01'}">
+		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
+		                        	</c:if>
+	    	                    	<li><a id="d4" onclick="transaction()">구매확정</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
@@ -340,7 +321,7 @@
 			        <h4 class="modal-title">신고하기</h4>
 			      </div>
 			
-		      	<form action="report" method="post" enctype="multipart/form-data">
+		      	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			      	
@@ -390,7 +371,7 @@
 			        <h4 class="modal-title">리뷰 작성하기</h4>
 			      </div>
 			
-		       <form action="reviewWrite" method="post" name="review_fr" onsubmit="return validateForm()">
+		       <form action="reviewWrite" method="post" name="review_fr" onsubmit="return validateReview()">
 			      <!-- Modal body -->
 			      <div class="modal-body">
 			       		<div id="review_category" style="text-align: justify;">
@@ -447,7 +428,8 @@
 		4. setRating(value, reservIdx) 	: 별점 매기기
 		5. goStore()					: 상점 바로가기
 		6. goProductDetail()			: 거래 상품 디테일 바로라기
-		7. validateForm() 				: 리뷰 유효성 검사 및 체크박스 합치기
+		7. validateReview() 			: 리뷰 유효성 검사 및 체크박스 합치기
+		8. validateReport()				: 신고 유효성 검사
 		*/
     
 		
@@ -460,6 +442,28 @@
 				detail.style.display = "none";
 			}
 		}
+		/* [ 신고 ] */
+		function validateReport() {
+		    const radios = document.getElementsByName('RP_CATEGORY');
+		    let isChecked = false;
+		    
+		    for (const radio of radios) {
+		        if (radio.checked) {
+		            isChecked = true;
+		            break;
+		        }
+		    }
+		    
+		    if (!isChecked) {
+		    	Swal.fire({
+                    title: '카테고리를 선택해 주세요',
+                    icon: 'warning',
+                });
+		        return false;
+		    }
+		    
+		    return true;
+		}		
 		
 		/* [ 리뷰 ] */
 		/* 별점 개수에 따른 이모지 */
@@ -500,7 +504,7 @@
 	});
 		
 		/* 리뷰 유효성 검사 및 체크박스 합치기 */
-		function validateForm() {
+		function validateReview() {
 		    const checkboxes = document.getElementsByName('RV_CATEGORY');
 		    const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 		
@@ -535,13 +539,13 @@
 		}
 		
 		
-		/* 판매완료 */
+		/* 구매확정 */
 		function transaction() {
 			let nick = '${info.US_NICK}';
 			
 			Swal.fire({
-				   title: nick + '님과 거래 확정하시겠습니까?',
-// 				   text: ',
+				   title: '구매 확정하시겠습니까?',
+				   text: '구매 확정 시, 돈이 송금되며 취소 불가능합니다.',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음

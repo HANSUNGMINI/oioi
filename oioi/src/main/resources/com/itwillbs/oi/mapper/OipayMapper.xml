@@ -100,6 +100,18 @@ CREATE TABLE bank_user_info (
 	</select>
 	
 	
+	<update id="updatePdStatus">
+		UPDATE product
+		SET PD_STATUS = 'PDS02'
+		WHERE PD_IDX = #{PD_IDX}
+	
+	</update>
+	
+	<update id="updateUseOimoney">
+		UPDATE user
+		SET US_OIMONEY = US_OIMONEY - #{PD_PRICE}
+		WHERE US_ID = #{US_ID}
+	</update>
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
 	<!-- WHERE 절의 id 는 "admin" 고정 -->

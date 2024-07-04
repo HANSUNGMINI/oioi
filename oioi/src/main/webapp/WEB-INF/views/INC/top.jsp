@@ -297,7 +297,7 @@
 										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
 												<li><a href="trade">거래</a></li>
-												<li><a href="#">경매<i class="ti-angle-down"></i></a>
+												<li><a href="auction">경매<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
 														<li><a href="auctionRegist">경매상품등록</a></li>
 														<li><a href="auction">경매리스트</a></li>
@@ -339,19 +339,26 @@
         
         socket.onmessage = function(event) {
             try {
-                var items = JSON.parse(event.data);
-                items.forEach(function(item) {
+                var data = JSON.parse(event.data);
+                if (data.msg === "registAPD") {
+                    var item = data.item;
                     var notificationItem = 
-                    	'<li>' +
+                    	'<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
                         '<p class="quantity">' +
                             '상품명: ' + item.APD_NAME + '<br>' +
                             '등록 날짜: ' + item.APD_REG_DATE + '<br>' +
                             '시작 가격: ' + item.APD_START_PRICE + '<br>' +
                             '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
                         '</p>' +
-                    '</li>';
+                        '</li>';
                     $('#notification-list').append(notificationItem);
-                });
+
+                    // 알림 아이콘에 카운트 추가
+                    var icon = $('#notification-icon');
+                    var count = $('<span class="total-count">!</span>'); // 알림 카운트 생성
+                    icon.after(count); // 알림 카운트를 아이콘 뒤에 추가
+
+                }
             } catch (e) {
                 console.error("메시지 파싱 오류:", e, event.data);
             }
@@ -367,9 +374,16 @@
 
         $('#clear-notifications').on('click', function() {
             $('#notification-list').empty();
+            $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
+        });
+        
+     	// 알림 항목 클릭 시 상세 페이지로 이동
+        $('#notification-list').on('click', '.notification-item', function() {
+            var apdIdx = $(this).data('apd-idx');
+            window.location.href = 'auctionDetail?APD_IDX=' + apdIdx;
         });
     });
-</script>
+    </script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>
 </body>

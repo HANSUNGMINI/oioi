@@ -23,10 +23,8 @@
 			let socket = new WebSocket('ws://localhost:8081/oi/push');
 			socket.onopen = function (){
 				if(msg == "신고 접수 완료되었습니다") {
-// 					socket.send("checkReport");
 					socket.send(toJsonString("toAdmin", "checkReport"));
 				} else if (msg == "등록성공! 1차검수가 완료되면 상품을 보내주세요."){
-// 					socket.send("checkApd");
 					socket.send(toJsonString("toAdmin", "checkApd"));
 				}
 			};
@@ -59,12 +57,18 @@
             }
             
             if("${isClose}" == "true") {
-        		if("${targetURL}"!= null) {
+        		if("${targetURL}"!= "") {
         			window.opener.location.href = "${targetURL}";
 					window.opener.opener.location.reload();
         		}
         		window.close();
         	} 
+            
+            
+            if ("${openerReload}" == "true") {
+    			window.opener.location.reload();
+    		}
+            
         });
     </script>
 </body>

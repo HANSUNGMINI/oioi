@@ -304,6 +304,7 @@
                         <div class="inbox-message">
                             <div class="chargeMoney">
                                 <form class="purchase" method="post" onsubmit="return checkPurchase();">
+                                <input type="hidden" name="PD_IDX" value="${PD_IDX}">
                                 	<h5>🥒오이마켓 안전결제🥒</h5>
                                 	<br>
                                 	<br>
@@ -316,9 +317,14 @@
 											<h4>📝상품 정보</h4>
 											<hr>
 											<h5>거래상태 : ${product.PD_STATUS}</h5>
+											<input type="hidden" name="PD_STATUS" value="${product.PD_STATUS}">
 											<h5>판매자 : ${product.US_ID}</h5>
+											<input type="hidden" name="US_ID" value="${product.US_ID}">
 											<h5>상품명 : ${product.PD_SUBJECT}</h5>
+											<input type="hidden" name="PD_STATUS" value="${product.PD_SUBJECT}">
 											<h5>가격 : <fmt:formatNumber value="${product.PD_PRICE}" pattern="#,###"/>원</h5>
+											<input type="hidden" name="PD_PRICE" value="${product.PD_PRICE}">
+											
 										</div>
                                     </div>
                                     <br>
@@ -326,6 +332,7 @@
                                     <!-- 오이페이 정보 -->
                                     <br>
 										<h6>보유 오이머니 : 🥒<fmt:formatNumber value="${oimoney}" pattern="#,###"/></h6>
+										<input type="hidden" name="US_OIMONEY" value="${oimoney}">
                                     <br>
                                     <!-- 충전 및 결제 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->

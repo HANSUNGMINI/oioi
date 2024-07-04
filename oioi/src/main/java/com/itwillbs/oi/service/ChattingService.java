@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.oi.mapper.ChattingMapper;
+import com.itwillbs.oi.vo.ProductChatVO;
 
 @Service
 public class ChattingService {
@@ -48,4 +49,9 @@ public class ChattingService {
 	public int insertReview(Map<String, String> map) {
 		return mapper.insertReview(map);
 	}
+
+	// ----------------------------------------------------------------------------
+	
+
+	
 }

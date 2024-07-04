@@ -40,9 +40,9 @@ public interface AuctionMapper {
 
 	List<Map<String, String>> selectBidChart(int aPD_IDX);
 
-	List<Map<String, Object>> selectAuctionList();
-
 	List<Map<String, Object>> apdPopular();
+
+	Map<String, Object> selectNewAuction();
 
 
 }

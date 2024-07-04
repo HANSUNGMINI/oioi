@@ -143,22 +143,21 @@ public class OipayController {
 		return "";
 	}
 	
-	@GetMapping("purchase")
+	@GetMapping("purchase") //결제페이지
 	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		
-		System.out.println(map);
+//		System.out.println(map);
 		
 		// 상품정보 가져오기
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
 		
-		System.out.println(product);
-		
 		// 머니 정보 가져오기
 		String id = (String)session.getAttribute("US_ID");
 		int oiMoney = service.selectOiMoney(id);
 		
-		System.out.println(oiMoney);
+//		System.out.println(product);
+//		System.out.println(oiMoney);
 		
 		model.addAttribute("product", product);
 		model.addAttribute("oimoney", oiMoney);
@@ -167,11 +166,26 @@ public class OipayController {
 	}
 
 	
-	@PostMapping("purchase")
-	public String purchasePro() {
+	@PostMapping("purchase") // 결제
+	public String purchasePro(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		String US_ID = (String)session.getAttribute("US_ID");
+		map.put("US_ID", US_ID);
+
+//		System.out.println(map); // {TO_ID=test, PD_IDX=71, PD_STATUS=판매 중, US_ID=haru0321, PD_PRICE=5000, US_OIMONEY=495000}
 		
+		int price = Integer.parseInt((String)map.get("PD_PRICE"));
+		int oiMoney = Integer.parseInt((String)map.get("US_OIMONEY"));
 		
+		if(price > oiMoney) {
+			model.addAttribute("msg", "오이머니 잔액이 부족합니다🥺");
+			return "err/fail";
+		}
 		
-		return "";
+		service.purchaseByOimoney(map);
+		
+		model.addAttribute("msg", "결제가 완료되었습니다😊🎉");
+		model.addAttribute("openerReload", true);
+		model.addAttribute("isClose", true);
+		return "err/success";
 	}
 }
