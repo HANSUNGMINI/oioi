@@ -334,6 +334,11 @@
                                             <div id="store-column">상품판매</div>
                                             <div>${salesCount} 회</div>
                                         </div>
+                                        <div>
+                                            <i class="fa-solid fa-droplet"></i>
+                                            <div id="store-column">신선도</div>
+                                            <div>${salesCount} 도</div>
+                                        </div>
                                     </div>
                                     <hr>
                                 </div>
