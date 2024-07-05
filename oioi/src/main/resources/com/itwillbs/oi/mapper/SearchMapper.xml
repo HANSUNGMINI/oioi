@@ -70,10 +70,10 @@
 			, PD_PRICE
 			, c.value AS 'PD_STATUS_VALUE'
 			, CASE
-			        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
-			        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
-			        WHEN PD_STATUS = 'PDS03' THEN 'new'  
-			    END AS PD_STATUS_COLOR
+			    WHEN PD_STATUS = 'PDS01' THEN 'non_overlay'
+		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
+		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
+			  END AS PD_STATUS_COLOR
 		FROM product p 
 		JOIN common c 
 		ON p.PD_STATUS = c.code

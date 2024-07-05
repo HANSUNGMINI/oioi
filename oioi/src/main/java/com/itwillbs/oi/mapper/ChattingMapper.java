@@ -23,6 +23,7 @@ public interface ChattingMapper {
 	// ----------- 정보 처리하기 ----------------
 	int insertReport(Map<String, String> map); // 신고 처리
 	int insertReview(Map<String, String> map); // 리뷰 처리
+	int selectReview(Map<String, String> map); // 리뷰 쓴 물건인지 확인
 	// -------------------------------------------
 
 	// ----------- 채팅 ----------------

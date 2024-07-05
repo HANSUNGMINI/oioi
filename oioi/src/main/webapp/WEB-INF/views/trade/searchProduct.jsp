@@ -58,6 +58,29 @@
         	margin-top : 20px;
         	display: flex; justify-content: center; align-items: center;
         }
+        
+         .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0.7;
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .non_overlay {
+        	display : none;
+        }
     </style>
     
     <script type="text/javascript">
@@ -96,7 +119,7 @@
                                + '        <div class="product-img">'
                                + '              <a href="productDetail?PD_IDX='+ product.PD_IDX +'">'
                                + '                   <img class="default-img" src="' + '<%= request.getContextPath() %>/resources/upload/' + product.IMG + '">'
-                               + '					 <span class="' + product.PD_STATUS_COLOR+ '">' + product.PD_STATUS_VALUE +'</span> '
+                               + '					 <div class="'+ product.PD_STATUS_COLOR +'">' +  product.PD_STATUS_VALUE +'</div> '
                                + '               </a>'
                                + '           <div class="button-head">'
                                + '           <div class="product-action">'

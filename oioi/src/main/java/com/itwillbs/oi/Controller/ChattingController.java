@@ -77,6 +77,12 @@ public class ChattingController {
 		// 신고 카테고리 불러오기
 		List<Map<String, String>> reportMap = service.getReportCategory();
 
+		// 리뷰 내역 있는지 확인
+		int existReview = service.selectReview(map);
+		if(existReview < 1) {
+			info.put("existReview", "no");
+		}
+		
 		// model에 담아서 정보 보내기
 		model.addAttribute("info", info); // 상대방 닉네임 + 상품 정보 + 상대방 프로필 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
@@ -174,7 +180,7 @@ public class ChattingController {
 	@PostMapping("reviewWrite")
 	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
 		System.out.println("리뷰 작성 map : " + map);
-		
+
 		int successCnt = service.insertReview(map);
 		
 		if(successCnt < 1) {

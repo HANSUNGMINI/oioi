@@ -63,6 +63,11 @@
 		)
 	</insert>
 	
+	<select id="selectReview" resultType="int">
+		SELECT COUNT(RV_IDX)
+		FROM review
+		WHERE PD_IDX = #{PD_IDX}
+	</select>
 
 </mapper>
 

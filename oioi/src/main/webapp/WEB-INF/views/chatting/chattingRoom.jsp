@@ -214,7 +214,7 @@
 	                        
 	                        <div id="review">
 	                        	<ul>
-	                        		<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
+		                        	<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
 	                       		</ul>
 	                        </div>
 	                       	<hr>
@@ -449,6 +449,8 @@
 		/* [ 판매 완료 ] */
 		function soldout() {
 			let nick = '${info.US_NICK}';
+			let existReview = '${info.existReview }';
+			
 			Swal.fire({
 				   title: '판매 완료로 변경하시겠습니까?',
 				   text: '확인 버튼 클릭 시, '+ nick + ' 님과의 거래가 성사됩니다.',
@@ -469,7 +471,10 @@
 				      Swal.fire('판매 완료되었습니다.', '감사합니다', 'success');
 //				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
 						document.querySelector("#detail").style.display = "none";
-						document.querySelector("#review").style.display = "block";
+						
+						if(existReview == 'no') {
+							document.querySelector("#review").style.display = "block";
+						}
 				   }
 				});
 			

@@ -50,6 +50,11 @@ public class ChattingService {
 		return mapper.insertReview(map);
 	}
 
+	// 리뷰 존재하는지 확인
+	public int selectReview(Map<String, String> map) {
+		return mapper.selectReview(map);
+	}
+
 	// ----------------------------------------------------------------------------
 	
 
