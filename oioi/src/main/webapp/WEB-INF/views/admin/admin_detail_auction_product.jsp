@@ -164,7 +164,7 @@
 						alert("성공적으로 변경되었습니다!")
 						
 						if($("#APD_STATUS").val() == "APD05") {
-							let socket = new WebSocket('ws://localhost:8081/oi/push');
+							let socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
 							socket.onopen = function (){
 								socket.send(toJsonString("toUsers", "registAPD"));
 							};
