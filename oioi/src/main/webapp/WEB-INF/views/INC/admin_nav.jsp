@@ -12,7 +12,7 @@
 	$(document).ready(function() {
 		
 // 		var socket = new WebSocket('ws://localhost:8081/oi/push');
-		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oi/push');
+		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
 	    socket.onmessage = function(event) {
 	    	let data = JSON.parse(event.data);
 	    	let msg = data.msg;

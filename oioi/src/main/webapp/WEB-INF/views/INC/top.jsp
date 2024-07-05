@@ -339,7 +339,7 @@
     $(document).ready(function() {
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
-		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oi/push');
+		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
 
         socket.onopen = function() {
             console.log("웹소켓 연결 성공");
