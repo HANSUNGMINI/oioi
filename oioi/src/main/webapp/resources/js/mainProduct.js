@@ -74,8 +74,9 @@
 						+'	<div class="single-product">'
 						+'		<div class="product-img">'
 						+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
-						+'             <img class="default-img" src="' + '/oi/resources/upload/' + pr.IMG + '">'
-						+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						+'             <img class="default-img" src="' + '/oi/resources/upload/' + pr.IMG + '" id="recentImg">'
+						// +'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						+ '				<div class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</div>'
 						+'			</a>'
 						+'			<div class="button-head">'
 						+'				<div class="product-action">'
@@ -96,7 +97,8 @@
 						+'	</div>'
 						+'	</div>'
 						
-						owl.trigger('add.owl.carousel', [$(productDetail)]);		
+						owl.trigger('add.owl.carousel', [$(productDetail)]);
+						
 				});
 				
 				owl.trigger('refresh.owl.carousel');
@@ -161,7 +163,8 @@
 						+'		<div class="product-img">'
 						+'			<a href="productDetail?PD_IDX='+ pr.PD_IDX +'">'
 						+ '             <img class="default-img" src="' + '/oi/resources/upload/' + pr.IMG + '">'
-						+'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						// +'				<span class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
+						+ '				<div class="'+ pr.PD_STATUS_COLOR +'">' +  pr.PD_STATUS_VALUE +'</div>'
 						+'			</a>'
 						+'			<div class="button-head">'
 						+'				<div class="product-action">'

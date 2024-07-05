@@ -15,9 +15,9 @@
 		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
-		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
-		        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
-		        WHEN PD_STATUS = 'PDS03' THEN 'new' 
+		        WHEN PD_STATUS = 'PDS01' THEN 'o'
+		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
+		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
 		    END AS PD_STATUS_COLOR, -- 수정 필요
 		    CASE 
 		        WHEN TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, PD_REG_DATE, NOW()), ' 초전')
@@ -76,9 +76,9 @@
 		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
-		        WHEN PD_STATUS = 'PDS01' THEN 'out-of-stock'
-		        WHEN PD_STATUS = 'PDS02' THEN 'price-dec'
-		        WHEN PD_STATUS = 'PDS03' THEN 'new'  
+		        WHEN PD_STATUS = 'PDS01' THEN 'o'
+		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
+		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
 		    END AS PD_STATUS_COLOR,
 		    CASE 
 		        WHEN TIMESTAMPDIFF(MINUTE, PD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, PD_REG_DATE, NOW()), ' 초전')

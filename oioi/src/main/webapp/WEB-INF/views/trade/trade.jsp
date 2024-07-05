@@ -225,7 +225,7 @@
                                + '  </a>'
                                +' </div>'
                                +'     <div class="content">'
-                               +'         <h5 style="text-overflow: ellipsis;"><a href="productDetail?PD_IDX='+ pr.PD_IDX +'">' + pr.PD_SUBJECT +'</a></h5>'
+                               +'         <h5 style="text-overflow: ellipsis;"><a href="productDetail?PD_IDX='+ pr.PD_IDX +'" >' + pr.PD_SUBJECT +'</a></h5>'
                                +'        <small style="color:black">'+ pr.RD_DATE +'</small>'
                                +'        <p class="price">'+ pr.PD_PRICE +' 원'
                                +' </div>'

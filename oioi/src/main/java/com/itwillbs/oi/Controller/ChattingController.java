@@ -170,6 +170,7 @@ public class ChattingController {
 		return "";
 	}
 	
+	// 리뷰 작성
 	@PostMapping("reviewWrite")
 	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
 		System.out.println("리뷰 작성 map : " + map);
@@ -184,4 +185,5 @@ public class ChattingController {
         	return "err/success";
         }
 	}
+	
 }

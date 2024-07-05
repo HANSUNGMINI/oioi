@@ -55,6 +55,28 @@
 		.owl-stage {
 		}
 	
+		 .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0.7;
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .o {
+        	display : none;
+        }
 	</style>	
 </head>
 <body class="js">
@@ -118,8 +140,11 @@
 								<div class="product-img">
 									<a href="productDetail?PD_IDX=${popular.PD_IDX}">
 										<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/${popular.IMG}">
+										<c:if test="${not (popular.PD_STATUS_VALUE eq '판매 중')}">
+											<div class="overlay">${popular.PD_STATUS_VALUE}</div>
+										</c:if>
 	<!-- 									<img class="hover-img"   alt="#"> -->
-										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
+<%-- 										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 --> --%>
 									</a>
 									<div class="button-head">
 										<div class="product-action">

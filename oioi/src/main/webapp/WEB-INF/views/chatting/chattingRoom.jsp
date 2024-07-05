@@ -60,6 +60,7 @@
 			}
 		});
 	   
+	   
     });
 		
 		
@@ -447,9 +448,10 @@
 		
 		/* [ 판매 완료 ] */
 		function soldout() {
+			let nick = '${info.US_NICK}';
 			Swal.fire({
 				   title: '판매 완료로 변경하시겠습니까?',
-// 				   text: '',
+				   text: '확인 버튼 클릭 시, '+ nick + ' 님과의 거래가 성사됩니다.',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -567,7 +569,6 @@
 		    
 		    return true;
 		}
-		
 		
 		/* 구매확정 */
 		function transaction() {
