@@ -303,21 +303,20 @@ public class TradeController {
 	    	return "err/fail";
 	    }
 	}
-	 // 찜하기 기능 추가
-    @PostMapping("/addToWishlist")
-    @ResponseBody
-    public String addToWishlist(@RequestParam String productId , HttpSession session, Model model) {
-        String userId = (String) session.getAttribute("US_ID");
+	
+	// 찜하기 기능 추가
+    @PostMapping("addToWishlist")
+    public String addToWishlist(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+        System.out.println("addToWishlist : " + map);
+    	String userId = (String) session.getAttribute("US_ID");
         System.out.println("사용자 아이디: " + userId);
         if (userId == null) {
         	model.addAttribute("msg", "로그인이 필요합니다.");
-			model.addAttribute("targetURL", "login");
-			return "err/fail";
-		}
-        System.out.println("ddddddddddddddddzxczc : " + productId);
+        	return "err/fail";
+        }
+        System.out.println(" : " );
         Map<String, String> wishlistMap = new HashMap<>();
         wishlistMap.put("US_ID", userId);
-        wishlistMap.put("PD_IDX", productId);
         
         int result = tradeService.addToWishlist(wishlistMap);
         if (result < 0) {
@@ -325,7 +324,6 @@ public class TradeController {
 			return "err/fail";
         } else {
         	model.addAttribute("msg", "찜하기 성공!");
-			model.addAttribute("targetURL", "mypage");
 			return "err/success";
         }
     }
