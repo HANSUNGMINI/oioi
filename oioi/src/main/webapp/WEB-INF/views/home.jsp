@@ -74,7 +74,7 @@
             border-radius: 5px;
         }
         
-        .o {
+        .non_overlay {
         	display : none;
         }
 	</style>	

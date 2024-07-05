@@ -15,7 +15,7 @@
 		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
-		        WHEN PD_STATUS = 'PDS01' THEN 'o'
+		        WHEN PD_STATUS = 'PDS01' THEN 'non_overlay'
 		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
 		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
 		    END AS PD_STATUS_COLOR, -- 수정 필요
@@ -76,7 +76,7 @@
 		    i.image1 AS 'IMG',
 		    c.value AS 'PD_STATUS_VALUE',
 		    CASE
-		        WHEN PD_STATUS = 'PDS01' THEN 'o'
+		        WHEN PD_STATUS = 'PDS01' THEN 'non_overlay'
 		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
 		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
 		    END AS PD_STATUS_COLOR,
