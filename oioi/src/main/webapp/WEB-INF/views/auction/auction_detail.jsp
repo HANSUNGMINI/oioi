@@ -55,18 +55,37 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<style type="text/css">
+	.charge .payCharge,
+    .charge .payRefund {
+        background-color: #34a853;
+        color: white;
+        text-decoration: none;
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-left: 10px; /* 버튼 사이의 좌우 마진 추가 */
+    }
 
+</style>
 <script type="text/javascript">
    var socket = null;
    var us_id = "${apdDetail.US_ID}";
    var apd_idx = "${apdDetail.APD_IDX}";
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
+   var token = "${sessionScope.token}";
+   var oiMoney = "${token.US_OIMONEY}";
    console.log("session_id : " + session_id);
+   console.log("oiMoney : " + oiMoney);
 
    $(function(){
      connect();
      
+     
+     console.log("token : " + token);
      
       $('#sendMsg').on('keypress',function(et) {
          let keyCode = et.keyCode;
@@ -104,42 +123,64 @@
            $('input#sendMsg').val('');
       }
       
+      
+      
       var minValue = $('#nowPrice').val();
       var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
          
       $('#bidding').on('click', function(){
          nowValue = $('#nowPrice').val();
+         
+         let nowValueNum = parseFloat(nowValue);
+         let minValueNum = parseFloat(minValue);
+         let maxValueNum = parseFloat(maxValue);
+         
          console.log(nowValue);
          
+         //로그인안했을 시 
          if(${empty sessionScope.US_ID}){
-            alert("로그인 후 입찰하세요.");
-            $('#nowPrice').val(minValue);
-            return false;
+        	 $('#nowPrice').val(minValue);
+        	 Swal.fire({
+                 title: '로그인 후 입찰하세요',
+                 icon: 'warning',
+             });
+        	 return false;
          }
-         console.log("nowValue : " + nowValue);
-            console.log("minValue : " + minValue);
-            console.log("maxValue : " + maxValue);
+         
+         //오이페이에 있는 충전금이 입찰할 가격보다 작을때
+         if(oiMoney < nowValue){
+        	 oiCharge();
+         }
+         
+         
          if(minValue >= nowValue || nowValue > maxValue){
-               alert("입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.");
-               $('#nowPrice').val(minValue);
-               return false;
-            }else if(nowValue == maxValue){
-               //입찰가가 즉시구매가랑 같을때 경매 종료
-               $.ajax({
-                  url : "auctionClose",
-                  type : "post",
-                  data : {
-                     AT_IDX : apd_idx,
-                     BID_USER : session_id,
-                     BID_PRICE : nowValue
-                  },
-                  dataType : "JSON",
-                  success: function(response) {
-                     console.log("성공 : " + response);
-                  }
+               Swal.fire({
+                   title: '입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.',
+                   icon: 'warning',
                });
-               
-            }
+               $('#nowPrice').val(minValue);
+          	 return false;
+          	 
+         }else if(nowValue == maxValue){
+            //입찰가가 즉시구매가랑 같을때 경매 종료
+            $.ajax({
+               url : "auctionClose",
+               type : "post",
+               data : {
+                  AT_IDX : apd_idx,
+                  BID_USER : session_id,
+                  BID_PRICE : nowValue
+               },
+               dataType : "JSON",
+               success: function(response) {
+             	  Swal.fire({
+                       title: '입찰이 완료되었습니다.',
+                       icon: 'success',
+                   });
+               }
+            });
+            
+         }
          
          $.ajax({
             url : "auctionBid",
@@ -153,6 +194,11 @@
             dataType : "JSON",
                  success: function(response) {
                       console.log('저장 성공 : ' + response);
+                      Swal.fire({
+                          title: response + '원에 입찰이 성공',
+                          icon: 'success',
+                      });
+                      
                       var html ='';
                       html += '<li class="clearfix" class="chatViewMe">' + 
                       '<div class="message other-message float-right">' +
@@ -193,14 +239,28 @@
 //              }
 //           });
 //       });
-      
+
+	//페이 값가져오기
+//      $.ajax({
+//     	 url : "Pay",
+//          type : "post",
+//          data : {
+//             US_ID : session_id,
+//          },
+//          dataType : "JSON",
+//          success: function(response) {
+//             console.log("성공 : " + response);
+//          }
+//      }) ;
     
       
     
     });
    
+   
+   
    function connect() {
-      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -313,7 +373,29 @@
                console.log('DB저장 성공' + response);
            }
        });
-   }    
+   }
+   //충전
+   function oiCharge() {
+		Swal.fire({
+			   title: '충전금액이 부족합니다.',
+			   text: '지금바로 충전하시겠습니까?',
+			   icon: 'warning',
+			   
+			   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+			   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+			   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+			   confirmButtonText: '완료', // confirm 버튼 텍스트 지정
+			   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+			   
+			   reverseButtons: false, // 버튼 순서 거꾸로
+			   
+			}).then(result => {
+			   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+				   window.open('oiPay', '_blank', 'width=550, height=600, left=720, top=200, resizable=no');
+			   }
+			});
+		
+	}
    
    
    /* 파일 업로드 */
@@ -617,6 +699,9 @@
                                     </div>
                                  </div>
                                  <div class="product-buy">
+                                 	<div class="quantity">
+                                       <h6>오이머니 잔액 : 🥒<fmt:formatNumber value="${token.US_OIMONEY}" pattern="#,###"/></h6>
+                                    </div><br>
                                     <div class="quantity">
                                        <h6>입찰가 입력 :</h6>
                                        <div class="input-group">
@@ -686,7 +771,7 @@
                                     <!-- Tab Nav -->
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">상품설명</a></li>
-                                       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
+                                       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">판매자 정보</a></li>
                                     </ul>
                                     <!--/ End Tab Nav -->
                                  </div>
@@ -697,20 +782,8 @@
                                           <div class="row">
                                              <div class="col-12">
                                                 <div class="single-des">
-                                                   <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with deskto</p>
+                                                   <p>${apdDetail.APD_DETAIL}</p>
                                                 </div>
-                                                <div class="single-des">
-                                                   <p>Suspendisse consequatur voluptates lorem nobis accumsan natus mattis. Optio pede, optio qui metus, delectus! Ultricies impedit, minus tempor fuga, quasi, pede felis commodo bibendum voluptas nisi? Voluptatem risus tempore tempora. Quaerat aspernatur? Error praesent laoreet, cras in fames hac ea, massa montes diamlorem nec quaerat, quos occaecati leo nam aliquet corporis, ab recusandae parturient, etiam fermentum, a quasi possimus commodi, mollis voluptate mauris mollis, quisque donec</p>
-                                                </div>
-<!--                                                 <div class="single-des"> -->
-<!--                                                    <h4>Product Features:</h4> -->
-<!--                                                    <ul> -->
-<!--                                                       <li>long established fact.</li> -->
-<!--                                                       <li>has a more-or-less normal distribution. </li> -->
-<!--                                                       <li>lmany variations of passages of. </li> -->
-<!--                                                       <li>generators on the Interne.</li> -->
-<!--                                                    </ul> -->
-<!--                                                 </div> -->
                                              </div>
                                           </div>
                                        </div>
@@ -839,7 +912,7 @@
             <div class="row">
             <div class="col-12">
                <div class="section-title">
-                  <h2>연관 상품</h2>
+                  <h2>최근 본 경매 상품</h2>
                </div>
             </div>
             </div>

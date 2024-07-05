@@ -51,7 +51,31 @@
 
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+   <style type="text/css">
+	   	.overlay {
+	            position: absolute;
+	            top: 0;
+	            bottom: 0;
+	            left: 0;
+	            right: 0;
+	            height: 100%;
+	            width: 100%;
+	            opacity: 0.7;
+	            background-color: black;
+	            color: white;
+	            display: flex;
+	            align-items: center;
+	            justify-content: center;
+	            font-size: 24px;
+	            font-weight: bold;
+	            border-radius: 5px;
+	        }
+	        
+	        .non_overlay {
+	        	display : none;
+	        }
    
+   </style>
    <script type="text/javascript">
 	  let isLoading = false;
 	  let isEmpty = false;
