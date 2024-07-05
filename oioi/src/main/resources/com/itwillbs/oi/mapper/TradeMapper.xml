@@ -214,6 +214,14 @@
 	    LIMIT #{params.startRow}, #{params.listLimit}
 	</select>
 	
+	<insert id="insertWishlist">
+        INSERT INTO wish_list
+        VALUES (
+        	  NULL
+       		  , #{US_ID}
+       	 	  , #{PD_IDX}
+       	 	  )
+    </insert>
 	
 		 
 	

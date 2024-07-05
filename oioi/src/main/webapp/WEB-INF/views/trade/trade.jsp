@@ -143,7 +143,7 @@
                                 + '           </form>'
                                 + '           <div class="button-head">'
                                 + '           <div class="product-action">'
-                                + '               <a title="Wishlist" href="#"><i class="ti-heart"></i><span>찜하기</span></a>'
+                                + '               <a title="Wishlist" href="#" class="add-to-wishlist" data-product-id="'+ product.PD_IDX +'"><i class="ti-heart"></i><span>찜하기</span></a>'
                                 + '           </div>'
                                 + '           <div class="product-action-2">'
                                 + '               <a title="Add to cart" href="#"></a>'
@@ -237,6 +237,30 @@
                 }
             });
     	}
+    	
+    	// "찜하기" 버튼 클릭 시 AJAX 요청 보내기
+        $(document).on('click', '.add-to-wishlist', function(e) {
+            e.preventDefault();
+
+            let productId = $(this).data('product-id');
+
+            $.ajax({
+                url: contextPath + '/addToWishlist',
+                type: 'POST',
+                data: {
+                    productId: productId
+                },
+                success: function(response) {
+                    alert('찜 목록에 추가되었습니다.');
+                },
+                error: function(xhr, status, error) {
+                    console.error('찜하기 요청 오류:', error);
+                    alert('찜 목록 추가에 실패했습니다.');
+                }
+            });
+        });
+
+    	
     });
 </script>
 

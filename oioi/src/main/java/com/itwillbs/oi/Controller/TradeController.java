@@ -76,12 +76,6 @@ public class TradeController {
 		}
 		model.addAttribute("cate3", jCate3);
 		
-		
-//		List<Map<String, String>> productList = tradeService.getProduct();
-//		model.addAttribute("getProduct", productList);
-//		System.out.println(productList);
-		
-		
 		System.out.println("카테1" + cate1);
 		System.out.println("카테2" + cate2);
 		System.out.println("카테3" + cate3);
@@ -105,47 +99,6 @@ public class TradeController {
 
         return tradeService.getFilteredProducts(params);
     }
-//    public List<Map<String, Object>> filterProducts(
-//            @RequestParam(required = false) String cate1,
-//            @RequestParam(required = false) String cate2,
-//            @RequestParam(required = false) String cate3,
-//            @RequestParam(defaultValue = "1") int pageNum,
-//            @RequestParam(defaultValue = "12") int listLimit) {
-//        
-//        int startRow = (pageNum - 1) * listLimit;
-//
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("cate1", cate1);
-//        params.put("cate2", cate2);
-//        params.put("cate3", cate3);
-//        params.put("startRow", startRow);
-//        params.put("listLimit", listLimit);
-//        
-//        return tradeService.getFilteredProducts(params);
-//	}
-//    public List<Map<String, Object>> filterProducts(
-//            @RequestParam Map<String, String> map,
-//            @RequestParam int pageNum,
-//            @RequestParam int listLimit) {
-//        int startRow = (pageNum - 1) * listLimit;
-//        return tradeService.getFilteredProducts(map.get("cate1"), map.get("cate2"), map.get("cate3"), startRow, listLimit);
-//    }
-
-//    public List<Map<String, Object>> filterProducts(
-//            @RequestParam(required = false) String cate1,
-//            @RequestParam(required = false) String cate2,
-//            @RequestParam(required = false) String cate3,
-//            @RequestParam(defaultValue = "1") int pageNum,
-//            @RequestParam(defaultValue = "12") int listLimit,
-//            Model model) {
-////        System.out.println(map);
-//
-//        // 페이지네이션 처리
-//        int startRow = (pageNum - 1) * listLimit;
-//
-//        System.out.println(tradeService.getFilteredProducts(cate1, cate2, cate3, startRow, listLimit));
-//        return tradeService.getFilteredProducts(cate1, cate2, cate3, startRow, listLimit);
-//    }
 
 	 // 상품 상세 페이지
 	@GetMapping("productDetail")
@@ -271,13 +224,6 @@ public class TradeController {
 			map.put("PD_SAFE_TRADE", "PST02");
 		}
 		System.out.println("##################" + map);
-//		for(MultipartFile mf : files) {
-//			System.out.println(mf);
-//		} //이미지 들고오기
-//		System.out.println(session.getAttribute("US_ID"));
-//		System.out.println(map.get("subject"));
-//		Map<String, String> fileMap = new HashMap();
-//		fileMap.put("setCar_images_1", null);
 		
 
 	    // 파일 저장
@@ -357,7 +303,32 @@ public class TradeController {
 	    	return "err/fail";
 	    }
 	}
-	
+	 // 찜하기 기능 추가
+    @PostMapping("/addToWishlist")
+    @ResponseBody
+    public String addToWishlist(@RequestParam String productId , HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("US_ID");
+        System.out.println("사용자 아이디: " + userId);
+        if (userId == null) {
+        	model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("targetURL", "login");
+			return "err/fail";
+		}
+        System.out.println("ddddddddddddddddzxczc : " + productId);
+        Map<String, String> wishlistMap = new HashMap<>();
+        wishlistMap.put("US_ID", userId);
+        wishlistMap.put("PD_IDX", productId);
+        
+        int result = tradeService.addToWishlist(wishlistMap);
+        if (result < 0) {
+        	model.addAttribute("msg", "찜 등록 실패!");
+			return "err/fail";
+        } else {
+        	model.addAttribute("msg", "찜하기 성공!");
+			model.addAttribute("targetURL", "mypage");
+			return "err/success";
+        }
+    }
 //	@ResponseBody
 //	@GetMapping("SelectProductList")
 //	public String SelectProductList(@RequestParam Map<String, String> map
