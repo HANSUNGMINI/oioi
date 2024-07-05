@@ -69,7 +69,11 @@ public class ChattingController {
 		// 내 프로필 불러오기
 		Map<String, String> myInfo = service.getMyInfo(map);
 		System.out.println(myInfo);
-		// 채팅 목록 불러오기 
+		
+		// 채팅방 있는지 체크 및 채팅방 번호 가져오기
+		System.out.println("map ?! " + map);
+		Map<String, String> chatRoom = service.checkChatRoom(map);
+		System.out.println(chatRoom);
 		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
@@ -86,6 +90,9 @@ public class ChattingController {
 		// model에 담아서 정보 보내기
 		model.addAttribute("info", info); // 상대방 닉네임 + 상품 정보 + 상대방 프로필 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
+		
+		model.addAttribute("chatRoom", chatRoom); // 내 프로필
+		
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		

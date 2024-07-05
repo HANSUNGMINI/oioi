@@ -57,6 +57,15 @@ public class ChattingService {
 
 	// ----------------------------------------------------------------------------
 	
+	// 채팅방 만들기
+	public int createRoom(ProductChatVO chat) {
+		return mapper.createRoom(chat);
+	}
+
+	// 채팅방 있는지 체크 및 채팅방 아이디 가져오기
+	public Map<String, String> checkChatRoom(Map<String, String> map) {
+		return mapper.checkChatRoom(map);
+	}
 
 	
 }

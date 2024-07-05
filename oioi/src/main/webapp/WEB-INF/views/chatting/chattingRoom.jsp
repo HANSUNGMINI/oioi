@@ -42,21 +42,32 @@
 
     $(function(){
 	    connectChat();
-	    
 	    window.scrollTo(0, document.body.scrollHeight);
 	    
+		let US_ID = "${param.US_ID}"
+		let TO_ID = "${param.TO_ID}"
+		let CR_ID = "${chatRoom.CR_ID}"
+	    let FROM_ID = '';
+		
+	    if(TO_ID == US_ID) {
+	    	FROM_ID = "${chatRoom.FROM_ID}"
+	    }
+
+	    alert(CR_ID)
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
-	    	let msg = $('#textMsg').val();
+	    	let msg = $("#textMsg").val();
 	    	console.log("msg : " + msg);
-	    	sendMessage();
+	    	sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
 	     });
 	    
 	   // 채팅 입력창에 키를 누를 때마다 이벤트 핸들링
+	   
 		$("#textMsg").on("keypress",function(event){
+			let msg = $("#textMsg").val();
 			let keyCode = event.keyCode;
 			if(keyCode == 13) {
-				sendMessage();
+				sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
 			}
 		});
 	   
@@ -65,9 +76,18 @@
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
+	let US_ID = "${param.US_ID}"
+	let TO_ID = "${param.TO_ID}"
+	let CR_ID = "${chatRoom.CR_ID}"
+	let PD_IDX = "${param.PD_IDX}"
+    let FROM_ID = '';
+	
+    if(TO_ID == US_ID) {
+    	FROM_ID =  "${chatRoom.FROM_ID}";
+    };
     
     function connectChat() {
-        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
@@ -94,9 +114,12 @@
 	}
     
     // -------------------------------------------------------
+    
     function startChat() {
     	let TO_ID = "${param.TO_ID}";
-    	sendMessage(toJsonString("INIT", TO_ID, "", ""));
+    	let PD_IDX = "${param.PD_IDX}";
+
+    	sendMessage("INIT", TO_ID, FROM_ID, CR_ID, "", PD_IDX);
     }
     
     // -------------------------------------------------------
@@ -104,20 +127,35 @@
     }
     	
     // -------------------------------------------------------
-    function toJsonString(type, TO_ID, room_id, msg){ // 파라미터들을 객체로 묶은 후 전달
+    function toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
     		type : type,
     		TO_ID : TO_ID,
-			room_id : room_id,
-    		msg : msg
+    		FROM_ID : FROM_ID,
+			CR_ID : CR_ID,
+    		msg : msg,
+    		PD_IDX : PD_IDX
     	};
     
     	return JSON.stringify(data)
     }
     
     // -----------------------------------------------------------
-    function sendMessage(type, TO_ID, room_id, msg) {
-    	ws.send(toJsonString(type, TO_ID, room_id, msg));
+    function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+		// 입력하지 않았을 경우
+		if (msg == "") {
+			/* alert("메세지 입력 필수") */
+			$("#textMsg").focus();
+			return;
+		}
+    	
+    	ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+    	
+		appendMessage(msg,"right","other");
+		
+		// 채팅창 초기화 및 포커스 요청
+		$("#textMsg").val("");
+		$("#textMsg").focus();
     }
     
     // -----------------------------------------------------------
