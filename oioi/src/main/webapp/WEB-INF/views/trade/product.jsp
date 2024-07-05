@@ -90,11 +90,8 @@
 			<div class="container">
 						<div class="login-form">
 							<h2>상품등록</h2>
-<!-- 							<input type="file" accept="image/*" name="addfile" multiple id="addfile" hidden="">확인용 마지막에 삭제 -->
-<!-- 							<input type="file" id= "images" name="images" multiple="multiple" id="addfile">확인용 마지막에 삭제 -->
-<!-- 							<input type="file" class="form-control" id="detail_images" name="detail_images" multiple="multiple" required> -->
 							<!-- Form -->
-							<form class="regForm" action="product" method="post" enctype="multipart/form-data">
+							<form class="regForm" action="product" method="post" enctype="multipart/form-data" onsubmit="removeFormatting()">
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
@@ -139,9 +136,14 @@
 									</li>
 									<li>
 										<label> 가격 </label>
-										<input type="text" id="price" name="PD_PRICE" placeholder="원"><br>
+<!-- 										<input type="text" id="price" name="PD_PRICE" placeholder="원" oninput="validateNumber(this)" onkeypress="return isNumberKey(event)"><br> -->
+<!-- 										<input type="number" id="price" name="PD_PRICE" placeholder="원"><br> -->
+<!-- 										<input type="text" id="price" name="PD_PRICE" placeholder="원"  oninput="validateNumber(this)"><br> -->
+											<input type="text" id="price" name="PD_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
+											<br>
 										<label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" checked>가격 제안 가능</label>
 									</li>
+									
 									<li>
 										<label> 상품설명</label>
 										<textarea id="content" name="PD_CONTENT" placeholder="브랜드, 모델명, 구매시기를 자세히 기입하여 주십시오"></textarea>
@@ -152,9 +154,6 @@
 											<c:forEach var="tradeMethod" items="${tradeMethod}">
 												<li><input type="radio" name="PD_TRADE_METHOD" value="${tradeMethod.code}">${tradeMethod.value}</li>
 											</c:forEach>
-<!-- 											<li><input type="radio" name="trade" value="both" checked> 모두 가능</li> -->
-<!-- 											<li><input type="radio" name="trade" value="direct"> 직거래만 가능</li> -->
-<!-- 											<li><input type="radio" name="trade" value="delivery"> 택배거래만 가능</li> -->
 										</ul>
 									</li>
 									<li>
@@ -172,85 +171,13 @@
 		<!--/ End Login -->
 		
 		<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
-	<!--  <script>
-		$(function() {
-			
-			$(".addImg").on("click",function(){
-				$('#addfile').click();
-			});
-			
-			
-			$("#addfile").on("change",function(event){
-				$('.preView img:gt(0)').remove();  
-				for (var image of event.target.files) {
-					let reader = new FileReader();
 	
-		          reader.onload = function(event) {
-		            var img = document.createElement("img");
-		            img.setAttribute("src", event.target.result);
-		            img.setAttribute("class", "tempImg");
-		           	$(".preView").append(img);
-		          };
-		          
-		          reader.readAsDataURL(image);
-				}
-			});
-			
-			var input = document.querySelector('.tagify')
-			tagify = new Tagify(input, {
-				maxTags: 5, // 최대 허용 태그 갯수
-			})
-
-			// 태그 추가되면 이벤트  
-			tagify.on('add', function() {
-			  console.log(tagify.value); // 입력된 태그 정보 객체
-			})	
-			
-		});
-	
-
-	</script> -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-	// 주석된거 수정중 
-// 	$(function() {
-//         var selectedFiles = []; // 사용자가 선택한 파일들을 저장하는 배열
-
-//         $(".addImg").on("click", function() {
-//             $('#addfile').click();
-//         });
-
-//         $("#addfile").on("change", function(event) {
-//             if (this.files.length > 5) {
-//                 alert("최대 5개의 이미지만 업로드할 수 있습니다.");
-//                 this.value = ""; // 선택된 파일 초기화
-//                 return;
-//             }
-
-//             // 파일 선택 시마다 selectedFiles 배열에 파일을 추가
-//             for (var i = 0; i < this.files.length; i++) {
-//                 selectedFiles.push(this.files[i]);
-//             }
-
-//             // 파일 선택 순서대로 미리보기 이미지 생성
-//             $('.preView').empty(); // 기존 미리보기 이미지 제거
-//             $(".preView").append('<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">');
-//             for (var i = 0; i < selectedFiles.length; i++) {
-//                 let reader = new FileReader();
-//                 reader.onload = function(event) {
-//                     var img = document.createElement("img");
-//                     img.setAttribute("src", event.target.result);
-//                     img.setAttribute("class", "tempImg");
-//                     $(".preView").append(img);
-//                 };
-//                 reader.readAsDataURL(selectedFiles[i]);
-//             }
-//         });
-// 	});
 
         $(function() {
         	
-        	
+        	// 이미지 등록
         	
             $(".addImg").on("click", function() {
                 $('#addfile').click();
@@ -280,7 +207,8 @@
                 }
                 
             });
-
+			
+            // 태그
             var input = document.querySelector('.tagify');
             tagify = new Tagify(input, {
                 maxTags: 5
@@ -289,6 +217,36 @@
                 console.log(tagify.value);
             });
         });
+        
+        // 가격 숫자만
+        
+        function validateAndFormatNumber(input) {
+            var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
+            if (/[^0-9]/.test(value)) {
+                alert("숫자만 입력해주세요.");
+                input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
+            } else {
+                input.value = formatNumber(value); // 천 단위 포맷팅
+            }
+        }
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat().format(value);
+        }
+
+        function removeFormatting() {
+            var priceInput = document.getElementById('price');
+            priceInput.value = priceInput.value.replace(/,/g, ''); // db 저장 할 때 쉼표 제거
+        }
+
+        // 숫자가 아닌 문자가 못하게 함
+        document.getElementById('price').addEventListener('keypress', function(event) {
+            if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+                alert("숫자만 입력해주세요.");
+            }
+        });
+        
         
         //카테고리 ==================================================================
        	$(document).ready(function() {
@@ -338,9 +296,6 @@
 	    });
 	});
     </script> 
-
-
- 
 
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>

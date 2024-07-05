@@ -61,6 +61,10 @@ public class TradeService {
 //		return mapper.selectFilteredProducts(params);
 //	}
 
+	public int addToWishlist(Map<String, String> wishlistMap) {
+		return mapper.insertWishlist(wishlistMap);
+	}
+
 	
 	
 //	public List<Map<String, Object>> getFilteredProducts(String cate1, String cate2, String cate3, int startRow, int listLimit) {
