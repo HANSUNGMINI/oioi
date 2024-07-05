@@ -46,11 +46,12 @@
 	    
 		let US_ID = "${param.US_ID}"
 		let TO_ID = "${param.TO_ID}"
+		let PD_IDX = "${param.PD_IDX}"
 		let CR_ID = "${chatRoom.CR_ID}"
 	    let FROM_ID = '';
 		
 	    if(TO_ID == US_ID) {
-	    	FROM_ID = "${chatRoom.FROM_ID}"
+	    	US_ID = "${chatRoom.FROM_ID}"
 	    }
 
 	   // alert(CR_ID)
@@ -76,18 +77,9 @@
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
-	let US_ID = "${param.US_ID}"
-	let TO_ID = "${param.TO_ID}"
-	let CR_ID = "${chatRoom.CR_ID}"
-	let PD_IDX = "${param.PD_IDX}"
-    let FROM_ID = '';
-	
-    if(TO_ID == US_ID) {
-    	FROM_ID =  "${chatRoom.FROM_ID}";
-    };
     
     function connectChat() {
-        ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생

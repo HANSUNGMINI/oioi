@@ -77,7 +77,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	
                 if(!ws.getId().equals(session.getId())) {
                     // [1. 메세지 타입 판별]
-                	 
+                	
                     // send() 메서들 호출하여 메세지 전송 --> ChatMessageVO 객체를 JSON 문자열 형식으로 변환 후 전송
                     // ( Gson 객체의 toJson() 메서드 활용)
                     try { ws.sendMessage(new TextMessage(gson.toJson(chat))); } catch (IOException e) {e.printStackTrace();}
