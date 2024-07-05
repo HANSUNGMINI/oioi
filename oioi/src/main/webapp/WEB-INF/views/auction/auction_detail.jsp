@@ -260,7 +260,7 @@
    
    
    function connect() {
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
