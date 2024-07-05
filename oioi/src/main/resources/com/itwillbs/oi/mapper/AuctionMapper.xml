@@ -98,9 +98,9 @@
 		<![CDATA[
 		SELECT *,
 		CASE
-			WHEN ap.APD_STATUS = 'APD07' THEN 'out-of-stock'
-			WHEN ap.APD_STATUS = 'APD06' THEN 'price-dec'
-			WHEN ap.APD_STATUS = 'APD05' THEN 'new' 
+			WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
 		END AS APD_STATUS_COLOR,
 		CASE 
 			WHEN TIMESTAMPDIFF(MINUTE, a.AT_START_TIME, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, a.AT_START_TIME, NOW()), ' 초전')
@@ -248,9 +248,9 @@
 	<![CDATA[
 		SELECT ap.*, COUNT(b.APD_IDX) AS bid_count,
 		CASE
-			WHEN ap.APD_STATUS = 'APD07' THEN 'out-of-stock'
-			WHEN ap.APD_STATUS = 'APD06' THEN 'price-dec'
-			WHEN ap.APD_STATUS = 'APD05' THEN 'new' 
+			WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
 		END AS APD_STATUS_COLOR,
 		CASE 
 			WHEN TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, ap.APD_REG_DATE, NOW()), ' 초전')

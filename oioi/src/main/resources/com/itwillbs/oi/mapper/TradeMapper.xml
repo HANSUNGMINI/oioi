@@ -177,9 +177,17 @@
 	        i.image2,
 	        i.image3,
 	        i.image4,
-	        i.image5
+	        i.image5,
+	        c.value AS 'PD_STATUS_VALUE',
+	        CASE
+		        WHEN PD_STATUS = 'PDS01' THEN 'non_overlay'
+		        WHEN PD_STATUS = 'PDS02' THEN 'overlay'
+		        WHEN PD_STATUS = 'PDS03' THEN 'overlay' 
+		    END AS PD_STATUS_COLOR -- 수정 필요
 	    FROM 
 	        product p
+	    JOIN 
+	    	common c ON p.PD_STATUS = c.code    
 	    LEFT JOIN 
 	        common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER'
 	    LEFT JOIN 
@@ -214,282 +222,21 @@
 	    LIMIT #{params.startRow}, #{params.listLimit}
 	</select>
 	
-	<insert id="insertWishlist">
+	<insert id="insertWishList">
         INSERT INTO wish_list
         VALUES (
         	  NULL
-       		  , #{US_ID}
-       	 	  , #{PD_IDX}
+       		  , #{WL_US_ID}
+       	 	  , #{productId}
        	 	  )
     </insert>
 	
-		 
-	
-<!-- 	<select id="selectFilteredProducts" resultType="map"> -->
-<!--     SELECT  -->
-<!--         p.PD_IDX, -->
-<!--         p.US_ID, -->
-<!--         CONCAT_WS('/', c1.CTG_NAME, c2.CTG_NAME, c3.CTG_NAME) AS PD_CATEGORY, -->
-<!--         p.PD_SUBJECT, -->
-<!--         p.PD_CONTENT, -->
-<!--         p.PD_IMAGE, -->
-<!--         p.PD_PRICE, -->
-<!--         cp1.value AS PD_PRICE_OFFER, -->
-<!--         cp2.value AS PD_STATUS, -->
-<!--         cp3.value AS PD_CONDITION, -->
-<!--         cp4.value AS PD_TRADE_METHOD, -->
-<!--         cp5.value AS PD_SAFE_TRADE, -->
-<!--         p.PD_REG_DATE, -->
-<!--         p.PD_UPDATED_DATE, -->
-<!--         p.PD_READCOUNT, -->
-<!--         p.PD_TEMP_SAVE, -->
-<!--         p.PD_TAG1, -->
-<!--         p.PD_TAG2, -->
-<!--         p.PD_TAG3, -->
-<!--         p.PD_TAG4, -->
-<!--         p.PD_TAG5, -->
-<!--         i.image1, -->
-<!--         i.image2, -->
-<!--         i.image3, -->
-<!--         i.image4, -->
-<!--         i.image5 -->
-<!--     FROM  -->
-<!--         product p -->
-<!--     LEFT JOIN  -->
-<!--         common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER' -->
-<!--     LEFT JOIN  -->
-<!--         common cp2 ON p.PD_STATUS = cp2.code AND cp2.name = 'PD_STATUS' -->
-<!--     LEFT JOIN  -->
-<!--         common cp3 ON p.PD_CONDITION = cp3.code AND cp3.name = 'PD_CONDTION' -->
-<!--     LEFT JOIN  -->
-<!--         common cp4 ON p.PD_TRADE_METHOD = cp4.code AND cp4.name = 'PD_METHOD' -->
-<!--     LEFT JOIN  -->
-<!--         common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE' -->
-<!--     LEFT JOIN  -->
-<!--         images i ON p.PD_IMAGE = i.IMG_IDX -->
-<!--     LEFT JOIN  -->
-<!--         category c3 ON p.PD_CATEGORY = c3.CTG_CODE -->
-<!--     LEFT JOIN  -->
-<!--         category c2 ON c3.UP_CTG_CODE = c2.CTG_CODE -->
-<!--     LEFT JOIN  -->
-<!--         category c1 ON c2.UP_CTG_CODE = c1.CTG_CODE -->
-<!--     WHERE  -->
-<!--         (#{params.cate1} IS NULL OR c1.CTG_CODE = #{params.cate1}) -->
-<!--         AND (#{params.cate2} IS NULL OR c2.CTG_CODE = #{params.cate2}) -->
-<!--         AND (#{params.cate3} IS NULL OR c3.CTG_CODE = #{params.cate3}) -->
-<!--     ORDER BY  -->
-<!--         p.PD_IDX DESC -->
-<!--     LIMIT #{params.startRow}, #{params.listLimit} -->
-<!-- </select> -->
-	
-	
-<!--     <select id="selectFilteredProducts" resultType="map"> -->
-<!--     SELECT  -->
-<!--         p.PD_IDX, -->
-<!--         p.US_ID, -->
-<!--         CONCAT_WS('/', c1.CTG_NAME, c2.CTG_NAME, c3.CTG_NAME) AS PD_CATEGORY, -->
-<!--         p.PD_SUBJECT, -->
-<!--         p.PD_CONTENT, -->
-<!--         p.PD_IMAGE, -->
-<!--         p.PD_PRICE, -->
-<!--         cp1.value AS PD_PRICE_OFFER, -->
-<!--         cp2.value AS PD_STATUS, -->
-<!--         cp3.value AS PD_CONDITION, -->
-<!--         cp4.value AS PD_TRADE_METHOD, -->
-<!--         cp5.value AS PD_SAFE_TRADE, -->
-<!--         p.PD_REG_DATE, -->
-<!--         p.PD_UPDATED_DATE, -->
-<!--         p.PD_READCOUNT, -->
-<!--         p.PD_TEMP_SAVE, -->
-<!--         p.PD_TAG1, -->
-<!--         p.PD_TAG2, -->
-<!--         p.PD_TAG3, -->
-<!--         p.PD_TAG4, -->
-<!--         p.PD_TAG5, -->
-<!--         i.image1, -->
-<!--         i.image2, -->
-<!--         i.image3, -->
-<!--         i.image4, -->
-<!--         i.image5 -->
-<!--     FROM  -->
-<!--         product p -->
-<!--     LEFT JOIN  -->
-<!--         common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER' -->
-<!--     LEFT JOIN  -->
-<!--         common cp2 ON p.PD_STATUS = cp2.code AND cp2.name = 'PD_STATUS' -->
-<!--     LEFT JOIN  -->
-<!--         common cp3 ON p.PD_CONDITION = cp3.code AND cp3.name = 'PD_CONDTION' -->
-<!--     LEFT JOIN  -->
-<!--         common cp4 ON p.PD_TRADE_METHOD = cp4.code AND cp4.name = 'PD_METHOD' -->
-<!--     LEFT JOIN  -->
-<!--         common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE' -->
-<!--     LEFT JOIN  -->
-<!--         images i ON p.PD_IMAGE = i.IMG_IDX -->
-<!--     LEFT JOIN  -->
-<!--         category c3 ON p.PD_CATEGORY = c3.CTG_CODE -->
-<!--     LEFT JOIN  -->
-<!--         category c2 ON c3.UP_CTG_CODE = c2.CTG_CODE -->
-<!--     LEFT JOIN  -->
-<!--         category c1 ON c2.UP_CTG_CODE = c1.CTG_CODE -->
-<!--     WHERE  -->
-<!--         (#{cate1} IS NULL OR c1.CTG_CODE = #{cate1}) -->
-<!--         AND (#{cate2} IS NULL OR c2.CTG_CODE = #{cate2}) -->
-<!--         AND (#{cate3} IS NULL OR c3.CTG_CODE = #{cate3}) -->
-<!--     ORDER BY  -->
-<!--         p.PD_IDX DESC -->
-<!--     LIMIT #{startRow}, #{listLimit} -->
-<!-- </select> -->
-
-	
-    
-<!--     <select id="selectFilteredProducts" resultType="map"> -->
-<!-- 	    WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS ( -->
-<!-- 	        SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME -->
-<!-- 	        FROM category -->
-<!-- 	        WHERE UP_CTG_CODE = 'T' -->
-<!-- 	        UNION ALL -->
-<!-- 	        SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME) -->
-<!-- 	        FROM category t -->
-<!-- 	        INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE -->
-<!-- 	    ) -->
-<!-- 	    SELECT  -->
-<!-- 	        p.PD_IDX, -->
-<!-- 	        p.US_ID, -->
-<!-- 	        tmp.PATH AS PD_CATEGORY, -->
-<!-- 	        p.PD_SUBJECT, -->
-<!-- 	        p.PD_CONTENT, -->
-<!-- 	        p.PD_IMAGE, -->
-<!-- 	        p.PD_PRICE, -->
-<!-- 	        cp1.value AS PD_PRICE_OFFER, -->
-<!-- 	        cp2.value AS PD_STATUS, -->
-<!-- 	        cp3.value AS PD_CONDITION, -->
-<!-- 	        cp4.value AS PD_TRADE_METHOD, -->
-<!-- 	        cp5.value AS PD_SAFE_TRADE, -->
-<!-- 	        p.PD_REG_DATE, -->
-<!-- 	        p.PD_UPDATED_DATE, -->
-<!-- 	        p.PD_READCOUNT, -->
-<!-- 	        p.PD_TEMP_SAVE, -->
-<!-- 	        p.PD_TAG1, -->
-<!-- 	        p.PD_TAG2, -->
-<!-- 	        p.PD_TAG3, -->
-<!-- 	        p.PD_TAG4, -->
-<!-- 	        p.PD_TAG5, -->
-<!-- 	        i.image1, -->
-<!-- 	        i.image2, -->
-<!-- 	        i.image3, -->
-<!-- 	        i.image4, -->
-<!-- 	        i.image5 -->
-<!-- 	    FROM  -->
-<!-- 	        product p -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp2 ON p.PD_STATUS = cp2.code AND cp2.name = 'PD_STATUS' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp3 ON p.PD_CONDITION = cp3.code AND cp3.name = 'PD_CONDTION' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp4 ON p.PD_TRADE_METHOD = cp4.code AND cp4.name = 'PD_METHOD' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        images i ON p.PD_IMAGE = i.IMG_IDX -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        tmp ON p.PD_CATEGORY = tmp.CTG_CODE -->
-<!-- 	    WHERE  -->
-<!-- 	        (#{cate1} IS NULL OR tmp.PATH LIKE CONCAT('%', #{cate1}, '%')) -->
-<!-- 	        AND (#{cate2} IS NULL OR tmp.PATH LIKE CONCAT('%', #{cate2}, '%')) -->
-<!-- 	        AND (#{cate3} IS NULL OR tmp.PATH LIKE CONCAT('%', #{cate3}, '%')) -->
-<!-- 	    ORDER BY  -->
-<!-- 	        p.PD_IDX DESC -->
-<!-- 	    LIMIT #{startRow}, #{listLimit} -->
-<!-- 	</select> -->
-    
-    <!-- 전체글 무한 스크롤 됨 -->
-<!--     <select id="selectFilteredProducts" resultType="map"> -->
-<!-- 	    WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS ( -->
-<!-- 	        SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME -->
-<!-- 	        FROM category -->
-<!-- 	        WHERE UP_CTG_CODE = 'T' -->
-<!-- 	        UNION ALL -->
-<!-- 	        SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME) -->
-<!-- 	        FROM category t -->
-<!-- 	        INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE -->
-<!-- 	    ) -->
-<!-- 	    SELECT  -->
-<!-- 	        p.PD_IDX, -->
-<!-- 	        p.US_ID, -->
-<!-- 	        CASE  -->
-<!-- 	            WHEN LENGTH(p.PD_CATEGORY) = 3 THEN tmp.PATH -->
-<!-- 	            ELSE p.PD_CATEGORY -->
-<!-- 	        END AS PD_CATEGORY, -->
-<!-- 	        p.PD_SUBJECT, -->
-<!-- 	        p.PD_CONTENT, -->
-<!-- 	        p.PD_IMAGE, -->
-<!-- 	        p.PD_PRICE, -->
-<!-- 	        cp1.value AS PD_PRICE_OFFER, -->
-<!-- 	        cp2.value AS PD_STATUS, -->
-<!-- 	        cp3.value AS PD_CONDITION, -->
-<!-- 	        cp4.value AS PD_TRADE_METHOD, -->
-<!-- 	        cp5.value AS PD_SAFE_TRADE, -->
-<!-- 	        p.PD_REG_DATE, -->
-<!-- 	        p.PD_UPDATED_DATE, -->
-<!-- 	        p.PD_READCOUNT, -->
-<!-- 	        p.PD_TEMP_SAVE, -->
-<!-- 	        p.PD_TAG1, -->
-<!-- 	        p.PD_TAG2, -->
-<!-- 	        p.PD_TAG3, -->
-<!-- 	        p.PD_TAG4, -->
-<!-- 	        p.PD_TAG5, -->
-<!-- 	        i.image1, -->
-<!-- 	        i.image2, -->
-<!-- 	        i.image3, -->
-<!-- 	        i.image4, -->
-<!-- 	        i.image5 -->
-<!-- 	    FROM  -->
-<!-- 	        product p -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp2 ON p.PD_STATUS = cp2.code AND cp2.name = 'PD_STATUS' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp3 ON p.PD_CONDITION = cp3.code AND cp3.name = 'PD_CONDTION' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp4 ON p.PD_TRADE_METHOD = cp4.code AND cp4.name = 'PD_METHOD' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        common cp5 ON p.PD_SAFE_TRADE = cp5.code AND cp5.name = 'PD_SAFE_TRADE' -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        images i ON p.PD_IMAGE = i.IMG_IDX -->
-<!-- 	    LEFT JOIN  -->
-<!-- 	        tmp ON p.PD_CATEGORY = tmp.CTG_CODE -->
-<!-- 	    WHERE  -->
-<!-- 	        (p.PD_CATEGORY LIKE CONCAT('%', #{cate1}, '%') OR LENGTH(p.PD_CATEGORY) != 3) -->
-<!-- 	        AND (p.PD_CATEGORY LIKE CONCAT('%', #{cate2}, '%') OR LENGTH(p.PD_CATEGORY) != 3) -->
-<!-- 	        AND (p.PD_CATEGORY LIKE CONCAT('%', #{cate3}, '%') OR LENGTH(p.PD_CATEGORY) != 3) -->
-<!-- 	    ORDER BY  -->
-<!-- 	        p.PD_IDX DESC -->
-<!-- 	    LIMIT #{startRow}, #{listLimit} -->
-<!-- 	</select> -->
-    
-<!--     <select id="selectFilteredProducts" resultType="map"> -->
-<!-- 	    SELECT * -->
-<!-- 	    FROM product p -->
-<!-- 	    JOIN images i ON p.PD_IMAGE = i.IMG_IDX -->
-<!-- 	    WHERE 1=1 -->
-<!-- 	    <if test="cate1 != null and cate1 != ''"> -->
-<!-- 	        AND p.PD_CATEGORY LIKE CONCAT('%', #{cate1}, '%') -->
-<!-- 	    </if> -->
-<!-- 	    <if test="cate2 != null and cate2 != ''"> -->
-<!-- 	        AND p.PD_CATEGORY LIKE CONCAT('%', #{cate2}, '%') -->
-<!-- 	    </if> -->
-<!-- 	    <if test="cate3 != null and cate3 != ''"> -->
-<!-- 	        AND p.PD_CATEGORY LIKE CONCAT('%', #{cate3}, '%') -->
-<!-- 	    </if> -->
-<!-- 	    ORDER BY p.PD_IDX DESC -->
-<!-- 	    LIMIT #{startRow}, #{listLimit} -->
-<!-- 	</select>  -->
-
-	
-	
+	<select id="selectWishList" resultType="int">
+		select count(*)
+		from wish_list 
+		where WL_US_ID = #{WL_US_ID} 
+		AND WL_PD_IDX = #{productId}
+	</select>	 
 	
 </mapper>
 

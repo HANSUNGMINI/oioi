@@ -56,6 +56,29 @@
         #recentProduct{
         	color : #34A853
         }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0.7;
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .non_overlay {
+        	display : none;
+        }
     </style>
     
     <script type="text/javascript">
@@ -138,7 +161,8 @@
                                 + '             <form action="productDetail" method="get">'
                                 + '               <input type="hidden" name="PD_IDX" value="'+ product.PD_IDX + '">'
                                 + '               <a href="#" onclick="this.parentNode.submit(); return false;">'
-                                + '                   <img class="default-img" src="' + contextPath + '/resources/upload/' + product.image1 + '">'
+                                + '               	<img class="default-img" src="' + contextPath + '/resources/upload/' + product.image1 + '">'
+                                + '					<div class="'+ product.PD_STATUS_COLOR +'">' +  product.PD_STATUS_VALUE +'</div>'
                                 + '               </a>'
                                 + '           </form>'
                                 + '           <div class="button-head">'
@@ -153,7 +177,8 @@
                                 + '       <div class="product-content">'
                                 + '           <h3><a href="productDetail?PD_IDX='+ product.PD_IDX +'">'+ product.PD_SUBJECT +'</a></h3>'
                                 + '           <div class="product-price">'
-                                + '               <span>'+ product.PD_PRICE +'</span>'
+                                + '               <span>'+ new Intl.NumberFormat().format(product.PD_PRICE) +'원</span>'
+                                //+ '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>'
                                 + '           </div>'
                                 + '       </div>'
                                 + '   </div>'

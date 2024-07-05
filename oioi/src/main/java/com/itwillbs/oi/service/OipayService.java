@@ -65,7 +65,7 @@ public class OipayService {
 	}
 
 	public void updateOimoney(Map<String, Object> map) {
-		mapper.updateOimoney(map);
+		mapper.updateChargeOimoney(map);
 	}
 
 	public Map<String, Object> selectTradePDInfo(int PD_IDX) {
@@ -79,9 +79,23 @@ public class OipayService {
 	@Transactional
 	public void purchaseByOimoney(Map<String, String> map) {
 		mapper.updatePdStatus(map);
-		mapper.updateUseOimoney(map);
+		mapper.updateMinusOimoney(map);
+		mapper.updatePlusOimoney(map);
 		
 	}
+	
+	
+
+	public Map deposit(Map<String, Object> map) {
+		map.put("admin_token", 
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJNMjAyMTEzODU0Iiwic2NvcGUiOlsib29iIl0sImlzcyI6Imh0dHBzOi8vd3d3Lm9wZW5iYW5raW5nLm9yLmtyIiwiZXhwIjoxNzI2NDY5NTYwLCJqdGkiOiI2YzUxNjRiNS03NGMyLTRkZTQtODk5MC01NTAyY2Y0Y2VmNzQifQ.8M2_ECUrrG5PbZWftGWZM0cB6DJFmu_xH-d2XSC2JVI");
+		return bankApiClient.requestDeposit(map);
+	}
+
+	public void updateRefundOimoney(Map<String, Object> map) {
+		mapper.updateRefundOimoney(map);
+	}
+
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
 //	public Map getUserInfo(BankTokenVO token) {

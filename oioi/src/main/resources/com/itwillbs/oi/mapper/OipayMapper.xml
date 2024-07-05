@@ -63,7 +63,7 @@ CREATE TABLE bank_user_info (
 		WHERE BUI_ACCESS_TOKEN = #{access_token}
 	</select>
 	
-	<update id="updateOimoney">
+	<update id="updateChargeOimoney">
 		UPDATE user
 		SET
 			US_OIMONEY = US_OIMONEY + #{amtInput}
@@ -107,10 +107,22 @@ CREATE TABLE bank_user_info (
 	
 	</update>
 	
-	<update id="updateUseOimoney">
+	<update id="updateMinusOimoney">
 		UPDATE user
 		SET US_OIMONEY = US_OIMONEY - #{PD_PRICE}
 		WHERE US_ID = #{US_ID}
+	</update>
+	
+	<update id="updatePlusOimoney">
+		UPDATE user
+		SET US_OIMONEY = US_OIMONEY + #{PD_PRICE}
+		WHERE US_ID = #{TO_ID}
+	</update>
+	
+	<update id="updateRefundOimoney">
+		UPDATE user
+		SET US_OIMONEY = US_OIMONEY - #{amtInput}
+		WHERE US_ID = #{id}
 	</update>
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
