@@ -330,6 +330,12 @@
 	</header>
 	 <!-- JavaScript 및 WebSocket 관련 스크립트 -->
     <script>
+    
+ 	// 숫자를 원 단위로 포맷하는 함수 정의
+    function formatCurrency(num) {
+        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(num);
+    }
+    
     $(document).ready(function() {
    	 	var contextPath = '<%= request.getContextPath() %>';
         var socket = new WebSocket('ws://localhost:8081/oi/push');
@@ -352,11 +358,12 @@
                     var notificationItem = 
                         '<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
                         '<a class="cart-img" href="#"><img src="' + imagePath + '" alt="#"></a>' +
-                        '<h4>제품명: ' + item.APD_NAME + '<br>' +
-                            '시작 가격: ' + item.APD_START_PRICE + '<br>' +
-                            '즉시 구매 가격: ' + item.APD_BUY_NOW_PRICE +
+                        '<h4 style="font-size: 90%;">제품명: ' + item.APD_NAME + '<br>' +
+                        '시작가 : ' + formatCurrency(item.APD_START_PRICE) + '<br>' +
+                        '즉시 구매가 : ' + formatCurrency(item.APD_BUY_NOW_PRICE) +
                         '</h4>' +
                         '</li>';
+                        
                     $('#notification-list').append(notificationItem);
 
                     // 알림 아이콘에 카운트 추가
