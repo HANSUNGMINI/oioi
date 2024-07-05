@@ -137,7 +137,7 @@
 									<!-- Product Buy -->
 									<div class="product-buy">
 										<ul class="nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab" onclick="addToWishList('${productInfo.PD_IDX})">♥</a></li>
+											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goWish" href="#" role="tab" onclick="addToWishList()">♥</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
 										</ul>
@@ -291,28 +291,30 @@
 		}
 	</script>
 	<script type="text/javascript">
-	function addToWishList(PD_IDX){
-		let us_id = "${sessionScope.US_ID}";
-		if (!us_id || us_id === 'null') {
-			Swal.fire({
-          title: '로그인 후 이용이 가능합니다.',         // Alert 제목
-          text: '로그인 후 충전하시고 구매하셔야합니다',  // Alert 내용
-          icon: 'warning',                         // Alert 타입
-      });
-      return false;
-        }
-		$.ajax({
-            url : "addToWishlist",
-            type : "post",
-            data : {
-               PD_IDX : PD_IDX
-            },
-            dataType : "JSON",
-            success: function(response) {
-               console.log("성공 : " + response);
-            }
-         });
-	}
-</script>
+	function addToWishList(){
+		var productId = '${productInfo.PD_IDX}';
+	 	
+	 		$.ajax({
+             url: 'addToWishlist',
+             type: 'POST',
+             data: {
+                 productId: productId
+             }, 
+             dataType : "JSON",
+             success: function(response) {
+				const result = response.result;
+				
+				if(result == "Duplicate"){
+					alert("중복ㅋ");
+				} else if (result == "Success") {
+					alert("성공ㅋ");
+					
+				} else if (result == "fail") {
+					alert("실패");
+				}
+             }
+ 		});
+    }
+	</script>
 </body>
 </html>

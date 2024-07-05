@@ -222,14 +222,21 @@
 	    LIMIT #{params.startRow}, #{params.listLimit}
 	</select>
 	
-	<insert id="insertWishlist">
+	<insert id="insertWishList">
         INSERT INTO wish_list
         VALUES (
         	  NULL
-       		  , #{US_ID}
-       	 	  , #{PD_IDX}
+       		  , #{WL_US_ID}
+       	 	  , #{productId}
        	 	  )
     </insert>
+	
+	<select id="selectWishList" resultType="int">
+		select count(*)
+		from wish_list 
+		where WL_US_ID = #{WL_US_ID} 
+		AND WL_PD_IDX = #{productId}
+	</select>	 
 	
 </mapper>
 

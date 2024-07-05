@@ -305,28 +305,30 @@ public class TradeController {
 	}
 	
 	// 찜하기 기능 추가
+	@ResponseBody
     @PostMapping("addToWishlist")
-    public String addToWishlist(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
-        System.out.println("addToWishlist : " + map);
-    	String userId = (String) session.getAttribute("US_ID");
-        System.out.println("사용자 아이디: " + userId);
-        if (userId == null) {
-        	model.addAttribute("msg", "로그인이 필요합니다.");
-        	return "err/fail";
-        }
-        System.out.println(" : " );
-        Map<String, String> wishlistMap = new HashMap<>();
-        wishlistMap.put("US_ID", userId);
-        
-        int result = tradeService.addToWishlist(wishlistMap);
-        if (result < 0) {
-        	model.addAttribute("msg", "찜 등록 실패!");
-			return "err/fail";
+    public JsonObject addToWishlist(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
+        JsonObject jo = new JsonObject();
+		System.out.println("받은 map정보 : " + map);
+        map.put("WL_US_ID", (String)session.getAttribute("US_ID"));
+        System.out.println("세션 확인 map : " + map);
+        int checkWishList = tradeService.selectWishList(map);
+        System.out.println("조회한 찜목록 레코드 : " + checkWishList);
+        if(checkWishList > 0) {
+        	jo.addProperty("result", "Duplicate");
         } else {
-        	model.addAttribute("msg", "찜하기 성공!");
-			return "err/success";
+        	int result = tradeService.addWishList(map);
+        	
+        	if(result > 0) {
+        		jo.addProperty("result", "Success");
+        	} else {
+        		jo.addProperty("result", "fail");
+        	}
+        	
         }
-    }
+        return jo;
+	}
+}
 //	@ResponseBody
 //	@GetMapping("SelectProductList")
 //	public String SelectProductList(@RequestParam Map<String, String> map
@@ -334,4 +336,3 @@ public class TradeController {
 //		System.out.println(map);
 //		return "asdf";
 //	}
-}
