@@ -86,7 +86,8 @@
 <body class="js">
 <%
     String clientId = "jYR_TimjsvzQr8BV06yT";//애플리케이션 클라이언트 아이디값";
-    String redirectURI = URLEncoder.encode("http://localhost:8081/oi/naver_callback", "UTF-8");
+//     String redirectURI = URLEncoder.encode("http://localhost:8081/oi/naver_callback", "UTF-8");
+	String redirectURI = URLEncoder.encode("http://c3d2401t1.itwillbs.com/oioi/naver_callback", "UTF-8");
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
     String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
