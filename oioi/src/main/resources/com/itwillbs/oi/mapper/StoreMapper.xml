@@ -84,10 +84,11 @@
         WHERE PD_IDX = #{PD_IDX}
     </update>
     
-    <select id="selectReviewsByStoreId" parameterType="String" resultType="Map">
-	    SELECT RV_IDX, TO_US_ID, FROM_US_ID, RV_STAR, RV_CATEGORY, RV_CONTENT, RV_TIME
+	<select id="selectReviewsByStoreId" parameterType="String" resultType="Map">
+	    SELECT RV_IDX, TO_US_ID, FROM_US_ID, RV_STAR, RV_CATEGORY, RV_CONTENT, RV_TIME, PD_IDX
 	    FROM review
 	    WHERE TO_US_ID = #{userId}
 	</select>
+
     
 </mapper>

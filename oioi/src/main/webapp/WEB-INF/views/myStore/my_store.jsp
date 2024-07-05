@@ -177,15 +177,22 @@
             border-radius: 5px;
         }
 
-        .product-info-bottom {
+        .product-details {
             display: flex;
-            justify-content: flex-end; /* 텍스트를 오른쪽으로 정렬 */
-            align-items: center;
-            margin-top: 10px;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .product-info-bottom div {
-            margin: 0 5px;
+        .product-info-bottom {
+            display: flex;
+            justify-content: space-between; /* 텍스트를 양쪽으로 정렬 */
+            align-items: center;
+            width: 100%; /* 양쪽 정렬을 위해 전체 너비를 차지 */
+            margin-top: 10px;
         }
 
         .product-price {
@@ -378,10 +385,12 @@
                                                                     <c:if test="${product.PD_STATUS eq 'PDS03'}">
                                                                         <div class="overlay">판매 완료</div>
                                                                     </c:if>
-                                                                    <p>${product.PD_SUBJECT}</p>
-                                                                    <div class="product-info-bottom">
-                                                                        <div class="product-price">${product.PD_PRICE} 원</div>
-                                                                        <div class="product-date">${product.timeAgo}</div>
+                                                                    <div class="product-details">
+                                                                        <p>${product.PD_SUBJECT}</p>
+                                                                        <div class="product-info-bottom">
+                                                                            <div class="product-price">${product.PD_PRICE} 원</div>
+                                                                            <div class="product-date">${product.timeAgo}</div>
+                                                                        </div>
                                                                     </div>
                                                                 </a>
                                                             </div>
@@ -429,7 +438,7 @@
                                                                 </div>
                                                                 <p>${review.RV_CONTENT}</p>
                                                                 <div class="review-categories">
-                                                                    <c:forEach var="category" items="${fn:split(review.RV_CATEGORY, '/')}">
+                                                                    <c:forEach var="category" items="${fn:split(review.RV_CATEGORY_NAMES, ', ')}">
                                                                         <span>${category}</span>
                                                                     </c:forEach>
                                                                 </div>
@@ -521,7 +530,6 @@
                 type: 'POST',      // 요청 타입
                 data: { editText: newText }, // 전송할 데이터
                 success: function(response) {
-                    console.log("서버 응답: ", response);
                     if (response.success) {
                         // 업데이트 성공 시, 소개글 텍스트 업데이트
                         document.querySelector("#intro-text p").innerText = newText;
