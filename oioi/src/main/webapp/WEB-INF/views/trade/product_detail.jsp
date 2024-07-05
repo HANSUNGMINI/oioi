@@ -305,9 +305,9 @@
 				const result = response.result;
 				
 				if(result == "Duplicate"){
-					alert("중복ㅋ");
+					alert("이미 찜한 상품입니다!");
 				} else if (result == "Success") {
-					alert("성공ㅋ");
+					alert("선택하신 상품을 찜목록에 등록하였습니다!");
 					
 				} else if (result == "fail") {
 					alert("실패");
