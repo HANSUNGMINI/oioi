@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 // @Component 어노테이션 사용 시 @Service, @Repository 등의 어노테이션을 대체 가능
@@ -222,8 +223,8 @@ public class OipayApiClient {
 	public Map requestWithdraw(Map<String, Object> map) {
 		
 		Map<String, Object> token = (Map<String, Object>)map.get("token");
-		System.out.println("requestWithdraw---------" + token);
-		System.out.println("map+++++++++++" + map);
+//		System.out.println("requestWithdraw---------" + token);
+//		System.out.println("map+++++++++++" + map);
 		
 		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
 		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가
@@ -345,88 +346,86 @@ public class OipayApiClient {
 //		return responseEntity.getBody();
 //	}
 //
-//	// 2.5. 계좌이체 서비스 - 2.5.2. 입금이체 API
-//	// https://testapi.openbanking.or.kr/v2.0/transfer/deposit/fin_num
-//	public Map requestDeposit(Map<String, Object> map) {
-//		BankTokenVO token = (BankTokenVO)map.get("token");
-//		
-//		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
-//		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가 및 컨텐츠 타입 JSON 으로 설정
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setBearerAuth(token.getAccess_token());
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		
-//		// 2. 요청에 필요한 URI 정보 생성
-//		String url = base_url + "/v2.0/transfer/deposit/fin_num";
-//		
-//		// 3. 요청 파라미터를 JSON 형식의 데이터로 생성
-//		Gson gson = new Gson();
-//		// 3-1) 1건의 입금 이체 정보를 저장할 객체 생성
-//		JsonObject joReq = new JsonObject();
-//		joReq.addProperty("tran_no", 1); // 거래순번(단건이체이므로 무조건 1 고정)
-//		joReq.addProperty("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호
-//		
-//		// ---------- 요청 고객(입금 계좌) 정보 ----------
-//		joReq.addProperty("fintech_use_num", (String)map.get("deposit_fintech_use_num")); // 입금계좌핀테크이용번호
-//		joReq.addProperty("print_content", "아이티윌_입금"); // 입금계좌인자내역
-//		joReq.addProperty("tran_amt", (String)map.get("tran_amt")); // 거래금액
-//		
-//		joReq.addProperty("req_client_name", (String)map.get("deposit_user_name")); // 요청고객성명(출금계좌)
-//		joReq.addProperty("req_client_fintech_use_num", (String)map.get("deposit_fintech_use_num")); // 요청고객핀테크이용번호(출금계좌)
-//		// => 요청고객 계좌번호 미사용 시 핀테크 이용번호 설정 필수!
-//		joReq.addProperty("req_client_num", ((String)map.get("id")).toUpperCase()); // 요청고객회원번호(아이디처럼 사용) => 영문자 모두 대문자 변환 
-//		joReq.addProperty("transfer_purpose", "TR"); // 이체 용도(송금 : TR) 
-//		
-//		// 3-2) 입금 이체 1건의 정보를 배열(리스트)로 관리할 JsonArray 객체 생성
-//		JsonArray jaReqList = new JsonArray();
-//		jaReqList.add(joReq); // JsonArray 객체에 1건의 이체 정보가 담긴 JsonObject 객체 추가
-//		
-//		// 3-3) 기본 입금 이체 정보를 저장할 JsonObject 객체 생성
-//		JsonObject jo = new JsonObject(); 
-//		// ---------- 핀테크 이용기관 정보 ----------
-//		jo.addProperty("cntr_account_type", "N"); // 약정 계좌/계정 구분("N" : 계좌)
-//		jo.addProperty("cntr_account_num", cntr_account_num); // appdata.properties 파일 내의 값 활용		jsonObject.addProperty("dps_print_content", map.get("id") + "_출금"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
-//		
-//		jo.addProperty("wd_pass_phrase", "NONE"); // 입금이체용 암호문구(테스트 시 "NONE" 값 전달) 
-//		jo.addProperty("wd_print_content", (String)map.get("deposit_user_name") + "_송금"); // 출금계좌인자내역 
-//		jo.addProperty("name_check_option", "on"); // 수취인성명 검증여부(on : 검증, 생략 시 off) 
-//		jo.addProperty("tran_dtime", bankValueGenerator.getTranDTime()); // 요청일시
-//		jo.addProperty("req_cnt", 1); // 입금요청건수(현재 여러건 이체 지원중단됐으므로 단건이체 "1" 고정)
-//		
-//		// 3-4) 기본 입금 이체 정보 JsonObject 객체에 JsonArray 객체 추가
-//		jo.add("req_list", jaReqList); // 요청일시
-//		
-//		// 최종 요청 파라미터 확인
-//		// => Gson 객체의 toJson() 메서드 호출하여 파라미터로 JsonObject 객체 전달
-//		logger.info(">>>>>>>> 입금이체 요청 JSON 데이터 : " + gson.toJson(jo));
-//		
-//		
-//		// 4. 요청에 사용될 데이터를 관리하는 HttpEntity 객체 생성
-//		// => 파라미터 데이터(body)로 JsonObject 객체를 문자열로 변환하여 전달, 헤더도 전달
-//		HttpEntity<String> httpEntity = new HttpEntity<String>(gson.toJson(jo), headers);
-//		logger.info(">>>>>>>> httpEntity.getHeaders() : " + httpEntity.getHeaders());
-//		logger.info(">>>>>>>> httpEntity.getBody() : " + httpEntity.getBody());
-//		
-//		
-//		// 5. RESTful API 요청을 위한 RestTemplate 객체의 exchange() 메서드 호출하여
-//		//    POST 방식 HTTP 요청 수행
-//		RestTemplate restTemplate = new RestTemplate();
-//		ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Map.class);
-//		logger.info(">>>>>>>> 입금 이체 요청 결과 : " + responseEntity.getBody());
-//		
-//		return responseEntity.getBody();
-//		
-//		/*
-//		 * [ 테스트 데이터 등록 방법 - 입금이체 ]
-//		 * 사용자 일련번호, 핀테크이용번호 : 입금(송금) 대상 고객 정보
-//		 * => 입금기관 대표코드, 입금계좌번호(출력용 포함) 자동으로 입력됨
-//		 * 송금인 실명 : 핀테크 이용기관의 계좌 예금주명 입력(입금 요청 고객 정보 아님!) => 이연태 고정
-//		 * 거래금액 : tran_amt 값 입력
-//		 * 입금계좌인자내역 : print_content 값 입력
-//		 * 수취인 성명 : req_client_name 값 입력(입금(송금) 대상 고객 계좌 예금주명(최종 수취인))
-//		 */
-//	}
-//	
+	// 2.5. 계좌이체 서비스 - 2.5.2. 입금이체 API
+	// https://testapi.openbanking.or.kr/v2.0/transfer/deposit/fin_num
+	public Map requestDeposit(Map<String, Object> map) {
+		
+//		System.out.println(map);
+		// 1. 사용자 정보 조회 API 의 경우 헤더 정보에 엑세스토큰 값을 담아 전송해야하므로
+		//    헤더 정보를 관리할 HttpHeaders 객체 생성 후 정보 추가 및 컨텐츠 타입 JSON 으로 설정
+		HttpHeaders headers = new HttpHeaders();
+		headers.setBearerAuth(map.get("admin_token").toString());
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		// 2. 요청에 필요한 URI 정보 생성
+		String url = base_url + "/v2.0/transfer/deposit/fin_num";
+		
+		// 3. 요청 파라미터를 JSON 형식의 데이터로 생성
+		Gson gson = new Gson();
+		// 3-1) 1건의 입금 이체 정보를 저장할 객체 생성
+		JsonObject joReq = new JsonObject();
+		joReq.addProperty("tran_no", 1); // 거래순번(단건이체이므로 무조건 1 고정)
+		joReq.addProperty("bank_tran_id", bankValueGenerator.getBankTranId()); // 거래고유번호
+		
+		// ---------- 요청 고객(입금 계좌) 정보 ----------
+		joReq.addProperty("fintech_use_num", (String)map.get("fintech_use_num")); // 입금계좌핀테크이용번호
+		joReq.addProperty("print_content", "오이마켓출금"); // 입금계좌인자내역
+		joReq.addProperty("tran_amt", (String)map.get("amtInput")); // 거래금액
+		
+		joReq.addProperty("req_client_name", (String)map.get("account_holder_name")); // 요청고객성명(출금계좌)
+		joReq.addProperty("req_client_fintech_use_num", (String)map.get("fintech_use_num")); // 요청고객핀테크이용번호(출금계좌)
+		// => 요청고객 계좌번호 미사용 시 핀테크 이용번호 설정 필수!
+		joReq.addProperty("req_client_num", ((String)map.get("id")).toUpperCase()); // 요청고객회원번호(아이디처럼 사용) => 영문자 모두 대문자 변환 
+		joReq.addProperty("transfer_purpose", "TR"); // 이체 용도(송금 : TR) 
+		
+		// 3-2) 입금 이체 1건의 정보를 배열(리스트)로 관리할 JsonArray 객체 생성
+		JsonArray jaReqList = new JsonArray();
+		jaReqList.add(joReq); // JsonArray 객체에 1건의 이체 정보가 담긴 JsonObject 객체 추가
+		
+		// 3-3) 기본 입금 이체 정보를 저장할 JsonObject 객체 생성
+		JsonObject jo = new JsonObject(); 
+		// ---------- 핀테크 이용기관 정보 ----------
+		jo.addProperty("cntr_account_type", "N"); // 약정 계좌/계정 구분("N" : 계좌)
+		jo.addProperty("cntr_account_num", cntr_account_num); // appdata.properties 파일 내의 값 활용		jsonObject.addProperty("dps_print_content", map.get("id") + "_출금"); // 입금계좌인자내역(입금되는 계좌에 출력할 메세지)
+		
+		jo.addProperty("wd_pass_phrase", "NONE"); // 입금이체용 암호문구(테스트 시 "NONE" 값 전달) 
+		jo.addProperty("wd_print_content", "출금"); // 출금계좌인자내역 
+		jo.addProperty("name_check_option", "on"); // 수취인성명 검증여부(on : 검증, 생략 시 off) 
+		jo.addProperty("tran_dtime", bankValueGenerator.getTranDTime()); // 요청일시
+		jo.addProperty("req_cnt", 1); // 입금요청건수(현재 여러건 이체 지원중단됐으므로 단건이체 "1" 고정)
+		
+		// 3-4) 기본 입금 이체 정보 JsonObject 객체에 JsonArray 객체 추가
+		jo.add("req_list", jaReqList); // 요청일시
+		
+		// 최종 요청 파라미터 확인
+		// => Gson 객체의 toJson() 메서드 호출하여 파라미터로 JsonObject 객체 전달
+//		jo.addProperty("scope", "inquiry login transfer");
+//		jo.addProperty("scope", "login inquiry transfer");
+		
+		// 4. 요청에 사용될 데이터를 관리하는 HttpEntity 객체 생성
+		// => 파라미터 데이터(body)로 JsonObject 객체를 문자열로 변환하여 전달, 헤더도 전달
+		HttpEntity<String> httpEntity = new HttpEntity<String>(gson.toJson(jo), headers);
+		
+		
+		// 5. RESTful API 요청을 위한 RestTemplate 객체의 exchange() 메서드 호출하여
+		//    POST 방식 HTTP 요청 수행
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Map.class);
+		
+//		System.out.println(responseEntity.getBody());
+		return responseEntity.getBody();
+		
+		/*
+		 * [ 테스트 데이터 등록 방법 - 입금이체 ]
+		 * 사용자 일련번호, 핀테크이용번호 : 입금(송금) 대상 고객 정보
+		 * => 입금기관 대표코드, 입금계좌번호(출력용 포함) 자동으로 입력됨
+		 * 송금인 실명 : 핀테크 이용기관의 계좌 예금주명 입력(입금 요청 고객 정보 아님!) => 이연태 고정
+		 * 거래금액 : tran_amt 값 입력
+		 * 입금계좌인자내역 : print_content 값 입력
+		 * 수취인 성명 : req_client_name 값 입력(입금(송금) 대상 고객 계좌 예금주명(최종 수취인))
+		 */
+	}
+	
 //	// =====================================================================
 //	// P2P(개인간) 송금용
 //	// 2.5. 계좌이체 서비스 - 2.5.1. 출금이체 API

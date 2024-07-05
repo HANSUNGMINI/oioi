@@ -1,10 +1,8 @@
 package com.itwillbs.oi.Controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.OipayService;
-import com.itwillbs.oi.service.TradeService;
-
-import kotlin.reflect.jvm.internal.impl.types.model.TypeSystemOptimizationContext;
 
 @Controller
 public class OipayController {
@@ -129,19 +125,61 @@ public class OipayController {
 			service.updateOimoney(map);
 		} else {
 			model.addAttribute("msg", "충전에 실패했습니다😓😓");
-			return "err/error";
+			return "err/fail";
 		}
 		
 		return withdrawResult.toString();
 	}
 	
-	
-	@GetMapping("payRefund")
-	public String payRefund() {
+	@ResponseBody
+	@PostMapping("payRefund")
+	public JsonObject payRefund(HttpSession session, Model model, @RequestParam Map<String,Object> map) {
+		String access_token = (String)session.getAttribute("BUI_ACCESS_TOKEN");
+		
+//		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
+//			model.addAttribute("msg", "로그인 후 이용해주세요.");
+//			return "err/fail";
+//		}
+//		
+//		if(access_token == null) {
+//			model.addAttribute("msg", "계좌 연결 후 이용해주세요.");
+//			return "err/fail";
+//		}
+		
+		JsonObject result = new JsonObject();
+		
+		map.put("token", access_token);
+		map.put("id", (String)session.getAttribute("US_ID"));
+		
+		int amt = Integer.parseInt(map.get("amtInput").toString());
+		int oiMoney =  Integer.parseInt(map.get("US_OIMONEY").toString()); 
 		
 		
-		return "";
+		if(amt > oiMoney) {
+			result.addProperty ("msg", "오이머니 잔액이 부족합니다🥺");
+			result.addProperty ("result", "error");
+			return result;
+		} 
+		
+		Map depositResult = service.deposit(map);
+		
+//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>" + depositResult);
+		// 입금 요청 결과 객체 저장 후 bank_deposit_result 페이지로 포워딩
+//		model.addAttribute("depositResult", depositResult);
+//		System.out.println("++++++++++++++++" + map);
+		if(depositResult.get("rsp_code").equals("A0000")) {
+			service.updateRefundOimoney(map);
+		} else {
+			result.addProperty ("msg", "출금에 실패하였습니다🥺");
+			result.addProperty ("result", "error");
+			return result;
+		}
+		
+		result.addProperty ("msg", "머니가 출금되었습니다😊");
+		result.addProperty ("result", "success");
+		return result;
 	}
+	
 	
 	@GetMapping("purchase") //결제페이지
 	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {

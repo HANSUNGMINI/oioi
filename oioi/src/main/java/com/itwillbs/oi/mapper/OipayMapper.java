@@ -23,15 +23,18 @@ public interface OipayMapper {
 
 	Map<String, Object> selectBankUserInfo(Object object);
 
-	void updateOimoney(Map<String, Object> map);
+	void updateChargeOimoney(Map<String, Object> map);
 	
 	Map<String, Object> selectTradePDInfo(int PD_IDX);
 
 	int selectOiMoney(String id);
 
 	void updatePdStatus(Map<String, String> map);
+	void updateMinusOimoney(Map<String, String> map);
+	void updatePlusOimoney(Map<String, String> map);
 
-	void updateUseOimoney(Map<String, String> map);
+	void updateRefundOimoney(Map<String, Object> map);
+
 
 	
 	// 관리자 엑세스 토큰 정보 저장

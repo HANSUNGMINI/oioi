@@ -17,6 +17,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+ <!-- SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src = "${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 <style type="text/css">
     /* 전역 스타일 */
@@ -324,9 +329,14 @@
 //                 dataType : "json",
                 success: function (response) {
                     if(response != null){
-                    	alert(amtInput.value+ "머니가 충전되었습니다.");
-                    	window.opener.location.reload();
-                    	window.location.reload();
+                    	Swal.fire({
+	     		            title: amtInput.value + '머니가 충전되었습니다',         // Alert 제목
+	     		            text: '감사합니다😉😉',  // Alert 내용
+	     		            icon: 'success',                         // Alert 타입
+	     		        }).then((result) => {
+	                    	window.opener.location.reload();
+	                    	window.location.reload();
+	     		        });
                     	
                     } else{
                     	alert("충전 실패😭😭");
@@ -352,19 +362,26 @@
         	if(amtInput.value) {
 	            $.ajax({
 	                type: "POST",
-	                url: "yourRefundUrl", 
+	                url: "payRefund", 
 	                data: {
-	                	
+	                	"amtInput" : amtInput.value,
+	                	"fintech_use_num" : fintech_use_num,
+	                	"account_holder_name" : account_holder_name,
+	                	"account_num_masked" : account_num_masked,
+	                	"US_OIMONEY" : ${token.US_OIMONEY}
 	                },
-	                dataType : {
-	                	
-	                },
+	                dataType : "json",
 	                success: function (response) {
-	                    
+	                	
+	                	 Swal.fire({
+	     		            title: response.msg,         // Alert 제목
+// 	     		            text: '감사합니다😊😊',  // Alert 내용
+	     		            icon: response.result,                         // Alert 타입
+	     		        }).then((result) => {
+	                    	window.opener.location.reload();
+	                    	window.location.reload();
+	     		        });
 	                },
-	                error: function () {
-	                    alert("출금하기 요청 실패");
-	                }
 	            });
         	}
         }); // 출금버튼
