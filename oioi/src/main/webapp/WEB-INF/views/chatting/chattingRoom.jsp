@@ -53,7 +53,7 @@
 	    	FROM_ID = "${chatRoom.FROM_ID}"
 	    }
 
-	    alert(CR_ID)
+	   // alert(CR_ID)
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
