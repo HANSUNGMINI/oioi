@@ -7,9 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -298,32 +301,82 @@ public class AuctionController {
 	   return dbMap;
    }
    
+   @ResponseBody
    @PostMapping("auctionBuy")
-   public String auctionBuy(@RequestParam Map<String, Object> map, Model model) {
+   public Map<String, String> auctionBuy(@RequestParam Map<String, Object> map, Model model) {
 	   System.out.println("auctionBuy(map) : " + map);
+	   Map<String, String> response = new HashMap<>();
 	   
-	   //경매상품 상태 변경
+	   
+	   //경매상품 상태 변경 / oi머니 차감 같이
 	   int buySuccess = service.apdBuyStatus(map);
 	   
+	   
 	   if(buySuccess > 0) {
-		   //경매 테이블 갱신
+		   //경매 테이블 갱신(기록을 위해)
 		   map.put("FINAL_BID_USER", map.get("Buyer"));
 		   service.updateApdBid(map);
 		   System.out.println("auction갱신 성공");
 		   
-		   //입찰테이블 추가
+		   //입찰테이블 추가(기록을 위해)
 		   service.insertBid(map);
 		   System.out.println("입찰 성공");
 		   
-		   model.addAttribute("msg", "즉시 구매가 완료되었습니다.");
-		   model.addAttribute("targetURL", "./");
-		   return "err/success";
+		   
+		   response.put("message", "즉시 구매가 완료되었습니다");
 	   }else {
-		   model.addAttribute("msg", "즉시 구매가 실패하였습니다.");
-		   return "err/fail";
+		   response.put("message", "즉시 구매가 실패하였습니다.");
 	   }
-	   
+	   return response;
    }
+   
+   @ResponseBody
+	@GetMapping("recentLookAuctionProductList")
+	public List<Map<String, Object>> recentLookProductList(@RequestParam Map<String, String> map, Model model) {
+		
+		System.out.println(">>> map에 머가 있을가 " + map); // recentProduct=50,32,32,49,50,50,50,50,45,45
+		
+		// String으로 바꾸기
+		String recentProduct = map.get("recentProduct"); 
+		
+       // ','를 구분자로 문자열 분리
+       String[] productsArray = recentProduct.split(",");
+
+       // 숫자들을 저장할 Set 생성 (중복 제거 및 순서 유지)
+       Set<Integer> productSet = new LinkedHashSet<>();
+
+       // 배열을 순회하면서 Set에 숫자 추가
+       for (String product : productsArray) {
+           productSet.add(Integer.parseInt(product.trim()));
+       }
+
+       // 결과 출력
+       System.out.println(productSet); // [50, 32, 49, 45]
+	
+       // 최종 결과를 담을 리스트를 초기화합니다.
+       List<Map<String, Object>> recentProductList = new ArrayList<>();
+
+       // 각 상품 ID에 대해 서비스를 통해 상품 정보를 가져와 리스트에 추가합니다.
+       for (int productId : productSet) {
+           List<Map<String, Object>> products = service.getRecentLookProduct(productId);
+           if (!products.isEmpty()) {
+           	recentProductList.addAll(products);
+           }
+       }
+
+       // 결과를 출력합니다. (디버깅용)
+       System.out.println("최근 본 상품입니다 " + recentProductList);
+       
+		return recentProductList;
+	}
+    
+    @ResponseBody
+    @PostMapping("getOiMoney")
+    public String getOiMoney(@RequestParam Map<String, Object> map) {
+    	System.out.println("getOiMoney(map) : " + map);
+    	return service.getOiMoney(map);
+    }
+   
    
 
 }
