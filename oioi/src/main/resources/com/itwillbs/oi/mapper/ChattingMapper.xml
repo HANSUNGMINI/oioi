@@ -101,7 +101,7 @@
 		SELECT CR_ID, FROM_ID
 		FROM chat_room
 		WHERE PD_IDX = #{PD_IDX}
-			AND FROM_ID = #{US_ID}
+			AND FROM_ID = #{FROM_ID}
 			AND TO_ID = #{TO_ID}
 	</select>
 	
@@ -126,6 +126,7 @@
 		ON (CR.FROM_ID = u.US_ID OR CR.TO_ID = u.US_ID)
 		WHERE (CR.FROM_ID = #{US_ID} OR CR.TO_ID = #{US_ID})
 		AND u.US_ID != #{US_ID}
+		ORDER BY CR_DATE DESC
 	</select>
 	
 	<select id="getMyChatList" resultType="hashmap">
