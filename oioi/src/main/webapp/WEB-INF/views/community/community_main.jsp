@@ -51,7 +51,7 @@
 </head>
 
 <style>
- .highlighted-row {
+	.highlighted-row {
         margin-top: 30px;
         background:#fff;
         border:1px solid #ccc;
@@ -142,10 +142,6 @@
  	    margin-right: 5px; 
 	} 
 	
-/* 	.form-control { */
-/* 		width :300px; */
-/* 	} */
-	
 	.btn-primary, .btn-outline-secondary {
 	    position: relative;
 	    font-weight: 500;
@@ -204,6 +200,13 @@
 		text-align: center;
 	}
  
+ 	.pagination {
+		display : flex;
+	}
+	.paging{
+		margin : 0px auto;
+		margin-bottom : 20px;
+	}
 	/* 페이징 위치 */
 </style>
 <body class="js">
@@ -247,20 +250,20 @@
 </script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Breadcrumbs -->
-		<div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="bread-inner">
-							<ul class="bread-list">
-								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="blog-single.html">커뮤니티</a></li>
-							</ul>
-						</div>
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="blog-single.html">커뮤니티</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 <!-- Start Blog Single -->
 <section class="blog-single shop-blog grid section" style="padding: 10px 0px 100px;"> <!-- style="height: 700px;" -->
 	<div class="container">
@@ -271,24 +274,24 @@
 					<!-- Single Widget -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this, '')" id="all" >전체 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'질문 게시판')">질문 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'신고 게시판')">신고 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'정보 게시판')">정보 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'친목 게시판')">친목 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this, 'CC01')" id="all" >전체 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'CC02')">질문 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'CC03')">신고 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'CC04')">정보 게시판</a></li>
+							<li><a href="#" onclick="clickCategory(this,'CC05')">친목 게시판</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-		<%-- 본문 --%>
-		 <div class="col-lg-9 col-12" id="highlighted-row"> 
-			 <div class="row">
+			<%-- 본문 --%>
+		 	<div class="col-lg-9 col-12" id="highlighted-row">
+		 		<div class="row">
 					<div class="notice_body">
 						<div class="search_write row">
-						    <div class="col-md-9" style="height: 40px;">
-						        <!-- Search Form -->
+							<div class="col-md-9" style="height: 40px;">
+								<!-- Search Form -->
 						        <div class="search-top">
-						            <form class="search-form d-flex">
+									<form class="search-form d-flex">
 						            	<select class="searchCategory">
 						            		<option value="CM_title">제목</option>
 						            		<option value="CM_content">내용</option>
@@ -302,7 +305,6 @@
 						        <a href="communityWrite" class="btn btn-primary" style="color: white;">글쓰기</a>
 						    </div>
 						</div>
-
 						<table class="table1">
 					        <thead>
 					            <tr class="tr1">
@@ -324,10 +326,55 @@
 					    </table>
 					</div>
 				</div>
-				
-				
-				
 				<%-- 페이징 --%>
+				<nav aria-label="Page navigation example" style="display:flex">
+					<div class = "paging">
+				  		<ul class="pagination">
+				    		<li class="page-item">
+						    <a id="previousPageLink" class="page-link" href="community?pageNum=${pageNum - 1}" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						    </a>
+						</li>
+						
+						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
+						    <li class="page-item">
+						        <a class="page-link pageLink" href="community?pageNum=${i}">${i}</a>
+						    </li>
+						</c:forEach>
+						
+						<li class="page-item">
+						    <a id="nextPageLink" class="page-link" href="community?pageNum=${pageNum + 1}" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						    </a>
+						</li>
+			
+				  		</ul>
+			  		</div>
+				</nav> 
+				
+				<script>
+				    // JavaScript를 사용하여 페이지 링크의 클릭 이벤트를 관리합니다.
+				    document.addEventListener('DOMContentLoaded', function() {
+				        var previousPageLink = document.getElementById('previousPageLink');
+				        var nextPageLink = document.getElementById('nextPageLink');
+				
+				        // pageNum이 1 이하일 경우 이전 페이지 링크를 비활성화합니다.
+				        if (${pageNum le 1}) {
+				            previousPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				
+				        // endPage가 maxPage보다 크거나 pageNum + 1이 maxPage보다 클 경우 다음 페이지 링크를 비활성화합니다.
+				        if (${endPage gt pageInfo.maxPage} || ${pageNum + 1 gt pageInfo.maxPage}) {
+				            nextPageLink.addEventListener('click', function(event) {
+				                event.preventDefault(); // 링크 클릭을 막음
+				                alert("더이상 페이지가 없습니다");
+				            });
+				        }
+				    });
+				</script>
 				
 			</div>
 		</div>

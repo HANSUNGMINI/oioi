@@ -51,7 +51,6 @@ public class CommunityContorller {
 		JsonObject response = new JsonObject();
 		
 		map.put("type", type);
-//		System.out.println(map);
 		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
 //		System.out.println("boardList : " + boardList);
