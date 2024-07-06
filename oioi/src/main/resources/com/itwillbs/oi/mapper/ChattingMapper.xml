@@ -71,6 +71,19 @@
 		FROM review
 		WHERE PD_IDX = #{PD_IDX}
 	</select>
+	
+	<insert id="registDelivey">
+		INSERT INTO delivery
+		VALUES (
+			NULL
+			, #{BUYER_ID}
+			, #{PC_ID}
+			, #{DV_NUM}
+			, #{DV_METHOD}
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			, 1
+		)
+	</insert>
 
 	<insert id="createRoom">
 		INSERT INTO chat_room
@@ -93,11 +106,6 @@
 	</select>
 	
 	<insert id="saveChatting">
-		<selectKey keyProperty="CR_ID" resultType="int" order="BEFORE">
-			SELECT CR_ID
-			FROM chat_room
-			WHERE CR_ID = #{CR_ID}
-		</selectKey>
 		INSERT INTO chat_message
 		VALUES (
 			NULL	
@@ -134,6 +142,31 @@
 		ORDER BY MS_DATE desc
 		LIMIT 1;
 	 ]]>
+	</select>
+	
+	<select id="getChatMsg" resultType="hashmap">
+        SELECT MS_CONTENT
+	       , TO_ID
+	       , FROM_ID
+	       , CR_TYPE
+	       , MS_IMG
+	       , SUBSTRING(MS_DATE, 12, 5) AS 'MS_TIME'
+	       , CASE 
+	           WHEN FROM_ID = #{US_ID} OR TO_ID = #{US_ID} THEN 'right'
+	           ELSE 'left'
+	         END AS MSG_POSITION
+			, CASE 
+				WHEN FROM_ID = #{US_ID} OR TO_ID = #{US_ID} THEN 'other'
+	            ELSE 'my'
+	            END AS MSG_IMG_POSITION
+			FROM chat_message
+			WHERE CR_ID = #{CR_ID}
+	</select>
+	
+	<select id="existmsg" resultType="hashmap">
+		SELECT COUNT(MS_CONTENT) AS cnt
+		FROM chat_message
+		WHERE CR_ID = #{CR_ID}
 	</select>
 </mapper>
 

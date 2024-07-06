@@ -18,17 +18,17 @@ public class ChattingService {
 
 	// [정보 가져오기] 
 	// 채팅 시 필요한 상품 정보 가져오기
-	public Map<String, String> getProductInfo(Map<String, String> map) {
+	public Map<String, String> getProductInfo(Map<String, Object> map) {
 		return mapper.getProductInfo(map);
 	}
 
 	// 상대방 정보 가져오기 
-	public Map<String, String> getOtherInfo(Map<String, String> map) {
+	public Map<String, String> getOtherInfo(Map<String, Object> map) {
 		return mapper.getOtherInfo(map);
 	}
 	
 	// 내 정보
-	public Map<String, String> getMyInfo(Map<String, String> map) {
+	public Map<String, String> getMyInfo(Map<String, Object> map) {
 		return mapper.getMyInfo(map);
 	}
 	
@@ -56,8 +56,13 @@ public class ChattingService {
 	}
 
 	// 리뷰 존재하는지 확인
-	public int selectReview(Map<String, String> map) {
+	public int selectReview(Map<String, Object> map) {
 		return mapper.selectReview(map);
+	}
+	
+	// 운송장 번호 등록하기
+	public int registDelivery(Map<String, Object> map) {
+		return mapper.registDelivey(map);
 	}
 
 	// ----------------------------------------------------------------------------
@@ -68,7 +73,7 @@ public class ChattingService {
 	}
 
 	// 채팅방 있는지 체크 및 채팅방 아이디 가져오기
-	public Map<String, String> checkChatRoom(Map<String, String> map) {
+	public Map<String, Object> checkChatRoom(Map<String, Object> map) {
 		return mapper.checkChatRoom(map);
 	}
 
@@ -87,8 +92,17 @@ public class ChattingService {
 		return mapper.getMyChatList(crId);
 	}
 
-	
+	// 채팅 메세지 가져오기
+	public List<Map<String, String>> getChatMsg(Map<String, Object> map) {
+		return mapper.getChatMsg(map);
+	}
 
+	// 채팅 메세지 존재하는지 확인
+	public Map<String, Object> existMsg(Map<String, Object> map) {
+		return mapper.existmsg(map);
+	}
+
+	
 
 
 	

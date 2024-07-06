@@ -88,7 +88,7 @@ public class ChattingController {
 	}
 	
 	@GetMapping("Chatting")
-	public String goChatting(Model model, @RequestParam Map<String, String> map) {
+	public String goChatting(Model model, @RequestParam Map<String, Object> map) {
 		
 		System.out.println(">>>> map " + map);
 		
@@ -104,14 +104,20 @@ public class ChattingController {
 		// 만약, TO_ID = US_ID --> FROM_ID가 상대방
 		// 만약, FROM_ID = US_ID --> TO_ID가 상대방
 		
-		String TO_ID = map.get("TO_ID");
-		String FROM_ID = map.get("FROM_ID");
-		String sId = map.get("US_ID");
+		String TO_ID = (String) map.get("TO_ID");
+		String FROM_ID = (String) map.get("FROM_ID");
+		String sId = (String) map.get("US_ID");
 		String other = "";
 		
-		if(TO_ID.equals(sId)) {
-			other = FROM_ID;
-		} else if (FROM_ID.equals(sId)) {
+		System.out.println(FROM_ID);
+		
+		if(FROM_ID != null) {
+			if(TO_ID.equals(sId)) {
+				other = FROM_ID;
+			} else if (FROM_ID.equals(sId)) {
+				other = TO_ID;
+			}
+		} else {
 			other = TO_ID;
 		}
 		
@@ -121,7 +127,7 @@ public class ChattingController {
 		
 		// 상품 정보 가져오기
 		Map<String, String> pdInfo = service.getProductInfo(map);
-		System.out.println(">>>>>> " + pdInfo);
+		System.out.println("상품 정보 " + pdInfo);
 		
 		// 상대방 정보
 		Map<String, String> otherInfo = service.getOtherInfo(map);
@@ -129,12 +135,20 @@ public class ChattingController {
 		
 		// 내 프로필 불러오기
 		Map<String, String> myInfo = service.getMyInfo(map);
-		System.out.println(myInfo);
+		System.out.println("내 정보 " + myInfo);
 		
 		// 채팅방 있는지 체크 및 채팅방 번호 가져오기
 		System.out.println("map ?! " + map);
-		Map<String, String> chatRoom = service.checkChatRoom(map);
-		System.out.println(chatRoom);
+		Map<String, Object> chatRoom = service.checkChatRoom(map);
+		System.out.println("채팅방 번호 " +chatRoom);
+		
+		map.put("CR_ID", (int) chatRoom.get("CR_ID"));
+		
+		Map<String, Object> existMsg = new HashMap<String, Object>();
+		if(chatRoom != null ) {
+			 existMsg = service.existMsg(map);
+			 System.out.println(existMsg);
+		}
 		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
@@ -153,12 +167,25 @@ public class ChattingController {
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
 		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
 		
-		model.addAttribute("chatRoom", chatRoom); // 내 프로필
+		model.addAttribute("chatRoom", chatRoom); // 채팅방 체크 및 번호
+		model.addAttribute("existMsg", existMsg); // 채팅방 안에 메세지 존재하는지 확인
 		
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		
+		
 		return "chatting/chattingRoom";
+	}
+	// 채팅 가져오기
+	@ResponseBody
+	@GetMapping("getChatList")
+	public List<Map<String, String>> getChatList(@RequestParam Map<String, Object> map, Model model) {
+		
+		List<Map<String, String>> chatMsg = service.getChatMsg(map);
+		System.out.println("채팅방 메세지들 " + chatMsg);
+		
+		model.addAttribute("chatMsg", chatMsg);
+		return chatMsg;
 	}
 	
 	// 채팅 저장
@@ -240,11 +267,21 @@ public class ChattingController {
         
 	}
 	
+	// 운송장 등록
 	@PostMapping("delivery")
 	public String goDelivery(@RequestParam Map<String, Object> map, Model model) {
 		System.out.println("운송장 map : " + map);
 		
-		return "";
+		int registDelivery = service.registDelivery(map);
+		
+		 if(registDelivery < 1) {
+        	model.addAttribute("msg","운송장 등록 실패하셨습니다. \\n 다시 시도해 주세요");
+			return "err/fail";
+        } else {
+        	model.addAttribute("msg", "운송장 등록이 완료되었습니다");
+        	return "err/success";
+        }
+		
 	}
 	
 	// 판매 완료

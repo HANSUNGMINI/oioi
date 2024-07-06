@@ -38,7 +38,19 @@
 		4. toJsonString(type, msg) 			: 문자열을 JSON 타입으로 변환
 		5. purchase(TO_ID, PD_IDX)			: 안전결제 창으로 넘어감
 		6. sysMessage(msg)					: 시스템 메세지 출력
-		7. saveInfo(data.msg)				: ajax로 DB에 저장			*/
+		7. saveInfo(data.msg)				: ajax로 DB에 저장	
+		8. initMessage() 					: 처음 들어왔을 때 채팅방 생성
+		9  saveChatMessage()				: 채팅한 거 DB에 저장 
+		10. getChatList()					: 채팅 목록을 가져온다 
+		
+		-----------------------------------------------------------------
+		[변수 정리]
+		1.US_ID								: 세션 아이디
+		2.TO_ID								: 판매자 아이디 
+		3.FROM_ID 							: 구매자 아이디
+		4.PD_IDX 							: 물건 번호
+		5.CR_ID 							: 채팅방 번호
+		6.existMsg 							: 이전에 대화한 전적이 있는지 확인 */
 
     $(function(){
 	    connectChat();
@@ -49,6 +61,7 @@
 		let PD_IDX = "${param.PD_IDX}"
 		let CR_ID = "${chatRoom.CR_ID}"
 	    let FROM_ID = '';
+		let existMsg = '${existMsg.cnt}';
 		
 	    if(TO_ID == US_ID) {
 	    	US_ID = "${chatRoom.FROM_ID}"
@@ -56,7 +69,6 @@
 	    	FROM_ID = "${param.US_ID}"
 	    }
 
-	   // alert(CR_ID)
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
@@ -74,6 +86,9 @@
 			}
 		});
 	   
+	   if(existMsg != '') {
+	    	getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX);
+	   }
 	   
     });
 		
@@ -83,7 +98,7 @@
 	let TO_ID = "${param.TO_ID}"
 	let PD_IDX = "${param.PD_IDX}"
 	let CR_ID = "${chatRoom.CR_ID}"
-    let FROM_ID = '';
+    let FROM_ID = "${param.FROM_ID}";
 	
     if(TO_ID == US_ID) {
     	US_ID = "${chatRoom.FROM_ID}"
@@ -102,7 +117,7 @@
     // -------------------------------------------------------
     
     function onOpen() {
-    	startChat();
+	  	startChat();
 		console.log("웹 소켓 연결")
     }
     
@@ -112,6 +127,7 @@
 	function onMessage(event) { // 다른 사람 거 나오기
 		let data = JSON.parse(event.data);
 		appendMessage(data.msg, "left","my");
+		saveChatMessage(data.type, data.TO_ID, data.FROM_ID, data.CR_ID, data.msg, data.PD_IDX);
 	}
 	
 	function onError() {
@@ -119,18 +135,56 @@
 	}
     
     // -------------------------------------------------------
-    
+     
     function startChat() {
     	let TO_ID = "${param.TO_ID}";
     	let PD_IDX = "${param.PD_IDX}";
-
+		let CR_ID =  "${chatRoom.CR_ID}";
+		let FROM_ID =  "${param.FROM_ID}";
+    	
     	initMessage("INIT", TO_ID, FROM_ID, CR_ID, "", PD_IDX);
     }
     
     // -------------------------------------------------------
-	function saveInfo(message) {
+    // 대화 목록 가져오기
+	function getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX) {
+		$.ajax({
+			type : "get",
+			url : "getChatList",
+			data : {
+				TO_ID : TO_ID,
+	    		FROM_ID : FROM_ID,
+				CR_ID : CR_ID,
+				US_ID : US_ID,
+	    		PD_IDX : PD_IDX
+			},
+			success : function(data){
+				
+				let chatMsg = data;
+
+            	$.each(chatMsg, function(index, cm) {
+            		let userImg = ''
+	            	
+	            	if(cm.MSG_POSITION == "right") {
+	            		userImg = '${myInfo.US_PROFILE}'
+	            	} else { 
+	            		userImg = "${otherInfo.US_PROFILE}"
+	            	}
+	            	
+	            	let chat = ' <li class="clearfix" id="userMsg">'
+	    				+'	<div class="message-data text-' + cm.MSG_POSITION +'">'
+	    				+'	 <img src="'+ userImg +'">'
+	    				+ '	</div>'
+	    				+ '	<div class="message ' + cm.MSG_IMG_POSITION +'-message float-' + cm.MSG_POSITION +'">' + cm.MS_CONTENT + '</div>'
+	    				+ '	<small class="message-data-time" style="margin-right:0px">'+ cm.MS_TIME +'</small>'
+	    				+ '</li>'		
+	    	
+	    			$("#chatArea").append(chat); 
+            	})
+	    	}
+	    }); 	
     }
-    	
+    
     // -------------------------------------------------------
     function toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX){ // 파라미터들을 객체로 묶은 후 전달
     	let data = {
@@ -154,7 +208,6 @@
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	CR_ID = "${chatRoom.CR_ID}"
     	
 		// 입력하지 않았을 경우
 		if (msg == "") {
@@ -177,7 +230,7 @@
 	// 채팅 대화 DB에 저장
 	
 	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	// alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
 	     $.ajax({
             type: "POST",
             url: "saveChatMsg",
@@ -204,7 +257,7 @@
     
     // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
-    	
+    	let exist = '${existMsg.cnt}';
     	let userImg = ''
     		
     	if(align_type == "right") {
@@ -221,7 +274,11 @@
     				+ '	<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
     				+ '</li>'		
     	
-    	$("#chatArea").append(chat);
+		if(exist == null) {
+	    	$("#chatArea").append(chat);
+    	} else {
+    		$("#chatArea li:last").after(chat);
+    	}
     				
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
 		$('#chat-history').scrollTop($('#chat-history').prop('#chat-history'));
@@ -276,12 +333,12 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-<%-- 	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}"> --%>
+	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}">
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li>
-<%-- 	                        	</c:if> --%>
+<!-- 			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li> -->
+	                        	</c:if>
 
-									<c:if test="${info.PD_STATUS eq 'PDS01'}">
+									<c:if test="${param.FROM_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS01'}">
 		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
 		                        	</c:if>
 	    	                    	<li><a id="d4" onclick="transaction()">구매확정</a></li>
@@ -306,6 +363,16 @@
 					</div>
 
                     <ul class="m-b-0" id="chatArea">
+                    	<%--	<c:forEach var="msg" items="${chatMsg}">
+	                    		<li class="clearfix">
+		                            <div class="message-data text-${chatMsg.MSG_POSITION}">
+		                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
+		                            </div>
+		                            <div class="message other-message float-${chatMsg.MSG_POSITION}"> ${chatMsg.MS_CONTENT} </div>
+		                            <small class="message-data-time" style="margin-right:0px">${chatMsg.MS_TIME}</small>
+		                        </li>
+	                        </c:forEach>
+                    	</c:if> --%>
                         <%--
                         <li class="clearfix">
                             <div class="message-data text-right">
@@ -376,8 +443,8 @@
 				      <div class="modal-footer">
 				        <button type="submit" class="btn btn-success">등록</button>
 				        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-				        <input type="hidden" name="US_ID" value="${param.TO_ID}">
-						<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+				        <input type="hidden" name="BUYER_ID" value="${chatRoom.FROM_ID}">
+						<input type="hidden" name="PC_ID" value="${param.PD_IDX}">
 				      </div>
 			     </form>
 			    </div>
@@ -526,7 +593,7 @@
 		/* [ 판매 완료 ] */
 		function soldout() {
 			let nick = '${info.US_NICK}';
-			let existReview = '${info.existReview }';
+			let existReview = '${pdInfo.existReview }';
 			
 			Swal.fire({
 				   title: '판매 완료로 변경하시겠습니까?',
