@@ -52,6 +52,8 @@
 		
 	    if(TO_ID == US_ID) {
 	    	US_ID = "${chatRoom.FROM_ID}"
+	    } else {
+	    	FROM_ID = "${param.US_ID}"
 	    }
 
 	   // alert(CR_ID)
@@ -77,6 +79,17 @@
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
+    let US_ID = "${param.US_ID}"
+	let TO_ID = "${param.TO_ID}"
+	let PD_IDX = "${param.PD_IDX}"
+	let CR_ID = "${chatRoom.CR_ID}"
+    let FROM_ID = '';
+	
+    if(TO_ID == US_ID) {
+    	US_ID = "${chatRoom.FROM_ID}"
+    } else {
+    	FROM_ID = "${param.US_ID}"
+    }
     
     function connectChat() {
         ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
@@ -142,6 +155,7 @@
 		}
     	
     	ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+    	saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
     	
 		appendMessage(msg,"right","other");
 		
@@ -151,6 +165,31 @@
     }
     
     // -----------------------------------------------------------
+	// DB에 저장
+	
+               
+	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX)
+	     $.ajax({
+            type: "POST",
+            url: "saveChatMsg",
+            data: {
+            	 "type" : type,
+                 "TO_ID" : TO_ID,
+                 "FROM_ID" : FROM_ID,
+                 "CR_ID" : CR_ID,
+               	 "msg" : msg,
+               	"PD_IDX" : PD_IDX
+            },
+           // dataType: "json",
+            success: function(response) {
+            	console.log('서버 응답:', response);
+	    	}
+	    })
+	}
+    
+    // -----------------------------------------------------------
+    
 	function sysMessage(msg){
     	
     }    

@@ -67,5 +67,11 @@ public class ChattingService {
 		return mapper.checkChatRoom(map);
 	}
 
+	// 채팅 저장하기
+	public int saveChatting(ProductChatVO chat) {
+		return mapper.saveChatting(chat);
+	}
+
+
 	
 }

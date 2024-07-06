@@ -88,6 +88,26 @@
 			AND FROM_ID = #{US_ID}
 			AND TO_ID = #{TO_ID}
 	</select>
+	
+	<insert id="saveChatting">
+		<selectKey keyProperty="CR_ID" resultType="int" order="BEFORE">
+			SELECT CR_ID
+			FROM chat_room
+			WHERE CR_ID = #{CR_ID}
+		</selectKey>
+		INSERT INTO chat_message
+		VALUES (
+			NULL	
+			, #{CR_ID}
+			, #{FROM_ID}
+			, #{TO_ID}
+			, NULL
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			, #{msg}
+			, NULL
+			, 0
+		)
+	</insert>
 </mapper>
 
 

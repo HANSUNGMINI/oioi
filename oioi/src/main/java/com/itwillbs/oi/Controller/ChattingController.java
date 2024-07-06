@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.oi.handler.CheckAuthority;
@@ -97,6 +98,14 @@ public class ChattingController {
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		
 		return "chatting/chattingRoom";
+	}
+	
+	// 채팅 저장
+	@ResponseBody
+	@PostMapping("saveChatMsg") 
+	public String saveChatMsg(@RequestParam Map<String, String> map) {
+		System.out.println("채팅 저장 map : " + map);
+		return "";
 	}
 	
 	@PostMapping("report")
