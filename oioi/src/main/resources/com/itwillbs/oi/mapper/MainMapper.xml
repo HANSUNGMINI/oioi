@@ -116,6 +116,18 @@
 		 WHERE PD_IDX = #{prodcutId}
 		 ]]>
 	</select>
+	
+	<select id="getMainAuctionItems" resultType="map">
+		SELECT ap.APD_NAME
+			 , a.APD_IDX
+		     , ap.APD_BUY_NOW_PRICE
+		     , ap.APD_MAIN_IMAGE
+		     , a.AT_END_TIME
+		     , a.FINAL_BID_PRICE
+		  FROM auction_product ap
+		  LEFT JOIN auction a ON ap.APD_IDX = a.APD_IDX
+		 WHERE AT_MAIN = 'Y'
+	</select>
 </mapper>
 
 

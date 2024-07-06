@@ -313,6 +313,20 @@
 		from user
 		where US_ID = #{US_ID}
 	</select>
+	
+	
+	
+	<!-- MAIN 옥션 배너 -->
+	<select id="" resultType="map">
+		select ap.APD_NAME
+		     , ap.APD_BUY_NOW_PRICE
+		     , ap.APD_MAIN_IMAGE
+		     , a.AT_END_TIME
+		     , a.FINAL_BID_PRICE
+		  FROM auction_product ap
+		  LEFT JOIN auction a ON ap.APD_IDX = a.APD_IDX
+		 WHERE AT_MAIN = 'Y';
+	</select>
 </mapper>
 
 

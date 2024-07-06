@@ -92,26 +92,43 @@
 					<div class="home-slider-4">
 						<!-- 하나만 놔두면 오류? -->
 						
-						<div class="big-content" style="background-image:url('')">
-							<div class="inner">
-								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
-								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
-
-								<div class="button">
-									<a href="#" class="btn">1번</a>
-								</div>
-							</div>
-						</div>
 						
-						<div class="big-content" >
-							<div class="inner">
-								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
-								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
-								<div class="button">
-									<a href="#" class="btn">2번</a>
+						<c:forEach var="item" items="${auctionProducts}">
+							  <div class="big-content" style="height: 400px;">
+							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;"> 
+								<div class="inner" style="width: 55%;">
+									<h4 class="title">${item.APD_NAME }</h4>
+									<p class="des">경매 종료일 ${item.AT_END_TIME}<br> 현재 입찰된 가격 ${item.FINAL_BID_PRICE}<br> 즉시구매가 ! ${item.APD_BUY_NOW_PRICE}원</p>
+									<div class="button">
+										<a href="auctionDetail?APD_IDX=${item.APD_IDX}" class="btn">참가하기 </a>
+									</div>
 								</div>
 							</div>
-						</div>
+							
+							<div class="big-content" style="background-image:url('')">
+								<div class="inner">
+									<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
+									<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
+	
+									<div class="button">
+										<a href="#" class="btn">1번</a>
+									</div>
+								</div>
+							</div>
+						</c:forEach>						
+						
+						
+<!-- 						<div class="big-content" > -->
+<!-- 							<div class="inner"> -->
+<!-- 								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4> -->
+<!-- 								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p> -->
+<!-- 								<div class="button"> -->
+<!-- 									<a href="#" class="btn">2번</a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+						
+						
 					</div>
 				</div>
 			</div>

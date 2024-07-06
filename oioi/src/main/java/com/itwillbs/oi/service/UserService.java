@@ -1,6 +1,5 @@
 package com.itwillbs.oi.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,8 +151,6 @@ public class UserService {
 		
 		return mapper.updateText(userId, editText) > 0;
 	}
-
-    
-
+	
 	
 }

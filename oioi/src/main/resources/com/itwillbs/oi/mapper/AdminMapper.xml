@@ -404,6 +404,7 @@
 		     , DATE_FORMAT(DATE_ADD(NOW(), INTERVAL #{APD_DEADLINE} DAY), '%Y-%m-%d %H:%i')
 		     , NULL
 		     , #{APD_START_PRICE}
+		     , DEFAULT
 		 )
 	</insert>
 	

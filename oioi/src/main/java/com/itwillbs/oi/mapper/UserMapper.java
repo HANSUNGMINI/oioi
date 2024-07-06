@@ -82,9 +82,7 @@ public interface UserMapper {
 
 	int updateText(@Param("userId") String userId,@Param("editText") String editText);	
 	
-	
-
-	
+	String selectSTATUS(String id);
 
 //	MemberVO selectForgotPwPhone(Map<String, String> map);
 

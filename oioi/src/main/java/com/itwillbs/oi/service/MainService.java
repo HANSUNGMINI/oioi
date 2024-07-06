@@ -28,5 +28,10 @@ public class MainService {
 	public List<Map<String, Object>> getRecentLookProduct(int product) {
 		return mapper.getRecentLookProduct(product);
 	}
+	
+	// 진행중인 옥션 상품
+	public List<Map<String, Object>> getMainAuctionItems() {
+		return mapper.getMainAuctionItems();
+	}
 
 }

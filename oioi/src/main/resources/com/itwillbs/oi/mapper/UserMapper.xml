@@ -241,6 +241,7 @@
 		WHERE US_ID = #{userId}
 	</update>
 	
+	
 </mapper>
 
 
