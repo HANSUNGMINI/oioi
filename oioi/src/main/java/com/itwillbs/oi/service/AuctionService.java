@@ -91,11 +91,23 @@ public class AuctionService {
 	}
 
 	public int apdBuyStatus(Map<String, Object> map) {
-		return mapper.updateApdBuyStatus(map);
+		if(mapper.updateApdBuyStatus(map) == 1 && mapper.updateApdBuyOiMoney(map)) {
+			return 1;
+		}else {
+			return 0;
+		}
 	}
 
 	public void auctionFinalBid(Map<String, Object> map) {
 		mapper.auctionFinalBid(map);
+	}
+
+	public List<Map<String, Object>> getRecentLookProduct(int product) {
+		return mapper.getRecentLookProduct(product);
+	}
+
+	public String getOiMoney(Map<String, Object> map) {
+		return mapper.getOiMoney(map);
 	}
 
 	

@@ -53,6 +53,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/auction/auctionDetail.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/listStatus.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <style type="text/css">
@@ -77,12 +78,14 @@
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
    var token = "${sessionScope.token}";
-   var oiMoney = "${token.US_OIMONEY}";
+   var oiMoney = "";
    console.log("session_id : " + session_id);
-   console.log("oiMoney : " + oiMoney);
 
    $(function(){
      connect();
+     makeAuctionProducts();
+     getOiMoney();
+     
      
      
      console.log("token : " + token);
@@ -125,142 +128,120 @@
       
       
       
-      var minValue = $('#nowPrice').val();
+      var minValue = "${apdDetail.FINAL_BID_PRICE}";
       var maxValue = "${apdDetail.APD_BUY_NOW_PRICE}";
          
       $('#bidding').on('click', function(){
          nowValue = $('#nowPrice').val();
          
+         console.log('입찰할때 oiMoney : ' + oiMoney);
+         
          let nowValueNum = parseFloat(nowValue);
          let minValueNum = parseFloat(minValue);
          let maxValueNum = parseFloat(maxValue);
          
-         console.log(nowValue);
+         
+         console.log(nowValueNum);
+         console.log(minValueNum);
+         console.log(maxValueNum);
          
          //로그인안했을 시 
          if(${empty sessionScope.US_ID}){
-        	 $('#nowPrice').val(minValue);
-        	 Swal.fire({
-                 title: '로그인 후 입찰하세요',
-                 icon: 'warning',
-             });
+        	 $('#nowPrice').val(minValueNum);
+        	    Swal.fire({
+        	        title: '로그인 후 입찰하세요',
+        	        icon: 'warning',
+        	        confirmButtonText: '확인'
+        	    }).then((result) => {
+        	        if (result.isConfirmed) {
+        	            location.href = 'login';
+        	        }
+        	    });
         	 return false;
          }
          
          //오이페이에 있는 충전금이 입찰할 가격보다 작을때
-         if(oiMoney < nowValue){
+         if(oiMoney < nowValueNum){
         	 oiCharge();
          }
          
          
-         if(minValue >= nowValue || nowValue > maxValue){
+         if(minValueNum >= nowValueNum || nowValueNum > maxValueNum){
                Swal.fire({
                    title: '입찰가가 현재 입찰가 보다 크고 즉시 구매가 보다 작아야합니다.',
                    icon: 'warning',
                });
-               $('#nowPrice').val(minValue);
+               $('#nowPrice').val(minValueNum);
           	 return false;
           	 
-         }else if(nowValue == maxValue){
-            //입찰가가 즉시구매가랑 같을때 경매 종료
-            $.ajax({
-               url : "auctionClose",
-               type : "post",
-               data : {
-                  AT_IDX : apd_idx,
-                  BID_USER : session_id,
-                  BID_PRICE : nowValue
-               },
-               dataType : "JSON",
-               success: function(response) {
-             	  Swal.fire({
-                       title: '입찰이 완료되었습니다.',
-                       icon: 'success',
-                   });
-               }
-            });
+         }else if(minValueNum < nowValueNum && nowValueNum < maxValueNum){
+        	 //입찰중
+        	 $.ajax({
+                 url : "auctionBid",
+                 type : "post",
+                 data : {
+                    APD_IDX : apd_idx,
+                    AT_IDX : at_idx,
+                    FINAL_BID_USER : us_id,
+                    FINAL_BID_PRICE : nowValue
+                 },
+                 dataType : "JSON",
+                      success: function(response) {
+                           Swal.fire({
+                               title: response + '원에 입찰이 성공',
+                               icon: 'success',
+                           }).then((result) => {
+                   	        if (result.isConfirmed) {
+                   	        	var html ='';
+                                html += '<li class="clearfix" class="chatViewMe">' + 
+                                '<div class="message other-message float-right">' +
+                                us_id +
+                                '님께서' +
+                                response +
+                                '원에 입찰하였습니다.' +
+                                '</div>' +
+                                 '</li>';
+                               $('.chatView').append(html);
+                               $('#auctionText').empty(); // 기존 내용 비우기
+                               $('#auctionText').append('<input type="text" class="input-number" id="nowPrice" placeholder="' + response + '원">');
+                               
+                	        }
+                	    	});
+                           
+                           
+                          
+                          
+                       }
+              });
             
+         }else if(nowValueNum == maxValueNum){
+        	//입찰가가 즉시구매가랑 같을때 경매 종료
+             $.ajax({
+                url : "auctionBuy",
+                type : "post",
+                data : {
+                   APD_IDX : apd_idx,
+                   Buyer : session_id,
+                   FINAL_BID_PRICE : nowValue
+                },
+                dataType : "json",
+                success: function(response) {
+              	  Swal.fire({
+                        title: response.message,
+                        icon: 'success',
+                    });
+                }
+             });	 	 
          }
          
-         $.ajax({
-            url : "auctionBid",
-            type : "post",
-            data : {
-               APD_IDX : apd_idx,
-               AT_IDX : at_idx,
-               FINAL_BID_USER : us_id,
-               FINAL_BID_PRICE : nowValue
-            },
-            dataType : "JSON",
-                 success: function(response) {
-                      console.log('저장 성공 : ' + response);
-                      Swal.fire({
-                          title: response + '원에 입찰이 성공',
-                          icon: 'success',
-                      });
-                      
-                      var html ='';
-                      html += '<li class="clearfix" class="chatViewMe">' + 
-                      '<div class="message other-message float-right">' +
-                      us_id +
-                      '님께서' +
-                      response +
-                      '원에 입찰하였습니다.' +
-                      '</div>' +
-                       '</li>';
-                     $('.chatView').append(html);
-                  }
-         });
       });
-      
-      //배송상태를 가져오기
-      var t_key = $('#t_key').val();
-      var t_code = $('#t_code').val();
-      var t_invoice = $('#t_invoice').val();
-      
-//       $('#deliveryAlert').on('click', function(){
-//         console.log("확인");
-        
-//         $.ajax({
-//             url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
-//             type : "GET",
-//             data: {
-//                  t_key: t_key,
-//                  t_code: t_code,
-//                  t_invoice: t_invoice
-//              },
-//              success: function(response) {
-//                 console.log(response);
-//                 var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
-//                  var deliveryLevel = latestStatus.level;
-                 
-//                  // 배송 상태 출력
-//                  console.log("Delivery Level: " + deliveryLevel);
-//              }
-//           });
-//       });
-
-	//페이 값가져오기
-//      $.ajax({
-//     	 url : "Pay",
-//          type : "post",
-//          data : {
-//             US_ID : session_id,
-//          },
-//          dataType : "JSON",
-//          success: function(response) {
-//             console.log("성공 : " + response);
-//          }
-//      }) ;
-    
-      
     
     });
    
    
    
    function connect() {
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -452,6 +433,58 @@
            });
        });
    });
+   
+   
+   //경매 최근 본 상품
+   /* localStorage 저장하기 */
+   function makeAuctionProducts() {
+
+  	// 클릭한 상품의 IDX 저장
+  	let pro_id = '${apdDetail.APD_IDX}';
+	if(pro_id != "" && pro_id != null){
+
+		//******************** 최근 본 상품 보관함 생성 ************************
+		// 로컬스토리지에 저장할 키의 이름
+		const localStorageKey = 'auctionProducts';
+		
+		// 기존의 저장된 키워드 배열 가져오기
+		let auctionProducts = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+		
+		// 포함되어 있지 않을 경우 새로운 상품 목록 추가하기 
+		if (!auctionProducts.includes(auctionProducts)) {
+			auctionProducts.push(pro_id);
+		}
+		
+		// 최대 갯수를 초과하는 경우 가장 오래된 데이터부터 제거
+		if (auctionProducts.length > 10) {
+			auctionProducts = auctionProducts.slice(auctionProducts.length - 10);
+		}
+		
+		// 로컬스토리지에 업데이트된 키워드 배열 저장
+		localStorage.setItem(localStorageKey, JSON.stringify(auctionProducts));
+		//********************  최근 본 상품 보관함 생성 ************************
+	}
+	
+}
+   
+function getOiMoney(){
+	console.log('getOiMoney');
+	//오이 머니 가져오기
+	$.ajax({
+        url: "getOiMoney",
+        type: "post",
+        data: {
+            US_ID: session_id,
+        },
+        dataType: "JSON",
+        success: function(response) {
+            console.log('오이머니 값만 받아오자' + response);
+            oiMoney = response;
+            $('#oiMoney').append('<h6>오이머니 잔액 : 🥒 ' + new Intl.NumberFormat().format(response) + '원</h6>');
+        }
+    });
+	
+}
 </script>
    
    
@@ -596,16 +629,6 @@
 <!--                                           </div> -->
                                                <ul class="chatView" style="height: 410px; overflow-y: auto;">
                                                    <li class="clearfix" id="chatViewYou">
-<!--                                                       <div class="message-avatar"> -->
-<!--                                                    <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
-<!--                                                    한숑 -->
-<!--                                                 </div> -->
-<!--                                                        <div class="message my-message"> -->
-<!--                                                           이자민 바보 -->
-<!--                                                           <small class="message-data-time" style="margin-bottom:-20px">10:10 AM</small> -->
-<!--                                                        </div> -->
-                                                   
-
                                                    </li>
                                                </ul>
                                            </div>
@@ -620,17 +643,6 @@
                            
                                                    <%-- 전송버튼 --%>
                                                    <div class="">
-<!--                                                        <a id="btnSend"><i class="bi bi-reply-fill"></i></a> -->
-<!--                                                        <div class="input-group-text"> -->
-<!--                                                           <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
-<!--                                                 <label for="file-input" class="input-group-text file-input-label"> -->
-<!--                                                      <i class="bi bi-camera-fill" style="color: #353535;"></i> -->
-                                                     
-<!--                                                  </label> -->
-<!--                                                  <input type="file" id="file-input" style="display: none;"> -->
-<!--                                                        </div> -->
-
-                                                
                                                    </div>
                                                    <button class="btn" id ="btnSend">전송</button>
                                                    <br>
@@ -699,13 +711,12 @@
                                     </div>
                                  </div>
                                  <div class="product-buy">
-                                 	<div class="quantity">
-                                       <h6>오이머니 잔액 : 🥒<fmt:formatNumber value="${token.US_OIMONEY}" pattern="#,###"/></h6>
+                                 	<div class="quantity" id="oiMoney">
                                     </div><br>
                                     <div class="quantity">
                                        <h6>입찰가 입력 :</h6>
-                                       <div class="input-group">
-                                          <input type="text" class="input-number" id="nowPrice" value="${apdDetail.FINAL_BID_PRICE}">
+                                       <div class="input-group" id="auctionText">
+                                          <input type="text" class="input-number" id="nowPrice" placeholder="${apdDetail.FINAL_BID_PRICE}원">
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
@@ -716,7 +727,7 @@
                                     <div class="quantity" style="margin-top: 5px;">
                                        <h6>즉시 구매가 :</h6>
                                        <div class="input-group">
-                                          <input type="text" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}" readonly>
+                                          <input type="text" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}원" readonly>
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
@@ -727,12 +738,21 @@
                                        			let buy_price = "${apdDetail.APD_BUY_NOW_PRICE}";
                                        			if (!us_id || us_id === 'null') {
                                        				Swal.fire({
-                                    		            title: '로그인 후 이용이 가능합니다.',         // Alert 제목
-                                    		            text: '로그인 후 충전하시고 구매하셔야합니다',  // Alert 내용
-                                    		            icon: 'warning',                         // Alert 타입
+                                    		            title: '로그인 후 이용이 가능합니다.',         
+                                    		            text: '로그인 후 충전하시고 구매하셔야합니다',  
+                                    		            icon: 'warning',                       
                                     		        });
                                     		        return false;
                                                 }
+                                       			
+                                       			if(oiMoney < buy_price){
+                                       				Swal.fire({
+                                    		            title: '페이 잔액이 부족합니다.',         
+                                    		            text: '충전 후 입찰해주세요',  
+                                    		            icon: 'warning',                       
+                                    		        });
+                                    		        return false;
+                                       			}
                                        			$.ajax({
                                                     url : "auctionBuy",
                                                     type : "post",
@@ -743,7 +763,10 @@
                                                     },
                                                     dataType : "JSON",
                                                     success: function(response) {
-                                                       console.log("성공 : " + response);
+                                                    	  Swal.fire({
+                                                              title: response.message,
+                                                              icon: 'success',
+                                                          });
                                                     }
                                                  });
                                        		}
@@ -906,132 +929,25 @@
       </section>
       <!--/ End Shop Single -->
       
-      <!-- Start Most Popular -->
-   <div class="product-area most-popular related-product section">
+	<!-- 최근 본 상품 -->
+	<div class="product-area most-popular section">
         <div class="container">
             <div class="row">
-            <div class="col-12">
-               <div class="section-title">
-                  <h2>최근 본 경매 상품</h2>
-               </div>
-            </div>
+				<div class="col-12">
+					<div class="section-title">
+						<h2>최근 본 경매 상품</h2>
+<!-- 						<a href="#"> 더보기</a> -->
+					</div>
+				</div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                     <div class="product-img">
-                        <a href="product-details.html">
-                           <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                           <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                           <span class="out-of-stock">Hot</span>
-                        </a>
-                        <div class="button-head">
-                           <div class="product-action">
-                              <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                              <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                              <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                           </div>
-                           <div class="product-action-2">
-                              <a title="Add to cart" href="#">Add to cart</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="product-content">
-                        <h3><a href="product-details.html">Black Sunglass For Women</a></h3>
-                        <div class="product-price">
-                           <span class="old">$60.00</span>
-                           <span>$50.00</span>
-                        </div>
-                     </div>
-                  </div>
-                  <!-- End Single Product -->
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                            <div class="product-img">
-                                <a href="product-details.html">
-                                    <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                    <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                </a>
-                        <div class="button-head">
-                           <div class="product-action">
-                              <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                              <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                              <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                           </div>
-                           <div class="product-action-2">
-                              <a title="Add to cart" href="#">Add to cart</a>
-                           </div>
-                        </div>
-                            </div>
-                            <div class="product-content">
-                                <h3><a href="product-details.html">Women Hot Collection</a></h3>
-                                <div class="product-price">
-                                    <span>$50.00</span>
-                                </div>
-                            </div>
-                        </div>
-                  <!-- End Single Product -->
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                            <div class="product-img">
-                                <a href="product-details.html">
-                                    <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                    <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                           <span class="new">New</span>
-                                </a>
-                        <div class="button-head">
-                           <div class="product-action">
-                              <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                              <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                              <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                           </div>
-                           <div class="product-action-2">
-                              <a title="Add to cart" href="#">Add to cart</a>
-                           </div>
-                        </div>
-                            </div>
-                            <div class="product-content">
-                                <h3><a href="product-details.html">Awesome Pink Show</a></h3>
-                                <div class="product-price">
-                                    <span>$50.00</span>
-                                </div>
-                            </div>
-                        </div>
-                  <!-- End Single Product -->
-                  <!-- Start Single Product -->
-                  <div class="single-product">
-                            <div class="product-img">
-                                <a href="product-details.html">
-                                    <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                    <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-                                </a>
-                        <div class="button-head">
-                           <div class="product-action">
-                              <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                              <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                              <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-                           </div>
-                           <div class="product-action-2">
-                              <a title="Add to cart" href="#">Add to cart</a>
-                           </div>
-                        </div>
-                            </div>
-                            <div class="product-content">
-                                <h3><a href="product-details.html">Awesome Bags Collection</a></h3>
-                                <div class="product-price">
-                                    <span>$50.00</span>
-                                </div>
-                            </div>
-                        </div>
-                  <!-- End Single Product -->
+                <div class="col-12" id="noProduct">
+                    <div class="owl-carousel popular-slider" id="recentLookProduct">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-   <!-- End Most Popular Area -->
    
    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
@@ -1183,5 +1099,6 @@
    <script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
    <!-- Active JS -->
    <script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+   <script src="${pageContext.request.contextPath}/resources/js/auctionProduct.js"></script>
 </body>
 </html>

@@ -48,5 +48,11 @@ public interface AuctionMapper {
 
 	void auctionFinalBid(Map<String, Object> map);
 
+	List<Map<String, Object>> getRecentLookProduct(int product);
+
+	boolean updateApdBuyOiMoney(Map<String, Object> map);
+
+	String getOiMoney(Map<String, Object> map);
+
 
 }

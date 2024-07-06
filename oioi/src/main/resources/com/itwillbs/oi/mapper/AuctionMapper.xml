@@ -271,10 +271,48 @@
 	</select>
 	
 	<update id="updateApdBuyStatus">
-		update auction_product
-		set APD_STATUS = 'APD07'
-		where APD_IDX = #{APD_IDX}
+		UPDATE auction_product
+		SET APD_STATUS = 'APD07'
+		WHERE APD_IDX = #{APD_IDX}
 	</update>
+	
+	<update id="updateApdBuyOiMoney">
+		UPDATE user
+    	SET US_OIMONEY = CAST(US_OIMONEY AS SIGNED) - CAST(#{FINAL_BID_PRICE} AS SIGNED)
+    	WHERE US_ID = #{Buyer}
+	</update>
+	
+	<select id="getRecentLookProduct" resultType="hashmap">
+			<![CDATA[
+		-- MainMapper > getRecentLookProduct
+		SELECT APD_IDX, 
+		    APD_NAME, 
+		    APD_START_PRICE, 
+		    APD_BUY_NOW_PRICE, 
+		    APD_MAIN_IMAGE,
+		    c.value AS 'APD_STATUS_VALUE',
+		    CASE
+		        WHEN APD_STATUS = 'APD05' THEN 'non_overlay'
+		        WHEN APD_STATUS = 'APD06' THEN 'overlay'
+		        WHEN APD_STATUS = 'APD07' THEN 'overlay' 
+		    END AS APD_STATUS_COLOR,
+		    CASE 
+		        WHEN TIMESTAMPDIFF(MINUTE, APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, APD_REG_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, APD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, APD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, APD_REG_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, APD_REG_DATE, NOW()), ' 일전')
+		    END AS ARD_DATE
+		 FROM auction_product ap
+		 JOIN common c
+		 ON ap.APD_STATUS = c.code
+		 WHERE APD_IDX = #{prodcut}
+		 ]]>
+	</select>
+	<select id="getOiMoney" resultType="String">
+		select US_OIMONEY
+		from user
+		where US_ID = #{US_ID}
+	</select>
 </mapper>
 
 
