@@ -17,15 +17,18 @@
 		WHERE hide != 'Y' AND name='REVIEW_CATEGORY';
 	</select>
 	
-	<select id="getUserInfo" resultType="hashmap">
-		SELECT u.US_NICK
-			, p.PD_SUBJECT
-			, u.US_PROFILE
+	<select id="getProductInfo" resultType="hashmap">
+		SELECT 
+			 p.PD_SUBJECT
 			, p.PD_STATUS
-		FROM `user` u
-		JOIN product p 
-		ON p.US_ID = u.US_ID
-		WHERE u.US_ID = #{TO_ID} AND p.PD_IDX = #{PD_IDX}
+		FROM product p
+		WHERE p.PD_IDX = #{PD_IDX}
+	</select>
+	
+	<select id="getOtherInfo" resultType="hashmap">
+		SELECT US_PROFILE, US_NICK
+		FROM user
+		WHERE US_ID = #{other}
 	</select>
 	
 	<select id="getMyInfo" resultType="hashmap">
@@ -101,13 +104,37 @@
 			, #{CR_ID}
 			, #{FROM_ID}
 			, #{TO_ID}
-			, NULL
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 			, #{msg}
 			, NULL
 			, 0
 		)
 	</insert>
+	
+	<select id="getMyChatInfo" resultType="hashmap">
+		SELECT CR.CR_ID, CR.PD_IDX, CR.FROM_ID, CR.TO_ID, u.US_NICK, u.US_PROFILE
+		FROM chat_room CR
+		JOIN user u
+		ON (CR.FROM_ID = u.US_ID OR CR.TO_ID = u.US_ID)
+		WHERE (CR.FROM_ID = #{US_ID} OR CR.TO_ID = #{US_ID})
+		AND u.US_ID != #{US_ID}
+	</select>
+	
+	<select id="getMyChatList" resultType="hashmap">
+	<![CDATA[
+		SELECT MS_CONTENT
+			,  CASE 
+		        WHEN TIMESTAMPDIFF(MINUTE, MS_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, MS_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, MS_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, MS_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, MS_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, MS_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, MS_DATE, NOW()), ' 일전')
+		    END AS MS_END_DATE
+		FROM chat_message
+		WHERE CR_ID = #{crId}
+		ORDER BY MS_DATE desc
+		LIMIT 1;
+	 ]]>
+	</select>
 </mapper>
 
 

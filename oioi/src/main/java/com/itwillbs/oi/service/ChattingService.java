@@ -17,11 +17,16 @@ public class ChattingService {
 	private ChattingMapper mapper;
 
 	// [정보 가져오기] 
-	// 채팅 시 필요한 유저 정보 가져오기
-	public Map<String, String> getUserInfo(Map<String, String> map) {
-		return mapper.getUserInfo(map);
+	// 채팅 시 필요한 상품 정보 가져오기
+	public Map<String, String> getProductInfo(Map<String, String> map) {
+		return mapper.getProductInfo(map);
 	}
 
+	// 상대방 정보 가져오기 
+	public Map<String, String> getOtherInfo(Map<String, String> map) {
+		return mapper.getOtherInfo(map);
+	}
+	
 	// 내 정보
 	public Map<String, String> getMyInfo(Map<String, String> map) {
 		return mapper.getMyInfo(map);
@@ -68,9 +73,22 @@ public class ChattingService {
 	}
 
 	// 채팅 저장하기
-	public int saveChatting(ProductChatVO chat) {
-		return mapper.saveChatting(chat);
+	public int saveChatting(Map<String, Object> map) {
+		return mapper.saveChatting(map);
 	}
+
+	// 채팅 리스트 가져오기
+	public List<Map<String, Object>> getMyChatInfo(Map map) {
+		return mapper.getMyChatInfo(map);
+	}
+
+	// 마지막 채팅 및 시간 가져오기
+	public Map<String, Object> getMyChatList(int crId) {
+		return mapper.getMyChatList(crId);
+	}
+
+	
+
 
 
 	

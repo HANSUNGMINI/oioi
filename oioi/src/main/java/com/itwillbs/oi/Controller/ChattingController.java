@@ -7,7 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +39,7 @@ public class ChattingController {
 	private ChattingService service;
 	
 	@GetMapping("ChatList")
-	public String goChatList(Model model) {
+	public String goChatList(Model model, @RequestParam Map map) {
 		
 		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
@@ -46,6 +48,41 @@ public class ChattingController {
 			model.addAttribute("isClose", true);
 			return "err/fail";
 		}
+		
+		
+		// [내 채팅 목록 가져오기]
+		// System.out.println(map); --> 세션 아이디 들어있음
+		
+		// 1. 필요한 정보 가져오기 (from_id, to_id, cr_id, pd_idx)
+		List<Map<String, Object>> chatInfo = service.getMyChatInfo(map); 
+		
+		// 2. 마지막 대화 및 시간 가져오기
+		
+		List<Map<String, Object>> chatList =  new LinkedList<>();; 
+				
+		for (Map<String, Object> chatContent : chatInfo) {
+			
+            // CR_ID 값을 가져오기
+            int crId = (int) chatContent.get("CR_ID");
+            Map<String, Object> list = service.getMyChatList(crId);
+            chatList.add(list);
+        }
+		
+		System.out.println("유저 채팅방 정보 >> " + chatInfo);
+		System.out.println("대화 정보 >> " + chatList);
+		
+		// 두개 합치기
+		List<Map<String, Object>> combinedList = new LinkedList<>();
+		
+		for (int i = 0; i < chatInfo.size() && i < chatList.size(); i++) {
+		    Map<String, Object> combined = new HashMap<>();
+		    combined.put("info", chatInfo.get(i));
+		    combined.put("list", chatList.get(i));
+		    combinedList.add(combined);
+		}
+		
+		System.out.println("합쳐진 정보 " + combinedList);
+		model.addAttribute("combinedList", combinedList); // 총 합친 정보
 		
 		return "chatting/chatting_list";
 	}
@@ -63,9 +100,32 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
-		// 닉네임 및 상품 제목 가져오기 + 상대방 프로필 + 상품 상태
-		Map<String, String> info = service.getUserInfo(map);
-		System.out.println(">>>>>> " + info);
+		// 가져올 정보
+		// 만약, TO_ID = US_ID --> FROM_ID가 상대방
+		// 만약, FROM_ID = US_ID --> TO_ID가 상대방
+		
+		String TO_ID = map.get("TO_ID");
+		String FROM_ID = map.get("FROM_ID");
+		String sId = map.get("US_ID");
+		String other = "";
+		
+		if(TO_ID.equals(sId)) {
+			other = FROM_ID;
+		} else if (FROM_ID.equals(sId)) {
+			other = TO_ID;
+		}
+		
+		map.put("other", other);
+		System.out.println(other);
+		System.out.println(">>>> 추가 후 map " + map);
+		
+		// 상품 정보 가져오기
+		Map<String, String> pdInfo = service.getProductInfo(map);
+		System.out.println(">>>>>> " + pdInfo);
+		
+		// 상대방 정보
+		Map<String, String> otherInfo = service.getOtherInfo(map);
+		System.out.println("상대방 정보 " + otherInfo);
 		
 		// 내 프로필 불러오기
 		Map<String, String> myInfo = service.getMyInfo(map);
@@ -85,12 +145,13 @@ public class ChattingController {
 		// 리뷰 내역 있는지 확인
 		int existReview = service.selectReview(map);
 		if(existReview < 1) {
-			info.put("existReview", "no");
+			pdInfo.put("existReview", "no");
 		}
 		
 		// model에 담아서 정보 보내기
-		model.addAttribute("info", info); // 상대방 닉네임 + 상품 정보 + 상대방 프로필 
+		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
+		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
 		
 		model.addAttribute("chatRoom", chatRoom); // 내 프로필
 		
@@ -103,8 +164,10 @@ public class ChattingController {
 	// 채팅 저장
 	@ResponseBody
 	@PostMapping("saveChatMsg") 
-	public String saveChatMsg(@RequestParam Map<String, String> map) {
-		System.out.println("채팅 저장 map : " + map);
+	public String saveChatMsg(@RequestParam Map<String, Object> map) {
+		System.out.println("채팅 저장 map : " + map); // {type=TALK, TO_ID=sunghoon1234, FROM_ID=soeunee1, CR_ID=4616, msg=ㅎㅇ, PD_IDX=78}
+		
+		int saveChatCnt = service.saveChatting(map);
 		return "";
 	}
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,25 +55,31 @@
 			
 			<div class="inbox-message">
 				<ul>
-				
 				<%-- 한 개의 대화방 --%>
-					<li>
-						<a href="Chatting">
-							<%-- 사용자 이미지 --%>
-							<div class="message-avatar">
-								<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-							</div>
-							
-							<%-- 메세지 내용 --%>
-							<div class="message-body">
-								<div class="message-body-heading">
-									<h5> 닉네임<span class="unread">3</span></h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
-									<span>7 시간 전</span>
-								</div>
-								<p>사고싶어요</p>
-							</div>
-						</a>
-					</li>
+					<c:forEach var="chat" items="${combinedList}">
+						<c:set var="info" value="${chat.info}"/>
+    					<c:set var="list" value="${chat.list}"/>
+    					
+    					<c:if test="${not empty list}">
+							<li>
+								<a href="Chatting?CR_ID=${info.CR_ID}&PD_IDX=${info.PD_IDX}&FROM_ID=${info.FROM_ID}&TO_ID=${info.TO_ID}&US_ID=${sessionScope.US_ID}">
+									<%-- 사용자 이미지 --%>
+									<div class="message-avatar">
+										<img src="${chat.info.US_PROFILE}" alt="">
+									</div>
+									
+									<%-- 메세지 내용 --%>
+									<div class="message-body">
+										<div class="message-body-heading">
+											<h5> ${chat.info.US_NICK} <span class="unread">3</span></h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
+											<span>${list.MS_END_DATE}</span>										
+										</div>
+										<p>${list.MS_CONTENT}</p>
+									</div>
+								</a>
+							</li>
+    					</c:if>
+					</c:forEach>
 					
 					<%-- ====================================================================================== --%>
 					

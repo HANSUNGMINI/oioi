@@ -27,7 +27,7 @@
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
  
  <!-- j -->
- <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+ <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 
 	/*
@@ -124,7 +124,7 @@
     	let TO_ID = "${param.TO_ID}";
     	let PD_IDX = "${param.PD_IDX}";
 
-    	sendMessage("INIT", TO_ID, FROM_ID, CR_ID, "", PD_IDX);
+    	initMessage("INIT", TO_ID, FROM_ID, CR_ID, "", PD_IDX);
     }
     
     // -------------------------------------------------------
@@ -146,7 +146,16 @@
     }
     
     // -----------------------------------------------------------
+    // 처음 채팅방 만들어질 때
+    function initMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX){
+    	ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+    }
+    
+    // ----------------------------------------------------------
+    // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+    	CR_ID = "${chatRoom.CR_ID}"
+    	
 		// 입력하지 않았을 경우
 		if (msg == "") {
 			/* alert("메세지 입력 필수") */
@@ -154,7 +163,7 @@
 			return;
 		}
     	
-    	ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
     	saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
     	
 		appendMessage(msg,"right","other");
@@ -165,11 +174,10 @@
     }
     
     // -----------------------------------------------------------
-	// DB에 저장
+	// 채팅 대화 DB에 저장
 	
-               
 	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX)
+    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
 	     $.ajax({
             type: "POST",
             url: "saveChatMsg",
@@ -185,7 +193,7 @@
             success: function(response) {
             	console.log('서버 응답:', response);
 	    	}
-	    })
+	    });
 	}
     
     // -----------------------------------------------------------
@@ -202,7 +210,7 @@
     	if(align_type == "right") {
     		userImg = '${myInfo.US_PROFILE}'
     	} else { 
-    		userImg = "${info.US_PROFILE}"
+    		userImg = "${otherInfo.US_PROFILE}"
     	}
     	
     	let chat = ' <li class="clearfix" id="userMsg">'
@@ -246,14 +254,14 @@
                         <div class="col-lg-6">
                         	<%-- 사용자 정보 --%>
                             <a href="javascript:void(0);" onclick="goStore()">
-                                <img src="${info.US_PROFILE}" alt="avatar">
+                                <img src="${otherInfo.US_PROFILE}" alt="avatar">
                             </a>
                             <div class="chat-about">
                             
                                 <h6 class="m-b-0">
                                 	<c:choose>
-                                		<c:when test="${empty info.US_NICK}"> 탈퇴한 회원입니다 </c:when>
-                                		<c:otherwise>${info.US_NICK}</c:otherwise>
+                                		<c:when test="${empty otherInfo.US_NICK}"> 탈퇴한 회원입니다 </c:when>
+                                		<c:otherwise>${otherInfo.US_NICK}</c:otherwise>
                                 	</c:choose>
                             	</h6>
                                 <small> 신선도 : 38.5 </small>
@@ -294,7 +302,7 @@
                 <%-- 채팅 내역 --%>
                 <div class="chat-history" >
 					<div style="background-color:#EAEAEA; text-align: center; padding : 3px; margin-top: -20px; margin-bottom:10px">
-						<a href="javascript:void(0);" onclick="goProductDetail()">${info.PD_SUBJECT}</a>에 대한 이야기를 시작해 보세요
+						<a href="javascript:void(0);" onclick="goProductDetail()">${pdInfo.PD_SUBJECT}</a>에 대한 이야기를 시작해 보세요
 					</div>
 
                     <ul class="m-b-0" id="chatArea">
@@ -484,7 +492,7 @@
 
             <!-- 부트스트랩 -->
             
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     
