@@ -217,15 +217,11 @@
 		
 		let pageNum = 1;
 		
-		// 페이지 번호를 클릭했을 때
-		$(document).on('click', '.page-link', function(event) {
-			event.preventDefault();
-			let newPageNum = $(this).data('pagenum');
-			if (newPageNum && newPageNum !== pageNum) {
-				pageNum = newPageNum;
-				showBoard(categoryType);
-			}
-		});
+		  $(document).on('click', '.page-link', function(e) {
+              e.preventDefault();
+              pageNum = $(this).data('pagenum');
+              searchCars(pageNum);
+          });
 		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
