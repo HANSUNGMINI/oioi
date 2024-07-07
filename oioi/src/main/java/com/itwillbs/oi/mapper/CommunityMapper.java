@@ -22,4 +22,6 @@ public interface CommunityMapper {
 
 	int updateBoard(Map<String, Object> boardMap);
 
+	int selectListCount();
+
 }

@@ -96,6 +96,10 @@
 		WHERE
 			CM_IDX = #{CM_IDX}
 	</update>
+	
+	<select id="selectListCount" resultType="int">
+		SELECT COUNT(*) FROM community
+	</select>
   
   
   </mapper>

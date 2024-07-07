@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,8 +27,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.CommunityService;
-
-import kotlinx.serialization.descriptors.StructureKind.MAP;
 
 @Controller
 public class CommunityContorller {
@@ -47,16 +42,61 @@ public class CommunityContorller {
 	
 	@ResponseBody
 	@GetMapping("selectBoard") // 게시글 리스트 불러오기
-	public JsonObject selectBoard(@RequestParam String type, Map<String, Object> map) {
+	public JsonObject selectBoard(@RequestParam String type, Map<String, Object> map
+								, @RequestParam(defaultValue = "1") int pageNum
+								, @RequestParam(defaultValue = "") String searchType
+								, @RequestParam(defaultValue = "") String searchKeyword) {
+		
+		System.out.println(pageNum);
+		System.out.println(searchType);
+		System.out.println(searchKeyword);
+		System.out.println(type);
+		
 		JsonObject response = new JsonObject();
 		
 		map.put("type", type);
 		
+		
+		int listLimit = 2;
+		int startRow = (pageNum - 1) * listLimit;
+		
+		map.put("startRow", startRow);
+		map.put("listLimit", listLimit);
+		map.put("searchType", searchType);
+		map.put("searchKeyword", searchKeyword.trim());
+		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
 //		System.out.println("boardList : " + boardList);
+		if(boardList == null || boardList.get(0) == null ) {
+			System.out.println("????????????????????????");
+			return response;
+		}
 		
-		JsonArray boardJson = new JsonArray();
+		System.out.println(boardList);
 		
+		int listCount = service.getListCount();
+		int pageListLimit = 3; // 페이지 번호 갯수를 3개로 지정(1 2 3 or 4 5 6 등...)
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+		int endPage = startPage + pageListLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+//		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+		
+		JsonObject pageJson = new JsonObject();
+		pageJson.addProperty("listCount", listCount);
+	    pageJson.addProperty("listLimit", pageListLimit);
+	    pageJson.addProperty("maxPage", maxPage);
+	    pageJson.addProperty("startPage", startPage);
+	    pageJson.addProperty("endPage", endPage);
+	    pageJson.addProperty("pageNum", pageNum);
+	    
+	    response.add("pageJson", pageJson);
+		 	
+	    JsonArray boardJson = new JsonArray();
+	    
 		for(Map<String, Object> board : boardList) {
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("CM_IDX", board.get("CM_IDX").toString());

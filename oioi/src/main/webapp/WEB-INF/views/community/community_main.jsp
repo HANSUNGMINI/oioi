@@ -292,11 +292,11 @@
 								<!-- Search Form -->
 						        <div class="search-top">
 									<form class="search-form d-flex">
-						            	<select class="searchCategory">
-						            		<option value="CM_title">제목</option>
-						            		<option value="CM_content">내용</option>
+						            	<select class="searchCategory"  id="searchType" name="searchType">
+						            		<option value="CM_TITLE" <c:if test="${param.searchType eq 'CM_TITLE'}">selected</c:if>>제목</option>
+						            		<option value="CM_CONTENT"<c:if test="${param.searchType eq 'CM_CONTENT'}">selected</c:if>>내용</option>
 						            	</select>
-						                <input type="text" class="form-control" placeholder="검색어 입력" name="search">
+						                <input type="text" class="form-control" placeholder="검색어 입력" name="searchKeyword">
 						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
 						            </form>
 						        </div>
@@ -327,55 +327,12 @@
 					</div>
 				</div>
 				<%-- 페이징 --%>
+				<c:set var="pageNum" value="${empty param.pageNum ? 1 : param.pageNum}" />
 				<nav aria-label="Page navigation example" style="display:flex">
-					<div class = "paging">
-				  		<ul class="pagination">
-				    		<li class="page-item">
-						    <a id="previousPageLink" class="page-link" href="community?pageNum=${pageNum - 1}" aria-label="Previous">
-						        <span aria-hidden="true">&laquo;</span>
-						    </a>
-						</li>
-						
-						<c:forEach var="i" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-						    <li class="page-item">
-						        <a class="page-link pageLink" href="community?pageNum=${i}">${i}</a>
-						    </li>
-						</c:forEach>
-						
-						<li class="page-item">
-						    <a id="nextPageLink" class="page-link" href="community?pageNum=${pageNum + 1}" aria-label="Next">
-						        <span aria-hidden="true">&raquo;</span>
-						    </a>
-						</li>
-			
-				  		</ul>
-			  		</div>
-				</nav> 
-				
-				<script>
-				    // JavaScript를 사용하여 페이지 링크의 클릭 이벤트를 관리합니다.
-				    document.addEventListener('DOMContentLoaded', function() {
-				        var previousPageLink = document.getElementById('previousPageLink');
-				        var nextPageLink = document.getElementById('nextPageLink');
-				
-				        // pageNum이 1 이하일 경우 이전 페이지 링크를 비활성화합니다.
-				        if (${pageNum le 1}) {
-				            previousPageLink.addEventListener('click', function(event) {
-				                event.preventDefault(); // 링크 클릭을 막음
-				                alert("더이상 페이지가 없습니다");
-				            });
-				        }
-				
-				        // endPage가 maxPage보다 크거나 pageNum + 1이 maxPage보다 클 경우 다음 페이지 링크를 비활성화합니다.
-				        if (${endPage gt pageInfo.maxPage} || ${pageNum + 1 gt pageInfo.maxPage}) {
-				            nextPageLink.addEventListener('click', function(event) {
-				                event.preventDefault(); // 링크 클릭을 막음
-				                alert("더이상 페이지가 없습니다");
-				            });
-				        }
-				    });
-				</script>
-				
+					<div class="paging" id="paging">
+					
+					</div>
+				</nav>
 			</div>
 		</div>
 	</div>
@@ -387,6 +344,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 		
 <script>
+
+	let pageNum = 1;
 	function showBoard(type){
 // 		alert(type);
 		
@@ -394,15 +353,21 @@
 			type : "GET",
 			url : "selectBoard",
 			data : {
-				"type" : type
+				type : type,
+				pageNum : pageNum
+				
 			},
 			dataType : "JSON",
 			success : function(response) {
-				
+// 				alert(response.pageJson.startPage);
+// 				alert(response.pageJson.endPage);
+// 				alert(response.pageJson.maxPage);
 				let boards = response.boardJson;
 				let idx = response.boardJson[0].count;
 				
 				$("#tbody").empty();
+                $("#paging").empty();
+
 				
 				$.each(boards, function(index, board) {
 					$("#tbody").append(
@@ -416,6 +381,37 @@
 					);
 				});
 				
+				 let startPage = response.pageJson.startPage;
+                 let endPage = response.pageJson.endPage;
+                 let maxPage = response.pageJson.maxPage;
+
+                 $("#paging").append(
+                     '<ul class="pagination">' +
+                         '<li class="page-item ' + (pageNum == 1 ? 'disabled' : '') + '">' +
+                             '<a id="previousPageLink" class="page-link" href="#" data-pagenum="' + (pageNum - 1) + '" aria-label="Previous">' +
+                                 '<span aria-hidden="true">&laquo;</span>' +
+                             '</a>' +
+                         '</li>'
+                 );
+
+                 for (let i = startPage; i <= endPage; i++) {
+                     $("#paging ul").append(
+                         '<li class="page-item">' +
+                             '<a class="page-link pageLink" href="#" data-pagenum="' + i + '">' + i + '</a>' +
+                         '</li>'
+                     );
+                 }
+
+                 $("#paging ul").append(
+                     '<li class="page-item ' + (pageNum == maxPage ? 'disabled' : '') + '">' +
+                         '<a id="nextPageLink" class="page-link" href="#" data-pagenum="' + (pageNum + 1) + '" aria-label="Next">' +
+                             '<span aria-hidden="true">&raquo;</span>' +
+                         '</a>' +
+                     '</li>' +
+                     '</ul>'
+                 );
+                 isLoading = false;
+				
 			},
 			error: function(xhr, status, error) {
 				console.log("AJAX Error:", status, error); // 에러 로그 추가
@@ -425,6 +421,8 @@
 // 컨트롤러 > Map으로 받아서 type 뺴네요
 // mapper > xml SELECT * FROM board() where <if type="전체 신고"> 전체 신고 전체구문, if 신고면 시곤
 </script>
+
+ 
 <!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>

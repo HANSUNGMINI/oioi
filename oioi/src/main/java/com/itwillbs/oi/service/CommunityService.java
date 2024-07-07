@@ -41,4 +41,8 @@ public class CommunityService {
 		return mapper.updateBoard(boardMap);
 	}
 
+	public int getListCount() {
+		return mapper.selectListCount();
+	}
+
 }
