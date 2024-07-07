@@ -217,12 +217,6 @@
 		
 		let pageNum = 1;
 		
-		  $(document).on('click', '.page-link', function(e) {
-              e.preventDefault();
-              pageNum = $(this).data('pagenum');
-              searchCars(pageNum);
-          });
-		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
 		allElement.css("fontWeight", "bold");
