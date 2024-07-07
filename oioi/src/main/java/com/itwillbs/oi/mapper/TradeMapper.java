@@ -36,6 +36,8 @@ public interface TradeMapper {
 
 	int insertWishList(Map<String, Object> map);
 
+	int deleteWishList(Map<String, Object> map);
+
 	
 	 
 //	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);

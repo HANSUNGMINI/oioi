@@ -304,8 +304,8 @@
              success: function(response) {
 				const result = response.result;
 				
-				if(result == "Duplicate"){
-					alert("이미 찜한 상품입니다!");
+				if(result == "Removed"){
+					alert("해당 상품을 찜목록에서 제거하였습니다!");
 				} else if (result == "Success") {
 					alert("선택하신 상품을 찜목록에 등록하였습니다!");
 					

@@ -314,8 +314,14 @@ public class TradeController {
         System.out.println("세션 확인 map : " + map);
         int checkWishList = tradeService.selectWishList(map);
         System.out.println("조회한 찜목록 레코드 : " + checkWishList);
+        
         if(checkWishList > 0) {
-        	jo.addProperty("result", "Duplicate");
+        	int deleteResult = tradeService.deleteWishList(map);
+        	if (deleteResult > 0) {
+                jo.addProperty("result", "Removed");
+            } else {
+                jo.addProperty("result", "RemoveFail");
+            }
         } else {
         	int result = tradeService.addWishList(map);
         	
