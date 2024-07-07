@@ -26,9 +26,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
     <style>
-        /* 추가적인 스타일 */
-        .btn-edit-store {
-            background: linear-gradient(145deg, #7ed957, #5cbf34);
+        /* 추가적인 스타일 */ 
+        .btn-custom {
             border: none;
             border-radius: 25px;
             padding: 10px 20px;
@@ -39,14 +38,31 @@
             cursor: pointer;
             transition: background 0.3s ease;
             margin-bottom: 20px;
+            margin-right: 5px;
         }
 
-        .btn-edit-store:hover {
+        .btn-edit {
             background: linear-gradient(145deg, #5cbf34, #7ed957);
         }
 
-        .btn-edit-store:active {
+        .btn-edit:hover {
             background: linear-gradient(145deg, #4da82e, #6fcd4f);
+        }
+
+        .btn-delete {
+            background: linear-gradient(145deg, #ff4e50, #ff6e7f);
+        }
+
+        .btn-delete:hover {
+            background: linear-gradient(145deg, #e43a45, #ff5f6d);
+        }
+
+        .btn-up {
+            background: linear-gradient(145deg, #36d1dc, #5b86e5);
+        }
+
+        .btn-up:hover {
+            background: linear-gradient(145deg, #3494e6, #ec6ead);
         }
 
         .table-responsive {
@@ -93,8 +109,9 @@
                                         <td>${product.PD_LIKES}</td>
                                         <td>${product.PD_UPDATED_DATE}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm" onclick= "location.href='productModify?PD_IDX=${product.PD_IDX}'">수정</button>
-                                            <button class="btn btn-danger btn-sm">삭제</button>
+                                            <button class="btn btn-custom btn-up" onclick="location.href='productUp?PD_IDX=${product.PD_IDX}'">끌어올리기</button>
+                                            <button class="btn btn-custom btn-edit" onclick="location.href='productModify?PD_IDX=${product.PD_IDX}'">수정</button>
+                                            <button class="btn btn-custom btn-delete" onclick="deleteProduct('${product.PD_IDX}')">삭제</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -127,6 +144,24 @@
                 alert('상태 업데이트에 실패하였습니다.');
             }
         });
+    }
+
+    function deleteProduct(pdId) {
+        if (confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+            $.ajax({
+                url: 'deleteProduct',
+                type: 'POST',
+                data: { pdId: pdId },
+                success: function(response){
+                    alert('상품이 성공적으로 삭제되었습니다.');
+                    location.reload();  // 페이지 새로고침
+                },
+                error: function(error) {
+                    console.error("Error deleting product:", error);
+                    alert('상품 삭제에 실패하였습니다.');
+                }
+            });
+        }
     }
 </script>
 

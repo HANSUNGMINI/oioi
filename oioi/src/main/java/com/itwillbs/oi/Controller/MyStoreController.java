@@ -99,16 +99,15 @@ public class MyStoreController {
         List<Map<String, String>> reviewCategories = storeService.getCommonCode("REVIEW_CATEGORY");
 
         // 리뷰 카테고리 매핑
+        Map<String, String> categoryMap = reviewCategories.stream()
+            .collect(Collectors.toMap(c -> c.get("code"), c -> c.get("value")));
+
         for (Map<String, Object> review : reviews) {
             String[] categories = ((String) review.get("RV_CATEGORY")).split("/");
             List<String> categoryNames = Arrays.stream(categories)
-                    .map(code -> reviewCategories.stream()
-                            .filter(c -> c.get("code").equals(code))
-                            .map(c -> c.get("value"))
-                            .findFirst()
-                            .orElse(code))
+                    .map(code -> categoryMap.getOrDefault(code, code))
                     .collect(Collectors.toList());
-            review.put("RV_CATEGORY_NAMES", String.join(", ", categoryNames));
+            review.put("RV_CATEGORY_NAMES", categoryNames);
         }
 
         model.addAttribute("reviews", reviews);
@@ -116,6 +115,8 @@ public class MyStoreController {
         // 공통 코드와 상품 목록 조회
         List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
         List<Map<String, Object>> myPD = storeService.selectMyPd(userId);
+        
+        System.out.println(myPD);
 
         // 상품 목록을 역순으로 정렬
         Collections.reverse(myPD);
