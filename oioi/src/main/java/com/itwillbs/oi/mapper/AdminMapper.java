@@ -28,6 +28,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> selectRejectionList();
 	List<Map<String, Object>> selectCategoryCodeList();
 	List<Map<String, Object>> selectOptionList(String name);
+
 	
 	// 공통코드 관리
 	int patchcommon(Map<String, Object> data);
@@ -51,4 +52,7 @@ public interface AdminMapper {
 	Map<String, Object> selectDetailUser(Map<String, Object> data);
 	Map<String, Object> selectDetailReport(Map<String, Object> data);
 	Map<String, Object> selectDetailAP(Map<String, Object> data);
+	
+	
+	List<Map<String, String>> selectMostRegist();
 }

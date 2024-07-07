@@ -16,7 +16,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
-
+	<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css">
 </head>
 <body>
 	<div id="app">
@@ -41,11 +41,58 @@
 				<button class="button light" onclick="location.reload()">새로 고침</button>
 			</div>
 		</section>
+		<div style="display:flex">
+			<div id="chart" style="width: 50%; height: 500px;"></div>
+		
+		</div>
+		
+		
 	</div>
   	</div>
 </body>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/chart.sample.min.js"></script>
+<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+<script>
+	$(function(){
+		getMostRegistCategory();
+		
+	})
+	
+	function getMostRegistCategory(){
+		$.ajax({
+			type : "GET",
+			url : "MostRegistCategory",
+			dataType : "JSON",
+			success : function(response) {
+				const series1 = [];
+				
+				for(var item of response){
+					let data = {
+						name : item.category,
+						data : item.cnt
+					}
+					series1.push(data);
+				};
+				
+				const chart = toastui.Chart;
+				const data = {
+					categories: ['Categories'],
+			        series: series1,
+				};
+
+			    const options = {
+// 			        chart: { width: 900, height: 500 },
+			        series: {
+			            radiusRange: ['40%', '100%'],
+			            showLabel: true
+			        },
+			        tooltip: {
+			            suffix: '%'
+			        }
+			    };
+		    	chart.pieChart({ el: document.getElementById('chart'), data, options });
+			} // success 끝
+		})
+	}
+</script>
 </html>
     

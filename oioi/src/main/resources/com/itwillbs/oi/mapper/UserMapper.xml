@@ -241,6 +241,11 @@
 		WHERE US_ID = #{userId}
 	</update>
 	
+	<select id="selectStatus" resultType="string">
+		SELECT US_STATUS
+		  FROM user
+		 WHERE US_ID = #{id}
+	</select>
 	
 </mapper>
 

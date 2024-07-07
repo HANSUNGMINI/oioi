@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
-	
+	String selectStatus(String id);
 	int registUser(Map<String, Object> resultMap); //회원가입 mapper
 //	int insertMember(MemberVO member); 
 	
@@ -82,7 +82,7 @@ public interface UserMapper {
 
 	int updateText(@Param("userId") String userId,@Param("editText") String editText);	
 	
-	String selectSTATUS(String id);
+	
 
 //	MemberVO selectForgotPwPhone(Map<String, String> map);
 

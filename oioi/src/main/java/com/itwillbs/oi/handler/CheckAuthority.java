@@ -2,6 +2,7 @@ package com.itwillbs.oi.handler;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import com.itwillbs.oi.service.UserService;
@@ -31,21 +32,12 @@ public class CheckAuthority {
 		UserService service = new UserService();
 		String id = (String)session.getAttribute("US_ID");
 		System.out.println(id);
-		System.out.println("체크안하나");
-		System.out.println("######################");
-//		System.out.println(service.selectSTATUS(id));
-		System.out.println("@@@@@@@@@@@@@@@@@");
+		System.out.println(service.selectStatus(id));
 		// 유저가 아닐 경우
 		if(id == null) {
 			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
 			return false;
 		} 
-//		else if (service.selectSTATUS(id).equals("US03")) {
-//			System.out.println("d? 씨발머꼬");
-//			model.addAttribute("msg", "미입력 정보를 입력해주세요.");
-//			model.addAttribute("targetURL", "myPage");
-//			return false;
-//		}
 		
 		//  전부통과면 맞다면 true 리턴
 		return true;

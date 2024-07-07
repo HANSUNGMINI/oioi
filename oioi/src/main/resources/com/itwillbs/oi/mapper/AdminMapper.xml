@@ -416,6 +416,22 @@
 		 WHERE APD_IDX = #{APD_IDX}
 	</update>
 	
+	<select id="selectMostRegist" resultType="map">
+		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
+		SELECT tmp.path as category, count(PD_CATEGORY) as cnt
+		  FROM product p
+		  LEFT JOIN tmp
+		    ON p.PD_CATEGORY = tmp.CTG_CODE
+		 GROUP BY tmp.path, PD_CATEGORY
+	</select>	
 </mapper>
 
 

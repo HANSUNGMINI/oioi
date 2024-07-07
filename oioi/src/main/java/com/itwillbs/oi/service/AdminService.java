@@ -55,6 +55,8 @@ public class AdminService {
 	
 	public int updateReportStatus(Map<String, String> map){ return adminMapper.updateReportStatus(map); }
 	public int updateUserStatus(Map<String, String> map){ return adminMapper.updateUserStatus(map); }
+	public List<Map<String, String>> selectMostRegist(){return adminMapper.selectMostRegist();}
+	
 	
 	@Transactional
 	public int updateUpdateAPD(Map<String, String> map){

@@ -152,5 +152,8 @@ public class UserService {
 		return mapper.updateText(userId, editText) > 0;
 	}
 	
+	public String selectStatus(String id) {
+		return mapper.selectStatus(id);
+	}
 	
 }

@@ -54,7 +54,6 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
-		
 		return "admin/admin_main";
 	}
 	
@@ -342,5 +341,12 @@ public class AdminController {
 	@PostMapping("updateAPD")
 	public int updateAPD(@RequestParam Map<String, String> map) {
 		return adminservice.updateUpdateAPD(map);
+	}
+	
+	
+	@ResponseBody
+	@GetMapping("MostRegistCategory")
+	public List<Map<String, String>> selectMostRegistCategory() {
+		return adminservice.selectMostRegist();
 	}
 }
