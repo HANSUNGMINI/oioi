@@ -57,7 +57,7 @@ public class CommunityContorller {
 		map.put("type", type);
 		
 		
-		int listLimit = 2;
+		int listLimit = 5;
 		int startRow = (pageNum - 1) * listLimit;
 		
 		map.put("startRow", startRow);
@@ -66,24 +66,19 @@ public class CommunityContorller {
 		map.put("searchKeyword", searchKeyword.trim());
 		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
-//		System.out.println("boardList : " + boardList);
 		if(boardList == null || boardList.get(0) == null ) {
 			System.out.println("????????????????????????");
 			return response;
 		}
 		
-		System.out.println(boardList);
-		
-		int listCount = service.getListCount();
-		int pageListLimit = 3; // 페이지 번호 갯수를 3개로 지정(1 2 3 or 4 5 6 등...)
+		int listCount = service.getListCount(type);
+		int pageListLimit = 5; // 페이지 번호 갯수를 3개로 지정(1 2 3 or 4 5 6 등...)
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
 		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
 		int endPage = startPage + pageListLimit - 1;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
-		
-//		PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
 		
 		JsonObject pageJson = new JsonObject();
 		pageJson.addProperty("listCount", listCount);
@@ -110,7 +105,6 @@ public class CommunityContorller {
 		}
 		
 		response.add("boardJson", boardJson);
-//		System.out.println("boardJson :" + boardJson);
 		
 		return response;
 	}

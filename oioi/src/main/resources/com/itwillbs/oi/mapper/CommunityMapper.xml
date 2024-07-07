@@ -29,7 +29,18 @@
                      WHERE code = #{type})
 		</if>
   		ORDER BY CM_IDX desc
+  		LIMIT #{startRow}, #{listLimit}
   	</select>
+  	
+  	<select id="selectListCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM community
+	    WHERE 1=1
+	    <if test="type != null and type != '' and type != 'CC01'">
+	        AND CM_CATEGORY = (SELECT value FROM common WHERE code = #{type})
+	    </if>
+	</select>
+  	
   
   	<select id="selectBoardDetail" resultType="map">
   		SELECT
@@ -97,9 +108,7 @@
 			CM_IDX = #{CM_IDX}
 	</update>
 	
-	<select id="selectListCount" resultType="int">
-		SELECT COUNT(*) FROM community
-	</select>
+	
   
   
   </mapper>

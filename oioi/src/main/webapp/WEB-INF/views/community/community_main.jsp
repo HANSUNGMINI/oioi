@@ -212,11 +212,20 @@
 <body class="js">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	let categoryType = "";
 	$(function() {
 		showBoard("");
 		
+		let pageNum = 1;
 		
+		// 페이지 번호를 클릭했을 때
+		$(document).on('click', '.page-link', function(event) {
+			event.preventDefault();
+			let newPageNum = $(this).data('pagenum');
+			if (newPageNum && newPageNum !== pageNum) {
+				pageNum = newPageNum;
+				showBoard(categoryType);
+			}
+		});
 		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
@@ -246,6 +255,8 @@
 		    showBoard(type);
 		    
 		};
+		
+		
 	});
 </script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -345,6 +356,7 @@
 		
 <script>
 
+
 	let pageNum = 1;
 	function showBoard(type){
 // 		alert(type);
@@ -359,9 +371,6 @@
 			},
 			dataType : "JSON",
 			success : function(response) {
-// 				alert(response.pageJson.startPage);
-// 				alert(response.pageJson.endPage);
-// 				alert(response.pageJson.maxPage);
 				let boards = response.boardJson;
 				let idx = response.boardJson[0].count;
 				
