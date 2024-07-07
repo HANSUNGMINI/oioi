@@ -307,8 +307,9 @@
 				if(result == "Removed"){
 					alert("해당 상품을 찜목록에서 제거하였습니다!");
 				} else if (result == "Success") {
-					alert("선택하신 상품을 찜목록에 등록하였습니다!");
-					
+					if (confirm("선택하신 상품이 찜목록에 등록되었습니다!\n찜목록을 확인하시겠습니까?")) {
+						window.location.href = 'myStore';
+					} 
 				} else if (result == "fail") {
 					alert("실패");
 				}
