@@ -229,7 +229,7 @@
 		// 카테고리 클릭 시 실행되는 함수
 		window.clickCategory = function(element,type) {
 		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
-		    if (previousLink) {
+		    if (previousLink) { 
 		        previousLink.style.fontWeight = 'normal';
 		        previousLink.textContent = previousText;
 		    }

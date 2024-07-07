@@ -24,4 +24,6 @@ public interface CommunityMapper {
 
 	int selectListCount(String type);
 
+	void updateReadCount(int cM_IDX);
+
 }

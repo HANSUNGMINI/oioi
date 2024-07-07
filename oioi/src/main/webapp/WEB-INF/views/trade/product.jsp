@@ -91,7 +91,7 @@
 						<div class="login-form">
 							<h2>상품등록</h2>
 							<!-- Form -->
-							<form class="regForm" action="product" method="post" enctype="multipart/form-data" onsubmit="removeFormatting()">
+							<form class="regForm" action="product" method="post" name="fr" enctype="multipart/form-data" onsubmit="return validateForm()">
 								<ul>
 									<li>
 										<label> 상품 이미지<small>(최대 5장)</small></label>
@@ -216,6 +216,9 @@
             tagify.on('add', function() {
                 console.log(tagify.value);
             });
+            
+		
+            
         });
         
         // 가격 숫자만
@@ -248,6 +251,7 @@
         });
         
         
+        
         //카테고리 ==================================================================
        	$(document).ready(function() {
 	    let cate2 = JSON.parse('${cate2}');
@@ -256,11 +260,13 @@
 	    console.log('cate3:', cate3);
 
 	    $('#cate1').change(function() {
-	        var selectedCate2 = $(this).val();
+	        var selectedCate2 = $(this).val(); //
+// 			var selectedCate1 = $(this).val();
 	        console.log('cate1:', selectedCate2);
 	        
 	        var filteredCate2s = cate2.filter(function(cate) {
-	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
+	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000//
+// 	        	 return cate.UP_CTG_CODE == selectedCate1;
 	        });
 	        
 	        console.log('cate2s:', filteredCate2s);
@@ -269,19 +275,23 @@
 	        $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
 	        	
 	        $.each(filteredCate2s, function(index, cate) {
-		            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+				$('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 		    });
-	        $('#cate2').prop('disabled', false).niceSelect('update');
+	        $('#cate2').prop('disabled', false).niceSelect('update');//
+// 			$('#cate2').prop('disabled', false); // 🟣 변경된 부분
+// 	        $('#cate3').prop('disabled', true).empty().append('<option value="">소분류를 선택하시오</option>'); // 🟣 변경된 부분
 	        
 	        console.log("cate1(value) : " + $('#cate1').val());
 	    });
 	    
 	    $('#cate2').change(function(){
-	    	var selectedCate3 = $(this).val();
+	    	var selectedCate3 = $(this).val();//
+// 			var selectedCate2 = $(this).val(); 
 	    	console.log('selectedCate3 :', selectedCate3);
 	    	
 	    	var filteredCate3s = cate3.filter(function(cate) {
-	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100
+	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100//
+// 	    		return cate.UP_CTG_CODE == selectedCate2;
 	        });
 	    	console.log('cate3s:', filteredCate3s);
 	    	
@@ -290,11 +300,56 @@
 	    	$.each(filteredCate3s, function(index, cate) {
 	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 		    });
-	        $('#cate3').prop('disabled', false).niceSelect('update');
-	        
+	        $('#cate3').prop('disabled', false).niceSelect('update');//
+// 			   $('#cate3').prop('disabled', false); 			
 	        console.log("cate2(value) : " + $('#cate2').val());
 	    });
+	    
+	    function validateForm() {
+	    	if(document.fr.addfile.value == "") { // 이미지 확인
+				alert("최소 1개의 이미지를 등록해야합니다!");
+				return false;
+			} else if(document.fr.PD_SUBJECT.value == "") { // 상품명 확인
+				alert("상품명을 입력해주세요!");
+				document.fr.PD_SUBJECT.focus();
+				return false;    
+			} else if($('#cate1').val() == "") { // 대분류 카테고리 확인
+				alert("카테고리 대분류를 입력해주세요!");
+				return false;    
+			} else if($('#cate2').val() == "") { // 중분류 카테고리 확인
+				alert("카테고리 중분류를 입력해주세요!");
+				return false;    
+			} else if($('#cate3').val() == "") { //  소분류 카테고리 확인
+				alert("카테고리 소분류를 입력해주세요!");
+				return false;   
+			} else if(!$('input[name="PD_CONDITION"]:checked').val()) { // 상품상태 확인
+				alert("상품상태를 선택해주세요!");
+				return false; 
+			} else if(document.fr.PD_PRICE .value == "") { //  가격 확인
+				alert("가격을 입력해주세요!");
+				document.fr.PD_PRICE .focus();
+				return false;   
+			} else if(document.fr.PD_PRICE .value == "0") { //  가격 확인
+				alert("0원은 입력 할 수 없습니다!");
+				document.fr.PD_PRICE .focus();
+				return false;   
+			} else if(document.fr.PD_CONTENT .value == "") { //  상품 설명 확인
+				alert("상품 설명을 입력해주세요!");
+				document.fr.PD_CONTENT .focus();
+				return false;   
+			} else if(!$('input[name="PD_TRADE_METHOD"]:checked').val()) { // 상품상태 확인
+				alert("상품상태를 선택해주세요!");
+				return false; 
+			}
+			removeFormatting(); // 포맷 제거
+			return true; // 검증 통과 시 true 반환
+	    }
+	    document.fr.onsubmit = validateForm;
 	});
+        
+	
+	
+        
     </script> 
 
 	<!-- Jquery -->
