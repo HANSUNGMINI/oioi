@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -50,12 +53,10 @@ public class CommunityContorller {
 		System.out.println(pageNum);
 		System.out.println(searchType);
 		System.out.println(searchKeyword);
-		System.out.println(type);
-		
-		JsonObject response = new JsonObject();
 		
 		map.put("type", type);
-		
+
+		JsonObject response = new JsonObject();
 		
 		int listLimit = 5;
 		int startRow = (pageNum - 1) * listLimit;
@@ -67,7 +68,6 @@ public class CommunityContorller {
 		
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
 		if(boardList == null || boardList.get(0) == null ) {
-			System.out.println("????????????????????????");
 			return response;
 		}
 		
@@ -265,9 +265,9 @@ public class CommunityContorller {
 
 	
 	@GetMapping("boardDetail") // 게시글 상세보기
-	public String boardDetail(Map<String, Object> map, @RequestParam int CM_IDX, Model model) {
+	public String boardDetail(Map<String, Object> map, @RequestParam int CM_IDX, Model model, 
+							HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		map = service.selectBoardDetail(CM_IDX);
 		
 		if(map == null) {
 			model.addAttribute("msg", "게시글을 불러 올 수 없습니다.");
@@ -275,6 +275,30 @@ public class CommunityContorller {
 			return "err/fail";
 		}
 		
+		String US_ID = (String)session.getAttribute("US_ID");
+		
+		Cookie[] cookies = request.getCookies();
+        boolean storeVisit = false;
+        
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("storeVisit" + CM_IDX) && cookie.getValue().equals(US_ID)) {
+                    storeVisit = true;
+                    break;
+                }
+            }
+        }
+        
+     // 조회수 증가 및 쿠키 설정
+        if (!storeVisit) {
+            service.updateReadCount(CM_IDX); // 조회수 증가 로직
+            Cookie newCookie = new Cookie("storeVisit" + CM_IDX, US_ID);
+            newCookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 24시간
+            response.addCookie(newCookie);
+        }
+		
+        map = service.selectBoardDetail(CM_IDX);
+        
 		model.addAttribute("boardDetail", map);
 		
 		return "community/board_detail";

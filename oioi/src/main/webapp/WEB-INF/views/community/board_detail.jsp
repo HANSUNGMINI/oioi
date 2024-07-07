@@ -245,10 +245,12 @@
 				  			</div>
 			  			
 				  			<div class = "view_info">
-								<em><b>${boardDetail.CM_NICK}</b></em>
-								<em></em>
+								<em><b>닉네임</b></em>
+								<em>${boardDetail.CM_NICK}</em>
 								<em class="em"><b>날짜</b></em>
 								<em>${boardDetail.CM_REG_DATE}</em>
+								<em class="em"><b>조회수</b></em>
+								<em>${boardDetail.CM_READ_COUNT}</em>
 				  			</div>
 							<div class = "view_cont" <c:if test="${boardDetail.CM_CONTENT.length() < 500}"> style="width: 840px; height: 600px;"
     						</c:if>>

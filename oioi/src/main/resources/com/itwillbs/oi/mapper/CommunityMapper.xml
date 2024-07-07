@@ -52,6 +52,13 @@
   	
   	</select>
   	
+  	<update id="updateReadCount">
+  		UPDATE community
+        SET CM_READ_COUNT = CM_READ_COUNT + 1
+        WHERE CM_IDX = #{CM_IDX}
+  	
+  	</update>
+  	
   	<select id="selectCM_IDX" resultType="int">
   		SELECT CM_IDX + 1
 		FROM community

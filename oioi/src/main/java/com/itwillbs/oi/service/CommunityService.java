@@ -45,4 +45,8 @@ public class CommunityService {
 		return mapper.selectListCount(type);
 	}
 
+	public void updateReadCount(int cM_IDX) {
+		mapper.updateReadCount(cM_IDX);
+	}
+
 }
