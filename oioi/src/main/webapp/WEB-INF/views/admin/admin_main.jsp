@@ -36,7 +36,7 @@
 		<section class="is-hero-bar">
 			<div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
 				<h1 class="title">
-				  Dashboard
+				  사이트 현황
 				</h1>
 				<button class="button light" onclick="location.reload()">새로 고침</button>
 			</div>
@@ -64,7 +64,7 @@
 			dataType : "JSON",
 			success : function(response) {
 				const series1 = [];
-				
+					
 				for(var item of response){
 					let data = {
 						name : item.category,

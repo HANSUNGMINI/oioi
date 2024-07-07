@@ -50,7 +50,7 @@
 			const rejection = $("#APD_REJECTION").val();
 			// 거래 완료 상태 시 셀렉트박스 dsiabled
 			// 하드코딩 맘에 안듬
-			if (status === 'APD05' || status === 'APD06' || status === 'APD07' || status === 'APD09') {
+			if (status === 'APD05' || status === 'APD09') {
 				$('#APD_STATUS').prop('disabled', true).niceSelect('update');
 			}
 			
@@ -150,9 +150,9 @@
 														<option value="${item.code }" <c:if test="${item.value eq product.APD_REJECTION}"> selected</c:if>> ${item.value }</option>
 													</c:forEach>
 												</select>
-											</li>
+											</li><br><br><br>
 											<li><span>상품 상태 : <b>${product.APD_CONDITION}</b></span></li>
-											<li><span>등록 날짜 : <b>${product.APD_REG_DATE}</b></span></li>
+											<li><span>등록 날짜 : <b>${product.APD_REG_DATE}</b></span></li><br>
 											<c:if test="${product.APD_STATUS eq '거래중'}">
 												<li>
 												<span>운송장 번호 등록 : <input type="text" placeholder="입력" id="dNum"><input type="button" id="regitBtn" value="등록"></span>
