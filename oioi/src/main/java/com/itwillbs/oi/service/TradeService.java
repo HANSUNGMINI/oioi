@@ -69,6 +69,10 @@ public class TradeService {
 		return mapper.insertWishList(map);
 	}
 
+	public int deleteWishList(Map<String, Object> map) {
+		return mapper.deleteWishList(map);
+	}
+
 	
 	
 //	public List<Map<String, Object>> getFilteredProducts(String cate1, String cate2, String cate3, int startRow, int listLimit) {

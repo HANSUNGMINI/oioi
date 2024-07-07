@@ -238,6 +238,13 @@
 		AND WL_PD_IDX = #{productId}
 	</select>	 
 	
+	<delete id="deleteWishList" > 
+		DELETE FROM wish_list
+		WHERE WL_US_ID = #{WL_US_ID}
+		AND WL_PD_IDX = #{productId}
+	</delete>
+	
+	
 </mapper>
 
 
