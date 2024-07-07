@@ -32,7 +32,6 @@ public class CheckAuthority {
 		UserService service = new UserService();
 		String id = (String)session.getAttribute("US_ID");
 		System.out.println(id);
-		System.out.println(service.selectStatus(id));
 		// 유저가 아닐 경우
 		if(id == null) {
 			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
