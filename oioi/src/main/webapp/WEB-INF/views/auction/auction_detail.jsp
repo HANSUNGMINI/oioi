@@ -77,18 +77,28 @@
    var apd_idx = "${apdDetail.APD_IDX}";
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
-   var token = "${sessionScope.token}";
+   var apdStatus = "${apdDetail.APD_STATUS}";
    var oiMoney = "";
-   console.log("session_id : " + session_id);
 
    $(function(){
-     connect();
+	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09'){
+	    	 $('#bidding').css('display', 'none');
+	    	 $('#auctionBuy').css('display', 'none');
+	    	 
+	    	 //웹소켓 연결 끊기
+	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center");
+	    	 disconnect();
+	   }else{
+		   connect();   
+	   }
+     
      makeAuctionProducts();
      getOiMoney();
      
      
      
-     console.log("token : " + token);
+     
+     
      
       $('#sendMsg').on('keypress',function(et) {
          let keyCode = et.keyCode;
@@ -98,6 +108,7 @@
       });
       
       $('#btnSend').on('click',function(et) {
+    	 console.log("메서지 보낼때 : " + et);
          sendMessage(et);
        });
       
@@ -111,6 +122,7 @@
            if(socket.readyState !== 1) return;
             
            let msg = $('input#sendMsg').val();
+           console.log("보낸 msg : " + msg);
            if (!msg.trim()) return;
             
            var dataSend = {
@@ -247,9 +259,6 @@
    ws.onopen = function() {
    console.log('경매 연결');
    appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center");
-//    socket.send(toJsonString("ENTER", ""));
-   
-//    socket.send(JSON.stringify(dataSend));
    };
    
    ws.onmessage = function(event) {
@@ -525,18 +534,24 @@ function getOiMoney(){
 <%--                                  <img class="hover-img" src="<%= request.getContextPath() %>/resources/upload/${apd.image1 }"> --%>
                                  <div class="flexslider-thumbnails">
                                     <ul class="slides">
-                                       <li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}" rel="adjustX:10, adjustY:">
-                                          <img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}" alt="#">
+                                       <li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.APD_MAIN_IMAGE}" rel="adjustX:10, adjustY:">
+                                          <img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.APD_MAIN_IMAGE}" alt="#">
                                        </li>
-                                       <li data-thumb="https://via.placeholder.com/570x520">
-                                          <img src="https://via.placeholder.com/570x520" alt="#">
-                                       </li>
-                                       <li data-thumb="https://via.placeholder.com/570x520">
-                                          <img src="https://via.placeholder.com/570x520" alt="#">
-                                       </li>
-                                       <li data-thumb="https://via.placeholder.com/570x520">
-                                          <img src="https://via.placeholder.com/570x520" alt="#">
-                                       </li>
+                                       <c:if test="${not empty apdDetail.image1}">
+										    <li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}">
+										        <img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.image1}" alt="#">
+										    </li>
+										</c:if>
+										<c:if test="${not empty apdDetail.image2}">
+										    <li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.image2}">
+										        <img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.image2}" alt="#">
+										    </li>
+										</c:if>
+										<c:if test="${not empty apdDetail.image3}">
+										    <li data-thumb="<%= request.getContextPath() %>/resources/upload/${apdDetail.image3}">
+										        <img src="<%= request.getContextPath() %>/resources/upload/${apdDetail.image3}" alt="#">
+										    </li>
+										</c:if>
                                     </ul>
                                  </div>
                                  <div>
@@ -721,7 +736,6 @@ function getOiMoney(){
                                     </div>
                                     <div class="add-to-cart">
                                        <a class="btn" id="bidding">입찰하기</a>
-                                       <a href="#" class="btn min"><i class="ti-heart"></i></a>
                                     </div>
                                     <br>
                                     <div class="quantity" style="margin-top: 5px;">
@@ -731,7 +745,7 @@ function getOiMoney(){
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
-                                       <a href="#" class="btn" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
+                                       <a href="#" class="btn" id="auctionBuy" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
                                        <script type="text/javascript">
                                        		function auctionBuy(APD_IDX){
                                        			let us_id = "${sessionScope.US_ID}";

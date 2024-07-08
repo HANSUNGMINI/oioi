@@ -48,11 +48,12 @@ public interface AdminMapper {
 	int updateReportStatus(Map<String, String> data);
 	int updateUserStatus(Map<String, String> data);
 	int updateUpdateAPD(Map<String, String> data);
+	int regMainBanner(Map<String, String> data);
 	
 	Map<String, Object> selectDetailUser(Map<String, Object> data);
 	Map<String, Object> selectDetailReport(Map<String, Object> data);
 	Map<String, Object> selectDetailAP(Map<String, Object> data);
 	
-	
+	Map<String, String> selectAuctionItem(Map<String, String> data);
 	List<Map<String, String>> selectMostRegist();
 }

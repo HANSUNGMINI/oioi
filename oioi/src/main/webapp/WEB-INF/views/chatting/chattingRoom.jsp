@@ -127,7 +127,7 @@
 	function onMessage(event) { // 다른 사람 거 나오기
 		let data = JSON.parse(event.data);
 		appendMessage(data.msg, "left","my");
-		saveChatMessage(data.type, data.TO_ID, data.FROM_ID, data.CR_ID, data.msg, data.PD_IDX);
+// 		saveChatMessage(data.type, data.TO_ID, data.FROM_ID, data.CR_ID, data.msg, data.PD_IDX);
 	}
 	
 	function onError() {
@@ -257,6 +257,11 @@
     
     // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
+    	
+    	if(msg == '') {
+    		return;
+    	}
+    	
     	let exist = '${existMsg.cnt}';
     	let userImg = ''
     		
@@ -266,12 +271,23 @@
     		userImg = "${otherInfo.US_PROFILE}"
     	}
     	
+        // 현재 시간을 가져오는 함수
+        function getCurrentTime() {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            return hours + ':' + minutes;
+        }
+
+        // 변수 'a'에 현재 시간을 할당
+        let time = getCurrentTime();
+    	
     	let chat = ' <li class="clearfix" id="userMsg">'
     				+'	<div class="message-data text-' + align_type +'">'
     				+'	 <img src="'+ userImg +'">'
     				+ '	</div>'
     				+ '	<div class="message ' + who +'-message float-' + align_type +'">' + msg + '</div>'
-    				+ '	<small class="message-data-time" style="margin-right:0px">10:10 AM</small>'
+    				+ '	<small class="message-data-time" style="margin-right:0px">'+ time + '</small>'
     				+ '</li>'		
     	
 		if(exist == null) {

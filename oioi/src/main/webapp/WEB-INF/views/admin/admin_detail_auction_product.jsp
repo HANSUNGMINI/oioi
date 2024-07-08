@@ -45,16 +45,15 @@
 	
 	</style>
 	<script>
+		let status = '';
 		$(function(){
-			const status = $("#APD_STATUS").val();
+			
+			status = $("#APD_STATUS").val();
+			
 			const rejection = $("#APD_REJECTION").val();
 			// 거래 완료 상태 시 셀렉트박스 dsiabled
-			// 하드코딩 맘에 안듬
-			if (status === 'APD05' || status === 'APD09') {
-				$('#APD_STATUS').prop('disabled', true).niceSelect('update');
-			}
-			
 			if (status === 'APD09') {
+				$('#APD_STATUS').prop('disabled', true).niceSelect('update');
 				$('#APD_REJECTION').prop('disabled', true).niceSelect('update');
 			}
 			
@@ -75,6 +74,79 @@
 	       	 	}
 			})
 			
+		}
+		
+		function confirmUpdate() {
+			if(status == 'APD05' || status == 'APD06' || status == 'APD07') {
+				let b = confirm("경매가 이미 진행중입니다. 변경하시겠습니까?");
+				if(b == false) {
+					return;
+				}
+			}
+			
+			chageProduct()
+		}
+		
+		function chageProduct() {
+						
+			$.ajax({
+				type : "POST",
+				url : "updateAPD",
+				data : {
+					"APD_STATUS" : $("#APD_STATUS").val(),
+					"APD_REJECTION" : $("#APD_REJECTION").val(),
+					"APD_IDX" : "${param.target}",
+					"APD_DEADLINE" : "${product.APD_DEADLINE}",
+					"APD_START_PRICE" : "${product.APD_START_PRICE}"
+				},
+				dataType : "JSON",
+				success : function (response) {
+					
+					if(response > 0 ) {
+						alert("성공적으로 변경되었습니다!")
+						
+						if($("#APD_STATUS").val() == "APD05") {
+							let socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
+							socket.onopen = function (){
+								socket.send(toJsonString("toUsers", "registAPD"));
+							};
+						}
+					} else if (response == -1) {
+						alert("이미 등록된 상품입니다")
+					} else {
+						alert("변경에 실패했습니다. 다시 시도하여 주십시오");
+						location.reload();
+					}
+					
+				} // success 끝
+			})
+		}
+		
+		function regBanner() {
+			$.ajax({
+				type : "POST",
+				url : "RegMainBanner",
+				data : {
+					"APD_IDX" : "${param.target}",
+				},
+				dataType : "JSON",
+				success : function (response) {
+					
+					if(response > 0 ) {
+						alert("등록되었습니다!")
+					} else {
+						alert("등록에 실패했습니다")
+					}
+				} // success 끝
+			})
+		}
+		
+		function toJsonString(type, msg){
+			let data = {
+				type : type,
+				msg : msg
+			};
+			return JSON.stringify(data);
 		}
 		
 	</script>
@@ -164,7 +236,10 @@
 									<!-- Product Buy -->
 									<div class="product-buy">
 										<ul class="nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item"><a onclick="chageProduct()">수정하기</a></li>
+											<li class="nav-item"><a onclick="confirmUpdate()">수정하기</a></li>
+											<c:if test="${product.APD_STATUS eq '상품등록' || product.APD_STATUS eq '입찰중'}">
+												<li class="nav-item"><a onclick="regBanner()">메인 배너 등록</a></li>
+											</c:if>
 										</ul>
 									</div>
 								</div>
@@ -175,47 +250,7 @@
 			</div>
 		</section>
 	<script>
-		function chageProduct() {
-			$.ajax({
-				type : "POST",
-				url : "updateAPD",
-				data : {
-					"APD_STATUS" : $("#APD_STATUS").val(),
-					"APD_REJECTION" : $("#APD_REJECTION").val(),
-					"APD_IDX" : "${param.target}",
-					"APD_DEADLINE" : "${product.APD_DEADLINE}",
-					"APD_START_PRICE" : "${product.APD_START_PRICE}"
-				},
-				dataType : "JSON",
-				success : function (response) {
-					
-					if(response > 0 ) {
-						alert("성공적으로 변경되었습니다!")
-						
-						if($("#APD_STATUS").val() == "APD05") {
-							let socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
-							socket.onopen = function (){
-								socket.send(toJsonString("toUsers", "registAPD"));
-							};
-						}
-						
-					} else {
-						alert("변경에 실패했습니다")
-					}
-					
-					
-					
-				} // success 끝
-			})
-		}
 		
-		function toJsonString(type, msg){
-			let data = {
-				type : type,
-				msg : msg
-			};
-			return JSON.stringify(data);
-		}
 	</script>
 	<!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>

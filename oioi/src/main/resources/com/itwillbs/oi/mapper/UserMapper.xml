@@ -50,7 +50,7 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '카카오',
-        'US01')
+        'US03')
     </insert>
 
     <update id="updateKakaoUser" parameterType="map">
@@ -74,7 +74,7 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '네이버',
-        'US01')
+        'US03')
     </insert>
 	
 	<select id="selectUser" resultType="hashmap">

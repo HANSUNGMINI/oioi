@@ -340,6 +340,14 @@ public class AdminController {
 	@ResponseBody
 	@PostMapping("updateAPD")
 	public int updateAPD(@RequestParam Map<String, String> map) {
+		String APD_STATUS = map.get("APD_STATUS");
+		System.out.println(APD_STATUS);
+		if(APD_STATUS.equals("APD05")) {
+			if(adminservice.selectAuctionItem(map) != null) {
+				return -1;
+			};
+		}
+		
 		return adminservice.updateUpdateAPD(map);
 	}
 	
@@ -348,5 +356,11 @@ public class AdminController {
 	@GetMapping("MostRegistCategory")
 	public List<Map<String, String>> selectMostRegistCategory() {
 		return adminservice.selectMostRegist();
+	}
+	
+	@ResponseBody
+	@PostMapping("RegMainBanner")
+	public int RegMainBanner(@RequestParam Map<String, String> map) {
+		return adminservice.regMainBanner(map);
 	}
 }

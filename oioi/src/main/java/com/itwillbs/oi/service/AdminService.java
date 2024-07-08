@@ -55,9 +55,11 @@ public class AdminService {
 	
 	public int updateReportStatus(Map<String, String> map){ return adminMapper.updateReportStatus(map); }
 	public int updateUserStatus(Map<String, String> map){ return adminMapper.updateUserStatus(map); }
+	public int regMainBanner(Map<String, String> map){ return adminMapper.regMainBanner(map); }
 	public List<Map<String, String>> selectMostRegist(){return adminMapper.selectMostRegist();}
 	
 	
+	public Map<String, String> selectAuctionItem(Map<String, String> map){ return adminMapper.selectAuctionItem(map); }
 	@Transactional
 	public int updateUpdateAPD(Map<String, String> map){
 		// APD05 상품등록 일 때 

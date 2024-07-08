@@ -98,6 +98,8 @@
 		<![CDATA[
 		SELECT *,
 		CASE
+			WHEN ap.APD_STATUS = 'APD09' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD08' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
@@ -159,6 +161,7 @@
             ap.APD_BUY_NOW_PRICE,
             ap.APD_REG_DATE,
             ap.APD_DELIVERY,
+            ap.APD_MAIN_IMAGE,
             a.AT_IDX,
             a.AT_START_TIME,
             a.AT_END_TIME,

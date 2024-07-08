@@ -304,6 +304,11 @@
              success: function(response) {
 				const result = response.result;
 				
+				if (result == "NotLoggedIn") {
+					alert("로그인이 필요합니다. \n로그인 페이지로 이동합니다.");
+					window.location.href = 'login'; // 로그인 페이지로 이동
+				}
+				
 				if(result == "Removed"){
 					alert("해당 상품을 찜목록에서 제거하였습니다!");
 				} else if (result == "Success") {
@@ -312,7 +317,7 @@
 					} 
 				} else if (result == "fail") {
 					alert("실패");
-				}
+				} 
              }
  		});
     }
