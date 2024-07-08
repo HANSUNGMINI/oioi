@@ -77,7 +77,10 @@
         .non_overlay {
         	display : none;
         }
-	</style>	
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script type="text/javascript">
+	</script>	
 </head>
 <body class="js">
 
@@ -95,8 +98,9 @@
 						
 						<c:forEach var="item" items="${auctionProducts}">
 							  <div class="big-content" style="height: 400px;">
-							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;"> 
-								<div class="inner" style="width: 55%;">
+<%-- 							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;">  --%>
+							    <img src="${pageContext.request.contextPath}/resources/images/케이크.jpg" style="width: 400px; height: 100%;"> 
+								<div class="inner" style="width: 60%;">
 									<h4 class="title">${item.APD_NAME }</h4>
 									<p class="des">경매 종료일 ${item.AT_END_TIME}<br> 현재 입찰된 가격 ${item.FINAL_BID_PRICE}<br> 즉시구매가 ! ${item.APD_BUY_NOW_PRICE}원</p>
 									<div class="button">
