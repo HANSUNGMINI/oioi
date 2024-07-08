@@ -431,7 +431,19 @@
 		  LEFT JOIN tmp
 		    ON p.PD_CATEGORY = tmp.CTG_CODE
 		 GROUP BY tmp.path, PD_CATEGORY
-	</select>	
+	</select>
+	
+	<update id="regMainBanner">
+		UPDATE auction
+		   SET AT_MAIN = 'Y'
+		 WHERE APD_IDX = #{APD_IDX}
+	</update>
+	
+	<select id="selectAuctionItem" resultType="map">
+		SELECT APD_IDX
+		  FROM auction
+	  	 WHERE APD_IDX = #{APD_IDX}
+	</select>
 </mapper>
 
 
