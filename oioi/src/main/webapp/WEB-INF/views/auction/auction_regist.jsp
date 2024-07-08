@@ -80,7 +80,7 @@
 		        console.log('cate2s:', filteredCate2s);
 		        
 		        
-		        $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+		        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
 		        	
 		        $.each(filteredCate2s, function(index, cate) {
 			            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
@@ -99,7 +99,7 @@
 		        });
 		    	console.log('cate3s:', filteredCate3s);
 		    	
-		    	$('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+		    	$('#cate3').empty().append('<option value="3">소분류를 선택하시오</option>');
 		    	
 		    	$.each(filteredCate3s, function(index, cate) {
 		            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
@@ -120,18 +120,65 @@
 			
 		});
 		
-		function Valid(event){
+		function Valid(){
 			var APD_NAME = $('#APD_NAME').val();
 			var APD_DETAIL = $('#APD_DETAIL').val();
+			var cate1 = $('#cate1').val();
+			var cate2 = $('#cate2').val();
+			var cate3 = $('#cate3').val();
+			var APD_CONDITION = $('input[name="APD_CONDITION"]:checked').val();
+			var APD_DEADLINE = $('input[name="APD_DEADLINE"]:checked').val();
+				
+	        var APD_START_PRICE = $('#APD_START_PRICE').val();
+	        var APD_BUY_NOW_PRICE = $('#APD_BUY_NOW_PRICE').val();
+	        var fileInput = document.getElementById('APD_MAIN_IMAGE');
+	        var APD_MAIN_IMAGE = fileInput.files;
+	        var fileInput2 = document.getElementById('APD_IMAGE');
+	        var APD_IMAGE = fileInput2.files;
+	        
+	        
+	        
 			
-			console.log('APD_DETAIL : ' + APD_DETAIL);
-			if(APD_NAME == ""){
+			
+			if(cate1 == "1"){
+				err("대분류를 선택하세요");
+				return false;
+			}else if(cate2 == "2"){
+				err("중분류를 선택하세요");
+				return false;
+			}else if(cate3 == "3"){
+				err("소분류를 선택하세요");
+				return false;
+			}else if(APD_NAME == ""){
 				err("상품명을 입력하세요");
 				return false;
 			}else if(APD_DETAIL == ""){
 				err("상세설명을 입력하세요");
 				return false;
+			}else if(!APD_CONDITION){
+				err("상품상태를 입력하세요");
+				return false;
+			}else if(APD_START_PRICE == ""){
+				err("판매시작가를 입력하세요");
+				return false;
+			}else if(APD_BUY_NOW_PRICE == ""){
+				err("즉시판매가를 입력하세요");
+				return false;
+			}else if(parseInt(APD_BUY_NOW_PRICE) <= parseInt(APD_START_PRICE)){
+				err("판매시작가보다 높게 입력하세요");
+				return false;
+			}else if(!APD_DEADLINE){
+				err("입찰마감 기한을 선택하세요");
+				return false;
+			}else if(!APD_MAIN_IMAGE.length){
+				err("썸내일 이미지를 선택하세요");
+				return false;
+			}else if(APD_IMAGE.length <= 1){
+				err("상세이미지를 최소2개이상 선택하세요");
+				return false;
 			}
+			return true;
+			
 		}
 		
 		function err(msg){
@@ -176,7 +223,7 @@
 							<h2>경매 상품 등록</h2>
 							<p>상품 정보를 입력해주세요</p>
 							<!-- Form -->
-							<form class="form" method="post" action="auctionRegist" id="myForm" enctype="multipart/form-data" name="fr">
+							<form class="form" method="post" action="auctionRegist" onsubmit="return Valid()" enctype="multipart/form-data" name="fr">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
@@ -184,7 +231,7 @@
 												<label>카테고리<span>*</span></label>
 											</div>
 											<select id="cate1" name="cate1" class="form-control" >
-				                                <option value="">대분류</option>
+				                                <option value="1">대분류</option>
 				                                <c:forEach var="cate1" items="${cate1}">
 				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
 				                                </c:forEach>
@@ -218,7 +265,7 @@
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
 									        </div>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<input type="radio" name="APD_CONDITION" value="${productCondition.code}" style="margin-bottom: 5px;">${productCondition.value}<br>
+												<input type="radio" name="APD_CONDITION" id="APD_CONDITION" value="${productCondition.code}" style="margin-bottom: 5px;">${productCondition.value}<br>
 											</c:forEach>
 									    </div>
 									</div>
@@ -276,7 +323,7 @@
 									</div>
 									<div class="col-12" style="margin-top: 50px;">
 										<div class="form-group login-btn">
-											<button class="btn" type="submit">상품등록</button>
+											<input type="submit" id="subimit" value="등록하기">
 										</div>
 									</div>
 								</div>
@@ -301,6 +348,11 @@
                 alert("최대 4개의 이미지만 업로드할 수 있습니다.");
                 this.value = ""; // 선택된 파일 초기화
                 return;
+            }
+            if(this.files.length <= 1){
+            	err("상세이미지를 최소 2개이상 선택하세요");
+            	this.value = "";
+            	return;
             }
             
             $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
