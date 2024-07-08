@@ -56,10 +56,13 @@
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/product.css">
 	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	
 	<!-- Test -->
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript">
+		
 		$(document).ready(function() {
 		    let cate2 = JSON.parse('${cate2}');
 		    let cate3 = JSON.parse('${cate3}');
@@ -106,14 +109,44 @@
 		        console.log("cate2(value) : " + $('#cate2').val());
 		    });
 		    
+		    $('#myForm').on('submit', function(event){
+		    	if(!Valid(event)){
+		    		event.preventDefault();
+		    	}
+		    	
+		    });
+		    
+		    
 			
 		});
+		
+		function Valid(event){
+			var APD_NAME = $('#APD_NAME').val();
+			var APD_DETAIL = $('#APD_DETAIL').val();
+			
+			console.log('APD_DETAIL : ' + APD_DETAIL);
+			if(APD_NAME == ""){
+				err("상품명을 입력하세요");
+				return false;
+			}else if(APD_DETAIL == ""){
+				err("상세설명을 입력하세요");
+				return false;
+			}
+		}
+		
+		function err(msg){
+			Swal.fire({
+    	        title: msg,
+    	        icon: 'warning',
+    	        confirmButtonText: '확인'
+    	    })
+		}
 	
 	</script>
 	
 </head>
 <body class="js">
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 	
 	<!-- Breadcrumbs -->
@@ -143,25 +176,25 @@
 							<h2>경매 상품 등록</h2>
 							<p>상품 정보를 입력해주세요</p>
 							<!-- Form -->
-							<form class="form" method="post" action="auctionRegist" enctype="multipart/form-data" name="fr">
+							<form class="form" method="post" action="auctionRegist" id="myForm" enctype="multipart/form-data" name="fr">
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
 											<div>
 												<label>카테고리<span>*</span></label>
 											</div>
-											<select id="cate1" name="cate1" class="form-control" required>
+											<select id="cate1" name="cate1" class="form-control" >
 				                                <option value="">대분류</option>
 				                                <c:forEach var="cate1" items="${cate1}">
 				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
 				                                </c:forEach>
 				                            </select>
 				                            
-				                            <select id="cate2" name="cate2" class="form-control" required disabled>
+				                            <select id="cate2" name="cate2" class="form-control"  disabled>
 				                                    <option value="">중분류를 선택하시오</option>
 				                            </select>
 				                            
-				                            <select id="cate3" name="cate3" class="form-control" required disabled>
+				                            <select id="cate3" name="cate3" class="form-control"  disabled>
 				                                    <option value="">소분류를 선택하시오</option>
 				                            </select>
 										</div>
@@ -170,13 +203,13 @@
 									<div class="col-12" style="margin-top: 15px;">
 										<div class="form-group">
 											<label>상품명<span>*</span></label>
-											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명" required="required">
+											<input type="text" name="APD_NAME" id="APD_NAME" placeholder="상품명">
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>상품설명<span>*</span></label>
-											<textarea name="APD_DETAIL" id="APD_DETAIL" maxlength="300" placeholder="상품에 대한 상세한 정보(사이즈,상태 등)를 작성하세요" required="required" class="form-control"></textarea>
+											<textarea name="APD_DETAIL" id="APD_DETAIL" maxlength="300" placeholder="상품에 대한 상세한 정보(사이즈,상태 등)를 작성하세요" class="form-control"></textarea>
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -185,20 +218,20 @@
 									        <label>상품상태<span style="color: red; margin-left: 5px;">*</span></label>
 									        </div>
 											<c:forEach var="productCondition" items="${productCondition}">
-												<input type="radio" name="APD_CONDITION" value="${productCondition.code}" required="required" style="margin-bottom: 5px;">${productCondition.value}<br>
+												<input type="radio" name="APD_CONDITION" value="${productCondition.code}" style="margin-bottom: 5px;">${productCondition.value}<br>
 											</c:forEach>
 									    </div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
-											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" required="required">
+											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" >
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>즉시판매가<span>*</span></label>
-											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" required="required">
+											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" >
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -230,20 +263,20 @@
 									<div class="col-12">
 										<div class="regForm">
 											<label> 상품 메인 이미지<small>(규격)</small></label>
-											<input type="file" accept="image/*" id="APD_MAIN_IMAGE" name="APD_MAIN_IMAGE" class="form-control" required="required">
+											<input type="file" accept="image/*" id="APD_MAIN_IMAGE" name="APD_MAIN_IMAGE" class="form-control" >
 											<div class="mainPreView"></div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="regForm">
 											<label> 상품 이미지<small>(최대 5장)</small></label>
-											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" required="required">
+											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" >
 											<div class="preView"></div>
 										</div>
 									</div>
 									<div class="col-12" style="margin-top: 50px;">
 										<div class="form-group login-btn">
-											<button class="btn" type="submit" onsubmit="submit()">상품등록</button>
+											<button class="btn" type="submit">상품등록</button>
 										</div>
 									</div>
 								</div>
