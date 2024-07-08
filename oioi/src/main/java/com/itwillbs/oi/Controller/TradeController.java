@@ -304,11 +304,20 @@ public class TradeController {
 	    }
 	}
 	
+	
 	// 찜하기 기능 추가
 	@ResponseBody
     @PostMapping("addToWishlist")
     public JsonObject addToWishlist(@RequestParam Map<String, Object> map, HttpSession session, Model model) {
-        JsonObject jo = new JsonObject();
+        
+		JsonObject jo = new JsonObject();
+		// 사용자 세션 확인
+	    String userId = (String) session.getAttribute("US_ID");
+	    System.out.println("세션 id: " + userId);
+	    if (userId == null) {
+	        jo.addProperty("result", "NotLoggedIn");
+	        return jo;
+	    }
 		System.out.println("받은 map정보 : " + map);
         map.put("WL_US_ID", (String)session.getAttribute("US_ID"));
         System.out.println("세션 확인 map : " + map);
