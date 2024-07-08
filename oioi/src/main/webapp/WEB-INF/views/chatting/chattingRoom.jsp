@@ -54,7 +54,6 @@
 
     $(function(){
 	    connectChat();
-	    window.scrollTo(0, document.body.scrollHeight);
 	    
 		let US_ID = "${param.US_ID}"
 		let TO_ID = "${param.TO_ID}"
@@ -62,6 +61,7 @@
 		let CR_ID = "${chatRoom.CR_ID}"
 	    let FROM_ID = '';
 		let existMsg = '${existMsg.cnt}';
+		let deliveryInfo = '${deliveryInfo.CR_ID}';
 		
 	    if(TO_ID == US_ID) {
 	    	US_ID = "${chatRoom.FROM_ID}"
@@ -72,6 +72,7 @@
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
+	    	CR_ID = "${chatRoom.CR_ID}"
 	    	console.log("msg : " + msg);
 	    	sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
 	     });
@@ -80,6 +81,7 @@
 	   
 		$("#textMsg").on("keypress",function(event){
 			let msg = $("#textMsg").val();
+			CR_ID = "${chatRoom.CR_ID}"
 			let keyCode = event.keyCode;
 			if(keyCode == 13) {
 				sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
@@ -90,14 +92,18 @@
 	    	getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX);
 	   }
 	   
+	   if(deliveryInfo == CR_ID) {
+		   sysMessage("운송장 등록이 완료되었습니다");
+	   }
+	   
     });
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
-    let US_ID = "${param.US_ID}"
-	let TO_ID = "${param.TO_ID}"
-	let PD_IDX = "${param.PD_IDX}"
-	let CR_ID = "${chatRoom.CR_ID}"
+    let US_ID = "${param.US_ID}";
+	let TO_ID = "${param.TO_ID}";
+	let PD_IDX = "${param.PD_IDX}";
+	let CR_ID = "${chatRoom.CR_ID}";
     let FROM_ID = "${param.FROM_ID}";
 	
     if(TO_ID == US_ID) {
@@ -208,7 +214,8 @@
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	
+    	CR_ID = "${chatRoom.CR_ID}"
+    	alert(CR_ID);
 		// 입력하지 않았을 경우
 		if (msg == "") {
 			/* alert("메세지 입력 필수") */
@@ -230,7 +237,7 @@
 	// 채팅 대화 DB에 저장
 	
 	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	// alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
 	     $.ajax({
             type: "POST",
             url: "saveChatMsg",
@@ -249,12 +256,7 @@
 	    });
 	}
     
-    // -----------------------------------------------------------
-    
-	function sysMessage(msg){
-    	
-    }    
-    
+  
     // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
     	
@@ -301,6 +303,19 @@
     	
     }
 
+  // -----------------------------------------------------------
+    
+	function sysMessage(msg){
+    	let sysChat = '<li class="clearfix chatViewMe">' +
+				        '<div class="messageCenter">' +
+				        msg +
+				        '</div>' +
+				        '</li>';
+    	
+		$("#chatArea li:last").after(sysChat);
+    }    
+    
+    
     // -----------------------------------------------------------
     
     function purchase(TO_ID, PD_IDX) {
@@ -349,7 +364,7 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}">
+	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID && empty deliveryInfo}">
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
 <!-- 			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li> -->
 	                        	</c:if>
@@ -357,7 +372,7 @@
 									<c:if test="${param.FROM_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS01'}">
 		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
 		                        	</c:if>
-	    	                    	<li><a id="d4" onclick="transaction()">구매확정</a></li>
+	    	                    	<li><a id="d4" onclick="soldout()">구매확정</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
@@ -379,26 +394,7 @@
 					</div>
 
                     <ul class="m-b-0" id="chatArea">
-                    	<%--	<c:forEach var="msg" items="${chatMsg}">
-	                    		<li class="clearfix">
-		                            <div class="message-data text-${chatMsg.MSG_POSITION}">
-		                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
-		                            </div>
-		                            <div class="message other-message float-${chatMsg.MSG_POSITION}"> ${chatMsg.MS_CONTENT} </div>
-		                            <small class="message-data-time" style="margin-right:0px">${chatMsg.MS_TIME}</small>
-		                        </li>
-	                        </c:forEach>
-                    	</c:if> --%>
-                        <%--
-                        <li class="clearfix">
-                            <div class="message-data text-right">
-                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
-                            </div>
-                            <div class="message other-message float-right"> 바보 </div>
-                            <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
-                        </li>
-                        
-                         --%>
+                    	<%-- 채팅 출력 --%>
                     </ul>
                 </div>
 				
@@ -612,8 +608,8 @@
 			let existReview = '${pdInfo.existReview }';
 			
 			Swal.fire({
-				   title: '판매 완료로 변경하시겠습니까?',
-				   text: '확인 버튼 클릭 시, '+ nick + ' 님과의 거래가 성사됩니다.',
+				   title: '구매 확정하시겠습니까?',
+				   text: '구매 확정 시, 돈이 송금되며 취소 불가능합니다.',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -628,7 +624,7 @@
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   
-				      Swal.fire('판매 완료되었습니다.', '감사합니다', 'success');
+				      Swal.fire('송금 완료되었습니다.', '감사합니다', 'success');
 //				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
 						document.querySelector("#detail").style.display = "none";
 						

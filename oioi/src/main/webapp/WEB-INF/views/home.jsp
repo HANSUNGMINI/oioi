@@ -80,6 +80,34 @@
 	</style>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script type="text/javascript">
+    $(function() {
+        function updateCountdown() {
+            $('.apdCount').each(function() {
+                var endTimeString = $(this).data('endtime');
+                var endTime = new Date(endTimeString.replace(/-/g, '/'));
+                console.log("endTime" + endTime);
+                var now = new Date();
+                console.log("now" + now);
+                var timeRemain = endTime - now;
+                console.log("timeRemain" + timeRemain);
+                if (timeRemain <= 0) {
+                    $(this).text('경매가 끝났습니다.');
+                    return;
+                }
+
+                var days = Math.floor(timeRemain / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemain % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemain % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemain % (1000 * 60)) / 1000);
+
+                $(this).html(days + '일 ' + hours + '시간 ' + minutes + '분 ' + seconds + '초');
+            });
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        updateCountdown();
+    });
 	</script>	
 </head>
 <body class="js">
@@ -96,11 +124,14 @@
 						<!-- 하나만 놔두면 오류? -->
 						
 						
-						<c:forEach var="item" items="${auctionProducts}">
+						<c:forEach var="item" items="${auctionProducts}" varStatus="status">
 							  <div class="big-content" style="height: 400px;">
 <%-- 							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;">  --%>
-							    <img src="${pageContext.request.contextPath}/resources/images/케이크.jpg" style="width: 400px; height: 100%;"> 
-								<div class="inner" style="width: 60%;">
+							    <img src="<%= request.getContextPath() %>/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 500px; height: 100%;"> 
+								<div class="inner" style="width: 50%;">
+									<a id="apdCount_${status.index}" style="font-size: 45px; font-weight: 2px;" class="apdCount" data-endtime="${item.AT_END_TIME}"></a>
+									<br>
+									<br>
 									<h4 class="title">${item.APD_NAME }</h4>
 									<p class="des">경매 종료일 ${item.AT_END_TIME}<br> 현재 입찰된 가격 ${item.FINAL_BID_PRICE}<br> 즉시구매가 ! ${item.APD_BUY_NOW_PRICE}원</p>
 									<div class="button">
@@ -108,31 +139,7 @@
 									</div>
 								</div>
 							</div>
-							
-							<div class="big-content" style="background-image:url('')">
-								<div class="inner">
-									<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4>
-									<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p>
-	
-									<div class="button">
-										<a href="#" class="btn">1번</a>
-									</div>
-								</div>
-							</div>
 						</c:forEach>						
-						
-						
-<!-- 						<div class="big-content" > -->
-<!-- 							<div class="inner"> -->
-<!-- 								<h4 class="title">이곳에 <br> 정보를 <br> 넣는</h4> -->
-<!-- 								<p class="des">Hipster style is a fashion trending for Gentleman and Lady<br>with tattoos. Youâll become so cool and attractive with yourâs girl.<br> Now let come hare and grab it now !</p> -->
-<!-- 								<div class="button"> -->
-<!-- 									<a href="#" class="btn">2번</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-						
-						
 					</div>
 				</div>
 			</div>

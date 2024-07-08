@@ -19,6 +19,7 @@ public interface ChattingMapper {
 	Map<String, String> getProductInfo(Map<String, Object> map); // 채팅 시 필요한 상품 정보
 	Map<String, String> getMyInfo(Map<String, Object> map); // 채팅 시 내 정보 가져오기
 	Map<String, String> getOtherInfo(Map<String, Object> map); // 채팅 시 필요한 상대방 정보 가져오기
+	Map<String, Object> getDeliveryinfo(Map<String, Object> map); // 운송장 번호 가져오기
 	// -------------------------------------------
 	
 	// ----------- 정보 처리하기 ----------------
@@ -36,6 +37,10 @@ public interface ChattingMapper {
 	Map<String, Object> getMyChatList(int crId); // 마지막 채팅 가져오기
 	List<Map<String, String>> getChatMsg(Map<String, Object> map); // 채팅 내역 가져오기
 	Map<String, Object> existmsg(Map<String, Object> map); // 메세지 존재하는지 확인
+	List<Map<String, Object>> getReadCount(Map<String, Object> map); // 안 읽은 메세지 개수 가져오기
+	List<Map<String, Object>> getUnreadCnt(Map<String, Object> map); // 해당 채팅방의 안 읽은 메세지 개수만 가져오기
+	int updateUnreadCnt(Map<String, Object> map); // 안 읽은 메세지 수가 2일 때 실행
+	int updateUnreadZero(Map<String, Object> map); // 1일 경우 실행
 
 
 }

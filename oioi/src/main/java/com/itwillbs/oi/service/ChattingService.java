@@ -41,6 +41,11 @@ public class ChattingService {
 	public List<Map<String, String>> getReviewCategory() {
 		return mapper.selectReviewCategory();
 	}
+	
+	// 운송장 등록 여부 가져오기
+	public Map<String, Object> getDeliveryinfo(Map<String, Object> map) {
+		return mapper.getDeliveryinfo(map);
+	}
 
 	// ---------------------------------------------------------------------------
 	
@@ -102,7 +107,49 @@ public class ChattingService {
 		return mapper.existmsg(map);
 	}
 
+	// 안 읽은 메세지 개수 가져오기
+	public List<Map<String, Object>> getReadCount(Map<String, Object> map) {
+		
+		List<Map<String, Object>> readCountInfo = mapper.getReadCount(map);
+		
+		if(readCountInfo.isEmpty()) {
+			return null;
+		}
+		
+		Map<String, Object> firstEntry = readCountInfo.get(0);
+
+		// 읽은 메시지 개수를 가져옵니다.
+		int readCount = (int) firstEntry.get("CM_READCOUNT");
+
+		// 아무도 안 읽었거나 내가 안 읽었을 때 전달 아니면 null 전달
+		if (readCount == 2) {
+		    return readCountInfo;
+		} else if (readCount == 1 && !firstEntry.get("CM_READBY").equals(map.get("US_ID"))) {
+		    return readCountInfo;
+		} else {
+		    return null;
+		}
+		
+	}
+
 	
+	// 안 읽은 회수 차감
+	public int updateUnreadCnt(Map<String, Object> map) {
+		
+		List<Map<String, Object>> unread = mapper.getUnreadCnt(map);
+		int cnt = 0;
+		for (Map<String, Object> un : unread) {
+			int readCount = (int) un.get("CM_READCOUNT");
+			
+		    if(readCount == 2) {
+		    	cnt = mapper.updateUnreadCnt(map);
+		    } else if (readCount == 1) {
+		    	cnt = mapper.updateUnreadZero(map);
+		    } 
+		}
+		return cnt;
+	}
+
 
 
 	

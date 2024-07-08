@@ -31,9 +31,12 @@ public interface OipayMapper {
 
 	void updatePdStatus(Map<String, String> map);
 	void updateMinusOimoney(Map<String, String> map);
+	void insertTDinfo(Map<String, String> map);
+
 	void updatePlusOimoney(Map<String, String> map);
 
 	void updateRefundOimoney(Map<String, Object> map);
+
 
 
 	

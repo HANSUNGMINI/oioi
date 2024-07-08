@@ -266,7 +266,6 @@
 	        
 	        var filteredCate2s = cate2.filter(function(cate) {
 	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000//
-// 	        	 return cate.UP_CTG_CODE == selectedCate1;
 	        });
 	        
 	        console.log('cate2s:', filteredCate2s);
@@ -278,8 +277,6 @@
 				$('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 		    });
 	        $('#cate2').prop('disabled', false).niceSelect('update');//
-// 			$('#cate2').prop('disabled', false); // 🟣 변경된 부분
-// 	        $('#cate3').prop('disabled', true).empty().append('<option value="">소분류를 선택하시오</option>'); // 🟣 변경된 부분
 	        
 	        console.log("cate1(value) : " + $('#cate1').val());
 	    });
@@ -306,7 +303,6 @@
 	    });
 	    
 	    function validateForm() {
-	    	alert("진입");
 	    	if(document.fr.addfile.value == "") { // 이미지 확인
 				alert("최소 1개의 이미지를 등록해야합니다!");
 				return false;
