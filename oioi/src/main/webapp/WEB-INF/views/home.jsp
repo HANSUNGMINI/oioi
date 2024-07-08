@@ -128,14 +128,22 @@
 							  <div class="big-content" style="height: 400px;">
 <%-- 							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;">  --%>
 							    <img src="<%= request.getContextPath() %>/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 500px; height: 100%;"> 
-								<div class="inner" style="width: 50%;">
-									<a id="apdCount_${status.index}" style="font-size: 45px; font-weight: 2px;" class="apdCount" data-endtime="${item.AT_END_TIME}"></a>
-									<br>
-									<br>
+<!-- 								<div class="inner" style="width: 50%;"> -->
+<%-- 									<a id="apdCount_${status.index}" style="font-size: 45px; font-weight: 2px;" class="apdCount" data-endtime="${item.AT_END_TIME}"></a> --%>
+<!-- 									<br> -->
+<!-- 									<br> -->
+<%-- 									<h4 class="title">${item.APD_NAME }</h4> --%>
+<%-- 									<p class="des">경매 종료일 ${item.AT_END_TIME}<br> 현재 입찰된 가격 ${item.FINAL_BID_PRICE}<br> 즉시구매가 ! ${item.APD_BUY_NOW_PRICE}원</p> --%>
+<!-- 									<div class="button"> -->
+<%-- 										<a href="auctionDetail?APD_IDX=${item.APD_IDX}" class="btn">참가하기 </a> --%>
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div class="inner" style="margin-right: 100px;">
+									<h4 class="title"><a id="apdCount_${status.index}" class="apdCount" data-endtime="${item.AT_END_TIME}"></a></h4>
 									<h4 class="title">${item.APD_NAME }</h4>
-									<p class="des">경매 종료일 ${item.AT_END_TIME}<br> 현재 입찰된 가격 ${item.FINAL_BID_PRICE}<br> 즉시구매가 ! ${item.APD_BUY_NOW_PRICE}원</p>
+									<p class="des">[경매 종료일] ${item.AT_END_TIME}<br>[현재 입찰된 가격] <fmt:formatNumber value="${item.FINAL_BID_PRICE}" pattern="#,###"/>원<br> [즉시구매가] <fmt:formatNumber value="${item.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</p>
 									<div class="button">
-										<a href="auctionDetail?APD_IDX=${item.APD_IDX}" class="btn">참가하기 </a>
+										<a href="auctionDetail?APD_IDX=${item.APD_IDX}" class="btn">참가하기</a>
 									</div>
 								</div>
 							</div>
