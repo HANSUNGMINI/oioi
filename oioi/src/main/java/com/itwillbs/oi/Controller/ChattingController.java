@@ -49,7 +49,6 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
-		
 		// [내 채팅 목록 가져오기]
 		// System.out.println(map); --> 세션 아이디 들어있음
 		
@@ -57,15 +56,27 @@ public class ChattingController {
 		List<Map<String, Object>> chatInfo = service.getMyChatInfo(map); 
 		
 		// 2. 마지막 대화 및 시간 가져오기
+		List<Map<String, Object>> chatList =  new LinkedList<>();
+		List<Map<String, Object>> cnt = new LinkedList<>();
 		
-		List<Map<String, Object>> chatList =  new LinkedList<>();; 
-				
 		for (Map<String, Object> chatContent : chatInfo) {
 			
             // CR_ID 값을 가져오기
             int crId = (int) chatContent.get("CR_ID");
+            map.put("crId", crId);
             Map<String, Object> list = service.getMyChatList(crId);
-            chatList.add(list);
+
+            // 안 읽은 메세지의 개수 가져오기
+            List<Map<String, Object>> readInfo = service.getReadCount(map);
+            
+            int readCount = (readInfo == null) ? 0 : readInfo.size();
+            
+            // readCount를 chatList 항목에 포함
+            Map<String, Object> chatEntry = new HashMap<>();
+            chatEntry.put("list", list);
+            chatEntry.put("readCount", readCount);
+            
+            chatList.add(chatEntry);
         }
 		
 		System.out.println("유저 채팅방 정보 >> " + chatInfo);
@@ -140,15 +151,18 @@ public class ChattingController {
 		// 채팅방 있는지 체크 및 채팅방 번호 가져오기
 		System.out.println("map ?! " + map);
 		Map<String, Object> chatRoom = service.checkChatRoom(map);
-		System.out.println("채팅방 번호 " +chatRoom);
-		
-		map.put("CR_ID", (int) chatRoom.get("CR_ID"));
 		
 		Map<String, Object> existMsg = new HashMap<String, Object>();
+		
 		if(chatRoom != null ) {
-			 existMsg = service.existMsg(map);
-			 System.out.println(existMsg);
+			map.put("CR_ID", (int) chatRoom.get("CR_ID"));
+		    existMsg = service.existMsg(map);
+		    System.out.println(existMsg);
 		}
+		
+		// 안 읽은 회수 차감
+//		int updateCnt = service.updateUnreadCnt(map);
+		
 		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
@@ -162,10 +176,15 @@ public class ChattingController {
 			pdInfo.put("existReview", "no");
 		}
 		
+		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
+		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
+		System.out.println("운송장 있는 지 -->" + deliveryInfo);
+		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
 		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
+		model.addAttribute("deliveryInfo", deliveryInfo); // 운송장 등록 여부
 		
 		model.addAttribute("chatRoom", chatRoom); // 채팅방 체크 및 번호
 		model.addAttribute("existMsg", existMsg); // 채팅방 안에 메세지 존재하는지 확인
@@ -176,6 +195,7 @@ public class ChattingController {
 		
 		return "chatting/chattingRoom";
 	}
+	
 	// 채팅 가져오기
 	@ResponseBody
 	@GetMapping("getChatList")

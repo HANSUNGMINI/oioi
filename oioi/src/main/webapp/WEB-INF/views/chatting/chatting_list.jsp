@@ -60,7 +60,7 @@
 						<c:set var="info" value="${chat.info}"/>
     					<c:set var="list" value="${chat.list}"/>
     					
-    					<c:if test="${not empty list}">
+    					<c:if test="${not empty list.list}">
 							<li>
 								<a href="Chatting?CR_ID=${info.CR_ID}&PD_IDX=${info.PD_IDX}&FROM_ID=${info.FROM_ID}&TO_ID=${info.TO_ID}&US_ID=${sessionScope.US_ID}">
 									<%-- 사용자 이미지 --%>
@@ -71,10 +71,10 @@
 									<%-- 메세지 내용 --%>
 									<div class="message-body">
 										<div class="message-body-heading">
-											<h5> ${chat.info.US_NICK} <span class="unread">3</span></h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
-											<span>${list.MS_END_DATE}</span>										
+											<h5> ${chat.info.US_NICK} <span class="unread">${list.readCount}</span></h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
+											<span>${list.list.MS_END_DATE}</span>										
 										</div>
-										<p>${list.MS_CONTENT}</p>
+										<p>${list.list.MS_CONTENT}</p>
 									</div>
 								</a>
 							</li>

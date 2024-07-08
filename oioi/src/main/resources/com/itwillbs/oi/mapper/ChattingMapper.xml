@@ -37,6 +37,14 @@
 		WHERE u.US_ID = #{US_ID}
 	</select>
 	
+	<select id="getDeliveryinfo" resultType="hashmap">
+		SELECT d.PC_ID, d.BUYER_ID, DV_TIME, DV_STATUS, cr.CR_ID
+		FROM delivery d
+		JOIN chat_room cr
+		ON cr.PD_IDX = d.PC_ID
+		WHERE PC_ID = #{PD_IDX}  
+	</select>
+	
 	<insert id="insertReport">
 		INSERT INTO report
 		VALUES (
@@ -93,7 +101,6 @@
 			, #{TO_ID}
 			, #{FROM_ID}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
-			, null
 		)
 	</insert>
 	
@@ -116,6 +123,8 @@
 			, #{msg}
 			, NULL
 			, 0
+			, NULL
+			, #{US_ID}
 		)
 	</insert>
 	
@@ -169,6 +178,26 @@
 		FROM chat_message
 		WHERE CR_ID = #{CR_ID}
 	</select>
+	
+	<select id="getReadCount" resultType="hashmap">
+		SELECT CM_READCOUNT, CM_READBY
+		FROM chat_message
+		WHERE CR_ID = #{crId} AND CM_READCOUNT != 0;
+	</select>
+	
+	<select id="getUnreadCnt" resultType="hashmap">
+		SELECT CM_READCOUNT
+		FROM chat_message
+		WHERE CR_ID = #{CR_ID};
+	</select>
+	
+	<update id="updateUnreadCnt">
+		UPDATE chat_message
+		SET CM_READCOUNT = CM_READCOUNT - 1
+			, CM_READBY = #{US_ID}
+		WHERE CR_ID = #{CR_ID}
+	</update>
+	
 </mapper>
 
 

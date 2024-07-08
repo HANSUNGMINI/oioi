@@ -62,6 +62,7 @@
 		let CR_ID = "${chatRoom.CR_ID}"
 	    let FROM_ID = '';
 		let existMsg = '${existMsg.cnt}';
+		let deliveryInfo = '${deliveryInfo.CR_ID}';
 		
 	    if(TO_ID == US_ID) {
 	    	US_ID = "${chatRoom.FROM_ID}"
@@ -88,6 +89,10 @@
 	   
 	   if(existMsg != '') {
 	    	getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX);
+	   }
+	   
+	   if(deliveryInfo == CR_ID) {
+		   sysMessage("운송장 등록이 완료되었습니다");
 	   }
 	   
     });
@@ -249,12 +254,7 @@
 	    });
 	}
     
-    // -----------------------------------------------------------
-    
-	function sysMessage(msg){
-    	
-    }    
-    
+  
     // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
     	
@@ -301,6 +301,19 @@
     	
     }
 
+  // -----------------------------------------------------------
+    
+	function sysMessage(msg){
+    	let sysChat = '<li class="clearfix chatViewMe">' +
+				        '<div class="messageCenter">' +
+				        msg +
+				        '</div>' +
+				        '</li>';
+    	
+		$("#chatArea li:last").after(sysChat);
+    }    
+    
+    
     // -----------------------------------------------------------
     
     function purchase(TO_ID, PD_IDX) {
@@ -349,7 +362,7 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID}">
+	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID && empty deliveryInfo}">
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
 <!-- 			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li> -->
 	                        	</c:if>
@@ -379,26 +392,7 @@
 					</div>
 
                     <ul class="m-b-0" id="chatArea">
-                    	<%--	<c:forEach var="msg" items="${chatMsg}">
-	                    		<li class="clearfix">
-		                            <div class="message-data text-${chatMsg.MSG_POSITION}">
-		                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
-		                            </div>
-		                            <div class="message other-message float-${chatMsg.MSG_POSITION}"> ${chatMsg.MS_CONTENT} </div>
-		                            <small class="message-data-time" style="margin-right:0px">${chatMsg.MS_TIME}</small>
-		                        </li>
-	                        </c:forEach>
-                    	</c:if> --%>
-                        <%--
-                        <li class="clearfix">
-                            <div class="message-data text-right">
-                                <img src="https://img.freepik.com/premium-vector/cucumber-character-with-angry-emotions-grumpy-face-furious-eyes-arms-legs-person-with-irritated-expression-green-vegetable-emoticon-vector-flat-illustration_427567-3816.jpg?w=360" alt="avatar">
-                            </div>
-                            <div class="message other-message float-right"> 바보 </div>
-                            <small class="message-data-time" style="margin-right:0px">10:10 AM</small>
-                        </li>
-                        
-                         --%>
+                    	<%-- 채팅 출력 --%>
                     </ul>
                 </div>
 				
