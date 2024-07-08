@@ -223,7 +223,7 @@
 				    p.PD_READCOUNT DESC
 				</when>
 				<otherwise>
-				    p.PD_IDX DESC
+				    p.PD_UPDATED_DATE DESC
 				</otherwise>
 			</choose>
 	    LIMIT #{params.startRow}, #{params.listLimit}
