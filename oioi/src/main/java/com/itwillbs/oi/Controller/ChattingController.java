@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -331,7 +332,7 @@ public class ChattingController {
 	// 리뷰 작성
 	@PostMapping("reviewWrite")
 	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("리뷰 작성 map : " + map);
+//		System.out.println("리뷰 작성 map : " + map);
 
 		int successCnt = service.insertReview(map);
 		
@@ -339,9 +340,37 @@ public class ChattingController {
         	model.addAttribute("msg","리뷰 작성 실패하셨습니다. \\n 다시 시도해 주세요");
 			return "err/fail";
         } else {
+        	
+        	String Rvcategories = map.get("RV_CATEGORYS");
+            List<String> categories = Arrays.asList(Rvcategories.split("/"));
+            int star = Integer.parseInt(map.get("RV_STAR"));
+            
+            double freshness = calculateFreshness(star, categories);
+            System.out.println("+++++++++++++++++++++++++++++++++++++" + freshness);
+            map.put("freshness", String.valueOf(freshness));
+            service.updateFreshness(map);
+        	
         	model.addAttribute("msg", "리뷰 작성 완료되었습니다");
         	return "err/success";
         }
 	}
+	
+	// 신선도 계산
+	private double calculateFreshness(int rating, List<String> categories) {
+        Map<String, Double> categoryWeights = new HashMap<>();
+        categoryWeights.put("RVC01", 0.2);
+        categoryWeights.put("RVC02", 0.1);
+        categoryWeights.put("RVC03", 0.2);
+        categoryWeights.put("RVC04", 0.1);
+        categoryWeights.put("RVC05", 0.2);
+        categoryWeights.put("RVC06", 0.1);
+        categoryWeights.put("RVC07", -1.0);
+
+        double baseChange = (rating - 3) * 0.2; // 기본 별점 변화, 3점은 변화 없음
+        double categoryChange = categories.stream()
+                                          .mapToDouble(categoryWeights::get)
+                                          .sum();
+        return (double) Math.round(baseChange + categoryChange);
+    }
 	
 }

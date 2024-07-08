@@ -206,6 +206,12 @@
 		WHERE CR_ID = #{CR_ID}
 	</update>
 	
+	<update id="updateFreshness">
+		UPDATE user
+		SET US_OILEVEL = US_OILEVEL + #{freshness}
+		WHERE US_ID = #{TO_US_ID}
+	</update>
+	
 </mapper>
 
 

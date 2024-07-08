@@ -27,6 +27,7 @@ public interface ChattingMapper {
 	int insertReview(Map<String, String> map); // 리뷰 처리
 	int selectReview(Map<String, Object> map); // 리뷰 쓴 물건인지 확인
 	int registDelivey(Map<String, Object> map); // 운송장 등록
+	void updateFreshness(Map<String, String> map); // 신선도 업데이트
 	// -------------------------------------------
 
 	// ----------- 채팅 ----------------
@@ -42,6 +43,7 @@ public interface ChattingMapper {
 	int updateUnreadCnt(Map<String, Object> map); // 안 읽은 메세지 수가 2일 때 실행
 	int updateUnreadZero(Map<String, Object> map); // 1일 경우 실행
 	int checkChat(ProductChatVO chat); // 채팅방 있는지 확인
+	
 
 
 }

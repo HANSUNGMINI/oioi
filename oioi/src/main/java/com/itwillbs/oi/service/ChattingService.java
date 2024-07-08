@@ -155,6 +155,10 @@ public class ChattingService {
 		return mapper.checkChat(chat);
 	}
 
+	public void updateFreshness(Map<String, String> map) {
+		mapper.updateFreshness(map);
+	}
+
 
 
 	
