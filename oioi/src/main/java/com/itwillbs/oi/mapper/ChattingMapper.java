@@ -41,6 +41,7 @@ public interface ChattingMapper {
 	List<Map<String, Object>> getUnreadCnt(Map<String, Object> map); // 해당 채팅방의 안 읽은 메세지 개수만 가져오기
 	int updateUnreadCnt(Map<String, Object> map); // 안 읽은 메세지 수가 2일 때 실행
 	int updateUnreadZero(Map<String, Object> map); // 1일 경우 실행
+	int checkChat(ProductChatVO chat); // 채팅방 있는지 확인
 
 
 }

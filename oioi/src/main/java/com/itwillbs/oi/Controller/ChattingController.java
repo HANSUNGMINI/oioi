@@ -198,24 +198,22 @@ public class ChattingController {
 	}
 	
 	
-	
 	// 채팅룸 가져오기
 	@ResponseBody
 	@GetMapping("getChatroom")
-	public Map<String, Object> getChatroom(@RequestParam Map<String, Object> map, Model model) {
+	public int getChatroom(@RequestParam Map<String, Object> map, Model model) {
 		
 		Map<String, Object> chatRoom = service.checkChatRoom(map);
-		System.out.println("채팅방 번호 " +chatRoom);
-		
-		model.addAttribute("chatRoom", chatRoom);
-		return chatRoom;
+		int CR_ID = (int) chatRoom.get("CR_ID");
+	    model.addAttribute("CR_ID", CR_ID);
+		return CR_ID;
 	}
 	
 	// 채팅 가져오기
 	@ResponseBody
 	@GetMapping("getChatList")
 	public List<Map<String, String>> getChatList(@RequestParam Map<String, Object> map, Model model) {
-		
+		System.out.println("아무것도 없으? "+  map);
 		List<Map<String, String>> chatMsg = service.getChatMsg(map);
 		System.out.println("채팅방 메세지들 " + chatMsg);
 		
@@ -232,7 +230,8 @@ public class ChattingController {
 		if(!map.get("msg").equals("")) {
 			int saveChatCnt = service.saveChatting(map);
 		}
-		return "";
+		
+		return "false";
 	}
 	
 	@PostMapping("report")

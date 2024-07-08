@@ -72,7 +72,6 @@
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
-	    	CR_ID = "${chatRoom.CR_ID}"
 	    	console.log("msg : " + msg);
 	    	sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
 	     });
@@ -81,7 +80,6 @@
 	   
 		$("#textMsg").on("keypress",function(event){
 			let msg = $("#textMsg").val();
-			CR_ID = "${chatRoom.CR_ID}"
 			let keyCode = event.keyCode;
 			if(keyCode == 13) {
 				sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
@@ -214,8 +212,6 @@
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	CR_ID = "${chatRoom.CR_ID}"
-    	alert(CR_ID);
 		// 입력하지 않았을 경우
 		if (msg == "") {
 			/* alert("메세지 입력 필수") */
@@ -223,10 +219,21 @@
 			return;
 		}
     	
-		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
-    	saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
-    	
-		appendMessage(msg,"right","other");
+		$.ajax({
+			type: "get",
+			url : "getChatroom",
+			data :{
+				TO_ID : TO_ID,
+	    		FROM_ID : FROM_ID,
+	    		PD_IDX : PD_IDX
+			},
+			success : function(data){
+				let CR_ID = data
+				ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+		    	saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
+				appendMessage(msg,"right","other");
+			}
+		})
 		
 		// 채팅창 초기화 및 포커스 요청
 		$("#textMsg").val("");
@@ -237,7 +244,8 @@
 	// 채팅 대화 DB에 저장
 	
 	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	// alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	
 	     $.ajax({
             type: "POST",
             url: "saveChatMsg",

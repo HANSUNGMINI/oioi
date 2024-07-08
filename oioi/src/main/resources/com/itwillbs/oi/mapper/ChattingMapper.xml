@@ -94,7 +94,6 @@
 	</insert>
 
 	<insert id="createRoom">
-		
 		INSERT INTO chat_room
 		VALUES (
 			#{CR_ID}
@@ -107,6 +106,14 @@
 	
 	<select id="checkChatRoom" resultType="hashmap">
 		SELECT CR_ID, FROM_ID
+		FROM chat_room
+		WHERE PD_IDX = #{PD_IDX}
+			AND FROM_ID = #{FROM_ID}
+			AND TO_ID = #{TO_ID}
+	</select>
+	
+	<select id="checkChat" resultType="int">
+		SELECT COUNT(CR_ID) 
 		FROM chat_room
 		WHERE PD_IDX = #{PD_IDX}
 			AND FROM_ID = #{FROM_ID}

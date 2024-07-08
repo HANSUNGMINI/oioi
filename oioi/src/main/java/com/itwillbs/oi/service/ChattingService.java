@@ -150,6 +150,11 @@ public class ChattingService {
 		return cnt;
 	}
 
+	// 채팅방이 있는지
+	public int checkChat(ProductChatVO chat) {
+		return mapper.checkChat(chat);
+	}
+
 
 
 	
