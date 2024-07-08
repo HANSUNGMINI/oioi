@@ -109,9 +109,11 @@ public class TradeController {
 
 	 // 상품 상세 페이지
 	@GetMapping("productDetail")
-	public String goDetail(@RequestParam Map<String, String> map, Model model) {
+	public String goDetail(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		System.out.println(map);
 		System.out.println("PD_IDX :" + map.get("PD_IDX"));
+		
+		map.put("US_ID", session.getAttribute("US_ID").toString());
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
