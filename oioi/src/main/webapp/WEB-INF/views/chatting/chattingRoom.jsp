@@ -360,7 +360,7 @@
                                 		<c:otherwise>${otherInfo.US_NICK}</c:otherwise>
                                 	</c:choose>
                             	</h6>
-                                <small> 신선도 : 38.5 </small>
+                                <small> 신선도 : ${otherInfo.US_OILEVEL}</small>
                             </div>
                         </div>
                         

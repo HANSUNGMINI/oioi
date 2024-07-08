@@ -26,7 +26,7 @@
 	</select>
 	
 	<select id="getOtherInfo" resultType="hashmap">
-		SELECT US_PROFILE, US_NICK
+		SELECT US_PROFILE, US_NICK, US_OILEVEL
 		FROM user
 		WHERE US_ID = #{other}
 	</select>
