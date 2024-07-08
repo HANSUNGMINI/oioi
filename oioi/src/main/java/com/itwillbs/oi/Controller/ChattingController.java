@@ -346,7 +346,7 @@ public class ChattingController {
             int star = Integer.parseInt(map.get("RV_STAR"));
             
             double freshness = calculateFreshness(star, categories);
-            System.out.println("+++++++++++++++++++++++++++++++++++++" + freshness);
+//            System.out.println("+++++++++++++++++++++++++++++++++++++" + freshness);
             map.put("freshness", String.valueOf(freshness));
             service.updateFreshness(map);
         	
@@ -370,7 +370,7 @@ public class ChattingController {
         double categoryChange = categories.stream()
                                           .mapToDouble(categoryWeights::get)
                                           .sum();
-        return (double) Math.round(baseChange + categoryChange);
+        return baseChange + categoryChange;
     }
 	
 }
