@@ -94,6 +94,7 @@
 	</insert>
 
 	<insert id="createRoom">
+		
 		INSERT INTO chat_room
 		VALUES (
 			#{CR_ID}

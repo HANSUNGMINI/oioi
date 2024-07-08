@@ -151,13 +151,14 @@ public class ChattingController {
 		// 채팅방 있는지 체크 및 채팅방 번호 가져오기
 		System.out.println("map ?! " + map);
 		Map<String, Object> chatRoom = service.checkChatRoom(map);
+		System.out.println("채팅방 번호 " +chatRoom);
 		
 		Map<String, Object> existMsg = new HashMap<String, Object>();
 		
 		if(chatRoom != null ) {
-			map.put("CR_ID", (int) chatRoom.get("CR_ID"));
-		    existMsg = service.existMsg(map);
-		    System.out.println(existMsg);
+			 map.put("CR_ID", (int) chatRoom.get("CR_ID"));
+			 existMsg = service.existMsg(map);
+			 System.out.println(existMsg);
 		}
 		
 		// 안 읽은 회수 차감
@@ -194,6 +195,20 @@ public class ChattingController {
 		
 		
 		return "chatting/chattingRoom";
+	}
+	
+	
+	
+	// 채팅룸 가져오기
+	@ResponseBody
+	@GetMapping("getChatroom")
+	public Map<String, Object> getChatroom(@RequestParam Map<String, Object> map, Model model) {
+		
+		Map<String, Object> chatRoom = service.checkChatRoom(map);
+		System.out.println("채팅방 번호 " +chatRoom);
+		
+		model.addAttribute("chatRoom", chatRoom);
+		return chatRoom;
 	}
 	
 	// 채팅 가져오기

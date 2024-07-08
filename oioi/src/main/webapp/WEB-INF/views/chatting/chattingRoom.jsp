@@ -54,7 +54,6 @@
 
     $(function(){
 	    connectChat();
-	    window.scrollTo(0, document.body.scrollHeight);
 	    
 		let US_ID = "${param.US_ID}"
 		let TO_ID = "${param.TO_ID}"
@@ -73,6 +72,7 @@
     	// 클릭 시 보내기
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
+	    	CR_ID = "${chatRoom.CR_ID}"
 	    	console.log("msg : " + msg);
 	    	sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
 	     });
@@ -81,6 +81,7 @@
 	   
 		$("#textMsg").on("keypress",function(event){
 			let msg = $("#textMsg").val();
+			CR_ID = "${chatRoom.CR_ID}"
 			let keyCode = event.keyCode;
 			if(keyCode == 13) {
 				sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
@@ -99,10 +100,10 @@
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
-    let US_ID = "${param.US_ID}"
-	let TO_ID = "${param.TO_ID}"
-	let PD_IDX = "${param.PD_IDX}"
-	let CR_ID = "${chatRoom.CR_ID}"
+    let US_ID = "${param.US_ID}";
+	let TO_ID = "${param.TO_ID}";
+	let PD_IDX = "${param.PD_IDX}";
+	let CR_ID = "${chatRoom.CR_ID}";
     let FROM_ID = "${param.FROM_ID}";
 	
     if(TO_ID == US_ID) {
@@ -213,7 +214,8 @@
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	
+    	CR_ID = "${chatRoom.CR_ID}"
+    	alert(CR_ID);
 		// 입력하지 않았을 경우
 		if (msg == "") {
 			/* alert("메세지 입력 필수") */
@@ -235,7 +237,7 @@
 	// 채팅 대화 DB에 저장
 	
 	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	// alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
 	     $.ajax({
             type: "POST",
             url: "saveChatMsg",

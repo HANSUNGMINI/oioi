@@ -72,6 +72,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             for(WebSocketSession ws : users.values()) {
             	
             	if(chat.getType().equals("INIT") && chat.getCR_ID().equals("")) {
+            		
             		createRoom(session, chat);
             	}
             	
@@ -97,7 +98,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 		    roomDetails.put("FROM_ID", chat.getFROM_ID());
 		    roomDetails.put("PD_IDX", chat.getPD_IDX());
 		    roomDetails.put("CR_ID", chat.getCR_ID());
-		    
+		    System.out.println(chat.getCR_ID());
 		    int createCnt = service.createRoom(chat);
 		    
 		    chatRooms.put(chat.getCR_ID(), roomDetails);
