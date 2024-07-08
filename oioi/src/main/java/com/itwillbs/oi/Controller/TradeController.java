@@ -90,15 +90,22 @@ public class TradeController {
     public List<Map<String, Object>> filterProducts(
             @RequestParam Map<String, String> map,
             @RequestParam("pageNum") int pageNum,
-            @RequestParam("listLimit") int listLimit) {
+            @RequestParam("listLimit") int listLimit,
+            @RequestParam("filter") String filter) {
         
         int startRow = (pageNum - 1) * listLimit;
         Map<String, Object> params = new HashMap<>(map);
         params.put("startRow", startRow);
         params.put("listLimit", listLimit);
+        params.put("filter", filter);
+        System.out.println("@@@@@@@@필터 값 : " + params.get(filter));
+        System.out.println("params 값: " + params);
 
         return tradeService.getFilteredProducts(params);
     }
+	
+	
+	
 
 	 // 상품 상세 페이지
 	@GetMapping("productDetail")

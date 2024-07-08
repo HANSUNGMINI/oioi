@@ -29,7 +29,7 @@ public interface TradeMapper {
 
 	List<Map<String, String>> selectProductSafeTrade();
 	
-	 List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
+	List<Map<String, Object>> selectFilteredProducts(@Param("params") Map<String, Object> params);
 
 
 	int selectWishList(Map<String, Object> map);
@@ -37,6 +37,8 @@ public interface TradeMapper {
 	int insertWishList(Map<String, Object> map);
 
 	int deleteWishList(Map<String, Object> map);
+
+	
 
 	
 	 
