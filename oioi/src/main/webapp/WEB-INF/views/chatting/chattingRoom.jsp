@@ -372,7 +372,7 @@
 									<c:if test="${param.FROM_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS01'}">
 		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
 		                        	</c:if>
-	    	                    	<li><a id="d4" onclick="transaction()">구매확정</a></li>
+	    	                    	<li><a id="d4" onclick="soldout()">구매확정</a></li>
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
@@ -608,8 +608,8 @@
 			let existReview = '${pdInfo.existReview }';
 			
 			Swal.fire({
-				   title: '판매 완료로 변경하시겠습니까?',
-				   text: '확인 버튼 클릭 시, '+ nick + ' 님과의 거래가 성사됩니다.',
+				   title: '구매 확정하시겠습니까?',
+				   text: '구매 확정 시, 돈이 송금되며 취소 불가능합니다.',
 				   icon: 'warning',
 				   
 				   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -624,7 +624,7 @@
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   
-				      Swal.fire('판매 완료되었습니다.', '감사합니다', 'success');
+				      Swal.fire('송금 완료되었습니다.', '감사합니다', 'success');
 //				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
 						document.querySelector("#detail").style.display = "none";
 						
