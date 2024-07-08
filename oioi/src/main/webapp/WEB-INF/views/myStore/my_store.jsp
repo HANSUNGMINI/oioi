@@ -337,7 +337,21 @@
                                         <div>
                                             <i class="fa-solid fa-droplet"></i>
                                             <div id="store-column">신선도</div>
-                                            <div>${user.US_OILEVEL} 도</div>
+                                            <div>
+                                            	${user.US_OILEVEL} 도
+                                            	<c:choose>
+											        <c:when test="${user.US_OILEVEL >= 0 && user.US_OILEVEL < 10}">썩음🤮</c:when>
+											        <c:when test="${user.US_OILEVEL >= 10 && user.US_OILEVEL < 20}">상당히 썩음🤢</c:when>
+											        <c:when test="${user.US_OILEVEL >= 20 && user.US_OILEVEL < 30}">다소 썩음😕</c:when>
+											        <c:when test="${user.US_OILEVEL >= 30 && user.US_OILEVEL < 40}">미지근함😐</c:when>
+											        <c:when test="${user.US_OILEVEL >= 40 && user.US_OILEVEL < 50}">보통😊</c:when>
+											        <c:when test="${user.US_OILEVEL >= 50 && user.US_OILEVEL < 60}">신선한☺️</c:when>
+											        <c:when test="${user.US_OILEVEL >= 60 && user.US_OILEVEL < 70}">매우 신선한😄</c:when>
+											        <c:when test="${user.US_OILEVEL >= 70 && user.US_OILEVEL < 80}">매우 매우 신선한😆</c:when>
+											        <c:when test="${user.US_OILEVEL >= 80 && user.US_OILEVEL < 90}">완벽한😍</c:when>
+											        <c:when test="${user.US_OILEVEL >= 90 && user.US_OILEVEL <= 100}">환상적인🥰</c:when>
+   												 </c:choose>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
