@@ -65,8 +65,7 @@
         SET US_NAME = #{US_NAME},
         	US_NICK = #{US_NICK},
             US_EMAIL = #{US_EMAIL},
-            US_PROFILE = #{US_PROFILE},
-            US_PLATFORM = '카카오',
+            US_PROFILE = #{US_PROFILE}
         WHERE US_ID = #{US_ID}
     </update>
 	
