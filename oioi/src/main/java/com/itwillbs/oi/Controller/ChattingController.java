@@ -194,7 +194,9 @@ public class ChattingController {
 	public String saveChatMsg(@RequestParam Map<String, Object> map) {
 		System.out.println("채팅 저장 map : " + map); // {type=TALK, TO_ID=sunghoon1234, FROM_ID=soeunee1, CR_ID=4616, msg=ㅎㅇ, PD_IDX=78}
 		
-		int saveChatCnt = service.saveChatting(map);
+		if(!map.get("msg").equals("")) {
+			int saveChatCnt = service.saveChatting(map);
+		}
 		return "";
 	}
 	
