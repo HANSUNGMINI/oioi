@@ -61,7 +61,7 @@ public class TradeService {
 //		return mapper.selectFilteredProducts(params);
 //	}
 
-	public int selectWishList(Map<String, Object> map) {
+	public String selectWishList(Map<String, Object> map) {
 		return mapper.selectWishList(map);
 	}
 

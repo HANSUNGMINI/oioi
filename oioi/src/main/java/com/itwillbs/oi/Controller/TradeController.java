@@ -328,26 +328,35 @@ public class TradeController {
 		System.out.println("받은 map정보 : " + map);
         map.put("WL_US_ID", (String)session.getAttribute("US_ID"));
         System.out.println("세션 확인 map : " + map);
-        int checkWishList = tradeService.selectWishList(map);
+        String checkWishList = tradeService.selectWishList(map);
+        
+        if(Boolean.parseBoolean(checkWishList)) {
+        	tradeService.deleteWishList(map);
+        	jo.addProperty("wish_yn", "");
+        } else {
+        	tradeService.addWishList(map);
+        	jo.addProperty("wish_yn", "active");
+        }
+        
         System.out.println("조회한 찜목록 레코드 : " + checkWishList);
         
-        if(checkWishList > 0) {
-        	int deleteResult = tradeService.deleteWishList(map);
-        	if (deleteResult > 0) {
-                jo.addProperty("result", "Removed");
-            } else {
-                jo.addProperty("result", "RemoveFail");
-            }
-        } else {
-        	int result = tradeService.addWishList(map);
-        	
-        	if(result > 0) {
-        		jo.addProperty("result", "Success");
-        	} else {
-        		jo.addProperty("result", "fail");
-        	}
-        	
-        }
+//        if(checkWishList > 0) {
+//        	int deleteResult = tradeService.deleteWishList(map);
+//        	if (deleteResult > 0) {
+//                jo.addProperty("result", "Removed");
+//            } else {
+//                jo.addProperty("result", "RemoveFail");
+//            }
+//        } else {
+//        	int result = tradeService.addWishList(map);
+//        	
+//        	if(result > 0) {
+//        		jo.addProperty("result", "Success");
+//        	} else {
+//        		jo.addProperty("result", "fail");
+//        	}
+//        	
+//        }
         return jo;
 	}
 }

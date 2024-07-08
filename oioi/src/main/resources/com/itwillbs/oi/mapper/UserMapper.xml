@@ -32,6 +32,9 @@
 			, '오이마켓'
 			, 'US01'
 			, '0'
+			, 0
+			, null
+			, '50'
 		)
 	</insert>
 	
@@ -40,7 +43,7 @@
     </select>
 
     <insert id="registKakaoUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS, US_OIMONEY, US_VISIT, US_TEXT, US_OILEVEL)
         VALUES (
         #{US_ID}, 
         #{US_NAME},
@@ -50,7 +53,11 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '카카오',
-        'US03')
+        'US03',
+        '0',
+        0,
+        null,
+        '50')
     </insert>
 
     <update id="updateKakaoUser" parameterType="map">
@@ -59,12 +66,12 @@
         	US_NICK = #{US_NICK},
             US_EMAIL = #{US_EMAIL},
             US_PROFILE = #{US_PROFILE},
-            US_PLATFORM = '카카오'
+            US_PLATFORM = '카카오',
         WHERE US_ID = #{US_ID}
     </update>
 	
 	<insert id="registNaverUser" parameterType="map">
-        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS)
+        INSERT INTO user (US_ID, US_NAME, US_NICK, US_EMAIL, US_PROFILE, US_REG_DATE, US_PLATFORM, US_STATUS, US_OIMONEY, US_VISIT, US_TEXT, US_OILEVEL)
         VALUES (
         #{US_ID}, 
         #{US_NAME},
@@ -74,7 +81,11 @@
         DATE_FORMAT(NOW(), 
         '%Y-%m-%d %H:%i:%s'), 
         '네이버',
-        'US03')
+        'US03',
+        '0',
+        0,
+        null,
+        '50')
     </insert>
 	
 	<select id="selectUser" resultType="hashmap">

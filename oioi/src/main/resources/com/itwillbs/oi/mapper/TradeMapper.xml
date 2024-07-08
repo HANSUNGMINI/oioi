@@ -106,7 +106,13 @@
         i.image2,
         i.image3,
         i.image4,
-        i.image5
+        i.image5,
+        (SELECT CASE WHEN COUNT(*) = 0 THEN ''
+							  ELSE 'active' END AS wish_yn
+        FROM wish_list wl
+ 			WHERE 1=1
+		AND WL_PD_IDX = p.PD_IDX
+		AND WL_US_ID = #{US_ID}) AS wish_yn
     FROM 
         product p
     LEFT JOIN 
@@ -239,12 +245,13 @@
        	 	  )
     </insert>
 	
-	<select id="selectWishList" resultType="int">
-		select count(*)
+	<select id="selectWishList" resultType="String">
+		select CASE WHEN count(*) = 0 THEN 'false'
+								      ELSE 'true' END AS wish_yn
 		from wish_list 
 		where WL_US_ID = #{WL_US_ID} 
 		AND WL_PD_IDX = #{productId}
-	</select>	 
+	</select>
 	
 	<delete id="deleteWishList" > 
 		DELETE FROM wish_list

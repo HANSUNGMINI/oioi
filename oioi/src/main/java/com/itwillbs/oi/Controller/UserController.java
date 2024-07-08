@@ -424,7 +424,7 @@ public class UserController {
 	    String userPasswd = loginData.get("user_passwd");
 	    String rememberId = loginData.get("rememberMe");
 	    // 서비스를 통해 회원 정보 가져오기
-	    Map<String, String> dbUser = service.selectUser(userId); // 회원 ID로 회원 정보를 가져오는 메서드가 있다고 가정합니다.
+	    Map<String, String> dbUser = service.selectUser(userId); 
 	    if(dbUser == null || !passwordEncoder.matches(userPasswd, dbUser.get("US_PASSWD"))) { // 로그인 실패
 	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.\\n입력하신 내용을 다시 확인해주세요.");
 	        return "err/fail";

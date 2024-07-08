@@ -137,7 +137,7 @@
 									<!-- Product Buy -->
 									<div class="product-buy">
 										<ul class="nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goWish" href="#" role="tab" onclick="addToWishList()">♥</a></li>
+											<li class="nav-item"><a class="nav-link ${productInfo.wish_yn}" data-toggle="tab" id="goWish" href="#" role="tab" onclick="addToWishList()">♥</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
 											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
 										</ul>
@@ -292,6 +292,14 @@
 	</script>
 	<script type="text/javascript">
 	function addToWishList(){
+		var session = '${sessionScope.US_ID}';
+		if (session === '') {
+			if(confirm("로그인이 필요합니다. \n로그인 페이지로 이동합니다.")){
+				window.location.href = 'login'; // 로그인 페이지로 이동
+			}
+			return;	
+		}
+		
 		var productId = '${productInfo.PD_IDX}';
 	 	
 	 		$.ajax({
@@ -302,22 +310,23 @@
              }, 
              dataType : "JSON",
              success: function(response) {
-				const result = response.result;
+				$('#goWish').removeClass("active")
+				$('#goWish').addClass(response.wish_yn)
 				
-				if (result == "NotLoggedIn") {
-					alert("로그인이 필요합니다. \n로그인 페이지로 이동합니다.");
-					window.location.href = 'login'; // 로그인 페이지로 이동
-				}
+// 				if (result == "NotLoggedIn") {
+// 					alert("로그인이 필요합니다. \n로그인 페이지로 이동합니다.");
+// 					window.location.href = 'login'; // 로그인 페이지로 이동
+// 				}
 				
-				if(result == "Removed"){
-					alert("해당 상품을 찜목록에서 제거하였습니다!");
-				} else if (result == "Success") {
-					if (confirm("선택하신 상품이 찜목록에 등록되었습니다!\n찜목록을 확인하시겠습니까?")) {
-						window.location.href = 'myStore';
-					} 
-				} else if (result == "fail") {
-					alert("실패");
-				} 
+// 				if(result == "Removed"){
+// 					alert("해당 상품을 찜목록에서 제거하였습니다!");
+// 				} else if (result == "Success") {
+// 					if (confirm("선택하신 상품이 찜목록에 등록되었습니다!\n찜목록을 확인하시겠습니까?")) {
+// 						window.location.href = 'myStore';
+// 					} 
+// 				} else if (result == "fail") {
+// 					alert("실패");
+// 				} 
              }
  		});
     }
