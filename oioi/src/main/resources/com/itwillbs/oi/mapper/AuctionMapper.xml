@@ -84,7 +84,7 @@
 			#{APD_DETAIL},
 			#{APD_CATEGORY},
 			#{APD_IMAGE},
-			'APD05',
+			'APD01',
 			#{APD_DEADLINE},
 			#{APD_CONDITION},
 			#{APD_START_PRICE},
