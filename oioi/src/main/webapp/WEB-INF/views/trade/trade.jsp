@@ -91,7 +91,11 @@
         let contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
-
+		
+        let urlParams = new URLSearchParams(window.location.search);
+        let initialFilter = urlParams.get('filter') || 'newest';
+        $('#filter').val(initialFilter);
+        
         $('#cate1').change(function() {
             let selectedCate1 = $(this).val();
             let filteredCate2s = cate2.filter(function(cate) {
