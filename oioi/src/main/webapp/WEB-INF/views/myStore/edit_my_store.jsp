@@ -31,13 +31,13 @@
             border: none;
             border-radius: 25px;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
             text-transform: uppercase;
             cursor: pointer;
             transition: background 0.3s ease;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             margin-right: 5px;
         }
 
@@ -68,6 +68,15 @@
         .table-responsive {
             overflow: visible;
         }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table img {
+            max-width: 50px;
+        }
     </style>
 </head>
 <body class="js">
@@ -95,25 +104,27 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="product" items="${myPD}">
-                                    <tr>
-                                        <td><img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" width="50"></td>
-                                        <td>
-                                            <select class="form-control" onchange="updatePDS('${product.PD_IDX}', this.value)">
-                                                <c:forEach var="code" items="${code}">
-                                                    <option value="${code.code}" <c:if test="${code.code eq product.PD_STATUS}">selected</c:if>>${code.value}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </td>
-                                        <td>${product.PD_SUBJECT}</td>
-                                        <td>${product.PD_PRICE} 원</td>
-                                        <td>${product.PD_LIKES}</td>
-                                        <td>${product.PD_UPDATED_DATE}</td>
-                                        <td>
-                                            <button class="btn btn-custom btn-up" onclick="location.href='productUp?PD_IDX=${product.PD_IDX}'">끌어올리기</button>
-                                            <button class="btn btn-custom btn-edit" onclick="location.href='productModify?PD_IDX=${product.PD_IDX}'">수정</button>
-                                            <button class="btn btn-custom btn-delete" onclick="deleteProduct('${product.PD_IDX}')">삭제</button>
-                                        </td>
-                                    </tr>
+                                    <c:if test="${product.PD_STATUS ne 'PDS04'}">
+                                        <tr>
+                                            <td><img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" width="50"></td>
+                                            <td>
+                                                <select class="form-control" onchange="updatePDS('${product.PD_IDX}', this.value)">
+                                                    <c:forEach var="code" items="${code}">
+                                                        <option value="${code.code}" <c:if test="${code.code eq product.PD_STATUS}">selected</c:if>>${code.value}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </td>
+                                            <td>${product.PD_SUBJECT}</td>
+                                            <td>${product.PD_PRICE} 원</td>
+                                            <td>${product.PD_LIKES}</td>
+                                            <td>${product.PD_UPDATED_DATE}</td>
+                                            <td>
+                                                <button class="btn btn-custom btn-up" onclick="productUp('${product.PD_IDX}')">끌어올리기</button>
+                                                <button class="btn btn-custom btn-edit" onclick="location.href='productModify?PD_IDX=${product.PD_IDX}'">수정</button>
+                                                <button class="btn btn-custom btn-delete" onclick="deleteProduct('${product.PD_IDX}')">삭제</button>
+                                            </td>
+                                        </tr>
+                                    </c:if>
                                 </c:forEach>
                                 <c:if test="${empty myPD}">
                                     <tr>
@@ -162,6 +173,20 @@
                 }
             });
         }
+    }
+    
+    function productUp(pdId){
+    	if(confirm("상품을 끌어올리시겠습니까?")){
+    		$.ajax({
+    			url: 'productUp',
+    			type: 'POST',
+    			data: {pdId : pdId},
+    			success: function(){
+					location.reload();  // 페이지 새로고침
+    			} 
+    			
+    		});
+    	}
     }
 </script>
 

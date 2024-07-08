@@ -89,6 +89,18 @@
 	    FROM review
 	    WHERE TO_US_ID = #{userId}
 	</select>
+	
+	<update id="deleteProductById">
+		UPDATE product
+        SET PD_STATUS = 'PDS04'
+        WHERE PD_IDX = #{pdId}
+	</update>
+	
+	<update id="updatePDtime">
+		UPDATE product
+        SET PD_UPDATED_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') -- PD_UPDATED_DATE
+        WHERE PD_IDX = #{pdId}
+	</update>
 
     
 </mapper>

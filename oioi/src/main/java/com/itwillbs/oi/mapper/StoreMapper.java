@@ -32,4 +32,8 @@ public interface StoreMapper {
 
 	List<Map<String, Object>> selectReviewsByStoreId(String userId);
 
+	int deleteProductById(String pdId);
+
+	void updatePDtime(String pdId);
+
 }

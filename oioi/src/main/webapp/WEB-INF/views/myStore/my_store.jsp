@@ -381,24 +381,26 @@
                                                     <hr>
                                                     <div class="product-grid">
                                                         <c:forEach var="product" items="${myPD}">
-                                                            <div class="product-item container">
-                                                                <a href="productDetail?PD_IDX=${product.PD_IDX}">
-                                                                    <img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" class="image">
-                                                                    <c:if test="${product.PD_STATUS eq 'PDS02'}">
-                                                                        <div class="overlay">예약 중</div>
-                                                                    </c:if>
-                                                                    <c:if test="${product.PD_STATUS eq 'PDS03'}">
-                                                                        <div class="overlay">판매 완료</div>
-                                                                    </c:if>
-                                                                    <div class="product-details">
-                                                                        <p>${product.PD_SUBJECT}</p>
-                                                                        <div class="product-info-bottom">
-                                                                            <div class="product-price">${product.PD_PRICE} 원</div>
-                                                                            <div class="product-date">${product.timeAgo}</div>
+                                                            <c:if test="${product.PD_STATUS ne 'PDS04'}">
+                                                                <div class="product-item container">
+                                                                    <a href="productDetail?PD_IDX=${product.PD_IDX}">
+                                                                        <img src="<%= request.getContextPath() %>/resources/upload/${product.image1}" alt="${product.PD_SUBJECT}" class="image">
+                                                                        <c:if test="${product.PD_STATUS eq 'PDS02'}">
+                                                                            <div class="overlay">예약 중</div>
+                                                                        </c:if>
+                                                                        <c:if test="${product.PD_STATUS eq 'PDS03'}">
+                                                                            <div class="overlay">판매 완료</div>
+                                                                        </c:if>
+                                                                        <div class="product-details">
+                                                                            <p>${product.PD_SUBJECT}</p>
+                                                                            <div class="product-info-bottom">
+                                                                                <div class="product-price">${product.PD_PRICE} 원</div>
+                                                                                <div class="product-date">${product.timeAgo}</div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
+                                                                    </a>
+                                                                </div>
+                                                            </c:if>
                                                         </c:forEach>
                                                     </div>
                                                     <c:if test="${empty myPD}">
@@ -423,35 +425,35 @@
                                                             <p>상점후기가 없습니다.</p>
                                                         </div>
                                                     </c:if>
-													<c:forEach var="review" items="${reviews}">
-													    <div class="review-item">
-													        <img src="${review.FROM_US_PROFILE}" alt="${review.FROM_US_ID}">
-													        <div class="review-content">
-													            <div>
-													                <strong>${review.FROM_US_ID}</strong>
-													                <div class="star-rating">
-													                    <c:forEach var="i" begin="1" end="${review.RV_STAR}">
-													                        <i class="fa fa-star"></i>
-													                    </c:forEach>
-													                    <c:forEach var="i" begin="${review.RV_STAR + 1}" end="5">
-													                        <i class="fa fa-star-o"></i>
-													                    </c:forEach>
-													                </div>
-													            </div>
-													            <div>
-													                <a href="productDetail?PD_IDX=${review.PD_IDX}">${review.PD_SUBJECT}</a>
-													            </div>
-													            <p>${review.RV_CONTENT}</p>
-													            <div class="review-categories">
-													                <c:forEach var="category" items="${review.RV_CATEGORY_NAMES}">
-													                    <span>${category}</span>
-													                </c:forEach>
-													            </div>
-													            <small>${review.RV_TIME}</small>
-													        </div>
-													    </div>
-													    <hr>
-													</c:forEach>
+                                                    <c:forEach var="review" items="${reviews}">
+                                                        <div class="review-item">
+                                                            <img src="${review.FROM_US_PROFILE}" alt="${review.FROM_US_ID}">
+                                                            <div class="review-content">
+                                                                <div>
+                                                                    <strong>${review.FROM_US_ID}</strong>
+                                                                    <div class="star-rating">
+                                                                        <c:forEach var="i" begin="1" end="${review.RV_STAR}">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </c:forEach>
+                                                                        <c:forEach var="i" begin="${review.RV_STAR + 1}" end="5">
+                                                                            <i class="fa fa-star-o"></i>
+                                                                        </c:forEach>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="productDetail?PD_IDX=${review.PD_IDX}">${review.PD_SUBJECT}</a>
+                                                                </div>
+                                                                <p>${review.RV_CONTENT}</p>
+                                                                <div class="review-categories">
+                                                                    <c:forEach var="category" items="${review.RV_CATEGORY_NAMES}">
+                                                                        <span>${category}</span>
+                                                                    </c:forEach>
+                                                                </div>
+                                                                <small>${review.RV_TIME}</small>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </c:forEach>
                                                 </div>
                                             </div>
                                         </div>

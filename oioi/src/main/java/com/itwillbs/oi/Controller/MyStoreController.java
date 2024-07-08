@@ -69,6 +69,8 @@ public class MyStoreController {
                           HttpServletResponse response) {
         String userId = (String) map.get("userId");
 
+        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ" + storeVisit );
+        
         Map<String, String> user = userService.selectMyUser(userId);
         if (user == null) {
             model.addAttribute("msg", "존재하지 않는 회원입니다");
@@ -79,7 +81,7 @@ public class MyStoreController {
         if (!storeVisit.equals("true")) {
             storeService.VisitCount(userId);
             Cookie cookie = new Cookie("storeVisit", "true");
-            cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1시간
+            cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1일
             response.addCookie(cookie);
         }
         int salesCount = storeService.getSalesCount(userId);
@@ -404,7 +406,28 @@ public class MyStoreController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update product status");
         }
     }
+    
+    @ResponseBody
+    @PostMapping("deleteProduct")
+    public String deleteProduct(@RequestParam("pdId") String pdId) {
+        try {
+            storeService.deleteProductById(pdId);
+            return "success";
+        } catch (Exception e) {
+            return "failure";
+        }
+    }
 
+    @ResponseBody
+    @PostMapping("productUp")
+    public String productUp(@RequestParam("pdId") String pdId) {
+    	System.out.println("끌어올리기 : " + pdId);
+    	storeService.updatePDtime(pdId);
+    	
+    	
+    	return "success";
+    }
+    
     private String dateTimeAgo(LocalDateTime regDate) {
         LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
         long minutes = ChronoUnit.MINUTES.between(regDate, now);

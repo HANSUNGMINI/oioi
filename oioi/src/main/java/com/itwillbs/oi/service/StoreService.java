@@ -60,7 +60,17 @@ public class StoreService {
 	   
 		return mapper.selectReviewsByStoreId(userId);
 	}
-   
+
+   public void deleteProductById(String pdId) {
+	    int result = mapper.deleteProductById(pdId);
+	    if (result == 0) {
+	        throw new RuntimeException("Product deletion failed");
+	    }
+   }
+
+	public void updatePDtime(String pdId) {
+		mapper.updatePDtime(pdId);
+	}
 
 
 }
