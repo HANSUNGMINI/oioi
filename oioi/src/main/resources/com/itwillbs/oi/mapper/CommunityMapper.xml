@@ -12,17 +12,9 @@
   			, CM_REG_DATE
   			, CM_CATEGORY
   			, CM_NICK
-	  		, (SELECT
-	  			 COUNT(*) 
-	  			 FROM community c
-	  			 WHERE 1=1
-	  			 <if test="type != null and type != ''and type != 'CC01'">
-			  		AND  c.CM_CATEGORY = cm.CM_CATEGORY
-				</if>
-	  			 )
-	  			 AS count
+  			, ROW_NUMBER() OVER(ORDER BY CM_IDX) AS count
   		FROM community cm
-  				 WHERE 1=1
+  	   WHERE 1=1
 		<if test="type != null and type != '' and type != 'CC01'">
 			AND CM_CATEGORY = (SELECT value
                      FROM common c

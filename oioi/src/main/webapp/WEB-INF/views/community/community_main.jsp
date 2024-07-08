@@ -213,9 +213,17 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	$(function() {
-		showBoard("");
-		
 		let pageNum = 1;
+		let type = "";
+		
+		showBoard(type, pageNum);
+		
+		$(document).on('click', '.page-link', function(e) {
+            e.preventDefault();
+            pageNum = $(this).data('pagenum');
+            showBoard(type, pageNum);
+        });
+		
 		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
@@ -227,7 +235,7 @@
 		let previousText = allElement.text().substring(2); // "> " 제거한 텍스트 저장
 		
 		// 카테고리 클릭 시 실행되는 함수
-		window.clickCategory = function(element,type) {
+		window.clickCategory = function(element,categoryType) {
 		    // 이전에 클릭된 링크가 있으면, 텍스트와 스타일을 복원
 		    if (previousLink) { 
 		        previousLink.style.fontWeight = 'normal';
@@ -242,7 +250,10 @@
 		    element.style.fontWeight = 'bold';
 		    element.textContent = "> " + previousText;
 		    
-		    showBoard(type);
+		    type= categoryType;
+		    pageNum= 1;
+		    
+		    showBoard(type, pageNum);
 		    
 		};
 		
@@ -346,9 +357,7 @@
 		
 <script>
 
-
-	let pageNum = 1;
-	function showBoard(type){
+	function showBoard(type, pageNum){
 // 		alert(type);
 		
 		$.ajax({
@@ -362,7 +371,6 @@
 			dataType : "JSON",
 			success : function(response) {
 				let boards = response.boardJson;
-				let idx = response.boardJson[0].count;
 				
 				$("#tbody").empty();
                 $("#paging").empty();
@@ -371,7 +379,7 @@
 				$.each(boards, function(index, board) {
 					$("#tbody").append(
 						'<tr class="tr1">' +
-							'<td id="td1">' + idx-- + '</td>' +
+							'<td id="td1">' + board.count + '</td>' +
 							'<td id="td1">' + board.CM_CATEGORY.substring(0,2) + '</td>' +
 							'<td id="td1"><a href="boardDetail?CM_IDX='+ board.CM_IDX +'">'+ board.CM_TITLE + '</a></td>' +
 							'<td id="td1">' + board.CM_NICK + '</td>' +
