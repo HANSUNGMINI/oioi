@@ -108,7 +108,7 @@
 										<label> 카테고리</label>
 <!-- 										<input type="text" name="category"> -->
 										<select id="cate1" name="cate1" class="form-control" required>
-				                                <option value="">대분류</option>
+				                                <option value="1">대분류</option>
 				                                <c:forEach var="cate1" items="${cate1}">
 				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
 				                                </c:forEach>
@@ -272,7 +272,7 @@
 	        console.log('cate2s:', filteredCate2s);
 	        
 	        
-	        $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+	        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
 	        	
 	        $.each(filteredCate2s, function(index, cate) {
 				$('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
@@ -295,7 +295,7 @@
 	        });
 	    	console.log('cate3s:', filteredCate3s);
 	    	
-	    	$('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+	    	$('#cate3').empty().append('<option value="3">소분류를 선택하시오</option>');
 	    	
 	    	$.each(filteredCate3s, function(index, cate) {
 	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
@@ -306,6 +306,7 @@
 	    });
 	    
 	    function validateForm() {
+	    	alert("진입");
 	    	if(document.fr.addfile.value == "") { // 이미지 확인
 				alert("최소 1개의 이미지를 등록해야합니다!");
 				return false;
@@ -313,13 +314,13 @@
 				alert("상품명을 입력해주세요!");
 				document.fr.PD_SUBJECT.focus();
 				return false;    
-			} else if($('#cate1').val() == "") { // 대분류 카테고리 확인
+			} else if($('#cate1').val() == "1") { // 대분류 카테고리 확인
 				alert("카테고리 대분류를 입력해주세요!");
 				return false;    
-			} else if($('#cate2').val() == "") { // 중분류 카테고리 확인
+			} else if($('#cate2').val() == "2") { // 중분류 카테고리 확인
 				alert("카테고리 중분류를 입력해주세요!");
 				return false;    
-			} else if($('#cate3').val() == "") { //  소분류 카테고리 확인
+			} else if($('#cate3').val() == "3") { //  소분류 카테고리 확인
 				alert("카테고리 소분류를 입력해주세요!");
 				return false;   
 			} else if(!$('input[name="PD_CONDITION"]:checked').val()) { // 상품상태 확인
@@ -338,7 +339,7 @@
 				document.fr.PD_CONTENT .focus();
 				return false;   
 			} else if(!$('input[name="PD_TRADE_METHOD"]:checked').val()) { // 상품상태 확인
-				alert("상품상태를 선택해주세요!");
+				alert("거래방식을 선택해주세요!");
 				return false; 
 			}
 			removeFormatting(); // 포맷 제거

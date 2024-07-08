@@ -20,6 +20,7 @@ import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AdminService;
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
+import com.itwillbs.oi.service.UserService;
 
 /*
  * HTTP 맵핑 종류
@@ -54,6 +55,8 @@ public class AdminController {
 		if(!CheckAuthority.isAdmin(session, model)) {
 			return "err/fail";
 		}
+		
+		
 		return "admin/admin_main";
 	}
 	

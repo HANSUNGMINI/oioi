@@ -47,9 +47,6 @@
 	        	<select id="type">
 	        		<option value="US_ID">유저 아이디</option>
 	        		<option value="PD_SUBJECT">게시글 제목</option>
-	        		<option value="PD_CATEGORY">카테고리</option>
-	        		
-<!-- 	        		<option value="">태그(보류)</option> -->
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	<div class="buttons right nowrap">

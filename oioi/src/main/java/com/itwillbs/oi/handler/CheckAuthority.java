@@ -29,15 +29,12 @@ public class CheckAuthority {
 	 * 
 	 */
 	public static boolean isUser(HttpSession session, Model model) {
-		UserService service = new UserService();
 		String id = (String)session.getAttribute("US_ID");
-		System.out.println(id);
 		// 유저가 아닐 경우
 		if(id == null) {
 			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
 			return false;
 		} 
-		
 		//  전부통과면 맞다면 true 리턴
 		return true;
 	}
@@ -85,7 +82,6 @@ public class CheckAuthority {
 		
 		// 관리자가 아닐 경우
 		if(session.getAttribute("isAdmin") == null) {
-			System.out.println("관리자가 아님");
 			model.addAttribute("msg", "너 관리자 아니잖아 ㅋ");
 			model.addAttribute("targetURL", CheckAuthority.MAIN);
 			return false;
@@ -113,19 +109,15 @@ public class CheckAuthority {
 		
 		// 관리자가 아니라면 false 리턴되서옴
 		if(!CheckAuthority.isAdmin(session, model)) {
-			System.out.println("관리자도 아님 ㅋ");
-			System.out.println(model);
 			return false;
 		} 
 		
 		// 관리자는 맞는데 슈퍼 관리자가 아니라면
 		if(session.getAttribute("isMaster") == null) {
-			System.out.println("일단 관리자긴함");
 			model.addAttribute("msg", "권한이 없습니다");
 			return false;
 		}
 		
-		System.out.println("슈퍼 관리자 맞음");
 		// 슈퍼관리자라면 트루 리턴
 		return true;
 	}
