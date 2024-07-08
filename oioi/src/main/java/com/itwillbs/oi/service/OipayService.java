@@ -80,7 +80,8 @@ public class OipayService {
 	public void purchaseByOimoney(Map<String, String> map) {
 		mapper.updatePdStatus(map);
 		mapper.updateMinusOimoney(map);
-		mapper.updatePlusOimoney(map);
+		mapper.insertTDinfo(map);
+//		mapper.updatePlusOimoney(map); // 판매자 금액 충전
 		
 	}
 	

@@ -113,6 +113,19 @@ CREATE TABLE bank_user_info (
 		WHERE US_ID = #{US_ID}
 	</update>
 	
+	<insert id="insertTDinfo">
+		INSERT INTO trade
+		VALUES (
+			null
+			, null
+			, #{PD_IDX}
+			, #{TO_ID}
+			, #{US_ID}
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			, #{PD_PRICE}
+		)
+	</insert>
+	
 	<update id="updatePlusOimoney">
 		UPDATE user
 		SET US_OIMONEY = US_OIMONEY + #{PD_PRICE}
