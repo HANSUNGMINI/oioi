@@ -337,7 +337,7 @@
                                         <div>
                                             <i class="fa-solid fa-droplet"></i>
                                             <div id="store-column">신선도</div>
-                                            <div>${salesCount} 도</div>
+                                            <div>${user.US_OILEVEL} 도</div>
                                         </div>
                                     </div>
                                     <hr>
