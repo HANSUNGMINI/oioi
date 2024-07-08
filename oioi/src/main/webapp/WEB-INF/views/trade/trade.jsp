@@ -91,7 +91,11 @@
         let contextPath = '<%= request.getContextPath() %>';
         let cate2 = JSON.parse('${cate2}');
         let cate3 = JSON.parse('${cate3}');
-
+		
+        let urlParams = new URLSearchParams(window.location.search);
+        let initialFilter = urlParams.get('filter') || 'newest';
+        $('#filter').val(initialFilter);
+        
         $('#cate1').change(function() {
             let selectedCate1 = $(this).val();
             let filteredCate2s = cate2.filter(function(cate) {
@@ -125,7 +129,13 @@
             isEmpty = false;
             updateProducts(true);
         });
-
+		
+        $('#filter').change(function() {
+            pageNum = 1;
+            isEmpty = false;
+            updateProducts(true);
+        });
+        
         function updateProducts(isNewFilter = false) {
             if (isLoading) return;
             isLoading = true;
@@ -137,6 +147,7 @@
             let cate1 = $('#cate1').val() || "";
             let cate2 = $('#cate2').val() || "";
             let cate3 = $('#cate3').val() || "";
+            let filter = $('#filter').val() || "newest";  // 필터 옵션 추가
 
             $.ajax({
                 url: contextPath + '/filterProducts',
@@ -145,6 +156,7 @@
                     cate1: cate1,
                     cate2: cate2,
                     cate3: cate3,
+                    filter: filter,  // 필터 옵션 전송
                     pageNum: pageNum,
                     listLimit: listLimit
                 },
@@ -178,7 +190,6 @@
                                 + '           <h3><a href="productDetail?PD_IDX='+ product.PD_IDX +'">'+ product.PD_SUBJECT +'</a></h3>'
                                 + '           <div class="product-price">'
                                 + '               <span>'+ new Intl.NumberFormat().format(product.PD_PRICE) +'원</span>'
-                                //+ '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>'
                                 + '           </div>'
                                 + '       </div>'
                                 + '   </div>'
@@ -203,7 +214,7 @@
         });
 
         // 페이지 로드 시 초기 데이터 불러오기
-        updateProducts(); 
+        updateProducts();  
     	
     	/* 최근 본 상품 함수 호출 */
     	showRecentLookProduct();
@@ -374,19 +385,31 @@
                                     <li><a href="product"><i>상품등록</i></a></li>
                                 </ul>
                             </div>
+                            <div class="dd">
+                            	 <ul class="view-mode" >
+                                	<li>
+	                          			<select id="filter" name="filter" class="form-control">
+	                                        <option value="newest" <c:if test="${param.searchType eq 'newest'}"> selected</c:if>> 최신순</option>
+											<option value="popular" <c:if test="${param.searchType eq 'popular'}"> selected</c:if>> 인기순</option>
+	                                    </select>
+                                    </li>          
+                                </ul>
+                            </div>
                             <!--/ End Shop Top -->
                         </div>
                     </div>
-                    	<!-- 최신순, 조회순 틀 -->
-<!--                     <div align="right" style="margin-top:40px; margin-bottom:30px;">	 -->
-<!-- 			       		<form action="javascript:void(0);" name="fr"> -->
-<!-- 							<select name="searchType" id="searchType"> -->
-<%-- 								<option value="brand" <c:if test="${param.searchType eq 'brand'}"> selected</c:if>> 제조사</option> --%>
-<%-- 								<option value="model" <c:if test="${param.searchType eq 'model'}"> selected</c:if>> 모델</option> --%>
-<!-- 							</select> -->
-<%-- 							<input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색어를 입력하여주세요" id="searchKeyword">  --%>
-<!-- 							<input type="submit" value="검색" id="submitBtn"/> -->
-<!-- 						</form> -->
+                    
+<!--                     <div> -->
+<!-- 	                    <div align="center" style="margin-top:40px; margin-bottom:30px;">	 -->
+<!-- 				       		<form action="javascript:void(0);" name="fr"> -->
+<%-- 								<input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색어를 입력하여주세요" id="searchKeyword">  --%>
+<!-- 								<input type="submit" value="검색" id="submitBtn"/> -->
+<!-- 								<select name="searchType" id="searchType"> -->
+<%-- 									<option value="brand" <c:if test="${param.searchType eq 'brand'}"> selected</c:if>> 제조사</option> --%>
+<%-- 									<option value="model" <c:if test="${param.searchType eq 'model'}"> selected</c:if>> 모델</option> --%>
+<!-- 								</select> -->
+<!-- 							</form> -->
+<!-- 				        </div> -->
 <!-- 			        </div> -->
                     <!-- 원본 -->
                     <div class="row" id="productList">

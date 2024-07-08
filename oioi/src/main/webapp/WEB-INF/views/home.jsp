@@ -147,7 +147,8 @@
 				<div class="col-12">
 					<div class="section-title">
 						<h2>인기 상품</h2>
-						<a href="#"> 더보기</a>
+<!-- 						<a href="#"> 더보기</a> -->
+						<a href="trade?filter=popular"> 더보기</a>
 					</div>
 				</div>
             </div>
