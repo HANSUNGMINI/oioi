@@ -105,5 +105,14 @@
         WHERE PD_IDX = #{pdId}
 	</update>
 
+	<select id="selectWishList" resultType="map">
+	    SELECT wl.WL_IDX, wl.WL_US_ID, wl.WL_PD_IDX, 
+	           p.PD_SUBJECT, p.PD_PRICE, p.PD_REG_DATE,
+	           i.image1
+	    FROM wish_list wl
+	    JOIN product p ON wl.WL_PD_IDX = p.PD_IDX
+	    LEFT JOIN images i ON p.PD_IMAGE = i.IMG_IDX
+	    WHERE wl.WL_US_ID = #{userId}
+	</select>
     
 </mapper>

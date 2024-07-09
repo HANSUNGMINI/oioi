@@ -36,4 +36,6 @@ public interface StoreMapper {
 
 	void updatePDtime(String pdId);
 
+	List<Map<String, Object>> selectWishList(String userId);
+
 }

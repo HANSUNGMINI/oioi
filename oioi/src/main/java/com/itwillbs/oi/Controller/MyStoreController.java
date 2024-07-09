@@ -138,6 +138,20 @@ public class MyStoreController {
 
         model.addAttribute("user", user);
         model.addAttribute("myPD", productList);
+        
+        // 찜 리스트 추가
+        List<Map<String, Object>> wishList = storeService.getWishListByUserId(userId).stream()
+            .map(wish -> {
+                String dateString = (String) wish.get("PD_REG_DATE");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                LocalDateTime regDate = LocalDateTime.parse(dateString, formatter);
+
+                String timeAgo = dateTimeAgo(regDate);
+                wish.put("timeAgo", timeAgo);
+                return wish;
+            }).collect(Collectors.toList());
+
+        model.addAttribute("wishList", wishList);
 
         return "myStore/my_store";
     }

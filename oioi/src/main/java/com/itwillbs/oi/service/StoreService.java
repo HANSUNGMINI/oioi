@@ -72,5 +72,10 @@ public class StoreService {
 		mapper.updatePDtime(pdId);
 	}
 
+	public List<Map<String, Object>> getWishListByUserId(String userId) {
+		
+		return mapper.selectWishList(userId);
+	}
+
 
 }
