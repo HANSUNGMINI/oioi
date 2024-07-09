@@ -68,8 +68,7 @@ public class MyStoreController {
                           @CookieValue(value = "storeVisit", defaultValue = "false") String storeVisit,
                           HttpServletResponse response) {
         String userId = (String) map.get("userId");
-
-        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ" + storeVisit );
+        
         
         Map<String, String> user = userService.selectMyUser(userId);
         if (user == null) {
@@ -82,8 +81,10 @@ public class MyStoreController {
             storeService.VisitCount(userId);
             Cookie cookie = new Cookie("storeVisit", "true");
             cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1일
+            cookie.setPath("/"); // 모든 경로에서 유효하도록 설정
             response.addCookie(cookie);
         }
+        
         int salesCount = storeService.getSalesCount(userId);
         model.addAttribute("salesCount", salesCount);
         

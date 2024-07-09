@@ -284,6 +284,18 @@
             border-radius: 5px;
             font-size: 0.9em;
         }
+
+        /* 스타일링 추가 */
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .product-name:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body class="js">
@@ -387,7 +399,13 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div id="product-header">
-                                                        <h5>상품 ${fn:length(myPD)}</h5>
+                                                        <c:set var="count" value="0"/>
+                                                        <c:forEach var="product" items="${myPD}">
+                                                            <c:if test="${product.PD_STATUS ne 'PDS04'}">
+                                                                <c:set var="count" value="${count + 1}"/>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        <h5>상품 ${count}</h5>
                                                         <c:if test="${user.US_ID eq sessionScope.US_ID}">
                                                             <a href="product" class="cucumber-button">상품등록</a>
                                                         </c:if>
@@ -441,7 +459,6 @@
                                                     </c:if>
                                                     <c:forEach var="review" items="${reviews}">
                                                         <div class="review-item">
-                                                            <img src="${review.FROM_US_PROFILE}" alt="${review.FROM_US_ID}">
                                                             <div class="review-content">
                                                                 <div>
                                                                     <strong>${review.FROM_US_ID}</strong>
@@ -455,7 +472,14 @@
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                    <a href="productDetail?PD_IDX=${review.PD_IDX}">${review.PD_SUBJECT}</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${empty review.PD_SUBJECT}">
+                                                                            <span class="product-name">상품명을 불러올 수 없습니다.</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a href="productDetail?PD_IDX=${review.PD_IDX}" class="product-name">${review.PD_SUBJECT}</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <p>${review.RV_CONTENT}</p>
                                                                 <div class="review-categories">
