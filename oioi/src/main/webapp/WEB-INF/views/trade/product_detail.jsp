@@ -136,11 +136,28 @@
 									<!--/ End Size -->
 									<!-- Product Buy -->
 									<div class="product-buy">
-										<ul class="nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item"><a class="nav-link ${productInfo.wish_yn}" data-toggle="tab" id="goWish" href="#" role="tab" onclick="addToWishList()">♥</a></li>
-											<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
-											<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
-										</ul>
+										<c:choose>
+											<c:when test="${productInfo.US_ID ne sessionScope.US_ID}">
+												<ul class="nav nav-tabs" id="myTab" role="tablist">
+													<li class="nav-item"><a class="nav-link ${productInfo.wish_yn}" data-toggle="tab" id="goWish" href="#" role="tab" onclick="addToWishList()">♥</a></li>
+													<li class="nav-item"><a class="nav-link" data-toggle="tab" id="goChat" role="tab" onclick="goChatting()">채팅</a></li>
+													<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" id="directBuy" role="tab" onclick="">바로구매</a></li>
+												</ul>
+											</c:when>
+											<c:when test="${productInfo.US_ID eq sessionScope.US_ID}">
+												<ul class="nav nav-tabs" id="myTab" role="tablist">
+<%-- 													<li class="nav-item">
+															<a class="nav-link" data-toggle="tab" href="href="${pageContext.request.contextPath}/editStore"" id="directBuy" role="tab" >내상점으로 가기</a>
+														</li> --%>
+ 													<li class="nav-item"> 
+														<a class="nav-link" data-toggle="tab" id="directBuy" href="#" role="tab" onclick="location.href='editStore'">내상점으로 가기</a> 
+													</li> 
+<!-- 														<li class="nav-item"> -->
+<%-- 															<a class="nav-link" data-toggle="tab" id="directBuy" role="tab" href="${pageContext.request.contextPath}/editStore">내상점으로 가기</a> --%>
+<!-- 														</li> -->
+												</ul>
+											</c:when>
+										</c:choose>
 										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p>
 <!-- 										<div class="quantity"> -->
 <!-- 											<h6>찜하기</h6> -->
