@@ -26,4 +26,6 @@ public interface CommunityMapper {
 
 	void updateReadCount(int cM_IDX);
 
+	List<Map<String, String>> selectReportCategory();
+
 }
