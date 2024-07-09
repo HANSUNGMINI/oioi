@@ -298,9 +298,11 @@ public class CommunityContorller {
         }
 		
         map = service.selectBoardDetail(CM_IDX);
+        List<Map<String, String>> reportMap = service.getReportCategory();
         
-		model.addAttribute("boardDetail", map);
-		
+        model.addAttribute("boardDetail", map);
+		model.addAttribute("reportMap", reportMap);
+        
 		return "community/board_detail";
 	}
 	

@@ -90,5 +90,13 @@ public class SearchController {
 		
 		return productList;
 	}
-
+	
+	// 안 읽은 메세지 개수 가져오기
+	@ResponseBody
+	@GetMapping("getMyUnreadCount")
+	public int getMyUnreadCount(@RequestParam Map map, Model model) {
+		System.out.println("실행이 왜 안됨");
+		System.out.println("넘어오나 " + map);
+		return 0;
+	}
 }

@@ -163,8 +163,7 @@ public class ChattingController {
 		}
 		
 		// 안 읽은 회수 차감
-//		int updateCnt = service.updateUnreadCnt(map);
-		
+		int updateCnt = service.updateUnreadCnt(map);
 		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
@@ -174,6 +173,7 @@ public class ChattingController {
 
 		// 리뷰 내역 있는지 확인
 		int existReview = service.selectReview(map);
+		
 		if(existReview < 1) {
 			pdInfo.put("existReview", "no");
 		}
@@ -232,7 +232,7 @@ public class ChattingController {
 			int saveChatCnt = service.saveChatting(map);
 		}
 		
-		return "false";
+		return "true";
 	}
 	
 	@PostMapping("report")

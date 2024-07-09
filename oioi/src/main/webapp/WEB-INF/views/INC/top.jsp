@@ -43,7 +43,22 @@
 			window.open('connectAct', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
 	}
 
-	
+    $(function(){
+		getUnreadCount();    	
+    }
+    
+    function getUnreadCount(){
+    	$.ajax({
+    		type:"get",
+    		url: "getMyUnreadCount",
+    		data : {
+    			US_ID : "${SessionScope.US_ID}"
+    		},
+    		success : function(data){
+    			alert(datas)
+    		}
+    	})
+    }
 </script>
 </head>
 <body>
