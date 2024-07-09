@@ -42,5 +42,9 @@ public class SearchService {
 		return mapper.getSearchProducts(map);
 	}
 
+	public int getMyUnreadCount(Map map) {
+		return mapper.getMyUnreadCount(map);
+	}
+
 	
 }

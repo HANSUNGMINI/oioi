@@ -42,23 +42,28 @@
 // 			window.open('connectAct', '_blank', 'width=550, height=335, left=720, top=200, resizable=no'); 
 			window.open('connectAct', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
 	}
-
-    $(function(){
-		getUnreadCount();    	
+	
+	/* 안 읽은 메세지 개수 */
+	function getUnreadCount(){
+    	 $.ajax({
+   	        type: "get",
+   	        url: "getMyUnreadCount",
+   	        data: {
+   	            US_ID: "${sessionScope.US_ID}"
+   	        },
+   	        success: function(data){
+   	        	
+   	        	let US_ID = "${sessionScope.US_ID}"
+   	        	
+   	        	if(US_ID != '' && data != 0) {
+   	        		let unread = '<span class="total-count">'+ data +'</span>'
+   	        		("#here").append(unread)
+   	        	}
+   	        	
+   	        }
+   	    });
     }
     
-    function getUnreadCount(){
-    	$.ajax({
-    		type:"get",
-    		url: "getMyUnreadCount",
-    		data : {
-    			US_ID : "${SessionScope.US_ID}"
-    		},
-    		success : function(data){
-    			alert(datas)
-    		}
-    	})
-    }
 </script>
 </head>
 <body>
@@ -237,10 +242,10 @@
 							
 							
 								<a <c:if test="${not empty sessionScope.US_ID}"> href="ChatList?US_ID=${sessionScope.US_ID}" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" </c:if> class="single-icon" >
-									<i class="bi bi-chat-text"></i>
-									<c:if test="${not empty sessionScope.US_ID}">
-										<span class="total-count">2</span>
-									</c:if>
+									<i class="bi bi-chat-text" id="here"></i>
+<%-- 									<c:if test="${not empty sessionScope.US_ID}"> --%>
+<!-- 										<span class="total-count">2</span> -->
+<%-- 									</c:if> --%>
 								</a>
 								
 								
@@ -352,6 +357,7 @@
     }
     
     $(document).ready(function() {
+    	getUnreadCount(); 
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
 		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');

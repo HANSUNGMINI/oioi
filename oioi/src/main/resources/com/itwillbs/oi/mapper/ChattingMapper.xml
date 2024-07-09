@@ -206,11 +206,26 @@
 		WHERE CR_ID = #{CR_ID}
 	</update>
 	
+	<update id="updateUnreadZero">
+		UPDATE chat_message
+		SET CM_READCOUNT = 0
+		WHERE CR_ID = #{CR_ID} AND CM_READBY != #{US_ID}
+	</update>
+	
 	<update id="updateFreshness">
 		UPDATE user
 		SET US_OILEVEL = US_OILEVEL + #{freshness}
 		WHERE US_ID = #{TO_US_ID}
 	</update>
+	
+	<select id="getChatRoom" resultType="map">
+		SELECT CR_ID
+		FROM chat_room
+		WHERE PD_IDX = #{PD_IDX} 
+		 AND (
+	         (BUYER_ID = #{TO_ID} AND SELLER_ID = #{FROM_ID})
+	    	OR (BUYER_ID = #{FROM_ID} AND SELLER_ID = #{TO_ID}))
+	</select>
 	
 </mapper>
 

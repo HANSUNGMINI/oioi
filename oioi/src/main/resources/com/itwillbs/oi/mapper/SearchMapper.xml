@@ -82,6 +82,13 @@
 		WHERE CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
 		ORDER BY PD_IDX; 
  	</select>
+ 	
+ 	<select id="getMyUnreadCount" resultType="int">
+ 		SELECT COUNT(CM_READCOUNT)
+ 		FROM chat_message
+ 		WHERE (FROM_ID = #{US_ID} OR TO_ID=#{US_ID}) 
+ 		  AND (CM_READCOUNT = 2 OR (CM_READCOUNT = 1 AND CM_READBY != #{US_ID}))
+  	</select>
 </mapper>
 
 

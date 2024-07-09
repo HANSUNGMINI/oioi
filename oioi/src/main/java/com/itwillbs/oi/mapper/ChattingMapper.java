@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.itwillbs.oi.vo.ProductChatRoomVO;
 import com.itwillbs.oi.vo.ProductChatVO;
 
 @Mapper
@@ -43,6 +44,9 @@ public interface ChattingMapper {
 	int updateUnreadCnt(Map<String, Object> map); // 안 읽은 메세지 수가 2일 때 실행
 	int updateUnreadZero(Map<String, Object> map); // 1일 경우 실행
 	int checkChat(ProductChatVO chat); // 채팅방 있는지 확인
+	
+	// ----------------------------------------
+	Map<String, Object> getChatRoom(String TO_ID, String FROM_ID, int PD_IDX); // 채팅방 번호 가져오기
 	
 
 
