@@ -244,13 +244,18 @@
 				  				<h3>${boardDetail.CM_TITLE}</h3>
 				  			</div>
 			  			
-				  			<div class = "view_info">
+				  			<div class = "view_info" style="display: flex; justify-content: space-between; align-items: center;" align="center">
+				  			<span style="margin-left:auto">
 								<em><b>닉네임</b></em>
 								<em>${boardDetail.CM_NICK}</em>
 								<em class="em"><b>날짜</b></em>
 								<em>${boardDetail.CM_REG_DATE}</em>
 								<em class="em"><b>조회수</b></em>
 								<em>${boardDetail.CM_READ_COUNT}</em>
+							</span>
+								    <span style="margin-left: auto;">
+								        <input type="button" value="🚨신고하기" id="aslkdjflkas">
+								    </span>
 				  			</div>
 							<div class = "view_cont" <c:if test="${boardDetail.CM_CONTENT.length() < 500}"> style="width: 840px; height: 600px;"
     						</c:if>>
@@ -272,7 +277,7 @@
 					    
 					     <div class="button-container" style="padding:4px">
 			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
-			 				<c:if test="${boardDetail.CM_ID eq sessionScope.US_ID}">
+			 				 <c:if test="${boardDetail.CM_ID eq sessionScope.US_ID || not empty sessionScope.isAdmin}">
 				 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify?CM_IDX=${boardDetail.CM_IDX}'" style="margin-right:10px;">
 				 				<input type="button"  value = "삭제" class="btn btn-primary" onclick="confirmDelete(${boardDetail.CM_IDX})">
 			 				</c:if>
