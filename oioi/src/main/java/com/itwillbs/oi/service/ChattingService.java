@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.oi.mapper.ChattingMapper;
+import com.itwillbs.oi.vo.ProductChatRoomVO;
 import com.itwillbs.oi.vo.ProductChatVO;
 
 @Service
@@ -69,6 +70,11 @@ public class ChattingService {
 	public int registDelivery(Map<String, Object> map) {
 		return mapper.registDelivey(map);
 	}
+	
+	// 오이 신선도
+	public void updateFreshness(Map<String, String> map) {
+		mapper.updateFreshness(map);
+	}
 
 	// ----------------------------------------------------------------------------
 	
@@ -93,7 +99,7 @@ public class ChattingService {
 	}
 
 	// 마지막 채팅 및 시간 가져오기
-	public Map<String, Object> getMyChatList(int crId) {
+	public Map<String, Object> getMyChatList(String crId) {
 		return mapper.getMyChatList(crId);
 	}
 
@@ -143,7 +149,7 @@ public class ChattingService {
 			
 		    if(readCount == 2) {
 		    	cnt = mapper.updateUnreadCnt(map);
-		    } else if (readCount == 1) {
+		    } else  {
 		    	cnt = mapper.updateUnreadZero(map);
 		    } 
 		}
@@ -155,8 +161,13 @@ public class ChattingService {
 		return mapper.checkChat(chat);
 	}
 
-	public void updateFreshness(Map<String, String> map) {
-		mapper.updateFreshness(map);
+	
+
+	
+	// ------------------------------------------------------------------------------
+	// 채팅방 있는지
+	public Map<String, Object> getChatRoom(String TO_ID, String FROM_ID, int PD_IDX) {
+		return mapper.getChatRoom(TO_ID, FROM_ID, PD_IDX);
 	}
 
 

@@ -82,7 +82,6 @@ public class SearchController {
 	@ResponseBody
 	@GetMapping("researchProductList")
 	public List<Map<String, Object>> goResearch(@RequestParam Map map, Model model) {
-		System.out.println("실행이 왜 안됨");
 		System.out.println("넘어오나 " + map);
 		List<Map<String, Object>> productList = service.getSearchProducts(map);
 		System.out.println(productList);
@@ -95,8 +94,11 @@ public class SearchController {
 	@ResponseBody
 	@GetMapping("getMyUnreadCount")
 	public int getMyUnreadCount(@RequestParam Map map, Model model) {
-		System.out.println("실행이 왜 안됨");
 		System.out.println("넘어오나 " + map);
-		return 0;
+		
+		int unread = service.getMyUnreadCount(map);
+//		System.out.println("안 읽은 메세지 : " + unread);
+		
+		return unread;
 	}
 }

@@ -322,9 +322,7 @@
 										</div>
 									</div>
 									<div class="col-12" style="margin-top: 50px;">
-										<div class="form-group login-btn">
-											<input type="submit" id="subimit" value="등록하기">
-										</div>
+											<input type="submit" class="btn" id="subimit" value="등록하기">
 									</div>
 								</div>
 							</form>

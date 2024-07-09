@@ -38,6 +38,8 @@ let popularClick = true;
 /* 검색 JS 시작 */
 $(function(){
 	
+	
+	
 	// ******************* 테스트 데이터 ********************
 		var clickCount = 0;
 		$('.header-inner').click(function() {
@@ -99,6 +101,8 @@ $(function(){
 	
 
 }); /* ready 이벤트 끝 */
+
+	
 
 	/* 연관 검색어 가져오기 */
 	function searchAjax() {

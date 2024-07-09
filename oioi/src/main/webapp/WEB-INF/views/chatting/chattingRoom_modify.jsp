@@ -55,13 +55,63 @@
     $(function(){
 	    connectChat();
 	    
+		let US_ID = "${param.US_ID}"
+		let TO_ID = "${param.TO_ID}"
+		let PD_IDX = "${param.PD_IDX}"
+		let CR_ID = "${chatRoom.CR_ID}"
+	    let FROM_ID = '';
+		let existMsg = '${existMsg.cnt}';
+		let deliveryInfo = '${deliveryInfo.CR_ID}';
+		
+	    if(TO_ID == US_ID) {
+	    	US_ID = "${chatRoom.FROM_ID}"
+	    } else {
+	    	FROM_ID = "${param.US_ID}"
+	    }
+
+    	// 클릭 시 보내기
+	     $('#sendMsg').on('click', function(evt) {
+	    	let msg = $("#textMsg").val();
+	    	console.log("msg : " + msg);
+	    	sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
+	     });
+	    
+	   // 채팅 입력창에 키를 누를 때마다 이벤트 핸들링
+	   
+		$("#textMsg").on("keypress",function(event){
+			let msg = $("#textMsg").val();
+			let keyCode = event.keyCode;
+			if(keyCode == 13) {
+				sendMessage("TALK", TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
+			}
+		});
+	   
+	   if(existMsg != '') {
+	    	getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX);
+	   }
+	   
+	   if(deliveryInfo == CR_ID) {
+		   sysMessage("운송장 등록이 완료되었습니다");
+	   }
+	   
     });
 		
 		
     let ws; // 웹소켓 객체가 저장될 변수
+    let US_ID = "${param.US_ID}";
+	let TO_ID = "${param.TO_ID}";
+	let PD_IDX = "${param.PD_IDX}";
+	let CR_ID = "${chatRoom.CR_ID}";
+    let FROM_ID = "${param.FROM_ID}";
+	
+    if(TO_ID == US_ID) {
+    	US_ID = "${chatRoom.FROM_ID}"
+    } else {
+    	FROM_ID = "${param.US_ID}"
+    }
     
     function connectChat() {
-        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws = new WebSocket("ws://c3d2401t1/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
@@ -80,21 +130,8 @@
 	}
 	function onMessage(event) { // 다른 사람 거 나오기
 		let data = JSON.parse(event.data);
-		// 메세지 타입 판별
-		if(data.type == "INIT") {
-			
-			// 초기화 완료메세지 출력
-			let TO_ID = "${param.TO_ID}";
-	    	let FROM_ID = "${param.FROM_ID}";
-	    	let PD_IDX = "${param.PD_IDX}";
-	    	
-			sendMessage("INIT_COMPLETE", TO_ID, FROM_ID, "", "", PD_IDX);
-		} else if (data.type =="SHOW_CHATMESSAGE"){
-			let US_ID = data.msg
-			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
-		}
-	
 		appendMessage(data.msg, "left","my");
+// 		saveChatMessage(data.type, data.TO_ID, data.FROM_ID, data.CR_ID, data.msg, data.PD_IDX);
 	}
 	
 	function onError() {
@@ -105,10 +142,11 @@
      
     function startChat() {
     	let TO_ID = "${param.TO_ID}";
-    	let FROM_ID = "${param.FROM_ID}";
     	let PD_IDX = "${param.PD_IDX}";
+		let CR_ID =  "${chatRoom.CR_ID}";
+		let FROM_ID =  "${param.FROM_ID}";
     	
-    	sendMessage("INIT", TO_ID, FROM_ID, "", "", PD_IDX);
+    	initMessage("INIT", TO_ID, FROM_ID, CR_ID, "", PD_IDX);
     }
     
     // -------------------------------------------------------
@@ -165,13 +203,66 @@
     	return JSON.stringify(data)
     }
     
+    // -----------------------------------------------------------
+    // 처음 채팅방 만들어질 때
+    function initMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX){
+    	ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+    }
     
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
-		appendMessage(msg,"right","other");
+		// 입력하지 않았을 경우
+		if (msg == "") {
+			/* alert("메세지 입력 필수") */
+			$("#textMsg").focus();
+			return;
+		}
+    	
+		$.ajax({
+			type: "get",
+			url : "getChatroom",
+			data :{
+				TO_ID : TO_ID,
+	    		FROM_ID : FROM_ID,
+	    		PD_IDX : PD_IDX
+			},
+			success : function(data){
+				let CR_ID = data
+				ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+		    	saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX);
+				appendMessage(msg,"right","other");
+			}
+		})
+		
+		// 채팅창 초기화 및 포커스 요청
+		$("#textMsg").val("");
+		$("#textMsg").focus();
     }
+    
+    // -----------------------------------------------------------
+	// 채팅 대화 DB에 저장
+	
+	function saveChatMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+    	// alert(type + ", " +  TO_ID + ", " +  FROM_ID + ", " +  CR_ID + ", " +  msg + ", " +   PD_IDX);
+    	
+	     $.ajax({
+            type: "POST",
+            url: "saveChatMsg",
+            data: {
+            	 "type" : type,
+                 "TO_ID" : TO_ID,
+                 "FROM_ID" : FROM_ID,
+                 "CR_ID" : CR_ID,
+               	 "msg" : msg,
+               	"PD_IDX" : PD_IDX
+            },
+           // dataType: "json",
+            success: function(response) {
+            	console.log('서버 응답:', response);
+	    	}
+	    });
+	}
     
   
     // -----------------------------------------------------------
@@ -220,6 +311,18 @@
     	
     }
 
+  // -----------------------------------------------------------
+    
+	function sysMessage(msg){
+    	let sysChat = '<li class="clearfix chatViewMe">' +
+				        '<div class="messageCenter">' +
+				        msg +
+				        '</div>' +
+				        '</li>';
+    	
+		$("#chatArea li:last").after(sysChat);
+    }    
+    
     
     // -----------------------------------------------------------
     

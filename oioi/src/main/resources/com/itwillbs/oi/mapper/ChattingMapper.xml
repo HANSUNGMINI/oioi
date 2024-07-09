@@ -137,11 +137,11 @@
 	</insert>
 	
 	<select id="getMyChatInfo" resultType="hashmap">
-		SELECT CR.CR_ID, CR.PD_IDX, CR.FROM_ID, CR.TO_ID, u.US_NICK, u.US_PROFILE
+		SELECT CR.CR_ID, CR.PD_IDX, CR.BUYER_ID, CR.SELLER_ID, u.US_NICK, u.US_PROFILE
 		FROM chat_room CR
 		JOIN user u
-		ON (CR.FROM_ID = u.US_ID OR CR.TO_ID = u.US_ID)
-		WHERE (CR.FROM_ID = #{US_ID} OR CR.TO_ID = #{US_ID})
+		ON (CR.BUYER_ID = u.US_ID OR CR.SELLER_ID = u.US_ID)
+		WHERE (CR.BUYER_ID = #{US_ID} OR CR.SELLER_ID = #{US_ID})
 		AND u.US_ID != #{US_ID}
 		ORDER BY CR_DATE DESC
 	</select>
@@ -170,11 +170,11 @@
 	       , MS_IMG
 	       , SUBSTRING(MS_DATE, 12, 5) AS 'MS_TIME'
 	       , CASE 
-	           WHEN FROM_ID = #{US_ID} OR TO_ID = #{US_ID} THEN 'right'
+	           WHEN BUYER_ID = #{US_ID} OR SELLER_ID = #{US_ID} THEN 'right'
 	           ELSE 'left'
 	         END AS MSG_POSITION
 			, CASE 
-				WHEN FROM_ID = #{US_ID} OR TO_ID = #{US_ID} THEN 'other'
+				WHEN BUYER_ID = #{US_ID} OR SELLER_ID = #{US_ID} THEN 'other'
 	            ELSE 'my'
 	            END AS MSG_IMG_POSITION
 			FROM chat_message
@@ -206,11 +206,26 @@
 		WHERE CR_ID = #{CR_ID}
 	</update>
 	
+	<update id="updateUnreadZero">
+		UPDATE chat_message
+		SET CM_READCOUNT = 0
+		WHERE CR_ID = #{CR_ID} AND CM_READBY != #{US_ID}
+	</update>
+	
 	<update id="updateFreshness">
 		UPDATE user
 		SET US_OILEVEL = US_OILEVEL + #{freshness}
 		WHERE US_ID = #{TO_US_ID}
 	</update>
+	
+	<select id="getChatRoom" resultType="map">
+		SELECT CR_ID
+		FROM chat_room
+		WHERE PD_IDX = #{PD_IDX} 
+		 AND (
+	         (BUYER_ID = #{TO_ID} AND SELLER_ID = #{FROM_ID})
+	    	OR (BUYER_ID = #{FROM_ID} AND SELLER_ID = #{TO_ID}))
+	</select>
 	
 </mapper>
 
