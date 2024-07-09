@@ -131,7 +131,7 @@
 			, #{msg}
 			, NULL
 			, 0
-			, NULL
+			, 2
 			, #{US_ID}
 		)
 	</insert>

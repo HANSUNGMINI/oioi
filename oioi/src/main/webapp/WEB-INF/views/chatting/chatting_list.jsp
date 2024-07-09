@@ -71,7 +71,11 @@
 									<%-- 메세지 내용 --%>
 									<div class="message-body">
 										<div class="message-body-heading">
-											<h5> ${chat.info.US_NICK} <span class="unread">${list.readCount}</span></h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
+											<h5> ${chat.info.US_NICK} 
+												<c:if test="${list.readCount != 0}">
+													<span class="unread">${list.readCount}</span>
+												</c:if>
+											</h5> <%-- 클래스 종류 : unread(초록) / important(빨강) / pending (파랑) --%>
 											<span>${list.list.MS_END_DATE}</span>										
 										</div>
 										<p>${list.list.MS_CONTENT}</p>
