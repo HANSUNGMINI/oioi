@@ -99,7 +99,7 @@ public class ChattingService {
 	}
 
 	// 마지막 채팅 및 시간 가져오기
-	public Map<String, Object> getMyChatList(int crId) {
+	public Map<String, Object> getMyChatList(String crId) {
 		return mapper.getMyChatList(crId);
 	}
 

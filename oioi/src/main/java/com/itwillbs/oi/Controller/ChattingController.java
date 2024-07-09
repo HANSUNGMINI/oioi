@@ -63,7 +63,7 @@ public class ChattingController {
 		for (Map<String, Object> chatContent : chatInfo) {
 			
             // CR_ID 값을 가져오기
-            int crId = (int) chatContent.get("CR_ID");
+			String crId = (String) chatContent.get("CR_ID");
             map.put("crId", crId);
             Map<String, Object> list = service.getMyChatList(crId);
 

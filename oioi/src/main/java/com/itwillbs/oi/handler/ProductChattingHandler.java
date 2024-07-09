@@ -73,7 +73,6 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	
             	// 1. 채팅방 존재 여부 확인
             	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
-            	System.out.println("ㅅㅂ "+ chatRoom);
             	
             	if(chatRoom == null) {
             		System.out.println("채팅방 x ");
@@ -96,7 +95,10 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             		// 채팅 내역 출력
             		System.out.println("채팅방 있음");
             		
-            		
+            		// msg에 US_ID 넣기 (꼼수)
+            		chatMessage.setMsg(session.getAttributes().get("US_ID").toString());
+            		chatMessage.setType(ProductChatVO.TYPE_SHOW_CHATMESSAGE);
+            		sendMessage(session, chatMessage, false);
             	}
             }
         }

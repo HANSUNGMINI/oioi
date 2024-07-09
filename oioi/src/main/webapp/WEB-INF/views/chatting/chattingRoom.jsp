@@ -89,7 +89,10 @@
 	    	let PD_IDX = "${param.PD_IDX}";
 	    	
 			sendMessage("INIT_COMPLETE", TO_ID, FROM_ID, "", "", PD_IDX);
-		} 
+		} else if (data.type =="SHOW_CHATMESSAGE"){
+			let US_ID = data.msg
+			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
+		}
 	
 		appendMessage(data.msg, "left","my");
 	}

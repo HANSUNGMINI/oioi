@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.vo.ProductChatRoomVO;
 import com.itwillbs.oi.vo.ProductChatVO;
@@ -36,7 +38,7 @@ public interface ChattingMapper {
 	Map<String, Object> checkChatRoom(Map<String, Object> map); // 채팅룸이 있는지 확인
 	int saveChatting(Map<String, Object> map); // 채팅 대화 저장
 	List<Map<String, Object>> getMyChatInfo(Map map); // 채팅 목록 가져오기
-	Map<String, Object> getMyChatList(int crId); // 마지막 채팅 가져오기
+	Map<String, Object> getMyChatList(String crId); // 마지막 채팅 가져오기
 	List<Map<String, String>> getChatMsg(Map<String, Object> map); // 채팅 내역 가져오기
 	Map<String, Object> existmsg(Map<String, Object> map); // 메세지 존재하는지 확인
 	List<Map<String, Object>> getReadCount(Map<String, Object> map); // 안 읽은 메세지 개수 가져오기
@@ -46,7 +48,7 @@ public interface ChattingMapper {
 	int checkChat(ProductChatVO chat); // 채팅방 있는지 확인
 	
 	// ----------------------------------------
-	Map<String, Object> getChatRoom(String TO_ID, String FROM_ID, int PD_IDX); // 채팅방 번호 가져오기
+	Map<String, Object> getChatRoom(@Param(value = "TO_ID")String TO_ID, @Param(value = "FROM_ID")String FROM_ID, @Param(value = "PD_IDX")int PD_IDX); // 채팅방 번호 가져오기
 	
 
 
