@@ -225,7 +225,7 @@
 	  cursor: pointer;
 	}
 	
-	.modal-header {
+	.modal-header-community {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: start;
@@ -236,7 +236,23 @@
     border-bottom: 1px solid #e9ecef;
     border-top-left-radius: .3rem;
     border-top-right-radius: .3rem;
-}
+	}
+
+	.modal-body-community {
+	    position: relative;
+	    -ms-flex: 1 1 auto;
+	    flex: 1 1 auto;
+	    padding: 1rem;
+	}
+	
+	.modal-dialog-community {
+    position: relative;
+    width: auto;
+    margin: 10px;
+    pointer-events: none;
+	}
+	
+
 	
 </style>
 
@@ -349,15 +365,15 @@
 	
 	<%-- 신고하기 --%>
 	<div class="modal" id="notify_model">
-		<div class="modal-dialog">
-			<div class="modal-content">
+		<div class="modal-dialog-community">
+			<div class="modal-content" style="width:500px; margin:auto;">
 			<!-- Modal Header -->
-			<div class="modal-header">
+			<div class="modal-header-community">
 			<h4 class="modal-title">신고하기</h4>
 			</div>
       	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
 	      <!-- Modal body -->
-	      <div class="modal-body">
+	      <div class="modal-body-community">
 	      	
 		      <%-- 라디오박스 --%>
 		      	<c:forEach var="report" items="${reportMap}">
