@@ -83,6 +83,7 @@
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 			, #{category}
 			, #{CM_NICK}
+			, 0
 		);
 	</insert>
 	
