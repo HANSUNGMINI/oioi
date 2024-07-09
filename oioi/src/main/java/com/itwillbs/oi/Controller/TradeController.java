@@ -112,8 +112,13 @@ public class TradeController {
 	public String goDetail(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		System.out.println(map);
 		System.out.println("PD_IDX :" + map.get("PD_IDX"));
-		
-		map.put("US_ID", session.getAttribute("US_ID").toString());
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.addAttribute("targetURL", "login"));
+			return "err/fail";
+		}
+//		if(session.getAttribute("US_ID") != "" || session.getAttribute("US_ID") != null) {
+			map.put("US_ID", session.getAttribute("US_ID").toString());
+//		}
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
@@ -123,6 +128,8 @@ public class TradeController {
 		Map<String, String> dbMap = tradeService.getProductInfo(map);
 		model.addAttribute("productInfo", dbMap);
 		System.out.println(dbMap);
+//		System.out.println("물건주인 아이디 : " + dbMap.get("US_ID"));
+//		System.out.println("세션 아이디 : " + map.get("US_ID"));
 			
 		return "/trade/product_detail";
 	}

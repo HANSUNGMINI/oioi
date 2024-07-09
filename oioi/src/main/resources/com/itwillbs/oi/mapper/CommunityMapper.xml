@@ -83,6 +83,7 @@
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 			, #{category}
 			, #{CM_NICK}
+			, 0
 		);
 	</insert>
 	
@@ -107,7 +108,11 @@
 			CM_IDX = #{CM_IDX}
 	</update>
 	
-	
+	<select id="selectReportCategory" resultType="hashmap">
+		SELECT code, value
+		FROM common
+		WHERE hide != 'Y' AND name='CM_RP_CATEGORY';
+	</select>
   
   
   </mapper>

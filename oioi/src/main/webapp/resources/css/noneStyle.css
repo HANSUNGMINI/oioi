@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+/* reset.css를 포함 */
+@import url('reset.css');
+
+/* .modal-content 내의 요소에 대해 reset.css 스타일 무시 */
+.modal-content * {
+    all: unset !important;
+    box-sizing: border-box !important;
+    font: inherit !important;
+    color: inherit !important;
+}

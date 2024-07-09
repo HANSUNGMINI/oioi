@@ -51,6 +51,7 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    
 	
 </head>
 
@@ -179,6 +180,80 @@
 		border-radius: 3px;
 		
 	}
+	
+	#report {
+		font-size: 20px;
+	}
+	
+	
+	/*신고하기*/
+	textarea{
+		min-width : 85.5%;
+		max-width : 85.5%;
+		min-height: 100px;
+		box-shadow : inset 3px 3px 10px #e6e6e6;
+		vertical-align : top;
+		margin-left : 15px;
+		margin-top : 15px;
+	}
+	
+	[type="radio"] {
+		padding : 5px;
+		vertical-align: middle;
+		appearance: none;
+		border: max(2px, 0.1em) solid gray;
+		border-radius: 50%;
+		width: 1.25em;
+		height: 1.25em;
+		}
+	
+	[type="radio"]:checked {
+	  border: 0.4em solid #34A853;
+	}
+	
+	[type="radio"]:focus-visible {
+	  outline: max(2px, 0.1em) dotted #34A853;
+	  outline-offset: max(2px, 0.1em);
+	}
+	
+	[type="radio"]:hover {
+	  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+	  cursor: pointer;
+	}
+	
+	[type="radio"]:hover + span {
+	  cursor: pointer;
+	}
+	
+	.modal-header-community {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+	}
+
+	.modal-body-community {
+	    position: relative;
+	    -ms-flex: 1 1 auto;
+	    flex: 1 1 auto;
+	    padding: 1rem;
+	}
+	
+	.modal-dialog-community {
+    position: relative;
+    width: auto;
+    margin: 10px;
+    pointer-events: none;
+	}
+	
+
+	
 </style>
 
 <script type="text/javascript">
@@ -244,13 +319,18 @@
 				  				<h3>${boardDetail.CM_TITLE}</h3>
 				  			</div>
 			  			
-				  			<div class = "view_info">
+				  			<div class = "view_info" style="display: flex; justify-content: space-between; align-items: center;" align="center">
+				  			<span style="margin-left:auto">
 								<em><b>닉네임</b></em>
 								<em>${boardDetail.CM_NICK}</em>
 								<em class="em"><b>날짜</b></em>
 								<em>${boardDetail.CM_REG_DATE}</em>
 								<em class="em"><b>조회수</b></em>
 								<em>${boardDetail.CM_READ_COUNT}</em>
+							</span>
+								    <span style="margin-left: auto;">
+								    	<a id="report" href="javascript:void(0);" data-toggle="modal" data-target="#notify_model">🚨</a>
+								    </span>
 				  			</div>
 							<div class = "view_cont" <c:if test="${boardDetail.CM_CONTENT.length() < 500}"> style="width: 840px; height: 600px;"
     						</c:if>>
@@ -272,7 +352,7 @@
 					    
 					     <div class="button-container" style="padding:4px">
 			 				<input type="button"  value = "목록" class="btn btn-primary" onclick="location.href='community?type=${boardDetail.CM_CATEGORY}'" style="margin-right:10px;">
-			 				<c:if test="${boardDetail.CM_ID eq sessionScope.US_ID}">
+			 				 <c:if test="${boardDetail.CM_ID eq sessionScope.US_ID || not empty sessionScope.isAdmin}">
 				 				<input type="button"  value = "수정" class="btn btn-primary" onclick="location.href='boardModify?CM_IDX=${boardDetail.CM_IDX}'" style="margin-right:10px;">
 				 				<input type="button"  value = "삭제" class="btn btn-primary" onclick="confirmDelete(${boardDetail.CM_IDX})">
 			 				</c:if>
@@ -282,6 +362,56 @@
 			</div>
 		</div>
 	</div>
+	
+	<%-- 신고하기 --%>
+	<div class="modal" id="notify_model">
+		<div class="modal-dialog-community">
+			<div class="modal-content" style="width:500px; margin:auto;">
+			<!-- Modal Header -->
+			<div class="modal-header-community">
+			<h4 class="modal-title">신고하기</h4>
+			</div>
+      	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
+	      <!-- Modal body -->
+	      <div class="modal-body-community">
+	      	
+		      <%-- 라디오박스 --%>
+		      	<c:forEach var="report" items="${reportMap}">
+		      		<c:set var="i" value="${i+1}"></c:set>
+					<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+		      	</c:forEach>
+				
+				<%-- 파일 --%>
+				<div style="padding:5px;">
+                    <small>이미지는 최대 2장 등록 가능합니다</small>
+                    
+			         <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
+					<div class="preView">
+						<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
+					</div>
+				</div>
+				
+				<%-- 내용 입력 --%>
+				<textarea placeholder="내용을 입력하세요"
+				
+				
+				 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+		  </div>
+		  
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	        <button type="submit" class="btn btn-success">신고하기</button>
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	      </div>
+			<input type="hidden" name="TO_ID" value="${param.TO_ID}">
+			<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+		</form>			      
+	    </div>
+	  </div>
+	</div>     
+			
+	
+	
 </section>
 
 
