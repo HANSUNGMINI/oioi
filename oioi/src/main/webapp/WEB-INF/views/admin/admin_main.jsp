@@ -42,10 +42,9 @@
 			</div>
 		</section>
 		<div style="display:flex">
-			<div id="chart" style="width: 50%; height: 500px;"></div>
-		
+			<div id="chart1" style="width: 50%; height: 500px;"></div>
+			<div id="chart2" style="width: 50%; height: 500px;"></div>
 		</div>
-		
 		
 	</div>
   	</div>
@@ -53,18 +52,21 @@
 <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
 <script>
 	$(function(){
-		getMostRegistCategory();
-		
+		getPieChart('product', '등록된 상품의 카테고리 분포도', 'chart1');
+		getPieChart('auction_product', '등록된 경매상품의 카테고리 분포도', 'chart2');
 	})
 	
-	function getMostRegistCategory(){
+	function getPieChart(target, title, htmlID){
 		$.ajax({
 			type : "GET",
-			url : "MostRegistCategory",
+			url : "CategoryPieChart",
+			data : {
+				"selectTable" : target,
+			},
 			dataType : "JSON",
 			success : function(response) {
 				const series1 = [];
-					
+				
 				for(var item of response){
 					let data = {
 						name : item.category,
@@ -75,12 +77,14 @@
 				
 				const chart = toastui.Chart;
 				const data = {
-					categories: ['Categories'],
+					categories: [title],
 			        series: series1,
 				};
 
 			    const options = {
-// 			        chart: { width: 900, height: 500 },
+			    	chart : {
+			    		title : title
+			    	},
 			        series: {
 			            radiusRange: ['40%', '100%'],
 			            showLabel: true
@@ -89,10 +93,11 @@
 			            suffix: '%'
 			        }
 			    };
-		    	chart.pieChart({ el: document.getElementById('chart'), data, options });
+		    	chart.pieChart({ el: document.getElementById(htmlID), data, options });
 			} // success 끝
 		})
 	}
+
 </script>
 </html>
     

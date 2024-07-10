@@ -356,9 +356,10 @@ public class AdminController {
 	
 	
 	@ResponseBody
-	@GetMapping("MostRegistCategory")
-	public List<Map<String, String>> selectMostRegistCategory() {
-		return adminservice.selectMostRegist();
+	@GetMapping("CategoryPieChart")
+	public List<Map<String, String>> selectCategoryPieChart(@RequestParam Map<String, String> map) {
+		System.out.println(map);
+		return adminservice.selectCategoryPieChart(map);
 	}
 	
 	@ResponseBody

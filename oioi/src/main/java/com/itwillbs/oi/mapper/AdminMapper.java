@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Mapper
 public interface AdminMapper {
@@ -55,5 +56,5 @@ public interface AdminMapper {
 	Map<String, Object> selectDetailAP(Map<String, Object> data);
 	
 	Map<String, String> selectAuctionItem(Map<String, String> data);
-	List<Map<String, String>> selectMostRegist();
+	List<Map<String, String>> selectCategoryPieChart(Map<String, String> map);
 }

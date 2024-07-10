@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.oi.mapper.AdminMapper;
 
@@ -56,7 +57,7 @@ public class AdminService {
 	public int updateReportStatus(Map<String, String> map){ return adminMapper.updateReportStatus(map); }
 	public int updateUserStatus(Map<String, String> map){ return adminMapper.updateUserStatus(map); }
 	public int regMainBanner(Map<String, String> map){ return adminMapper.regMainBanner(map); }
-	public List<Map<String, String>> selectMostRegist(){return adminMapper.selectMostRegist();}
+	public List<Map<String, String>> selectCategoryPieChart(Map<String, String> map){return adminMapper.selectCategoryPieChart(map);}
 	
 	
 	public Map<String, String> selectAuctionItem(Map<String, String> map){ return adminMapper.selectAuctionItem(map); }

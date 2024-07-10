@@ -416,7 +416,7 @@
 		 WHERE APD_IDX = #{APD_IDX}
 	</update>
 	
-	<select id="selectMostRegist" resultType="map">
+	<select id="selectCategoryPieChart" resultType="map">
 		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
 		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
 		  FROM category
@@ -426,12 +426,27 @@
 		  FROM category t
 		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
 		)
-		SELECT tmp.path as category, count(PD_CATEGORY) as cnt
-		  FROM product p
-		  LEFT JOIN tmp
-		    ON p.PD_CATEGORY = tmp.CTG_CODE
-		 GROUP BY tmp.path, PD_CATEGORY
+		<choose>
+			<when test="selectTable == 'product'">
+				SELECT tmp.path as category, count(PD_CATEGORY) as cnt
+				  FROM product p
+				  LEFT JOIN tmp
+				    ON p.PD_CATEGORY = tmp.CTG_CODE
+				 GROUP BY tmp.path, PD_CATEGORY
+			</when>
+			
+			<when test="selectTable == 'auction_product'">
+				SELECT tmp.path as category, count(APD_CATEGORY) as cnt
+				  FROM auction_product apd
+				  LEFT JOIN tmp
+				    ON apd.APD_CATEGORY = tmp.CTG_CODE
+				 GROUP BY tmp.path, APD_CATEGORY
+			</when>
+		</choose>
+		
 	</select>
+	
+	
 	
 	<update id="regMainBanner">
 		UPDATE auction
