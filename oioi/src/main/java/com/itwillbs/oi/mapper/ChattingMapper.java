@@ -36,7 +36,7 @@ public interface ChattingMapper {
 	// ----------- 채팅 ----------------
 	int createRoom(ProductChatVO chat); // 채팅룸 만들기
 	Map<String, Object> checkChatRoom(Map<String, Object> map); // 채팅룸이 있는지 확인
-	int saveChatting(Map<String, Object> map); // 채팅 대화 저장
+	int saveChatting(ProductChatVO chatMessage); // 채팅 대화 저장
 	List<Map<String, Object>> getMyChatInfo(Map map); // 채팅 목록 가져오기
 	Map<String, Object> getMyChatList(String crId); // 마지막 채팅 가져오기
 	List<Map<String, String>> getChatMsg(Map<String, Object> map); // 채팅 내역 가져오기

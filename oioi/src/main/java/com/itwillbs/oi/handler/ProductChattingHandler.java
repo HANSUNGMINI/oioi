@@ -63,7 +63,6 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             String TO_ID = chatMessage.getTO_ID();
             int PD_IDX = chatMessage.getPD_IDX();
             
-            
             // 수신된 메세지 타입 판별
             if(chatMessage.getType().equals(ProductChatVO.TYPE_INIT)) { // 채팅 페이지 초기 진입 메세지
             	// 기존의 채팅방 목록 조회 후 목록 전송
@@ -76,9 +75,9 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	
             	if(chatRoom == null) {
             		System.out.println("채팅방 x ");
-            		
+            		GenerateRandomCode code = new GenerateRandomCode();
             		// 채팅방 생성
-            		chatMessage.setCR_ID(UUID.randomUUID().toString());
+            		chatMessage.setCR_ID(code.getRandomCode(8).toString());
             		
             		// DB 저장
             		List<ProductChatRoomVO> chatRoomList = new ArrayList<ProductChatRoomVO>();
@@ -96,10 +95,29 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             		System.out.println("채팅방 있음");
             		
             		// msg에 US_ID 넣기 (꼼수)
+            		chatMessage.setCR_ID((String) chatRoom.get("CR_ID"));
+            		chatMessage.setFROM_ID(FROM_ID);
+            		chatMessage.setTO_ID(TO_ID);
+            		chatMessage.setPD_IDX(PD_IDX);
             		chatMessage.setMsg(session.getAttributes().get("US_ID").toString());
             		chatMessage.setType(ProductChatVO.TYPE_SHOW_CHATMESSAGE);
-            		sendMessage(session, chatMessage, false);
+            		
+            		sendMessage(session, chatMessage, true);
             	}
+            	
+            } else if (chatMessage.getType().equals(ProductChatVO.TYPE_TALK)) {
+            	// 채팅방 번호 가져오기
+            	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+            	
+            	// 채팅방 번호 저장 
+            	chatMessage.setCR_ID((String)chatRoom.get("CR_ID"));
+            	System.out.println("VO에 저장된 메세지 : " + chatMessage); // ProductChatVO(type=TALK, msg=하이, TO_ID=siyun_9094, FROM_ID=soeunee1, PD_IDX=80, CR_ID=61667950)
+            	
+            	// 저장하기
+            	int saveCnt = service.saveChatting(chatMessage);
+            	
+            	// System.out.println("저장이 됐나 : " + saveCnt);
+            	
             }
         }
         

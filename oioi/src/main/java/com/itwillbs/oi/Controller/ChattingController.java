@@ -56,6 +56,26 @@ public class ChattingController {
 		// 1. 필요한 정보 가져오기 (from_id, to_id, cr_id, pd_idx)
 		List<Map<String, Object>> chatInfo = service.getMyChatInfo(map); 
 		
+		String US_ID = (String) map.get("US_ID");
+		
+		// FROM_ID랑 TO_ID 설정하기
+	    for (Map<String, Object> chat : chatInfo) {
+	        // seller_id와 buyer_id를 추출합니다.
+	        Object SELLER_ID = chat.get("SELLER_ID");
+	        Object BUYER_ID = chat.get("BUYER_ID");
+
+	        // 내가 판매자로 저장되어 있다면, TO_ID에 구매자 아이디
+	        if (US_ID.equals(SELLER_ID)) {
+	            chat.put("FROM_ID", SELLER_ID);
+	            chat.put("TO_ID", BUYER_ID);
+	        } else {
+	        	chat.put("FROM_ID", BUYER_ID);
+	        	chat.put("TO_ID", SELLER_ID);
+	        }
+	        
+	    }
+		
+		
 		// 2. 마지막 대화 및 시간 가져오기
 		List<Map<String, Object>> chatList =  new LinkedList<>();
 		List<Map<String, Object>> cnt = new LinkedList<>();
@@ -82,6 +102,7 @@ public class ChattingController {
 		
 		System.out.println("유저 채팅방 정보 >> " + chatInfo);
 		System.out.println("대화 정보 >> " + chatList);
+
 		
 		// 두개 합치기
 		List<Map<String, Object>> combinedList = new LinkedList<>();
@@ -103,6 +124,57 @@ public class ChattingController {
 	public String goChatting(Model model, @RequestParam Map<String, Object> map) {
 		
 		System.out.println(map);
+		
+		
+		// 유저가 아님
+		if(!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			model.addAttribute("isClose", true);
+			return "err/fail";
+		}
+		
+		// 당연히 상대반은 TO_ID
+		// 메세지 보내는 당시에 나(= 세션 아이디)는 FROM_ID
+		
+		String TO_ID = (String) map.get("TO_ID");
+		String FROM_ID = (String) map.get("FROM_ID");
+		String sId = (String) map.get("US_ID");
+		
+		// 상품 정보 가져오기
+		Map<String, String> pdInfo = service.getProductInfo(map);
+		System.out.println("상품 정보 " + pdInfo);
+		
+		// 상대방 정보
+		Map<String, String> otherInfo = service.getOtherInfo(map);
+		System.out.println("상대방 정보 " + otherInfo);
+		
+		// 내 프로필 불러오기
+		Map<String, String> myInfo = service.getMyInfo(map);
+		System.out.println("내 정보 " + myInfo);
+		
+		// 리뷰 카테고리 불러오기
+		List<Map<String, String>> reviewMap = service.getReviewCategory();
+		
+		// 신고 카테고리 불러오기
+		List<Map<String, String>> reportMap = service.getReportCategory();
+		
+		// 리뷰 내역 있는지 확인
+		int existReview = service.selectReview(map);
+		
+		if(existReview < 1) {
+			pdInfo.put("existReview", "no");
+		}
+		
+		System.out.println("리뷰 내역 : " + existReview);
+		
+		// model에 담아서 정보 보내기
+		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
+		model.addAttribute("myInfo", myInfo); // 내 프로필 
+		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
+		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
+		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
+		
 		return "chatting/chattingRoom";
 	}
 	
@@ -122,25 +194,12 @@ public class ChattingController {
 	@ResponseBody
 	@GetMapping("getChatList")
 	public List<Map<String, String>> getChatList(@RequestParam Map<String, Object> map, Model model) {
-		System.out.println("아무것도 없으? "+  map);
+		System.out.println("아무것도 없으? "+  map); // {TO_ID=siyun_9094, FROM_ID=soeunee1, CR_ID=61667950, US_ID=soeunee1, PD_IDX=80}
 		List<Map<String, String>> chatMsg = service.getChatMsg(map);
 		System.out.println("채팅방 메세지들 " + chatMsg);
 		
 		model.addAttribute("chatMsg", chatMsg);
 		return chatMsg;
-	}
-	
-	// 채팅 저장
-	@ResponseBody
-	@PostMapping("saveChatMsg") 
-	public String saveChatMsg(@RequestParam Map<String, Object> map) {
-		System.out.println("채팅 저장 map : " + map); // {type=TALK, TO_ID=sunghoon1234, FROM_ID=soeunee1, CR_ID=4616, msg=ㅎㅇ, PD_IDX=78}
-		
-		if(!map.get("msg").equals("")) {
-			int saveChatCnt = service.saveChatting(map);
-		}
-		
-		return "true";
 	}
 	
 	@PostMapping("report")
@@ -240,7 +299,7 @@ public class ChattingController {
 	// 리뷰 작성
 	@PostMapping("reviewWrite")
 	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
-//		System.out.println("리뷰 작성 map : " + map);
+		System.out.println("리뷰 작성 map : " + map);
 
 		int successCnt = service.insertReview(map);
 		

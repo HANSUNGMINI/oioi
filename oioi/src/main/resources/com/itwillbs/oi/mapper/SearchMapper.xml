@@ -89,6 +89,25 @@
  		WHERE (FROM_ID = #{US_ID} OR TO_ID=#{US_ID}) 
  		  AND (CM_READCOUNT = 2 OR (CM_READCOUNT = 1 AND CM_READBY != #{US_ID}))
   	</select>
+  	
+  	<select id="getMainChatList" resultType="map">
+		SELECT cm.MS_CONTENT
+		     , u.US_PROFILE
+		     , u.US_NICK
+		FROM chat_message cm
+		JOIN user u
+		ON u.US_ID = cm.TO_ID
+		JOIN (
+		    SELECT CR_ID, MAX(MS_DATE) AS Latest_MS_DATE
+		    FROM chat_message
+		    WHERE FROM_ID = #{US_ID}
+		    GROUP BY CR_ID
+		) latest_msg
+		ON cm.CR_ID = latest_msg.CR_ID AND cm.MS_DATE = latest_msg.Latest_MS_DATE
+		WHERE cm.FROM_ID = #{US_ID}
+		ORDER BY cm.MS_DATE
+		LIMIT 2;
+  	</select>
 </mapper>
 
 

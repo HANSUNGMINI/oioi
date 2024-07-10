@@ -89,8 +89,8 @@ public class ChattingService {
 	}
 
 	// 채팅 저장하기
-	public int saveChatting(Map<String, Object> map) {
-		return mapper.saveChatting(map);
+	public int saveChatting(ProductChatVO chatMessage) {
+		return mapper.saveChatting(chatMessage);
 	}
 
 	// 채팅 리스트 가져오기

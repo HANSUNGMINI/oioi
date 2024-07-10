@@ -22,6 +22,8 @@ public interface SearchMapper {
 	List<Map<String, Object>> getSearchProducts(Map map); // 검색한 상품 가져오기
 
 	int getMyUnreadCount(Map map); // 총 안 읽은 개수
+
+	List<Map<String, Object>> getMainChatList(Map map); // 최근 대화 내역 2개만
 	
 
 }

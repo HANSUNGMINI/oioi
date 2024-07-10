@@ -55,6 +55,28 @@
     $(function(){
 	    connectChat();
 	    
+	    let TO_ID = "${param.TO_ID}";
+    	let FROM_ID = "${param.FROM_ID}";
+    	let PD_IDX = "${param.PD_IDX}";
+	    
+	   // 클릭 시 보내기
+	  
+	     $('#sendMsg').on('click', function(evt) {
+	    	let msg = $("#textMsg").val();
+	    	console.log("msg : " + msg);
+	    	sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
+	     });
+	    
+	   // 채팅 입력창에 키를 누를 때마다 이벤트 핸들링
+	   
+		$("#textMsg").on("keypress",function(event){
+			let msg = $("#textMsg").val();
+			let keyCode = event.keyCode;
+			if(keyCode == 13) {
+				sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
+			}
+		});
+	   
     });
 		
 		
@@ -89,10 +111,11 @@
 	    	let PD_IDX = "${param.PD_IDX}";
 	    	
 			sendMessage("INIT_COMPLETE", TO_ID, FROM_ID, "", "", PD_IDX);
-		} else if (data.type =="SHOW_CHATMESSAGE"){
+			
+		} else if (data.type == "SHOW_CHATMESSAGE"){
 			let US_ID = data.msg
 			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
-		}
+		} 
 	
 		appendMessage(data.msg, "left","my");
 	}
@@ -114,6 +137,7 @@
     // -------------------------------------------------------
     // 대화 목록 가져오기
 	function getChatList(TO_ID, FROM_ID, CR_ID, US_ID, PD_IDX) {
+    	// alert("실행이 되긴 하는지")
 		$.ajax({
 			type : "get",
 			url : "getChatList",
@@ -169,8 +193,13 @@
     // ----------------------------------------------------------
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+    	
+		if(type == "TALE") {
+			appendMessage(msg,"right","other");
+		}
+		
 		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
-		appendMessage(msg,"right","other");
+		
     }
     
   
@@ -465,7 +494,7 @@
 			        <button type="submit" class="btn btn-success">리뷰 작성하기</button>
 			        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 			        <input type="hidden" name="TO_US_ID" value="${param.TO_ID}">
-			        <input type="hidden" name="FROM_US_ID" value="${param.US_ID}">
+			        <input type="hidden" name="FROM_US_ID" value="${param.FROM_ID}">
 			        <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
 			      </div>
 			
@@ -510,7 +539,8 @@
 		/* [ 판매 완료 ] */
 		function soldout() {
 			let nick = '${info.US_NICK}';
-			let existReview = '${pdInfo.existReview }';
+			let existReview = '${pdInfo.existReview}';
+			alert(existReview);
 			
 			Swal.fire({
 				   title: '구매 확정하시겠습니까?',

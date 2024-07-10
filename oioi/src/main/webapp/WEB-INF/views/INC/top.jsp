@@ -52,17 +52,19 @@
    	            US_ID: "${sessionScope.US_ID}"
    	        },
    	        success: function(data){
-   	        	
    	        	let US_ID = "${sessionScope.US_ID}"
    	        	
    	        	if(US_ID != '' && data != 0) {
    	        		let unread = '<span class="total-count">'+ data +'</span>'
-   	        		("#here").append(unread)
+   	        		$("#here").append(unread)
    	        	}
+   	        	
+   	        	getMainChatList(); 
    	        	
    	        }
    	    });
     }
+	
     
 </script>
 </head>
@@ -264,29 +266,29 @@
 										</c:when>
 										<c:otherwise>
 
-											<ul class="shopping-list">
-												<li onclick="openChatting('Chatting')">
-													<%-- 사용자 이미지 --%>
-													<div class="message-avatar">
-														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-													</div>
-													<%-- 대화 내용 --%>
-													 <div class="list-item-content">
-														<h4><a href="#">닉네임1</a></h4>
-														<p class="quantity" style="padding-bottom: 0px;">대화</p>
-													</div>
-												</li>
-												<li onclick="openChatting('Chatting')">
-													<%-- 사용자 이미지 --%>
-													<div class="message-avatar">
-														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-													</div>
-													<%-- 대화 내용 --%>
-													 <div class="list-item-content">
-														<h4><a href="#">닉네임2</a></h4>
-														<p class="quantity" style="padding-bottom: 0px;">대화</p>
-													</div>
-												</li>
+											<ul class="shopping-list" id="showChatList">
+<!-- 												<li onclick="openChatting('Chatting')"> -->
+<%-- 													사용자 이미지 --%>
+<!-- 													<div class="message-avatar"> -->
+<!-- 														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
+<!-- 													</div> -->
+<%-- 													대화 내용 --%>
+<!-- 													 <div class="list-item-content"> -->
+<!-- 														<h4><a href="#">닉네임1</a></h4> -->
+<!-- 														<p class="quantity" style="padding-bottom: 0px;">대화</p> -->
+<!-- 													</div> -->
+<!-- 												</li> -->
+<!-- 												<li onclick="openChatting('Chatting')"> -->
+<%-- 													사용자 이미지 --%>
+<!-- 													<div class="message-avatar"> -->
+<!-- 														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
+<!-- 													</div> -->
+<%-- 													대화 내용 --%>
+<!-- 													 <div class="list-item-content"> -->
+<!-- 														<h4><a href="#">닉네임2</a></h4> -->
+<!-- 														<p class="quantity" style="padding-bottom: 0px;">대화</p> -->
+<!-- 													</div> -->
+<!-- 												</li> -->
 											</ul>
 											
 											<div class="bottom">
@@ -357,7 +359,8 @@
     }
     
     $(document).ready(function() {
-    	getUnreadCount(); 
+    	getUnreadCount();
+		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
 		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
