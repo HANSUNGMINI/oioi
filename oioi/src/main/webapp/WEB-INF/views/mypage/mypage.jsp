@@ -159,7 +159,76 @@
     </div>
 </section>
 <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
+<script>
+    
+ 	// 숫자를 원 단위로 포맷하는 함수 정의
+    function formatCurrency(num) {
+        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(num);
+    }
+    
+    $(document).ready(function() {
+   	 	var contextPath = '<%= request.getContextPath() %>';
+//         var socket = new WebSocket('ws://localhost:8081/oi/push');
+		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
+        socket.onopen = function() {
+            console.log("웹소켓 연결 성공");
+        };
+        
+        socket.onmessage = function(event) {
+            try {
+                var data = JSON.parse(event.data);
+                if (data.msg === "registAPD") {
+                    var item = data.item;
+                    
+                    // 알림 메시지 추가
+                    $('#notification-push').html('<span>새로운 경매정보가 도착하였습니다. <br> 지금 바로 참여해보세요!</span>');
+                    // 이미지 경로 설정
+                	var imagePath = contextPath + '/resources/upload/' + item.APD_IMAGE;
 
+                    var notificationItem = 
+                        '<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
+                        '<a class="cart-img" href="#"><img src="' + imagePath + '" alt="#"></a>' +
+                        '<h4 style="font-size: 90%;">제품명: ' + item.APD_NAME + '<br>' +
+                        '시작가 : ' + formatCurrency(item.APD_START_PRICE) + '<br>' +
+                        '즉시 구매가 : ' + formatCurrency(item.APD_BUY_NOW_PRICE) +
+                        '</h4>' +
+                        '</li>';
+                        
+                    $('#notification-list').append(notificationItem);
+
+                    // 알림 아이콘에 카운트 추가
+                    var icon = $('#notification-icon');
+                    var count = $('<span class="total-count">!</span>'); // 알림 카운트 생성
+                    icon.after(count); // 알림 카운트 추가
+
+                }
+            } catch (e) {
+                console.error("메시지 파싱 오류:", e, event.data);
+            }
+        };
+
+        socket.onerror = function(error) {
+            console.error("웹소켓 오류 발생:", error);
+        };
+
+        socket.onclose = function(event) {
+            console.log("웹소켓 연결 종료", event);
+        };
+
+        $('#clear-notifications').on('click', function() {
+            $('#notification-list').empty();
+            $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
+            $('#notification-push').empty(); // 알림 메시지 제거
+        });
+        
+     	// 알림 항목 클릭 시 상세 페이지로 이동
+        $('#notification-list').on('click', '.notification-item', function() {
+            var apdIdx = $(this).data('apd-idx');
+            window.location.href = 'auctionDetail?APD_IDX=' + apdIdx;
+        });
+    });
+
+    </script>
 <!-- Jquery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
