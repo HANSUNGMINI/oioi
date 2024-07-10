@@ -378,18 +378,18 @@
 		      <%-- 라디오박스 --%>
 		      	<c:forEach var="report" items="${reportMap}">
 		      		<c:set var="i" value="${i+1}"></c:set>
-					<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+					<label for="n${i}"><input type="radio" name="CM_RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
 		      	</c:forEach>
 				
 				<%-- 파일 --%>
-				<div style="padding:5px;">
-                    <small>이미지는 최대 2장 등록 가능합니다</small>
+<!-- 				<div style="padding:5px;"> -->
+<!--                     <small>이미지는 최대 2장 등록 가능합니다</small> -->
                     
-			         <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
-					<div class="preView">
-						<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
-					</div>
-				</div>
+<!-- 			         <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple> -->
+<!-- 					<div class="preView"> -->
+<%-- 						<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger"> --%>
+<!-- 					</div> -->
+<!-- 				</div> -->
 				
 				<%-- 내용 입력 --%>
 				<textarea placeholder="내용을 입력하세요"

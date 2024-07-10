@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.handler.ReportHandler;
 import com.itwillbs.oi.service.ChattingService;
+import com.itwillbs.oi.service.OipayService;
 
 @Controller
 public class ChattingController {
@@ -38,6 +39,8 @@ public class ChattingController {
 
 	@Autowired
 	private ChattingService service;
+	@Autowired
+	private OipayService payService;
 	
 	@GetMapping("ChatList")
 	public String goChatList(Model model, @RequestParam Map map) {
@@ -291,7 +294,12 @@ public class ChattingController {
 	// 판매 완료
 	@GetMapping("tradeDecide")
 	public String goTradeDecide(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("판매완료 map : " + map);
+//		System.out.println("판매완료 map : " + map);
+		
+		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
+		Map<String, Object> product = payService.selectTradePDInfo(PD_IDX);
+		map.put("PD_PRICE", product.get("PD_PRICE").toString());
+		payService.decidePerchase(map);
 		
 		return "";
 	}

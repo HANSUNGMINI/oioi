@@ -279,7 +279,6 @@
                                 <img src="${otherInfo.US_PROFILE}" alt="avatar">
                             </a>
                             <div class="chat-about">
-                            
                                 <h6 class="m-b-0">
                                 	<c:choose>
                                 		<c:when test="${empty otherInfo.US_NICK}"> 탈퇴한 회원입니다 </c:when>
@@ -560,7 +559,7 @@
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   
 				      Swal.fire('송금 완료되었습니다.', '감사합니다', 'success');
-//				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}";
+				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&US_ID=${param.TO_ID}";
 						document.querySelector("#detail").style.display = "none";
 						
 						if(existReview == 'no') {
