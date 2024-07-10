@@ -53,4 +53,8 @@ public class CommunityService {
 		return mapper.selectReportCategory();
 	}
 
+	public int insertReport(Map<String, String> map) {
+		return mapper.insertReport(map);
+	}
+
 }

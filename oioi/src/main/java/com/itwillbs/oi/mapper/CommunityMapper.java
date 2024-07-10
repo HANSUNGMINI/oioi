@@ -28,4 +28,6 @@ public interface CommunityMapper {
 
 	List<Map<String, String>> selectReportCategory();
 
+	int insertReport(Map<String, String> map);
+
 }

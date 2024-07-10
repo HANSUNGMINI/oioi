@@ -371,7 +371,7 @@
 			<div class="modal-header-community">
 			<h4 class="modal-title">신고하기</h4>
 			</div>
-      	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
+      	<form action="cm_report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
 	      <!-- Modal body -->
 	      <div class="modal-body-community">
 	      	
@@ -403,8 +403,9 @@
 	        <button type="submit" class="btn btn-success">신고하기</button>
 	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 	      </div>
-			<input type="hidden" name="TO_ID" value="${param.TO_ID}">
-			<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+			<input type="hidden" name="TO_ID" value="${boardDetail.CM_ID}">
+			<input type="hidden" name="US_ID" value="${sessionScope.US_ID}">
+<%-- 			<input type="hidden" name="PD_IDX" value="${param.PD_IDX}"> --%>
 		</form>			      
 	    </div>
 	  </div>

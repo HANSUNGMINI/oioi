@@ -113,6 +113,22 @@
 		FROM common
 		WHERE hide != 'Y' AND name='CM_RP_CATEGORY';
 	</select>
+	
+	<insert id="insertReport">
+		INSERT INTO report
+		VALUES (
+			NULL
+			, #{TO_ID}
+			, #{US_ID}
+			, 'RS01'
+			, #{CM_RP_CATEGORY}
+			, #{RP_CONTENT}
+			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			, null
+			, null
+		)
+	</insert>
+	
   
   
   </mapper>
