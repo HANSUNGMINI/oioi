@@ -54,5 +54,9 @@ public interface AuctionMapper {
 
 	String getOiMoney(Map<String, Object> map);
 
+	String selectAddress(String uS_ID);
+
+	void insertApdTrade(Map<String, Object> map);
+
 
 }

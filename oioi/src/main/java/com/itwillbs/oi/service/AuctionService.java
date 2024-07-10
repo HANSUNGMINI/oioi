@@ -110,6 +110,14 @@ public class AuctionService {
 		return mapper.getOiMoney(map);
 	}
 
+	public String getAddress(String US_ID) {
+		return mapper.selectAddress(US_ID);
+	}
+
+	public void apdTrade(Map<String, Object> map) {
+		mapper.insertApdTrade(map);
+	}
+
 	
 
 	

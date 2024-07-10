@@ -321,7 +321,9 @@
 												<li><a href="trade">거래</a></li>
 												<li><a href="auction">경매<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
-														<li><a href="auctionRegist">경매상품등록</a></li>
+														<c:if test="${not empty sessionScope.US_ID}">
+															<li><a href="auctionRegist">경매상품등록</a></li>
+														</c:if>
 														<li><a href="auction">경매리스트</a></li>
 													</ul>
 												</li>												
