@@ -29,13 +29,18 @@ public interface OipayMapper {
 
 	int selectOiMoney(String id);
 
+	// 안전 결제 후 
 	void updatePdStatus(Map<String, String> map);
 	void updateMinusOimoney(Map<String, String> map);
 	void insertTDinfo(Map<String, String> map);
 
+	// 구매확정 후 판매자 머니 충전
 	void updatePlusOimoney(Map<String, String> map);
+	void updatePdStatus2(Map<String, String> map);
 
+	// 출금하기
 	void updateRefundOimoney(Map<String, Object> map);
+
 
 
 

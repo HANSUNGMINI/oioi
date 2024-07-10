@@ -49,4 +49,12 @@ public class CommunityService {
 		mapper.updateReadCount(cM_IDX);
 	}
 
+	public List<Map<String, String>> getReportCategory() {
+		return mapper.selectReportCategory();
+	}
+
+	public int insertReport(Map<String, String> map) {
+		return mapper.insertReport(map);
+	}
+
 }

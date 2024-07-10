@@ -42,8 +42,30 @@
 // 			window.open('connectAct', '_blank', 'width=550, height=335, left=720, top=200, resizable=no'); 
 			window.open('connectAct', '_blank', 'width=550, height=600, left=720, top=200, resizable=no'); 
 	}
-
 	
+	/* 안 읽은 메세지 개수 */
+	function getUnreadCount(){
+    	 $.ajax({
+   	        type: "get",
+   	        url: "getMyUnreadCount",
+   	        data: {
+   	            US_ID: "${sessionScope.US_ID}"
+   	        },
+   	        success: function(data){
+   	        	let US_ID = "${sessionScope.US_ID}"
+   	        	
+   	        	if(US_ID != '' && data != 0) {
+   	        		let unread = '<span class="total-count">'+ data +'</span>'
+   	        		$("#here").append(unread)
+   	        	}
+   	        	
+   	        	getMainChatList(); 
+   	        	
+   	        }
+   	    });
+    }
+	
+    
 </script>
 </head>
 <body>
@@ -222,10 +244,10 @@
 							
 							
 								<a <c:if test="${not empty sessionScope.US_ID}"> href="ChatList?US_ID=${sessionScope.US_ID}" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" </c:if> class="single-icon" >
-									<i class="bi bi-chat-text"></i>
-									<c:if test="${not empty sessionScope.US_ID}">
-										<span class="total-count">2</span>
-									</c:if>
+									<i class="bi bi-chat-text" id="here"></i>
+<%-- 									<c:if test="${not empty sessionScope.US_ID}"> --%>
+<!-- 										<span class="total-count">2</span> -->
+<%-- 									</c:if> --%>
 								</a>
 								
 								
@@ -244,29 +266,29 @@
 										</c:when>
 										<c:otherwise>
 
-											<ul class="shopping-list">
-												<li onclick="openChatting('Chatting')">
-													<%-- 사용자 이미지 --%>
-													<div class="message-avatar">
-														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-													</div>
-													<%-- 대화 내용 --%>
-													 <div class="list-item-content">
-														<h4><a href="#">닉네임1</a></h4>
-														<p class="quantity" style="padding-bottom: 0px;">대화</p>
-													</div>
-												</li>
-												<li onclick="openChatting('Chatting')">
-													<%-- 사용자 이미지 --%>
-													<div class="message-avatar">
-														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">
-													</div>
-													<%-- 대화 내용 --%>
-													 <div class="list-item-content">
-														<h4><a href="#">닉네임2</a></h4>
-														<p class="quantity" style="padding-bottom: 0px;">대화</p>
-													</div>
-												</li>
+											<ul class="shopping-list" id="showChatList">
+<!-- 												<li onclick="openChatting('Chatting')"> -->
+<%-- 													사용자 이미지 --%>
+<!-- 													<div class="message-avatar"> -->
+<!-- 														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
+<!-- 													</div> -->
+<%-- 													대화 내용 --%>
+<!-- 													 <div class="list-item-content"> -->
+<!-- 														<h4><a href="#">닉네임1</a></h4> -->
+<!-- 														<p class="quantity" style="padding-bottom: 0px;">대화</p> -->
+<!-- 													</div> -->
+<!-- 												</li> -->
+<!-- 												<li onclick="openChatting('Chatting')"> -->
+<%-- 													사용자 이미지 --%>
+<!-- 													<div class="message-avatar"> -->
+<!-- 														<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt=""> -->
+<!-- 													</div> -->
+<%-- 													대화 내용 --%>
+<!-- 													 <div class="list-item-content"> -->
+<!-- 														<h4><a href="#">닉네임2</a></h4> -->
+<!-- 														<p class="quantity" style="padding-bottom: 0px;">대화</p> -->
+<!-- 													</div> -->
+<!-- 												</li> -->
 											</ul>
 											
 											<div class="bottom">
@@ -299,7 +321,9 @@
 												<li><a href="trade">거래</a></li>
 												<li><a href="auction">경매<i class="ti-angle-down"></i></a>
 													<ul class="dropdown">
-														<li><a href="auctionRegist">경매상품등록</a></li>
+														<c:if test="${not empty sessionScope.US_ID}">
+															<li><a href="auctionRegist">경매상품등록</a></li>
+														</c:if>
 														<li><a href="auction">경매리스트</a></li>
 													</ul>
 												</li>												
@@ -337,6 +361,8 @@
     }
     
     $(document).ready(function() {
+    	getUnreadCount();
+		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
 		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');

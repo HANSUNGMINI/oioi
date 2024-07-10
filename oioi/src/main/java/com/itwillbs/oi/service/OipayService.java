@@ -81,7 +81,6 @@ public class OipayService {
 		mapper.updatePdStatus(map);
 		mapper.updateMinusOimoney(map);
 		mapper.insertTDinfo(map);
-//		mapper.updatePlusOimoney(map); // 판매자 금액 충전
 		
 	}
 	
@@ -95,6 +94,13 @@ public class OipayService {
 
 	public void updateRefundOimoney(Map<String, Object> map) {
 		mapper.updateRefundOimoney(map);
+	}
+
+	@Transactional
+	public void decidePerchase(Map<String, String> map) {
+		mapper.updatePlusOimoney(map); // 판매자 금액 충전
+		mapper.updatePdStatus2(map);
+		
 	}
 
 	

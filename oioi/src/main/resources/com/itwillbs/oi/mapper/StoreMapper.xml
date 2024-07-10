@@ -85,9 +85,12 @@
     </update>
     
 	<select id="selectReviewsByStoreId" parameterType="String" resultType="Map">
-	    SELECT RV_IDX, TO_US_ID, FROM_US_ID, RV_STAR, RV_CATEGORY, RV_CONTENT, RV_TIME, PD_IDX
-	    FROM review
-	    WHERE TO_US_ID = #{userId}
+        SELECT 
+	        r.RV_IDX, r.TO_US_ID, r.FROM_US_ID, r.RV_STAR, r.RV_CATEGORY, r.RV_CONTENT, r.RV_TIME, r.PD_IDX,
+	        p.PD_SUBJECT
+	    FROM review r
+	    JOIN product p ON r.PD_IDX = p.PD_IDX
+	    WHERE r.TO_US_ID = #{userId}
 	</select>
 	
 	<update id="deleteProductById">
@@ -102,5 +105,14 @@
         WHERE PD_IDX = #{pdId}
 	</update>
 
+	<select id="selectWishList" resultType="map">
+	    SELECT wl.WL_IDX, wl.WL_US_ID, wl.WL_PD_IDX, 
+	           p.PD_SUBJECT, p.PD_PRICE, p.PD_REG_DATE,
+	           i.image1
+	    FROM wish_list wl
+	    JOIN product p ON wl.WL_PD_IDX = p.PD_IDX
+	    LEFT JOIN images i ON p.PD_IMAGE = i.IMG_IDX
+	    WHERE wl.WL_US_ID = #{userId}
+	</select>
     
 </mapper>

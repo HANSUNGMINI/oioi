@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.oi.vo.ProductChatRoomVO;
 import com.itwillbs.oi.vo.ProductChatVO;
 
 @Mapper
@@ -33,9 +36,9 @@ public interface ChattingMapper {
 	// ----------- 채팅 ----------------
 	int createRoom(ProductChatVO chat); // 채팅룸 만들기
 	Map<String, Object> checkChatRoom(Map<String, Object> map); // 채팅룸이 있는지 확인
-	int saveChatting(Map<String, Object> map); // 채팅 대화 저장
+	int saveChatting(ProductChatVO chatMessage); // 채팅 대화 저장
 	List<Map<String, Object>> getMyChatInfo(Map map); // 채팅 목록 가져오기
-	Map<String, Object> getMyChatList(int crId); // 마지막 채팅 가져오기
+	Map<String, Object> getMyChatList(String crId); // 마지막 채팅 가져오기
 	List<Map<String, String>> getChatMsg(Map<String, Object> map); // 채팅 내역 가져오기
 	Map<String, Object> existmsg(Map<String, Object> map); // 메세지 존재하는지 확인
 	List<Map<String, Object>> getReadCount(Map<String, Object> map); // 안 읽은 메세지 개수 가져오기
@@ -43,6 +46,9 @@ public interface ChattingMapper {
 	int updateUnreadCnt(Map<String, Object> map); // 안 읽은 메세지 수가 2일 때 실행
 	int updateUnreadZero(Map<String, Object> map); // 1일 경우 실행
 	int checkChat(ProductChatVO chat); // 채팅방 있는지 확인
+	
+	// ----------------------------------------
+	Map<String, Object> getChatRoom(@Param(value = "TO_ID")String TO_ID, @Param(value = "FROM_ID")String FROM_ID, @Param(value = "PD_IDX")int PD_IDX); // 채팅방 번호 가져오기
 	
 
 

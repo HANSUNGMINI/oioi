@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slicknav.min.css">
 
 <!-- Eshop StyleSheet -->
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noneStyle.css"> --%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
@@ -68,7 +69,35 @@
         padding: 10px 20px;
         border-radius: 5px;
         margin-left: 10px; /* 버튼 사이의 좌우 마진 추가 */
+        
+        
     }
+    
+    .modal-header-community {
+	display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+	-ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #E9ECEF;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+	}
+	.modal-body-community {
+	    position: relative;
+	    -ms-flex: 1 1 auto;
+	    flex: 1 1 auto;
+	    padding: 1rem;
+	}
+	
+	.modal-dialog-community {
+    position: relative;
+    width: auto;
+    margin: 10px;
+    pointer-events: none;
+	}
 
 </style>
 <script type="text/javascript">
@@ -78,12 +107,14 @@
    var at_idx = "${apdDetail.AT_IDX}";
    var session_id = "${sessionScope.US_ID}";
    var apdStatus = "${apdDetail.APD_STATUS}";
+   var apdOwner = "${apdDetail.APD_OWNER}";
    var oiMoney = "";
-
    $(function(){
-	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09'){
+	   console.log("apdOwner" + apdOwner);
+	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09' || session_id == ""){
 	    	 $('#bidding').css('display', 'none');
 	    	 $('#auctionBuy').css('display', 'none');
+	    	 $('#apdReport').css('display', 'none');
 	    	 
 	    	 //웹소켓 연결 끊기
 	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center");
@@ -234,6 +265,7 @@
                 data : {
                    APD_IDX : apd_idx,
                    Buyer : session_id,
+                   TD_SELLER_ID : apdOwner,
                    FINAL_BID_PRICE : nowValue
                 },
                 dataType : "json",
@@ -666,63 +698,57 @@ function getOiMoney(){
                                             <div id="sessionSize">
                                             </div>
                                             
-                                            <!-- ------------------------------------------------------------ -->
-                                           <div class="modal fade" id="notify_model" tabindex="-1" role="dialog" aria-labelledby="notifyModelLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title" id="notifyModelLabel">신고하기</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="report" method="post" enctype="multipart/form-data">
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <!-- 셀렉트 박스 -->
-                    <input type="hidden" name="TO_ID" value="${sessionScope.US_ID}">
-                    <div class="form-group">
-                        <label for="deliver_category">신고할 사람</label>
-                        <select name="FROM_US_ID" id="reportUser" class="form-control" style="width: 200px;">
-                        </select>
-                    </div>
-                    <!-- 라디오박스 -->
-                    <div class="form-group">
-                        <label>신고 사유</label><br>
-                        <c:forEach var="report" items="${reportMap}">
-				      		<c:set var="i" value="${i+1}"></c:set>
-							<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
-				      	</c:forEach>
-                    </div>
-                    <!-- 파일 -->
-                    <div class="form-group">
-                        <label for="fileInput">이미지는 최대 2장 등록 가능합니다</label>
-                        <input type="file" id="fileInput" name="RP_IMG" accept=".png, .jpeg" multiple class="form-control-file">
-                    </div>
-                    <!-- 내용 입력 -->
-                    <div class="form-group">
-                        <label for="RP_CONTENT">내용을 입력하세요</label>
-                        <textarea name="RP_CONTENT" id="RP_CONTENT" class="form-control" rows="3" maxlength="300" placeholder="내용을 입력하세요"></textarea>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">신고하기</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-                </div>
-                <input type="hidden" name="TO_ID" value="${param.TO_ID}">
-                <input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
-            </form>
-        </div>
-    </div>
-</div>
-
-                                            
-                                            
-                                            
-                                            
-                                            <!-- ------------------------------------------------------------ -->
+                                        <%-- 신고하기 --%>
+										<div class="modal" id="notify_model">
+											<div class="modal-dialog-community">
+												<div class="modal-content" style="width:500px; margin:auto;">
+												<!-- Modal Header -->
+												<div class="modal-header-community">
+												<h4 class="modal-title">신고하기</h4>
+												</div>
+									      	<form action="report" method="post" enctype="multipart/form-data"  onsubmit="return validateReport()">
+									      	<input type="hidden" name="TO_ID" value="${sessionScope.US_ID}">
+										      <!-- Modal body -->
+										      <div class="modal-body-community">
+										      	  <%--신고자 select박스 --%>
+										      	    <label for="deliver_category">신고할 사람</label>
+													<select name="FROM_US_ID" id="reportUser" class="form-control" style="width: 200px;">
+													</select>
+										      	  	<br>
+											      <%-- 라디오박스 --%>
+											      	<c:forEach var="report" items="${reportMap}">
+											      		<c:set var="i" value="${i+1}"></c:set>
+														<label for="n${i}"><input type="radio" name="RP_CATEGORY" id="n${i}" value="${report.code}">  &nbsp;${report.value}</label> <br>
+											      	</c:forEach>
+													
+													<%-- 파일 --%>
+													<div style="padding:5px;">
+									                    <small>이미지는 최대 2장 등록 가능합니다</small>
+									                    
+												         <input type="file" id="fileInput" style="display: none;" name="RP_IMG" accept=".png, .jpeg" multiple>
+														<div class="preView">
+															<img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" name="reportImg" class="tempImg addImg" id="uploadTrigger">
+														</div>
+													</div>
+													
+													<%-- 내용 입력 --%>
+													<textarea placeholder="내용을 입력하세요"
+													
+													
+													 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+											  </div>
+											  
+										      <!-- Modal footer -->
+										      <div class="modal-footer">
+										        <button type="submit" class="btn btn-success">신고하기</button>
+										        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+										      </div>
+												<input type="hidden" name="TO_ID" value="${param.TO_ID}">
+												<input type="hidden" name="PD_IDX" value="${param.PD_IDX}">
+											</form>			      
+										    </div>
+										  </div>
+										</div>
                                     </div>
                                  </div>
                                  <div class="product-buy">
@@ -773,6 +799,7 @@ function getOiMoney(){
                                                     data : {
                                                        APD_IDX : APD_IDX,
                                                        Buyer : us_id,
+                                                       TD_SELLER_ID : apdOwner,
                                                        FINAL_BID_PRICE : buy_price
                                                     },
                                                     dataType : "JSON",
@@ -785,7 +812,7 @@ function getOiMoney(){
                                                  });
                                        		}
                                        </script>
-                                       <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#notify_model">신고</a>
+                                       <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" id="apdReport" data-target="#notify_model">신고</a>
                                     </div>
                                     <div class="add-to-cart" style="margin-top: 5px;">
                                        <form action="https://info.sweettracker.co.kr/tracking/5" method="post">

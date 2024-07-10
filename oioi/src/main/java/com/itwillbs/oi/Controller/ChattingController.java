@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.handler.ReportHandler;
 import com.itwillbs.oi.service.ChattingService;
+import com.itwillbs.oi.service.OipayService;
 
 @Controller
 public class ChattingController {
@@ -38,6 +39,8 @@ public class ChattingController {
 
 	@Autowired
 	private ChattingService service;
+	@Autowired
+	private OipayService payService;
 	
 	@GetMapping("ChatList")
 	public String goChatList(Model model, @RequestParam Map map) {
@@ -56,6 +59,26 @@ public class ChattingController {
 		// 1. 필요한 정보 가져오기 (from_id, to_id, cr_id, pd_idx)
 		List<Map<String, Object>> chatInfo = service.getMyChatInfo(map); 
 		
+		String US_ID = (String) map.get("US_ID");
+		
+		// FROM_ID랑 TO_ID 설정하기
+	    for (Map<String, Object> chat : chatInfo) {
+	        // seller_id와 buyer_id를 추출합니다.
+	        Object SELLER_ID = chat.get("SELLER_ID");
+	        Object BUYER_ID = chat.get("BUYER_ID");
+
+	        // 내가 판매자로 저장되어 있다면, TO_ID에 구매자 아이디
+	        if (US_ID.equals(SELLER_ID)) {
+	            chat.put("FROM_ID", SELLER_ID);
+	            chat.put("TO_ID", BUYER_ID);
+	        } else {
+	        	chat.put("FROM_ID", BUYER_ID);
+	        	chat.put("TO_ID", SELLER_ID);
+	        }
+	        
+	    }
+		
+		
 		// 2. 마지막 대화 및 시간 가져오기
 		List<Map<String, Object>> chatList =  new LinkedList<>();
 		List<Map<String, Object>> cnt = new LinkedList<>();
@@ -63,7 +86,7 @@ public class ChattingController {
 		for (Map<String, Object> chatContent : chatInfo) {
 			
             // CR_ID 값을 가져오기
-            int crId = (int) chatContent.get("CR_ID");
+			String crId = (String) chatContent.get("CR_ID");
             map.put("crId", crId);
             Map<String, Object> list = service.getMyChatList(crId);
 
@@ -82,6 +105,7 @@ public class ChattingController {
 		
 		System.out.println("유저 채팅방 정보 >> " + chatInfo);
 		System.out.println("대화 정보 >> " + chatList);
+
 		
 		// 두개 합치기
 		List<Map<String, Object>> combinedList = new LinkedList<>();
@@ -102,7 +126,8 @@ public class ChattingController {
 	@GetMapping("Chatting")
 	public String goChatting(Model model, @RequestParam Map<String, Object> map) {
 		
-		System.out.println(">>>> map " + map);
+		System.out.println(map);
+		
 		
 		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
@@ -112,30 +137,12 @@ public class ChattingController {
 			return "err/fail";
 		}
 		
-		// 가져올 정보
-		// 만약, TO_ID = US_ID --> FROM_ID가 상대방
-		// 만약, FROM_ID = US_ID --> TO_ID가 상대방
+		// 당연히 상대반은 TO_ID
+		// 메세지 보내는 당시에 나(= 세션 아이디)는 FROM_ID
 		
 		String TO_ID = (String) map.get("TO_ID");
 		String FROM_ID = (String) map.get("FROM_ID");
 		String sId = (String) map.get("US_ID");
-		String other = "";
-		
-		System.out.println(FROM_ID);
-		
-		if(FROM_ID != null) {
-			if(TO_ID.equals(sId)) {
-				other = FROM_ID;
-			} else if (FROM_ID.equals(sId)) {
-				other = TO_ID;
-			}
-		} else {
-			other = TO_ID;
-		}
-		
-		map.put("other", other);
-		System.out.println(other);
-		System.out.println(">>>> 추가 후 map " + map);
 		
 		// 상품 정보 가져오기
 		Map<String, String> pdInfo = service.getProductInfo(map);
@@ -149,51 +156,27 @@ public class ChattingController {
 		Map<String, String> myInfo = service.getMyInfo(map);
 		System.out.println("내 정보 " + myInfo);
 		
-		// 채팅방 있는지 체크 및 채팅방 번호 가져오기
-		System.out.println("map ?! " + map);
-		Map<String, Object> chatRoom = service.checkChatRoom(map);
-		System.out.println("채팅방 번호 " +chatRoom);
-		
-		Map<String, Object> existMsg = new HashMap<String, Object>();
-		
-		if(chatRoom != null ) {
-			 map.put("CR_ID", (int) chatRoom.get("CR_ID"));
-			 existMsg = service.existMsg(map);
-			 System.out.println(existMsg);
-		}
-		
-		// 안 읽은 회수 차감
-//		int updateCnt = service.updateUnreadCnt(map);
-		
-		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
 		
 		// 신고 카테고리 불러오기
 		List<Map<String, String>> reportMap = service.getReportCategory();
-
+		
 		// 리뷰 내역 있는지 확인
 		int existReview = service.selectReview(map);
+		
 		if(existReview < 1) {
 			pdInfo.put("existReview", "no");
 		}
 		
-		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
-		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
-		System.out.println("운송장 있는 지 -->" + deliveryInfo);
+		System.out.println("리뷰 내역 : " + existReview);
 		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
 		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
-		model.addAttribute("deliveryInfo", deliveryInfo); // 운송장 등록 여부
-		
-		model.addAttribute("chatRoom", chatRoom); // 채팅방 체크 및 번호
-		model.addAttribute("existMsg", existMsg); // 채팅방 안에 메세지 존재하는지 확인
-		
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
-		
 		
 		return "chatting/chattingRoom";
 	}
@@ -214,25 +197,12 @@ public class ChattingController {
 	@ResponseBody
 	@GetMapping("getChatList")
 	public List<Map<String, String>> getChatList(@RequestParam Map<String, Object> map, Model model) {
-		System.out.println("아무것도 없으? "+  map);
+		System.out.println("아무것도 없으? "+  map); // {TO_ID=siyun_9094, FROM_ID=soeunee1, CR_ID=61667950, US_ID=soeunee1, PD_IDX=80}
 		List<Map<String, String>> chatMsg = service.getChatMsg(map);
 		System.out.println("채팅방 메세지들 " + chatMsg);
 		
 		model.addAttribute("chatMsg", chatMsg);
 		return chatMsg;
-	}
-	
-	// 채팅 저장
-	@ResponseBody
-	@PostMapping("saveChatMsg") 
-	public String saveChatMsg(@RequestParam Map<String, Object> map) {
-		System.out.println("채팅 저장 map : " + map); // {type=TALK, TO_ID=sunghoon1234, FROM_ID=soeunee1, CR_ID=4616, msg=ㅎㅇ, PD_IDX=78}
-		
-		if(!map.get("msg").equals("")) {
-			int saveChatCnt = service.saveChatting(map);
-		}
-		
-		return "false";
 	}
 	
 	@PostMapping("report")
@@ -324,7 +294,12 @@ public class ChattingController {
 	// 판매 완료
 	@GetMapping("tradeDecide")
 	public String goTradeDecide(@RequestParam Map<String, String> map, Model model) {
-		System.out.println("판매완료 map : " + map);
+//		System.out.println("판매완료 map : " + map);
+		
+		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
+		Map<String, Object> product = payService.selectTradePDInfo(PD_IDX);
+		map.put("PD_PRICE", product.get("PD_PRICE").toString());
+		payService.decidePerchase(map);
 		
 		return "";
 	}
@@ -332,7 +307,7 @@ public class ChattingController {
 	// 리뷰 작성
 	@PostMapping("reviewWrite")
 	public String goReviewWrite(@RequestParam Map<String, String> map, Model model) {
-//		System.out.println("리뷰 작성 map : " + map);
+		System.out.println("리뷰 작성 map : " + map);
 
 		int successCnt = service.insertReview(map);
 		

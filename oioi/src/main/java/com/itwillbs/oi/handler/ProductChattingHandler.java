@@ -1,10 +1,12 @@
 package com.itwillbs.oi.handler;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.reflection.SystemMetaObject;
@@ -20,8 +22,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.service.ChattingService;
+import com.itwillbs.oi.vo.ProductChatRoomVO;
 import com.itwillbs.oi.vo.ProductChatVO;
-
 
 
 public class ProductChattingHandler extends TextWebSocketHandler{
@@ -31,10 +33,6 @@ public class ProductChattingHandler extends TextWebSocketHandler{
 	
         private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); // 현재 들어와 있는 세션 정보 
         private Map<String, String> userSessions = new ConcurrentHashMap<String, String>(); // 저장된 세션 정보들
-//        private Map<String, String> chatRooms = new ConcurrentHashMap<>();
-//        private Map<String, String> roomUser = new ConcurrentHashMap<String, String>();
-        private Map<String, Map<String, String>> chatRooms = new ConcurrentHashMap<>();
-        
         private Gson gson = new Gson();
         
         //커넥션이 연결 됫을때(접속을 성공했을때마다)
@@ -58,58 +56,83 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             String jsonMsg = message.getPayload();
             System.out.println("전송받은 메세지의 payload : " + jsonMsg); // {"type":"TALK","msg":"ㅎㅇ"} 
 
-            ProductChatVO chat = gson.fromJson(jsonMsg, ProductChatVO.class); 
-
-            System.out.println("chat >>> " + chat);
-            sendMessage(session, chat);
+            ProductChatVO chatMessage = gson.fromJson(jsonMsg, ProductChatVO.class);
+            System.out.println("수신된 메세지 : " + chatMessage);
             
-        }
-        
-        // 각 웹소켓 세션들에게 메세지 전송
-        public void sendMessage(WebSocketSession session, ProductChatVO chat) {
-        	
-            // 각 세션에 메세지 전송
-            for(WebSocketSession ws : users.values()) {
+            String FROM_ID = chatMessage.getFROM_ID();
+            String TO_ID = chatMessage.getTO_ID();
+            int PD_IDX = chatMessage.getPD_IDX();
+            
+            // 수신된 메세지 타입 판별
+            if(chatMessage.getType().equals(ProductChatVO.TYPE_INIT)) { // 채팅 페이지 초기 진입 메세지
+            	// 기존의 채팅방 목록 조회 후 목록 전송
+            	sendMessage(session, chatMessage, true);
             	
-            	if(chat.getType().equals("INIT") && chat.getCR_ID().equals("")) {
-        			createRoom(session, chat);
+            } else if(chatMessage.getType().equals(ProductChatVO.TYPE_INIT_COMPLETE)){
+            	
+            	// 1. 채팅방 존재 여부 확인
+            	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+            	
+            	if(chatRoom == null) {
+            		System.out.println("채팅방 x ");
+            		GenerateRandomCode code = new GenerateRandomCode();
+            		// 채팅방 생성
+            		chatMessage.setCR_ID(code.getRandomCode(8).toString());
+            		
+            		// DB 저장
+            		List<ProductChatRoomVO> chatRoomList = new ArrayList<ProductChatRoomVO>();
+					chatRoomList.add(new ProductChatRoomVO(chatMessage.getCR_ID(), TO_ID , FROM_ID, PD_IDX));
+					service.createRoom(chatMessage);
+					
+					// chatMessage에 message에 '' 설정
+					chatMessage.setMsg("");
+					chatMessage.setType(ProductChatVO.TYPE_START);
+					sendMessage(session, chatMessage, false);
+					  
+            	} else { // 채팅방 있을 경우
+            		
+            		// 채팅 내역 출력
+            		System.out.println("채팅방 있음");
+            		
+            		// msg에 US_ID 넣기 (꼼수)
+            		chatMessage.setCR_ID((String) chatRoom.get("CR_ID"));
+            		chatMessage.setFROM_ID(FROM_ID);
+            		chatMessage.setTO_ID(TO_ID);
+            		chatMessage.setPD_IDX(PD_IDX);
+            		chatMessage.setMsg(session.getAttributes().get("US_ID").toString());
+            		chatMessage.setType(ProductChatVO.TYPE_SHOW_CHATMESSAGE);
+            		
+            		sendMessage(session, chatMessage, true);
             	}
             	
-                if(!ws.getId().equals(session.getId())) {
-                    // [1. 메세지 타입 판별]
-                	
-                    // send() 메서들 호출하여 메세지 전송 --> ChatMessageVO 객체를 JSON 문자열 형식으로 변환 후 전송
-                    // ( Gson 객체의 toJson() 메서드 활용)
-                    try { ws.sendMessage(new TextMessage(gson.toJson(chat))); } catch (IOException e) {e.printStackTrace();}
-                }
+            } else if (chatMessage.getType().equals(ProductChatVO.TYPE_TALK)) {
+            	// 채팅방 번호 가져오기
+            	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+            	
+            	// 채팅방 번호 저장 
+            	chatMessage.setCR_ID((String)chatRoom.get("CR_ID"));
+            	System.out.println("VO에 저장된 메세지 : " + chatMessage); // ProductChatVO(type=TALK, msg=하이, TO_ID=siyun_9094, FROM_ID=soeunee1, PD_IDX=80, CR_ID=61667950)
+            	
+            	// 저장하기
+            	int saveCnt = service.saveChatting(chatMessage);
+            	
+            	// System.out.println("저장이 됐나 : " + saveCnt);
+            	
             }
         }
         
-        // 채팅방 만들기
-        private void createRoom(WebSocketSession session, ProductChatVO chat) {
-        	GenerateRandomCode code = new GenerateRandomCode();
+        // 각 웹소켓 세션들에게 메세지 전송
+        public void sendMessage(WebSocketSession session, ProductChatVO chat, boolean isToSender) throws Exception{
         	
-			chat.setCR_ID(code.getRandomCode(4));
-			chat.setFROM_ID((String)session.getAttributes().get("US_ID"));
-			
-		    Map<String, String> roomDetails = new ConcurrentHashMap<>();
-		    roomDetails.put("TO_ID", chat.getTO_ID());
-		    roomDetails.put("FROM_ID", chat.getFROM_ID());
-		    roomDetails.put("PD_IDX", chat.getPD_IDX());
-		    
-		    int chatRoom = service.checkChat(chat);
-    		System.out.println("채팅방 몇 개 ..? "+ chatRoom);
-    		
-    		if(chatRoom < 1) {
-    			roomDetails.put("CR_ID", chat.getCR_ID());
-    			int createCnt = service.createRoom(chat);
+        	if(isToSender) { // 송신자에게 전송하는 메세지
+    			session.sendMessage(new TextMessage(gson.toJson(chat)));
+    		} else { // 수신자에게 전송하는 메세지
     			
-    			chatRooms.put(chat.getCR_ID(), roomDetails);
-    			System.out.println("챗룸 > " + chatRooms);
+    			for(WebSocketSession ws : users.values()) {
+    			}
+    			
     		}
-		}
-
-        
+        }
 
 		// 파일 업로드
         @Override

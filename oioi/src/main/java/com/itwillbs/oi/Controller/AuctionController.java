@@ -311,7 +311,9 @@ public class AuctionController {
 	   //경매상품 상태 변경 / oi머니 차감 같이
 	   int buySuccess = service.apdBuyStatus(map);
 	   
-	   
+	   //주소 가져오기
+	   String address = service.getAddress((String) map.get("Buyer"));
+	   System.out.println("address : " + address);
 	   if(buySuccess > 0) {
 		   //경매 테이블 갱신(기록을 위해)
 		   map.put("FINAL_BID_USER", map.get("Buyer"));
@@ -321,6 +323,10 @@ public class AuctionController {
 		   //입찰테이블 추가(기록을 위해)
 		   service.insertBid(map);
 		   System.out.println("입찰 성공");
+		   
+		   //trade에 추가
+		   map.put("TD_BUYER_ADDRESS", address);
+		   service.apdTrade(map);
 		   
 		   
 		   response.put("message", "즉시 구매가 완료되었습니다");

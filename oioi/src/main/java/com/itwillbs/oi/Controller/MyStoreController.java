@@ -68,8 +68,7 @@ public class MyStoreController {
                           @CookieValue(value = "storeVisit", defaultValue = "false") String storeVisit,
                           HttpServletResponse response) {
         String userId = (String) map.get("userId");
-
-        System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ" + storeVisit );
+        
         
         Map<String, String> user = userService.selectMyUser(userId);
         if (user == null) {
@@ -82,8 +81,10 @@ public class MyStoreController {
             storeService.VisitCount(userId);
             Cookie cookie = new Cookie("storeVisit", "true");
             cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 1일
+            cookie.setPath("/"); // 모든 경로에서 유효하도록 설정
             response.addCookie(cookie);
         }
+        
         int salesCount = storeService.getSalesCount(userId);
         model.addAttribute("salesCount", salesCount);
         
@@ -137,6 +138,20 @@ public class MyStoreController {
 
         model.addAttribute("user", user);
         model.addAttribute("myPD", productList);
+        
+        // 찜 리스트 추가
+        List<Map<String, Object>> wishList = storeService.getWishListByUserId(userId).stream()
+            .map(wish -> {
+                String dateString = (String) wish.get("PD_REG_DATE");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                LocalDateTime regDate = LocalDateTime.parse(dateString, formatter);
+
+                String timeAgo = dateTimeAgo(regDate);
+                wish.put("timeAgo", timeAgo);
+                return wish;
+            }).collect(Collectors.toList());
+
+        model.addAttribute("wishList", wishList);
 
         return "myStore/my_store";
     }

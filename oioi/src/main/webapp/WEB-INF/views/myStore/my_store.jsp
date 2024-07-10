@@ -284,6 +284,18 @@
             border-radius: 5px;
             font-size: 0.9em;
         }
+
+        /* 스타일링 추가 */
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .product-name:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body class="js">
@@ -387,7 +399,13 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div id="product-header">
-                                                        <h5>상품 ${fn:length(myPD)}</h5>
+                                                        <c:set var="count" value="0"/>
+                                                        <c:forEach var="product" items="${myPD}">
+                                                            <c:if test="${product.PD_STATUS ne 'PDS04'}">
+                                                                <c:set var="count" value="${count + 1}"/>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        <h5>상품 ${count}</h5>
                                                         <c:if test="${user.US_ID eq sessionScope.US_ID}">
                                                             <a href="product" class="cucumber-button">상품등록</a>
                                                         </c:if>
@@ -441,7 +459,6 @@
                                                     </c:if>
                                                     <c:forEach var="review" items="${reviews}">
                                                         <div class="review-item">
-                                                            <img src="${review.FROM_US_PROFILE}" alt="${review.FROM_US_ID}">
                                                             <div class="review-content">
                                                                 <div>
                                                                     <strong>${review.FROM_US_ID}</strong>
@@ -455,7 +472,14 @@
                                                                     </div>
                                                                 </div>
                                                                 <div>
-                                                                    <a href="productDetail?PD_IDX=${review.PD_IDX}">${review.PD_SUBJECT}</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${empty review.PD_SUBJECT}">
+                                                                            <span class="product-name">상품명을 불러올 수 없습니다.</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a href="productDetail?PD_IDX=${review.PD_IDX}" class="product-name">${review.PD_SUBJECT}</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <p>${review.RV_CONTENT}</p>
                                                                 <div class="review-categories">
@@ -472,21 +496,47 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="choice" role="tabpanel">
-                                        <div class="tab-single">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="single-des">
-                                                        <h5>찜 0</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="single-des">
-                                                        <p>찜한 상품이 없습니다.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+									<!-- my_store.jsp -->
+									<div class="tab-pane fade" id="choice" role="tabpanel">
+									    <div class="tab-single">
+									        <div class="row">
+									            <div class="col-12">
+									                <div class="single-des">
+									                    <h5>찜 ${fn:length(wishList)}</h5>
+									                </div>
+									                <hr>
+									                <c:if test="${empty wishList}">
+									                    <div class="single-des">
+									                        <p>찜한 상품이 없습니다.</p>
+									                    </div>
+									                </c:if>
+									                <div class="product-grid">
+									                    <c:forEach var="wish" items="${wishList}">
+									                        <div class="product-item container">
+									                            <a href="productDetail?PD_IDX=${wish.WL_PD_IDX}">
+									                                <c:choose>
+									                                    <c:when test="${not empty wish.image1}">
+									                                        <img src="<%= request.getContextPath() %>/resources/upload/${wish.image1}" alt="${wish.PD_SUBJECT}" class="image">
+									                                    </c:when>
+									                                    <c:otherwise>
+									                                        <img src="<%= request.getContextPath() %>/resources/images/default.jpg" alt="${wish.PD_SUBJECT}" class="image">
+									                                    </c:otherwise>
+									                                </c:choose>
+									                                <div class="product-details">
+									                                    <p>${wish.PD_SUBJECT}</p>
+									                                    <div class="product-info-bottom">
+									                                        <div class="product-price">${wish.PD_PRICE} 원</div>
+																			<div class="product-date">${wish.timeAgo}</div>									                                    </div>
+									                                </div>
+									                            </a>
+									                        </div>
+									                        <hr>
+									                    </c:forEach>
+									                </div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -602,6 +652,76 @@
                 });
             }
         });
+    </script>
+    <script>
+    
+ 	// 숫자를 원 단위로 포맷하는 함수 정의
+    function formatCurrency(num) {
+        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(num);
+    }
+    
+    $(document).ready(function() {
+   	 	var contextPath = '<%= request.getContextPath() %>';
+//         var socket = new WebSocket('ws://localhost:8081/oi/push');
+		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
+        socket.onopen = function() {
+            console.log("웹소켓 연결 성공");
+        };
+        
+        socket.onmessage = function(event) {
+            try {
+                var data = JSON.parse(event.data);
+                if (data.msg === "registAPD") {
+                    var item = data.item;
+                    
+                    // 알림 메시지 추가
+                    $('#notification-push').html('<span>새로운 경매정보가 도착하였습니다. <br> 지금 바로 참여해보세요!</span>');
+                    // 이미지 경로 설정
+                	var imagePath = contextPath + '/resources/upload/' + item.APD_IMAGE;
+
+                    var notificationItem = 
+                        '<li data-apd-idx="' + item.APD_IDX + '" class="notification-item">' +
+                        '<a class="cart-img" href="#"><img src="' + imagePath + '" alt="#"></a>' +
+                        '<h4 style="font-size: 90%;">제품명: ' + item.APD_NAME + '<br>' +
+                        '시작가 : ' + formatCurrency(item.APD_START_PRICE) + '<br>' +
+                        '즉시 구매가 : ' + formatCurrency(item.APD_BUY_NOW_PRICE) +
+                        '</h4>' +
+                        '</li>';
+                        
+                    $('#notification-list').append(notificationItem);
+
+                    // 알림 아이콘에 카운트 추가
+                    var icon = $('#notification-icon');
+                    var count = $('<span class="total-count">!</span>'); // 알림 카운트 생성
+                    icon.after(count); // 알림 카운트 추가
+
+                }
+            } catch (e) {
+                console.error("메시지 파싱 오류:", e, event.data);
+            }
+        };
+
+        socket.onerror = function(error) {
+            console.error("웹소켓 오류 발생:", error);
+        };
+
+        socket.onclose = function(event) {
+            console.log("웹소켓 연결 종료", event);
+        };
+
+        $('#clear-notifications').on('click', function() {
+            $('#notification-list').empty();
+            $('#notification-icon').next('.total-count').remove(); // 알림 카운트 제거
+            $('#notification-push').empty(); // 알림 메시지 제거
+        });
+        
+     	// 알림 항목 클릭 시 상세 페이지로 이동
+        $('#notification-list').on('click', '.notification-item', function() {
+            var apdIdx = $(this).data('apd-idx');
+            window.location.href = 'auctionDetail?APD_IDX=' + apdIdx;
+        });
+    });
+
     </script>
 </body>
 </html>

@@ -42,5 +42,13 @@ public class SearchService {
 		return mapper.getSearchProducts(map);
 	}
 
+	public int getMyUnreadCount(Map map) {
+		return mapper.getMyUnreadCount(map);
+	}
+
+	public List<Map<String, Object>> getMainChatList(Map map) {
+		return mapper.getMainChatList(map);
+	}
+
 	
 }

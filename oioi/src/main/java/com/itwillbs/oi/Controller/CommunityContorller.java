@@ -110,7 +110,7 @@ public class CommunityContorller {
 	}
 	
 	@GetMapping("communityWrite") // 게시글 작성 페이지 이동
-	public String communityWrite(HttpSession session, Model model) {
+	public String communityWrite(HttpSession session, Model model, HttpServletRequest request) {
 		
 //		if(session.getAttribute("US_ID") == null) {
 //			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
@@ -122,7 +122,12 @@ public class CommunityContorller {
 //			return "err/fail";
 //		}
 		
+		
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
+			return "err/fail";
+		}
+		
+		if(!CheckAuthority.checkStatus(session, model, request)) {
 			return "err/fail";
 		}
 		
@@ -298,9 +303,11 @@ public class CommunityContorller {
         }
 		
         map = service.selectBoardDetail(CM_IDX);
+        List<Map<String, String>> reportMap = service.getReportCategory();
         
-		model.addAttribute("boardDetail", map);
-		
+        model.addAttribute("boardDetail", map);
+		model.addAttribute("reportMap", reportMap);
+        
 		return "community/board_detail";
 	}
 	
@@ -348,6 +355,27 @@ public class CommunityContorller {
 		}
 		
 		return "redirect:/community";
+	}
+	
+	@PostMapping("cm_report")
+	public String reportUser(@RequestParam Map<String, String> map, Model model, HttpSession session) {
+//		System.out.println("report(map) : " + map);
+		
+        // 신고자 아이디 및 피신고자 아이디 저장
+        map.put("FROM_US_ID", (String)session.getAttribute("US_ID"));
+        
+        // DB 저장하기
+        int insertCount = service.insertReport(map);
+				
+        if(insertCount < 1) {
+        	model.addAttribute("msg","신고 접수 실패하셨습니다. \\n 다시 시도해 주세요");
+			return "err/fail";
+        } else {
+        	model.addAttribute("msg", "신고 접수 완료되었습니다");
+        	model.addAttribute("notify", true);
+        	return "err/success";
+        }
+        
 	}
 }
 

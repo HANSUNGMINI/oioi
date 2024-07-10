@@ -37,7 +37,7 @@ public class SearchController {
 	@ResponseBody
 	@GetMapping("SaveSearchKeyword")
 	public String saveSearchKeyword(@RequestParam Map<String, String> map) {
-		System.out.println(">>>>>> 검색해서 이동한 키워드 : " + map);
+		//System.out.println(">>>>>> 검색해서 이동한 키워드 : " + map);
 
 		if ((String)map.get("keyword") == "") {
 			return "";
@@ -45,7 +45,7 @@ public class SearchController {
 		
 		// 중복된 키워드 있는지 확인
 		int duplicateNum = service.duplicateKeyword(map); 
-		System.out.println(">>>>>" + duplicateNum);
+		//System.out.println(">>>>>" + duplicateNum);
 		
 		if(duplicateNum < 1) {
 			// 키워드 넣기
@@ -65,7 +65,7 @@ public class SearchController {
 		
 		// 모든 정보 가져오기
 		List<Map<String, Object>> popularList = service.getPopularKeyword();
-		System.out.println(">>>>>>>>>>>>>"+ popularList);
+		//System.out.println(">>>>>>>>>>>>>"+ popularList);
 		model.addAttribute("popularList",popularList);
 		
 		return popularList;
@@ -82,13 +82,32 @@ public class SearchController {
 	@ResponseBody
 	@GetMapping("researchProductList")
 	public List<Map<String, Object>> goResearch(@RequestParam Map map, Model model) {
-		System.out.println("실행이 왜 안됨");
-		System.out.println("넘어오나 " + map);
+		//System.out.println("넘어오나 " + map);
 		List<Map<String, Object>> productList = service.getSearchProducts(map);
-		System.out.println(productList);
+		//System.out.println(productList);
 		model.addAttribute("productList", productList);
 		
 		return productList;
 	}
+	
+	// 안 읽은 메세지 개수 가져오기
+	@ResponseBody
+	@GetMapping("getMyUnreadCount")
+	public int getMyUnreadCount(@RequestParam Map map, Model model) {
+		
+		// 안 읽은 메세지 개수 가져오기
+		int unread = service.getMyUnreadCount(map);
 
+		return unread;
+	}
+	
+	@ResponseBody
+	@GetMapping("getMyMainChatList")
+	public List<Map<String, Object>> getMyMainChatList(@RequestParam Map map, Model model) {
+		
+		// 대화내용 두 개만 가져오기
+		List<Map<String, Object>> mainChatList= service.getMainChatList(map);
+		
+		return mainChatList;
+	}
 }
