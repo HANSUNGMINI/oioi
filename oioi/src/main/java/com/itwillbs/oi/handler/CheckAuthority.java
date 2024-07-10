@@ -1,8 +1,9 @@
 package com.itwillbs.oi.handler;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.itwillbs.oi.service.UserService;
@@ -10,12 +11,14 @@ import com.itwillbs.oi.service.UserService;
 import lombok.Data;
 
 @Data
+@Component
 public class CheckAuthority {
+	
 	
 	// 상수 만들어 놓기
 	public final static String MAIN = "./";
 	public final static String LOGIN = "login";
-
+	
 	
 	/**
 	 * 유저 확인 메소드 <br>
@@ -35,9 +38,24 @@ public class CheckAuthority {
 			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
 			return false;
 		} 
+		
 		//  전부통과면 맞다면 true 리턴
 		return true;
 	}
+	
+	public static boolean checkStatus(HttpSession session, Model model, HttpServletRequest request) {
+		if(!request.getServletPath().equals("/myPage")) {
+			String id = (String)session.getAttribute("US_ID");
+			UserService userService = new UserService();
+			if(userService.selectStatus(id).equals("US03")) {
+				model.addAttribute("msg", "미입력 정보를 입력해주세요");
+				model.addAttribute("targetURL", "myPage");
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	
 	/**
 	 * 유저 확인 메소드 <br>
@@ -61,6 +79,8 @@ public class CheckAuthority {
 		
 		return true;
 	}
+	
+	
 	
 	// ===============================================관리자
 	

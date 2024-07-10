@@ -110,7 +110,7 @@ public class CommunityContorller {
 	}
 	
 	@GetMapping("communityWrite") // 게시글 작성 페이지 이동
-	public String communityWrite(HttpSession session, Model model) {
+	public String communityWrite(HttpSession session, Model model, HttpServletRequest request) {
 		
 //		if(session.getAttribute("US_ID") == null) {
 //			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
@@ -122,7 +122,12 @@ public class CommunityContorller {
 //			return "err/fail";
 //		}
 		
+		
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
+			return "err/fail";
+		}
+		
+		if(!CheckAuthority.checkStatus(session, model, request)) {
 			return "err/fail";
 		}
 		

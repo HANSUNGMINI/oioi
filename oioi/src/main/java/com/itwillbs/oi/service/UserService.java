@@ -2,6 +2,8 @@ package com.itwillbs.oi.service;
 
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,16 @@ public class UserService {
 	@Autowired
 	private UserMapper mapper;
 	
+	private static UserMapper staticMapper;
+	
+	@PostConstruct
+    public void init() {
+        staticMapper = this.mapper;
+    }
 	
 	public int registUser(Map<String, Object> resultMap) {
 		return mapper.registUser(resultMap);
 	}
-	
 	
 	public Map<String, Object> loginOrRegister(Map<String, Object> userInfo) throws Exception {
         String userId = (String) userInfo.get("US_ID");
@@ -152,8 +159,9 @@ public class UserService {
 		return mapper.updateText(userId, editText) > 0;
 	}
 	
+	
 	public String selectStatus(String id) {
-		return mapper.selectStatus(id);
+		return staticMapper.selectStatus(id);
 	}
 	
 }

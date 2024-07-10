@@ -363,7 +363,6 @@
              , c3.value as APD_CONDITION
              , ap.APD_START_PRICE
              , ap.APD_BUY_NOW_PRICE
-             , ap.APD_DELIVERY
              , img.image1
              , img.image2
              , img.image3
