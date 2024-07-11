@@ -42,22 +42,22 @@ CREATE TABLE bank_user_info (
 	<!-- 아이디가 일치하는 레코드의 access_token, refresh_token, user_seq_no 값 수정 -->
 	<update id="updateAccessToken">
 		UPDATE bank_user_info
-		SET
-			BUI_ACCESS_TOKEN = #{token.access_token}
-			, BUI_REFRESH_TOKEN = #{token.refresh_token}
-			, BUI_USER_SEQ_NO = #{token.user_seq_no}
-		WHERE
-			BUI_ID = #{id}
+		   SET BUI_ACCESS_TOKEN = #{token.access_token}
+			 , BUI_REFRESH_TOKEN = #{token.refresh_token}
+			 , BUI_USER_SEQ_NO = #{token.user_seq_no}
+		 WHERE 1 = 1
+		   AND BUI_ID = #{id}
 	</update>
 	
 	<select id="selectBankAccessToken" resultType="string">
 		SELECT BUI_ACCESS_TOKEN
-		FROM bank_user_info
-		WHERE BUI_ID = #{userId}
+	      FROM bank_user_info
+		 WHERE BUI_ID = #{userId}
 	</select>
 	
 	<select id="selectBankUserInfo" resultType="map">
-		SELECT bui.* , u.US_OIMONEY 
+		SELECT bui.* 
+			 , u.US_OIMONEY 
 		FROM bank_user_info bui JOIN `user` u
 		ON bui.BUI_ID = u.US_ID 
 		WHERE BUI_ACCESS_TOKEN = #{access_token}
@@ -153,26 +153,6 @@ CREATE TABLE bank_user_info (
 		WHERE id = 'admin'
 	</select>
 	
-	<!-- 관리자 엑세스토큰 정보 등록 - INSERT -->
-	<!-- id 는 "admin" 고정, 전달받은 엑세스토큰만 추가 -->
-	<insert id="insertAdminToken">
-		INSERT INTO bank_user_info
-		VALUES (
-			'admin'
-			, #{access_token}
-			, null
-			, null
-			, null
-		);
-	</insert>
-	
-	<!-- 관리자 엑세스토큰 정보 갱신 - UPDATE -->
-	<!-- WHERE 절의 id 는 "admin" 고정, 전달받은 엑세스토큰만 갱신 -->
-	<update id="updateAdminToken">
-		UPDATE bank_user_info
-		SET access_token = #{access_token}
-		WHERE id = 'admin';
-	</update>
 	
 <!-- 	<select id="selectBankUserInfo" resultType="bankUserInfo"> -->
 <!-- 		SELECT * -->
