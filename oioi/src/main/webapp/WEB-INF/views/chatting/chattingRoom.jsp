@@ -194,8 +194,18 @@
     // 메세지 보낼 때
     function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
     	
-		if(type == "TALE") {
+		if(type == "TALK") {
+			
+			if (msg == "") {
+				$("#textMsg").focus();
+				return;
+			}
+			
 			appendMessage(msg,"right","other");
+			
+			// 채팅창 초기화 및 포커스 요청
+			$("#textMsg").val("");
+			$("#textMsg").focus();
 		}
 		
 		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
