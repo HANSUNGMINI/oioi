@@ -59,8 +59,6 @@
    	        		$("#here").append(unread)
    	        	}
    	        	
-   	        	getMainChatList(); 
-   	        	
    	        }
    	    });
     }
@@ -362,6 +360,7 @@
     
     $(document).ready(function() {
     	getUnreadCount();
+    	getMainChatList();
 		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
@@ -424,6 +423,7 @@
         });
     });
 
+    
     </script>
 	<script src="${pageContext.request.contextPath}/resources/js/auction/notify.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/topSearch.js"></script>

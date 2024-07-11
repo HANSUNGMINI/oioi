@@ -113,7 +113,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	chatMessage.setCR_ID((String)chatRoom.get("CR_ID"));
             	System.out.println("VO에 저장된 메세지 : " + chatMessage); // ProductChatVO(type=TALK, msg=하이, TO_ID=siyun_9094, FROM_ID=soeunee1, PD_IDX=80, CR_ID=61667950)
             	
-            	// 저장하기
+            	// DB에 채팅 메세지 저장하기
             	int saveCnt = service.saveChatting(chatMessage);
             	
             	// System.out.println("저장이 됐나 : " + saveCnt);

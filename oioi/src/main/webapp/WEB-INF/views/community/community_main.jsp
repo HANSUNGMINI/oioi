@@ -309,7 +309,7 @@
 						            		<option value="CM_CONTENT"<c:if test="${param.searchType eq 'CM_CONTENT'}">selected</c:if>>내용</option>
 						            	</select>
 						                <input type="text" class="form-control" placeholder="검색어 입력" name="searchKeyword">
-						                <button value="search" type="submit" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
+						                <button value="search" type="button" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
 						            </form>
 						        </div>
 						    </div>
