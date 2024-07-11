@@ -52,6 +52,8 @@
             , #{PD_TAG3} -- PD_TAG3
             , #{PD_TAG4} -- PD_TAG4
             , #{PD_TAG5} -- PD_TAG5
+            , (SELECT US_LAT FROM user WHERE US_ID = #{US_ID})
+            , (SELECT US_LNG FROM user WHERE US_ID = #{US_ID})
         );
 	</insert>
 	
@@ -60,7 +62,7 @@
 		FROM product p 
 		JOIN images i
 		ON p.PD_IMAGE = i.IMG_IDX
-		ORDER BY PD_IDX DESC ;
+		ORDER BY PD_IDX DESC 
 	</select>
 	
 <!-- 	<select id="selectProductInfo" resultType="hashmap"> -->
@@ -214,18 +216,30 @@
 	        category c1 ON c2.UP_CTG_CODE = c1.CTG_CODE
 	    WHERE  
 <!-- 	     1=1 -->
-			PD_STATUS = 'PDS01'
-       		OR PD_STATUS = 'PDS02'
-       		OR PD_STATUS = 'PDS03'
+			(PD_STATUS = 'PDS01' OR PD_STATUS = 'PDS02' OR PD_STATUS = 'PDS03')
        		
 	        <if test="params.cate1 != null and params.cate1 != ''">
 	            AND c1.CTG_CODE = #{params.cate1}
 	        </if>
+	        
 	        <if test="params.cate2 != null and params.cate2 != ''">
 	            AND c2.CTG_CODE = #{params.cate2}
 	        </if>
+	        
 	        <if test="params.cate3 != null and params.cate3 != ''">
 	            AND c3.CTG_CODE = #{params.cate3}
+	        </if>
+	        
+	        <if test="params.RANGE != 0">
+	        	<![CDATA[
+	        	AND ST_Distance_Sphere(
+			        	POINT (
+			        		  (SELECT US_LNG FROM user WHERE US_ID = #{params.US_ID}), 
+			                  (SELECT US_LAT FROM user WHERE US_ID = #{params.US_ID})
+			            ),
+			        	POINT(p.PD_LNG, p.PD_LAT)
+			        ) < #{params.RANGE}
+			    ]]>    
 	        </if>
 	    ORDER BY 
 			<choose>

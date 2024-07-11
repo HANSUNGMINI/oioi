@@ -44,12 +44,12 @@ public class CheckAuthority {
 	}
 	
 	public static boolean checkStatus(HttpSession session, Model model, HttpServletRequest request) {
-		if(!request.getServletPath().equals("/myPage")) {
+		if(!request.getServletPath().equals("/myPage") || !request.getServletPath().equals("/userUpdate")) {
 			String id = (String)session.getAttribute("US_ID");
 			UserService userService = new UserService();
 			if(userService.selectStatus(id).equals("US03")) {
 				model.addAttribute("msg", "미입력 정보를 입력해주세요");
-				model.addAttribute("targetURL", "myPage");
+				model.addAttribute("targetURL", "userUpdate");
 				return false;
 			}
 		}

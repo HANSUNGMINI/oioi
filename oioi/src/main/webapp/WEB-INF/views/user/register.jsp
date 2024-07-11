@@ -527,6 +527,8 @@
 											<input type="text" name="user_post_code" id="postCode" size="6" placeholder="우편번호" readonly onclick="search_address()">
 											<input type="text" id="address1" name="user_address1" placeholder="기본주소" size="25" readonly onclick="search_address()">
 											<input type="text" id="address2" name="user_address2" placeholder="상세주소" size="25" >
+											<input type="hidden" id="US_LAT" name="US_LAT">
+											<input type="hidden" id="US_LNG" name="US_LNG">
 										</div>
 									</div>
 									<div class="col-12">
@@ -578,43 +580,43 @@
 	<script>
 	    function search_address() {
 	        new daum.Postcode({ // daum.Postcode 객체 생성
-	        	// 주소검색 창에서 주소 검색 후 검색된 주소를 사용자가 클릭하면
-	        	// oncomplete 이벤트에 의해 해당 이벤트 뒤의 익명함수가 실행(호출됨)
-	        	// => 사용자가 호출하는 것이 아니라 API 가 함수를 호출하게 됨(callback(콜백) 함수)
 	            oncomplete: function(data) {
-	                // 클릭(선택)된 주소에 대한 정보(객체)가 익명함수 파라미터 data 에 전달됨
-	                // => data.xxx 형식으로 각 주소 정보에 접근 가능
-	                console.log(data);
-	                // 1) 우편번호(= 국가기초구역번호 = zonecode 속성값) 가져와서 
-	                //    우편번호 입력란(postCode)에 출력
 	                document.fr.postCode.value = data.zonecode;
-	        
-	        		// 2) 기본주소(address 속성값) 가져와서 기본주소 항목(address1)에 출력
-// 	        		document.fr.address1.value = data.address; // 기본주소
-// 	        		document.fr.address1.value = data.roadAddress; // 도로명주소
-	        		
-	        		// 만약, 해당 주소에 대한 건물명(buildingName 속성값)이 존재할 경우(널스트링 아닐 때)
-	        		// 기본주소 뒤에 건물명을 결합하여 출력
-	        		// ex) 기본주소 : 부산 부산진구 동천로 109
-	        		//     건물명 : 삼한골든게이트
-	        		//     => 부산 부산진구 동천로 109 (삼한골든게이트)
 	        		let address = data.address; // 기본주소 변수에 저장
 	        		
-	        		// 건물명이 존재할 경우(buildingName 속성값이 널스트링이 아닐 경우)
-	        		// 기본주소 뒤에 건물명 결합
 	        		if(data.buildingName != "") {
 	        			address += " (" + data.buildingName + ")";
 	        		}
-	        		
-	        		// 기본주소 출력
 	        		document.fr.address1.value = address;
-	        		
-	        		// 상세주소 입력 항목에 커서 요청
 	        		document.fr.address2.focus();
 	        		
+	        		getLatLng(address);
 	            }
 	        }).open();
-	    }
+	    };
+	    
+	    function getLatLng(address) {
+            const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+            const apiKey = "AIzaSyDxE6_KxiuRqxlJbzS1QrPbctEG7K-vuY8"
+            const params = new URLSearchParams({
+                address: address,
+                key: apiKey
+            });
+            
+            $.ajax({
+                url: baseUrl,
+                method: "GET",
+                data: {
+                    address: address,
+                    key: apiKey
+                },
+                success: function(response) {
+	                const location = response.results[0].geometry.location;
+	                $("#US_LAT").val(location.lat);
+	                $("#US_LNG").val(location.lng);
+                },
+            });
+        }
 	</script>
 	<!-- ================================================================================== -->   
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>

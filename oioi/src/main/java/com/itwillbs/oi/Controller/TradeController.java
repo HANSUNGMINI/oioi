@@ -88,7 +88,8 @@ public class TradeController {
 	@GetMapping("/filterProducts")
     @ResponseBody
     public List<Map<String, Object>> filterProducts(
-            @RequestParam Map<String, String> map,
+    		HttpSession session,            
+    		@RequestParam Map<String, String> map,
             @RequestParam("pageNum") int pageNum,
             @RequestParam("listLimit") int listLimit,
             @RequestParam("filter") String filter) {
@@ -98,6 +99,8 @@ public class TradeController {
         params.put("startRow", startRow);
         params.put("listLimit", listLimit);
         params.put("filter", filter);
+        params.put("US_ID", session.getAttribute("US_ID"));
+        params.put("RANGE", 5000);
         System.out.println("@@@@@@@@필터 값 : " + params.get(filter));
         System.out.println("params 값: " + params);
 

@@ -359,6 +359,7 @@ public class UserController {
 	
 	@PostMapping("register")
 	public String joinPro(@RequestParam Map<String, Object> userMap, Model model, BCryptPasswordEncoder passwordEncoder) {
+		System.out.println(userMap);
 		String userEmail = (String) userMap.get("user_email");
 		String userPhone = (String) userMap.get("user_phone");
 		
@@ -389,6 +390,8 @@ public class UserController {
 		resultMap.put("US_GENDER", (String)userMap.get("user_gender"));
 		resultMap.put("US_PHONE", userPhone);
 		resultMap.put("US_PROFILE", "https://ssl.pstatic.net/static/pwe/address/img_profile.png");
+		resultMap.put("US_LAT", (String)userMap.get("US_LAT"));
+		resultMap.put("US_LNG", (String)userMap.get("US_LNG"));
 		if(service.registUser(resultMap) > 0) {
 			model.addAttribute("msg", "회원가입에 성공하셨습니다!");
 			model.addAttribute("US_NICK", (String) resultMap.get("US_NICK")); 
