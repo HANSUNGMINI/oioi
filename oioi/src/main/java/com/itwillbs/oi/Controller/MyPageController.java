@@ -106,8 +106,8 @@ public class MyPageController {
     	return "redirect:/";
     }
     
-    @GetMapping("myQnA")
-    public String myQnA(Model model) {
+    @GetMapping("myTrade")
+    public String myTrade(Model model) {
     	
 		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
@@ -117,7 +117,7 @@ public class MyPageController {
 		}
 		
     	
-    	return "mypage/my_QnA";
+    	return "mypage/my_trade";
     }
     
     @GetMapping("myReport")

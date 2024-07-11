@@ -6,12 +6,12 @@
             <li><a href="userUpdate">회원정보 수정</a></li>
         </ul>
     </div>
-<!--     <div class="single-widget category"> -->
-<!--         <h3 class="title">나의 문의 내역</h3> -->
-<!--         <ul class="categor-list"> -->
-<!--             <li><a href="myQnA">나의 1:1 문의 내역</a></li> -->
-<!--         </ul> -->
-<!--     </div> -->
+    <div class="single-widget category">
+        <h3 class="title">나의 거래 내역</h3>
+        <ul class="categor-list">
+            <li><a href="myTrade">나의 거래 내역</a></li>
+        </ul>
+    </div>
 <!--     <div class="single-widget category"> -->
 <!--         <h3 class="title">나의 신고 내역</h3> -->
 <!--         <ul class="categor-list"> -->

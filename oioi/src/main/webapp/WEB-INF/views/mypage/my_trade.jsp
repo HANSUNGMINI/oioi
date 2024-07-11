@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -12,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
-    <title>나의 1:1 문의 내역</title>
+    <title>나의 거래 내역</title>
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <!-- StyleSheet -->
@@ -68,6 +67,22 @@
         padding: 15px;
         font-weight: bold;
         border-bottom: 1px solid #ddd;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .nav-tabs .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    .table {
+        margin-bottom: 0;
     }
 
     .card-body {
@@ -130,37 +145,76 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-12">
-				<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
-			</div>
+                <jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+            </div>
             <div class="col-lg-9 col-12" id="highlighted-row">
-            	<div class="info-card text-center">
-                    <h5 class="card-header">나의 1:1 문의 내역</h5>
+                <div class="info-card text-center">
+                    <h5 class="card-header">나의 거래 내역</h5>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">제목</th>
-                                    <th scope="col">문의 날짜</th>
-                                    <th scope="col">상태</th>
-                                    <th scope="col">상세보기</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="qna" items="${qnaList}">
-                                    <tr>
-                                        <td>${qna.qnaTitle}</td>
-                                        <td><fmt:formatDate value="${qna.qnaDate}" pattern="yyyy-MM-dd" /></td>
-                                        <td>${qna.qnaStatus}</td>
-                                        <td><a href="viewQnA?qnaId=${qna.qnaId}" class="btn btn-primary">보기</a></td>
-                                    </tr>
-                                </c:forEach>
-                                <c:if test="${empty qnaList}">
-                                    <tr>
-                                        <td colspan="5">문의 내역이 없습니다.</td>
-                                    </tr>
-                                </c:if>
-                            </tbody>
-                        </table>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="purchase-tab" data-toggle="tab" href="#purchase" role="tab" aria-controls="purchase" aria-selected="true">구매 내역</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="sale-tab" data-toggle="tab" href="#sale" role="tab" aria-controls="sale" aria-selected="false">판매 내역</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-tab">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">제목</th>
+                                            <th scope="col">문의 날짜</th>
+                                            <th scope="col">상태</th>
+                                            <th scope="col">상세보기</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="purchase" items="${purchaseList}">
+                                            <tr>
+                                                <td>${purchase.title}</td>
+                                                <td><fmt:formatDate value="${purchase.date}" pattern="yyyy-MM-dd" /></td>
+                                                <td>${purchase.status}</td>
+                                                <td><a href="viewPurchase?purchaseId=${purchase.id}" class="btn btn-primary">보기</a></td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty purchaseList}">
+                                            <tr>
+                                                <td colspan="4">구매 내역이 없습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="sale" role="tabpanel" aria-labelledby="sale-tab">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">제목</th>
+                                            <th scope="col">문의 날짜</th>
+                                            <th scope="col">상태</th>
+                                            <th scope="col">상세보기</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="sale" items="${saleList}">
+                                            <tr>
+                                                <td>${sale.title}</td>
+                                                <td><fmt:formatDate value="${sale.date}" pattern="yyyy-MM-dd" /></td>
+                                                <td>${sale.status}</td>
+                                                <td><a href="viewSale?saleId=${sale.id}" class="btn btn-primary">보기</a></td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty saleList}">
+                                            <tr>
+                                                <td colspan="4">판매 내역이 없습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
