@@ -333,6 +333,7 @@
                                     <br>
 										<h6>보유 오이머니 : 🥒<fmt:formatNumber value="${oimoney}" pattern="#,###"/></h6>
 										<input type="hidden" name="US_OIMONEY" value="${oimoney}">
+										<input type="hidden" name="CR_ID" value="${product.CR_ID}">
                                     <br>
                                     <!-- 충전 및 결제 버튼 -->
 <!--                                     <div class="col-md-6 col-sm-6"> -->

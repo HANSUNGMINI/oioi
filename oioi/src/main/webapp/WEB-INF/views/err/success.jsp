@@ -64,10 +64,10 @@
         		window.close();
         	} 
             
-            
             if ("${openerReload}" == "true") {
     			window.opener.location.reload();
     		}
+            
             
         });
     </script>

@@ -103,8 +103,8 @@ CREATE TABLE bank_user_info (
 		UPDATE product
 		SET PD_STATUS = 'PDS02'
 		WHERE PD_IDX = #{PD_IDX}
-	
 	</update>
+	
 	<update id="updatePdStatus2">
 		UPDATE product
 		SET PD_STATUS = 'PDS03'
@@ -118,6 +118,13 @@ CREATE TABLE bank_user_info (
 		WHERE US_ID = #{US_ID}
 	</update>
 	
+	<select id="getChatRoomNum" resultType="String">
+		SELECT CR_ID
+		FROM chat_room
+		WHERE PD_IDX = #{PD_IDX}
+			AND SELLER_ID = #{TO_ID}
+	</select>
+	
 	<insert id="insertTDinfo">
 		INSERT INTO trade
 		VALUES (
@@ -130,13 +137,14 @@ CREATE TABLE bank_user_info (
 			, #{PD_PRICE}
 			, null -- 주소
 			, null -- 모름
+			, #{CR_ID}
 		)
 	</insert>
 	
 	<update id="updatePlusOimoney">
 		UPDATE user
 		SET US_OIMONEY = US_OIMONEY + #{PD_PRICE}
-		WHERE US_ID = #{US_ID}
+		WHERE US_ID = #{SELLER_ID}
 	</update>
 	
 	<update id="updateRefundOimoney">

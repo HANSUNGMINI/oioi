@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
+import com.itwillbs.oi.service.ChattingService;
 import com.itwillbs.oi.service.OipayService;
 
 @Controller
 public class OipayController {
 	@Autowired
 	private OipayService service;
-	
+
 	@GetMapping("connectAct")
 	public String connectAct(HttpSession session, Model model) {
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
@@ -186,9 +187,14 @@ public class OipayController {
 		
 //		System.out.println(map);
 		
+		// 채팅방 번호 가져오기
+		String CR_ID = service.getChatRoomNum(map);
+		
 		// 상품정보 가져오기
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
+		product.put("CR_ID", CR_ID);
+		System.out.println(">>>>>>>>"+product);
 		
 		// 머니 정보 가져오기
 		String id = (String)session.getAttribute("US_ID");
@@ -209,6 +215,7 @@ public class OipayController {
 		String US_ID = (String)session.getAttribute("US_ID");
 		map.put("US_ID", US_ID);
 
+		System.out.println(map);
 //		System.out.println(map); // {TO_ID=test, PD_IDX=71, PD_STATUS=판매 중, US_ID=haru0321, PD_PRICE=5000, US_OIMONEY=495000}
 		
 		int price = Integer.parseInt((String)map.get("PD_PRICE"));

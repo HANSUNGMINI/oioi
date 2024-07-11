@@ -128,7 +128,6 @@ public class ChattingController {
 		
 		System.out.println(map);
 		
-		
 		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
 			System.out.println(model.getAttribute("msg"));
@@ -156,6 +155,10 @@ public class ChattingController {
 		Map<String, String> myInfo = service.getMyInfo(map);
 		System.out.println("내 정보 " + myInfo);
 		
+		// 채팅방의 구매자 및 판매자 가져오기
+		Map<String, String> userRole = service.getUserRole(map);
+		System.out.println("판매자 및 구매자 아이디 " + userRole);
+		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
 		
@@ -171,10 +174,44 @@ public class ChattingController {
 		
 		System.out.println("리뷰 내역 : " + existReview);
 		
+
+		
+		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
+		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
+		System.out.println("운송장 있는 지 -->" + deliveryInfo);
+		
+		if(deliveryInfo != null) {
+			deliveryInfo.put("add", "ok");
+			
+			// 3일 지났는데 구매확정 안 누를 시, 자동 이체
+			int status = service.eventDelivery(map);
+			System.out.println("택배 status2인거 : " + status);
+			
+			if(status > 0) {
+				pdInfo.put("SELLER_ID", userRole.get("SELLER_ID"));
+				payService.decidePerchase(pdInfo);
+				
+				model.addAttribute("msg", "구매확정 미등록으로 자동 이체 되셨습니다");
+	        	return "err/success";
+			}
+		}
+		
+		// 거래 테이블에 내 정보가 있는지
+		int tradeCnt = service.getMyTradeInfo(map);
+		
+		if(tradeCnt > 0) {
+			model.addAttribute("tradeinfo", "ok"); // 거래 내역 존재 저장
+		}
+		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
 		model.addAttribute("otherInfo", otherInfo); // 상대방 프로필 
+		model.addAttribute("userRole", userRole); // 판매자 구매자 정보
+		
+		model.addAttribute("deliveryInfo", deliveryInfo); // 운송장 등록 여부
+		model.addAttribute("existReview", existReview); // 리뷰 썼는지
+		
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		
@@ -190,14 +227,15 @@ public class ChattingController {
 		Map<String, Object> chatRoom = service.checkChatRoom(map);
 		int CR_ID = (int) chatRoom.get("CR_ID");
 	    model.addAttribute("CR_ID", CR_ID);
-		return CR_ID;
+	   
+	    return CR_ID;
 	}
 	
 	// 채팅 가져오기
 	@ResponseBody
 	@GetMapping("getChatList")
 	public List<Map<String, String>> getChatList(@RequestParam Map<String, Object> map, Model model) {
-		System.out.println("아무것도 없으? "+  map); // {TO_ID=siyun_9094, FROM_ID=soeunee1, CR_ID=61667950, US_ID=soeunee1, PD_IDX=80}
+//		System.out.println("아무것도 없으? "+  map); // {TO_ID=siyun_9094, FROM_ID=soeunee1, CR_ID=61667950, US_ID=soeunee1, PD_IDX=80}
 		List<Map<String, String>> chatMsg = service.getChatMsg(map);
 		System.out.println("채팅방 메세지들 " + chatMsg);
 		
@@ -301,7 +339,8 @@ public class ChattingController {
 		map.put("PD_PRICE", product.get("PD_PRICE").toString());
 		payService.decidePerchase(map);
 		
-		return "";
+		model.addAttribute("msg", "송금이 완료되었습니다");
+    	return "err/success";
 	}
 	
 	// 리뷰 작성

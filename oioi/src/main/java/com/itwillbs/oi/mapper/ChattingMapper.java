@@ -29,7 +29,7 @@ public interface ChattingMapper {
 	int insertReport(Map<String, String> map); // 신고 처리
 	int insertReview(Map<String, String> map); // 리뷰 처리
 	int selectReview(Map<String, Object> map); // 리뷰 쓴 물건인지 확인
-	int registDelivey(Map<String, Object> map); // 운송장 등록
+	int registDelivery(Map<String, Object> map); // 운송장 등록
 	void updateFreshness(Map<String, String> map); // 신선도 업데이트
 	// -------------------------------------------
 
@@ -49,6 +49,9 @@ public interface ChattingMapper {
 	
 	// ----------------------------------------
 	Map<String, Object> getChatRoom(@Param(value = "TO_ID")String TO_ID, @Param(value = "FROM_ID")String FROM_ID, @Param(value = "PD_IDX")int PD_IDX); // 채팅방 번호 가져오기
+	Map<String, String> getUserRole(Map<String, Object> map); // 채팅방 정보 가져오기
+	int getMyTradeInfo(Map<String, Object> map); // 거래내역 정보 가져오기
+	int eventDelivery(Map<String, Object> map); // 자동 이체
 	
 
 
