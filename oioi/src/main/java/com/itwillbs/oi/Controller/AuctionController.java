@@ -92,6 +92,8 @@ public class AuctionController {
       // 신고 카테고리 불러오기
    	  List<Map<String, String>> reportMap = ChatReportService.getReportCategory();
    	  model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
+   	  
+   	  
       
       return "auction/auction_detail";
    }
@@ -381,6 +383,14 @@ public class AuctionController {
     public String getOiMoney(@RequestParam Map<String, Object> map) {
     	System.out.println("getOiMoney(map) : " + map);
     	return service.getOiMoney(map);
+    }
+    @ResponseBody
+    @PostMapping("reportMsg")
+    public List<Map<String, Object>> reportMsg(@RequestParam Map<String, String> map) {
+    	System.out.println("reportMsg : " + map);
+    	List<Map<String, Object>> reportDb = service.getReportMsg(map);
+    	System.out.println("reportDb : " + reportDb);
+    	return reportDb;
     }
    
    

@@ -60,5 +60,7 @@ public interface AuctionMapper {
 
 	String selectProfile(String US_ID);
 
+	List<Map<String, Object>> selectReportMsg(Map<String, String> map);
+
 
 }

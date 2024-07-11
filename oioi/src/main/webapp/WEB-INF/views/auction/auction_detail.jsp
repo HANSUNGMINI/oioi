@@ -30,8 +30,6 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/magnific-popup.min.css">
 <!-- Font Awesome -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
-<!-- Fancybox -->
-<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css"> --%>
 <!-- Themify Icons -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/themify-icons.css">
 <!-- Nice Select CSS -->
@@ -46,7 +44,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slicknav.min.css">
 
 <!-- Eshop StyleSheet -->
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/noneStyle.css"> --%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
@@ -110,8 +107,12 @@
    var apdOwner = "${apdDetail.APD_OWNER}";
    var contextPath = '<%= request.getContextPath() %>';
    var oiMoney = "";
+   
+   
    $(function(){
-	   console.log("apdOwner" + apdOwner);
+	   makeAuctionProducts();
+	   getOiMoney();
+	   
 	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09' || session_id == ""){
 	    	 $('#bidding').css('display', 'none');
 	    	 $('#auctionBuy').css('display', 'none');
@@ -124,14 +125,6 @@
 		   connect();   
 	   }
      
-     makeAuctionProducts();
-     getOiMoney();
-     
-     
-     
-     
-     
-     
       $('#sendMsg').on('keypress',function(et) {
          let keyCode = et.keyCode;
          if(keyCode == 13) {
@@ -143,7 +136,6 @@
     	 console.log("메서지 보낼때 : " + et);
          sendMessage(et);
        });
-      
       
       function sendMessage(event){
     	  if(${empty apdDetail.US_ID}){
@@ -280,6 +272,44 @@
          }
          
       });
+      
+      $('#reportUser').on('change', function(){
+    	  var selectUser = $(this).val();
+    	  console.log("reportUser : " + selectUser);
+    	  
+    	  $.ajax({
+    		 url : "reportMsg",
+    		 type : "POST",
+    		 data : {
+    			 ACM_USER : selectUser,
+    			 ACR_IDX : apd_idx
+    		 },
+    		 dataType : "json",
+    		 success: function(res){
+    			 console.log(res);
+    			 $('#report_content_select').empty();
+    			 $.each(res, function(index, report) {
+    				 console.log("report : " + report);
+    	        	 $('#report_content_select').append('<option value="' + report.ACM_CONTENT + '">' + report.ACM_CONTENT + '</option>');
+    	         });
+    			 
+    		 }
+    	  });
+      });
+      
+      
+      function combinedRP() {
+    	  var contentSelect = $('#report_content_select').val();
+    	  var contentText = $('#report_content_textarea').val();
+    	  
+    	  var combinedContent = "채팅내용 : " + contentSelect + ", " + contentText;
+    	  $("#RP_CONTENT").val(combinedContent);
+      }
+      
+      
+      $("form").on("submit", function() {
+          return combinedRP();
+      });
     
     });
    
@@ -318,7 +348,7 @@
            console.log('접속한 사람 :' + response.users);
            var users = response.users;
            console.log('접속한 사람 파싱:' + users);
-           $('#reportUser').empty();
+           
            $.each(users, function(index, us) {
         	   $('#reportUser').append('<option value="' + us + '">' + us + '</option>');
            });
@@ -716,6 +746,12 @@ function getOiMoney(){
 										      	  <%--신고자 select박스 --%>
 										      	    <label for="deliver_category">신고할 사람</label>
 													<select name="FROM_US_ID" id="reportUser" class="form-control" style="width: 200px;">
+														<option value="">신고할 사람을 선택하세요</option>
+													</select>
+										      	  	<br>
+										      	  	<label for="deliver_category">채팅내용</label>
+													<select id="report_content_select" class="form-control" style="width: 200px;">
+														<option value="">채팅 내용을 선택하세요</option>
 													</select>
 										      	  	<br>
 											      <%-- 라디오박스 --%>
@@ -735,10 +771,10 @@ function getOiMoney(){
 													</div>
 													
 													<%-- 내용 입력 --%>
-													<textarea placeholder="내용을 입력하세요"
+													<textarea placeholder="내용을 입력하세요" style = "resize : none"  id="report_content_textarea" maxlength="300"></textarea>
 													
-													
-													 style = "resize : none" name="RP_CONTENT"  id="RP_CONTENT" maxlength="300"></textarea>
+													<%-- 합친거 RP_CONTENT --%>
+													<input type="hidden" name="RP_CONTENT" id="RP_CONTENT">
 											  </div>
 											  
 										      <!-- Modal footer -->
@@ -855,114 +891,6 @@ function getOiMoney(){
                                           </div>
                                        </div>
                                     </div>
-                                    <!--/ End Description Tab -->
-                                    <!-- Reviews Tab -->
-                                    <div class="tab-pane fade" id="reviews" role="tabpanel">
-                                       <div class="tab-single review-panel">
-                                          <div class="row">
-                                             <div class="col-12">
-                                                <div class="ratting-main">
-                                                   <div class="avg-ratting">
-                                                      <h4>4.5 <span>(Overall)</span></h4>
-                                                      <span>Based on 1 Comments</span>
-                                                   </div>
-                                                   <!-- Single Rating -->
-                                                   <div class="single-rating">
-                                                      <div class="rating-author">
-                                                         <img src="https://via.placeholder.com/200x200" alt="#">
-                                                      </div>
-                                                      <div class="rating-des">
-                                                         <h6>Naimur Rahman</h6>
-                                                         <div class="ratings">
-                                                            <ul class="rating">
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star-half-o"></i></li>
-                                                               <li><i class="fa fa-star-o"></i></li>
-                                                            </ul>
-                                                            <div class="rate-count">(<span>3.5</span>)</div>
-                                                         </div>
-                                                         <p>Duis tincidunt mauris ac aliquet congue. Donec vestibulum consequat cursus. Aliquam pellentesque nulla dolor, in imperdiet.</p>
-                                                      </div>
-                                                   </div>
-                                                   <!--/ End Single Rating -->
-                                                   <!-- Single Rating -->
-                                                   <div class="single-rating">
-                                                      <div class="rating-author">
-                                                         <img src="https://via.placeholder.com/200x200" alt="#">
-                                                      </div>
-                                                      <div class="rating-des">
-                                                         <h6>Advin Geri</h6>
-                                                         <div class="ratings">
-                                                            <ul class="rating">
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                               <li><i class="fa fa-star"></i></li>
-                                                            </ul>
-                                                            <div class="rate-count">(<span>5.0</span>)</div>
-                                                         </div>
-                                                         <p>Duis tincidunt mauris ac aliquet congue. Donec vestibulum consequat cursus. Aliquam pellentesque nulla dolor, in imperdiet.</p>
-                                                      </div>
-                                                   </div>
-                                                   <!--/ End Single Rating -->
-                                                </div>
-                                                <!-- Review -->
-                                                <div class="comment-review">
-                                                   <div class="add-review">
-                                                      <h5>Add A Review</h5>
-                                                      <p>Your email address will not be published. Required fields are marked</p>
-                                                   </div>
-                                                   <h4>Your Rating</h4>
-                                                   <div class="review-inner">
-                                                      <div class="ratings">
-                                                         <ul class="rating">
-                                                            <li><i class="fa fa-star"></i></li>
-                                                            <li><i class="fa fa-star"></i></li>
-                                                            <li><i class="fa fa-star"></i></li>
-                                                            <li><i class="fa fa-star"></i></li>
-                                                            <li><i class="fa fa-star"></i></li>
-                                                         </ul>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                                <!--/ End Review -->
-                                                <!-- Form -->
-                                                <form class="form" method="post" action="mail/mail.php">
-                                                   <div class="row">
-                                                      <div class="col-lg-6 col-12">
-                                                         <div class="form-group">
-                                                            <label>Your Name<span>*</span></label>
-                                                            <input type="text" name="name" required="required" placeholder="">
-                                                         </div>
-                                                      </div>
-                                                      <div class="col-lg-6 col-12">
-                                                         <div class="form-group">
-                                                            <label>Your Email<span>*</span></label>
-                                                            <input type="email" name="email" required="required" placeholder="">
-                                                         </div>
-                                                      </div>
-                                                      <div class="col-lg-12 col-12">
-                                                         <div class="form-group">
-                                                            <label>Write a review<span>*</span></label>
-                                                            <textarea name="message" rows="6" placeholder="" ></textarea>
-                                                         </div>
-                                                      </div>
-                                                      <div class="col-lg-12 col-12">
-                                                         <div class="form-group button5">   
-                                                            <button type="submit" class="btn">Submit</button>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </form>
-                                                <!--/ End Form -->
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                    <!--/ End Reviews Tab -->
                                  </div>
                               </div>
                            </div>
@@ -993,117 +921,7 @@ function getOiMoney(){
         </div>
     </div>
    
-   <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row no-gutters">
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <!-- Product Slider -->
-                           <div class="product-gallery">
-                              <div class="quickview-slider-active">
-                                 <div class="single-slider">
-                                    <img src="https://via.placeholder.com/569x528" alt="#">
-                                 </div>
-                                 <div class="single-slider">
-                                    <img src="https://via.placeholder.com/569x528" alt="#">
-                                 </div>
-                                 <div class="single-slider">
-                                    <img src="https://via.placeholder.com/569x528" alt="#">
-                                 </div>
-                                 <div class="single-slider">
-                                    <img src="https://via.placeholder.com/569x528" alt="#">
-                                 </div>
-                              </div>
-                           </div>
-                        <!-- End Product slider -->
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="quickview-content">
-                                    <h2>Flared Shift Dress</h2>
-                                    <div class="quickview-ratting-review">
-                                        <div class="quickview-ratting-wrap">
-                                            <div class="quickview-ratting">
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <a href="#"> (1 customer review)</a>
-                                        </div>
-                                        <div class="quickview-stock">
-                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
-                                        </div>
-                                    </div>
-                                    <h3>$29.00</h3>
-                                    <div class="quickview-peragraph">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
-                                    </div>
-                           <div class="size">
-                              <div class="row">
-                                 <div class="col-lg-6 col-12">
-                                    <h5 class="title">Size</h5>
-                                    <select>
-                                       <option selected="selected">s</option>
-                                       <option>m</option>
-                                       <option>l</option>
-                                       <option>xl</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-lg-6 col-12">
-                                    <h5 class="title">Color</h5>
-                                    <select>
-                                       <option selected="selected">orange</option>
-                                       <option>purple</option>
-                                       <option>black</option>
-                                       <option>pink</option>
-                                    </select>
-                                 </div>
-                              </div>
-                           </div>
-                                    <div class="quantity">
-                              <!-- Input Order -->
-                              <div class="input-group">
-                                 <div class="button minus">
-                                    <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                       <i class="ti-minus"></i>
-                                    </button>
-                                 </div>
-                                 <input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
-                                 <div class="button plus">
-                                    <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-                                       <i class="ti-plus"></i>
-                                    </button>
-                                 </div>
-                              </div>
-                              <!--/ End Input Order -->
-                           </div>
-                           <div class="add-to-cart">
-                              <a href="#" class="btn">Add to cart</a>
-                              <a href="#" class="btn min"><i class="ti-heart"></i></a>
-                              <a href="#" class="btn min"><i class="fa fa-compress"></i></a>
-                           </div>
-                                    <div class="default-social">
-                              <h4 class="share-now">Share:</h4>
-                                        <ul>
-                                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                            <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
+
             
    <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
  

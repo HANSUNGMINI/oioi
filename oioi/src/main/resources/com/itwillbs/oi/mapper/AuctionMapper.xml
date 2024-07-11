@@ -354,6 +354,11 @@
 		from user
 		where US_ID = #{US_ID}
 	</select>
+	
+	<select id="selectReportMsg" resultType="map">
+		select concat("채팅내용 : ",ACM_CONTENT,", 채팅한 날짜 : ",ACM_DATE) as ACM_CONTENT from auction_chat_msg
+		where ACR_IDX = #{ACR_IDX} and ACM_USER = #{ACM_USER};
+	</select>
 </mapper>
 
 

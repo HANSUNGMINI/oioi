@@ -122,6 +122,10 @@ public class AuctionService {
 		return mapper.selectProfile(US_ID);
 	}
 
+	public List<Map<String, Object>> getReportMsg(Map<String, String> map) {
+		return mapper.selectReportMsg(map);
+	}
+
 	
 
 	
