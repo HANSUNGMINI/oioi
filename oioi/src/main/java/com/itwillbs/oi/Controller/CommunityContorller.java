@@ -65,11 +65,18 @@ public class CommunityContorller {
 		map.put("listLimit", listLimit);
 		map.put("searchType", searchType);
 		map.put("searchKeyword", searchKeyword.trim());
-		
+		System.out.println("dshfashdfkjhlvkugawrlkjvbdfljkvgaerligh" + map);
+		System.out.println(response);
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
-		if(boardList == null || boardList.get(0) == null ) {
+		System.out.println(boardList);
+		if(boardList == null) { // || boardList.get(0) == null 
 			return response;
 		}
+//		else {
+//			if(boardList.get(0) == null) {
+//				
+//			}
+//		}
 		
 		int listCount = service.getListCount(type);
 		int pageListLimit = 5; // 페이지 번호 갯수를 3개로 지정(1 2 3 or 4 5 6 등...)

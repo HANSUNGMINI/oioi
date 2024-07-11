@@ -216,14 +216,35 @@
 		let pageNum = 1;
 		let type = "";
 		
-		showBoard(type, pageNum);
+		showBoard(type, pageNum); // 커뮤니티 들어왔을 때 전체게시물
 		
-		$(document).on('click', '.page-link', function(e) {
+		$(document).on('click', '.page-link', function(e) { // 페이징 버튼
             e.preventDefault();
             pageNum = $(this).data('pagenum');
             showBoard(type, pageNum);
         });
 		
+	
+		$('#btnSearch').on('click', check);
+
+		function check() { // 검색 시 글자수 체크
+// 			var searchKeyword = $('#searchKeyword').val();
+			var searchKeyword = $("input[name = 'searchKeyword']").val();
+
+			if (searchKeyword.length < 2) {
+				alert('2자 이상 입력해주세요');
+				return;
+			}
+			pageNum = 1;
+			
+			showBoard(type, pageNum);
+		}
+		
+		$("input[name = 'searchKeyword']").on('keypress', function(e) { // 검색시 엔터키 
+	        if (e.which == 13) { // 엔터 키의 키 코드는 13입니다.
+	        	check();
+	        }
+	    });
 		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
@@ -308,8 +329,8 @@
 						            		<option value="CM_TITLE" <c:if test="${param.searchType eq 'CM_TITLE'}">selected</c:if>>제목</option>
 						            		<option value="CM_CONTENT"<c:if test="${param.searchType eq 'CM_CONTENT'}">selected</c:if>>내용</option>
 						            	</select>
-						                <input type="text" class="form-control" placeholder="검색어 입력" name="searchKeyword">
-						                <button value="search" type="button" class="btn btn-outline-secondary"><i class="ti-search"></i></button>
+						                <input type="text" class="form-control" placeholder="검색어 입력" name="searchKeyword" id="searchKeyword">
+						                <button value="search" type="button" class="btn btn-outline-secondary" id="btnSearch"><i class="ti-search"></i></button>
 						            </form>
 						        </div>
 						    </div>
@@ -359,17 +380,28 @@
 
 	function showBoard(type, pageNum){
 // 		alert(type);
-		
+		var searchType = $('#searchType').val();
+//         var searchKeyword = $("#searchKeyword").val();
+        var searchKeyword = $("input[name = 'searchKeyword']").val();
+//         alert("키워드" + searchKeyword);
 		$.ajax({
 			type : "GET",
 			url : "selectBoard",
 			data : {
 				type : type,
-				pageNum : pageNum
+				pageNum : pageNum,
+				searchType: searchType,
+				searchKeyword: searchKeyword
 				
 			},
 			dataType : "JSON",
 			success : function(response) {
+				console.log(response);
+				
+				if(response == null) {
+					alert("결과없음");
+				}
+				
 				let boards = response.boardJson;
 				
 				$("#tbody").empty();
@@ -391,7 +423,7 @@
 				 let startPage = response.pageJson.startPage;
                  let endPage = response.pageJson.endPage;
                  let maxPage = response.pageJson.maxPage;
-
+					
                  $("#paging").append(
                      '<ul class="pagination">' +
                          '<li class="page-item ' + (pageNum == 1 ? 'disabled' : '') + '">' +

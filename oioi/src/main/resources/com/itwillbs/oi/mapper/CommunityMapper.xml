@@ -20,6 +20,12 @@
                      FROM common c
                      WHERE code = #{type})
 		</if>
+		<if test="searchType.equals('CM_TITLE') and searchKeyword != ''">
+			AND CM_TITLE LIKE CONCAT('%', #{searchKeyword} ,'%')  
+		</if>
+		<if test="searchType.equals('CM_CONTENT') and searchKeyword != ''">
+			AND  CM_CONTENT LIKE CONCAT('%', #{searchKeyword} ,'%')  
+		</if>
   		ORDER BY CM_IDX desc
   		LIMIT #{startRow}, #{listLimit}
   	</select>
