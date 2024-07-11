@@ -88,7 +88,7 @@
             <div class="login-form">
                 <h2>상품수정</h2>
                 <!-- Form -->
-                <form class="regForm" action="productModify" method="post" enctype="multipart/form-data">
+                <form class="regForm" action="productModify2" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
                     <ul>
                         <li>

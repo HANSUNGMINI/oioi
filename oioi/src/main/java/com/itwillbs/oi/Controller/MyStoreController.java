@@ -337,6 +337,8 @@ public class MyStoreController {
      		System.out.println("카테3" + cate3);
 
         model.addAttribute("product", product);
+        System.out.println("상품 ~  " + product);
+        
         return "trade/product_edit";
     }
     
@@ -420,6 +422,12 @@ public class MyStoreController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update product status");
         }
+    }
+    
+    @PostMapping("productModify2")
+    public String productModify2() {
+    	
+    	return "";
     }
     
     @ResponseBody

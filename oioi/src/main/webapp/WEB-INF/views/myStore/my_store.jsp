@@ -285,7 +285,6 @@
             font-size: 0.9em;
         }
 
-        /* 스타일링 추가 */
         .product-name {
             font-size: 16px;
             font-weight: bold;
@@ -496,47 +495,52 @@
                                             </div>
                                         </div>
                                     </div>
-									<!-- my_store.jsp -->
-									<div class="tab-pane fade" id="choice" role="tabpanel">
-									    <div class="tab-single">
-									        <div class="row">
-									            <div class="col-12">
-									                <div class="single-des">
-									                    <h5>찜 ${fn:length(wishList)}</h5>
-									                </div>
-									                <hr>
-									                <c:if test="${empty wishList}">
-									                    <div class="single-des">
-									                        <p>찜한 상품이 없습니다.</p>
-									                    </div>
-									                </c:if>
-									                <div class="product-grid">
-									                    <c:forEach var="wish" items="${wishList}">
-									                        <div class="product-item container">
-									                            <a href="productDetail?PD_IDX=${wish.WL_PD_IDX}">
-									                                <c:choose>
-									                                    <c:when test="${not empty wish.image1}">
-									                                        <img src="<%= request.getContextPath() %>/resources/upload/${wish.image1}" alt="${wish.PD_SUBJECT}" class="image">
-									                                    </c:when>
-									                                    <c:otherwise>
-									                                        <img src="<%= request.getContextPath() %>/resources/images/default.jpg" alt="${wish.PD_SUBJECT}" class="image">
-									                                    </c:otherwise>
-									                                </c:choose>
-									                                <div class="product-details">
-									                                    <p>${wish.PD_SUBJECT}</p>
-									                                    <div class="product-info-bottom">
-									                                        <div class="product-price">${wish.PD_PRICE} 원</div>
-																			<div class="product-date">${wish.timeAgo}</div>									                                    </div>
-									                                </div>
-									                            </a>
-									                        </div>
-									                        <hr>
-									                    </c:forEach>
-									                </div>
-									            </div>
-									        </div>
-									    </div>
-									</div>
+                                    <div class="tab-pane fade" id="choice" role="tabpanel">
+                                        <div class="tab-single">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="single-des">
+                                                        <h5>찜 ${fn:length(wishList)}</h5>
+                                                    </div>
+                                                    <hr>
+                                                    <c:if test="${empty wishList}">
+                                                        <div class="single-des">
+                                                            <p>찜한 상품이 없습니다.</p>
+                                                        </div>
+                                                    </c:if>
+                                                    <div class="product-grid">
+                                                        <c:forEach var="wish" items="${wishList}">
+                                                            <div class="product-item container">
+                                                                <a href="productDetail?PD_IDX=${wish.WL_PD_IDX}">
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty wish.image1}">
+                                                                            <img src="<%= request.getContextPath() %>/resources/upload/${wish.image1}" alt="${wish.PD_SUBJECT}" class="image">
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <img src="<%= request.getContextPath() %>/resources/images/default.jpg" alt="${wish.PD_SUBJECT}" class="image">
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                    <c:if test="${wish.PD_STATUS eq 'PDS02'}">
+                                                                        <div class="overlay">예약 중</div>
+                                                                    </c:if>
+                                                                    <c:if test="${wish.PD_STATUS eq 'PDS03'}">
+                                                                        <div class="overlay">판매 완료</div>
+                                                                    </c:if>
+                                                                    <div class="product-details">
+                                                                        <p>${wish.PD_SUBJECT}</p>
+                                                                        <div class="product-info-bottom">
+                                                                            <div class="product-price">${wish.PD_PRICE} 원</div>
+                                                                            <div class="product-date">${wish.timeAgo}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
