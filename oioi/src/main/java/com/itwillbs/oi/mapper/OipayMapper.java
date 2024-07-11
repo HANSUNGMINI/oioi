@@ -41,6 +41,9 @@ public interface OipayMapper {
 	// 출금하기
 	void updateRefundOimoney(Map<String, Object> map);
 
+	// 채팅방 번호 가져오기
+	String getChatRoomNum(Map<String, String> map);
+
 
 
 

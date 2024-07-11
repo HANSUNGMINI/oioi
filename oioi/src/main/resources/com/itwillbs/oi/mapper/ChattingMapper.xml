@@ -17,8 +17,6 @@
 		WHERE hide != 'Y' AND name='REVIEW_CATEGORY';
 	</select>
 	
-	
-	
 	<select id="getDeliveryinfo" resultType="hashmap">
 		SELECT d.PC_ID, d.BUYER_ID, DV_TIME, DV_STATUS, cr.CR_ID
 		FROM delivery d
@@ -62,7 +60,7 @@
 		WHERE PD_IDX = #{PD_IDX}
 	</select>
 	
-	<insert id="registDelivey">
+	<insert id="registDelivery">
 		INSERT INTO delivery
 		VALUES (
 			NULL
@@ -181,6 +179,7 @@
 		SELECT 
 			 p.PD_SUBJECT
 			, p.PD_STATUS
+			, p.PD_PRICE
 		FROM product p
 		WHERE p.PD_IDX = #{PD_IDX}
 	</select>
@@ -236,6 +235,25 @@
 		)
 	</insert>
 	
+	<select id="getUserRole" resultType="map">
+		SELECT BUYER_ID, SELLER_ID
+		FROM chat_room
+		WHERE CR_ID = #{CR_ID}
+	</select>
+	
+	<select id="getMyTradeInfo" resultType="int">
+		SELECT COUNT(CR_ID)
+		FROM trade
+		WHERE CR_ID = #{CR_ID}
+	</select>
+	
+	<select id="eventDelivery" resultType="int">
+		SELECT COUNT(DV_STATUS)
+		FROM delivery d 
+		JOIN trade t 
+		ON d.PC_ID = t.TD_PD_IDX AND d.BUYER_ID = t.TD_BUYER_ID 
+		WHERE DV_STATUS = 2 AND d.BUYER_ID = #{TO_ID}
+	</select>
 </mapper>
 
 

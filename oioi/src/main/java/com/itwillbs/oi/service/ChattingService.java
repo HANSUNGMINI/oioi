@@ -68,7 +68,7 @@ public class ChattingService {
 	
 	// 운송장 번호 등록하기
 	public int registDelivery(Map<String, Object> map) {
-		return mapper.registDelivey(map);
+		return mapper.registDelivery(map);
 	}
 	
 	// 오이 신선도
@@ -168,6 +168,21 @@ public class ChattingService {
 	// 채팅방 있는지
 	public Map<String, Object> getChatRoom(String TO_ID, String FROM_ID, int PD_IDX) {
 		return mapper.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+	}
+
+	// 판매자 및 구매자 정보
+	public Map<String, String> getUserRole(Map<String, Object> map) {
+		return mapper.getUserRole(map);
+	}
+
+	// 거래 내역 정보
+	public int getMyTradeInfo(Map<String, Object> map) {
+		return mapper.getMyTradeInfo(map);
+	}
+
+	// 3일 지나면 자동 이체
+	public int eventDelivery(Map<String, Object> map) {
+		return mapper.eventDelivery(map);
 	}
 
 

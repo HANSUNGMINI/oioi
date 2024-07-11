@@ -58,13 +58,13 @@
 	    let TO_ID = "${param.TO_ID}";
     	let FROM_ID = "${param.FROM_ID}";
     	let PD_IDX = "${param.PD_IDX}";
-	    
+    	
 	   // 클릭 시 보내기
 	  
 	     $('#sendMsg').on('click', function(evt) {
 	    	let msg = $("#textMsg").val();
 	    	console.log("msg : " + msg);
-	    	sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
+	    	send("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
 	     });
 	    
 	   // 채팅 입력창에 키를 누를 때마다 이벤트 핸들링
@@ -73,12 +73,11 @@
 			let msg = $("#textMsg").val();
 			let keyCode = event.keyCode;
 			if(keyCode == 13) {
-				sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
+				send("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
 			}
 		});
-	   
+	
     });
-		
 		
     let ws; // 웹소켓 객체가 저장될 변수
     
@@ -115,9 +114,11 @@
 		} else if (data.type == "SHOW_CHATMESSAGE"){
 			let US_ID = data.msg
 			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
-		} 
-	
-		appendMessage(data.msg, "left","my");
+
+		} else if (data.type == "TALK"){
+			window.location.reload();
+			appendMessage(data.msg, "left","my");
+		}
 	}
 	
 	function onError() {
@@ -191,25 +192,26 @@
     
     
     // ----------------------------------------------------------
-    // 메세지 보낼 때
-    function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
-    	
-		if(type == "TALK") {
-			
-			if (msg == "") {
-				$("#textMsg").focus();
-				return;
-			}
-			
-			appendMessage(msg,"right","other");
-			
-			// 채팅창 초기화 및 포커스 요청
-			$("#textMsg").val("");
+    // 채팅 메세지 
+    function send(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+		
+		if (msg == "") {
 			$("#textMsg").focus();
+			return;
 		}
 		
-		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
+		sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
+		appendMessage(msg,"right","other");
 		
+		// 채팅창 초기화 및 포커스 요청
+		$("#textMsg").val("");
+		$("#textMsg").focus();
+    }
+    
+    // ----------------------------------------------------------
+    // 메세지 보낼 때
+    function sendMessage(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX) {
+		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
     }
     
   
@@ -220,7 +222,6 @@
     		return;
     	}
     	
-    	let exist = '${existMsg.cnt}';
     	let userImg = ''
     		
     	if(align_type == "right") {
@@ -239,20 +240,16 @@
 
         // 변수 'a'에 현재 시간을 할당
         let time = getCurrentTime();
-    	
+			
     	let chat = ' <li class="clearfix" id="userMsg">'
     				+'	<div class="message-data text-' + align_type +'">'
     				+'	 <img src="'+ userImg +'">'
     				+ '	</div>'
     				+ '	<div class="message ' + who +'-message float-' + align_type +'">' + msg + '</div>'
     				+ '	<small class="message-data-time" style="margin-right:0px">'+ time + '</small>'
-    				+ '</li>'		
-    	
-		if(exist == null) {
-	    	$("#chatArea").append(chat);
-    	} else {
-    		$("#chatArea li:last").after(chat);
-    	}
+    				+ '</li>'	
+	    				
+		$("#chatArea").append(chat);
     				
     	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
 		$('#chat-history').scrollTop($('#chat-history').prop('#chat-history'));
@@ -263,7 +260,7 @@
     // -----------------------------------------------------------
     
     function purchase(TO_ID, PD_IDX) {
- 	   window.open('purchase?TO_ID=' + TO_ID + '&PD_IDX=' + PD_IDX , '_blank', 'width=600, height=700, left=720, top=200, resizable=no'); 
+ 	   window.open('purchase?TO_ID=' + TO_ID + '&PD_IDX=' + PD_IDX, '_blank', 'width=600, height=700, left=720, top=200, resizable=no'); 
  	   
     }
 </script>
@@ -307,24 +304,29 @@
 	                        <div id="detail">
 	                        	<ul>
 	                        		
-	                        	<c:if test="${param.TO_ID eq sessionScope.US_ID && empty deliveryInfo}">
+	                        	<c:if test="${userRole.SELLER_ID eq sessionScope.US_ID && empty deliveryInfo}">
 			                        	<li><a id="d1" data-toggle="modal" data-target="#regist_model">운송장 등록</a></li>
-<!-- 			                        	<li><a id="d2" onclick="soldout()">판매 완료</a></li> -->
 	                        	</c:if>
 
-									<c:if test="${param.FROM_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS01'}">
+									<c:if test="${userRole.BUYER_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS01'}">
 		                        		<li><a id="d3" onclick="purchase('${param.TO_ID}','${param.PD_IDX}')">안전 결제</a></li>
 		                        	</c:if>
-	    	                    	<li><a id="d4" onclick="soldout()">구매확정</a></li>
+		                        		
+	                        		<c:if test="${userRole.BUYER_ID eq sessionScope.US_ID && pdInfo.PD_STATUS eq 'PDS02' && tradeinfo eq 'ok'}">
+	    	                    		<li><a id="d4" onclick="soldout()">구매확정</a></li>
+	    	                    	</c:if>
+		    	                    	
 	    	                    	<li><a id="d5" onclick="exit()">대화방 나가기</a></li>
 	                        	</ul>
 	                        </div>
 	                        
-	                        <div id="review">
-	                        	<ul>
-		                        	<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
-	                       		</ul>
-	                        </div>
+	                       	 <c:if test="${pdInfo.existReview eq 'no' && tradeinfo eq 'ok' && pdInfo.PD_STATUS eq 'PDS03'}">
+		                        <div id="review">
+		                        	<ul>
+			                        	<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
+		                       		</ul>
+		                        </div>
+		                      </c:if>
 	                       	<hr>
                         </div>
                     </div>
@@ -398,7 +400,7 @@
 				      <div class="modal-footer">
 				        <button type="submit" class="btn btn-success">등록</button>
 				        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
-				        <input type="hidden" name="BUYER_ID" value="${chatRoom.FROM_ID}">
+				        <input type="hidden" name="BUYER_ID" value="${param.TO_ID}">
 						<input type="hidden" name="PC_ID" value="${param.PD_IDX}">
 				      </div>
 			     </form>
@@ -567,14 +569,8 @@
 				}).then(result => {
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-				   
-				      Swal.fire('송금 완료되었습니다.', '감사합니다', 'success');
-				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&US_ID=${param.TO_ID}";
-						document.querySelector("#detail").style.display = "none";
-						
-						if(existReview == 'no') {
-							document.querySelector("#review").style.display = "block";
-						}
+				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&SELLER_ID=${param.TO_ID}";
+				   		window.location.reload();
 				   }
 				});
 			
@@ -672,7 +668,17 @@
 		                                .join('/');
 		    document.getElementById('RV_CATEGORYS').value = selectedValues;
 		    
-		    return true;
+		 	// 폼이 유효하면 서버에 제출하고 페이지를 새로고침
+		    // formElement을 지정하여 폼을 서버에 제출하고 새로고침을 수행
+		    const formElement = document.getElementById('reviewForm'); // 폼 ID를 실제 폼 ID로 변경
+		    formElement.submit(); // 폼 제출
+
+		    // 폼 제출 후 새로고침을 지연시키기 위해 setTimeout을 사용
+		    setTimeout(() => {
+		        window.location.reload();
+		    }, 100); // 100ms 후 새로고침
+
+		    return false; // 페이지 새로고침 후 폼 제출 방지
 		}
 		
 		/* 구매확정 */

@@ -116,8 +116,16 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	// DB에 채팅 메세지 저장하기
             	int saveCnt = service.saveChatting(chatMessage);
             	
-            	// System.out.println("저장이 됐나 : " + saveCnt);
+            	System.out.println("수신자의 웹소켓세션객체 아이디 " + userSessions.get(TO_ID));
+    			
+    			if(userSessions.get(TO_ID) != null) {
+    				WebSocketSession TO_WS = users.get(userSessions.get(TO_ID));
+    				// sendMessage() 메서드 호출하여 메세지 전송 요청
+    				sendMessage(TO_WS, chatMessage, false);
+    			}
             	
+            } else if (chatMessage.getType().equals(ProductChatVO.TYPE_SYS)) {
+            	System.out.println("시스템일 경우 : " + chatMessage);
             }
         }
         
@@ -127,10 +135,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
         	if(isToSender) { // 송신자에게 전송하는 메세지
     			session.sendMessage(new TextMessage(gson.toJson(chat)));
     		} else { // 수신자에게 전송하는 메세지
-    			
-    			for(WebSocketSession ws : users.values()) {
-    			}
-    			
+    			session.sendMessage(new TextMessage(gson.toJson(chat)));
     		}
         }
 

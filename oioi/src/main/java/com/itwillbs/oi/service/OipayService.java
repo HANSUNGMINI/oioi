@@ -83,8 +83,6 @@ public class OipayService {
 		mapper.insertTDinfo(map);
 		
 	}
-	
-	
 
 	public Map deposit(Map<String, Object> map) {
 		map.put("admin_token", 
@@ -101,6 +99,11 @@ public class OipayService {
 		mapper.updatePlusOimoney(map); // 판매자 금액 충전
 		mapper.updatePdStatus2(map);
 		
+	}
+
+	// 채팅방 번호 가져오기
+	public String getChatRoomNum(Map<String, String> map) {
+		return mapper.getChatRoomNum(map);
 	}
 
 	
