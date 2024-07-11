@@ -184,9 +184,9 @@
 <%-- 										<span class="${popular.PD_STATUS_COLOR}">${popular.PD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 --> --%>
 									</a>
 									<div class="button-head">
-										<div class="product-action">
-											<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-										</div>
+<!-- 										<div class="product-action"> -->
+<!-- 											<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a> -->
+<!-- 										</div> -->
 										<div class="product-action-2">
 											<a title="Add to cart" href="productDetail?PD_IDX=${popular.PD_IDX}">상품 상세페이지로 바로가기</a>
 										</div>
@@ -351,11 +351,11 @@
 										</div>
 										<!--/ End Input Order -->
 									</div>
-									<div class="add-to-cart">
-										<a href="#" class="btn">Add to cart</a>
-										<a href="#" class="btn min"><i class="ti-heart"></i></a>
-										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
-									</div>
+<!-- 									<div class="add-to-cart"> -->
+<!-- 										<a href="#" class="btn">Add to cart</a> -->
+<!-- 										<a href="#" class="btn min"><i class="ti-heart"></i></a> -->
+<!-- 										<a href="#" class="btn min"><i class="fa fa-compress"></i></a> -->
+<!-- 									</div> -->
                                     <div class="default-social">
 										<h4 class="share-now">Share:</h4>
                                         <ul>
