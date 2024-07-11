@@ -58,5 +58,7 @@ public interface AuctionMapper {
 
 	void insertApdTrade(Map<String, Object> map);
 
+	String selectProfile(String US_ID);
+
 
 }

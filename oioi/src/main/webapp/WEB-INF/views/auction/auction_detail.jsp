@@ -108,6 +108,7 @@
    var session_id = "${sessionScope.US_ID}";
    var apdStatus = "${apdDetail.APD_STATUS}";
    var apdOwner = "${apdDetail.APD_OWNER}";
+   var contextPath = '<%= request.getContextPath() %>';
    var oiMoney = "";
    $(function(){
 	   console.log("apdOwner" + apdOwner);
@@ -117,7 +118,7 @@
 	    	 $('#apdReport').css('display', 'none');
 	    	 
 	    	 //웹소켓 연결 끊기
-	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center");
+	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center","");
 	    	 disconnect();
 	   }else{
 		   connect();   
@@ -165,7 +166,7 @@
            saveMessage(dataSend);
            
            socket.send(JSON.stringify(dataSend));
-           appendMessage(us_id, msg, "right");
+           appendMessage(us_id, msg, "right","");
            $('input#sendMsg').val('');
       }
       
@@ -290,7 +291,7 @@
       socket = ws;
    ws.onopen = function() {
    console.log('경매 연결');
-   appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center");
+   appendMessage("System", ">> 채팅방에 입장하였습니다 <<", "center","");
    };
    
    ws.onmessage = function(event) {
@@ -300,16 +301,16 @@
 		       
   	   
        if (response.type === "ENTER" || response.type === "LEAVE") {
-           appendMessage("System", response.msg, "center");
+           appendMessage("System", response.msg, "center","");
        } else if (response.type === "SESSION_SIZE") {
            $('#sessionSize').empty().append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' + response.SESSION_SIZE + '명</a></span>');
        } else if (response.type === "TALK") {
            var res = JSON.parse(response.DATA);
            console.log("res : " + res);
            if (res.US_ID === session_id) {
-               appendMessage(res.US_ID, res.MSG, "right");
+               appendMessage(res.US_ID, res.MSG, "right","");
            } else {
-               appendMessage(res.US_ID, res.MSG, "left");
+               appendMessage(res.US_ID, res.MSG, "left",response.US_PROFILE);
            }
            saveMessage(res);
        } else if(response.type === 'USER_LIST'){
@@ -342,10 +343,12 @@
 
    }
 
-   function appendMessage(sender, msg, align_type) {
+   function appendMessage(sender, msg, align_type, profile) {
 	   var seller = "${apdDetail.APD_OWNER}";
 	   console.log("us_id(sender비교전) : " + seller);
 	   console.log("sender(sender비교전) : " + sender);
+	   console.log("contextPath : " + contextPath);
+	   console.log("profile : " + profile);
        var html = '';
        if(seller == sender){
 		   sender = sender + '(판매자)';
@@ -363,7 +366,7 @@
     	   
            html += '<li class="clearfix chatViewYou">' +
                '<div class="message-avatar">' +
-               '<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231201_11%2F1701407251569KtFaW_JPEG%2F2577731462313581_1635528623.jpg&type=sc960_832" alt="">' +
+               '<img src="' + profile + '">' + 
                sender +
                '</div>' +
                '<div class="message my-message">' +

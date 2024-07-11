@@ -349,6 +349,11 @@
 		    #{TD_BUYER_ADDRESS}
 		);	
 	</insert>
+	<select id="selectProfile">
+		select US_PROFILE
+		from user
+		where US_ID = #{US_ID}
+	</select>
 </mapper>
 
 

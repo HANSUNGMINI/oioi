@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -16,12 +17,17 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.itwillbs.oi.service.AuctionService;
 
 public class ReplyEchoHandler extends TextWebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ReplyEchoHandler.class);
     private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
     private Map<String, String> userSessions = new ConcurrentHashMap<String,String>();
+    
+    @Autowired
+    private AuctionService auctionService;
+    
     // 커넥션이 연결됐을 때(접속을 성공했을 때마다)
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -35,6 +41,8 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         sessions.add(session);
         
         System.out.println("session 누구누구있는지 : " + userSessions.toString());
+        
+        
         
         // 접속 메시지
         JsonObject jo = new JsonObject();
@@ -64,8 +72,11 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         Map<String, Object> attributes = session.getAttributes();
         String US_ID = (String) attributes.get("US_ID");
         String APD_IDX = (String) attributes.get("APD_IDX");
+        String profile = auctionService.getProfile(US_ID);
+        System.out.println("profile : " + profile);
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "TALK");
+        jo.addProperty("US_PROFILE", profile);
         jo.addProperty("US_ID", US_ID);
         jo.addProperty("SESSION_SIZE", getSessionCount(APD_IDX));
         jo.addProperty("DATA", message.getPayload());

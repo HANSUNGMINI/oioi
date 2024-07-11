@@ -118,6 +118,10 @@ public class AuctionService {
 		mapper.insertApdTrade(map);
 	}
 
+	public String getProfile(String US_ID) {
+		return mapper.selectProfile(US_ID);
+	}
+
 	
 
 	
