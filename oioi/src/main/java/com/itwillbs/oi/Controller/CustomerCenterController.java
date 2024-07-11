@@ -33,7 +33,7 @@ public class CustomerCenterController {
 	// 챗봇
 	@GetMapping("chatbot")
 	public String goChatbot() {
-		return "customerCenter/chatbot";
+		return "customerCenter/chatbot2";
 	}
 	
 	// 큐엔에이
