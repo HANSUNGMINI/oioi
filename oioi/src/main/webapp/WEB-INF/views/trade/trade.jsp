@@ -187,14 +187,14 @@
                                 + '					<div class="'+ product.PD_STATUS_COLOR +'">' +  product.PD_STATUS_VALUE +'</div>'
                                 + '               </a>'
                                 + '           </form>'
-                                + '           <div class="button-head">'
-                                + '           <div class="product-action">'
-                                + '               <a title="Wishlist" href="#" class="add-to-wishlist" data-product-id="'+ product.PD_IDX +'"><i class="ti-heart"></i><span>찜하기</span></a>'
-                                + '           </div>'
-                                + '           <div class="product-action-2">'
-                                + '               <a title="Add to cart" href="#"></a>'
-                                + '           </div>'
-                                + '       </div>'
+//                                 + '           <div class="button-head">'
+//                                 + '           <div class="product-action">'
+//                                 + '               <a title="Wishlist" href="#" class="add-to-wishlist" data-product-id="'+ product.PD_IDX +'"><i class="ti-heart"></i><span>찜하기</span></a>'
+//                                 + '           </div>'
+//                                 + '           <div class="product-action-2">'
+//                                 + '               <a title="Add to cart" href="#"></a>'
+//                                 + '           </div>'
+//                                 + '       </div>'
                                 + '       </div>'
                                 + '       <div class="product-content">'
                                 + '           <h3><a href="productDetail?PD_IDX='+ product.PD_IDX +'">'+ product.PD_SUBJECT +'</a></h3>'
@@ -460,7 +460,14 @@
         </div>
     </section>
     <!--/ End Product Style 1  -->    
-
+	<div class="col-lg-1 col-12 d-flex align-items-end">
+				 <div class="chatbot">
+			        <a href="chatbot" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=1600, top=200, resizable=no'); return false;"><img src="${pageContext.request.contextPath}/resources/images/chatbot2.PNG" id="chatImg" alt=""></a>
+			    </div>
+<!-- 		        <div class="col-md-5 col-lg-4 order-md-last" id="paymentSide" style="background-color: gray"> -->
+		        
+<!-- 		        </div> -->
+		    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
