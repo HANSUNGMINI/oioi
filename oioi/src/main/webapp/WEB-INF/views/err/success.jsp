@@ -20,7 +20,8 @@
     	
 		if("${notify}" == "true"){
 			// ~~~~~~~~~~~~~~~김유신~~~~~~~~~~~~~~~~~~
-			let socket = new WebSocket('ws://localhost:8081/oi/push');
+// 			let socket = new WebSocket('ws://localhost:8081/oi/push');
+			let socket = new WebSocket('ws://http://c3d2401t1.itwillbs.com/oioi/push');
 			socket.onopen = function (){
 				if(msg == "신고 접수 완료되었습니다") {
 					socket.send(toJsonString("toAdmin", "checkReport"));

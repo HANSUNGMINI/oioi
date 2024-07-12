@@ -79,7 +79,8 @@ public class OipayApiClient {
 		// appdata.properties 파일 내의 값을 가져와서 전달
 		parameters.add("client_id", client_id);
 		parameters.add("client_secret", client_secret);
-		parameters.add("redirect_uri", "http://localhost:8081/oi/callback");
+//		parameters.add("redirect_uri", "http://localhost:8081/oi/callback");
+		parameters.add("redirect_uri", "http:///c3d2401t1.itwillbs.com/oioi/callback");
 		parameters.add("grant_type", "authorization_code");
 		
 		// HttpEntity 객체를 활용하여 요청에 사용될 파라미터가 저장된 객체를 요청 형식에 맞게 변환
