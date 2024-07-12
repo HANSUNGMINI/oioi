@@ -368,7 +368,7 @@
 							<label for="file-input" class="input-group-text file-input-label">
 						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i>
 						    </label>
-						    <input type="file" id="file-input" style="display: none;">
+<!-- 						    <input type="file" id="file-input" style="display: none;"> -->
 <!--                             </div> -->
                         </div>
                     </div>

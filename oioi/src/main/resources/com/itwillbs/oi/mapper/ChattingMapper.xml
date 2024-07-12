@@ -190,8 +190,6 @@
         SELECT MS_CONTENT
 	       , TO_ID
 	       , FROM_ID
-	       , CR_TYPE
-	       , MS_IMG
 	       , SUBSTRING(MS_DATE, 12, 5) AS 'MS_TIME'
 	      , CASE 
 	         WHEN FROM_ID = #{US_ID} THEN 'right'

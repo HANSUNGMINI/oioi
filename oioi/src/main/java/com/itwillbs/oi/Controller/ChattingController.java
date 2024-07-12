@@ -159,7 +159,10 @@ public class ChattingController {
 		
 		// 채팅방 번호 가져오기
     	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
-    	map.put("CR_ID", chatRoom.get("CR_ID"));
+    	
+    	if(chatRoom != null) {
+    		map.put("CR_ID", chatRoom.get("CR_ID"));
+    	}
     	
 		// 채팅방의 구매자 및 판매자 가져오기
 		Map<String, String> userRole = service.getUserRole(map);
