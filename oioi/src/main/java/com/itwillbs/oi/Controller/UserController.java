@@ -95,6 +95,7 @@ public class UserController {
                     session.setAttribute("US_ID", loggedInUser.get("US_ID"));
                     session.setAttribute("US_EMAIL", loggedInUser.get("US_EMAIL"));
                     session.setAttribute("US_NICK", loggedInUser.get("US_NICK"));
+                    session.setAttribute("US_STATUS", loggedInUser.get("US_STATUS"));
                     session.setAttribute("KAKAO_LOGIN", true);
                     session.setAttribute("KAKAO_ACCESS_TOKEN", accessToken); // 액세스 토큰 세션에 저장
                     // 세션에 저장된 US_ID와 US_NICK 콘솔에 출력
@@ -223,6 +224,7 @@ public class UserController {
 	          // 결과에 따라 처리
 			if (result != null) {
 	              // 세션에 저장
+				session.setAttribute("US_STATUS", service.selectStatus(userId));
 				session.setAttribute("NAVER_LOGIN", true);
 				session.setAttribute("US_ID", userId);
 				session.setAttribute("US_NICK", userNick);
@@ -440,6 +442,8 @@ public class UserController {
 	    	session.setAttribute("BUI_ACCESS_TOKEN", bankAccessToken);
 	        session.setAttribute("US_ID", userId);
 	        session.setAttribute("US_NICK", dbUser.get("US_NICK"));
+	        session.setAttribute("US_STATUS", dbUser.get("US_STATUS"));
+	        
 	        System.out.println("로그인 아이디: " + userId);
 	        System.out.println("회원정보" + dbUser);
 	        

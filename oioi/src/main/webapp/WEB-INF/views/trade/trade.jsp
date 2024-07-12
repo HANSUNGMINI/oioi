@@ -342,7 +342,7 @@
                     <div class="shop-sidebar">
                         <!-- Single Widget -->
                         <div class="single-widget category">
-                            <h3 class="title">Categories</h3>
+                            <h3 class="title">Categories ${US_STATUS}</h3>
                             <ul class="categor-list">
                                 <li>
                                     <select id="cate1" name="cate1" class="form-control" required >
