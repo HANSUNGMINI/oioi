@@ -28,6 +28,11 @@ public class OipayController {
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
 			return "err/fail";
 		}
+		
+		if(!CheckAuthority.checkStatus(session, model)) {
+			return "err/fail";
+		}
+		
 		return "oipay/connectAct";
 	}
 	
@@ -60,6 +65,10 @@ public class OipayController {
 	public String oiPay(Model model, HttpSession session) {
 		
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.MAIN)) {
+			return "err/fail";
+		}
+		
+		if(!CheckAuthority.checkStatus(session, model)) {
 			return "err/fail";
 		}
 		

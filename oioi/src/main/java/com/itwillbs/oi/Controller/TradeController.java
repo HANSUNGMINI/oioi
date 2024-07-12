@@ -44,8 +44,6 @@ public class TradeController {
 	@GetMapping("trade")
 	public String goTrade( Model model) {
 		
-		
-		
 		 //카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);
@@ -146,6 +144,11 @@ public class TradeController {
 			System.out.println(model.addAttribute("targetURL", "login"));
 			return "err/fail";
 		}
+		
+		if(!CheckAuthority.checkStatus(session, model)) {
+			return "err/fail";
+		}
+		
 		// 카테고리 대분류
 		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
 		model.addAttribute("cate1", cate1);

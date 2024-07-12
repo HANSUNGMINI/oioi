@@ -117,7 +117,7 @@ public class CommunityContorller {
 	}
 	
 	@GetMapping("communityWrite") // 게시글 작성 페이지 이동
-	public String communityWrite(HttpSession session, Model model, HttpServletRequest request) {
+	public String communityWrite(HttpSession session, Model model) {
 		
 //		if(session.getAttribute("US_ID") == null) {
 //			model.addAttribute("msg", "로그인 후 이용이 가능합니다.");
@@ -134,7 +134,7 @@ public class CommunityContorller {
 			return "err/fail";
 		}
 		
-		if(!CheckAuthority.checkStatus(session, model, request)) {
+		if(!CheckAuthority.checkStatus(session, model)) {
 			return "err/fail";
 		}
 		
@@ -325,6 +325,7 @@ public class CommunityContorller {
 			return "err/fail";
 		}
 		
+		
 		Map<String, Object> boardMap = service.selectBoardDetail(Integer.parseInt(map.get("CM_IDX").toString()));
 		
 		boardMap.put("CM_IDX", map.get("CM_IDX").toString());
@@ -353,6 +354,7 @@ public class CommunityContorller {
 		if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
 			return "err/fail";
 		}
+		
 		
 		int deleteCnt = service.deleteBoard(map);
 		
