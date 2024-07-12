@@ -52,7 +52,7 @@ public class MailService {
 		System.out.println("메일 서비스 user 정보 : " + user);
 		String userEmail = (String) user.get("US_EMAIL");
 		String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
-		String content = "<a href='http://localhost:8081/oi/change_passwd?user_id=" 
+		String content = "<a href='http://c3d2401t1.itwillbs.com/oioi/change_passwd?user_id=" 
 		                + user.get("US_ID") 
 		                + "&user_name=" + user.get("US_NAME")
 		                + "&user_email=" + userEmail
