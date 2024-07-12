@@ -116,9 +116,9 @@ public class TradeController {
 //			System.out.println(model.addAttribute("targetURL", "login"));
 //			return "err/fail";
 //		}
-//		if(session.getAttribute("US_ID") != "" || session.getAttribute("US_ID") != null) {
-//			map.put("US_ID", session.getAttribute("US_ID").toString());
-//		}
+		if(session.getAttribute("US_ID") != "" || session.getAttribute("US_ID") != null) {
+			map.put("US_ID", session.getAttribute("US_ID").toString());
+		}
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
@@ -353,7 +353,7 @@ public class TradeController {
         }
         
         System.out.println("조회한 찜목록 레코드 : " + checkWishList);
-        
+        System.out.println("wish_yn 값 확인: " + jo);
 //        if(checkWishList > 0) {
 //        	int deleteResult = tradeService.deleteWishList(map);
 //        	if (deleteResult > 0) {
