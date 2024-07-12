@@ -64,7 +64,7 @@
   	</update>
   	
   	<select id="selectCM_IDX" resultType="int">
-  		SELECT CM_IDX + 1
+  		SELECT CM_IDX
 		FROM community
 		ORDER BY CM_IDX DESC
 		LIMIT 1;

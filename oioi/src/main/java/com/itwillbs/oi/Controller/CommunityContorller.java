@@ -131,9 +131,7 @@ public class CommunityContorller {
 		}
 		
 //		List<Map<String, String>> CM_CATEGORY = service.selectCM_CATEGORY();
-		int next_cm_idx = service.selectCM_IDX();
 		
-		model.addAttribute("CM_IDX", next_cm_idx);
 		model.addAttribute("CM_NICK", session.getAttribute("US_NICK"));
 		
 		return "community/board_write";
@@ -218,7 +216,9 @@ public class CommunityContorller {
     			return "err/fail";
     		}
     		
-        	return "redirect:/boardDetail?CM_IDX=" + map.get("CM_IDX");
+    		int CM_IDX = service.selectCM_IDX();
+    		
+        	return "redirect:/boardDetail?CM_IDX=" + CM_IDX;
 
 	}
 	
