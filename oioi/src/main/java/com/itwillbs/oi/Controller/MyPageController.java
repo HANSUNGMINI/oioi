@@ -1,5 +1,6 @@
 package com.itwillbs.oi.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -118,8 +119,12 @@ public class MyPageController {
     	return "mypage/my_trade";
     }
     
-    @GetMapping("myReport")
-    public String myReport(Model model) {
+    @GetMapping("myAuction")
+    public String myAuction(Model model) {
+    	
+		String id = (String)session.getAttribute("US_ID");
+
+//    	System.out.println("아이디는 :? " + id);
     	
 		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
@@ -128,7 +133,16 @@ public class MyPageController {
 			return "err/fail";
 		}
 		
-    	return "mypage/my_report";
+        // 경매 데이터 가져오기
+        List<Map<String, Object>> auctionList = service.getAuctionList(id);
+
+        System.out.println("경매 모든 정보 : " + auctionList);
+        
+        // 모델에 경매 데이터 추가
+        model.addAttribute("auctionList", auctionList);
+		
+        
+    	return "mypage/my_auction";
     }
 	
 	

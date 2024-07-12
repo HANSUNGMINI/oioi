@@ -1,5 +1,6 @@
 package com.itwillbs.oi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -171,6 +172,11 @@ public class UserService {
 		if(!hasNull) {
 			mapper.updateStatus(id);
 		}
+	}
+
+	public List<Map<String, Object>> getAuctionList(String id) {
+		
+		return mapper.selectAuctionList(id);
 	}
 	
 }

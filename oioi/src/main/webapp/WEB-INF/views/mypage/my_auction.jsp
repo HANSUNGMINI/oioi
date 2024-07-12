@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
-    <title>나의 신고 내역</title>
+    <title>나의 경매 내역</title>
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <!-- StyleSheet -->
@@ -42,87 +42,91 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
-</head>
 
-<style>
-    #highlighted-row {
-        border: 1px solid #eeeeeec2;
-        padding: 30px;
-        margin-top: 50px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        border-radius: 10px;
-        background-color: #fff;
-    }
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+        }
 
-    .info-card {
-        margin: 20px 0;
-        border: 1px solid #d4edda;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        #highlighted-row {
+            border: 1px solid #eeeeeec2;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            background-color: #fff;
+        }
 
-    .card-header {
-        background-color: #27a745;
-        color: #ffffff;
-        padding: 15px;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd;
-    }
+        .info-card {
+            margin: 20px 0;
+            border: 1px solid #d4edda;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .card-body {
-        padding: 15px;
-        background-color: #f8f8f8;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+        .card-header {
+            background-color: #27a745;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
 
-    .info-item {
-        display: flex;
-        flex-direction: column;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-        width: 100%;
-    }
-
-    .info-item label {
-        font-weight: bold;
-        color: #555;
-    }
-
-    .info-item span {
-        color: #333;
-    }
-
-    .profile-image {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        margin-bottom: 20px;
-    }
-
-    .edit-btn {
-        background-color: #27a745;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-        .info-item {
+        .card-body {
+            padding: 15px;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
             align-items: flex-start;
         }
 
-        .info-item label {
-            margin-bottom: 5px;
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            width: 100%;
         }
-    }
-</style>
 
+        .info-item label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .info-item span {
+            color: #333;
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .edit-btn {
+            background-color: #27a745;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .info-item {
+                align-items: flex-start;
+            }
+
+            .info-item label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Start Blog Single -->
@@ -130,33 +134,43 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-12">
-				<jsp:include page="../mypage/sidebar.jsp"></jsp:include>
-			</div>
+                <jsp:include page="../mypage/sidebar.jsp"></jsp:include>
+            </div>
             <div class="col-lg-9 col-12" id="highlighted-row">
-            	<div class="info-card text-center">
-                    <h5 class="card-header">나의 신고 내역</h5>
+                <div class="info-card text-center">
+                    <h5 class="card-header">나의 경매 내역</h5>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">제목</th>
-                                    <th scope="col">신고 날짜</th>
-                                    <th scope="col">상태</th>
-                                    <th scope="col">상세보기</th>
+                                    <th scope="col">경매 ID</th>
+                                    <th scope="col">상품 ID</th>
+                                    <th scope="col">상품 이미지</th>
+                                    <th scope="col">경매 시작 시간</th>
+                                    <th scope="col">경매 종료 시간</th>
+                                    <th scope="col">최종 입찰자</th>
+                                    <th scope="col">최종 입찰가</th>
+<!--                                     <th scope="col">주 경매 여부</th> -->
+<!--                                     <th scope="col">상세보기</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="qna" items="${reList}">
+                                <c:forEach var="auction" items="${auctionList}">
                                     <tr>
-                                        <td>${qna.qnaTitle}</td>
-                                        <td><fmt:formatDate value="${qna.qnaDate}" pattern="yyyy-MM-dd" /></td>
-                                        <td>${qna.qnaStatus}</td>
-                                        <td><a href="viewQnA?qnaId=${qna.qnaId}" class="btn btn-primary">보기</a></td>
+                                        <td>${auction.AT_IDX}</td>
+                                        <td>${auction.APD_IDX}</td>
+                                        <td><img src="${pageContext.request.contextPath}/resources/upload/${auction.APD_MAIN_IMAGE}" alt="상품 이미지" width="100" height="100"></td>
+                                        <td><fmt:formatDate value="${auction.AT_START_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                        <td><fmt:formatDate value="${auction.AT_END_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                        <td>${auction.FINAL_BID_USER}</td>
+                                        <td>${auction.FINAL_BID_PRICE}</td>
+<%--                                         <td>${auction.AT_MAIN}</td> --%>
+<%--                                         <td><a href="viewAuction?auctionId=${auction.AT_IDX}" class="btn btn-primary">보기</a></td> --%>
                                     </tr>
                                 </c:forEach>
-                                <c:if test="${empty qnaList}">
+                                <c:if test="${empty auctionList}">
                                     <tr>
-                                        <td colspan="5">신고 내역이 없습니다.</td>
+                                        <td colspan="9">경매 내역이 없습니다.</td>
                                     </tr>
                                 </c:if>
                             </tbody>

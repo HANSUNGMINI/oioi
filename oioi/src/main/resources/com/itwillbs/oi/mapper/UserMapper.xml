@@ -284,6 +284,14 @@
 		 WHERE US_ID = #{id}
 	</select>
 	
+	<select id="selectAuctionList" resultType="map">
+        SELECT a.AT_IDX, a.APD_IDX, a.AT_START_TIME, a.AT_END_TIME, a.FINAL_BID_USER, a.FINAL_BID_PRICE, a.AT_MAIN,
+               ap.APD_IMAGE, ap.APD_STATUS, ap.APD_REJECTION, ap.APD_DEADLINE, ap.APD_CONDITION, ap.APD_START_PRICE, ap.APD_BUY_NOW_PRICE, ap.APD_REG_DATE, ap.APD_MAIN_IMAGE
+        FROM auction a
+        JOIN auction_product ap ON a.APD_IDX = ap.APD_IDX
+        WHERE ap.APD_OWNER = #{id}
+	</select>
+	
 </mapper>
 
 

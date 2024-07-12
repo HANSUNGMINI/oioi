@@ -82,7 +82,9 @@ public interface UserMapper {
 
  	int updateUserProfile(@Param("userId") String userId, @Param("fileUrl") String fileUrl);
 
-	int updateText(@Param("userId") String userId,@Param("editText") String editText);	
+	int updateText(@Param("userId") String userId,@Param("editText") String editText);
+	
+	List<Map<String, Object>> selectAuctionList(String id);	
 	
 	
 
