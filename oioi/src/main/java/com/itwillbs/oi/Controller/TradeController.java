@@ -112,12 +112,12 @@ public class TradeController {
 	public String goDetail(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		System.out.println(map);
 		System.out.println("PD_IDX :" + map.get("PD_IDX"));
-		if(!CheckAuthority.isUser(session, model)) {
-			System.out.println(model.addAttribute("targetURL", "login"));
-			return "err/fail";
-		}
+//		if(!CheckAuthority.isUser(session, model)) {
+//			System.out.println(model.addAttribute("targetURL", "login"));
+//			return "err/fail";
+//		}
 //		if(session.getAttribute("US_ID") != "" || session.getAttribute("US_ID") != null) {
-			map.put("US_ID", session.getAttribute("US_ID").toString());
+//			map.put("US_ID", session.getAttribute("US_ID").toString());
 //		}
 		
 		// 클릭 시 조회 수 + 1

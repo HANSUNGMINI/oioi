@@ -22,22 +22,65 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
+<style type="text/css"></style>
 <style type="text/css">
-	.input-group-text {
-		cursor: pointer;
-	}
 	
+ 	.input-group-text { 
+ 		cursor: pointer;
+ 	} 
 	
-	 .m-b-0 {
-	  font-family: "Noto Sans KR", sans-serif;
-	  font-optical-sizing: auto;
-	  font-style: normal;
-	}
+ 	 .m-b-0 { 
+ 	  font-family: "Noto Sans KR", sans-serif; 
+ 	  font-optical-sizing: auto; 
+ 	  font-style: normal; 
+ 	} 
 	
-	#intro {
-		margin-left:130px;
-	}
+ 	#intro { 
+ 		margin-left:130px; 
+ 	} 
+		
+	/* 로고창*/
+ 	.logo-container {
+ 	    display: flex; 
+ 	    flex-direction: column; 
+ 	    align-items: center; 
+ 	    margin-top: 50px; 
+ 	    margin-bottom: 30px; 
+ 	}  
+ 	/* 로고 이미지 */ 
+  	 #frame .content #chat-form .chat .logo-container .logo-image {  
+  	    width: 100px ; /* 이미지 크기는 적절히 조정 */  
+  	    height: 100px ; 
+  	    object-fit: cover ; 
+  	}  
+	/* 로고 텍스트 */
+ 	.logo-text { 
+ 		margin-top: 20px; 
+ 	    font-size: 20px; /* 텍스트 크기는 적절히 조정 */ 
+ 	    font-weight: bold; 
+ 	    text-align: center;
+ 	} 
+ 	/* 챗봇 채팅 이미지 */
+ 	#frame .content .chat #chat-container .sent img{ 
+ 		width: 50px; /* 이미지 크기는 적절히 조정 */ 
+ 	    height: 50px; 
+ 	} 
+ 	/* 유저 채팅 이미지*/
+ 	#frame .content .chat #chat-container .replies img{ 
+ 		width: 50px; /* 이미지 크기는 적절히 조정 */ 
+ 	    height: 50px; 
+ 	    float: right;
+ 	} 
+ 	/* 유저 채팅 */
+ 	#frame .content .chat ul li.replies p{ 
+ 		background: #f5f5f5; 
+   		float: right; 
+ 	} 
+ 	
+ 	
+	#frame .content .chat li {
+		list-style: none;
+	}	 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai/dist/esm/index.min.js"></script>
 
@@ -60,19 +103,22 @@
 		<div class="content">
 			<div class="contact-profile">
 <%-- 				<img src="${pageContext.request.contextPath }/resources/images/chatbot.png" alt="" /> --%>
-				<p>피클</p>
+<!-- 				<p>피클</p> -->
 			</div>
 			<form action="" method="post" id="chat-form">
 				<div class="chat">
-					<div class="chat-history">
-<%-- 						<img class="logo-image" src="${pageContext.request.contextPath }/resources/img/chat_bot.png" alt="" /> --%>
-<!-- 						<h2 class="logo-text">피클이한테 문의하기</h2> -->
+					<div class="logo-container"  >
+						<img class="logo-image" src="${pageContext.request.contextPath }/resources/images/chatbot2.PNG" alt="" />
+						<h2 class="logo-text">피클이한테 문의하기</h2>
 					</div>
 					<ul class="m-b-0" id="chat-container">
-<%-- 						<li class="sent"><img src="${pageContext.request.contextPath }/resources/images/chatbot.png" alt="" /> --%>
-							<p>
-								안녕하세요. 피클입니다!<br> <br> 궁금한게 있으시다면 피클한테 물어보면 바로 대답해 드릴게요!<br></li>
+						<li class="sent">
+							<img src="${pageContext.request.contextPath }/resources/images/chatbot2.PNG" alt="" />
+							<p>안녕하세요. 피클입니다!<br> 
+							궁금한게 있으시다면 피클한테 물어보면 바로 대답해 드릴게요!<br>
+						</li>
 					</ul>
+					
 				</div>
 				<div class="chat-message clearfix" style="margin-bottom:0px">
 					<div class="input-group mb-0">

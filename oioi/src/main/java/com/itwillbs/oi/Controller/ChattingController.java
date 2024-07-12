@@ -143,6 +143,7 @@ public class ChattingController {
 		String TO_ID = (String) map.get("TO_ID");
 		String FROM_ID = (String) map.get("FROM_ID");
 		String sId = (String) map.get("US_ID");
+		int PD_IDX = Integer.parseInt((String)map.get("PD_IDX"));
 		
 		// 상품 정보 가져오기
 		Map<String, String> pdInfo = service.getProductInfo(map);
@@ -156,6 +157,10 @@ public class ChattingController {
 		Map<String, String> myInfo = service.getMyInfo(map);
 		System.out.println("내 정보 " + myInfo);
 		
+		// 채팅방 번호 가져오기
+    	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+    	map.put("CR_ID", chatRoom.get("CR_ID"));
+    	
 		// 채팅방의 구매자 및 판매자 가져오기
 		Map<String, String> userRole = service.getUserRole(map);
 		System.out.println("판매자 및 구매자 아이디 " + userRole);
@@ -219,19 +224,6 @@ public class ChattingController {
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
 		
 		return "chatting/chattingRoom";
-	}
-	
-	
-	// 채팅룸 가져오기
-	@ResponseBody
-	@GetMapping("getChatroom")
-	public int getChatroom(@RequestParam Map<String, Object> map, Model model) {
-		
-		Map<String, Object> chatRoom = service.checkChatRoom(map);
-		int CR_ID = (int) chatRoom.get("CR_ID");
-	    model.addAttribute("CR_ID", CR_ID);
-	   
-	    return CR_ID;
 	}
 	
 	// 채팅 가져오기

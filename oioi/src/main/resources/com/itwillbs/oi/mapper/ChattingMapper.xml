@@ -81,16 +81,10 @@
 			, #{TO_ID}
 			, #{FROM_ID}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
+			, 0
+			, null
 		)
 	</insert>
-	
-	<select id="checkChatRoom" resultType="hashmap">
-		SELECT CR_ID, FROM_ID
-		FROM chat_room
-		WHERE PD_IDX = #{PD_IDX}
-			AND FROM_ID = #{FROM_ID}
-			AND TO_ID = #{TO_ID}
-	</select>
 	
 	<select id="checkChat" resultType="int">
 		SELECT COUNT(CR_ID) 
@@ -99,7 +93,6 @@
 			AND FROM_ID = #{FROM_ID}
 			AND TO_ID = #{TO_ID}
 	</select>
-	
 	
 	<select id="getMyChatInfo" resultType="hashmap">
 		SELECT CR.CR_ID, CR.PD_IDX, CR.BUYER_ID, CR.SELLER_ID, u.US_NICK, u.US_PROFILE
@@ -144,13 +137,6 @@
 		FROM chat_message
 		WHERE CR_ID = #{CR_ID};
 	</select>
-	
-	<update id="updateUnreadCnt">
-		UPDATE chat_message
-		SET CM_READCOUNT = 1
-			, CM_READBY = #{US_ID}
-		WHERE CR_ID = #{CR_ID}
-	</update>
 	
 	<update id="updateUnreadZero">
 		UPDATE chat_message
@@ -229,9 +215,7 @@
 			, #{TO_ID}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
 			, #{msg}
-			, NULL
-			, 0
-			, 2
+			, 1
 			, #{FROM_ID}
 		)
 	</insert>

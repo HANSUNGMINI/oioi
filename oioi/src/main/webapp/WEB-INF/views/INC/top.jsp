@@ -360,7 +360,6 @@
     
     $(document).ready(function() {
     	getUnreadCount();
-    	getMainChatList();
 		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');

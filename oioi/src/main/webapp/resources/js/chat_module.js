@@ -6,9 +6,12 @@ const API_KEY = "AIzaSyDytpVGxvmHOwqG_kUvsikukpRtIsAQyNY";
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 const memberImg = $("#member_img").val();
-const contextPath = $("#contextPath").val();
+//const contextPath = $("#contextPath").val();
+//const contextPath = "${pageContext.request.contextPath}";
+const contextPath = "/oi";
+ 
 
-
+ 
 let history = [
 	{
 		role: "user",
@@ -301,11 +304,12 @@ async function getResponse(prompt) {
 }
 
 export const userDiv = (data) => {
-	return "<li class='replies'><img src='"+memberImg+"' alt='' /><p>" + data + "</p></li>";
+//	return "<li class='replies'><img src='"+memberImg+"' alt='' /><p>" + data + "</p></li>";
+	return "<li class='replies'><img src='" +contextPath +"/resources/images/chatbot.png' alt='' /><br><br><p>" + data + "</p></li>";
 };
 
 export const aiDiv = (data) => {
-	return "<li class='sent'><img src='" +contextPath +"/resources/img/chat_bot.png' alt='' /><p>" + data + "</p></li>";
+	return "<li class='sent'><img src='" +contextPath +"/resources/images/chatbot2.PNG' alt='' /><p>" + data + "</p></li>";
 };
 
 

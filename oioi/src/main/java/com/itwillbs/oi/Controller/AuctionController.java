@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.ChattingService;
 import com.itwillbs.oi.service.TradeService;
@@ -99,8 +100,14 @@ public class AuctionController {
    }
    
    @GetMapping("auctionRegist")
-   public String auctionRegist(Model model) {
+   public String auctionRegist(Model model,HttpSession session) {
       System.out.println("auctionRegist - controller");
+      
+      
+      //로그인
+      if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
+			return "err/fail";
+	  }
       
       //대분류
       List<Map<String, String>> cate1 = service.getCategory1();
@@ -273,8 +280,13 @@ public class AuctionController {
    
    @ResponseBody
    @PostMapping("auctionBid")
-   public String auctionBid(@RequestParam Map<String, Object> map,Model model) {
+   public String auctionBid(@RequestParam Map<String, Object> map,Model model, HttpSession session) {
       System.out.println("auctionBid : " + map);
+      
+      //로그인
+      if(!CheckAuthority.isUser(session, model, CheckAuthority.LOGIN)) {
+			return "err/fail";
+	  }
       
       int updateApdStatus = service.updateApdStatus((String)map.get("APD_IDX"));
       if(updateApdStatus > 0) {
