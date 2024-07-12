@@ -52,7 +52,7 @@ public interface AuctionMapper {
 
 	boolean updateApdBuyOiMoney(Map<String, Object> map);
 
-	String getOiMoney(Map<String, Object> map);
+	String getOiMoney(String US_ID);
 
 	String selectAddress(String uS_ID);
 
