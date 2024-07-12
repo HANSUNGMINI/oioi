@@ -377,6 +377,7 @@ function updateField(field, value) {
         success: function(response) {
             if (response.result) { // 필드 업데이트 성공
                 $('#' + field).text(value);
+            	reloadSession();
                 showCustomAlert('변경되었습니다.', true);
             } else { // 필드 업데이트 실패
                 showCustomAlert("변경 실패!", false);
@@ -387,6 +388,15 @@ function updateField(field, value) {
         }
     });
 }
+
+function reloadSession() {
+	 $.ajax({
+	        type: "PUT",
+	        url: "ReloadUser", // 컨트롤러 URL
+	        success: function() {}
+	 });
+}
+
 
 function checkNick(user_nick) { // 닉네임 유효성 검사
     const bannedWords = ["시발", "개새", "fuck"];

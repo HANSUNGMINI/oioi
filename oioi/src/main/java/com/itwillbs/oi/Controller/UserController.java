@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,6 +53,18 @@ public class UserController {
 	public String goEasyLogin() {
 		return "user/easy_login";
 	}
+	
+	@PutMapping("ReloadUser")
+	public void reloadUser (HttpSession session, Model model) {
+		Map<String, String> user = service.selectMyUser((String)session.getAttribute("US_ID"));
+		System.out.println(user);
+		session.setAttribute("US_ID", user.get("US_ID"));
+	    session.setAttribute("US_EMAIL", user.get("US_EMAIL"));
+	    session.setAttribute("US_NICK", user.get("US_NICK"));
+	    session.setAttribute("US_STATUS", user.get("US_STATUS"));
+	}
+	
+	
 	
 	// 카카오 로그인 처리 메서드
     @PostMapping("kakao_login")
