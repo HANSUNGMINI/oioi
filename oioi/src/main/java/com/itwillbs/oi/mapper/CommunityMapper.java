@@ -22,7 +22,7 @@ public interface CommunityMapper {
 
 	int updateBoard(Map<String, Object> boardMap);
 
-	int selectListCount(String type);
+	int selectListCount(Map<String, Object> map);
 
 	void updateReadCount(int cM_IDX);
 

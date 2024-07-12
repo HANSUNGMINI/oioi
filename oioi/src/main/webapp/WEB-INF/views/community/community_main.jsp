@@ -227,6 +227,19 @@
 	
 		$('#btnSearch').on('click', check);
 
+// 		$("input[name = 'searchKeyword']").on('keypress', function(e) { // 검색시 엔터키 
+// 	        if (e.which == 13) { // 엔터 키의 키 코드는 13입니다.
+// 	        	check();
+// 	        }
+// 	    });
+		
+		$("input[name='searchKeyword']").off('keypress').on('keypress', function(e) {
+	        if (e.which == 13) {
+	            e.preventDefault();
+	            check();
+	        }
+	    });
+		
 		function check() { // 검색 시 글자수 체크
 // 			var searchKeyword = $('#searchKeyword').val();
 			var searchKeyword = $("input[name = 'searchKeyword']").val();
@@ -240,11 +253,8 @@
 			showBoard(type, pageNum);
 		}
 		
-		$("input[name = 'searchKeyword']").on('keypress', function(e) { // 검색시 엔터키 
-	        if (e.which == 13) { // 엔터 키의 키 코드는 13입니다.
-	        	check();
-	        }
-	    });
+		
+		
 		
 		// 페이지 로딩 시 "전체 게시판" 링크의 스타일과 텍스트를 변경
 		let allElement = $("#all");
@@ -396,61 +406,62 @@
 			},
 			dataType : "JSON",
 			success : function(response) {
-				console.log(response);
-				
-				if(response == null) {
-					alert("결과없음");
-				}
 				
 				let boards = response.boardJson;
 				
 				$("#tbody").empty();
                 $("#paging").empty();
 
-				
-				$.each(boards, function(index, board) {
-					$("#tbody").append(
-						'<tr class="tr1">' +
-							'<td id="td1">' + board.count + '</td>' +
-							'<td id="td1">' + board.CM_CATEGORY.substring(0,2) + '</td>' +
-							'<td id="td1"><a href="boardDetail?CM_IDX='+ board.CM_IDX +'">'+ board.CM_TITLE + '</a></td>' +
-							'<td id="td1">' + board.CM_NICK + '</td>' +
-							'<td id="td1">' + board.CM_REG_DATE + '</td>' +
-						'</tr>'
+				if (response.boardJson.length === 0) {
+					 $("#tbody").append(
+							 '<tr><td>&nbsp;</td></tr>' + 
+							 '<tr><td colspan="5"><h6>검색 결과가 없습니다</h6></td></tr>'
 					);
-				});
-				
-				 let startPage = response.pageJson.startPage;
-                 let endPage = response.pageJson.endPage;
-                 let maxPage = response.pageJson.maxPage;
+		        } else {
+					$.each(boards, function(index, board) {
+						$("#tbody").append(
+							'<tr class="tr1">' +
+								'<td id="td1">' + board.count + '</td>' +
+								'<td id="td1">' + board.CM_CATEGORY.substring(0,2) + '</td>' +
+								'<td id="td1"><a href="boardDetail?CM_IDX='+ board.CM_IDX +'">'+ board.CM_TITLE + '</a></td>' +
+								'<td id="td1">' + board.CM_NICK + '</td>' +
+								'<td id="td1">' + board.CM_REG_DATE + '</td>' +
+							'</tr>'
+						);
+					});
 					
-                 $("#paging").append(
-                     '<ul class="pagination">' +
-                         '<li class="page-item ' + (pageNum == 1 ? 'disabled' : '') + '">' +
-                             '<a id="previousPageLink" class="page-link" href="#" data-pagenum="' + (pageNum - 1) + '" aria-label="Previous">' +
-                                 '<span aria-hidden="true">&laquo;</span>' +
-                             '</a>' +
-                         '</li>'
-                 );
-
-                 for (let i = startPage; i <= endPage; i++) {
-                     $("#paging ul").append(
-                         '<li class="page-item">' +
-                             '<a class="page-link pageLink" href="#" data-pagenum="' + i + '">' + i + '</a>' +
-                         '</li>'
-                     );
-                 }
-
-                 $("#paging ul").append(
-                     '<li class="page-item ' + (pageNum == maxPage ? 'disabled' : '') + '">' +
-                         '<a id="nextPageLink" class="page-link" href="#" data-pagenum="' + (pageNum + 1) + '" aria-label="Next">' +
-                             '<span aria-hidden="true">&raquo;</span>' +
-                         '</a>' +
-                     '</li>' +
-                     '</ul>'
-                 );
-                 isLoading = false;
-				
+					 let startPage = response.pageJson.startPage;
+	                 let endPage = response.pageJson.endPage;
+	                 let maxPage = response.pageJson.maxPage;
+						
+	                 $("#paging").append(
+	                     '<ul class="pagination">' +
+	                         '<li class="page-item ' + (pageNum == 1 ? 'disabled' : '') + '">' +
+	                             '<a id="previousPageLink" class="page-link" href="#" data-pagenum="' + (pageNum - 1) + '" aria-label="Previous">' +
+	                                 '<span aria-hidden="true">&laquo;</span>' +
+	                             '</a>' +
+	                         '</li>'
+	                 );
+	
+	                 for (let i = startPage; i <= endPage; i++) {
+	                     $("#paging ul").append(
+	                         '<li class="page-item">' +
+	                             '<a class="page-link pageLink" href="#" data-pagenum="' + i + '">' + i + '</a>' +
+	                         '</li>'
+	                     );
+	                 }
+	
+	                 $("#paging ul").append(
+	                     '<li class="page-item ' + (pageNum == maxPage ? 'disabled' : '') + '">' +
+	                         '<a id="nextPageLink" class="page-link" href="#" data-pagenum="' + (pageNum + 1) + '" aria-label="Next">' +
+	                             '<span aria-hidden="true">&raquo;</span>' +
+	                         '</a>' +
+	                     '</li>' +
+	                     '</ul>'
+	                 );
+	                 isLoading = false;
+					
+				}
 			},
 			error: function(xhr, status, error) {
 				console.log("AJAX Error:", status, error); // 에러 로그 추가
