@@ -41,103 +41,94 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #highlighted-row {
+            border: 1px solid #eeeeeec2;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .info-card {
+            margin: 20px 0;
+            border: 1px solid #d4edda;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .card-header {
+            background-color: #27a745;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .nav-tabs {
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+
+        .nav-tabs .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        .table {
+            margin-bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 15px;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            vertical-align: middle !important;
+        }
+
+        @media (max-width: 768px) {
+            .info-item {
+                align-items: flex-start;
+            }
+
+            .info-item label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
 </head>
-
-<style>
-    #highlighted-row {
-        border: 1px solid #eeeeeec2;
-        padding: 30px;
-        margin-top: 50px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        border-radius: 10px;
-        background-color: #fff;
-    }
-
-    .info-card {
-        margin: 20px 0;
-        border: 1px solid #d4edda;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        background-color: #27a745;
-        color: #ffffff;
-        padding: 15px;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        color: #495057;
-        background-color: #fff;
-        border-color: #dee2e6 #dee2e6 #fff;
-    }
-
-    .nav-tabs .nav-link {
-        border: 1px solid transparent;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .card-body {
-        padding: 15px;
-        background-color: #f8f8f8;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .info-item {
-        display: flex;
-        flex-direction: column;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-        width: 100%;
-    }
-
-    .info-item label {
-        font-weight: bold;
-        color: #555;
-    }
-
-    .info-item span {
-        color: #333;
-    }
-
-    .profile-image {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        margin-bottom: 20px;
-    }
-
-    .edit-btn {
-        background-color: #27a745;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-        .info-item {
-            align-items: flex-start;
-        }
-
-        .info-item label {
-            margin-bottom: 5px;
-        }
-    }
-</style>
-
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Start Blog Single -->
@@ -164,8 +155,8 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">제목</th>
-                                            <th scope="col">문의 날짜</th>
+                                            <th scope="col">상품명</th>
+                                            <th scope="col">구매 날짜</th>
                                             <th scope="col">상태</th>
                                             <th scope="col">상세보기</th>
                                         </tr>
@@ -173,10 +164,10 @@
                                     <tbody>
                                         <c:forEach var="purchase" items="${purchaseList}">
                                             <tr>
-                                                <td>${purchase.title}</td>
-                                                <td><fmt:formatDate value="${purchase.date}" pattern="yyyy-MM-dd" /></td>
-                                                <td>${purchase.status}</td>
-                                                <td><a href="viewPurchase?purchaseId=${purchase.id}" class="btn btn-primary">보기</a></td>
+                                                <td>${purchase.PD_SUBJECT}</td>
+                                                <td><fmt:formatDate value="${purchase.TD_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                <td>${purchase.PD_STATUS}</td>
+                                                <td><a href="viewPurchase?purchaseId=${purchase.TD_IDX}" class="btn btn-primary">보기</a></td>
                                             </tr>
                                         </c:forEach>
                                         <c:if test="${empty purchaseList}">
@@ -191,8 +182,8 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">제목</th>
-                                            <th scope="col">문의 날짜</th>
+                                            <th scope="col">상품명</th>
+                                            <th scope="col">판매 날짜</th>
                                             <th scope="col">상태</th>
                                             <th scope="col">상세보기</th>
                                         </tr>
@@ -200,10 +191,10 @@
                                     <tbody>
                                         <c:forEach var="sale" items="${saleList}">
                                             <tr>
-                                                <td>${sale.title}</td>
-                                                <td><fmt:formatDate value="${sale.date}" pattern="yyyy-MM-dd" /></td>
-                                                <td>${sale.status}</td>
-                                                <td><a href="viewSale?saleId=${sale.id}" class="btn btn-primary">보기</a></td>
+                                                <td>${sale.PD_SUBJECT}</td>
+                                                <td><fmt:formatDate value="${sale.TD_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                <td>${sale.PD_STATUS}</td>
+                                                <td><a href="viewSale?saleId=${sale.TD_IDX}" class="btn btn-primary">보기</a></td>
                                             </tr>
                                         </c:forEach>
                                         <c:if test="${empty saleList}">

@@ -84,7 +84,9 @@ public interface UserMapper {
 
 	int updateText(@Param("userId") String userId,@Param("editText") String editText);
 	
-	List<Map<String, Object>> selectAuctionList(String id);	
+	List<Map<String, Object>> selectAuctionList(String id);
+	
+	List<Map<String, Object>> selectTradeList(String id);	
 	
 	
 

@@ -292,6 +292,36 @@
         WHERE ap.APD_OWNER = #{id}
 	</select>
 	
+	<select id="selectTradeList" resultType="map">
+		SELECT 
+		    t.TD_IDX,
+		    t.TD_AT_IDX,
+		    t.TD_PD_IDX,
+		    t.TD_SELLER_ID,
+		    t.TD_BUYER_ID,
+		    t.TD_TIME,
+		    t.TD_PD_PRICE,
+		    t.TD_BUYER_ADDRESS,
+		    t.APD_DELIVERY,
+		    t.CR_ID,
+		    p.PD_CATEGORY,
+		    p.PD_SUBJECT,
+		    p.PD_CONTENT,
+		    p.PD_IMAGE,
+		    p.PD_PRICE,
+		    p.PD_PRICE_OFFER,
+		    p.PD_STATUS,
+		    p.PD_CONDITION,
+		    p.PD_TRADE_METHOD,
+		    p.PD_SAFE_TRADE,
+		    p.PD_REG_DATE,
+		    p.PD_UPDATED_DATE
+		FROM 
+		    trade t
+		JOIN 
+		    product p ON t.TD_PD_IDX = p.PD_IDX
+		WHERE p.US_ID = #{id}
+	</select>
 </mapper>
 
 

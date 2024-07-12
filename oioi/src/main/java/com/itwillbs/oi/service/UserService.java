@@ -178,5 +178,10 @@ public class UserService {
 		
 		return mapper.selectAuctionList(id);
 	}
+
+	public List<Map<String, Object>> getTradeList(String id) {
+		
+		return mapper.selectTradeList(id);
+	}
 	
 }

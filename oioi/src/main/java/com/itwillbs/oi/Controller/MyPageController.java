@@ -1,7 +1,10 @@
 package com.itwillbs.oi.Controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -107,17 +110,49 @@ public class MyPageController {
     
     @GetMapping("myTrade")
     public String myTrade(Model model) {
-    	
-		// 유저가 아님
-		if(!CheckAuthority.isUser(session, model)) {
-			System.out.println(model.getAttribute("msg"));
-			System.out.println(model.getAttribute("targetURL"));
-			return "err/fail";
-		}
-		
-    	
-    	return "mypage/my_trade";
+        String id = (String) session.getAttribute("US_ID");
+
+        System.out.println(id);
+
+        // 유저가 아님
+        if (!CheckAuthority.isUser(session, model)) {
+            System.out.println(model.getAttribute("msg"));
+            System.out.println(model.getAttribute("targetURL"));
+            return "err/fail";
+        }
+
+        List<Map<String, Object>> tradeList = service.getTradeList(id);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        List<Map<String, Object>> purchaseList = tradeList.stream()
+            .filter(trade -> trade.get("TD_BUYER_ID").equals(id))
+            .peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
+            .collect(Collectors.toList());
+
+        List<Map<String, Object>> saleList = tradeList.stream()
+            .filter(trade -> trade.get("TD_SELLER_ID").equals(id))
+            .peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
+            .collect(Collectors.toList());
+
+        System.out.println("구매 정보 : @@@@@@@@@@@@ " + purchaseList);
+        System.out.println("판매 정보 : @@@@@@@@@@@@ " + saleList);
+
+        model.addAttribute("purchaseList", purchaseList);
+        model.addAttribute("saleList", saleList);
+
+        return "mypage/my_trade";
     }
+
+    private Date convertStringToDate(String dateString, SimpleDateFormat dateFormat) {
+        try {
+            return dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     
     @GetMapping("myAuction")
     public String myAuction(Model model) {
