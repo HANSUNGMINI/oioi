@@ -342,7 +342,7 @@
                     <div class="shop-sidebar">
                         <!-- Single Widget -->
                         <div class="single-widget category">
-                            <h3 class="title">Categories ${US_STATUS}</h3>
+                            <h3 class="title">Categories</h3>
                             <ul class="categor-list">
                                 <li>
                                     <select id="cate1" name="cate1" class="form-control" required >
@@ -397,8 +397,10 @@
                             </div>
                             <div class="dd">
                             	 <input type="radio" name="range" class="range" value="0" checked>전체 반경
-                            	 <input type="radio" name="range" class="range" value="5000">반경5km
-                            	 <input type="radio" name="range" class="range" value="10000">반경10km
+                            	 <c:if test="${not empty US_ID && US_STATUS != 'US03'}">
+	                            	 <input type="radio" name="range" class="range" value="5000">반경5km
+	                            	 <input type="radio" name="range" class="range" value="10000">반경10km
+                            	 </c:if>
                             	 <ul class="view-mode" >
                                 	<li>
 	                          			<select id="filter" name="filter" class="form-control">
