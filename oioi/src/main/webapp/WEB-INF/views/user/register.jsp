@@ -480,7 +480,7 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>아이디<span>*</span></label>
-											<input type="text" name="user_id" id="user_id" placeholder="아이디" >
+											<input type="text" name="user_id" id="user_id" placeholder="아이디" readonly>
 										</div>
 									</div>
 									<div class="col-12">
@@ -506,7 +506,7 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>닉네임<span>*</span></label>
-											<input type="text" name="user_nick" id="user_nick" maxlength="16" placeholder="닉네임" >
+											<input type="text" name="user_nick" id="user_nick" maxlength="16" placeholder="닉네임" readonly>
 										</div>
 									</div>
 									<div class="col-12">
