@@ -246,12 +246,17 @@ public class AuctionController {
       
       //채팅칠때 채팅방이 없다면 채팅방먼저 개설
       String APD_IDX = (String)map.get("APD_IDX");
-      Map<String, String> selectACR = service.selectACR(APD_IDX);
-      System.out.println("챗룸있는지 :" + selectACR);
-      if(selectACR == null) {
-         int insertACR = service.insertACR(APD_IDX);
-         System.out.println("채팅방개설 : " + insertACR);
+      
+      //채팅방있는지 확인하고 idx가져오기
+      String selectAcrIdx = service.selectACR(APD_IDX);
+      if(selectAcrIdx == null) {
+    	 //insert했을때의 primary key가져옴
+         String insertACR = service.insertACR(APD_IDX);
+         map.put("ACR_IDX", insertACR);
+      }else {
+    	 map.put("ACR_IDX", selectAcrIdx);
       }
+      
       //채팅insert
       int insertACM = service.insertACM(map);
       System.out.println("채팅 저장 : " + insertACM);
