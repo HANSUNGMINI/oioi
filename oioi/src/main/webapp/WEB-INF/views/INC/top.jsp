@@ -251,20 +251,20 @@
 								
 								<%-- 채팅목록 미리보기 --%>
 								
-								<div class="shopping-item">
-									<div class="dropdown-cart-header">
-										<span>채팅 목록</span>
-									</div>
+<!-- 								<div class="shopping-item"> -->
+<!-- 									<div class="dropdown-cart-header"> -->
+<!-- 										<span>채팅 목록</span> -->
+<!-- 									</div> -->
 									
-									<c:choose>
-										<c:when test="${empty sessionScope.US_ID}">
-											<ul class="shopping-list">
-												<li> 채팅 목록이 존재하지 않습니다. </li>
-											</ul>
-										</c:when>
-										<c:otherwise>
+<%-- 									<c:choose> --%>
+<%-- 										<c:when test="${empty sessionScope.US_ID}"> --%>
+<!-- 											<ul class="shopping-list"> -->
+<!-- 												<li> 채팅 목록이 존재하지 않습니다. </li> -->
+<!-- 											</ul> -->
+<%-- 										</c:when> --%>
+<%-- 										<c:otherwise> --%>
 
-											<ul class="shopping-list" id="showChatList">
+<!-- 											<ul class="shopping-list" id="showChatList"> -->
 <!-- 												<li onclick="openChatting('Chatting')"> -->
 <%-- 													사용자 이미지 --%>
 <!-- 													<div class="message-avatar"> -->
@@ -287,16 +287,16 @@
 <!-- 														<p class="quantity" style="padding-bottom: 0px;">대화</p> -->
 <!-- 													</div> -->
 <!-- 												</li> -->
-											</ul>
+<!-- 											</ul> -->
 											
-											<div class="bottom">
-												<a href="ChatList" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" class="btn animate">채팅 더보기</a>
-											</div>
-										</c:otherwise>
-									</c:choose>
+<!-- 											<div class="bottom"> -->
+<!-- 												<a href="ChatList" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=720, top=200, resizable=no'); return false;" class="btn animate">채팅 더보기</a> -->
+<!-- 											</div> -->
+<%-- 										</c:otherwise> --%>
+<%-- 									</c:choose> --%>
 									
 									
-								</div>
+<!-- 								</div> -->
 								<!--/ End Shopping Item -->
 							</div>
 						</div>
@@ -326,7 +326,7 @@
 													</ul>
 												</li>												
 												<li><a href="community">커뮤니티</a></li>												
-<!-- 												<li><a href="notice">고객센터</a></li>												 -->
+												<li><a href="notice">고객센터</a></li>												
 												<!-- 지우지마 -->
 <!-- 												<li><a href="#">드롭다운 예시 남겨둔거<i class="ti-angle-down"></i></a> -->
 <!-- 													<ul class="dropdown"> -->

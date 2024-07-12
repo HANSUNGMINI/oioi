@@ -154,7 +154,7 @@
                         </div>
                         <div class="info-item">
                             <label>주소:</label>
-                            <span id="address">${user.ad}</span>
+                            <span id="address">${user.US_ADDRESS}</span>
                             <button class="edit-btn" onclick="openAddressModal()">수정</button>
                         </div>
                     </div>
@@ -196,6 +196,8 @@
     <input type="text" id="new-postcode" class="form-control" placeholder="우편번호" readonly onclick="search_address()">
     <input type="text" id="new-address1" class="form-control" placeholder="기본주소" readonly>
     <input type="text" id="new-address2" class="form-control" placeholder="상세주소">
+    <input type="hidden" id="US_LAT" name="US_LAT">
+	<input type="hidden" id="US_LNG" name="US_LNG">
 </div>
 
 <!-- 사용자 정의 모달 알림 창 -->
@@ -347,8 +349,12 @@ function openAddressModal() {
                 const newPostcode = $("#new-postcode").val();
                 const newAddress1 = $("#new-address1").val();
                 const newAddress2 = $("#new-address2").val();
+                const newUserLAT = $("#US_LAT").val();
+                const newUserLNG = $("#US_LNG").val();
+                
                 if (newPostcode && newAddress1 && newAddress2) {
-                    updateField("address", newPostcode + " " + newAddress1 + " " + newAddress2);
+                    updateField("address", newPostcode + "/" + newAddress1 + "/" + newAddress2);
+                    updateField("location", newUserLAT + "/" + newUserLNG);
                     $(this).dialog("close");
                 } else {
                     showCustomAlert("주소를 모두 입력하세요.", false);
@@ -371,6 +377,7 @@ function updateField(field, value) {
         success: function(response) {
             if (response.result) { // 필드 업데이트 성공
                 $('#' + field).text(value);
+            	reloadSession();
                 showCustomAlert('변경되었습니다.', true);
             } else { // 필드 업데이트 실패
                 showCustomAlert("변경 실패!", false);
@@ -381,6 +388,15 @@ function updateField(field, value) {
         }
     });
 }
+
+function reloadSession() {
+	 $.ajax({
+	        type: "PUT",
+	        url: "ReloadUser", // 컨트롤러 URL
+	        success: function() {}
+	 });
+}
+
 
 function checkNick(user_nick) { // 닉네임 유효성 검사
     const bannedWords = ["시발", "개새", "fuck"];
@@ -428,9 +444,36 @@ function search_address() {
             $("#new-postcode").val(data.zonecode);
             $("#new-address1").val(address);
             $("#new-address2").focus();
+            
+            
+            getLatLng(address);
         }
     }).open();
 }
+
+function getLatLng(address) {
+    const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+    const apiKey = "AIzaSyDxE6_KxiuRqxlJbzS1QrPbctEG7K-vuY8"
+    const params = new URLSearchParams({
+        address: address,
+        key: apiKey
+    });
+    
+    $.ajax({
+        url: baseUrl,
+        method: "GET",
+        data: {
+            address: address,
+            key: apiKey
+        },
+        success: function(response) {
+            const location = response.results[0].geometry.location;
+            $("#US_LAT").val(location.lat);
+            $("#US_LNG").val(location.lng);
+        },
+    });
+}
+
 </script>
 </body>
 </html>

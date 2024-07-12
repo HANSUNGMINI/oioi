@@ -41,8 +41,8 @@ public class CommunityService {
 		return mapper.updateBoard(boardMap);
 	}
 
-	public int getListCount(String type) {
-		return mapper.selectListCount(type);
+	public int getListCount(Map<String, Object> map) {
+		return mapper.selectListCount(map);
 	}
 
 	public void updateReadCount(int cM_IDX) {

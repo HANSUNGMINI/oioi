@@ -372,25 +372,6 @@
                 </div>
             </div>
     </div>
-	<input type="text" id="test1">
-	<input type="text" id="test2">
-	<input type="text" id="test3">
-	<input type="text" id="test4">
-    <script>
-        $(document).ready(function(){
-        	$.ajax({
-                url: "http://ip-api.com/json",
-                method: "GET",
-                success: function(response) {
-                	console.log(response);
-                	$("#test1").val(response.city);
-                	$("#test2").val(response.regionName);
-                	$("#test3").val(response.lat);
-                	$("#test4").val(response.lon);
-                },
-            });
-        });
-    </script>    
     
     	
     <!-- Modal end -->

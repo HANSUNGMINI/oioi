@@ -97,7 +97,6 @@ public class SearchController {
 		
 		// 안 읽은 메세지 개수 가져오기
 		int unread = service.getMyUnreadCount(map);
-
 		return unread;
 	}
 	

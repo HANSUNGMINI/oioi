@@ -33,11 +33,11 @@
 				
 					<%-- 카테고리 --%>
 					<div class="col-md-6 col-sm-6">
-						<select name="datatable_length" class="form-control input-sm">
-						<option value="10">전체</option>
-						<option value="10">안 읽은 메세지</option>
-						<option value="25">읽은 메세지</option>
-						</select>
+<!-- 						<select name="datatable_length" class="form-control input-sm"> -->
+<!-- 						<option value="10">전체</option> -->
+<!-- 						<option value="10">안 읽은 메세지</option> -->
+<!-- 						<option value="25">읽은 메세지</option> -->
+<!-- 						</select> -->
 					</div>
 					
 					<%-- 검색 --%>
@@ -55,6 +55,16 @@
 			
 			<div class="inbox-message">
 				<ul>
+
+				<%-- 대화 내역이 없을 경우 --%>
+					<c:if test="${empty combinedList}">
+						<div style="height: 380px; text-align: center; margin-top: 300px">
+							🥒 <br>
+							대화 내역이 존재하지 않습니다. <br>
+							대화를 통해 거래를 진행해 보세요 ! 
+						</div>
+					</c:if>
+					
 				<%-- 한 개의 대화방 --%>
 					<c:forEach var="chat" items="${combinedList}">
 						<c:set var="info" value="${chat.info}"/>

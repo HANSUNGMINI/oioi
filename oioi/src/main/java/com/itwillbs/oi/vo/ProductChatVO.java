@@ -25,6 +25,7 @@ public class ProductChatVO {
 	public static final String TYPE_ENTER = "ENTER";
 	
 	public static final String TYPE_TALK = "TALK";
+	public static final String TYPE_CHECK = "CHECK";
 	public static final String TYPE_SYS = "SYS";
 	
 	public static final String TYPE_LEAVE = "LEAVE";

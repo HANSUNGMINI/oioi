@@ -88,7 +88,21 @@
 									<div class="size">
 										<h3>유저 정보<small>(${user.US_PLATFORM})</small></h3>
 										<ul class="content">
-											<li>이름(성별) : <b>${user.US_NAME } (${user.US_GENDER })</b></li>
+											<li>이름(신선도) : <b>${user.US_NAME}</b> 
+												(${user.US_OILEVEL}도
+                                            	<c:choose>
+											        <c:when test="${user.US_OILEVEL >= 0 && user.US_OILEVEL < 10}">썩음🤮</c:when>
+											        <c:when test="${user.US_OILEVEL >= 10 && user.US_OILEVEL < 20}">상당히 썩음🤢</c:when>
+											        <c:when test="${user.US_OILEVEL >= 20 && user.US_OILEVEL < 30}">다소 썩음😕</c:when>
+											        <c:when test="${user.US_OILEVEL >= 30 && user.US_OILEVEL < 40}">미지근함😐</c:when>
+											        <c:when test="${user.US_OILEVEL >= 40 && user.US_OILEVEL < 50}">보통🙂</c:when>
+											        <c:when test="${user.US_OILEVEL >= 50 && user.US_OILEVEL < 60}">신선한😊</c:when>
+											        <c:when test="${user.US_OILEVEL >= 60 && user.US_OILEVEL < 70}">매우 신선한😄</c:when>
+											        <c:when test="${user.US_OILEVEL >= 70 && user.US_OILEVEL < 80}">매우 매우 신선한😆</c:when>
+											        <c:when test="${user.US_OILEVEL >= 80 && user.US_OILEVEL < 90}">완벽한😍</c:when>
+											        <c:when test="${user.US_OILEVEL >= 90 && user.US_OILEVEL <= 100}">환상적인🥰</c:when>
+   												 </c:choose>)
+											</li>
 											<li>아이디 : <b>${user.US_ID } </b></li>
 											<li>닉네임 : <b>${user.US_NICK }</b></li>
 											<li>연락처(이메일) : <b>${user.US_PHONE } (${user.US_EMAIL})</b></li>
@@ -99,8 +113,10 @@
 													</c:forEach>
 												</select><br>
 											</li><br>
-											<li>주소 : <b>${user.US_POST_CODE } / ${user.US_ADDRESS1} / ${user.US_ADDRESS2}</b></li>
+											<li>주소 : <b>${user.US_ADDRESS}</b></li>
 											<li>가입일자 : <b>${user.US_REG_DATE }</b></li>
+											<li>보유한 오이머니 : <b>${user.US_OIMONEY}</b></li>
+											<li>소개글 : <b>${user.US_TEXT}</b></li>
 										</ul>
 									</div>
 									<!--/ End Size -->

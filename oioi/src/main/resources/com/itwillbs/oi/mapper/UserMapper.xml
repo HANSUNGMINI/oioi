@@ -26,7 +26,6 @@
 			, #{US_ADDRESS1}
 			, #{US_ADDRESS2}
 			, #{US_PHONE}
-			, #{US_GENDER}
 			, #{US_PROFILE}
 			, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')
 			, '오이마켓'
@@ -205,8 +204,9 @@
 	
 	<select id="selectMyUser">
 		SELECT *
+			 , CONCAT(US_ADDRESS1,  ", " , US_ADDRESS2) AS US_ADDRESS
 		  FROM user
-		 WHERE US_ID = #{US_ID}
+		 WHERE US_ID = #{id};
 	</select>
 	
 	<!-- 닉네임 중복 검사 -->
@@ -223,8 +223,33 @@
         <if test="field == 'nickname'">US_NICK = #{value}</if>
         <if test="field == 'email'">US_EMAIL = #{value}</if>
         <if test="field == 'phone'">US_PHONE = #{value}</if>
+        <if test="field == 'address'">
+        	 US_POST_CODE = SUBSTRING_INDEX(#{value}, '/', 1),
+		     US_ADDRESS1 = SUBSTRING_INDEX(SUBSTRING_INDEX(#{value}, '/', 2), '/', -1),
+		     US_ADDRESS2 = SUBSTRING_INDEX(SUBSTRING_INDEX(#{value}, '/', 3), '/', -1)
+        </if>
+        <if test="field == 'location'">
+        	 US_LAT = SUBSTRING_INDEX(#{value}, '/', 1),
+		     US_LNG = SUBSTRING_INDEX(SUBSTRING_INDEX(#{value}, '/', 2), '/', -1)
+        </if>
         WHERE US_ID = #{userId}
     </update>
+	
+	<select id="checkNullColomn" resultType="boolean">
+		SELECT
+		  CASE
+		  WHEN US_POST_CODE IS NULL OR US_PHONE IS NULL THEN true
+			   ELSE false
+			   END AS result
+	 	  FROM `user` u
+	 	 WHERE US_ID = #{id}
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE user
+		   SET US_STATUS = 'US01'
+		 WHERE US_ID = #{id}
+	</update>
 	
 	<select id="selectUserId">
 		SELECT count(*)
