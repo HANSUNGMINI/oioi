@@ -126,6 +126,10 @@ public class AuctionService {
 		return mapper.selectReportMsg(map);
 	}
 
+	public Map<String, String> getUserInfo(String US_ID) {
+		return mapper.selectUserInfo(US_ID);
+	}
+
 	
 
 	

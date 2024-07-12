@@ -62,177 +62,150 @@
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript">
-    	$(document).ready(function() {
-	    let cate2 = JSON.parse('${cate2}');
-	    let cate3 = JSON.parse('${cate3}');
-	    console.log('cate2:', cate2);
-	    console.log('cate3:', cate3);
-
-	    $('#cate1').change(function() {
-	        var selectedCate2 = $(this).val();
-	        console.log('cate1:', selectedCate2);
-	        
-	        var filteredCate2s = cate2.filter(function(cate) {
-	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
-	        });
-	        
-	        console.log('cate2s:', filteredCate2s);
-	        
-	        
-	        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
-	        	
-	        $.each(filteredCate2s, function(index, cate) {
-		            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
-		    });
-	        $('#cate2').prop('disabled', false).niceSelect('update');
-	        
-	        console.log("cate1(value) : " + $('#cate1').val());
-	    });
-	    
-	    $('#cate2').change(function(){
-	    	var selectedCate3 = $(this).val();
-	    	console.log('selectedCate3 :', selectedCate3);
-	    	
-	    	var filteredCate3s = cate3.filter(function(cate) {
-	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100
-	        });
-	    	console.log('cate3s:', filteredCate3s);
-	    	
-	    	$('#cate3').empty().append('<option value="3">소분류를 선택하시오</option>');
-	    	
-	    	$.each(filteredCate3s, function(index, cate) {
-	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
-		    });
-	        $('#cate3').prop('disabled', false).niceSelect('update');
-	        
-	        console.log("cate2(value) : " + $('#cate2').val());
-	    });
-	    
-	    $('#myForm').on('submit', function(event){
-	    	if(!Valid(event)){
-	    		event.preventDefault();
-	    	}
-	    	
-	    });
-	    
-	 	// 숫자가 아닌 문자가 못하게 함
-        document.getElementById('APD_START_PRICE').addEventListener('keypress', function(event) {
-            if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
-                alert("숫자만 입력해주세요.");
-            }
-        });
-        document.getElementById('APD_BUY_NOW_PRICE').addEventListener('keypress', function(event) {
-            if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
-                alert("숫자만 입력해주세요.");
-            }
-        });
-	    
-	    
 		
-	});	
+		$(document).ready(function() {
+		    let cate2 = JSON.parse('${cate2}');
+		    let cate3 = JSON.parse('${cate3}');
+		    console.log('cate2:', cate2);
+		    console.log('cate3:', cate3);
 	
-	
-	    
-		
-	function Valid(){
-		
-		
-		var APD_NAME = $('#APD_NAME').val();
-		var APD_DETAIL = $('#APD_DETAIL').val();
-		var cate1 = $('#cate1').val();
-		var cate2 = $('#cate2').val();
-		var cate3 = $('#cate3').val();
-		var APD_CONDITION = $('input[name="APD_CONDITION"]:checked').val();
-		var APD_DEADLINE = $('input[name="APD_DEADLINE"]:checked').val();
+		    $('#cate1').change(function() {
+		        var selectedCate2 = $(this).val();
+		        console.log('cate1:', selectedCate2);
+		        
+		        var filteredCate2s = cate2.filter(function(cate) {
+		            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
+		        });
+		        
+		        console.log('cate2s:', filteredCate2s);
+		        
+		        
+		        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
+		        	
+		        $.each(filteredCate2s, function(index, cate) {
+			            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+			    });
+		        $('#cate2').prop('disabled', false).niceSelect('update');
+		        
+		        console.log("cate1(value) : " + $('#cate1').val());
+		    });
+		    
+		    $('#cate2').change(function(){
+		    	var selectedCate3 = $(this).val();
+		    	console.log('selectedCate3 :', selectedCate3);
+		    	
+		    	var filteredCate3s = cate3.filter(function(cate) {
+		            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100
+		        });
+		    	console.log('cate3s:', filteredCate3s);
+		    	
+		    	$('#cate3').empty().append('<option value="3">소분류를 선택하시오</option>');
+		    	
+		    	$.each(filteredCate3s, function(index, cate) {
+		            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+			    });
+		        $('#cate3').prop('disabled', false).niceSelect('update');
+		        
+		        console.log("cate2(value) : " + $('#cate2').val());
+		    });
+		    
+		    
+		    
+		    $('#myForm').on('submit', function(event){
+		    	if(!Valid(event)){
+		    		event.preventDefault();
+		    	}
+		    	
+		    });
+		    
+		    
 			
-        var APD_START_PRICE = $('#APD_START_PRICE').val();
-        var APD_BUY_NOW_PRICE = $('#APD_BUY_NOW_PRICE').val();
-        var fileInput = document.getElementById('APD_MAIN_IMAGE');
-        var APD_MAIN_IMAGE = fileInput.files;
-        var fileInput2 = document.getElementById('APD_IMAGE');
-        var APD_IMAGE = fileInput2.files;
-        var startPrice = parseInt(startPriceInput.value.replace(/,/g, ''));
-        var nowPrice = parseInt(nowPriceInput.value.replace(/,/g, ''));
-        console.log("startPrice : " + startPrice);
-        console.log("nowPrice : " + nowPrice);
-        
+		});
 		
+		function validateAndFormatNumber(input) {
+            var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
+            if (/[^0-9]/.test(value)) {
+                alert("숫자만 입력해주세요.");
+                input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
+            } else {
+                input.value = formatNumber(value); // 천 단위 포맷팅
+            }
+        }
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat().format(value);
+        }
+
+        function removeFormatting() {
+            var priceInput = document.getElementById('APD_START_PRICE');
+            priceInput.value = priceInput.value.replace(/,/g, ''); // db 저장 할 때 쉼표 제거
+        }
 		
-		if(cate1 == "1"){
-			err("대분류를 선택하세요");
-			return false;
-		}else if(cate2 == "2"){
-			err("중분류를 선택하세요");
-			return false;
-		}else if(cate3 == "3"){
-			err("소분류를 선택하세요");
-			return false;
-		}else if(APD_NAME == ""){
-			err("상품명을 입력하세요");
-			return false;
-		}else if(APD_DETAIL == ""){
-			err("상세설명을 입력하세요");
-			return false;
-		}else if(!APD_CONDITION){
-			err("상품상태를 입력하세요");
-			return false;
-		}else if(APD_START_PRICE == ""){
-			err("판매시작가를 입력하세요");
-			return false;
-		}else if(APD_BUY_NOW_PRICE == ""){
-			err("즉시판매가를 입력하세요");
-			return false;
-		}else if(false){
-			err("판매시작가보다 높게 입력하세요");
-			return false;
-		}else if(!APD_DEADLINE){
-			err("입찰마감 기한을 선택하세요");
-			return false;
-		}else if(!APD_MAIN_IMAGE.length){
-			err("썸내일 이미지를 선택하세요");
-			return false;
-		}else if(APD_IMAGE.length <= 1){
-			err("상세이미지를 최소2개이상 선택하세요");
-			return false;
+		function Valid(){
+			var APD_NAME = $('#APD_NAME').val();
+			var APD_DETAIL = $('#APD_DETAIL').val();
+			var cate1 = $('#cate1').val();
+			var cate2 = $('#cate2').val();
+			var cate3 = $('#cate3').val();
+			var APD_CONDITION = $('input[name="APD_CONDITION"]:checked').val();
+			var APD_DEADLINE = $('input[name="APD_DEADLINE"]:checked').val();
+				
+	        var APD_START_PRICE = $('#APD_START_PRICE').val();
+	        var APD_BUY_NOW_PRICE = $('#APD_BUY_NOW_PRICE').val();
+	        var fileInput = document.getElementById('APD_MAIN_IMAGE');
+	        var APD_MAIN_IMAGE = fileInput.files;
+	        var fileInput2 = document.getElementById('APD_IMAGE');
+	        var APD_IMAGE = fileInput2.files;
+	        
+			if(cate1 == "1"){
+				err("대분류를 선택하세요");
+				return false;
+			}else if(cate2 == "2"){
+				err("중분류를 선택하세요");
+				return false;
+			}else if(cate3 == "3"){
+				err("소분류를 선택하세요");
+				return false;
+			}else if(APD_NAME == ""){
+				err("상품명을 입력하세요");
+				return false;
+			}else if(APD_DETAIL == ""){
+				err("상세설명을 입력하세요");
+				return false;
+			}else if(!APD_CONDITION){
+				err("상품상태를 입력하세요");
+				return false;
+			}else if(APD_START_PRICE == ""){
+				err("판매시작가를 입력하세요");
+				return false;
+			}else if(APD_BUY_NOW_PRICE == ""){
+				err("즉시판매가를 입력하세요");
+				return false;
+			}else if(parseInt(APD_START_PRICE.replace(/,/g, '')) > parseInt(APD_BUY_NOW_PRICE.replace(/,/g, ''))){
+				err("판매시작가를 즉시구매가보다<br>낮게 입력하세요");
+				return false;
+			}else if(!APD_DEADLINE){
+				err("입찰마감 기한을 선택하세요");
+				return false;
+			}else if(!APD_MAIN_IMAGE.length){
+				err("썸내일 이미지를 선택하세요");
+				return false;
+			}else if(APD_IMAGE.length <= 1){
+				err("상세이미지를 최소2개이상 선택하세요");
+				return false;
+			}
+			removeFormatting();
+			return true;
+			
 		}
-		return true;
 		
-	}
-	
-	function err(msg){
-		Swal.fire({
-   	        title: msg,
-   	        icon: 'warning',
-   	        confirmButtonText: '확인'
-   	    })
-	}
-	
-	// 가격 숫자만
-       function validateAndFormatNumber(input) {
-           var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
-           if (/[^0-9]/.test(value)) {
-               alert("숫자만 입력해주세요.");
-               input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
-           } else {
-               input.value = formatNumber(value); // 천 단위 포맷팅
-           }
-       }
-	
-       function formatNumber(value) {
-           return new Intl.NumberFormat().format(value);
-       }
-
-       function removeFormatting() {
-       	var startPriceInput = document.getElementById('APD_START_PRICE');
-   	    var nowPriceInput = document.getElementById('APD_BUY_NOW_PRICE');
-   	    startPriceInput.value = startPriceInput.value.replace(/,/g, '');
-   	    nowPriceInput.value = nowPriceInput.value.replace(/,/g, '');
-       }
-
-        
-
+		function err(msg){
+			Swal.fire({
+    	        title: msg,
+    	        icon: 'warning',
+    	        confirmButtonText: '확인'
+    	    })
+		}
 	
 	</script>
 	
@@ -317,15 +290,13 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
-<!-- 											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" > -->
-											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
+											<input type="text" id="APD_START_PRICE" name="APD_START_PRICE" id="APD_START_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>즉시판매가<span>*</span></label>
-<!-- 											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" > -->
-											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
+											<input type="text" id="APD_BUY_NOW_PRICE" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
@@ -493,6 +464,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
 	
 	
+	<!-- Test -->
 
 	
 </body>

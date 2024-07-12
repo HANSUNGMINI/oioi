@@ -126,6 +126,35 @@
             }
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script type="text/javascript">
+    
+    var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
+    var t_code = "04";
+//     var t_invoice = $('#t_invoice').val();
+    
+    		
+    		function openNickModal(){
+    			console.log("ddd");
+    			$.ajax({
+		            url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
+		            type : "GET",
+		            data: {
+		                 t_key: t_key,
+		                 t_code: t_code,
+		                 t_invoice: "686034012876"
+		             },
+		             success: function(response) {
+		                console.log(response);
+		                var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
+		                 var deliveryLevel = latestStatus.level;
+		                 // 배송 상태 출력
+		                 console.log("Delivery Level: " + deliveryLevel);
+		             }
+		          });
+    		}
+    		
+    </script>
 </head>
 <body class="js">
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
@@ -143,29 +172,25 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">경매 ID</th>
-                                    <th scope="col">상품 ID</th>
-                                    <th scope="col">상품 이미지</th>
-                                    <th scope="col">경매 시작 시간</th>
-                                    <th scope="col">경매 종료 시간</th>
-                                    <th scope="col">최종 입찰자</th>
-                                    <th scope="col">최종 입찰가</th>
-<!--                                     <th scope="col">주 경매 여부</th> -->
-<!--                                     <th scope="col">상세보기</th> -->
+                                    <th scope="col">번호</th>
+                                    <th scope="col">판매자</th>
+                                    <th scope="col">수취인</th>
+                                    <th scope="col" width="200px;">주소</th>
+                                    <th scope="col">결제시간</th>
+                                    <th scope="col">운송장</th>
+                                    <th scope="col">배달정보</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach var="auction" items="${auctionList}">
                                     <tr>
-                                        <td>${auction.AT_IDX}</td>
-                                        <td>${auction.APD_IDX}</td>
-                                        <td><img src="${pageContext.request.contextPath}/resources/upload/${auction.APD_MAIN_IMAGE}" alt="상품 이미지" width="100" height="100"></td>
-                                        <td><fmt:formatDate value="${auction.AT_START_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                        <td><fmt:formatDate value="${auction.AT_END_TIME}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                        <td>${auction.FINAL_BID_USER}</td>
-                                        <td>${auction.FINAL_BID_PRICE}</td>
-<%--                                         <td>${auction.AT_MAIN}</td> --%>
-<%--                                         <td><a href="viewAuction?auctionId=${auction.AT_IDX}" class="btn btn-primary">보기</a></td> --%>
+                                        <td>${auction.TD_AT_IDX}</td>
+                                        <td>${auction.TD_SELLER_ID}</td>
+                                        <td>${auction.TD_BUYER_ID}</td>
+                                        <td>${auction.TD_BUYER_ADDRESS}</td>
+                                        <td>${auction.TD_TIME}</td>
+                                        <td>${auction.TD_DELIVERY}</td>
+                                        <td><button class="edit-btn" onclick="openNickModal()">배송조회</button></td>
                                     </tr>
                                 </c:forEach>
                                 <c:if test="${empty auctionList}">

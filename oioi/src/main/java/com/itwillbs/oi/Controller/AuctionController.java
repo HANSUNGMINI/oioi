@@ -260,6 +260,7 @@ public class AuctionController {
       
       //채팅방있는지 확인하고 idx가져오기
       String selectAcrIdx = service.selectACR(APD_IDX);
+      System.out.println("selectAcrIdx : " + selectAcrIdx);
       if(selectAcrIdx == null) {
     	 //insert했을때의 primary key가져옴
          String insertACR = service.insertACR(APD_IDX);
