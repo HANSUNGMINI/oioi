@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.oi.mapper.UserMapper;
 
@@ -159,9 +160,17 @@ public class UserService {
 		return mapper.updateText(userId, editText) > 0;
 	}
 	
-	
 	public String selectStatus(String id) {
 		return staticMapper.selectStatus(id);
+	}
+	
+	@Transactional
+	public void updateStatus(String id) {
+		boolean hasNull = mapper.checkNullColomn(id);
+		System.out.println(hasNull);
+		if(!hasNull) {
+			mapper.updateStatus(id);
+		}
 	}
 	
 }

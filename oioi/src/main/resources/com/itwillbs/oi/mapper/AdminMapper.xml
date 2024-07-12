@@ -315,7 +315,19 @@
 <!-- 		    ON u.US_STATUS = c1.code -->
 <!-- 		 WHERE US_ID = #{target} -->
 
-			SELECT * 
+			SELECT u.US_NAME
+				 , u.US_ID
+				 , u.US_NICK
+				 , u.US_EMAIL
+				 , u.US_PHONE
+				 , u.US_PROFILE
+				 , u.US_PLATFORM
+				 , u.US_STATUS
+				 , u.US_OIMONEY
+				 , u.US_TEXT
+				 , u.US_OILEVEL
+				 , u.US_REG_DATE
+				 , CONCAT(US_POST_CODE, ", " , US_ADDRESS1, ", " , US_ADDRESS2) AS US_ADDRESS
 			     , (SELECT count(RP_STATUS) FROM report r WHERE FROM_US_ID = u.US_ID AND RP_STATUS = 'RS02') AS RP_COUNT
 			     , (SELECT count(US_ID) FROM product p  WHERE US_ID = u.US_ID) AS PD_COUNT
 			     , (SELECT count(CM_ID) FROM community c  WHERE CM_ID = u.US_ID) AS CM_COUNT

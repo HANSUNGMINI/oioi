@@ -188,10 +188,6 @@
 		    } else if (!checkAuthNumResult) {
 		    	alert("전화번호 인증을 완료해주세요.");
 		        return false; 
-		    } else if(!$('input[name="user_gender"]:checked').val()) { // 성별 확인
-				alert("성별을 선택해주세요!");
-				return false; 
-			}
 		}
 		
 	}); // document 객체의 ready 이벤트 끝
@@ -543,19 +539,19 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-12">
-									    <div class="form-group">
-									        <label>성별<span>*</span></label>
-									        <div style="display: flex; align-items: center;">
-									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;">
-									                <input type="radio" id="male" name="user_gender" value="남성" style="margin-right: 5px;"> 남
-									            </label>
-									            <label for="female" style="display: flex; align-items: center;">
-									                <input type="radio" id="female" name="user_gender" value="여성" style="margin-right: 5px;"> 여
-									            </label>
-									        </div>
-									    </div>
-									</div>
+<!-- 									<div class="col-12"> -->
+<!-- 									    <div class="form-group"> -->
+<!-- 									        <label>성별<span>*</span></label> -->
+<!-- 									        <div style="display: flex; align-items: center;"> -->
+<!-- 									            <label for="male" style="display: flex; align-items: center; margin-right: 10px;"> -->
+<!-- 									                <input type="radio" id="male" name="user_gender" value="남성" style="margin-right: 5px;"> 남 -->
+<!-- 									            </label> -->
+<!-- 									            <label for="female" style="display: flex; align-items: center;"> -->
+<!-- 									                <input type="radio" id="female" name="user_gender" value="여성" style="margin-right: 5px;"> 여 -->
+<!-- 									            </label> -->
+<!-- 									        </div> -->
+<!-- 									    </div> -->
+<!-- 									</div> -->
 									<div class="col-12">
 										<div class="form-group login-btn">
 											<button class="btn" type="submit" onsubmit="submit()">가입하기</button>

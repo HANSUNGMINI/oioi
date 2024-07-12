@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
 	String selectStatus(String id);
+	boolean checkNullColomn(String id);
+	void updateStatus(String id);
 	int registUser(Map<String, Object> resultMap); //회원가입 mapper
 //	int insertMember(MemberVO member); 
 	

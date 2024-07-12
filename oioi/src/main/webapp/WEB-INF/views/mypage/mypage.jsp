@@ -149,8 +149,8 @@
                             <span>${user.US_PHONE}</span>
                         </div>
                         <div class="info-item">
-                            <label>성별</label>
-                            <span>${user.US_GENDER}</span>
+                            <label>주소</label>
+                            <span>${user.US_ADDRESS}</span>
                         </div>
                     </div>
                 </div>
