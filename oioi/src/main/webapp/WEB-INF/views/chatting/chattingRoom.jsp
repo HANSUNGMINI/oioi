@@ -173,6 +173,12 @@
 	    	
 	    			$("#chatArea").append(chat); 
             	})
+            	
+            	let TO_ID = "${param.TO_ID}";
+		    	let FROM_ID = "${param.FROM_ID}";
+		    	let PD_IDX = "${param.PD_IDX}";
+            	
+            	sendMessage("CHECK", TO_ID, FROM_ID, "", "", PD_IDX);
 	    	}
 	    }); 	
     }

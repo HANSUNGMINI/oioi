@@ -83,11 +83,6 @@ public class ChattingService {
 		return mapper.createRoom(chat);
 	}
 
-	// 채팅방 있는지 체크 및 채팅방 아이디 가져오기
-	public Map<String, Object> checkChatRoom(Map<String, Object> map) {
-		return mapper.checkChatRoom(map);
-	}
-
 	// 채팅 저장하기
 	public int saveChatting(ProductChatVO chatMessage) {
 		return mapper.saveChatting(chatMessage);
@@ -128,9 +123,7 @@ public class ChattingService {
 		int readCount = (int) firstEntry.get("CM_READCOUNT");
 
 		// 아무도 안 읽었거나 내가 안 읽었을 때 전달 아니면 null 전달
-		if (readCount == 2) {
-		    return readCountInfo;
-		} else if (readCount == 1 && !firstEntry.get("CM_READBY").equals(map.get("US_ID"))) {
+		if (readCount == 1 && !firstEntry.get("CM_READBY").equals(map.get("US_ID"))) {
 		    return readCountInfo;
 		} else {
 		    return null;
@@ -146,12 +139,7 @@ public class ChattingService {
 		int cnt = 0;
 		for (Map<String, Object> un : unread) {
 			int readCount = (int) un.get("CM_READCOUNT");
-			
-		    if(readCount == 2) {
-		    	cnt = mapper.updateUnreadCnt(map);
-		    } else  {
-		    	cnt = mapper.updateUnreadZero(map);
-		    } 
+	    	cnt = mapper.updateUnreadZero(map);
 		}
 		return cnt;
 	}
