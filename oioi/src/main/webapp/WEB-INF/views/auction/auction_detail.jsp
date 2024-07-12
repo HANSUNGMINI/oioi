@@ -113,16 +113,17 @@
 	   makeAuctionProducts();
 	   getOiMoney();
 	   
-	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09' || session_id == ""){
+	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09'){
 	    	 $('#bidding').css('display', 'none');
 	    	 $('#auctionBuy').css('display', 'none');
 	    	 $('#apdReport').css('display', 'none');
 	    	 
 	    	 //웹소켓 연결 끊기
 	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center","");
-	    	 disconnect();
+	   }else if(session_id == ""){
+		   appendMessage("System", ">> 로그인 후 채팅이 가능합니다 <<", "center",""); 
 	   }else{
-		   connect();   
+		   connect();
 	   }
      
       $('#sendMsg').on('keypress',function(et) {
@@ -134,13 +135,31 @@
       
       $('#btnSend').on('click',function(et) {
     	 console.log("메서지 보낼때 : " + et);
+		 if(session_id == null){
+			Swal.fire({
+     	        title: '로그인 후 입찰하세요',
+     	        icon: 'warning',
+     	        confirmButtonText: '확인'
+     	    }).then((result) => {
+     	        if (result.isConfirmed) {
+     	            location.href = 'login';
+     	        }
+     	    });	 
+		 }    	 
          sendMessage(et);
        });
       
       function sendMessage(event){
     	  if(${empty apdDetail.US_ID}){
-              alert("로그인 후 사용하세요");
-              return;
+    		  Swal.fire({
+       	        title: '로그인 후 채팅이 가능합니다.',
+       	        icon: 'warning',
+       	        confirmButtonText: '확인'
+       	    }).then((result) => {
+       	        if (result.isConfirmed) {
+       	            location.href = 'login';
+       	        }
+       	    });	
            }
            event.preventDefault();
            if(socket.readyState !== 1) return;
@@ -336,7 +355,7 @@
            $('#sessionSize').empty().append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' + response.SESSION_SIZE + '명</a></span>');
        } else if (response.type === "TALK") {
            var res = JSON.parse(response.DATA);
-           console.log("res : " + res);
+           console.log("response.US_PROFILE : " + response.US_PROFILE);
            if (res.US_ID === session_id) {
                appendMessage(res.US_ID, res.MSG, "right","");
            } else {
@@ -375,10 +394,11 @@
 
    function appendMessage(sender, msg, align_type, profile) {
 	   var seller = "${apdDetail.APD_OWNER}";
+	   console.log("profile : " + profile);
 	   console.log("us_id(sender비교전) : " + seller);
 	   console.log("sender(sender비교전) : " + sender);
 	   console.log("contextPath : " + contextPath);
-	   console.log("profile : " + profile);
+	   
        var html = '';
        if(seller == sender){
 		   sender = sender + '(판매자)';
@@ -393,10 +413,10 @@
                '</li>';
        } else if (align_type === "left") {
     	   
-    	   
+    	   console.log("profile" + profile);
            html += '<li class="clearfix chatViewYou">' +
                '<div class="message-avatar">' +
-               '<img src="' + profile + '">' + 
+               '<img src="' + profile + '" style="width: 45px; height: 45px;">' + 
                sender +
                '</div>' +
                '<div class="message my-message">' +

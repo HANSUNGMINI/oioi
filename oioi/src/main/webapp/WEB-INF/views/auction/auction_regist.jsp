@@ -272,7 +272,8 @@
 									<div class="col-12">
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
-											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" >
+<!-- 											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" > -->
+											<input type="text" id="price" name="APD_START_PRICE" id="APD_START_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
 										</div>
 									</div>
 									<div class="col-12">
