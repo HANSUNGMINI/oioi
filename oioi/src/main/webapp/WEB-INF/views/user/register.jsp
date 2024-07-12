@@ -129,6 +129,7 @@
 		
 		//회원가입 버튼 클릭시 발생하는 이벤트 
 		document.fr.onsubmit = function() {
+			
 			if(document.fr.user_id.value == "") { // 아이디 확인
 				alert("아이디를 확인해주세요!");
 				document.fr.user_id.focus();
@@ -188,8 +189,8 @@
 		    } else if (!checkAuthNumResult) {
 		    	alert("전화번호 인증을 완료해주세요.");
 		        return false; 
+			}
 		}
-		
 	}); // document 객체의 ready 이벤트 끝
 	
 	function checkSamePasswd() { // 비밀번호 확인 일치 검사
