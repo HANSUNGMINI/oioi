@@ -52,6 +52,7 @@ public interface ChattingMapper {
 	Map<String, String> getUserRole(Map<String, Object> map); // 채팅방 정보 가져오기
 	int getMyTradeInfo(Map<String, Object> map); // 거래내역 정보 가져오기
 	int eventDelivery(Map<String, Object> map); // 자동 이체
+	void updateDelivery(Map<String, String> pdInfo); // 택배 status 바꾸기
 	
 
 

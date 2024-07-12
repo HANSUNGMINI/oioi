@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -78,7 +79,6 @@ public class ChattingController {
 	        
 	    }
 		
-		
 		// 2. 마지막 대화 및 시간 가져오기
 		List<Map<String, Object>> chatList =  new LinkedList<>();
 		List<Map<String, Object>> cnt = new LinkedList<>();
@@ -114,9 +114,10 @@ public class ChattingController {
 		    Map<String, Object> combined = new HashMap<>();
 		    combined.put("info", chatInfo.get(i));
 		    combined.put("list", chatList.get(i));
+		    
 		    combinedList.add(combined);
 		}
-		
+
 		System.out.println("합쳐진 정보 " + combinedList);
 		model.addAttribute("combinedList", combinedList); // 총 합친 정보
 		
@@ -159,6 +160,9 @@ public class ChattingController {
 		Map<String, String> userRole = service.getUserRole(map);
 		System.out.println("판매자 및 구매자 아이디 " + userRole);
 		
+		// 안 읽은 회수 차감
+		int updateCnt = service.updateUnreadCnt(map);
+		
 		// 리뷰 카테고리 불러오기
 		List<Map<String, String>> reviewMap = service.getReviewCategory();
 		
@@ -174,8 +178,6 @@ public class ChattingController {
 		
 		System.out.println("리뷰 내역 : " + existReview);
 		
-
-		
 		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
 		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
 		System.out.println("운송장 있는 지 -->" + deliveryInfo);
@@ -188,9 +190,10 @@ public class ChattingController {
 			System.out.println("택배 status2인거 : " + status);
 			
 			if(status > 0) {
-				pdInfo.put("SELLER_ID", userRole.get("SELLER_ID"));
+				pdInfo.put("BUYER_ID", userRole.get("BUYER_ID"));
+				service.updateDelivery(pdInfo);
 				payService.decidePerchase(pdInfo);
-				
+
 				model.addAttribute("msg", "구매확정 미등록으로 자동 이체 되셨습니다");
 	        	return "err/success";
 			}

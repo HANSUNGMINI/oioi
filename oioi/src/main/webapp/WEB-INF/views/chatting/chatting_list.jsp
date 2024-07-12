@@ -33,11 +33,11 @@
 				
 					<%-- 카테고리 --%>
 					<div class="col-md-6 col-sm-6">
-						<select name="datatable_length" class="form-control input-sm">
-						<option value="10">전체</option>
-						<option value="10">안 읽은 메세지</option>
-						<option value="25">읽은 메세지</option>
-						</select>
+<!-- 						<select name="datatable_length" class="form-control input-sm"> -->
+<!-- 						<option value="10">전체</option> -->
+<!-- 						<option value="10">안 읽은 메세지</option> -->
+<!-- 						<option value="25">읽은 메세지</option> -->
+<!-- 						</select> -->
 					</div>
 					
 					<%-- 검색 --%>

@@ -147,7 +147,7 @@
 	
 	<update id="updateUnreadCnt">
 		UPDATE chat_message
-		SET CM_READCOUNT = CM_READCOUNT - 1
+		SET CM_READCOUNT = 1
 			, CM_READBY = #{US_ID}
 		WHERE CR_ID = #{CR_ID}
 	</update>
@@ -177,7 +177,8 @@
 	<select id="getProductInfo" resultType="hashmap">
 	-- ChattingMapper getProductInfo (상품정보 가져오기)
 		SELECT 
-			 p.PD_SUBJECT
+			 p.PD_IDX
+			, p.PD_SUBJECT
 			, p.PD_STATUS
 			, p.PD_PRICE
 		FROM product p
@@ -252,21 +253,12 @@
 		FROM delivery d 
 		JOIN trade t 
 		ON d.PC_ID = t.TD_PD_IDX AND d.BUYER_ID = t.TD_BUYER_ID 
-		WHERE DV_STATUS = 2 AND d.BUYER_ID = #{TO_ID}
+		WHERE DV_STATUS = 2 AND d.BUYER_ID = #{TO_ID} AND PC_ID = #{PD_IDX}
 	</select>
+	
+	<update id="updateDelivery">
+		UPDATE delivery
+		SET DV_STATUS = 3
+		WHERE DV_STATUS = 2 AND BUYER_ID = #{BUYER_ID} AND PC_ID = #{PD_IDX}
+	</update>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

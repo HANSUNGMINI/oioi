@@ -161,10 +161,6 @@ public class ChattingService {
 		return mapper.checkChat(chat);
 	}
 
-	
-
-	
-	// ------------------------------------------------------------------------------
 	// 채팅방 있는지
 	public Map<String, Object> getChatRoom(String TO_ID, String FROM_ID, int PD_IDX) {
 		return mapper.getChatRoom(TO_ID, FROM_ID, PD_IDX);
@@ -183,6 +179,11 @@ public class ChattingService {
 	// 3일 지나면 자동 이체
 	public int eventDelivery(Map<String, Object> map) {
 		return mapper.eventDelivery(map);
+	}
+
+	// 택배 status 바꾸기
+	public void updateDelivery(Map<String, String> pdInfo) {
+		mapper.updateDelivery(pdInfo);
 	}
 
 
