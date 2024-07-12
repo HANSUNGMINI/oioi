@@ -207,6 +207,8 @@ public class ChattingController {
 			}
 		}
 		
+		System.out.println("아아ㅓ아어ㅏ러ㅣㅏㅇ니럼");
+		
 		// 거래 테이블에 내 정보가 있는지
 		int tradeCnt = service.getMyTradeInfo(map);
 		
@@ -331,7 +333,7 @@ public class ChattingController {
 	@GetMapping("tradeDecide")
 	public String goTradeDecide(@RequestParam Map<String, String> map, Model model) {
 //		System.out.println("판매완료 map : " + map);
-		
+		System.out.println(map);
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = payService.selectTradePDInfo(PD_IDX);
 		map.put("PD_PRICE", product.get("PD_PRICE").toString());
