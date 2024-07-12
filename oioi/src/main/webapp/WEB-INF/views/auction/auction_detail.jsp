@@ -106,12 +106,13 @@
    var apdStatus = "${apdDetail.APD_STATUS}";
    var apdOwner = "${apdDetail.APD_OWNER}";
    var contextPath = '<%= request.getContextPath() %>';
-   var oiMoney = "";
+   var oiMoney = "${apdDetail.oiMoney}";
    
    
    $(function(){
 	   makeAuctionProducts();
-	   getOiMoney();
+// 	   getOiMoney();
+	   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>oiMoney : " + oiMoney);
 	   
 	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09'){
 	    	 $('#bidding').css('display', 'none');
@@ -561,24 +562,24 @@
 	
 }
    
-function getOiMoney(){
-	console.log('getOiMoney');
-	//오이 머니 가져오기
-	$.ajax({
-        url: "getOiMoney",
-        type: "post",
-        data: {
-            US_ID: session_id,
-        },
-        dataType: "JSON",
-        success: function(response) {
-            console.log('오이머니 값만 받아오자' + response);
-            oiMoney = response;
-            $('#oiMoney').append('<h6>오이머니 잔액 : 🥒 ' + new Intl.NumberFormat().format(response) + '원</h6>');
-        }
-    });
+// function getOiMoney(){
+// 	console.log('getOiMoney');
+// 	//오이 머니 가져오기
+// 	$.ajax({
+//         url: "getOiMoney",
+//         type: "post",
+//         data: {
+//             US_ID: session_id,
+//         },
+//         dataType: "JSON",
+//         success: function(response) {
+//             console.log('오이머니 값만 받아오자' + response);
+//             oiMoney = response;
+//             $('#oiMoney').append('<h6>오이머니 잔액 : 🥒 ' + new Intl.NumberFormat().format(response) + '원</h6>');
+//         }
+//     });
 	
-}
+// }
 </script>
    
    
@@ -812,6 +813,7 @@ function getOiMoney(){
                                  </div>
                                  <div class="product-buy">
                                  	<div class="quantity" id="oiMoney">
+                                 		<h6>오이머니 잔액 : 🥒 ${apdDetail.oiMoney} 원</h6>
                                     </div><br>
                                     <div class="quantity">
                                        <h6>입찰가 입력 :</h6>

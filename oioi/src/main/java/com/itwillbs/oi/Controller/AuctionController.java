@@ -84,17 +84,21 @@ public class AuctionController {
    public String auctionDetail(@RequestParam Map<String, String> map, Model model,HttpSession session) {
       System.out.println("auctionDetail(map) : " + map);
       
+      String US_ID = (String) session.getAttribute("US_ID");
+      
       //상품정보가져오기
       Map<String, String> dbMap = service.selectApdDetail(map);
       System.out.println("상품정보 확인 : " + dbMap);
-      dbMap.put("US_ID", (String) session.getAttribute("US_ID"));
+      dbMap.put("US_ID", US_ID);
+      dbMap.put("oiMoney", service.getOiMoney(US_ID));
       model.addAttribute("apdDetail", dbMap);
+      System.out.println("dbMap : " + dbMap);
       
       // 신고 카테고리 불러오기
    	  List<Map<String, String>> reportMap = ChatReportService.getReportCategory();
    	  model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
    	  
-   	  
+   	  //돈그냥 가져오자
       
       return "auction/auction_detail";
    }
@@ -395,12 +399,12 @@ public class AuctionController {
 		return recentProductList;
 	}
     
-    @ResponseBody
-    @PostMapping("getOiMoney")
-    public String getOiMoney(@RequestParam Map<String, Object> map) {
-    	System.out.println("getOiMoney(map) : " + map);
-    	return service.getOiMoney(map);
-    }
+//    @ResponseBody
+//    @PostMapping("getOiMoney")
+//    public String getOiMoney(@RequestParam Map<String, Object> map) {
+//    	System.out.println("getOiMoney(map) : " + map);
+//    	return service.getOiMoney(map);
+//    }
     @ResponseBody
     @PostMapping("reportMsg")
     public List<Map<String, Object>> reportMsg(@RequestParam Map<String, String> map) {
