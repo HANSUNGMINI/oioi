@@ -230,7 +230,7 @@
 	            AND c3.CTG_CODE = #{params.cate3}
 	        </if>
 	        
-	        <if test="params.RANGE != 0">
+	        <if test="params.range != 0">
 	        	<![CDATA[
 	        	AND ST_Distance_Sphere(
 			        	POINT (
@@ -238,7 +238,7 @@
 			                  (SELECT US_LAT FROM user WHERE US_ID = #{params.US_ID})
 			            ),
 			        	POINT(p.PD_LNG, p.PD_LAT)
-			        ) < #{params.RANGE}
+			        ) < #{params.range}
 			    ]]>    
 	        </if>
 	    ORDER BY 

@@ -100,7 +100,6 @@ public class TradeController {
         params.put("listLimit", listLimit);
         params.put("filter", filter);
         params.put("US_ID", session.getAttribute("US_ID"));
-        params.put("RANGE", 5000);
         System.out.println("@@@@@@@@필터 값 : " + params.get(filter));
         System.out.println("params 값: " + params);
 

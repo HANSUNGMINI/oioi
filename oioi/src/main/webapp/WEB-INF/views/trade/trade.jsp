@@ -136,7 +136,15 @@
             updateProducts(true);
         });
         
+        $('.range').change(function() {
+            pageNum = 1;
+            isEmpty = false;
+            updateProducts(true);
+        });
+        
+        
         function updateProducts(isNewFilter = false) {
+
             if (isLoading) return;
             isLoading = true;
 
@@ -148,7 +156,8 @@
             let cate2 = $('#cate2').val() || "";
             let cate3 = $('#cate3').val() || "";
             let filter = $('#filter').val() || "newest";  // 필터 옵션 추가
-
+            let range = $('input[name="range"]:checked').val();
+            
             $.ajax({
                 url: contextPath + '/filterProducts',
                 type: 'GET',
@@ -158,7 +167,8 @@
                     cate3: cate3,
                     filter: filter,  // 필터 옵션 전송
                     pageNum: pageNum,
-                    listLimit: listLimit
+                    listLimit: listLimit,
+                    range : range,
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -386,6 +396,9 @@
                                 </ul>
                             </div>
                             <div class="dd">
+                            	 <input type="radio" name="range" class="range" value="0" checked>전체 반경
+                            	 <input type="radio" name="range" class="range" value="5000">반경5km
+                            	 <input type="radio" name="range" class="range" value="10000">반경10km
                             	 <ul class="view-mode" >
                                 	<li>
 	                          			<select id="filter" name="filter" class="form-control">
@@ -559,13 +572,13 @@
             </div>
         </div>
     </div>
-    <!-- Modal end -->
     
+
+   
     <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 
 	<!-- 최근 본 상품 js --> 
 <%--     <script src="${pageContext.request.contextPath}/resources/js/trade/tradeRecentProduct.js"></script> --%>
-    
     <!-- Jquery -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
