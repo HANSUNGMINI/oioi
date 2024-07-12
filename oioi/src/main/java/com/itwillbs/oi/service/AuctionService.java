@@ -54,11 +54,11 @@ public class AuctionService {
 		return mapper.selectApdDetail(map);
 	}
 
-	public Map<String, String> selectACR(String APD_IDX) {
+	public String selectACR(String APD_IDX) {
 		return mapper.selectACR(APD_IDX);
 	}
 
-	public int insertACR(String APD_IDX) {
+	public String insertACR(String APD_IDX) {
 		return mapper.insertACR(APD_IDX);
 	}
 

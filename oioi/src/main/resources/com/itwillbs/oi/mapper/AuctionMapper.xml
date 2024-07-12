@@ -176,15 +176,14 @@
 		where ap.APD_IDX = #{APD_IDX};
 	</select>
 	
-	<select id="selectACR" resultType="hashmap">
-		select *
+	<select id="selectACR" resultType="String">
+		select ACR_IDX
 		from auction_chat_room
-		where ACR_IDX = #{APD_IDX}	
+		where APD_IDX = #{APD_IDX}	
 	</select>
-	<insert id="insertACR">
-		insert into
-		auction_chat_room(ACR_IDX,ACR_STATUS,ACR_DATE)
-		values (#{ACR_IDX},'Y',DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i'))
+	<insert id="insertACR" useGeneratedKeys="true" keyProperty="ACR_IDX">
+	    insert into auction_chat_room(ACR_STATUS,ACR_DATE,APD_IDX)
+	    values ('Y', DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i'), #{APD_IDX})
 	</insert>
 	<update id="updateApdBid">
 		update auction

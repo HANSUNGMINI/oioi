@@ -154,7 +154,7 @@
                APD_IDX: apd_idx,
                MSG: msg
            };
-           
+           console.log("dataSend(US_ID) : " + dataSend.US_ID);
            saveMessage(dataSend);
            
            socket.send(JSON.stringify(dataSend));
@@ -419,7 +419,7 @@
            url: "saveMsg",
            type: "post",
            data: {
-               ACR_IDX: res.APD_IDX,
+        	   APD_IDX: res.APD_IDX,
                ACM_CONTENT: res.MSG,
                ACM_USER: res.US_ID
            },
