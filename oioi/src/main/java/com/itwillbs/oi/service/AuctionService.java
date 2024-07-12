@@ -106,8 +106,8 @@ public class AuctionService {
 		return mapper.getRecentLookProduct(product);
 	}
 
-	public String getOiMoney(Map<String, Object> map) {
-		return mapper.getOiMoney(map);
+	public String getOiMoney(String US_ID) {
+		return mapper.getOiMoney(US_ID);
 	}
 
 	public String getAddress(String US_ID) {

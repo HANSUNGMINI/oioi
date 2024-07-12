@@ -62,7 +62,9 @@
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript">
-		
+		var startPriceInput = document.getElementById('APD_START_PRICE');
+	    var nowPriceInput = document.getElementById('APD_BUY_NOW_PRICE');
+	    
 		$(document).ready(function() {
 		    let cate2 = JSON.parse('${cate2}');
 		    let cate3 = JSON.parse('${cate3}');
@@ -121,6 +123,8 @@
 		});
 		
 		function Valid(){
+			
+			
 			var APD_NAME = $('#APD_NAME').val();
 			var APD_DETAIL = $('#APD_DETAIL').val();
 			var cate1 = $('#cate1').val();
@@ -135,8 +139,10 @@
 	        var APD_MAIN_IMAGE = fileInput.files;
 	        var fileInput2 = document.getElementById('APD_IMAGE');
 	        var APD_IMAGE = fileInput2.files;
-	        
-	        
+	        var startPrice = parseInt(startPriceInput.value.replace(/,/g, ''));
+	        var nowPrice = parseInt(nowPriceInput.value.replace(/,/g, ''));
+	        console.log("startPrice : " + startPrice);
+	        console.log("nowPrice : " + nowPrice);
 	        
 			
 			
@@ -164,7 +170,7 @@
 			}else if(APD_BUY_NOW_PRICE == ""){
 				err("즉시판매가를 입력하세요");
 				return false;
-			}else if(parseInt(APD_BUY_NOW_PRICE) <= parseInt(APD_START_PRICE)){
+			}else if(false){
 				err("판매시작가보다 높게 입력하세요");
 				return false;
 			}else if(!APD_DEADLINE){
@@ -188,6 +194,40 @@
     	        confirmButtonText: '확인'
     	    })
 		}
+		
+		// 가격 숫자만
+        function validateAndFormatNumber(input) {
+            var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
+            if (/[^0-9]/.test(value)) {
+                alert("숫자만 입력해주세요.");
+                input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
+            } else {
+                input.value = formatNumber(value); // 천 단위 포맷팅
+            }
+        }
+		
+        function formatNumber(value) {
+            return new Intl.NumberFormat().format(value);
+        }
+
+        function removeFormatting() {
+            startPriceInput.value = startPriceInput.value.replace(/,/g, '');
+            nowPriceInput.value = nowPriceInput.value.replace(/,/g, '');
+        }
+
+        // 숫자가 아닌 문자가 못하게 함
+        document.getElementById('APD_START_PRICE').addEventListener('keypress', function(event) {
+            if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+                alert("숫자만 입력해주세요.");
+            }
+        });
+        document.getElementById('APD_BUY_NOW_PRICE').addEventListener('keypress', function(event) {
+            if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+                alert("숫자만 입력해주세요.");
+            }
+        });
 	
 	</script>
 	
@@ -273,13 +313,14 @@
 										<div class="form-group">
 											<label>판매시작가<span>*</span></label>
 <!-- 											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" maxlength="16" placeholder="시작가" > -->
-											<input type="text" id="price" name="APD_START_PRICE" id="APD_START_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
+											<input type="text" name="APD_START_PRICE" id="APD_START_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="form-group">
 											<label>즉시판매가<span>*</span></label>
-											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" >
+<!-- 											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" maxlength="16" placeholder="즉시판매가" > -->
+											<input type="text" name="APD_BUY_NOW_PRICE" id="APD_BUY_NOW_PRICE" placeholder="원" oninput="validateAndFormatNumber(this)" maxlength="12">
 										</div>
 									</div>
 									<div class="col-12" style="margin-bottom: 15px;">
