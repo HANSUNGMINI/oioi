@@ -71,13 +71,6 @@
 						<c:set var="info" value="${chat.info}"/>
     					<c:set var="list" value="${chat.list}"/>
     					
-					<c:if test="${empty list.list}">
-						<div style="height: 380px; text-align: center; margin-top: 300px">
-							🥒 <br>
-							대화 내역이 존재하지 않습니다. <br>
-							대화를 통해 거래를 진행해 보세요 ! 
-						</div>
-					</c:if>
 					
     					<c:if test="${not empty list.list}">
 							<li>
