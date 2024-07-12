@@ -107,6 +107,8 @@
    var apdOwner = "${apdDetail.APD_OWNER}";
    var contextPath = '<%= request.getContextPath() %>';
    var oiMoney = "${apdDetail.oiMoney}";
+   var us_id = "${sessionScope.US_ID}";
+   var buy_price = "${apdDetail.APD_BUY_NOW_PRICE}";
    
    
    $(function(){
@@ -120,9 +122,9 @@
 	    	 $('#apdReport').css('display', 'none');
 	    	 
 	    	 //웹소켓 연결 끊기
-	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center","");
+	    	 appendMessage("System", ">> 경매가 종료되었습니다 <<", "center","","");
 	   }else if(session_id == ""){
-		   appendMessage("System", ">> 로그인 후 채팅이 가능합니다 <<", "center",""); 
+		   appendMessage("System", ">> 로그인 후 채팅이 가능합니다 <<", "center","",""); 
 	   }else{
 		   connect();
 	   }
@@ -178,7 +180,7 @@
            saveMessage(dataSend);
            
            socket.send(JSON.stringify(dataSend));
-           appendMessage(us_id, msg, "right","");
+           appendMessage(us_id, msg, "right","","");
            $('input#sendMsg').val('');
       }
       
@@ -189,15 +191,16 @@
          
       $('#bidding').on('click', function(){
          nowValue = $('#nowPrice').val();
+         nowvalueFormat = nowValue.replace(/,/g, '');
          
-         console.log('입찰할때 oiMoney : ' + oiMoney);
          
-         let nowValueNum = parseFloat(nowValue);
+		 console.log("nowValue(포메팅햇는가) : " + nowvalueFormat);         
+         let nowValueNum = parseFloat(nowvalueFormat);
          let minValueNum = parseFloat(minValue);
          let maxValueNum = parseFloat(maxValue);
          
          
-         console.log(nowValueNum);
+         console.log(nowvalueFormat);
          console.log(minValueNum);
          console.log(maxValueNum);
          
@@ -219,6 +222,7 @@
          //오이페이에 있는 충전금이 입찰할 가격보다 작을때
          if(oiMoney < nowValueNum){
         	 oiCharge();
+        	 return false;
          }
          
          
@@ -239,7 +243,7 @@
                     APD_IDX : apd_idx,
                     AT_IDX : at_idx,
                     FINAL_BID_USER : us_id,
-                    FINAL_BID_PRICE : nowValue
+                    FINAL_BID_PRICE : nowvalueFormat
                  },
                  dataType : "JSON",
                       success: function(response) {
@@ -279,7 +283,7 @@
                    APD_IDX : apd_idx,
                    Buyer : session_id,
                    TD_SELLER_ID : apdOwner,
-                   FINAL_BID_PRICE : nowValue
+                   FINAL_BID_PRICE : nowvalueFormat
                 },
                 dataType : "json",
                 success: function(response) {
@@ -336,7 +340,7 @@
    
    
    function connect() {
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -351,16 +355,15 @@
 		       
   	   
        if (response.type === "ENTER" || response.type === "LEAVE") {
-           appendMessage("System", response.msg, "center","");
-       } else if (response.type === "SESSION_SIZE") {
+           appendMessage("System", response.msg, "center","","");
            $('#sessionSize').empty().append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' + response.SESSION_SIZE + '명</a></span>');
-       } else if (response.type === "TALK") {
+       }else if (response.type === "TALK") {
            var res = JSON.parse(response.DATA);
            console.log("response.US_PROFILE : " + response.US_PROFILE);
            if (res.US_ID === session_id) {
-               appendMessage(res.US_ID, res.MSG, "right","");
+               appendMessage(res.US_ID, res.MSG, "right","","");
            } else {
-               appendMessage(res.US_ID, res.MSG, "left",response.US_PROFILE);
+               appendMessage(res.US_ID, res.MSG, "left",response.US_PROFILE,response.US_NICK);
            }
            saveMessage(res);
        } else if(response.type === 'USER_LIST'){
@@ -393,7 +396,7 @@
 
    }
 
-   function appendMessage(sender, msg, align_type, profile) {
+   function appendMessage(sender, msg, align_type, profile, nick) {
 	   var seller = "${apdDetail.APD_OWNER}";
 	   console.log("profile : " + profile);
 	   console.log("us_id(sender비교전) : " + seller);
@@ -417,8 +420,8 @@
     	   console.log("profile" + profile);
            html += '<li class="clearfix chatViewYou">' +
                '<div class="message-avatar">' +
-               '<img src="' + profile + '" style="width: 45px; height: 45px;">' + 
-               sender +
+               '<img src="' + profile + '" style="width: 45px; height: 45px; margin-right: 5px;">' + 
+               nick +
                '</div>' +
                '<div class="message my-message">' +
                msg +
@@ -561,25 +564,25 @@
 	}
 	
 }
+   function validateAndFormatNumber(input) {
+       var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
+       if (/[^0-9]/.test(value)) {
+           alert("숫자만 입력해주세요.");
+           input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
+       } else {
+           input.value = formatNumber(value); // 천 단위 포맷팅
+       }
+   }
+
+   function formatNumber(value) {
+       return new Intl.NumberFormat().format(value);
+   }
+
+   function removeFormatting() {
+       var priceInput = document.getElementById('price');
+       priceInput.value = priceInput.value.replace(/,/g, ''); // db 저장 할 때 쉼표 제거
+   }
    
-// function getOiMoney(){
-// 	console.log('getOiMoney');
-// 	//오이 머니 가져오기
-// 	$.ajax({
-//         url: "getOiMoney",
-//         type: "post",
-//         data: {
-//             US_ID: session_id,
-//         },
-//         dataType: "JSON",
-//         success: function(response) {
-//             console.log('오이머니 값만 받아오자' + response);
-//             oiMoney = response;
-//             $('#oiMoney').append('<h6>오이머니 잔액 : 🥒 ' + new Intl.NumberFormat().format(response) + '원</h6>');
-//         }
-//     });
-	
-// }
 </script>
    
    
@@ -818,7 +821,8 @@
                                     <div class="quantity">
                                        <h6>입찰가 입력 :</h6>
                                        <div class="input-group" id="auctionText">
-                                          <input type="text" class="input-number" id="nowPrice" placeholder="${apdDetail.FINAL_BID_PRICE}원">
+<%--                                           <input type="text" class="input-number" id="nowPrice" placeholder="${apdDetail.FINAL_BID_PRICE}원"> --%>
+                                          <input type="text" class="input-number" id="nowPrice" placeholder="<fmt:formatNumber value="${apdDetail.FINAL_BID_PRICE}" pattern="#,###"/>원" oninput="validateAndFormatNumber(this)" maxlength="12">
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
@@ -828,15 +832,15 @@
                                     <div class="quantity" style="margin-top: 5px;">
                                        <h6>즉시 구매가 :</h6>
                                        <div class="input-group">
-                                          <input type="text" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}원" readonly>
+<%--                                           <input type="text" class="input-number" value="${apdDetail.APD_BUY_NOW_PRICE}원" readonly> --%>
+                                          <input type="text" class="input-number" placeholder="<fmt:formatNumber value="${apdDetail.APD_BUY_NOW_PRICE}" pattern="#,###"/>원" readonly>
                                        </div>
                                     </div>
                                     <div class="add-to-cart">
                                        <a href="#" class="btn" id="auctionBuy" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
                                        <script type="text/javascript">
                                        		function auctionBuy(APD_IDX){
-                                       			let us_id = "${sessionScope.US_ID}";
-                                       			let buy_price = "${apdDetail.APD_BUY_NOW_PRICE}";
+                                       			
                                        			if (!us_id || us_id === 'null') {
                                        				Swal.fire({
                                     		            title: '로그인 후 이용이 가능합니다.',         
@@ -846,7 +850,10 @@
                                     		        return false;
                                                 }
                                        			
-                                       			if(oiMoney < buy_price){
+                                       			console.log("buy_price : " + buy_price);
+                                       			console.log("oiMoney : " + oiMoney);
+                                       			
+                                       			if(parseInt(oiMoney) < parseInt(buy_price)){
                                        				Swal.fire({
                                     		            title: '페이 잔액이 부족합니다.',         
                                     		            text: '충전 후 입찰해주세요',  

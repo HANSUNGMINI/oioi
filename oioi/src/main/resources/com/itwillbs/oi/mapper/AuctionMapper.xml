@@ -355,8 +355,17 @@
 	</select>
 	
 	<select id="selectReportMsg" resultType="map">
-		select concat("채팅내용 : ",ACM_CONTENT,", 채팅한 날짜 : ",ACM_DATE) as ACM_CONTENT from auction_chat_msg
-		where ACR_IDX = #{ACR_IDX} and ACM_USER = #{ACM_USER};
+		select concat("채팅내용 : ",acm.ACM_CONTENT,", 채팅한 날짜 : ",acm.ACM_DATE) as ACM_CONTENT
+		from auction_chat_msg acm
+		join auction_chat_room acr
+		on acm.ACR_IDX = acr.ACR_IDX
+		where acr.APD_IDX = 5 and acm.ACM_USER = 'gkstyd13';
+	</select>
+	
+	<select id="selectUserInfo" resultType="map">
+		select US_PROFILE,US_NICK
+		from user
+		where US_ID = #{US_ID}
 	</select>
 </mapper>
 

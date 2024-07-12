@@ -42,8 +42,6 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         
         System.out.println("session 누구누구있는지 : " + userSessions.toString());
         
-        
-        
         // 접속 메시지
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "ENTER");
@@ -52,13 +50,8 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 
         broadcastMessage(apdIdx, jo.toString(), session);
         
-        // 접속한 사용자에게만 접속자 수 보내기
-// 		JsonObject userJo = new JsonObject();
-// 		userJo.addProperty("type", "SESSION_SIZE");
-// 		
-// 		session.sendMessage(new TextMessage(userJo.toString()));
  		
- 		//누구누구 접속했는지 확인
+ 		//누구누구 접속했는지 확인(신고)
  		JsonObject users = new JsonObject();
  		users.addProperty("type", "USER_LIST");
  		users.add("users", new Gson().toJsonTree(userSessions.values()));
@@ -72,12 +65,21 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         Map<String, Object> attributes = session.getAttributes();
         String US_ID = (String) attributes.get("US_ID");
         String APD_IDX = (String) attributes.get("APD_IDX");
-        String profile = auctionService.getProfile(US_ID);
+        Map<String, String> userInfo = auctionService.getUserInfo(US_ID);
+        System.out.println("userInfo : " + userInfo);
+        String profile = userInfo.get("US_PROFILE");
+        String nickname = userInfo.get("US_NICK");
+        
+        
+//        String profile = auctionService.getProfile(US_ID);
         System.out.println("profile : " + profile);
+        System.out.println("nickname : " + nickname);
+        System.out.println("message.getPayload() : " + message.getPayload());
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "TALK");
         jo.addProperty("US_PROFILE", profile);
         jo.addProperty("US_ID", US_ID);
+        jo.addProperty("US_NICK", nickname);
         jo.addProperty("SESSION_SIZE", getSessionCount(APD_IDX));
         jo.addProperty("DATA", message.getPayload());
 
