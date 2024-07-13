@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
+	<!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<!-- Meta Tag -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,74 +57,99 @@
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 	
 	<script>
-	let checkAuthNumResult = false;
-	let serverAuthNum = "";
-	
-	
-	function isValidEmail(email) { //이메일 유효성 검사
-		return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-	}
-	
-	function isValidName(name) { // 이름 유효성 검사
-		return  /^[가-힣&&[^ㄱ-ㅎㅏ-ㅣ]{2,5}$/.test(name);
-	}
-	
-	function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
-		return /^[0-9]{10,11}$/.test(phoneNumber);
-	}
-	
-	let isPhoneAuthButtonCreated = false;
-	function phoneAuth() {
-		let user_name2 = $("#user_name2").val();
-	    let user_phone = $("#user_phone").val();
-	    
-	    if (!isValidName(user_name2) || user_name2 == "") {
-	        alert("이름을 확인해주세요.");
-	        document.fr.user_name2.focus();
-	        return false;
-	    }
+let checkAuthNumResult = false;
+let serverAuthNum = "";
 
-	    if (!isValidPhoneNumber(user_phone) || user_phone == "") {
-	        alert("전화번호를 확인해주세요.");
-	        document.fr.user_phone.focus();
-	        return false;
-	    }
-		
-		$.ajax({
-			
-			type : "POST",
-			url : "send-user-id",
-			contentType: "application/json",
-			data : JSON.stringify({"user_name2": user_name2, "user_phone": user_phone}),
-			dataType :"json",
-			success : function(response){
-		        if (response.success) {
-		            
-		            alert("회원님의 ID 정보가 문자로 전송되었습니다.");
-		            window.location.href = "${pageContext.request.contextPath}/login"
-		        } else {
-		            alert("해당 이름과 전화번호로 등록된 회원이 없습니다.");
-		        }
-				
-			},
-			error : function() {
-				alert("전화번호 인증에 실패했습니다. 다시 시도해주세요.");
-			}
-			
-		});
-	}
-	
-	function phoneAuthCheck(){
-		if($("#auth_num").val() !== serverAuthNum){
-			alert("인증번호를 확인해주세요.");
-			return false;
-		} else {
-			alert("인증되었습니다.");
-			checkAuthNumResult = true;
-		}
-	}
-	
-	</script>
+function isValidEmail(email) { //이메일 유효성 검사
+	return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+}
+
+function isValidName(name) { // 이름 유효성 검사
+	return /^[가-힣&&[^ㄱ-ㅎㅏ-ㅣ]{2,5}$/.test(name);
+}
+
+function isValidPhoneNumber(phoneNumber) { // 휴대폰 번호 유효성 검사
+	return /^[0-9]{10,11}$/.test(phoneNumber);
+}
+
+let isPhoneAuthButtonCreated = false;
+function phoneAuth() {
+	let user_name2 = $("#user_name2").val();
+    let user_phone = $("#user_phone").val();
+
+    if (!isValidName(user_name2) || user_name2 == "") {
+        Swal.fire({
+            icon: 'error',
+            title: '실패!',
+            text: '이름을 확인해주세요.'
+        });
+        document.fr.user_name2.focus();
+        return false;
+    }
+
+    if (!isValidPhoneNumber(user_phone) || user_phone == "") {
+        Swal.fire({
+            icon: 'error',
+            title: '실패!',
+            text: '전화번호를 확인해주세요.'
+        });
+        document.fr.user_phone.focus();
+        return false;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "send-user-id",
+        contentType: "application/json",
+        data: JSON.stringify({"user_name2": user_name2, "user_phone": user_phone}),
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '성공!',
+                    text: '회원님의 ID 정보가 문자로 전송되었습니다.'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "${pageContext.request.contextPath}/login";
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '실패!',
+                    text: '해당 이름과 전화번호로 등록된 회원이 없습니다.'
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: '실패!',
+                text: '전화번호 인증에 실패했습니다. 다시 시도해주세요.'
+            });
+        }
+    });
+}
+
+function phoneAuthCheck() {
+	if ($("#auth_num").val() !== serverAuthNum) {
+        Swal.fire({
+            icon: 'error',
+            title: '실패!',
+            text: '인증번호를 확인해주세요.'
+        });
+        return false;
+    } else {
+        Swal.fire({
+            icon: 'success',
+            title: '성공!',
+            text: '인증되었습니다.'
+        });
+        checkAuthNumResult = true;
+    }
+}
+</script>
 </head>
 <style>
 #check_email:hover {

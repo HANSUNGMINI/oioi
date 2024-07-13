@@ -444,7 +444,7 @@ public class UserController {
 	    // 서비스를 통해 회원 정보 가져오기
 	    Map<String, String> dbUser = service.selectUser(userId); 
 	    if(dbUser == null || !passwordEncoder.matches(userPasswd, dbUser.get("US_PASSWD"))) { // 로그인 실패
-	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.\\n입력하신 내용을 다시 확인해주세요.");
+	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.");
 	        return "err/fail";
 	    } else if ("2".equals(dbUser.get("US_STATUS"))) {
 	        model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
@@ -489,7 +489,7 @@ public class UserController {
 		System.out.println("조회된 user정보 : " + user);
 		if(user != null) {
 			mailService.sendForgotId(user);
-			model.addAttribute("msg", "이메일 전송이 완료되었습니다.");
+			model.addAttribute("msg", "이메일 전송이 완료되었습니다!");
 			model.addAttribute("targetURL", "login");
 			return "err/success";
 		} else {

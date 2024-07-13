@@ -8,6 +8,8 @@
 <html lang="zxx">
 <head>
 	<!-- Meta Tag -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name='copyright' content=''>
@@ -95,68 +97,64 @@
 	
 	let isPhoneAuthButtonCreated = false;
 	function phoneAuth() {
-		console.log("phoneAuth 함수가 호출되었습니다.");
-		
-		let user_name2 = $("#user_name2").val();
-		let user_id2 = $("#user_id2").val();
+	    console.log("phoneAuth 함수가 호출되었습니다.");
+	    
+	    let user_name2 = $("#user_name2").val();
+	    let user_id2 = $("#user_id2").val();
 	    let user_phone = $("#user_phone").val();
 	    
 	    if (!isValidId(user_id2) || user_id2 == "") {
-	        alert("아이디를 확인해주세요.");
+	        Swal.fire('실패!', '아이디를 확인해주세요.', 'error');
 	        document.fr.user_id2.focus();
 	        return false;
 	    } else if (!isValidName(user_name2) || user_name2 == "") {
-	        alert("이름을 확인해주세요.");
+	        Swal.fire('실패!', '이름을 확인해주세요.', 'error');
 	        document.fr.user_name2.focus();
 	        return false;
 	    } else if (!isValidPhoneNumber(user_phone) || user_phone == "") {
-	        alert("전화번호를 확인해주세요.");
+	        Swal.fire('실패!', '전화번호를 확인해주세요.', 'error');
 	        document.fr.user_phone.focus();
 	        return false;
 	    } 
-		
-		$.ajax({
-			
-			type : "POST",
-			url : "send-user-passwd",
-			contentType: "application/json",
-			data : JSON.stringify({"user_id2": user_id2, "user_name2": user_name2, "user_phone": user_phone}),
-			dataType :"json",
-			success : function(response){
-		        if (response.success) {
-					serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
-					alert("인증번호가 전송되었습니다.");
-					if (!isPhoneAuthButtonCreated) {
-						$("#auth_num").parent().append(
-								'<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
+	    
+	    $.ajax({
+	        type: "POST",
+	        url: "send-user-passwd",
+	        contentType: "application/json",
+	        data: JSON.stringify({"user_id2": user_id2, "user_name2": user_name2, "user_phone": user_phone}),
+	        dataType: "json",
+	        success: function(response) {
+	            if (response.success) {
+	                serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
+	                Swal.fire('성공', '인증번호가 전송되었습니다.', 'success');
+	                if (!isPhoneAuthButtonCreated) {
+	                    $("#auth_num").parent().append(
+	                        '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'    
 	                    );
-					}
-                    isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
-		        } else {
-		            alert("해당 정보로 등록된 회원이 없습니다.");
-		        }
-		        
-			},
-			error : function() {
-				alert("전화번호 인증에 실패했습니다. 다시 시도해주세요.");
-			}
-			
-		});
+	                }
+	                isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
+	            } else {
+	                Swal.fire('실패!', '해당 정보로 등록된 회원이 없습니다.', 'error');
+	            }
+	        },
+	        error: function() {
+	            Swal.fire('실패!', '전화번호 인증에 실패했습니다. 다시 시도해주세요.', 'error');
+	        }
+	    });
 	}
-	
-	function phoneAuthCheck(){
-		if($("#auth_num").val() !== serverAuthNum){
-			alert("인증번호를 확인해주세요.");
-			return false;
-		} else {
-			alert("인증되었습니다.");
-			checkAuthNumResult = true;
-			let user_id2 = $("#user_id2").val();
-			let redirectUrl = "${pageContext.request.contextPath}/change_passwd?user_id=" + encodeURIComponent(user_id2);
-			window.location.href =  redirectUrl;
-		}
+
+	function phoneAuthCheck() {
+	    if ($("#auth_num").val() !== serverAuthNum) {
+	        Swal.fire('실패!', '인증번호를 확인해주세요.', 'error');
+	        return false;
+	    } else {
+	        Swal.fire('성공', '인증되었습니다.', 'success');
+	        checkAuthNumResult = true;
+	        let user_id2 = $("#user_id2").val();
+	        let redirectUrl = "${pageContext.request.contextPath}/change_passwd?user_id=" + encodeURIComponent(user_id2);
+	        window.location.href = redirectUrl;
+	    }
 	}
-	
 	</script>
 </head>
 <style>
