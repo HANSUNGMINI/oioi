@@ -376,9 +376,9 @@ public class ChattingController {
         categoryWeights.put("RVC02", 0.1);
         categoryWeights.put("RVC03", 0.2);
         categoryWeights.put("RVC04", 0.1);
-        categoryWeights.put("RVC05", 0.2);
-        categoryWeights.put("RVC06", 0.1);
-        categoryWeights.put("RVC07", -1.0);
+        categoryWeights.put("RVC05", -0.3);
+        categoryWeights.put("RVC06", -0.3);
+        categoryWeights.put("RVC07", -0.4);
 
         double baseChange = (rating - 3) * 0.2; // 기본 별점 변화, 3점은 변화 없음
         double categoryChange = categories.stream()

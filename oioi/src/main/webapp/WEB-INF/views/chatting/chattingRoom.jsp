@@ -735,10 +735,15 @@
 				}).then(result => {
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+					    
+					   let TO_ID = "${param.TO_ID}";
+				    	let FROM_ID = "${param.FROM_ID}";
+				    	let PD_IDX = "${param.PD_IDX}";
+		            	
 				   		// 채팅방 나가기
+					   sendMessage("LEAVE", TO_ID, FROM_ID, "", "", PD_IDX);
 				   }
 				});
-			
 		}
 
 	

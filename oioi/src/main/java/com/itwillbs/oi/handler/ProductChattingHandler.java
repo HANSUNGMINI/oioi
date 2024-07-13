@@ -124,8 +124,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
     				sendMessage(TO_WS, chatMessage, false);
     			}
             	
-            } else if (chatMessage.getType().equals(ProductChatVO.TYPE_CHECK)) {
-            	
+            } else if (chatMessage.getType().equals(ProductChatVO.TYPE_LEAVE)) {
             	
             } else if (chatMessage.getType().equals(ProductChatVO.TYPE_SYS)) {
             	System.out.println("시스템일 경우 : " + chatMessage);
