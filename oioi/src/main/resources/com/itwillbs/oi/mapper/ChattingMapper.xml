@@ -193,11 +193,11 @@
 	       , SUBSTRING(MS_DATE, 12, 5) AS 'MS_TIME'
 	      , CASE 
 	         WHEN FROM_ID = #{US_ID} THEN 'right'
-	         WHEN TO_ID = #{TO_ID} THEN 'left'
+	         WHEN TO_ID = #{TO_ID} THEN 'left' ELSE 'left'
 	       END AS MSG_POSITION
 	     , CASE 
 	         WHEN FROM_ID = #{US_ID} THEN 'other'
-	         WHEN TO_ID = #{TO_ID} THEN 'my'
+	         WHEN TO_ID = #{TO_ID} THEN 'my' ELSE 'my'
 	       END AS MSG_IMG_POSITION
 			FROM chat_message
 			WHERE CR_ID = #{CR_ID}
