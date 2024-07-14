@@ -92,16 +92,19 @@
 		WHERE PD_IDX = #{PD_IDX}
 			AND FROM_ID = #{FROM_ID}
 			AND TO_ID = #{TO_ID}
+			AND (status = 0 OR (status = 1 AND CR_EXIT_USER != #{FROM_ID})
 	</select>
 	
 	<select id="getMyChatInfo" resultType="hashmap">
+		-- ChttingMapper getMyChatInfo (채팅방 정보 가져오기);
 		SELECT CR.CR_ID, CR.PD_IDX, CR.BUYER_ID, CR.SELLER_ID, u.US_NICK, u.US_PROFILE
 		FROM chat_room CR
 		JOIN user u
-		ON (CR.BUYER_ID = u.US_ID OR CR.SELLER_ID = u.US_ID)
+		  ON (CR.BUYER_ID = u.US_ID OR CR.SELLER_ID = u.US_ID)
 		WHERE (CR.BUYER_ID = #{US_ID} OR CR.SELLER_ID = #{US_ID})
-		AND u.US_ID != #{US_ID}
-		ORDER BY CR_DATE DESC
+		  AND (status = 0 OR (status = 1 AND CR_EXIT_USER != #{US_ID}))
+		  AND u.US_ID != #{US_ID}
+		ORDER BY CR.CR_DATE DESC;
 	</select>
 	
 	<select id="getMyChatList" resultType="hashmap">
@@ -129,13 +132,13 @@
 	<select id="getReadCount" resultType="hashmap">
 		SELECT CM_READCOUNT, CM_READBY
 		FROM chat_message
-		WHERE CR_ID = #{crId} AND CM_READCOUNT != 0;
+		WHERE CR_ID = #{crId}
 	</select>
 	
 	<select id="getUnreadCnt" resultType="hashmap">
 		SELECT CM_READCOUNT
 		FROM chat_message
-		WHERE CR_ID = #{CR_ID};
+		WHERE CR_ID = #{CR_ID}
 	</select>
 	
 	<update id="updateUnreadZero">
@@ -152,12 +155,13 @@
 	
 	<select id="getChatRoom" resultType="map">
 	-- ChattingMapper getChatRoom (채팅방 가져오기)
-		SELECT CR_ID
-		FROM chat_room
-		WHERE PD_IDX = #{PD_IDX} 
-		 AND (
-	         (BUYER_ID = #{TO_ID} AND SELLER_ID = #{FROM_ID})
-	    	OR (BUYER_ID = #{FROM_ID} AND SELLER_ID = #{TO_ID}))
+	SELECT CR_ID
+	FROM chat_room
+	WHERE PD_IDX = #{PD_IDX}
+	  AND (
+	    (BUYER_ID = #{TO_ID} AND SELLER_ID = #{FROM_ID})
+	    OR (BUYER_ID = #{FROM_ID} AND SELLER_ID = #{TO_ID})
+	  );
 	</select>
 	
 	<select id="getProductInfo" resultType="hashmap">
@@ -242,5 +246,24 @@
 		UPDATE delivery
 		SET DV_STATUS = 3
 		WHERE DV_STATUS = 2 AND BUYER_ID = #{BUYER_ID} AND PC_ID = #{PD_IDX}
+	</update>
+	
+	<select id="getRemoveRoomStatus" resultType="int">
+		SELECT STATUS
+		FROM chat_room
+		WHERE CR_ID = #{CR_ID}
+	</select>
+	
+	<update id="removerRoom">
+		UPDATE chat_room
+		SET status = 1,
+    		CR_EXIT_USER = #{FROM_ID}
+		WHERE CR_ID = #{CR_ID}
+	</update>
+	
+	<update id="statusTwoRemove">
+		UPDATE chat_room
+		SET status = 2
+		WHERE CR_ID = #{CR_ID} AND CR_EXIT_USER != #{FROM_ID}
 	</update>
 </mapper>

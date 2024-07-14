@@ -119,6 +119,10 @@
 		} else if (data.type == "TALK"){
 			window.location.reload();
 			appendMessage(data.msg, "left","my");
+			
+		} else if (data.type == "LEAVE"){
+			appendMessage(data.msg, "right","other");
+			exitRoom();			
 		}
 	}
 	
@@ -178,7 +182,7 @@
 		    	let FROM_ID = "${param.FROM_ID}";
 		    	let PD_IDX = "${param.PD_IDX}";
             	
-            	sendMessage("CHECK", TO_ID, FROM_ID, "", "", PD_IDX);
+//             	sendMessage("CHECK", TO_ID, FROM_ID, "", "", PD_IDX);
 	    	}
 	    }); 	
     }
@@ -264,6 +268,18 @@
     }
 
     
+    // -----------------------------------------------------------
+    
+    function exitRoom() {
+    	location.href="ChatList?US_ID=${US_ID}"
+    			
+    	 Swal.fire({
+	            title: '채팅방 나가기 완료되었습니다',         // Alert 제목
+	            text: '감사합니다',  // Alert 내용
+	            icon: 'success',                         // Alert 타입
+	        });
+    	
+    }
     // -----------------------------------------------------------
     
     function purchase(TO_ID, PD_IDX) {
@@ -558,7 +574,6 @@
 		function soldout() {
 			let nick = '${info.US_NICK}';
 			let existReview = '${pdInfo.existReview}';
-			alert(existReview);
 			
 			Swal.fire({
 				   title: '구매 확정하시겠습니까?',

@@ -116,6 +116,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	// DB에 채팅 메세지 저장하기
             	int saveCnt = service.saveChatting(chatMessage);
             	
+            	TO_ID = chatMessage.getTO_ID();
             	System.out.println("수신자의 웹소켓세션객체 아이디 " + userSessions.get(TO_ID));
     			
     			if(userSessions.get(TO_ID) != null) {
@@ -125,6 +126,24 @@ public class ProductChattingHandler extends TextWebSocketHandler{
     			}
             	
             } else if (chatMessage.getType().equals(ProductChatVO.TYPE_LEAVE)) {
+            	// 채팅방 번호 가져오기
+            	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
+            	
+            	// 채팅방 번호 저장 
+            	chatMessage.setCR_ID((String)chatRoom.get("CR_ID"));
+            	chatMessage.setMsg("");
+            	
+            	service.removeRoom(chatMessage);
+            	chatMessage.setMsg( chatMessage.getTO_ID() + "님이 대화방을 나가셨습니다");
+            	
+            	TO_ID = chatMessage.getTO_ID();
+            	System.out.println("수신자의 웹소켓세션객체 아이디 " + userSessions.get(TO_ID));
+            	
+            	// 채팅 종료 신호를 다른 사용자에게도 전달
+    			if(userSessions.get(FROM_ID) != null) {
+    				WebSocketSession FROM_WS = users.get(userSessions.get(FROM_ID));
+    				sendMessage(FROM_WS, chatMessage, true);
+    			}
             	
             } else if (chatMessage.getType().equals(ProductChatVO.TYPE_SYS)) {
             	System.out.println("시스템일 경우 : " + chatMessage);

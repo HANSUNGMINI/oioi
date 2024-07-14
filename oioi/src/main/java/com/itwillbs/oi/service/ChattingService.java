@@ -174,6 +174,19 @@ public class ChattingService {
 		mapper.updateDelivery(pdInfo);
 	}
 
+	// 대화방 나가기
+	public void removeRoom(ProductChatVO chatMessage) {
+		
+		// status 가져오기
+		int status = mapper.getRemoveRoomStatus(chatMessage);
+		
+		if(status == 0 ) {
+			mapper.removerRoom(chatMessage);
+		} else if (status == 1) {
+			mapper.statusTwoRemove(chatMessage);
+		}
+	}
+
 
 
 	

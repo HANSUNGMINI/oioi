@@ -50,6 +50,9 @@ public interface ChattingMapper {
 	Map<String, Object> getChatRoom(@Param(value = "TO_ID")String TO_ID, @Param(value = "FROM_ID")String FROM_ID, @Param(value = "PD_IDX")int PD_IDX); // 채팅방 번호 가져오기
 	Map<String, String> getUserRole(Map<String, Object> map); // 판매자 구매자 확인
 	int getMyTradeInfo(Map<String, Object> map); // 거래내역 정보 가져오기
+	int getRemoveRoomStatus(ProductChatVO chatMessage); // 채팅방 상태 가져오기
+	void removerRoom(ProductChatVO chatMessage); // 대화방 나가기
+	void statusTwoRemove(ProductChatVO chatMessage); // 대화방 나가기 status 2로 바꾸기
 	
 	
 

@@ -207,7 +207,6 @@ public class ChattingController {
 			}
 		}
 		
-		System.out.println("아아ㅓ아어ㅏ러ㅣㅏㅇ니럼");
 		
 		// 거래 테이블에 내 정보가 있는지
 		int tradeCnt = service.getMyTradeInfo(map);
