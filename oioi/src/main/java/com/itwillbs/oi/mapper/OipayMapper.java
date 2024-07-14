@@ -44,6 +44,8 @@ public interface OipayMapper {
 	// 채팅방 번호 가져오기
 	String getChatRoomNum(Map<String, String> map);
 
+	String selectSellerNick(String sellerId);
+
 
 
 
