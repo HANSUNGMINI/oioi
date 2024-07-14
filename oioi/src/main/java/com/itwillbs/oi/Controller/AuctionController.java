@@ -306,7 +306,7 @@ public class AuctionController {
             model.addAttribute("targetURL", "./");
              return "err/fail";
          }
-         
+         System.out.println("입찰할때 map에 뭐잇는지 : " + map);
          return (String)map.get("FINAL_BID_PRICE");
       }else {
          model.addAttribute("msg", "입찰기간이 아닙니다.");

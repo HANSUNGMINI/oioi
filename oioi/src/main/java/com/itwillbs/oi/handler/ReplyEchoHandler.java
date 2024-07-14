@@ -71,10 +71,6 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
         String nickname = userInfo.get("US_NICK");
         
         
-//        String profile = auctionService.getProfile(US_ID);
-        System.out.println("profile : " + profile);
-        System.out.println("nickname : " + nickname);
-        System.out.println("message.getPayload() : " + message.getPayload());
         JsonObject jo = new JsonObject();
         jo.addProperty("type", "TALK");
         jo.addProperty("US_PROFILE", profile);
@@ -87,7 +83,8 @@ public class ReplyEchoHandler extends TextWebSocketHandler {
 
         // 메시지를 자신을 제외한 세션에 전송
         for (WebSocketSession sess : sessions) {
-            if (sess.isOpen() && APD_IDX.equals(sess.getAttributes().get("APD_IDX")) && !sess.getId().equals(session.getId())) {
+            if (sess.isOpen() && APD_IDX.equals(sess.getAttributes().get("APD_IDX"))
+            							 && !sess.getId().equals(session.getId())) {
                 sess.sendMessage(new TextMessage(jsonMessage));
             }
         }

@@ -318,7 +318,7 @@
 											<hr>
 											<h5>거래상태 : ${product.PD_STATUS}</h5>
 											<input type="hidden" name="PD_STATUS" value="${product.PD_STATUS}">
-											<h5>판매자 : ${product.US_ID}</h5>
+											<h5>판매자 : ${product.sellerNick}</h5>
 											<input type="hidden" name="US_ID" value="${product.US_ID}">
 											<h5>상품명 : ${product.PD_SUBJECT}</h5>
 											<input type="hidden" name="PD_STATUS" value="${product.PD_SUBJECT}">

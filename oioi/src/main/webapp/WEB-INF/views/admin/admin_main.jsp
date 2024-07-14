@@ -12,11 +12,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>오이마켓 - 관리자 페이지</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?v=1652870200386">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css?v=1652870200386">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css">
+	 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 </head>
 <body>
 	<div id="app">
@@ -45,10 +47,10 @@
 			<div id="chart1" style="width: 50%; height: 500px;"></div>
 			<div id="chart2" style="width: 50%; height: 500px;"></div>
 		</div>
-		
 	</div>
   	</div>
 </body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
 <script>
 	$(function(){
@@ -97,7 +99,6 @@
 			} // success 끝
 		})
 	}
-
 </script>
 </html>
     

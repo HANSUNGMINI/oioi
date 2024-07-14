@@ -313,7 +313,7 @@
 // 					    }
 					    
 					    $('#summernote').summernote({
-					        placeholder: '공지를 입력하세요.',
+					        placeholder: '내용을 입력하세요.',
 					        tabsize: 1,
 					        height: 550,
 					        toolbar: [

@@ -71,23 +71,14 @@
 	
 		    $('#cate1').change(function() {
 		        var selectedCate2 = $(this).val();
-		        console.log('cate1:', selectedCate2);
-		        
 		        var filteredCate2s = cate2.filter(function(cate) {
 		            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000
 		        });
-		        
-		        console.log('cate2s:', filteredCate2s);
-		        
-		        
 		        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
-		        	
 		        $.each(filteredCate2s, function(index, cate) {
 			            $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 			    });
 		        $('#cate2').prop('disabled', false).niceSelect('update');
-		        
-		        console.log("cate1(value) : " + $('#cate1').val());
 		    });
 		    
 		    $('#cate2').change(function(){
@@ -137,8 +128,10 @@
         }
 
         function removeFormatting() {
-            var priceInput = document.getElementById('APD_START_PRICE');
-            priceInput.value = priceInput.value.replace(/,/g, ''); // db 저장 할 때 쉼표 제거
+            var startPrice = document.getElementById('APD_START_PRICE');
+            var BuyNowPrice = document.getElementById('APD_BUY_NOW_PRICE');
+            startPrice.value = startPrice.value.replace(/,/g, ''); 
+            BuyNowPrice.value = BuyNowPrice.value.replace(/,/g, ''); 
         }
 		
 		function Valid(){
@@ -327,14 +320,14 @@
 									</div>
 									<div class="col-12">
 										<div class="regForm">
-											<label> 상품 메인 이미지<small>(규격)</small></label>
+											<label> 상품 메인 이미지<small>(비율 1 : 1 (최소 500px 이상))</small></label>
 											<input type="file" accept="image/*" id="APD_MAIN_IMAGE" name="APD_MAIN_IMAGE" class="form-control" >
 											<div class="mainPreView"></div>
 										</div>
 									</div>
 									<div class="col-12">
 										<div class="regForm">
-											<label> 상품 이미지<small>(최대 5장)</small></label>
+											<label> 상품 이미지<small>(최대 4장)</small></label>
 											<input type="file" accept="image/*" id="APD_IMAGE" name="APD_IMAGE" multiple="multiple" class="form-control" >
 											<div class="preView"></div>
 										</div>
@@ -359,7 +352,7 @@
 	$(function() {
 
         $("#APD_IMAGE").on("change", function(event) {
-        	$('.preView img:gt(0)').remove();
+        	$('.preView').empty();
             if (this.files.length > 4) {
                 alert("최대 4개의 이미지만 업로드할 수 있습니다.");
                 this.value = ""; // 선택된 파일 초기화
@@ -392,31 +385,46 @@
         
         //썸내일
         $("#APD_MAIN_IMAGE").on("change", function(event) {
-            // 미리보기 이미지를 모두 제거
-            $(".mainPreView").empty();
-            
-            if (this.files.length > 1) {
-                alert("한 개의 이미지 파일만 업로드할 수 있습니다.");
-                this.value = ""; // 선택된 파일 초기화
-                return;
-            }
-            
-            if (this.files.length == 1) {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    var img = document.createElement("img");
-                    img.setAttribute("src", event.target.result);
-                    img.setAttribute("class", "tempImg");
-                    img.setAttribute("name", "APD_MAIN_IMAGE");
-                    img.style.width = "100px"; // 원하는 너비로 설정
-                    img.style.height = "100px"; // 원하는 높이로 설정
-                    img.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
-                    img.style.margin = "5px"; // 이미지 간의 간격을 추가
-                    $(".mainPreView").append(img);
+        // 미리보기 이미지를 모두 제거
+        $(".mainPreView").empty();
+        
+        if (this.files.length > 1) {
+            alert("한 개의 이미지 파일만 업로드할 수 있습니다.");
+            this.value = ""; // 선택된 파일 초기화
+            return;
+        }
+
+        if (this.files.length == 1) {
+            let file = this.files[0];
+            let img = new Image();
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                img.src = e.target.result;
+
+                img.onload = function() {
+                    // 이미지의 가로 세로 비율과 크기 확인
+                    if (img.width === img.height && img.width >= 500 && img.height >= 500) {
+                        // 이미지가 조건을 만족하면 미리보기 표시
+                        var previewImg = document.createElement("img");
+                        previewImg.setAttribute("src", img.src);
+                        previewImg.setAttribute("class", "tempImg");
+                        previewImg.setAttribute("name", "APD_MAIN_IMAGE");
+                        previewImg.style.width = "100px"; // 원하는 너비로 설정
+                        previewImg.style.height = "100px"; // 원하는 높이로 설정
+                        previewImg.style.objectFit = "cover"; // 이미지의 크기를 조절하여 컨테이너에 맞추기
+                        previewImg.style.margin = "5px"; // 이미지 간의 간격을 추가
+                        $(".mainPreView").append(previewImg);
+                    } else {
+                        err("썸내일 이미지는<br>가로 세로 비율이 1:1,<br>최소 500px이상만<br>가능합니다.");
+                        $("#APD_MAIN_IMAGE").val(""); // 선택된 파일 초기화
+                    }
                 };
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
 
         var input = document.querySelector('.tagify');
         tagify = new Tagify(input, {

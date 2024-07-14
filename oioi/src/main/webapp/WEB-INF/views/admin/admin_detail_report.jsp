@@ -59,20 +59,20 @@
 									<div class="flexslider-thumbnails">
 										<ul class="slides">
 											<c:choose>
-												<c:when test="${empty report_RP_IMG2}">
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report_RP_IMG1}" rel="adjustX:10, adjustY:">
+												<c:when test="${empty report.RP_IMG1}">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report.RP_IMG1}" rel="adjustX:10, adjustY:">
 														<img src="<%= request.getContextPath() %>/resources/images/no-image01.gif" alt="#">
 													</li>
 												</c:when>
 												<c:otherwise>
-													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report_RP_IMG1}" rel="adjustX:10, adjustY:">
-														<img src="<%= request.getContextPath() %>/resources/upload/${report_RP_IMG1}" alt="#">
+													<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report.RP_IMG1}" rel="adjustX:10, adjustY:">
+														<img src="<%= request.getContextPath() %>/resources/upload/${report.RP_IMG1}" alt="#">
 													</li>
 												</c:otherwise>
 											</c:choose>
 											<c:if test="${not empty report_RP_IMG2}">
-												<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report_RP_IMG2}">
-													<img src="<%= request.getContextPath() %>/resources/upload/${report_RP_IMG2}" alt="#">
+												<li data-thumb="<%= request.getContextPath() %>/resources/upload/${report.RP_IMG2}">
+													<img src="<%= request.getContextPath() %>/resources/upload/${report.RP_IMG2}" alt="#">
 												</li>
 											</c:if>
 										</ul>
