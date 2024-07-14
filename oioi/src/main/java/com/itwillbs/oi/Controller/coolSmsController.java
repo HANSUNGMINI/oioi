@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -155,6 +156,48 @@ public class coolSmsController {
 	        JSONObject jo = new JSONObject(resultMap);
 	        
 	        return jo.toString();
+	    }
+	    
+	    @ResponseBody
+	    @PostMapping("verifyPhoneAuthCode")
+	    public ResponseEntity<Map<String, Object>> verifyPhoneAuthCode(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	        String inputAuthCode = requestBody.get("authCode");
+	        String sessionAuthCode = (String) session.getAttribute("auth_num");
+	        Map<String, Object> resultMap = new HashMap<>();
+
+	        if (sessionAuthCode != null && sessionAuthCode.equals(inputAuthCode)) {
+	            resultMap.put("success", true);
+	            resultMap.put("message", "인증되었습니다.");
+	        } else {
+	            resultMap.put("success", false);
+	            resultMap.put("message", "인증번호가 일치하지 않습니다.");
+	        }
+
+	        return ResponseEntity.ok(resultMap);
+	    }
+
+	    @ResponseBody
+	    @PostMapping("coolUpdateField")
+	    public ResponseEntity<Map<String, Object>> updateField(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	        String field = requestBody.get("field");
+	        String value = requestBody.get("value");
+	        String id = (String) session.getAttribute("US_ID");
+
+	        boolean updateResult = userService.updateField(id, field, value);
+
+	        Map<String, Object> resultMap = new HashMap<>();
+	        if (updateResult) {
+	            if (userService.selectStatus(id).equals("US03")) {
+	                userService.updateStatus(id);
+	            }
+	            resultMap.put("success", true);
+	            resultMap.put("message", "정보가 성공적으로 업데이트되었습니다.");
+	        } else {
+	            resultMap.put("success", false);
+	            resultMap.put("message", "필드 변경 실패!");
+	        }
+
+	        return ResponseEntity.ok(resultMap);
 	    }
 	    
 }

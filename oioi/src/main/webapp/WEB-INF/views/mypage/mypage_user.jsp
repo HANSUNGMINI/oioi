@@ -180,6 +180,8 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 이메일을 입력하세요:</p>
     <input type="email" id="new-email" class="form-control">
+    <button class="edit-btn" onclick="sendAuthMail()">인증메일발송</button>
+    <input type="text" id="email-auth-code" class="form-control" placeholder="인증코드 입력">
 </div>
 
 <!-- 전화번호 수정 모달 -->
@@ -187,6 +189,8 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 전화번호를 입력하세요:</p>
     <input type="text" id="new-phone" class="form-control">
+    <button class="edit-btn" onclick="sendAuthSMS()">인증번호발송</button>
+    <input type="text" id="phone-auth-code" class="form-control" placeholder="인증코드 입력">
 </div>
 
 <!-- 주소 수정 모달 -->
@@ -197,7 +201,7 @@
     <input type="text" id="new-address1" class="form-control" placeholder="기본주소" readonly>
     <input type="text" id="new-address2" class="form-control" placeholder="상세주소">
     <input type="hidden" id="US_LAT" name="US_LAT">
-	<input type="hidden" id="US_LNG" name="US_LNG">
+    <input type="hidden" id="US_LNG" name="US_LNG">
 </div>
 
 <!-- 사용자 정의 모달 알림 창 -->
@@ -255,7 +259,7 @@ $(function() {
                     showCustomAlert("사용가능한 닉네임입니다.", false);
                     $("#nickname").val(newNick);
                 } else { // 닉네임 사용 불가
-                    showError("이미 사용중인 닉네임입니다.");
+                    showCustomAlert("이미 사용중인 닉네임입니다.", false);
                 }
             },
             error: function() {
@@ -301,9 +305,12 @@ function openEmailModal() {
         buttons: {
             "확인": function() {
                 const newEmail = $("#new-email").val();
-                if (newEmail) {
-                    updateField("email", newEmail);
+                const authCode = $("#email-auth-code").val();
+                if (newEmail && authCode) {
+                    verifyAuthCode(newEmail, authCode);
                     $(this).dialog("close");
+                } else {
+                    showCustomAlert("이메일과 인증 코드를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -324,9 +331,13 @@ function openPhoneModal() {
         buttons: {
             "확인": function() {
                 const newPhone = $("#new-phone").val();
-                if (newPhone) {
-                    updateField("phone", newPhone);
+                const authCode = $("#phone-auth-code").val();
+                if (newPhone && authCode) {
+                    // 인증번호 확인 요청
+                    verifyPhoneAuthCode(newPhone, authCode);
                     $(this).dialog("close");
+                } else {
+                    showCustomAlert("전화번호와 인증 코드를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -346,18 +357,12 @@ function openAddressModal() {
         },
         buttons: {
             "확인": function() {
-                const newPostcode = $("#new-postcode").val();
-                const newAddress1 = $("#new-address1").val();
-                const newAddress2 = $("#new-address2").val();
-                const newUserLAT = $("#US_LAT").val();
-                const newUserLNG = $("#US_LNG").val();
-                
-                if (newPostcode && newAddress1 && newAddress2) {
-                    updateField("address", newPostcode + "/" + newAddress1 + "/" + newAddress2);
-                    updateField("location", newUserLAT + "/" + newUserLNG);
+                const newAddress = $("#new-postcode").val() + " " + $("#new-address1").val() + " " + $("#new-address2").val();
+                if (newAddress) {
+                    updateField("address", newAddress);
                     $(this).dialog("close");
                 } else {
-                    showCustomAlert("주소를 모두 입력하세요.", false);
+                    showCustomAlert("주소를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -367,20 +372,18 @@ function openAddressModal() {
     });
 }
 
-function updateField(field, value) {
-    // 필드 업데이트 AJAX 요청
+function sendAuthMail() {
+    const newEmail = $("#new-email").val();
     $.ajax({
         type: "POST",
-        url: "updateField", // 컨트롤러 URL
-        data: { field: field, value: value },
-        dataType: "json",
+        url: "sendAuthMail",
+        contentType: "application/json",
+        data: JSON.stringify({ email: newEmail }),
         success: function(response) {
-            if (response.result) { // 필드 업데이트 성공
-                $('#' + field).text(value);
-            	reloadSession();
-                showCustomAlert('변경되었습니다.', true);
-            } else { // 필드 업데이트 실패
-                showCustomAlert("변경 실패!", false);
+            if (response.success) {
+                showCustomAlert("인증 메일이 발송되었습니다.", false);
+            } else {
+                showCustomAlert("인증 메일 발송에 실패했습니다.", false);
             }
         },
         error: function() {
@@ -389,90 +392,105 @@ function updateField(field, value) {
     });
 }
 
-function reloadSession() {
-	 $.ajax({
-	        type: "PUT",
-	        url: "ReloadUser", // 컨트롤러 URL
-	        success: function() {}
-	 });
-}
-
-
-function checkNick(user_nick) { // 닉네임 유효성 검사
-    const bannedWords = ["시발", "개새", "fuck"];
-    for (let i = 0; i < bannedWords.length; i++) {
-        if (user_nick.includes(bannedWords[i])) {
-            showError("닉네임에 금지된 단어가 포함되어 있습니다.");
-            return false;
+function verifyAuthCode(email, authCode) {
+    $.ajax({
+        type: "POST",
+        url: "verifyEmailAuthCode",
+        contentType: "application/json",
+        data: JSON.stringify({ email: email, authCode: authCode }),
+        success: function(response) {
+            if (response.success) {
+                updateField("email", email);
+                showCustomAlert("이메일이 성공적으로 변경되었습니다.", true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
         }
-    }
-
-    const lengthRegex = /^[a-z0-9가-힣]{2,16}$/;
-    if (!lengthRegex.test(user_nick)) {
-        showError("닉네임은 알파벳 소문자, 숫자, 또는 한글로 이루어진 2자 이상 16자 이하이어야 합니다.");
-        return false;
-    }
-
-    const characterRegex = /[a-z0-9가-힣]/;
-    if (!characterRegex.test(user_nick)) {
-        showError("닉네임은 적어도 한 개의 알파벳 소문자, 숫자, 또는 한글을 포함해야 합니다.");
-        return false;
-    }
-
-    $("#checkNickResult").text("");
-    return true;
+    });
 }
 
-function showError(message) {
-    $("#checkNickResult").text(message);
-    $("#checkNickResult").css("color", "red");
+function sendAuthSMS() {
+    const newPhone = $("#new-phone").val();
+    $.ajax({
+        type: "POST",
+        url: "send-one",
+        contentType: "application/json",
+        dataType: "json", // 응답 데이터 형식 명시
+        data: JSON.stringify({ user_phone: newPhone }),
+        success: function(response) {
+            console.log(response); // 디버깅을 위한 로그 추가
+            if (response.success) {
+                showCustomAlert("인증번호가 발송되었습니다.", false);
+            } else {
+                showCustomAlert("인증번호 발송에 실패했습니다.", false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function verifyPhoneAuthCode(phone, authCode) {
+    $.ajax({
+        type: "POST",
+        url: "verifyPhoneAuthCode",
+        contentType: "application/json",
+        data: JSON.stringify({ authCode: authCode }),
+        success: function(response) {
+            console.log(response); // 디버깅을 위한 로그 추가
+            if (response.success) {
+                updateField("phone", phone);
+                showCustomAlert(response.message, true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function updateField(field, value) {
+    $.ajax({
+        type: "POST",
+        url: field === 'phone' ? 'coolUpdateField' : 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용
+        data: JSON.stringify({ field: field, value: value }),
+        contentType: "application/json",
+        success: function(response) {
+            if (response.success) {
+                showCustomAlert(response.message, true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function search_address() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            $("#new-postcode").val(data.zonecode);
+            $("#new-address1").val(data.address);
+            $("#new-address2").focus();
+        }
+    }).open();
 }
 
 function showCustomAlert(message, reloadPage) {
     $("#custom-alert-message").text(message);
     $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
 }
-
-function search_address() {
-    // 카카오 주소 검색 API 호출
-    new daum.Postcode({
-        oncomplete: function(data) {
-            let address = data.address;
-            if(data.buildingName != "") {
-                address += " (" + data.buildingName + ")";
-            }
-            $("#new-postcode").val(data.zonecode);
-            $("#new-address1").val(address);
-            $("#new-address2").focus();
-            
-            
-            getLatLng(address);
-        }
-    }).open();
-}
-
-function getLatLng(address) {
-    const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-    const apiKey = "AIzaSyDxE6_KxiuRqxlJbzS1QrPbctEG7K-vuY8"
-    const params = new URLSearchParams({
-        address: address,
-        key: apiKey
-    });
-    
-    $.ajax({
-        url: baseUrl,
-        method: "GET",
-        data: {
-            address: address,
-            key: apiKey
-        },
-        success: function(response) {
-            const location = response.results[0].geometry.location;
-            $("#US_LAT").val(location.lat);
-            $("#US_LNG").val(location.lng);
-        },
-    });
-}
+</script>
+</body>
+</html>
 
 </script>
 </body>

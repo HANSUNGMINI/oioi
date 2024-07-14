@@ -2,6 +2,7 @@ package com.itwillbs.oi.Controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,14 +10,19 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.oi.handler.CheckAuthority;
+import com.itwillbs.oi.service.MailService;
 import com.itwillbs.oi.service.UserService;
 
 @Controller
@@ -27,7 +33,10 @@ public class MyPageController {
 	
 	@Autowired
 	private UserService service;
-	
+
+	@Autowired
+	private MailService mailService;
+
 	@GetMapping("myPage")
 	public String myPage(Model model) {
 		
@@ -58,128 +67,148 @@ public class MyPageController {
 		
 		String id = (String)session.getAttribute("US_ID");
 		Map<String, String> user = service.selectMyUser(id);
-		
-		// 주소 결합
-//		String ad1 = user.get("US_ADDRESS1"); 
-//		String ad2 = user.get("US_ADDRESS2");
-//		String ad = ad1 + ", " + ad2;
-//		user.put("ad", ad);
 
 		model.addAttribute("user", user);
 		
 		return "mypage/mypage_user";
 	}
 	
-    @PostMapping("checkNickname")
-    @ResponseBody
-    public Map<String, Object> checkNickname(@RequestParam String nickname) {
-//    	Map<String, Object> result = new HashMap<String, Object>();
-    	
-        boolean isValidNick = service.isNicknameAvailable(nickname);
-        return Map.of("isValidNick", isValidNick);
-    }
+	@PostMapping("checkNickname")
+	@ResponseBody
+	public Map<String, Object> checkNickname(@RequestParam String nickname) {
+		boolean isValidNick = service.isNicknameAvailable(nickname);
+		return Map.of("isValidNick", isValidNick);
+	}
 	
-    // 필드를 업데이트하는 메소드
-    @PostMapping("updateField")
-    @ResponseBody
-    public Map<String, Object> updateField(@RequestParam String field, @RequestParam String value) {
-        // 세션에서 사용자 ID를 가져옴
-        String id = (String) session.getAttribute("US_ID");
-        
-        System.out.println(value);
-        // 서비스 호출을 통해 필드 업데이트
-        boolean updateResult = service.updateField(id, field, value);
+	@PostMapping("updateField")
+	@ResponseBody
+	public Map<String, Object> updateField(@RequestParam String field, @RequestParam String value) {
+		String id = (String) session.getAttribute("US_ID");
+		
+		System.out.println(value);
+		boolean updateResult = service.updateField(id, field, value);
 
-        // 업데이트 결과에 따라 JSON 형식의 응답을 반환
-        if (updateResult) {
-        	if(service.selectStatus(id).equals("US03")) {
-        		service.updateStatus(id);
-        	}
-            return Map.of("result", true);
-        } else {
-            return Map.of("result", false, "message", "필드 변경 실패!");
-        }
-    }
+		if (updateResult) {
+			if(service.selectStatus(id).equals("US03")) {
+				service.updateStatus(id);
+			}
+			return Map.of("result", true);
+		} else {
+			return Map.of("result", false, "message", "필드 변경 실패!");
+		}
+	}
 	
-    @GetMapping("userLogout")
-    public String userLogout() {
-    	session.invalidate();
-    	
-    	return "redirect:/";
-    }
-    
-    @GetMapping("myTrade")
-    public String myTrade(Model model) {
-        String id = (String) session.getAttribute("US_ID");
+	@ResponseBody
+	@PostMapping("sendAuthMail")
+	public ResponseEntity<Map<String, Object>> sendAuthMail(@RequestBody Map<String, Object> userMap) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			System.out.println("여기에 뭐가 있냐" + userMap);
+			Map<String, Object> mailAuthInfoMap = mailService.sendChangeEmailAuthMail(userMap);
+			response.put("success", true);
+			response.put("auth_code", mailAuthInfoMap.get("auth_code"));
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", "인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
 
-        System.out.println(id);
+	@ResponseBody
+	@PostMapping("verifyEmailAuthCode")
+	public ResponseEntity<Map<String, Object>> verifyEmailAuthCode(@RequestBody Map<String, Object> request) {
+		String email = (String) request.get("email");
+		String authCode = (String) request.get("authCode");
+		String storedAuthCode = mailService.getAuthCode(email);
 
-        // 유저가 아님
-        if (!CheckAuthority.isUser(session, model)) {
-            System.out.println(model.getAttribute("msg"));
-            System.out.println(model.getAttribute("targetURL"));
-            return "err/fail";
-        }
+		if (storedAuthCode != null && storedAuthCode.equals(authCode)) {
+			Map<String, Object> updateFieldResult = updateField("email", email);
+			if ((boolean) updateFieldResult.get("result")) {
+				return ResponseEntity.ok(Map.of("success", true));
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "이메일 변경 실패!"));
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "인증 코드가 일치하지 않습니다."));
+		}
+	}
 
-        List<Map<String, Object>> tradeList = service.getTradeList(id);
+	@PutMapping("mypageReload")
+	public void reloadUser(HttpSession session, Model model) {
+		Map<String, String> user = service.selectMyUser((String)session.getAttribute("US_ID"));
+		session.setAttribute("US_ID", user.get("US_ID"));
+		session.setAttribute("US_EMAIL", user.get("US_EMAIL"));
+		session.setAttribute("US_NICK", user.get("US_NICK"));
+		session.setAttribute("US_STATUS", user.get("US_STATUS"));
+	}
+	
+	@GetMapping("userLogout")
+	public String userLogout() {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	@GetMapping("myTrade")
+	public String myTrade(Model model) {
+		String id = (String) session.getAttribute("US_ID");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		System.out.println(id);
 
-        List<Map<String, Object>> purchaseList = tradeList.stream()
-            .filter(trade -> trade.get("TD_BUYER_ID").equals(id))
-            .peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
-            .collect(Collectors.toList());
+		if (!CheckAuthority.isUser(session, model)) {
+			System.out.println(model.getAttribute("msg"));
+			System.out.println(model.getAttribute("targetURL"));
+			return "err/fail";
+		}
 
-        List<Map<String, Object>> saleList = tradeList.stream()
-            .filter(trade -> trade.get("TD_SELLER_ID").equals(id))
-            .peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
-            .collect(Collectors.toList());
+		List<Map<String, Object>> tradeList = service.getTradeList(id);
 
-        System.out.println("구매 정보 : @@@@@@@@@@@@ " + purchaseList);
-        System.out.println("판매 정보 : @@@@@@@@@@@@ " + saleList);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-        model.addAttribute("purchaseList", purchaseList); 
-        model.addAttribute("saleList", saleList);
+		List<Map<String, Object>> purchaseList = tradeList.stream()
+			.filter(trade -> trade.get("TD_BUYER_ID").equals(id))
+			.peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
+			.collect(Collectors.toList());
 
-        return "mypage/my_trade";
-    }
+		List<Map<String, Object>> saleList = tradeList.stream()
+			.filter(trade -> trade.get("TD_SELLER_ID").equals(id))
+			.peek(trade -> trade.put("TD_TIME", convertStringToDate((String) trade.get("TD_TIME"), dateFormat)))
+			.collect(Collectors.toList());
 
-    private Date convertStringToDate(String dateString, SimpleDateFormat dateFormat) {
-        try {
-            return dateFormat.parse(dateString);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+		System.out.println("구매 정보 : @@@@@@@@@@@@ " + purchaseList);
+		System.out.println("판매 정보 : @@@@@@@@@@@@ " + saleList);
 
-    
-    @GetMapping("myAuction")
-    public String myAuction(Model model) {
-    	
+		model.addAttribute("purchaseList", purchaseList); 
+		model.addAttribute("saleList", saleList);
+
+		return "mypage/my_trade";
+	}
+
+	private Date convertStringToDate(String dateString, SimpleDateFormat dateFormat) {
+		try {
+			return dateFormat.parse(dateString);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GetMapping("myAuction")
+	public String myAuction(Model model) {
 		String id = (String)session.getAttribute("US_ID");
 
-//    	System.out.println("아이디는 :? " + id);
-    	
-		// 유저가 아님
 		if(!CheckAuthority.isUser(session, model)) {
 			System.out.println(model.getAttribute("msg"));
 			System.out.println(model.getAttribute("targetURL"));
 			return "err/fail";
 		}
 		
-        // 경매 데이터 가져오기
-        List<Map<String, Object>> auctionList = service.getAuctionList(id);
+		List<Map<String, Object>> auctionList = service.getAuctionList(id);
 
-        System.out.println("경매 모든 정보 : " + auctionList);
-        
-        // 모델에 경매 데이터 추가
-        model.addAttribute("auctionList", auctionList);
+		System.out.println("경매 모든 정보 : " + auctionList);
 		
-        
-    	return "mypage/my_auction";
-    }
-	
-	
-	
+		model.addAttribute("auctionList", auctionList);
+		
+		return "mypage/my_auction";
+	}
 }
