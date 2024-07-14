@@ -291,35 +291,49 @@
 	</select>
 	
 	<select id="selectTradeList" resultType="map">
-		SELECT 
-		    t.TD_IDX,
-		    t.TD_AT_IDX,
-		    t.TD_PD_IDX,
-		    t.TD_SELLER_ID,
-		    t.TD_BUYER_ID,
-		    t.TD_TIME,
-		    t.TD_PD_PRICE,
-		    t.TD_BUYER_ADDRESS,
-		    t.APD_DELIVERY,
-		    t.CR_ID,
-		    p.PD_CATEGORY,
-		    p.PD_SUBJECT,
-		    p.PD_CONTENT,
-		    p.PD_IMAGE,
-		    p.PD_PRICE,
-		    p.PD_PRICE_OFFER,
-		    p.PD_STATUS,
-		    p.PD_CONDITION,
-		    p.PD_TRADE_METHOD,
-		    p.PD_SAFE_TRADE,
-		    p.PD_REG_DATE,
-		    p.PD_UPDATED_DATE
-		FROM 
-		    trade t
-		JOIN 
-		    product p ON t.TD_PD_IDX = p.PD_IDX
-		WHERE p.US_ID = #{id}
+	    SELECT 
+	        t.TD_IDX,
+	        t.TD_AT_IDX,
+	        t.TD_PD_IDX,
+	        t.TD_SELLER_ID,
+	        t.TD_BUYER_ID,
+	        t.TD_TIME,
+	        t.TD_PD_PRICE,
+	        t.TD_BUYER_ADDRESS,
+	        t.APD_DELIVERY,
+	        t.CR_ID,
+	        u.US_NICK, 
+	        p.PD_CATEGORY,
+	        p.PD_SUBJECT,
+	        p.PD_CONTENT,
+	        p.PD_IMAGE,
+	        p.PD_PRICE,
+	        p.PD_PRICE_OFFER,
+	        p.PD_STATUS,
+	        c.value AS PD_STATUS_VALUE,
+	        p.PD_CONDITION,
+	        p.PD_TRADE_METHOD,
+	        p.PD_SAFE_TRADE,
+	        p.PD_REG_DATE,
+	        p.PD_UPDATED_DATE,
+	        i.image1 AS main_image  <!-- 추가된 부분 -->
+	    FROM 
+	        trade t
+	    JOIN 
+	        product p ON t.TD_PD_IDX = p.PD_IDX
+	    LEFT JOIN
+	        common c ON p.PD_STATUS = c.code
+	    LEFT JOIN
+	        `user` u ON p.US_ID = u.US_ID 
+	    LEFT JOIN
+	        images i ON p.PD_IMAGE = i.IMG_IDX  <!-- 이미지 테이블과 조인 -->
+	    WHERE 
+	        p.US_ID = #{id}
+	        OR t.TD_BUYER_ID = #{id}
 	</select>
+
+
+
 </mapper>
 
 

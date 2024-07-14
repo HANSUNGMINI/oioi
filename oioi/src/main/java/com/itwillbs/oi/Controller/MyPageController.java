@@ -138,7 +138,7 @@ public class MyPageController {
         System.out.println("구매 정보 : @@@@@@@@@@@@ " + purchaseList);
         System.out.println("판매 정보 : @@@@@@@@@@@@ " + saleList);
 
-        model.addAttribute("purchaseList", purchaseList);
+        model.addAttribute("purchaseList", purchaseList); 
         model.addAttribute("saleList", saleList);
 
         return "mypage/my_trade";
