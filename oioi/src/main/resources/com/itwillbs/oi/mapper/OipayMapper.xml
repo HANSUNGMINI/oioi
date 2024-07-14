@@ -122,7 +122,7 @@ CREATE TABLE bank_user_info (
 		SELECT CR_ID
 		FROM chat_room
 		WHERE PD_IDX = #{PD_IDX}
-			AND SELLER_ID = #{TO_ID}
+			AND BUYER_ID = #{BUYER_ID}
 	</select>
 	
 	<insert id="insertTDinfo">
@@ -150,7 +150,7 @@ CREATE TABLE bank_user_info (
 	<update id="updateRefundOimoney">
 		UPDATE user
 		SET US_OIMONEY = US_OIMONEY - #{amtInput}
-		WHERE US_ID = #{SELLER_ID}
+		WHERE US_ID = #{id}
 	</update>
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
@@ -159,6 +159,12 @@ CREATE TABLE bank_user_info (
 		SELECT access_token
 		FROM bank_user_info
 		WHERE id = 'admin'
+	</select>
+	
+	<select id="selectSellerNick" resultType="string">
+		SELECT US_NICK
+		FROM user
+		WHERE US_ID = #{sellerId}
 	</select>
 	
 	

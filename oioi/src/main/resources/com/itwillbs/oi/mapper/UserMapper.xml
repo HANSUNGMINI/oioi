@@ -285,9 +285,11 @@
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">
-		select *
-		from trade
-		where TD_SELLER_ID = 'gkstyd13' and TD_PD_IDX is null;
+		select t.TD_AT_IDX, ap.APD_NAME, t.TD_SELLER_ID, t.TD_BUYER_ID, t.TD_TIME, t.TD_BUYER_ADDRESS, t.APD_DELIVERY
+		from trade t
+		join auction_product ap
+		on t.TD_AT_IDX = ap.APD_IDX
+		where TD_SELLER_ID = #{id} and TD_PD_IDX is null;
 	</select>
 	
 	<select id="selectTradeList" resultType="map">
