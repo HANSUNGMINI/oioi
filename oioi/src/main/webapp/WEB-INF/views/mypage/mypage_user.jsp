@@ -138,6 +138,11 @@
                             <span>${user.US_ID}</span>
                         </div>
                         <div class="info-item">
+                            <label>비밀번호:</label>
+                            <span>********</span>
+                            <button class="edit-btn" onclick="openPasswordModal()">수정</button>
+                        </div>
+                        <div class="info-item">
                             <label>닉네임:</label>
                             <span id="nickname">${user.US_NICK}</span>
                             <button class="edit-btn" onclick="openNickModal()">수정</button>
@@ -204,6 +209,19 @@
     <input type="hidden" id="US_LNG" name="US_LNG">
 </div>
 
+<!-- 비밀번호 수정 모달 -->
+<div id="password-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>현재 비밀번호를 입력하세요:</p>
+    <input type="password" id="current-password" class="form-control">
+    <p>새 비밀번호를 입력하세요:</p>
+    <input type="password" id="new-password" class="form-control">
+    <div id="checkPwResult"></div>
+    <p>새 비밀번호를 다시 입력하세요:</p>
+    <input type="password" id="confirm-new-password" class="form-control">
+    <div id="checkPwResult2"></div>
+</div>
+
 <!-- 사용자 정의 모달 알림 창 -->
 <div id="custom-alert-modal" title="알림">
     <p id="custom-alert-message"></p>
@@ -267,6 +285,48 @@ $(function() {
             }
         });
     });
+
+    // 비밀번호 유효성 검사
+    $("#new-password").keyup(function() {
+        let passwd = $("#new-password").val();
+        let msg = "";
+        let color = "";
+
+        let lengthRegex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+        if (lengthRegex.exec(passwd)) {
+            let engUpperRegex = /[A-Z]/; // 대문자
+            let engLowerRegex = /[a-z]/; // 소문자
+            let numRegex = /\d/; // 숫자
+            let specRegex = /[!@#$%^&*]/; // 특수문자
+
+            let count = 0;
+            if (engUpperRegex.exec(passwd)) { count++; }
+            if (engLowerRegex.exec(passwd)) { count++; }
+            if (numRegex.exec(passwd)) { count++; }
+            if (specRegex.exec(passwd)) { count++; }
+
+            switch (count) {
+                case 4: msg = "안전"; color = "GREEN"; break;
+                case 3: msg = "보통"; color = "ORANGE"; break;
+                case 2: msg = "위험"; color = "RED"; break;
+                default:
+                    msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+                    color = "RED";
+            }
+        } else {
+            msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+            color = "RED";
+        }
+        if (passwd.search($("#current-password").val()) > -1) {
+            msg = "비밀번호에 현재 비밀번호가 포함되었습니다.";
+            color = "RED";
+        }
+        $("#checkPwResult").text(msg);
+        $("#checkPwResult").css("color", color);
+    });
+
+    $("#confirm-new-password").keyup(checkSamePasswd);
+    $("#new-password").change(checkSamePasswd);
 });
 
 function openNickModal() {
@@ -368,6 +428,68 @@ function openAddressModal() {
             "취소": function() {
                 $(this).dialog("close");
             }
+        }
+    });
+}
+
+function openPasswordModal() {
+    // 비밀번호 변경 모달 열기
+    $("#password-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const currentPassword = $("#current-password").val();
+                const newPassword = $("#new-password").val();
+                const confirmNewPassword = $("#confirm-new-password").val();
+                if (newPassword !== confirmNewPassword) {
+                    showCustomAlert("새 비밀번호가 일치하지 않습니다.", false);
+                    return;
+                }
+                if (currentPassword && newPassword && confirmNewPassword) {
+                    changePassword(currentPassword, newPassword);
+                    $(this).dialog("close");
+                } else {
+                    showCustomAlert("모든 필드를 입력하세요.", false);
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function checkSamePasswd() {
+    let passwd = $("#new-password").val();
+    let passwd2 = $("#confirm-new-password").val();
+    if (passwd === passwd2) {
+        $("#checkPwResult2").text("*비밀번호가 일치합니다.");
+        $("#checkPwResult2").css("color", "#34A853");
+    } else {
+        $("#checkPwResult2").text("*비밀번호가 일치하지 않습니다.");
+        $("#checkPwResult2").css("color", "RED");
+    }
+}
+
+function changePassword(currentPassword, newPassword) {
+    $.ajax({
+        type: "POST",
+        url: "changePassword",
+        data: JSON.stringify({ currentPassword: currentPassword, newPassword: newPassword }),
+        contentType: "application/json",
+        success: function(response) {
+            if (response.success) {
+                showCustomAlert("비밀번호가 성공적으로 변경되었습니다.", true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
         }
     });
 }
@@ -488,10 +610,6 @@ function showCustomAlert(message, reloadPage) {
     $("#custom-alert-message").text(message);
     $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
 }
-</script>
-</body>
-</html>
-
 </script>
 </body>
 </html>

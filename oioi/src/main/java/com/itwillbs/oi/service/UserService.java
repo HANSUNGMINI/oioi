@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ public class UserService {
 	private UserMapper mapper;
 	
 	private static UserMapper staticMapper;
+	
+	private BCryptPasswordEncoder passwordEncoder;
+
 	
 	@PostConstruct
     public void init() {
@@ -182,6 +186,23 @@ public class UserService {
 	public List<Map<String, Object>> getTradeList(String id) {
 		
 		return mapper.selectTradeList(id);
+	}
+
+	public boolean isSameAsCurrentPassword(String userId, String currentPassword) {
+	    String storedPassword = mapper.getPassword(userId);
+
+	    if (storedPassword == null) {
+	        throw new NullPointerException("Stored password is null for user ID: " + userId);
+	    }
+
+	    return passwordEncoder.matches(currentPassword, storedPassword);
+	}
+
+
+	public boolean changePassword(String userId, String newPassword) {
+	    String encodedPassword = passwordEncoder.encode(newPassword);
+	    int updateResult = mapper.updatePassword(userId, encodedPassword);
+	    return updateResult == 1;
 	}
 	
 }

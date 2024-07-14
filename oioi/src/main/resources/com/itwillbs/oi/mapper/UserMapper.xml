@@ -334,6 +334,17 @@
 	        OR t.TD_BUYER_ID = #{id}
 	</select>
 
+    <select id="getPassword" resultType="String">
+        SELECT US_PASSWD
+        FROM user
+        WHERE US_ID = #{userId}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE user
+        SET US_PASSWD = #{newPassword}
+        WHERE US_ID = #{userId}
+    </update>
 
 
 </mapper>

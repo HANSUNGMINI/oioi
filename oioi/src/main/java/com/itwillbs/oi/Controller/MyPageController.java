@@ -80,6 +80,36 @@ public class MyPageController {
 		return Map.of("isValidNick", isValidNick);
 	}
 	
+    @PostMapping("changePassword")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> passwordMap) {
+        String currentPassword = passwordMap.get("currentPassword");
+        String newPassword = passwordMap.get("newPassword");
+        String userId = (String) session.getAttribute("US_ID");
+        System.out.println("비밀번호 변경 : " + userId + "," + newPassword);
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+        // 여기까지 하다가 말았음
+
+        boolean isSameAsCurrent = service.isSameAsCurrentPassword(userId, currentPassword);
+        if (!isSameAsCurrent) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "현재 비밀번호가 일치하지 않습니다."));
+        }
+
+        boolean isPasswordChanged = service.changePassword(userId, newPassword);
+        if (isPasswordChanged) {
+            return ResponseEntity.ok(Map.of("success", true, "message", "비밀번호가 성공적으로 변경되었습니다."));
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "비밀번호 변경 실패!"));
+        }
+    }
+	
 	@PostMapping("updateField")
 	@ResponseBody
 	public Map<String, Object> updateField(@RequestParam String field, @RequestParam String value) {
