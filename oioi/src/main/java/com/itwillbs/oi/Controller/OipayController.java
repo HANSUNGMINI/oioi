@@ -194,7 +194,10 @@ public class OipayController {
 	@GetMapping("purchase") //결제페이지
 	public String purhcase(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		
-//		System.out.println(map);
+//		System.out.println(map); //{TO_ID=gkstyd13, PD_IDX=12}
+		
+		String BUYER_ID = (String)session.getAttribute("US_ID");
+		map.put("BUYER_ID", BUYER_ID);
 		
 		// 채팅방 번호 가져오기
 		String CR_ID = service.getChatRoomNum(map);
@@ -202,8 +205,14 @@ public class OipayController {
 		// 상품정보 가져오기
 		int PD_IDX = Integer.parseInt(map.get("PD_IDX"));
 		Map<String, Object> product = service.selectTradePDInfo(PD_IDX);
+		
 		product.put("CR_ID", CR_ID);
-		System.out.println(">>>>>>>>"+product);
+//		System.out.println(">>>>>>>>"+product);
+		
+		// 판매자 닉네임 가져오기
+		String sellerId = (String)product.get("US_ID");
+		String sellerNick = service.getSellerNick(sellerId);
+		product.put("sellerNick", sellerNick);
 		
 		// 머니 정보 가져오기
 		String id = (String)session.getAttribute("US_ID");

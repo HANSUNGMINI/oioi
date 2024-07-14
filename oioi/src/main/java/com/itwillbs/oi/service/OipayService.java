@@ -106,6 +106,10 @@ public class OipayService {
 		return mapper.getChatRoomNum(map);
 	}
 
+	public String getSellerNick(String sellerId) {
+		return mapper.selectSellerNick(sellerId);
+	}
+
 	
 //	// 엑세스토큰 정보를 사용하여 핀테크 사용자 정보 조회 요청
 //	public Map getUserInfo(BankTokenVO token) {
