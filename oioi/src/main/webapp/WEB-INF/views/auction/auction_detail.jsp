@@ -108,10 +108,13 @@
    var contextPath = '<%= request.getContextPath() %>';
    var oiMoney = "${apdDetail.oiMoney}";
    var us_id = "${sessionScope.US_ID}";
+   var nick = "${sessionScope.US_NICK}";
    var buy_price = "${apdDetail.APD_BUY_NOW_PRICE}";
    
    
    $(function(){
+	   
+	   console.log("nick" + nick);
 	   makeAuctionProducts();
 // 	   getOiMoney();
 	   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>oiMoney : " + oiMoney);
@@ -248,14 +251,14 @@
                  dataType : "JSON",
                       success: function(response) {
                            Swal.fire({
-                               title: response + '원에 입찰이 성공',
+                               title: nick + '님께서<br>' + response + '원에 입찰이 성공',
                                icon: 'success',
                            }).then((result) => {
                    	        if (result.isConfirmed) {
                    	        	var html ='';
                                 html += '<li class="clearfix" class="chatViewMe">' + 
                                 '<div class="message other-message float-right">' +
-                                us_id +
+                                nick +
                                 '님께서' +
                                 response +
                                 '원에 입찰하였습니다.' +
@@ -266,7 +269,14 @@
                                $('#auctionText').append('<input type="text" class="input-number" id="nowPrice" placeholder="' + response + '원">');
                                
                 	        }
-                	    	});
+
+                       	   var dataSend = {
+                                      US_ID: us_id,
+                                      APD_IDX: apd_idx,
+                                      MSG: nick + '님께서 ' + response + '원에 입찰하였습니다.'
+                           };
+                           socket.send(JSON.stringify(dataSend));
+                	       });
                            
                            
                           
@@ -350,16 +360,12 @@
    
    ws.onmessage = function(event) {
        var response = JSON.parse(event.data);
-       console.log('받은 메시지 :', response.SESSION_SIZE);
-       console.log('받은 메시지 :', response.type);
-		       
   	   
        if (response.type === "ENTER" || response.type === "LEAVE") {
            appendMessage("System", response.msg, "center","","");
            $('#sessionSize').empty().append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' + response.SESSION_SIZE + '명</a></span>');
        }else if (response.type === "TALK") {
            var res = JSON.parse(response.DATA);
-           console.log("response.US_PROFILE : " + response.US_PROFILE);
            if (res.US_ID === session_id) {
                appendMessage(res.US_ID, res.MSG, "right","","");
            } else {
@@ -367,22 +373,15 @@
            }
            saveMessage(res);
        } else if(response.type === 'USER_LIST'){
-    	   //신고할 사람(접속한 사람)
-           console.log('접속한 사람 :' + response.users);
            var users = response.users;
-           console.log('접속한 사람 파싱:' + users);
            
            $.each(users, function(index, us) {
         	   $('#reportUser').append('<option value="' + us + '">' + us + '</option>');
            });
            
-          // 접속자 수 표시
-   		  console.log("SESSION_SIZE : " + response.SESSION_SIZE);
-          
           $('#sessionSize').empty();
        	  $('#sessionSize').append('<span>접속자 수 : <a style="margin-top: -1px;" class="cat">' +
                   response.SESSION_SIZE + '명</a></span>');
-          
        } 
    };
    
@@ -816,7 +815,7 @@
                                  </div>
                                  <div class="product-buy">
                                  	<div class="quantity" id="oiMoney">
-                                 		<h6>오이머니 잔액 : 🥒 ${apdDetail.oiMoney} 원</h6>
+                                 		<h6>오이머니 잔액 : 🥒 <fmt:formatNumber value="${apdDetail.oiMoney}" pattern="#,###"/>원</h6>
                                     </div><br>
                                     <div class="quantity">
                                        <h6>입찰가 입력 :</h6>
@@ -882,17 +881,7 @@
                                        </script>
                                        <a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" id="apdReport" data-target="#notify_model">신고</a>
                                     </div>
-                                    <div class="add-to-cart" style="margin-top: 5px;">
-                                       <form action="https://info.sweettracker.co.kr/tracking/5" method="post">
-                                      <input type="hidden" id="t_key" name="t_key" value="4ipWvXbpAF8xJuQEvZYWFQ">
-                                      <input type="hidden" name="t_code" id="t_code" value="04">
-                                      <input type="hidden" name="t_invoice" id="t_invoice" value="${apdDetail.APD_DELIVERY}">
-                                    <button type="submit" class="btn">배송조회</button>
-                                </form>
-                                    </div>
-                                    <input type="button" id="deliveryAlert" value="배송정보 확인">
                                  </div>
-                                 <!--/ End Product Buy -->
                               </div>
                            </div>
                         </div>

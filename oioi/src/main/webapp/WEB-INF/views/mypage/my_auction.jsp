@@ -129,30 +129,46 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
     
-    var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
-    var t_code = "04";
-//     var t_invoice = $('#t_invoice').val();
     
+    
+    	var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
+    	var t_code = "04";
     		
-    		function openNickModal(){
-    			console.log("ddd");
-    			$.ajax({
-		            url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
-		            type : "GET",
-		            data: {
-		                 t_key: t_key,
-		                 t_code: t_code,
-		                 t_invoice: "686034012876"
-		             },
-		             success: function(response) {
-		                console.log(response);
-		                var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
-		                 var deliveryLevel = latestStatus.level;
-		                 // 배송 상태 출력
-		                 console.log("Delivery Level: " + deliveryLevel);
-		             }
-		          });
-    		}
+   		function deliveryStatus(delivery, idx){
+   			console.log("delivery : " + delivery);
+   			$.ajax({
+	            url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
+	            type : "GET",
+	            data: {
+	                 t_key: t_key,
+	                 t_code: t_code,
+	                 t_invoice: delivery
+	             },
+	             success: function(response) {
+	                console.log(response);
+	                var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
+	                 var deliveryLevel = latestStatus.level;
+	                 var deliveryStatus = '';
+
+	                 switch (deliveryLevel) {
+	                     case 1: deliveryStatus = '접수'; break;
+	                     case 2: deliveryStatus = '상품 인수'; break;
+	                     case 3: deliveryStatus = '이동 중'; break;
+	                     case 4: deliveryStatus = '중간 경유지'; break;
+	                     case 5: deliveryStatus = '배송 출발'; break;
+	                     case 6: deliveryStatus = '배송 완료'; break;
+	                     default:deliveryStatus = '알 수 없음'; break;
+	                 }
+	                 $(".del_status_" + idx).text(deliveryStatus);
+	             }
+	          });
+   		}
+   		
+   		function delivery(delivery){
+   		    var url = "https://info.sweettracker.co.kr/tracking/5?t_key=" + t_key + "&t_code=" + t_code + "&t_invoice=" + delivery;
+
+   		    window.open(url, '_blank');	
+   		}
     		
     </script>
 </head>
@@ -167,17 +183,17 @@
             </div>
             <div class="col-lg-9 col-12" id="highlighted-row">
                 <div class="info-card text-center">
-                    <h5 class="card-header">나의 경매 내역</h5>
+                    <h5 class="card-header">경매 구매 내역</h5>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">번호</th>
+                                    <th scope="col">상품명</th>
                                     <th scope="col">판매자</th>
                                     <th scope="col">수취인</th>
                                     <th scope="col" width="200px;">주소</th>
                                     <th scope="col">결제시간</th>
-                                    <th scope="col">운송장</th>
                                     <th scope="col">배달정보</th>
                                 </tr>
                             </thead>
@@ -185,12 +201,15 @@
                                 <c:forEach var="auction" items="${auctionList}">
                                     <tr>
                                         <td>${auction.TD_AT_IDX}</td>
+                                        <td>${auction.APD_NAME}</td>
                                         <td>${auction.TD_SELLER_ID}</td>
                                         <td>${auction.TD_BUYER_ID}</td>
                                         <td>${auction.TD_BUYER_ADDRESS}</td>
                                         <td>${auction.TD_TIME}</td>
-                                        <td>${auction.TD_DELIVERY}</td>
-                                        <td><button class="edit-btn" onclick="openNickModal()">배송조회</button></td>
+                                        <td>
+                                        	<button class="edit-btn del_status_${auction.TD_AT_IDX}" onclick="deliveryStatus('${auction.APD_DELIVERY}', '${auction.TD_AT_IDX}')" style="margin-bottom: 5px;">배송조회</button><br>
+                                        	<button class="edit-btn" onclick="delivery('${auction.APD_DELIVERY}')">상세조회</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 <c:if test="${empty auctionList}">
