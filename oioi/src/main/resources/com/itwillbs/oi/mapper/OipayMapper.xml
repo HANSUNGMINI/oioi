@@ -150,7 +150,7 @@ CREATE TABLE bank_user_info (
 	<update id="updateRefundOimoney">
 		UPDATE user
 		SET US_OIMONEY = US_OIMONEY - #{amtInput}
-		WHERE US_ID = #{SELLER_ID}
+		WHERE US_ID = #{id}
 	</update>
 	
 	<!-- 관리자 엑세스토큰 정보 조회 - SELECT -->
