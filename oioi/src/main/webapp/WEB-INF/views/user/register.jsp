@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
+  <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<!-- Meta Tag -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -130,67 +134,128 @@
 		//회원가입 버튼 클릭시 발생하는 이벤트 
 		document.fr.onsubmit = function() {
 			
-			if(document.fr.user_id.value == "") { // 아이디 확인
-				alert("아이디를 확인해주세요!");
-				document.fr.user_id.focus();
-				return false;
-			} else if(!checkPasswdResult) { // 비밀번호 확인
-				alert("비밀번호를 확인해주세요!");
-				document.fr.user_passwd.focus();
-				return false;
-			} else if(!checkPasswd2Result) { // 비밀번호 일치확인 
-				alert("비밀번호가 일치하지 않습니다!");
-				document.fr.user_passwd2.focus();
-				return false;
-			} else if (!isValidName($("#user_name").val())) { // 이름 확인
-		    	alert("이름을 확인해주세요.");
-		        document.fr.user_name.focus();
-		        return false;
-			} else if(document.fr.user_nick.value == "") { // 닉네임 확인
-				alert("닉네임을 확인해주세요!");
-				document.fr.user_nick.focus();
-				return false;    
-			} else if(!isValidEmail($("#user_email").val())) { // 이메일 확인
-		        alert("E-Mail을 확인해주세요.");
-		        document.fr.user_email.focus();
-		        return false;
-		    } else if(serverMailAuthNum == "") {
-		    	alert("인증메일발송을 먼저 요청해주세요.");
-		    	document.fr.check_email.focus();
-		    	return false;
-  			} else if ($("#mail_auth_num").val() == "") {
-		    	alert("인증번호를 입력해주세요");
-		    	document.fr.mail_auth_num.focus();
-		        return false;
-  			} else if (!checkMailAuthNumResult) {
-		    	alert("이메일 인증을 완료해주세요.");
-		    	document.fr.mail_auth_num.focus();
-		        return false; 
-  			} else if(document.fr.user_post_code.value == "" || document.fr.user_address1.value == "") {
-  				alert("주소를 확인해주세요!");
-  				document.fr.user_post_code.focus();
-  				return false;
-  			} else if(document.fr.user_address2.value == "") {
-  				alert("상세 주소를 확인해주세요!");
-  				document.fr.user_address2.focus();
-  				return false;	
-		    } else if (!isValidPhoneNumber($("#user_phone").val())) {
-		    	alert("전화번호를 확인해주세요.");
-		    	document.fr.user_phone.focus();
-		    	return false;
-		    } else if (serverAuthNum == "") { // 인증번호 요청 확인
-		        alert("인증번호 요청을 먼저 해주세요.");
-		        document.fr.user_phone.focus();
-		        return false;
-		    } else if ($("#auth_num").val() == "") {
-		    	alert("인증번호를 입력해주세요");
-		    	document.fr.auth_num.focus();
-		        return false; 
-		    } else if (!checkAuthNumResult) {
-		    	alert("전화번호 인증을 완료해주세요.");
-		        return false; 
+			 if(document.fr.user_id.value == "") { // 아이디 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '아이디를 확인해주세요!',
+			            didClose: () => document.fr.user_id.focus()
+			        });
+			        return false;
+			    } else if(!checkPasswdResult) { // 비밀번호 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '비밀번호를 확인해주세요!',
+			            didClose: () => document.fr.user_passwd.focus()
+			        });
+			        return false;
+			    } else if(!checkPasswd2Result) { // 비밀번호 일치확인 
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '비밀번호가 일치하지 않습니다!',
+			            didClose: () => document.fr.user_passwd2.focus()
+			        });
+			        return false;
+			    } else if (!isValidName($("#user_name").val())) { // 이름 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '이름을 확인해주세요!',
+			            didClose: () => document.fr.user_name.focus()
+			        });
+			        return false;
+			    } else if(document.fr.user_nick.value == "") { // 닉네임 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '닉네임을 확인해주세요!',
+			            didClose: () => document.fr.user_nick.focus()
+			        });
+			        return false;    
+			    } else if(!isValidEmail($("#user_email").val())) { // 이메일 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: 'E-Mail을 확인해주세요!',
+			            didClose: () => document.fr.user_email.focus()
+			        });
+			        return false;
+			    } else if(serverMailAuthNum == "") {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '인증메일발송을 먼저 요청해주세요',
+			            didClose: () => document.fr.check_email.focus()
+			        });
+			        return false;
+			    } else if ($("#mail_auth_num").val() == "") {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '인증번호를 입력해주세요!',
+			            didClose: () => document.fr.mail_auth_num.focus()
+			        });
+			        return false;
+			    } else if (!checkMailAuthNumResult) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '이메일 인증을 완료해주세요!',
+			            didClose: () => document.fr.mail_auth_num.focus()
+			        });
+			        return false; 
+			    } else if(document.fr.user_post_code.value == "" || document.fr.user_address1.value == "") {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '주소를 확인해주세요!',
+			            didClose: () => document.fr.user_post_code.focus()
+			        });
+			        return false;
+			    } else if(document.fr.user_address2.value == "") {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '상세 주소를 확인해주세요!',
+			            didClose: () => document.fr.user_address2.focus()
+			        });
+			        return false;    
+			    } else if (!isValidPhoneNumber($("#user_phone").val())) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '전화번호를 확인해주세요!',
+			            didClose: () => document.fr.user_phone.focus()
+			        });
+			        return false;
+			    } else if (serverAuthNum == "") { // 인증번호 요청 확인
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '인증번호 요청을 먼저 해주세요!',
+			            didClose: () => document.fr.user_phone.focus()
+			        });
+			        return false;
+			    } else if ($("#auth_num").val() == "") {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '인증번호를 입력해주세요!',
+			            didClose: () => document.fr.auth_num.focus()
+			        });
+			        return false; 
+			    } else if (!checkAuthNumResult) {
+			        Swal.fire({
+			            icon: 'error',
+			            title: '실패!',
+			            text: '전화번호 인증을 완료해주세요!',
+			            didClose: () => document.fr.auth_num.focus()
+			        });
+			        return false; 
+			    }
 			}
-		}
 	}); // document 객체의 ready 이벤트 끝
 	
 	function checkSamePasswd() { // 비밀번호 확인 일치 검사
@@ -225,115 +290,140 @@
 	let isMailAuthButtonCreated = false; // 버튼이 생성되었는지 여부를 나타내는 변수
 	
 	function sendAuthMail() {
-		// 이메일 입력창에 입력된 이메일 가져오기
-		let eMail = $("#user_email").val();
-		 // 한글 포함 여부 검사
+	    // 이메일 입력창에 입력된 이메일 가져오기
+	    let eMail = $("#user_email").val();
+	    // 한글 포함 여부 검사
 	    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(eMail)) {
-	        alert("이메일에 한글을 포함할 수 없습니다.");
+	        Swal.fire({
+	            icon: 'error',
+	            title: '이메일에 한글을 포함할 수 없습니다.'
+	        });
 	        return false;
 	    } else if(!isValidEmail(eMail)) { // 이메일 확인
-	        alert("E-Mail을 정확히 입력해주세요.");
-	        document.fr.user_email.focus();
+	        Swal.fire({
+	            icon: 'error',
+	            title: 'E-Mail을 정확히 입력해주세요.',
+	            didClose: () => document.fr.user_email.focus()
+	        });
 	        return false;
 	    } 
-		
-		// 이메일이 입력되지 않았을 경우 경고창 출력
-// 		if(eMail == "") {
-// 			alert("이메일을 입력해주세요!");
-// 			$("#user_email").focus();
-// 			return;
-// 		}
-		
-// 		// SendAuthMail 서블릿 주소 요청 => 파라미터로 이메일 전달
-		
-// 		location.href = "SendAuthMail?user_email=" + eMail;
 
-		$.ajax({
-			url : "SendAuthMail",
-			type : "POST",
-			contentType: "application/json",
-			data : JSON.stringify({"user_email": eMail}),
-			dataType: "json",
-			success : function(authInfo){
-				console.log(authInfo);
-				if(authInfo.success){
-		            serverMailAuthNum = authInfo.auth_code;
-		            alert("인증메일이 전송되었습니다.");
-		            // 버튼이 생성되지 않았다면 생성
-                    if (!isMailAuthButtonCreated) {
-                        $("#mail_auth_num").parent().append(
-                            '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'
-                        );
-                        isMailAuthButtonCreated = true; // 버튼이 생성되었음을 표시
-                    }
-				} else {
-					alert("인증메일 발송에 실패했습니다.");
-				}
+	    $.ajax({
+	        url : "SendAuthMail",
+	        type : "POST",
+	        contentType: "application/json",
+	        data : JSON.stringify({"user_email": eMail}),
+	        dataType: "json",
+	        success : function(authInfo){
+	            console.log(authInfo);
+	            if(authInfo.success){
+	                serverMailAuthNum = authInfo.auth_code;
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '인증메일이 전송되었습니다.'
+	                });
+	                // 버튼이 생성되지 않았다면 생성
+	                if (!isMailAuthButtonCreated) {
+	                    $("#mail_auth_num").parent().append(
+	                        '<input type="button" class="check_email" id="check_email" value="인증하기" onclick="mailAuthCheck()">'
+	                    );
+	                    isMailAuthButtonCreated = true; // 버튼이 생성되었음을 표시
+	                }
+	            } else {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: '인증메일 발송에 실패했습니다.'
+	                });
+	            }
 	        },
-			error : function() {
-				alert("인증메일 발송에 실패했습니다. 다시 시도주세요.");
-			}
-		});
+	        error : function() {
+	            Swal.fire({
+	                icon: 'error',
+	                title: '인증메일 발송에 실패했습니다. 다시 시도주세요.'
+	            });
+	        }
+	    });
 	}
-	
+
 	function mailAuthCheck(){
-		if($("#mail_auth_num").val() !== serverMailAuthNum){
-			alert("인증번호를 확인해주세요.");
-			return false;
-		} else {
-			alert("인증되었습니다.");
-			checkMailAuthNumResult = true;
-		}
+	    if($("#mail_auth_num").val() !== serverMailAuthNum){
+	        Swal.fire({
+	            icon: 'error',
+	            title: '인증번호를 확인해주세요.'
+	        });
+	        return false;
+	    } else {
+	        Swal.fire({
+	            icon: 'success',
+	            title: '인증되었습니다.'
+	        });
+	        checkMailAuthNumResult = true;
+	    }
 	}
-		
+
 	let isPhoneAuthButtonCreated = false;
 	function phoneAuth() {
-		let user_phone = $("#user_phone").val();
-		
-		if (!isValidPhoneNumber(user_phone) || user_phone == "") {
-			alert("전화번호를 확인해주세요.");
-			document.fr.user_phone.focus();
-			return false;
-		}
-		
-		$.ajax({
-			
-			type : "POST",
-			url : "send-one",
-			contentType: "application/json",
-			data : JSON.stringify({"user_phone": user_phone}),
-			dataType :"json",
-			success : function(response){
-		        if (response.success) {
-		            serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
-		            
-		            alert("인증번호가 전송되었습니다.");
-		            if (!isPhoneAuthButtonCreated) {
-		            	$("#auth_num").parent().append(
-	                            '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'	
+	    let user_phone = $("#user_phone").val();
+
+	    if (!isValidPhoneNumber(user_phone) || user_phone == "") {
+	        Swal.fire({
+	            icon: 'error',
+	            title: '전화번호를 확인해주세요.',
+	            didClose: () => document.fr.user_phone.focus()
+	        });
+	        return false;
+	    }
+
+	    $.ajax({
+	        type : "POST",
+	        url : "send-one",
+	        contentType: "application/json",
+	        data : JSON.stringify({"user_phone": user_phone}),
+	        dataType :"json",
+	        success : function(response){
+	            if (response.success) {
+	                serverAuthNum = response.auth_num;  // 서버에서 받은 인증번호를 저장
+	                
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '인증번호가 전송되었습니다.'
+	                });
+	                if (!isPhoneAuthButtonCreated) {
+	                    $("#auth_num").parent().append(
+	                        '<input type="button" class="check_tel" id="check_tel" value="인증하기" onclick="phoneAuthCheck()">'    
 	                    );
-                        isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
-                    }
-		        } else {
-		            alert("인증번호 전송에 실패했습니다.");
-		        }
-				
-			},
-			error : function() {
-				alert("전화번호 인증에 실패했습니다. 다시 시도해주세요.");
-			}
-			
-		});
+	                    isPhoneAuthButtonCreated = true; // 버튼이 생성되었음을 표시
+	                }
+	            } else {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: '인증번호 전송에 실패했습니다.'
+	                });
+	            }
+	        },
+	        error : function() {
+	            Swal.fire({
+	                icon: 'error',
+	                title: '전화번호 인증에 실패했습니다. 다시 시도해주세요.'
+	            });
+	        }
+	    });
 	}
-	
+
 	function phoneAuthCheck(){
-		if($("#auth_num").val() !== serverAuthNum){
-			alert("인증번호를 확인해주세요.");
-			return false;
-		} else {
-			alert("인증되었습니다.");
-			checkAuthNumResult = true;
-		}
+	    if($("#auth_num").val() !== serverAuthNum){
+	        Swal.fire({
+	            icon: 'error',
+	            title: '인증번호를 확인해주세요.'
+	        });
+	        return false;
+	    } else {
+	        Swal.fire({
+	            icon: 'success',
+	            title: '인증되었습니다.'
+	        });
+	        checkAuthNumResult = true;
+	    }
 	}
 </script>
 </head>
