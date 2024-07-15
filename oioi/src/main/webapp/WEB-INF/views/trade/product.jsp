@@ -15,6 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Title Tag  -->
     <title> 상품등록 </title>
+    <!-- favicon 스크립트 -->
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- 태그 스크립트 -->
@@ -107,11 +109,11 @@
 									<li>
 										<label> 카테고리</label>
 <!-- 										<input type="text" name="category"> -->
-										<select id="cate1" name="cate1" class="form-control" required>
-				                                <option value="1">대분류</option>
-				                                <c:forEach var="cate1" items="${cate1}">
-				                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
-				                                </c:forEach>
+											<select id="cate1" name="cate1" class="form-control" required>
+					                                <option value="1">대분류</option>
+					                                <c:forEach var="cate1" items="${cate1}">
+					                                    <option value="${cate1.CTG_CODE}">${cate1.CTG_NAME}</option>
+					                                </c:forEach>
 				                            </select>
 				                            
 				                            <select id="cate2" name="cate2" class="form-control" required disabled>
@@ -193,9 +195,9 @@
 
             $("#addfile").on("change", function(event) {
             	$('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-            	 for (var i = 0; i < this.files.length; i++) {
+            	for (var i = 0; i < this.files.length; i++) {
             	        console.log(this.files[i].name);
-            	    }
+           	    }
                 if (this.files.length > 5) {
                     showAlert('error', '실패!', '최대 5개의 이미지만 업로드할 수 있습니다!');
                     this.value = ""; // 선택된 파일 초기화
@@ -268,20 +270,13 @@
        	$(document).ready(function() {
 	    let cate2 = JSON.parse('${cate2}');
 	    let cate3 = JSON.parse('${cate3}');
-	    console.log('cate2:', cate2);
-	    console.log('cate3:', cate3);
 
 	    $('#cate1').change(function() {
-	        var selectedCate2 = $(this).val(); //
-// 			var selectedCate1 = $(this).val();
-	        console.log('cate1:', selectedCate2);
+	    	let selectedCate2 = $(this).val(); //
 	        
-	        var filteredCate2s = cate2.filter(function(cate) {
+	    	let filteredCate2s = cate2.filter(function(cate) {
 	            return cate.UP_CTG_CODE == selectedCate2; // 필터 조건 확인 2000//
 	        });
-	        
-	        console.log('cate2s:', filteredCate2s);
-	        
 	        
 	        $('#cate2').empty().append('<option value="2">중분류를 선택하시오</option>');
 	        	
@@ -289,20 +284,14 @@
 				$('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 		    });
 	        $('#cate2').prop('disabled', false).niceSelect('update');//
-	        
-	        console.log("cate1(value) : " + $('#cate1').val());
 	    });
 	    
 	    $('#cate2').change(function(){
-	    	var selectedCate3 = $(this).val();//
-// 			var selectedCate2 = $(this).val(); 
-	    	console.log('selectedCate3 :', selectedCate3);
+	    	let selectedCate3 = $(this).val();//
 	    	
-	    	var filteredCate3s = cate3.filter(function(cate) {
+	    	let filteredCate3s = cate3.filter(function(cate) {
 	            return cate.UP_CTG_CODE == selectedCate3; // 필터 조건 확인 1100//
-// 	    		return cate.UP_CTG_CODE == selectedCate2;
 	        });
-	    	console.log('cate3s:', filteredCate3s);
 	    	
 	    	$('#cate3').empty().append('<option value="3">소분류를 선택하시오</option>');
 	    	
@@ -310,8 +299,6 @@
 	            $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
 		    });
 	        $('#cate3').prop('disabled', false).niceSelect('update');//
-// 			   $('#cate3').prop('disabled', false); 			
-	        console.log("cate2(value) : " + $('#cate2').val());
 	    });
 	    
 	    function validateForm() {

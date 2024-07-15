@@ -5,6 +5,7 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
 <script type="text/javascript">
 	let checkIdResult = false;
 	
@@ -74,6 +75,8 @@
 
 <meta charset="UTF-8">
 <title>아이디 중복확인</title>
+<!-- favicon 스크립트 -->
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 </head>
 <body>
 <c:if test="${param.isValid eq true}">
