@@ -347,7 +347,7 @@
 	                        	</ul>
 	                        </div>
 	                        
-	                       	 <c:if test="${pdInfo.existReview eq 'no' && tradeinfo eq 'ok' && pdInfo.PD_STATUS eq 'PDS03'}">
+	                       	 <c:if test="${pdInfo.existReview eq 'no' && tradeinfo eq 'ok' && pdInfo.PD_STATUS eq 'PDS03'&& userRole.BUYER_ID eq sessionScope.US_ID }">
 		                        <div id="review">
 		                        	<ul>
 			                        	<li><a id="d6" data-toggle="modal" data-target="#review_model"> 후기 작성하러 가기 </a></li>
@@ -380,8 +380,8 @@
 		                <%-- 전송란 --%>
 						
 						<c:choose>
-						    <c:when test="${!exitRoomUser.EXIT_USER ne sessionScope.US_ID}">
-						        <input type="text" class="form-control" id="textMsg" readonly placeholder="상대방이 채팅을 나가셨습니다">
+						    <c:when test="${exitRoomUser.EXIT_USER eq param.TO_ID}">
+						        <input type="text" class="form-control" id="textMsg" readonly placeholder="상대방이 채팅방을 나가셨습니다">
 						    </c:when>
 						    <c:otherwise>
 						        <input type="text" class="form-control" id="textMsg" placeholder="메세지를 입력하세요">
@@ -428,7 +428,7 @@
 		 				</select>
 		
 				      	<%-- 운송장 번호 --%>
-				      	<input type="text" name="DV_NUM" placeholder="운송장번호를 입력해 주세요" id="num" required="required">
+				      	<input type="text" name="DV_NUM" placeholder="운송장번호를 입력해 주세요" id="num" required="required" maxlength="30">
 				      </div>
 				
 				      <!-- Modal footer -->
