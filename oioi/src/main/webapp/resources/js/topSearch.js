@@ -38,8 +38,6 @@ let popularClick = true;
 /* 검색 JS 시작 */
 $(function(){
 	
-	
-	
 	// ******************* 테스트 데이터 ********************
 		var clickCount = 0;
 		$('.header-inner').click(function() {
@@ -93,9 +91,8 @@ $(function(){
 
 	/* 엔터키 적용 시키기 */
 	$("#searchKeyword").keyup(function(event) {
-		if(event.keyCode==13) {
-			alert("왜오애ㅗ래");
-			searchAjax();
+		if(event.keyCode===13) {
+			searchKeyword();
 		}
 	}) 
 	

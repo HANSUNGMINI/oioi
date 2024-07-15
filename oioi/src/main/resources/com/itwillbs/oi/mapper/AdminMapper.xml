@@ -380,6 +380,7 @@
              , img.image3
              , img.image4
              , img.image5
+             , t.APD_DELIVERY 
 		  FROM auction_product ap
 		  LEFT JOIN tmp
 		    ON ap.APD_CATEGORY = tmp.CTG_CODE
@@ -391,6 +392,8 @@
 		    ON ap.APD_CONDITION = c3.code
 		  LEFT JOIN images img
 		    ON ap.APD_IMAGE = img.IMG_IDX
+	      LEFT JOIN trade t 
+	        ON ap.APD_IDX = t.TD_APD_IDX 
 		 WHERE ap.APD_IDX = #{target}
 	</select>
 	
@@ -470,11 +473,17 @@
 		  FROM auction
 	  	 WHERE APD_IDX = #{APD_IDX}
 	</select>
+	
+	<update id="registdvNum">
+		UPDATE trade
+		   SET APD_DELIVERY = #{DV_NUM}
+		 WHERE TD_APD_IDX = #{APD_IDX}
+	</update>
 </mapper>
 
 
 
-
+		
 
 
 
