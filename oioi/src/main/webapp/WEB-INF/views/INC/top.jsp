@@ -369,7 +369,7 @@
     }
     
     $(document).ready(function() {
-    	getUnreadCount();
+//     	getUnreadCount();
 		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 //         var socket = new WebSocket('ws://localhost:8081/oi/push');
