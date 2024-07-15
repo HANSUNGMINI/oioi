@@ -354,7 +354,6 @@ public class AuctionController {
 		   map.put("TD_BUYER_ADDRESS", address);
 		   service.apdTrade(map);
 		   
-		   
 		   response.put("message", "즉시 구매가 완료되었습니다");
 	   }else {
 		   response.put("message", "즉시 구매가 실패하였습니다.");

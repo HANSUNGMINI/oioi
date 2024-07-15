@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
-    <title>나의 경매 내역</title>
+    <title>나의 경매 등록 내역</title>
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <!-- StyleSheet -->
@@ -130,96 +130,6 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script type="text/javascript">
-    
-    
-    
-    	var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
-    	var t_code = "04";
-    		
-    	function deliveryStatus(delivery, idx, status) {
-    	    console.log("delivery : " + delivery);
-    	    $.ajax({
-    	        url: "https://info.sweettracker.co.kr/api/v1/trackingInfo",
-    	        type: "GET",
-    	        data: {
-    	            t_key: t_key,
-    	            t_code: t_code,
-    	            t_invoice: delivery
-    	        },
-    	        success: function(response) {
-    	            console.log(response);
-    	            var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
-    	            var deliveryLevel = latestStatus.level;
-    	            var deliveryStatus = '';
-
-    	            switch (deliveryLevel) {
-    	                case 1: deliveryStatus = '접수'; break;
-    	                case 2: deliveryStatus = '상품 인수'; break;
-    	                case 3: deliveryStatus = '이동 중'; break;
-    	                case 4: deliveryStatus = '중간 경유지'; break;
-    	                case 5: deliveryStatus = '배송 출발'; break;
-    	                case 6: deliveryStatus = '배송 완료'; break;
-    	                default: deliveryStatus = '알 수 없음'; break;
-    	            }
-    	            $(".del_status_" + idx).text(deliveryStatus);
-
-    	            if (deliveryLevel === 6) {
-    	                var confirmButton = $('<button>', {
-    	                    text: '구매확정',
-    	                    class: 'edit-btn del_status_' + idx,
-    	                    click: function() {
-    	                        confirmPurchase(idx);
-    	                    }
-    	                }).css({
-    	                    'margin-bottom': '5px'
-    	                });
-
-    	                $(".del_status_" + idx).after(confirmButton);
-    	                
-    	                if (status === 'APD09') {
-    	                    confirmButton.attr('disabled', true); 
-    	                    $(".del_status_" + idx).attr('disabled', true); 
-    	                }
-    	            }
-    	        }
-    	    });
-    	}
-   		
-   		
-   		function delivery(delivery){
-   		    var url = "https://info.sweettracker.co.kr/tracking/5?t_key=" + t_key + "&t_code=" + t_code + "&t_invoice=" + delivery;
-
-   		    window.open(url, '_blank');	
-   		}
-   		
-   		function confirmPurchase(idx) {
-   		    console.log("구매 확정 for idx: " + idx);
-
-   		    $.ajax({
-   		        url: "confirmPurchase",
-   		        type: "POST",
-   		        data: {
-   		            APD_IDX: idx
-   		        },
-   		        success: function(response) {
-   		        	console.log("response : " + response);
-   		            Swal.fire({
-   		                title: response.message,
-   		                icon: 'success'
-   		            });
-   		         	$(button).remove();
-   		        },
-   		     	error: function(xhr, status, error) {
-   		        console.error("구매 확정 실패:", status, error);
-   		        Swal.fire({
-   		            title: '구매 확정 실패',
-   		            text: '구매 확정에 실패했습니다. 다시 시도해주세요.',
-   		            icon: 'error'
-   		        });
-   		    }
-   		    });
-   		}
-    		
     </script>
 </head>
 <body class="js">
@@ -234,38 +144,40 @@
             </div>
             <div class="col-lg-9 col-12" id="highlighted-row">
                 <div class="info-card text-center">
-                    <h5 class="card-header">경매 구매 내역</h5>
+                    <h5 class="card-header">경매 등록 내역</h5>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">번호</th>
                                     <th scope="col">상품명</th>
-                                    <th scope="col">판매자</th>
-                                    <th scope="col">수취인</th>
-                                    <th scope="col" width="200px;">주소</th>
-                                    <th scope="col">결제시간</th>
-                                    <th scope="col">배달정보</th>
+                                    <th scope="col">카테고리</th>
+                                    <th scope="col">상품상태</th>
+                                    <th scope="col">사유</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="auction" items="${auctionList}">
+                                <c:forEach var="auction" items="${auctionRegistList}">
                                     <tr>
-                                        <td>${auction.TD_APD_IDX}</td>
+                                        <td>${auction.APD_IDX}</td>
                                         <td>${auction.APD_NAME}</td>
-                                        <td>${auction.TD_SELLER_ID}</td>
-                                        <td>${auction.TD_BUYER_ID}</td>
-                                        <td>${auction.TD_BUYER_ADDRESS}</td>
-                                        <td>${auction.TD_TIME}</td>
+                                        <td>${auction.APD_CATEGORY}</td>
+                                        <td>${auction.APD_STATUS}</td>
                                         <td>
-                                        	<button class="edit-btn del_status_${auction.TD_APD_IDX}" onclick="deliveryStatus('${auction.APD_DELIVERY}', '${auction.TD_APD_IDX}','${auction.APD_STATUS}')" style="margin-bottom: 5px;">배송조회</button><br>
-                                        	<button class="edit-btn" onclick="delivery('${auction.APD_DELIVERY}')">상세조회</button>
+                                        	<c:choose>
+                                        		<c:when test="${auction.APD_STATUS eq '2차검수'}">
+                                        			1차검수완료!<br>상품을 보내주세요
+                                        		</c:when>
+                                        		<c:otherwise>
+                                        			${auction.APD_REJECTION}
+                                        		</c:otherwise>
+                                        	</c:choose>
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                <c:if test="${empty auctionList}">
+                                <c:if test="${empty auctionRegistList}">
                                     <tr>
-                                        <td colspan="7">경매 내역이 없습니다.</td>
+                                        <td colspan="6">경매 내역이 없습니다.</td>
                                     </tr>
                                 </c:if>
                             </tbody>

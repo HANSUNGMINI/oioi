@@ -213,5 +213,9 @@ public class UserService {
         String storedPassword = mapper.getPassword(userId);
         return passwordEncoder.matches(password, storedPassword);
     }
+
+	public List<Map<String, Object>> getAuctionRegistList(String id) {
+		return mapper.selectAuctionRegistList(id);
+	}
 	
 }

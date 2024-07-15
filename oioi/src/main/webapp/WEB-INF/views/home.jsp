@@ -121,11 +121,12 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="home-slider-4">
-						<!-- 하나만 놔두면 오류? -->
 						<div class="big-content" style="height: 400px;">
 							<img src="${pageContext.request.contextPath}/resources/images/오이마켓배너.png"> 
 						</div>
-						
+						<div class="big-content" style="height: 400px;">
+							<img src="${pageContext.request.contextPath}/resources/images/오이마켓배너2.png"> 
+						</div>
 						<c:forEach var="item" items="${auctionProducts}" varStatus="status">
 							  <div class="big-content" style="height: 400px;">
 <%-- 							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;">  --%>

@@ -15,7 +15,8 @@
     <div class="single-widget category">
         <h3 class="title">나의 경매 내역</h3>
         <ul class="categor-list">
-            <li><a href="myAuction">경매 구매 내역</a></li>
+            <li><a href="myAuctionRegist">경매 등록 내역</a></li>
+            <li><a href="myAuctionBuy">경매 구매 내역</a></li>
             <!-- <li><a href="myFault">나의 신고된 내역</a></li> -->
         </ul>
     </div>

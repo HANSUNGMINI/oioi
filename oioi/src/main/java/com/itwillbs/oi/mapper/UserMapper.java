@@ -93,6 +93,7 @@ public interface UserMapper {
     int updatePassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
     
 	void updateUserStatus(String userId);
+	List<Map<String, Object>> selectAuctionRegistList(String id);
 	
 	
 

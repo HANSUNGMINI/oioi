@@ -285,17 +285,18 @@
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">
-		select t.TD_AT_IDX, ap.APD_NAME, ap.APD_STATUS, t.TD_SELLER_ID, t.TD_BUYER_ID, t.TD_TIME, t.TD_BUYER_ADDRESS, t.APD_DELIVERY
+		select t.TD_APD_IDX, ap.APD_NAME, ap.APD_STATUS, t.TD_SELLER_ID, t.TD_BUYER_ID, t.TD_TIME, t.TD_BUYER_ADDRESS, t.APD_DELIVERY
 		from trade t
 		join auction_product ap
-		on t.TD_AT_IDX = ap.APD_IDX
-		where TD_SELLER_ID = #{id} and TD_PD_IDX is null;
+		on t.TD_APD_IDX = ap.APD_IDX
+		where TD_SELLER_ID = #{id} and TD_PD_IDX is null
+		order by t.TD_TIME desc;
 	</select>
 	
 	<select id="selectTradeList" resultType="map">
 	    SELECT 
 	        t.TD_IDX,
-	        t.TD_AT_IDX,
+	        t.TD_APD_IDX,
 	        t.TD_PD_IDX,
 	        t.TD_SELLER_ID,
 	        t.TD_BUYER_ID,
@@ -351,7 +352,33 @@
         SET US_STATUS = 'US04'
         WHERE US_ID = #{userId}
     </update>
-
+	<select id="selectAuctionRegistList" resultType="map">
+		WITH RECURSIVE tmp(CTG_CODE, CTG_NAME, UP_CTG_CODE, path) AS (
+		  SELECT CTG_CODE, CTG_NAME, UP_CTG_CODE, CTG_NAME
+		  FROM category
+		  WHERE UP_CTG_CODE = 'T'
+		  UNION ALL
+		  SELECT t.CTG_CODE, t.CTG_NAME, t.UP_CTG_CODE, CONCAT(tp.path, '/', t.CTG_NAME)
+		  FROM category t
+		  INNER JOIN tmp tp ON t.UP_CTG_CODE = tp.CTG_CODE
+		)
+		select 
+			ap.APD_IDX,
+            tmp.PATH AS APD_CATEGORY,
+			ap.APD_OWNER,
+			ap.APD_NAME,
+			c1.value as APD_STATUS,
+			c2.value as APD_REJECTION
+		from auction_product ap
+		JOIN tmp
+		on ap.APD_CATEGORY = tmp.CTG_CODE
+		JOIN common c1
+		on ap.APD_STATUS = c1.code
+		JOIN common c2
+		on ap.APD_REJECTION = c2.code
+		where ap.APD_OWNER = #{id}
+		order by ap.APD_REG_DATE desc;
+	</select>
 
 </mapper>
 

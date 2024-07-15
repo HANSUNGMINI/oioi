@@ -224,7 +224,7 @@ public class MyPageController {
         }
     }
 
-    @GetMapping("myAuction")
+    @GetMapping("myAuctionBuy")
     public String myAuction(Model model) {
         String id = (String)session.getAttribute("US_ID");
 
@@ -241,6 +241,25 @@ public class MyPageController {
         model.addAttribute("auctionList", auctionList);
         
         return "mypage/my_auction";
+    }
+    
+    @GetMapping("myAuctionRegist")
+    public String myAuctionRegist(Model model) {
+        String id = (String)session.getAttribute("US_ID");
+
+        if(!CheckAuthority.isUser(session, model)) {
+            System.out.println(model.getAttribute("msg"));
+            System.out.println(model.getAttribute("targetURL"));
+            return "err/fail";
+        }
+        
+        List<Map<String, Object>> auctionRegistList = service.getAuctionRegistList(id);
+
+        System.out.println("경매 모든 정보 : " + auctionRegistList);
+        
+        model.addAttribute("auctionRegistList", auctionRegistList);
+        
+        return "mypage/my_auction_regist";
     }
     
     @PostMapping("userWithdraw")
