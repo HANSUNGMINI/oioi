@@ -149,11 +149,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">상품명</th>
-                                    <th scope="col">카테고리</th>
-                                    <th scope="col">상품상태</th>
-                                    <th scope="col">사유</th>
+                                    <th scope="col" style="width:70px;">번호</th>
+                                    <th scope="col" style="width:280px;">상품명</th>
+                                    <th scope="col" style="width:160px;">카테고리</th>
+                                    <th scope="col" style="width:83px;">상품상태</th>
+                                    <th scope="col" style="width:150px;">사유</th>
                                 </tr>
                             </thead>
                             <tbody>

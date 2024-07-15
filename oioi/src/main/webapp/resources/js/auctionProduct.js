@@ -17,7 +17,7 @@
  
  $(function(){
 	
-	
+	let contextPath = '<%= request.getContextPath() %>';
 	 
 	/* 최근 본 상품 함수 호출 */
 	showRecentLookProduct();
@@ -67,7 +67,7 @@
 						+'	<div class="single-product">'
 						+'		<div class="product-img">'
 						+'			<a href="auctionDetail?APD_IDX='+ pr.APD_IDX +'">'
-						+'             <img class="default-img" src="' + '/oi/resources/upload/' + pr.APD_MAIN_IMAGE + '">'
+						+'             <img class="default-img" src="' + contextPath + '/resources/upload/' + pr.APD_MAIN_IMAGE + '">'
 						+'				<span class="'+ pr.APD_STATUS_COLOR +'">' +  pr.APD_STATUS_VALUE +'</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->'
 						+'			</a>'
 						+'			<div class="button-head">'

@@ -98,12 +98,16 @@
 		           	             	+ '<span class="' + item.APD_STATUS_COLOR +'">' + item.value + '</span>'
 	           	                	+ '</a>'
 	           	                	+ '<div class="button-head">' 
-		           	                + '<div class="product-action-2">' 
+		           	                + '<div class="product-action-2">'
+		           	             	+ '<form action="auctionDetail">' 
+		           	                + '<input type="hidden" name="APD_IDX" value="' + item.APD_IDX + '">' 
+		           	                + '<input type="submit" value="상품보러가기">' 
+		           	                + '</form>'
 		           	                + '</div>' 
 		           	                + '</div>' 
 		           	                + '</div>' 
 		           	                + '<div class="product-content">' 
-		           	                + '<h3><a href="product-details.html">' + item.APD_NAME + '</a></h3>' 
+		           	                + '<h3><a href="auctionDetail?APD_IDX=' + item.APD_IDX + '">' + item.APD_NAME + '</a></h3>' 
 		           	                + '<div class="product-price">' 
 		           	                + '<span>[판매시작가] ' + new Intl.NumberFormat().format(item.APD_START_PRICE) + '원</span><br>' 
 		           	                + '<span>[즉시구매가] ' + new Intl.NumberFormat().format(item.APD_BUY_NOW_PRICE) + '원</span>'
@@ -187,6 +191,11 @@
 	<!-- 									<img class="hover-img"   alt="#"> -->
 										<span class="${popular.APD_STATUS_COLOR}">${popular.APD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
 									</a>
+									<div class="button-head">
+										<div class="product-action-2">
+											<a title="Add to cart" href="auctionDetail?APD_IDX=${popular.APD_IDX}">상품보러가기</a>
+										</div>
+									</div>
 								</div>
 								<div class="product-content">
 									<h3><a href="product-details.html">${popular.APD_NAME}</a></h3>
