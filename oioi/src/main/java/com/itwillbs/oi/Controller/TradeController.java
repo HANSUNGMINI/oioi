@@ -116,9 +116,11 @@ public class TradeController {
 //			System.out.println(model.addAttribute("targetURL", "login"));
 //			return "err/fail";
 //		}
-		if(session.getAttribute("US_ID") != "" || session.getAttribute("US_ID") != null) {
-			map.put("US_ID", session.getAttribute("US_ID").toString());
+		if((session.getAttribute("US_ID")) != null) {
+			map.put("US_ID", (String)session.getAttribute("US_ID"));
 		}
+		System.out.println(session.getAttribute("US_ID"));
+//		if()
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
