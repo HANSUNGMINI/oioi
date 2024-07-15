@@ -446,7 +446,7 @@ public class UserController {
 	    if(dbUser == null || !passwordEncoder.matches(userPasswd, dbUser.get("US_PASSWD"))) { // 로그인 실패
 	        model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.");
 	        return "err/fail";
-	    } else if ("2".equals(dbUser.get("US_STATUS"))) {
+	    } else if ("US04".equals(dbUser.get("US_STATUS"))) {
 	        model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
 	        return "err/fail";
 	    } else { // 로그인 성공
