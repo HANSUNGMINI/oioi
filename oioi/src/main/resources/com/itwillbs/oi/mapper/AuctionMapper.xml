@@ -406,7 +406,7 @@
 		from auction_chat_msg acm
 		join auction_chat_room acr
 		on acm.ACR_IDX = acr.ACR_IDX
-		where acr.APD_IDX = 5 and acm.ACM_USER = 'gkstyd13';
+		where acr.APD_IDX = #{ACR_IDX} and acm.ACM_USER = #{ACM_USER};
 	</select>
 	
 	<select id="selectUserInfo" resultType="map">

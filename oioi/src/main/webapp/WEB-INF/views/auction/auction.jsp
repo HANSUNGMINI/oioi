@@ -93,21 +93,12 @@
 	                                 '<div class="col-xl-3 col-lg-4 col-md-4 col-12">'
 	                                + '<div class="single-product">' 
 		           	                + '<div class="product-img">' 
-		           	                + '<a href="javascript:void(0)" onclick="return apdDetailView(\'' + item.APD_IDX + '\')">' 
+		           	                + '<a href="auctionDetail?APD_IDX=' + item.APD_IDX + '">' 
 		           	                + '<img class="default-img" src="<%= request.getContextPath() %>/resources/upload/' + item.APD_MAIN_IMAGE + '">'
 		           	             	+ '<span class="' + item.APD_STATUS_COLOR +'">' + item.value + '</span>'
 	           	                	+ '</a>'
 	           	                	+ '<div class="button-head">' 
-		           	                + '<div class="product-action">' 
-		           	                + '<a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class="ti-eye"></i><span>Quick Shop</span></a>' 
-		           	                + '<a title="Wishlist" href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>' 
-		           	                + '<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>' 
-		           	                + '</div>' 
 		           	                + '<div class="product-action-2">' 
-		           	                + '<form action="auctionDetail">' 
-		           	                + '<input type="hidden" name="APD_IDX" value="' + item.APD_IDX + '">' 
-		           	                + '<input type="submit" value="상세 페이지로 이동">' 
-		           	                + '</form>' 
 		           	                + '</div>' 
 		           	                + '</div>' 
 		           	                + '</div>' 
@@ -162,8 +153,8 @@
                <div class="bread-inner">
                   <ul class="bread-list">
                      <li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
-                     <li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
-                     <li class="active"><a href="notice">리스트</a></li>
+                     <li class="active"><a href="auction">경매<i class="ti-arrow-right"></i></a></li>
+                     <li class="active"><a href="auction">리스트</a></li>
                   </ul>
                </div>
             </div>
@@ -196,14 +187,6 @@
 	<!-- 									<img class="hover-img"   alt="#"> -->
 										<span class="${popular.APD_STATUS_COLOR}">${popular.APD_STATUS_VALUE}</span> <!-- out-of-stock = 빨간색 / new = 파란?보라?색 / price-dec = 초록색 -->
 									</a>
-									<div class="button-head">
-										<div class="product-action">
-											<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>찜하기</span></a>
-										</div>
-										<div class="product-action-2">
-											<a title="Add to cart" href="auctionDetail?APD_IDX=${popular.APD_IDX}">상품 상세페이지로 바로가기</a>
-										</div>
-									</div>
 								</div>
 								<div class="product-content">
 									<h3><a href="product-details.html">${popular.APD_NAME}</a></h3>

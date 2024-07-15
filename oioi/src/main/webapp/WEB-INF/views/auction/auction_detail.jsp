@@ -24,6 +24,7 @@
 <!-- css(채팅) -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chatting/chattingRoom.css">
 
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <!-- Bootstrap -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 <!-- Magnific Popup -->
@@ -257,7 +258,7 @@
                    	        if (result.isConfirmed) {
                    	        	var html ='';
                                 html += '<li class="clearfix" class="chatViewMe">' + 
-                                '<div class="message other-message float-right">' +
+                                '<div class="message other-message float-right" style="font-weight: bold;">' +
                                 nick +
                                 '님께서' +
                                 response +
@@ -351,8 +352,8 @@
    
    
    function connect() {
-//       ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+//       ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -600,8 +601,8 @@
                   <div class="bread-inner">
                      <ul class="bread-list">
                         <li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
-                        <li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
-                        <li class="active"><a href="notice">상세페이지</a></li>
+                        <li class="active"><a href="auction">경매<i class="ti-arrow-right"></i></a></li>
+                        <li class="active"><a href="#">상세페이지</a></li>
                      </ul>
                   </div>
                </div>
