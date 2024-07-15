@@ -57,9 +57,16 @@ public class AdminService {
 	public int updateReportStatus(Map<String, String> map){ return adminMapper.updateReportStatus(map); }
 	public int updateUserStatus(Map<String, String> map){ return adminMapper.updateUserStatus(map); }
 	public int regMainBanner(Map<String, String> map){ return adminMapper.regMainBanner(map); }
+	
+	@Transactional
+	public int registdvNum(Map<String, String> map){
+		adminMapper.registdvNum(map);
+		map.put("APD_STATUS", "APD08");
+		map.put("APD_REJECTION", "AR01");
+		return adminMapper.updateUpdateAPD(map); 
+	}
+	
 	public List<Map<String, String>> selectCategoryPieChart(Map<String, String> map){return adminMapper.selectCategoryPieChart(map);}
-	
-	
 	public Map<String, String> selectAuctionItem(Map<String, String> map){ return adminMapper.selectAuctionItem(map); }
 	@Transactional
 	public int updateUpdateAPD(Map<String, String> map){

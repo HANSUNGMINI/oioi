@@ -61,21 +61,26 @@
 		})
 		
 		function regDnum(){
-			alert("호출됨");
-			a.ajax({
+			$.ajax({
 	       		url : "regDnum",
 	       	 	type : "POST",
 	       	 	data : {
-	       			number : $("#dNum").val(),
+	       			APD_IDX : "${param.target}",
+	       			US_ID : "${product.APD_OWNER}",
+	       			DV_NUM : $("#dNum").val(),
 	       	 	},
 	       	 	dataType : "JSON",
 	       	 	success : function(response){
-	       	 		alert("ㅇㅇ")
+		       	 	if(response > 0 ) {
+						alert("성공적으로 등록되었습니다!")
+						location.reload();
+		       	 	} else {
+		       	 		alert("등록실패")	
+		       	 	}
 	       	 	}
 			})
 			
 		}
-		
 		function confirmUpdate() {
 			if(status == 'APD05' || status == 'APD06' || status == 'APD07') {
 				let b = confirm("경매가 이미 진행중입니다. 변경하시겠습니까?");
@@ -112,6 +117,8 @@
 								socket.send(toJsonString("toUsers", "registAPD"));
 							};
 						}
+						
+						location.reload();
 					} else if (response == -1) {
 						alert("이미 등록된 상품입니다")
 					} else {
@@ -226,10 +233,13 @@
 											</li><br><br><br>
 											<li><span>상품 상태 : <b>${product.APD_CONDITION}</b></span></li>
 											<li><span>등록 날짜 : <b>${product.APD_REG_DATE}</b></span></li><br>
-											<c:if test="${product.APD_STATUS eq '거래중'}">
+											<c:if test="${product.APD_STATUS eq '경매종료'}">
 												<li>
 												<span>운송장 번호 등록 : <input type="text" placeholder="입력" id="dNum"><input type="button" id="regitBtn" value="등록"></span>
 												</li>
+											</c:if>
+											<c:if test="${not empty product.APD_DELIVERY}">
+												<li><span>운송장 번호 : <b>${product.APD_DELIVERY}</b></span></li><br>
 											</c:if>
 										</ul>
 									</div>
