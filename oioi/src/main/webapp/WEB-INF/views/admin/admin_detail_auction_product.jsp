@@ -118,7 +118,7 @@
 							};
 						}
 						
-						location.reload();
+// 						location.reload();
 					} else if (response == -1) {
 						alert("이미 등록된 상품입니다")
 					} else {

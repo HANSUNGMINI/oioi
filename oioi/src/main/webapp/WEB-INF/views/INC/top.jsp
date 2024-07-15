@@ -369,7 +369,7 @@
     }
     
     $(document).ready(function() {
-//     	getUnreadCount();
+    	getUnreadCount();
 		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
 		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
