@@ -201,7 +201,7 @@
     <p>새 닉네임을 입력하세요:</p>
     <input type="text" id="new-nickname" class="form-control">
     <div id="checkNickResult"></div>
-    <button class="nick_check" id="btnCheckNick" disabled>중복확인</button>
+    <button class="nick_check" id="btnCheckNick">중복확인</button>
 </div>
 
 <!-- 이메일 수정 모달 -->
@@ -615,12 +615,18 @@ function verifyPhoneAuthCode(phone, authCode) {
 function updateField(field, value) {
     $.ajax({
         type: "POST",
+<<<<<<< HEAD
+        url: 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용하지 않도록 변경
+        data: JSON.stringify({ field: field, value: value }),
+        contentType: "application/json",
+=======
         url: field === 'phone' ? 'coolUpdateField' : 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용
         data: { 
         	field: field, 
         	value: value 
        	},
 //         contentType: "application/json",
+>>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
         success: function(response) {
        		showCustomAlert(response.message, response.result);
 //             if (response.result) {
