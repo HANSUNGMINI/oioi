@@ -340,7 +340,7 @@ public class ChattingController {
 		payService.decidePerchase(map);
 		
 		model.addAttribute("msg", "송금이 완료되었습니다");
-		model.addAttribute("reload", true);
+		model.addAttribute("targetURL", "Chatting?TO_ID=" +  (String)map.get("SELLER_ID") + "&PD_IDX=" + PD_IDX +"&FROM_ID=" + (String)session.getAttribute("US_ID"));
     	return "err/success";
 	}
 	
@@ -366,6 +366,7 @@ public class ChattingController {
             service.updateFreshness(map);
         	
         	model.addAttribute("msg", "리뷰 작성 완료되었습니다");
+        	model.addAttribute("targetURL", "Chatting?TO_ID=" +  (String)map.get("TO_US_ID") + "&PD_IDX=" + (String)map.get("PD_IDX") +"&FROM_ID=" + (String)session.getAttribute("US_ID"));
         	return "err/success";
         }
 	}

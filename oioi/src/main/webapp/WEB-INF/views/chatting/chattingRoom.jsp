@@ -577,7 +577,7 @@
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&SELLER_ID=${param.TO_ID}";
-				   		window.location.reload();
+// 				   		window.location.reload();
 				   }
 				});
 			

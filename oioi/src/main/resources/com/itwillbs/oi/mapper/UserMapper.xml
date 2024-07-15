@@ -345,6 +345,12 @@
         SET US_PASSWD = #{newPassword}
         WHERE US_ID = #{userId}
     </update>
+    
+    <update id= "updateUserStatus">
+  	    UPDATE user
+        SET US_STATUS = 'US04'
+        WHERE US_ID = #{userId}
+    </update>
 
 
 </mapper>
