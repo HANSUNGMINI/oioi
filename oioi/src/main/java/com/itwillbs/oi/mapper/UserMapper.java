@@ -91,6 +91,8 @@ public interface UserMapper {
     String getPassword(@Param("userId") String userId);
 	
     int updatePassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+    
+	void updateUserStatus(String userId);
 	
 	
 

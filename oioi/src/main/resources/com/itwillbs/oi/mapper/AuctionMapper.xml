@@ -367,6 +367,11 @@
 		from user
 		where US_ID = #{US_ID}
 	</select>
+	<update id="updateEndApd">
+		update auction_product
+		set APD_STATUS = 'APD09'
+		where APD_IDX = #{APD_IDX}
+	</update>
 </mapper>
 
 

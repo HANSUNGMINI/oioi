@@ -42,6 +42,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <style>
         body {
@@ -134,45 +136,84 @@
     	var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
     	var t_code = "04";
     		
-   		function deliveryStatus(delivery, idx){
-   			console.log("delivery : " + delivery);
-   			$.ajax({
-	            url : "https://info.sweettracker.co.kr/api/v1/trackingInfo",
-	            type : "GET",
-	            data: {
-	                 t_key: t_key,
-	                 t_code: t_code,
-	                 t_invoice: delivery
-	             },
-	             success: function(response) {
-	                console.log(response);
-	                var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
-	                 var deliveryLevel = latestStatus.level;
-	                 var deliveryStatus = '';
+    	function deliveryStatus(delivery, idx) {
+    	    console.log("delivery : " + delivery);
+    	    $.ajax({
+    	        url: "https://info.sweettracker.co.kr/api/v1/trackingInfo",
+    	        type: "GET",
+    	        data: {
+    	            t_key: t_key,
+    	            t_code: t_code,
+    	            t_invoice: delivery
+    	        },
+    	        success: function(response) {
+    	            console.log(response);
+    	            var latestStatus = response.trackingDetails[response.trackingDetails.length - 1];
+    	            var deliveryLevel = latestStatus.level;
+    	            var deliveryStatus = '';
 
-	                 switch (deliveryLevel) {
-	                     case 1: deliveryStatus = '접수'; break;
-	                     case 2: deliveryStatus = '상품 인수'; break;
-	                     case 3: deliveryStatus = '이동 중'; break;
-	                     case 4: deliveryStatus = '중간 경유지'; break;
-	                     case 5: deliveryStatus = '배송 출발'; break;
-	                     case 6: deliveryStatus = '배송 완료'; break;
-	                     default:deliveryStatus = '알 수 없음'; break;
-	                 }
-	                 $(".del_status_" + idx).text(deliveryStatus);
-	             }
-	          });
-   		}
+    	            switch (deliveryLevel) {
+    	                case 1: deliveryStatus = '접수'; break;
+    	                case 2: deliveryStatus = '상품 인수'; break;
+    	                case 3: deliveryStatus = '이동 중'; break;
+    	                case 4: deliveryStatus = '중간 경유지'; break;
+    	                case 5: deliveryStatus = '배송 출발'; break;
+    	                case 6: deliveryStatus = '배송 완료'; break;
+    	                default: deliveryStatus = '알 수 없음'; break;
+    	            }
+    	            $(".del_status_" + idx).text(deliveryStatus);
+
+    	            if (deliveryLevel === 6) {
+    	                var confirmButton = $('<button>', {
+    	                    text: '구매확정',
+    	                    class: 'edit-btn',
+    	                    click: function() {
+    	                        confirmPurchase(idx);
+    	                    }
+    	                }).css({
+    	                    'margin-bottom': '5px'
+    	                });
+
+    	                $(".del_status_" + idx).after(confirmButton);
+    	            }
+    	        }
+    	    });
+    	}
+   		
    		
    		function delivery(delivery){
    		    var url = "https://info.sweettracker.co.kr/tracking/5?t_key=" + t_key + "&t_code=" + t_code + "&t_invoice=" + delivery;
 
    		    window.open(url, '_blank');	
    		}
+   		
+   		function confirmPurchase(idx) {
+   		    console.log("구매 확정 for idx: " + idx);
+
+   		    $.ajax({
+   		        url: "confirmPurchase",
+   		        type: "POST",
+   		        data: {
+   		            APD_IDX: idx
+   		        },
+   		        success: function(response) {
+   		        	console.log("response : " + response);
+   		            Swal.fire({
+   		                title: response.message,
+   		                icon: 'success'
+   		            });
+   		        },
+   		        error: function(xhr, status, error) {
+   		            console.error("구매 확정 실패:", status, error);
+   		            alert('구매 확정에 실패했습니다. 다시 시도해주세요.');
+   		        }
+   		    });
+   		}
     		
     </script>
 </head>
 <body class="js">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <header><jsp:include page="../INC/top.jsp"></jsp:include></header>
 <!-- Start Blog Single -->
 <section class="blog-single shop-blog grid section">

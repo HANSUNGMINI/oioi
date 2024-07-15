@@ -19,7 +19,6 @@ public class UserService {
 	
 	private static UserMapper staticMapper;
 	
-	private BCryptPasswordEncoder passwordEncoder;
 
 	
 	@PostConstruct
@@ -188,21 +187,31 @@ public class UserService {
 		return mapper.selectTradeList(id);
 	}
 
-	public boolean isSameAsCurrentPassword(String userId, String currentPassword) {
-	    String storedPassword = mapper.getPassword(userId);
+    // 현재 비밀번호가 맞는지 확인
+    public boolean isSameAsCurrentPassword(String userId, String currentPassword, BCryptPasswordEncoder passwordEncoder) {
+        String storedPassword = mapper.getPassword(userId);
 
-	    if (storedPassword == null) {
-	        throw new NullPointerException("Stored password is null for user ID: " + userId);
-	    }
+        if (storedPassword == null) {
+            throw new NullPointerException("Stored password is null for user ID: " + userId);
+        }
 
-	    return passwordEncoder.matches(currentPassword, storedPassword);
+        return passwordEncoder.matches(currentPassword, storedPassword);
+    }
+
+    // 비밀번호 변경
+    public boolean changePassword(String userId, String newPassword) {
+        String encodedPassword = newPassword;
+        int updateResult = mapper.updatePassword(userId, encodedPassword);
+        return updateResult == 1;
+    }
+
+	public void withdrawUser(String userId) {
+		mapper.updateUserStatus(userId);
 	}
 
-
-	public boolean changePassword(String userId, String newPassword) {
-	    String encodedPassword = passwordEncoder.encode(newPassword);
-	    int updateResult = mapper.updatePassword(userId, encodedPassword);
-	    return updateResult == 1;
-	}
+    public boolean checkPassword(String userId, String password, BCryptPasswordEncoder passwordEncoder) {
+        String storedPassword = mapper.getPassword(userId);
+        return passwordEncoder.matches(password, storedPassword);
+    }
 	
 }

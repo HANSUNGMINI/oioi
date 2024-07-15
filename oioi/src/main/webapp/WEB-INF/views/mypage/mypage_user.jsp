@@ -105,11 +105,35 @@
             background-color: #f8f8f8;
         }
         .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button {
-            background-color: #27a745;
+            background-color: #d9534f;
             color: #fff;
             border: none;
             border-radius: 5px;
             padding: 5px 10px;
+        }
+        .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:hover {
+            background-color: #c9302c;
+        }
+        .modal-content img {
+            width: 100px;
+        }
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-content form label {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        .modal-content form input {
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -222,6 +246,16 @@
     <div id="checkPwResult2"></div>
 </div>
 
+<!-- 회원탈퇴 모달 -->
+<div id="withdrawModal" title="회원탈퇴" style="display:none;">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>정말 탈퇴하시겠습니까?</p>
+    <form id="withdrawForm" method="post" action="userWithdraw" onsubmit="return submitWithdrawForm()">
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required class="form-control">
+    </form>
+</div>
+
 <!-- 사용자 정의 모달 알림 창 -->
 <div id="custom-alert-modal" title="알림">
     <p id="custom-alert-message"></p>
@@ -287,44 +321,7 @@ $(function() {
     });
 
     // 비밀번호 유효성 검사
-    $("#new-password").keyup(function() {
-        let passwd = $("#new-password").val();
-        let msg = "";
-        let color = "";
-
-        let lengthRegex = /^[A-Za-z0-9!@#$%]{8,16}$/;
-        if (lengthRegex.exec(passwd)) {
-            let engUpperRegex = /[A-Z]/; // 대문자
-            let engLowerRegex = /[a-z]/; // 소문자
-            let numRegex = /\d/; // 숫자
-            let specRegex = /[!@#$%^&*]/; // 특수문자
-
-            let count = 0;
-            if (engUpperRegex.exec(passwd)) { count++; }
-            if (engLowerRegex.exec(passwd)) { count++; }
-            if (numRegex.exec(passwd)) { count++; }
-            if (specRegex.exec(passwd)) { count++; }
-
-            switch (count) {
-                case 4: msg = "안전"; color = "GREEN"; break;
-                case 3: msg = "보통"; color = "ORANGE"; break;
-                case 2: msg = "위험"; color = "RED"; break;
-                default:
-                    msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
-                    color = "RED";
-            }
-        } else {
-            msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
-            color = "RED";
-        }
-        if (passwd.search($("#current-password").val()) > -1) {
-            msg = "비밀번호에 현재 비밀번호가 포함되었습니다.";
-            color = "RED";
-        }
-        $("#checkPwResult").text(msg);
-        $("#checkPwResult").css("color", color);
-    });
-
+    $("#new-password").keyup(checkPasswordStrength);
     $("#confirm-new-password").keyup(checkSamePasswd);
     $("#new-password").change(checkSamePasswd);
 });
@@ -461,6 +458,44 @@ function openPasswordModal() {
             }
         }
     });
+}
+
+function checkPasswordStrength() {
+    let passwd = $("#new-password").val();
+    let msg = "";
+    let color = "";
+
+    let lengthRegex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+    if (lengthRegex.exec(passwd)) {
+        let engUpperRegex = /[A-Z]/; // 대문자
+        let engLowerRegex = /[a-z]/; // 소문자
+        let numRegex = /\d/; // 숫자
+        let specRegex = /[!@#$%^&*]/; // 특수문자
+
+        let count = 0;
+        if (engUpperRegex.exec(passwd)) { count++; }
+        if (engLowerRegex.exec(passwd)) { count++; }
+        if (numRegex.exec(passwd)) { count++; }
+        if (specRegex.exec(passwd)) { count++; }
+
+        switch (count) {
+            case 4: msg = "안전"; color = "GREEN"; break;
+            case 3: msg = "보통"; color = "ORANGE"; break;
+            case 2: msg = "위험"; color = "RED"; break;
+            default:
+                msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+                color = "RED";
+        }
+    } else {
+        msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+        color = "RED";
+    }
+    if (passwd.search($("#current-password").val()) > -1) {
+        msg = "비밀번호에 현재 비밀번호가 포함되었습니다.";
+        color = "RED";
+    }
+    $("#checkPwResult").text(msg);
+    $("#checkPwResult").css("color", color);
 }
 
 function checkSamePasswd() {
@@ -609,6 +644,44 @@ function search_address() {
 function showCustomAlert(message, reloadPage) {
     $("#custom-alert-message").text(message);
     $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
+}
+
+function showWithdrawModal(event) {
+    event.preventDefault(); // 기본 동작 막기
+    $("#withdrawModal").dialog({
+        modal: true,
+        buttons: {
+            "확인": function() {
+                $("#withdrawForm").submit();
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function submitWithdrawForm() {
+    var password = $("#password").val();
+
+    $.ajax({
+        type: "POST",
+        url: "userWithdraw",
+        data: { password: password },
+        success: function(response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.href = "${pageContext.request.contextPath}/"; // 홈 페이지로 리다이렉트
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function() {
+            alert("요청 실패!");
+        }
+    });
+
+    return false; // 폼 제출 중단
 }
 </script>
 </body>

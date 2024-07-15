@@ -64,5 +64,7 @@ public interface AuctionMapper {
 
 	Map<String, String> selectUserInfo(String uS_ID);
 
+	int updateEndApd(String APD_IDX);
+
 
 }

@@ -20,6 +20,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -304,7 +306,7 @@ public class AuctionController {
          if(insertBidSuccess == 0) {
             model.addAttribute("msg", "입찰실패");
             model.addAttribute("targetURL", "./");
-             return "err/fail";
+            return "err/fail";
          }
          System.out.println("입찰할때 map에 뭐잇는지 : " + map);
          return (String)map.get("FINAL_BID_PRICE");
@@ -414,7 +416,21 @@ public class AuctionController {
     	System.out.println("reportDb : " + reportDb);
     	return reportDb;
     }
-   
+    
+    @ResponseBody
+    @PostMapping("confirmPurchase")
+    public ResponseEntity<Map<String, String>> confirmPurchase(@RequestParam Map<String, Object> map,Model model) {
+    	System.out.println("map : " + map);
+    	int endApdSuccess = service.endApd((String)map.get("APD_IDX"));
+    	Map<String, String> response = new HashMap<>();
+    	if(endApdSuccess > 0) {
+    		response.put("message", "구매가 확정되었습니다.");
+            return ResponseEntity.ok(response);
+    	}else {
+    		response.put("message", "구매 확정 실패");
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    	}
+    }
    
 
 }
