@@ -25,7 +25,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	
 	<!-- StyleSheet -->
-	
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 	<!-- Magnific Popup -->
@@ -215,8 +215,8 @@
 					<div class="bread-inner">
 						<ul class="bread-list">
 							<li><a href="./">Home<i class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="notice">경매<i class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="notice">등록</a></li>
+							<li class="active"><a href="auction">경매<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="auctionRegist">등록</a></li>
 						</ul>
 					</div>
 				</div>
