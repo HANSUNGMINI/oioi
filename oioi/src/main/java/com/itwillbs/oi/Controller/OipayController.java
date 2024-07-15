@@ -30,6 +30,8 @@ public class OipayController {
 		}
 		
 		if(!CheckAuthority.checkStatus(session, model)) {
+			model.addAttribute("isClose", true);
+			model.addAttribute("hrefOpener", true);
 			return "err/fail";
 		}
 		

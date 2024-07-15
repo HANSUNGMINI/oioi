@@ -47,10 +47,6 @@
             icon: 'success',
             confirmButtonText: 'OK'
         }).then((result) => {
-        	console.log("배소은 바보");
-			console.log("${param.TO_ID}")        	
-			console.log("${param.PD_IDX}")        	
-			console.log("${param.FROM_ID}")        	
         	
             if (result.isConfirmed) {
                 if ("${targetURL}" == "") {
@@ -70,11 +66,11 @@
             
             if ("${openerReload}" == "true") {
     			window.opener.location.reload();
+    		} else if("${failCheckStatusFromWindow}" == "true") {
+    			alert("Dd");
+    			window.opener.location.href="${targetURL}";
+    			window.close();
     		}
-            
-            
-            
-            
         });
     </script>
 </body>
