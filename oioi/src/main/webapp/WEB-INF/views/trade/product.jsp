@@ -174,7 +174,15 @@
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-
+		// 에러 문구 Swal창 띄우기
+		function showAlert(icon, title, text, callback) { 
+	        Swal.fire({
+	            icon: icon,
+	            title: title,
+	            text: text,
+	            didClose: callback
+	        });
+	    }
         $(function() { 
         	
         	// 이미지 등록
@@ -189,7 +197,7 @@
             	        console.log(this.files[i].name);
             	    }
                 if (this.files.length > 5) {
-                    alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+                    showAlert('error', '실패!', '최대 5개의 이미지만 업로드할 수 있습니다!');
                     this.value = ""; // 선택된 파일 초기화
                     return;
                 }
@@ -226,12 +234,9 @@
         function validateAndFormatNumber(input) {
             var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
             if (/[^0-9]/.test(value)) {
-                Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '숫자만 입력해주세요.',
-		            didClose: () => document.fr.PD_PRICE.focus()
-		        });	
+            	 showAlert('error', '실패!', '숫자만 입력해주세요!', function() {
+                     document.fr.PD_SUBJECT.focus();
+                 });
                 input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
             } else {
                 input.value = formatNumber(value); // 천 단위 포맷팅
@@ -251,12 +256,9 @@
         document.getElementById('price').addEventListener('keypress', function(event) {
             if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
-                Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '숫자만 입력해주세요.',
-		            didClose: () => document.fr.PD_PRICE.focus()
-		        });	
+                showAlert('error', '실패!', '숫자만 입력해주세요!', function() {
+                    document.fr.PD_SUBJECT.focus();
+                });
             }
         });
         
@@ -313,95 +315,51 @@
 	    });
 	    
 	    function validateForm() {
-	    	
-			if(document.fr.addfile.value == "") { // 이미지 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '최소 1개의 이미지를 등록해야합니다!'
-		        });
-				return false;
-			}else if(document.fr.PD_SUBJECT.value == "") { // 상품명 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '상품명을 입력해주세요!',
-		            didClose: () => document.fr.PD_SUBJECT.focus()
-		        });
-				return false;    
-			} else if($('#cate1').val() == "1") { // 대분류 카테고리 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '카테고리 대분류를 입력해주세요!'
-		        });
-				return false;    
-			} else if($('#cate2').val() == "2") { // 중분류 카테고리 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '카테고리 중분류를 입력해주세요!'
-		        });
-				return false;    
-			} else if($('#cate3').val() == "3") { //  소분류 카테고리 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '카테고리 소분류를 입력해주세요!'
-		        });
-				return false;   
-			} else if(!$('input[name="PD_CONDITION"]:checked').val()) { // 상품상태 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '상품상태를 선택해주세요!'
-		        });
-				return false; 
-			} else if(document.fr.PD_PRICE .value == "") { //  가격 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '가격을 입력해주세요!',
-		            didClose: () => document.fr.PD_PRICE.focus()
-		        });			
-				return false;   
-			} else if(document.fr.PD_PRICE .value == "0") { //  가격 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '0원은 입력 할 수 없습니다!',
-		            didClose: () => document.fr.PD_PRICE.focus()
-		        });	
-				return false;   
-			} else if(document.fr.PD_CONTENT .value == "") { //  상품 설명 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '상품 설명을 입력해주세요!',
-		            didClose: () => document.fr.PD_PRICE.focus()
-		        });	
-				return false;   
-			} else if(!$('input[name="PD_TRADE_METHOD"]:checked').val()) { // 상품상태 확인
-				Swal.fire({
-		            icon: 'error',
-		            title: '실패!',
-		            text: '거래방식을 선택해주세요!'
-		        });
-				return false; 
-			}
-			removeFormatting(); // 포맷 제거
-			return true; // 검증 통과 시 true 반환
+	    	if(document.fr.addfile.value == "") { // 이미지 확인
+                showAlert('error', '실패!', '최소 1개의 이미지를 등록해야합니다!');
+                return false;
+            } else if(document.fr.PD_SUBJECT.value == "") { // 상품명 확인
+                showAlert('error', '실패!', '상품명을 입력해주세요!', function() {
+                    document.fr.PD_SUBJECT.focus();
+                });
+                return false;    
+            } else if($('#cate1').val() == "1") { // 대분류 카테고리 확인
+                showAlert('error', '실패!', '카테고리 대분류를 입력해주세요!');
+                return false;    
+            } else if($('#cate2').val() == "2") { // 중분류 카테고리 확인
+                showAlert('error', '실패!', '카테고리 중분류를 입력해주세요!');
+                return false;    
+            } else if($('#cate3').val() == "3") { // 소분류 카테고리 확인
+                showAlert('error', '실패!', '카테고리 소분류를 입력해주세요!');
+                return false;   
+            } else if(!$('input[name="PD_CONDITION"]:checked').val()) { // 상품상태 확인
+                showAlert('error', '실패!', '상품상태를 선택해주세요!');
+                return false; 
+            } else if(document.fr.PD_PRICE.value == "") { // 가격 확인
+                showAlert('error', '실패!', '가격을 입력해주세요!', function() {
+                    document.fr.PD_PRICE.focus();
+                });
+                return false;   
+            } else if(document.fr.PD_PRICE.value == "0") { // 가격 확인
+                showAlert('error', '실패!', '0원은 입력 할 수 없습니다!', function() {
+                    document.fr.PD_PRICE.focus();
+                });
+                return false;   
+            } else if(document.fr.PD_CONTENT.value == "") { // 상품 설명 확인
+                showAlert('error', '실패!', '상품 설명을 입력해주세요!', function() {
+                    document.fr.PD_PRICE.focus();
+                });
+                return false;   
+            } else if(!$('input[name="PD_TRADE_METHOD"]:checked').val()) { // 상품 거래 방식 확인
+                showAlert('error', '실패!', '거래방식을 선택해주세요!');
+                return false; 
+            }
+            removeFormatting(); // 포맷 제거
+            return true; // 검증 통과 시 true 반환
 	    }
 	    document.fr.onsubmit = validateForm;
 	    
-		});
-//        	function err(msg){
-// 			Swal.fire({
-//     	        title: msg,
-//     	        icon: 'warning',
-//     	        confirmButtonText: '확인'
-//     	    })
-// 		}
+	});
         
 	
 	

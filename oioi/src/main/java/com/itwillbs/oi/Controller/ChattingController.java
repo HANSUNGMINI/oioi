@@ -361,7 +361,9 @@ public class ChattingController {
             int star = Integer.parseInt(map.get("RV_STAR"));
             
             double freshness = calculateFreshness(star, categories);
-//            System.out.println("+++++++++++++++++++++++++++++++++++++" + freshness);
+//            System.out.println("++++++++++++++리뷰 점수로 추가될 신선도++++++++++++++" + freshness);
+            freshness = Double.parseDouble(String.format("%.1f", freshness));
+//            System.out.println("++++++++++++++리뷰 점수로 추가될 format신선도++++++++++++++" + freshness);
             map.put("freshness", String.valueOf(freshness));
             service.updateFreshness(map);
         	

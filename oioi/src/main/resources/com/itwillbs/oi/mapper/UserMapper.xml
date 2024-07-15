@@ -285,7 +285,7 @@
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">
-		select t.TD_AT_IDX, ap.APD_NAME, t.TD_SELLER_ID, t.TD_BUYER_ID, t.TD_TIME, t.TD_BUYER_ADDRESS, t.APD_DELIVERY
+		select t.TD_AT_IDX, ap.APD_NAME, ap.APD_STATUS, t.TD_SELLER_ID, t.TD_BUYER_ID, t.TD_TIME, t.TD_BUYER_ADDRESS, t.APD_DELIVERY
 		from trade t
 		join auction_product ap
 		on t.TD_AT_IDX = ap.APD_IDX
