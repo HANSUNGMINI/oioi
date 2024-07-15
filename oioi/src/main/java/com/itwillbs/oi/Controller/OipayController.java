@@ -129,13 +129,14 @@ public class OipayController {
 		// 출금 요청 결과 객체 저장 후 bank_withdraw_result 페이지로 포워딩
 //		model.addAttribute("withdrawResult", withdrawResult);
 //		System.out.println(withdrawResult.get("rsp_code"));
+		System.out.println("rsp코드드드드드듣 드드드드드드다ㅡ" + withdrawResult.get("rsp_code"));
 		if(withdrawResult.get("rsp_code").equals("A0000")) {
 //			System.out.println(map.get("amtInput"));
 //			System.out.println(map.get("id"));
 			service.updateOimoney(map);
 		} else {
-			model.addAttribute("msg", "충전에 실패했습니다😓😓");
-			return "err/fail";
+//			model.addAttribute("msg", "충전에 실패했습니다😓😓");
+			return null;
 		}
 		
 		return withdrawResult.toString();
