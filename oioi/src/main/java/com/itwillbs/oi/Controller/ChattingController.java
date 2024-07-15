@@ -339,9 +339,8 @@ public class ChattingController {
 		map.put("PD_PRICE", product.get("PD_PRICE").toString());
 		payService.decidePerchase(map);
 		
-		System.out.println("여기오나ㅣ");
 		model.addAttribute("msg", "송금이 완료되었습니다");
-		model.addAttribute("reload", true);
+		model.addAttribute("targetURL", "Chatting?TO_ID=" +  (String)map.get("SELLER_ID") + "&PD_IDX=" + PD_IDX +"&FROM_ID=" + (String)session.getAttribute("US_ID"));
     	return "err/success";
 	}
 	
