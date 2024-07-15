@@ -75,6 +75,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/check_nick.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>닉네임 중복확인</title>
+<!-- favicon 스크립트 -->
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 </head>
 <body>
 <c:if test="${param.isValidNick eq true}">

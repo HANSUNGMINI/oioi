@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>회원가입 완료</title>
+<!-- favicon 스크립트 -->
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/confetti_v2.js"></script>
 </head>

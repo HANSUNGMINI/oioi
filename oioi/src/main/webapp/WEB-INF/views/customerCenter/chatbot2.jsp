@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>자주 묻는 질문</title>
+<title>🥒챗봇🥒</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- 부트스트랩 -->
@@ -96,7 +96,7 @@
 
 	<%-- 뒤로가기 상단바 --%>
    	<div style="background-color:#34A853; height:50px; display: flex; justify-content: center; align-items: center;">
-   		<span style="color:white; padding : 5px;"> 🥒 Oi 챗봇 🥒2323232</span>
+   		<span style="color:white; padding : 5px;"> 🥒 Oi 챗봇 🥒</span>
    	</div>
    	
      <div id="frame">

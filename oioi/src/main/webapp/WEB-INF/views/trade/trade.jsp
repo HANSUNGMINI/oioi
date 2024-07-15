@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title Tag  -->
     <title> 판매페이지 </title>
+    <!-- favicon 스크립트 -->
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
     <!-- Favicon -->
     <!-- <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png"> -->
     <!-- Web Font -->    

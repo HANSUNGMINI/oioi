@@ -255,7 +255,6 @@ public class TradeController {
 	    String subDir = "";
 	    
 	    LocalDate today = LocalDate.now();
-//	    LocalDate today = LocalDate.of(2024, 6, 21);
 	    String datePattern = "yyyy/MM/dd";
 	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern(datePattern);
 	    subDir = today.format(dtf);
