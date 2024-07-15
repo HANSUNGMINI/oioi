@@ -82,14 +82,13 @@
 			}
 		});
 	   
-	
     });
 		
     let ws; // 웹소켓 객체가 저장될 변수
     
     function connectChat() {
-    	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
-//         ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+//     	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
@@ -123,7 +122,6 @@
 			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
 			
 		} else if (data.type == "TALK"){
-			window.location.reload();
 			appendMessage(data.msg, "left","my");
 		} 
 	}
@@ -213,7 +211,7 @@
 			return;
 		}
 		
-		sendMessage(type, TO_ID, FROM_ID, "", msg, PD_IDX);
+		sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
 		appendMessage(msg,"right","other");
 		
 		// 채팅창 초기화 및 포커스 요청
