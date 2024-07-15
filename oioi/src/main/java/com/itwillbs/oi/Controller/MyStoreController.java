@@ -178,6 +178,80 @@ public class MyStoreController {
 
         return "myStore/edit_my_store";
     }
+    
+    @PostMapping("productModify2")
+    public String editProduct(@RequestParam Map<String, Object> map, Model model,
+                                @RequestPart("addfile") MultipartFile[] files, HttpSession session) {
+        // 사용자 아이디 추가
+        map.put("US_ID", (String) session.getAttribute("US_ID"));
+        map.put("PD_CATEGORY", map.get("cate3"));
+        if(map.get("PD_PRICE_OFFER") != null) {
+            map.put("PD_PRICE_OFFER", "PPO01");
+        } else {
+            map.put("PD_PRICE_OFFER", "PPO02");
+        }
+        if(map.get("PD_SAFE_TRADE") != null) {
+            map.put("PD_SAFE_TRADE", "PST01");
+        } else {
+            map.put("PD_SAFE_TRADE", "PST02");
+        }
+
+        // 파일 저장 로직
+        String saveDir = session.getServletContext().getRealPath(uploadDir);
+        LocalDate today = LocalDate.now();
+        String subDir = today.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        saveDir += "/" + subDir;
+
+        try {
+            Path path = Paths.get(saveDir);
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> fileMap = new HashMap<>();
+        for (int i = 0; i < files.length && i < 5; i++) {
+            MultipartFile file = files[i];
+            if (!file.isEmpty()) {
+                String uuid = UUID.randomUUID().toString();
+                String fileName = uuid.substring(0, 8) + "_" + file.getOriginalFilename();
+                try {
+                    file.transferTo(new File(saveDir, fileName));
+                    fileMap.put("image" + (i+1), subDir + File.separator + fileName);
+                } catch (IllegalStateException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // 태그 처리
+        if(map.get("PD_TAG") != "") {
+            String tagsString = (String) map.get("PD_TAG");
+            String[] tags = tagsString.replaceAll("[\\[\\]{}\"]", "").split(",");
+            for (int i = 0; i < tags.length && i < 5; i++) {
+                map.put("PD_TAG" + (i + 1), tags[i].split(":")[1].trim());
+            }
+        }
+
+        // 기존 이미지 업데이트 로직 추가
+        System.out.println("fileMap : " + fileMap);
+        map.put("IMG_IDX", map.get("PD_IMAGE"));  // PD_IMAGE는 기존 이미지의 IDX
+
+        int pdSuccess = storeService.updateProduct(map, fileMap);
+        System.out.println("pdSuccess : " + pdSuccess);
+
+        if(pdSuccess > 0) {
+            model.addAttribute("msg", "상품 수정 성공! ");
+            model.addAttribute("targetURL", "trade");
+            return "err/success";
+        } else {
+            model.addAttribute("msg", "상품 수정에 실패하였습니다. 다시 시도해 주세요.");
+            model.addAttribute("targetURL", "product");
+            return "err/fail";
+        }
+    }
+
+
 
     @PostMapping("/uploadProfilePic")
     @ResponseBody
@@ -277,64 +351,69 @@ public class MyStoreController {
         
         
         
-     // 카테고리 대분류
-     		List<Map<String, String>> cate1 = Auctionservice.getCategory1();
-     		model.addAttribute("cate1", cate1);
-     		
-     		//중분류
-     		List<Map<String, String>> cate2 = Auctionservice.getCategory2();
-//     		System.out.println("cate2 : " + cate2);
-     		JsonArray jCate2 = new JsonArray();
-     		for(Map<String, String> c2 : cate2) {
-     			JsonObject jo = new JsonObject();
-     			jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
-     			jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
-     			jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
-     			jCate2.add(jo);
-     		}
-     		model.addAttribute("cate2", jCate2);
-     		
-     		//소분류
-     		List<Map<String, String>> cate3 = Auctionservice.getCategory3();
-//     		System.out.println("cate3 : " + cate3);
-     		JsonArray jCate3 = new JsonArray();
-     		for(Map<String, String> c3 : cate3) {
-     			JsonObject jo3 = new JsonObject();
-     			jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
-     			jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
-     			jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
-     			jCate3.add(jo3);
-     		}
-     		model.addAttribute("cate3", jCate3);
-     		
-     		// 상품 상태
-     		List<Map<String, String>> productCondition = tradeService.getProductCondition();
-     		model.addAttribute("productCondition", productCondition);
+        // 카테고리 대분류
+    	List<Map<String, String>> cate1 = Auctionservice.getCate1Edit(map);
+ 		model.addAttribute("cate1", cate1);
+ 		//중분류
+ 		List<Map<String, String>> cate2 = Auctionservice.getCate2Edit(map);
+		model.addAttribute("cate2", cate2);
+		// 소분류
+ 		List<Map<String, String>> cate3 = Auctionservice.getCate3Edit(map);
+ 		model.addAttribute("cate3", cate3);
+ 		
+ 		List<Map<String, String>> cate2All = Auctionservice.getCategory2();
+ 		JsonArray jCate2 = new JsonArray();
+ 		for(Map<String, String> c2 : cate2All) {
+ 			JsonObject jo = new JsonObject();
+ 			jo.addProperty("CTG_CODE", c2.get("CTG_CODE"));
+ 			jo.addProperty("CTG_NAME", c2.get("CTG_NAME"));
+ 			jo.addProperty("UP_CTG_CODE", c2.get("UP_CTG_CODE"));
+ 			jo.addProperty("SELECTED", c2.get("SELECTED"));
+ 			jCate2.add(jo);
+ 		}
+ 		model.addAttribute("jCate2", jCate2);
+ 		
+ 		//소분류
+ 		List<Map<String, String>> cate3All = Auctionservice.getCategory3();
+ 		JsonArray jCate3 = new JsonArray();
+ 		for(Map<String, String> c3 : cate3All) {
+ 			JsonObject jo3 = new JsonObject();
+ 			jo3.addProperty("CTG_CODE", c3.get("CTG_CODE"));
+ 			jo3.addProperty("CTG_NAME", c3.get("CTG_NAME"));
+ 			jo3.addProperty("UP_CTG_CODE", c3.get("UP_CTG_CODE"));
+ 			jo3.addProperty("SELECTED", c3.get("SELECTED"));
+ 			jCate3.add(jo3);
+ 		}
+ 		model.addAttribute("jCate3", jCate3);
+ 		
+ 		// 상품 상태
+ 		List<Map<String, String>> productCondition = tradeService.getProductCondition();
+ 		model.addAttribute("productCondition", productCondition);
 //     		System.out.println("상품상태 : " + productCondition);
-     		
-     		// 거래 방식
-     		List<Map<String, String>> tradeMethod = tradeService.getTradeMethod();
-     		model.addAttribute("tradeMethod", tradeMethod);
+ 		
+ 		// 거래 방식
+ 		List<Map<String, String>> tradeMethod = tradeService.getTradeMethod();
+ 		model.addAttribute("tradeMethod", tradeMethod);
 //     		System.out.println(tradeMethod);
-     		
-     		// 상품 결제 상태
-     		List<Map<String, String>> productStatus = tradeService.getProductStatus();
-     		model.addAttribute("productStatus", productStatus);
+ 		
+ 		// 상품 결제 상태
+ 		List<Map<String, String>> productStatus = tradeService.getProductStatus();
+ 		model.addAttribute("productStatus", productStatus);
 //     		System.out.println(productStatus);
-     		
-     		// 상품 가격 제안 유무 
-     		List<Map<String, String>> productPriceOffer = tradeService.getProductPriceOffer();
-     		model.addAttribute("productPriceOffer", productPriceOffer);
-     		System.out.println(productPriceOffer);
-     		
-     		// 상품 안전 거래 사용 유무 
-     		List<Map<String, String>> productSafeTrade = tradeService.getProductSafeTrade();
-     		model.addAttribute("productSafeTrade", productSafeTrade);
-     		System.out.println(productSafeTrade);
-     		
-     		System.out.println("카테1" + cate1);
-     		System.out.println("카테2" + cate2);
-     		System.out.println("카테3" + cate3);
+ 		
+ 		// 상품 가격 제안 유무 
+ 		List<Map<String, String>> productPriceOffer = tradeService.getProductPriceOffer();
+ 		model.addAttribute("productPriceOffer", productPriceOffer);
+ 		System.out.println(productPriceOffer);
+ 		
+ 		// 상품 안전 거래 사용 유무 
+ 		List<Map<String, String>> productSafeTrade = tradeService.getProductSafeTrade();
+ 		model.addAttribute("productSafeTrade", productSafeTrade);
+ 		System.out.println(productSafeTrade);
+ 		
+ 		System.out.println("카테1" + cate1);
+ 		System.out.println("카테2" + cate2);
+ 		System.out.println("카테3" + cate3);
 
         model.addAttribute("product", product);
         System.out.println("상품 ~  " + product);
@@ -422,12 +501,6 @@ public class MyStoreController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update product status");
         }
-    }
-    
-    @PostMapping("productModify2")
-    public String productModify2() {
-    	
-    	return "";
     }
     
     @ResponseBody

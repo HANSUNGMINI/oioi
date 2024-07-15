@@ -11,11 +11,13 @@ public interface AuctionMapper {
 	Map<String, Object> selectAdmin(Map<String, String> admin);
 
 	List<Map<String, String>> getCategory1();
-
 	List<Map<String, String>> getCategory2();
-
 	List<Map<String, String>> getCategory3();
-
+	
+	List<Map<String, String>> getCate1Edit(Map<String, Object> param);
+	List<Map<String, String>> getCate2Edit(Map<String, Object> param);
+	List<Map<String, String>> getCate3Edit(Map<String, Object> param);
+	
 	int insertImg(Map<String, Object> fileMap);
 
 	int insertAPD(Map<String, Object> map);

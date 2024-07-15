@@ -54,35 +54,39 @@
 		    p.PD_IDX = #{idx};
     </select>
     
-    <!-- 이미지 업데이트 -->
-    <update id="updateImages" parameterType="map">
-        UPDATE images
-        SET image1 = #{image1},
-            image2 = #{image2},
-            image3 = #{image3},
-            image4 = #{image4},
-            image5 = #{image5}
-        WHERE IMG_IDX = #{IMG_IDX}
-    </update>
+  <!-- 이미지 정보 업데이트 -->
+	<update id="updateImages">
+		UPDATE Images
+		<set>
+		    <if test="image1 != null">image1 = #{image1},</if>
+		    <if test="image2 != null">image2 = #{image2},</if>
+		    <if test="image3 != null">image3 = #{image3},</if>
+		    <if test="image4 != null">image4 = #{image4},</if>
+		    <if test="image5 != null">image5 = #{image5},</if>
+		</set>
+		WHERE IMG_IDX = #{IMG_IDX}
+	</update>
 
     <!-- 상품 수정 -->
-    <update id="updateProduct" parameterType="map">
-        UPDATE product
-        SET PD_SUBJECT = #{PD_SUBJECT},
-            PD_CATEGORY = #{PD_CATEGORY},
-            PD_TAG1 = #{PD_TAG1},
-            PD_TAG2 = #{PD_TAG2},
-            PD_TAG3 = #{PD_TAG3},
-            PD_TAG4 = #{PD_TAG4},
-            PD_TAG5 = #{PD_TAG5},
-            PD_PRICE = #{PD_PRICE},
-            PD_PRICE_OFFER = #{PD_PRICE_OFFER},
-            PD_CONTENT = #{PD_CONTENT},
-            PD_TRADE_METHOD = #{PD_TRADE_METHOD},
-            PD_SAFE_TRADE = #{PD_SAFE_TRADE},
-            PD_IMAGE = #{PD_IMAGE}
-        WHERE PD_IDX = #{PD_IDX}
-    </update>
+	<update id="updateProduct">
+		UPDATE Product
+		SET PD_SUBJECT = #{PD_SUBJECT},
+		    PD_CATEGORY = #{PD_CATEGORY},
+		    PD_TAG1 = #{PD_TAG1},
+		    PD_TAG2 = #{PD_TAG2},
+		    PD_TAG3 = #{PD_TAG3},
+		    PD_TAG4 = #{PD_TAG4},
+		    PD_TAG5 = #{PD_TAG5},
+		    PD_PRICE = #{PD_PRICE},
+		    PD_PRICE_OFFER = #{PD_PRICE_OFFER},
+		    PD_SAFE_TRADE = #{PD_SAFE_TRADE},
+		    PD_CONDITION = #{PD_CONDITION},
+		    PD_CONTENT = #{PD_CONTENT},
+		    PD_TRADE_METHOD = #{PD_TRADE_METHOD},
+		    PD_STATUS = #{PD_STATUS},
+		    PD_IMAGE = #{PD_IMAGE}
+		WHERE PD_IDX = #{PD_IDX}
+	</update>
     
 	<select id="selectReviewsByStoreId" parameterType="String" resultType="Map">
         SELECT 
