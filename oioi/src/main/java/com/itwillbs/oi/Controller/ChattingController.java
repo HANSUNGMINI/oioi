@@ -339,6 +339,7 @@ public class ChattingController {
 		map.put("PD_PRICE", product.get("PD_PRICE").toString());
 		payService.decidePerchase(map);
 		
+		System.out.println("여기오나ㅣ");
 		model.addAttribute("msg", "송금이 완료되었습니다");
 		model.addAttribute("reload", true);
     	return "err/success";
