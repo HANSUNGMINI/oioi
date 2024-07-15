@@ -116,7 +116,7 @@
 		function validateAndFormatNumber(input) {
             var value = input.value.replace(/,/g, ''); // 기존 쉼표 제거
             if (/[^0-9]/.test(value)) {
-                alert("숫자만 입력해주세요.");
+                err("숫자만 입력해주세요.");
                 input.value = formatNumber(value.replace(/[^0-9]/g, '')); // 숫자가 아닌 문자는 제거하고 포맷팅
             } else {
                 input.value = formatNumber(value); // 천 단위 포맷팅

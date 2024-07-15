@@ -134,7 +134,7 @@
     	var t_key = "4ipWvXbpAF8xJuQEvZYWFQ";
     	var t_code = "04";
     		
-    	function deliveryStatus(delivery, idx) {
+    	function deliveryStatus(delivery, idx, status) {
     	    console.log("delivery : " + delivery);
     	    $.ajax({
     	        url: "https://info.sweettracker.co.kr/api/v1/trackingInfo",
@@ -173,6 +173,11 @@
     	                });
 
     	                $(".del_status_" + idx).after(confirmButton);
+    	                
+    	                if (status === 'APD09') {
+    	                    confirmButton.attr('disabled', true); 
+    	                    $(".del_status_" + idx).attr('disabled', true); 
+    	                }
     	            }
     	        }
     	    });
@@ -200,11 +205,16 @@
    		                title: response.message,
    		                icon: 'success'
    		            });
+   		         	$(button).remove();
    		        },
-   		        error: function(xhr, status, error) {
-   		            console.error("구매 확정 실패:", status, error);
-   		            alert('구매 확정에 실패했습니다. 다시 시도해주세요.');
-   		        }
+   		     	error: function(xhr, status, error) {
+   		        console.error("구매 확정 실패:", status, error);
+   		        Swal.fire({
+   		            title: '구매 확정 실패',
+   		            text: '구매 확정에 실패했습니다. 다시 시도해주세요.',
+   		            icon: 'error'
+   		        });
+   		    }
    		    });
    		}
     		
@@ -246,7 +256,7 @@
                                         <td>${auction.TD_BUYER_ADDRESS}</td>
                                         <td>${auction.TD_TIME}</td>
                                         <td>
-                                        	<button class="edit-btn del_status_${auction.TD_AT_IDX}" onclick="deliveryStatus('${auction.APD_DELIVERY}', '${auction.TD_AT_IDX}')" style="margin-bottom: 5px;">배송조회</button><br>
+                                        	<button class="edit-btn del_status_${auction.TD_AT_IDX}" onclick="deliveryStatus('${auction.APD_DELIVERY}', '${auction.TD_AT_IDX}','${auction.APD_STATUS}')" style="margin-bottom: 5px;">배송조회</button><br>
                                         	<button class="edit-btn" onclick="delivery('${auction.APD_DELIVERY}')">상세조회</button>
                                         </td>
                                     </tr>
