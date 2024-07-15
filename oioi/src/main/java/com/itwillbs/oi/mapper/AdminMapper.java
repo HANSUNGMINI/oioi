@@ -50,6 +50,7 @@ public interface AdminMapper {
 	int updateUserStatus(Map<String, String> data);
 	int updateUpdateAPD(Map<String, String> data);
 	int regMainBanner(Map<String, String> data);
+	int registdvNum(Map<String, String> data);
 	
 	Map<String, Object> selectDetailUser(Map<String, Object> data);
 	Map<String, Object> selectDetailReport(Map<String, Object> data);

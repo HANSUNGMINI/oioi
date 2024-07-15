@@ -30,6 +30,16 @@ public class AuctionService {
 		// TODO Auto-generated method stub
 		return mapper.getCategory3();
 	}
+	
+	public List<Map<String, String>> getCate1Edit(Map<String, Object> param) {
+		return mapper.getCate1Edit(param);
+	}
+	public List<Map<String, String>> getCate2Edit(Map<String, Object> param) {
+		return mapper.getCate2Edit(param);
+	}
+	public List<Map<String, String>> getCate3Edit(Map<String, Object> param) {
+		return mapper.getCate3Edit(param);
+	}
 
 	public int insertImg(Map<String, String> fileMap) {
 	 	Map<String, Object> paramMap = new HashMap<>(fileMap);
@@ -129,6 +139,12 @@ public class AuctionService {
 	public Map<String, String> getUserInfo(String US_ID) {
 		return mapper.selectUserInfo(US_ID);
 	}
+
+	public int endApd(String APD_IDX) {
+		return mapper.updateEndApd(APD_IDX);
+	}
+
+	
 
 	
 

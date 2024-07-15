@@ -215,6 +215,10 @@ public class ChattingController {
 			model.addAttribute("tradeinfo", "ok"); // 거래 내역 존재 저장
 		}
 		
+		// 상대방이 채팅방 나갔는지
+		Map<String, Object> exitRoomUser = service.getUserExitRoom(map);
+		System.out.println("kkk" + exitRoomUser);
+		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
 		model.addAttribute("myInfo", myInfo); // 내 프로필 
@@ -223,6 +227,7 @@ public class ChattingController {
 		
 		model.addAttribute("deliveryInfo", deliveryInfo); // 운송장 등록 여부
 		model.addAttribute("existReview", existReview); // 리뷰 썼는지
+		model.addAttribute("exitRoomUser", exitRoomUser); // 누가 나갔는지
 		
 		model.addAttribute("reportMap", reportMap); // [공통코드] 신고 카테고리
 		model.addAttribute("reviewMap", reviewMap); // [공통코드] 리뷰 카테고리
@@ -339,6 +344,7 @@ public class ChattingController {
 		payService.decidePerchase(map);
 		
 		model.addAttribute("msg", "송금이 완료되었습니다");
+		model.addAttribute("targetURL", "Chatting?TO_ID=" +  (String)map.get("SELLER_ID") + "&PD_IDX=" + PD_IDX +"&FROM_ID=" + (String)session.getAttribute("US_ID"));
     	return "err/success";
 	}
 	
@@ -359,11 +365,14 @@ public class ChattingController {
             int star = Integer.parseInt(map.get("RV_STAR"));
             
             double freshness = calculateFreshness(star, categories);
-//            System.out.println("+++++++++++++++++++++++++++++++++++++" + freshness);
+//            System.out.println("++++++++++++++리뷰 점수로 추가될 신선도++++++++++++++" + freshness);
+            freshness = Double.parseDouble(String.format("%.1f", freshness));
+//            System.out.println("++++++++++++++리뷰 점수로 추가될 format신선도++++++++++++++" + freshness);
             map.put("freshness", String.valueOf(freshness));
             service.updateFreshness(map);
         	
         	model.addAttribute("msg", "리뷰 작성 완료되었습니다");
+        	model.addAttribute("targetURL", "Chatting?TO_ID=" +  (String)map.get("TO_US_ID") + "&PD_IDX=" + (String)map.get("PD_IDX") +"&FROM_ID=" + (String)session.getAttribute("US_ID"));
         	return "err/success";
         }
 	}

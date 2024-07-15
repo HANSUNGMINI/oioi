@@ -13,9 +13,11 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/topChatting.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/push/alarm.css">
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat_bot.css">
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-    var jq171 = jQuery.noConflict(true); // 이 버전의 jQuery를 별도의 변수에 저장하고, noConflict 모드로 설정
+//     var jq171 = jQuery.noConflict(true); // 이 버전의 jQuery를 별도의 변수에 저장하고, noConflict 모드로 설정
 </script>
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -337,11 +339,19 @@
 <!-- 														<li><a href="404.html">404</a></li> -->
 <!-- 													</ul> -->
 <!-- 												</li>									 -->
+												<li>
+													
+												</li>
 											</ul>
+											
 										</div>
 									</div>
+									<div class="chatbot">
+								        <a href="chatbot" onclick="window.open(this.href, '_blank', 'width=500, height=700, left=1600, top=200, resizable=no'); return false;"><img src="${pageContext.request.contextPath}/resources/images/chatbot2.PNG" id="chatImg" alt=""></a>
+								    </div>
 								</nav>
 								<!--/ End Main Menu -->	
+								
 							</div>
 						</div>
 					</div>
@@ -362,8 +372,8 @@
     	getUnreadCount();
 		    	
    	 	var contextPath = '<%= request.getContextPath() %>';
-//         var socket = new WebSocket('ws://localhost:8081/oi/push');
 		var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
+//         var socket = new WebSocket('ws://localhost:8081/oi/push');
         socket.onopen = function() {
             console.log("웹소켓 연결 성공");
         };

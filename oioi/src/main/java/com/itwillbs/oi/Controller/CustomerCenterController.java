@@ -30,11 +30,7 @@ public class CustomerCenterController {
 		return "customerCenter/notice_modify";
 	}
 	
-	// 챗봇
-	@GetMapping("chatbot")
-	public String goChatbot() {
-		return "customerCenter/chatbot2";
-	}
+	
 	
 	// 큐엔에이
 	@GetMapping("qna")

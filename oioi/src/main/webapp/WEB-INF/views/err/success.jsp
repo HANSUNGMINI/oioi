@@ -40,8 +40,6 @@
 			return JSON.stringify(data);
 		}
 		
-		
-		
     
         Swal.fire({
             title: '성공!',
@@ -49,6 +47,11 @@
             icon: 'success',
             confirmButtonText: 'OK'
         }).then((result) => {
+        	console.log("배소은 바보");
+			console.log("${param.TO_ID}")        	
+			console.log("${param.PD_IDX}")        	
+			console.log("${param.FROM_ID}")        	
+        	
             if (result.isConfirmed) {
                 if ("${targetURL}" == "") {
                     history.back();
@@ -68,6 +71,8 @@
             if ("${openerReload}" == "true") {
     			window.opener.location.reload();
     		}
+            
+            
             
             
         });

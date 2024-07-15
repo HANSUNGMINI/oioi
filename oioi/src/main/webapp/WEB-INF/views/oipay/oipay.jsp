@@ -328,7 +328,7 @@
                 },
 //                 dataType : "json",
                 success: function (response) {
-                    if(response != null){
+                    if(response != ''){
                     	Swal.fire({
 	     		            title: amtInput.value + '머니가 충전되었습니다',         // Alert 제목
 	     		            text: '감사합니다😉😉',  // Alert 내용
@@ -339,7 +339,13 @@
 	     		        });
                     	
                     } else{
-                    	alert("충전 실패😭😭");
+                    	Swal.fire({
+	     		            title: '죄송합니다',         // Alert 제목
+	     		            text: '충전에 실패했습니다😓😓',  // Alert 내용
+	     		            icon: 'error',                         // Alert 타입
+	     		        })
+                    	
+//                     	alert("충전에 실패했습니다😓😓");
                     }
                     
                 },

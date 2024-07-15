@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,8 @@ public class UserService {
 	private UserMapper mapper;
 	
 	private static UserMapper staticMapper;
+	
+
 	
 	@PostConstruct
     public void init() {
@@ -182,6 +185,37 @@ public class UserService {
 	public List<Map<String, Object>> getTradeList(String id) {
 		
 		return mapper.selectTradeList(id);
+	}
+
+    // 현재 비밀번호가 맞는지 확인
+    public boolean isSameAsCurrentPassword(String userId, String currentPassword, BCryptPasswordEncoder passwordEncoder) {
+        String storedPassword = mapper.getPassword(userId);
+
+        if (storedPassword == null) {
+            throw new NullPointerException("Stored password is null for user ID: " + userId);
+        }
+
+        return passwordEncoder.matches(currentPassword, storedPassword);
+    }
+
+    // 비밀번호 변경
+    public boolean changePassword(String userId, String newPassword) {
+        String encodedPassword = newPassword;
+        int updateResult = mapper.updatePassword(userId, encodedPassword);
+        return updateResult == 1;
+    }
+
+	public void withdrawUser(String userId) {
+		mapper.updateUserStatus(userId);
+	}
+
+    public boolean checkPassword(String userId, String password, BCryptPasswordEncoder passwordEncoder) {
+        String storedPassword = mapper.getPassword(userId);
+        return passwordEncoder.matches(password, storedPassword);
+    }
+
+	public List<Map<String, Object>> getAuctionRegistList(String id) {
+		return mapper.selectAuctionRegistList(id);
 	}
 	
 }

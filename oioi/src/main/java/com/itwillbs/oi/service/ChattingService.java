@@ -187,6 +187,11 @@ public class ChattingService {
 		}
 	}
 
+	// 누가 채팅방을 나갔는지
+	public Map<String, Object> getUserExitRoom(Map<String, Object> map) {
+		return mapper.getUserExitRoom(map);
+	}
+
 
 
 	

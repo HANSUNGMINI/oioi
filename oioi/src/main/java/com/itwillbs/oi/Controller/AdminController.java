@@ -22,6 +22,8 @@ import com.itwillbs.oi.service.AuctionService;
 import com.itwillbs.oi.service.TradeService;
 import com.itwillbs.oi.service.UserService;
 
+import retrofit2.http.POST;
+
 /*
  * HTTP 맵핑 종류
  * GET		= 리소스 조회
@@ -366,5 +368,11 @@ public class AdminController {
 	@PostMapping("RegMainBanner")
 	public int RegMainBanner(@RequestParam Map<String, String> map) {
 		return adminservice.regMainBanner(map);
+	}
+	
+	@ResponseBody
+	@PostMapping("regDnum")
+	public int regDnum(@RequestParam Map<String, String> map) {
+		return adminservice.registdvNum(map);
 	}
 }

@@ -10,162 +10,108 @@ import com.itwillbs.oi.handler.SendMailClient;
 
 @Service
 public class MailService {
-
-	public Map<String, Object> sendAuthMail(Map<String, Object> userMap) {
-		String userEmail = (String) userMap.get("user_email");
-		String auth_code = GenerateRandomCode.getRandomCode(6);
-		String subject = "[오이마켓] 가입 인증 메일입니다.";
-		String content = "오이마켓 가입 인증을 위해 해당 인증번호를 홈페이지에 입력해주세요" + auth_code;
-		
-		SendMailClient mailClient = new SendMailClient();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				mailClient.sendMail(userEmail, subject, content);
-			}
-		}).start();
-		
-		Map<String, Object> authInfo = new HashMap<>();
-		authInfo.put("US_EMAIL", userEmail);
-		authInfo.put("auth_code", auth_code);
-		
-		return authInfo;
-	}
-
-	public void sendForgotId(Map<String, Object> user) {
-		System.out.println("메일서비스 user 정보: " + user);
-		String userEmail = (String) user.get("US_EMAIL");
-		String userId = (String) user.get("US_ID");
-		String subject = "[오이마켓] 아이디를 확인해주세요.";
-		String content = "회원님의 가입된 아이디는 <b>" + userId + "</b>입니다.";
-		
-		SendMailClient mailClient = new SendMailClient();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				mailClient.sendMail(userEmail, subject, content);
-			}
-		}).start();
-	}
-
-	public void sendForgotPw(Map<String, Object> user) {
-		System.out.println("메일 서비스 user 정보 : " + user);
-		String userEmail = (String) user.get("US_EMAIL");
-		String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
-		String content = "<a href='http://c3d2401t1.itwillbs.com/oioi/change_passwd?user_id=" 
-		                + user.get("US_ID") 
-		                + "&user_name=" + user.get("US_NAME")
-		                + "&user_email=" + userEmail
-		                + "'>클릭 시 새 비밀번호 설정 페이지로 이동합니다.</a>";
-		SendMailClient mailClient = new SendMailClient();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				mailClient.sendMail(userEmail, subject, content);
-			}
-		}).start();
-	}
 	
-	
-	
-	//	 인증 메일 발송 요청
-//	public MailAuthInfoVO sendAuthMail(userVO user) {
-//		// 인증 메일에 포함시킬 난수 생성
-//				// => GenerateRandomCode 클래스의 getRandomCㄴode() 메서드 호출
-//				//    (파라미터 : 난수 길이 전달)
-//				String auth_code = GenerateRandomCode.getRandomCode(6);
-////				System.out.println("생성된 난수 : " + auth_code);
-//				// -------------------------------------------------------
-//				// 인증메일에 포함할 제목과 본문 생성
-//				String subject = "[오이마켓] 가입 인증 메일입니다.";
-//				String content = "오이마켓 가입 인증을 위해 해당 인증번호를 홈페이지에 입력해주세요" + auth_code;
-////				String content = "<a href='http://c3d2401t1.itwillbs.com/userEmailAuth?user_email=" + user.getuser_email() + "&auth_code=" + auth_code + "'>오이마켓 이메일 인증을 위해 링크를 클릭해 주세요.</a>";
-//				// -------------------------------------------------------
-//				// SendMailClient - sendMail() 메서드 호출하여 메일 발송 요청
-//				// => 파라미터 : 이메일주소, 제목, 본문
-//				SendMailClient mailClient = new SendMailClient();
-//				// 단, 메일 발송 과정에서 메일 전송 상황에 따라 시간이 지연될 수 있는데
-//				// 이 과정에서 다음 코드를 실행하지 못하고 발송이 끝날때까지 기다리게된다.
-//				// 따라서, 메일 발송 작업과 나머지 작업을 별도로 동작시키기 위해
-//				// 메일 발송 메서드 호출 작업을 자바의 쓰레드(Thread)를 활용하여 수행할 수 있다!
-//				// 즉, 메일 발송이 완료되지 않더라도 다음 작업을 진행할 수 있게 됨
-//				// -----------------------
-//				// 익명 객체를 활용하여 1회용 쓰레드 생성
-//				// new Thread(new Runnable() { public void run() { 멀티쓰레드코드.... }}).start();
-////				mailClient.sendMail(user.getEmail(), subject, content);
-//				new Thread(new Runnable() {
-//					@Override
-//					public void run() {
-//						mailClient.sendMail(user.getuser_email(), subject, content);
-//					}
-//				}).start();
-//
-//
-//				// -------------------------------------------------------
-//				// MailAuthInfoVO 객체 생성 후 아이디, 인증코드 저장 및 리턴
-//				MailAuthInfoVO authInfo = new MailAuthInfoVO(user.getuser_email(), auth_code);
-//				
-//				return authInfo;
-//			}
-//			
-//			public void sendForgotId(userVO user) {
-//
-//				String subject = "[오이마켓] 아이디를 확인해주세요.";
-//				String content = "회원님의 가입된 아이디는 <b>" + user.getuser_id() + "</b>입니다.";
-//				
-//				SendMailClient mailClient = new SendMailClient();
-//				
-//				new Thread(new Runnable() {
-//					@Override
-//					public void run() {
-//						mailClient.sendMail(user.getuser_email(), subject, content);
-//					}
-//				}).start();
-//
-//			}
-//			
-//			public void sendForgotPw(userVO user) {
-//				String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
-//				String content = "<a href='http://localhost:8081/oi/forgot_pw_step3?user_id=" + user.getuser_id() 
-//																				 + "&user_email=" + user.getuser_email()
-//																				 + "&user_name=" + user.getuser_name()
-//																				 + "'>클릭 시 새 비밀번호 설정 페이지로 이동합니다.</a>";
-//				
-//				SendMailClient mailClient = new SendMailClient();
-//				
-//				new Thread(new Runnable() {
-//					@Override
-//					public void run() {
-//						mailClient.sendMail(user.getuser_email(), subject, content);
-//					}
-//				}).start();
-//			}
-//	
-	}
-	
+    private Map<String, String> authCodes = new HashMap<>();
 
 
+    public Map<String, Object> sendAuthMail(Map<String, Object> userMap) {
+        String userEmail = (String) userMap.get("user_email");
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new IllegalArgumentException("유효한 이메일 주소를 입력하세요.");
+        }
 
+        String auth_code = GenerateRandomCode.getRandomCode(6);
+        String subject = "[오이마켓] 가입 인증 메일입니다.";
+        String content = "오이마켓 가입 인증을 위해 해당 인증번호를 홈페이지에 입력해주세요. 인증번호: " + auth_code;
 
+        SendMailClient mailClient = new SendMailClient();
+        new Thread(() -> {
+            try {
+                mailClient.sendMail(userEmail, subject, content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
 
+        Map<String, Object> authInfo = new HashMap<>();
+        authInfo.put("US_EMAIL", userEmail);
+        authInfo.put("auth_code", auth_code);
 
+        return authInfo;
+    }
 
+    public void sendForgotId(Map<String, Object> user) {
+        String userEmail = (String) user.get("US_EMAIL");
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new IllegalArgumentException("유효한 이메일 주소를 입력하세요.");
+        }
 
+        String userId = (String) user.get("US_ID");
+        String subject = "[오이마켓] 아이디를 확인해주세요.";
+        String content = "회원님의 가입된 아이디는 <b>" + userId + "</b>입니다.";
 
+        SendMailClient mailClient = new SendMailClient();
+        new Thread(() -> {
+            try {
+                mailClient.sendMail(userEmail, subject, content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
+    public void sendForgotPw(Map<String, Object> user) {
+        String userEmail = (String) user.get("US_EMAIL");
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new IllegalArgumentException("유효한 이메일 주소를 입력하세요.");
+        }
 
+        String subject = "[오이마켓] 비밀번호 변경 이메일입니다.";
+        String content = "<a href='http://c3d2401t1.itwillbs.com/oioi/change_passwd?user_id=" 
+                        + user.get("US_ID") 
+                        + "&user_name=" + user.get("US_NAME")
+                        + "&user_email=" + userEmail
+                        + "'>클릭 시 새 비밀번호 설정 페이지로 이동합니다.</a>";
 
+        SendMailClient mailClient = new SendMailClient();
+        new Thread(() -> {
+            try {
+                mailClient.sendMail(userEmail, subject, content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
+    public Map<String, Object> sendChangeEmailAuthMail(Map<String, Object> userMap) {
+        String newEmail = (String) userMap.get("email");
+        if (newEmail == null || newEmail.isEmpty()) {
+            throw new IllegalArgumentException("유효한 이메일 주소를 입력하세요.");
+        }
 
+        String authCode = GenerateRandomCode.getRandomCode(6);
+        String subject = "[오이마켓] 이메일 변경 인증 코드입니다.";
+        String content = "오이마켓 이메일 변경을 위해 해당 인증번호를 홈페이지에 입력해주세요. 인증번호: " + authCode;
 
+        SendMailClient mailClient = new SendMailClient();
+        new Thread(() -> {
+            try {
+                mailClient.sendMail(newEmail, subject, content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
 
+        authCodes.put(newEmail, authCode);
 
+        Map<String, Object> authInfo = new HashMap<>();
+        authInfo.put("new_email", newEmail);
+        authInfo.put("auth_code", authCode);
 
-
-
-
-
-
-
-
-
+        return authInfo;
+    }
+    
+    public String getAuthCode(String email) {
+        return authCodes.get(email);
+    }
+}

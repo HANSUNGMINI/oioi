@@ -157,6 +157,9 @@
 <!-- 														</li> -->
 												</ul>
 											</c:when>
+											<c:when test="${empty sessionScope.US_ID }">
+												<p>수정 끝</p>
+											</c:when>
 										</c:choose>
 										<p class="cat">조회 수 : ${productInfo.PD_READCOUNT}</p>
 <!-- 										<div class="quantity"> -->

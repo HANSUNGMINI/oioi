@@ -22,6 +22,53 @@
 		WHERE UP_CTG_CODE LIKE '__00';
 	</select>
 	
+	<select id="getCate1Edit">
+		SELECT CTG_CODE
+			 , CTG_NAME
+			 , CASE WHEN a.PD_CATEGORY IS NULL THEN ''
+			 								   ELSE 'selected' END AS SELECTED 
+		  from category c
+		  LEFT JOIN (SELECT RPAD(LEFT(PD_CATEGORY, 1), 4, '0') AS PD_CATEGORY
+				  FROM product p 
+				 WHERE PD_IDX = #{PD_IDX}) a
+			ON c.CTG_CODE = a.PD_CATEGORY
+		 where UP_CTG_CODE = 'T'
+	</select>
+	
+	<select id="getCate2Edit">
+	WITH TMP AS (
+	SELECT RPAD(LEFT(PD_CATEGORY, 1), 4, '0') AS BIG
+		 , RPAD(LEFT(PD_CATEGORY, 2), 4, '0') AS MD
+	   FROM product P 
+	  WHERE PD_IDX = #{PD_IDX}	
+	)
+	SELECT C.*
+		 , CASE WHEN T.MD IS NULL THEN ''
+		 						  ELSE 'selected' END AS SELECTED
+	  from category C
+	  LEFT JOIN TMP T
+		ON C.CTG_CODE = T.MD		  
+	 where 1=1
+	   AND UP_CTG_CODE = (SELECT BIG FROM TMP)
+	</select>
+	
+	<select id="getCate3Edit">
+	WITH TMP AS (
+	SELECT RPAD(LEFT(PD_CATEGORY, 2), 4, '0') AS MD
+		 , PD_CATEGORY AS SM
+	   FROM product p 
+	  WHERE PD_IDX = #{PD_IDX}	
+	)
+	SELECT C.*
+		 , CASE WHEN T.SM IS NULL THEN ''
+		 						  ELSE 'selected' END AS SELECTED
+	  FROM category C
+	  LEFT JOIN TMP T
+	    ON C.CTG_CODE = T.SM
+	 WHERE 1=1
+	   AND UP_CTG_CODE = (SELECT MD FROM TMP)
+	</select>
+	
 	<insert id="insertImg" parameterType="map" useGeneratedKeys="true" keyProperty="imgIdx" keyColumn="IMG_IDX">
 		INSERT INTO images
 	    (
@@ -335,7 +382,7 @@
 	</select>
 	<insert id="insertApdTrade">
 		insert into trade(
-			TD_AT_IDX,
+			TD_APD_IDX,
 		    TD_SELLER_ID,
 		    TD_BUYER_ID,
 		    TD_TIME,
@@ -367,6 +414,11 @@
 		from user
 		where US_ID = #{US_ID}
 	</select>
+	<update id="updateEndApd">
+		update auction_product
+		set APD_STATUS = 'APD09'
+		where APD_IDX = #{APD_IDX}
+	</update>
 </mapper>
 
 

@@ -22,7 +22,7 @@
 		FROM delivery d
 		JOIN chat_room cr
 		ON cr.PD_IDX = d.PC_ID
-		WHERE PC_ID = #{PD_IDX}  
+		WHERE PC_ID = #{PD_IDX} AND CR_ID = #{CR_ID}
 	</select>
 	
 	<insert id="insertReport">
@@ -266,4 +266,14 @@
 		SET status = 2
 		WHERE CR_ID = #{CR_ID} AND CR_EXIT_USER != #{FROM_ID}
 	</update>
+	
+	<select id="getUserExitRoom" resultType="map">
+		SELECT
+			 CASE
+			 	 WHEN CR_EXIT_USER IS NULL THEN 'noUser'
+			 	 ELSE CR_EXIT_USER
+			 	 END EXIT_USER
+		FROM chat_room
+		WHERE CR_ID = #{CR_ID}
+	</select>
 </mapper>

@@ -48,13 +48,13 @@ public class StoreService {
 		return mapper.getProductById(idx);
 	}
 
-   public int updateProduct(Map<String, Object> productInfo, Map<String, String> fileMap) {
-	        // DB 업데이트 로직
-		int imgIdx = mapper.updateImages(fileMap);
-		System.out.println("이거" + imgIdx);
-		productInfo.put("PD_IMAGE", imgIdx);
-		return mapper.updateProduct(productInfo);
-	}
+    public int updateProduct(Map<String, Object> productInfo, Map<String, String> fileMap) {
+        // 이미지를 업데이트하고 그 결과로 IMG_IDX를 반환
+        int imgIdx = mapper.updateImages(fileMap);
+        System.out.println("이거" + imgIdx);
+        productInfo.put("PD_IMAGE", imgIdx);
+        return mapper.updateProduct(productInfo);
+    }
 
    public List<Map<String, Object>> getReviewsByStoreId(String userId) {
 	   

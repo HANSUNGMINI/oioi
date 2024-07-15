@@ -286,6 +286,7 @@
             
          }else if(nowValueNum == maxValueNum){
         	//입찰가가 즉시구매가랑 같을때 경매 종료
+        	console.log("즉시구매");
              $.ajax({
                 url : "auctionBuy",
                 type : "post",
@@ -300,7 +301,7 @@
               	  Swal.fire({
                         title: response.message,
                         icon: 'success',
-                    });
+                  });
                 }
              });	 	 
          }
@@ -350,7 +351,8 @@
    
    
    function connect() {
-      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+//       ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -839,7 +841,7 @@
                                        <a href="#" class="btn" id="auctionBuy" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
                                        <script type="text/javascript">
                                        		function auctionBuy(APD_IDX){
-                                       			
+                                       			console.log("APD_IDX" + APD_IDX);
                                        			if (!us_id || us_id === 'null') {
                                        				Swal.fire({
                                     		            title: '로그인 후 이용이 가능합니다.',         
@@ -848,9 +850,6 @@
                                     		        });
                                     		        return false;
                                                 }
-                                       			
-                                       			console.log("buy_price : " + buy_price);
-                                       			console.log("oiMoney : " + oiMoney);
                                        			
                                        			if(parseInt(oiMoney) < parseInt(buy_price)){
                                        				Swal.fire({
@@ -892,7 +891,7 @@
                                     <!-- Tab Nav -->
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">상품설명</a></li>
-                                       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">판매자 정보</a></li>
+                                       <li class="nav-item"><a class="nav-link" href="myStore?userId=${apdDetail.APD_OWNER}">판매자 정보</a></li>
                                     </ul>
                                     <!--/ End Tab Nav -->
                                  </div>

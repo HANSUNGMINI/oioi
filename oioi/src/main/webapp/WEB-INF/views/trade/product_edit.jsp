@@ -121,17 +121,23 @@
                             <label> 카테고리</label>
                             <select id="cate1" name="cate1" class="form-control" required>
                                 <option value="">대분류</option>
-                                <c:forEach var="cate1" items="${cate1}">
-                                    <option value="${cate1.CTG_CODE}" <c:if test="${cate1.CTG_CODE == product.cate1}">selected</c:if>>${cate1.CTG_NAME}</option>
+                                <c:forEach var="cate" items="${cate1}">
+                                    <option value="${cate.CTG_CODE}" ${cate.SELECTED}>${cate.CTG_NAME}</option>
                                 </c:forEach>
                             </select>
                             
-                            <select id="cate2" name="cate2" class="form-control" required disabled>
+                            <select id="cate2" name="cate2" class="form-control" required>
                                 <option value="">중분류를 선택하시오</option>
+                                <c:forEach var="cate2" items="${cate2}">
+                                    <option value="${cate2.CTG_CODE}" ${cate2.SELECTED}>${cate2.CTG_NAME}</option>
+                                </c:forEach>
                             </select>
                             
-                            <select id="cate3" name="cate3" class="form-control" required disabled>
+                            <select id="cate3" name="cate3" class="form-control" required>
                                 <option value="">소분류를 선택하시오</option>
+                                <c:forEach var="cate3" items="${cate3}">
+                                    <option value="${cate3.CTG_CODE}" ${cate3.SELECTED}>${cate3.CTG_NAME}</option>
+                                </c:forEach>
                             </select>
                         </li>
                         <li>
@@ -168,7 +174,7 @@
                             <label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" <c:if test="${product.PD_SAFE_TRADE == 'on'}">checked</c:if>>안전 거래 사용</label>
                         </li>
                     </ul>
-                    <input type="hidden" name="PD_STATUS" value="PDS01">
+                    <input type="hidden" name="PD_STATUS" value="${product.PD_STATUS}">
                     <input type="submit" id="subimit" value="수정하기">
                 </form>
                 <!--/ End Form -->
@@ -216,12 +222,15 @@
 
         //카테고리 ==================================================================
         $(document).ready(function() {
-        	let cate1 = JSON.parse('${cate1}'); // 자바쌤이 여기까지 봐주셨음
-            let cate2 = JSON.parse('${cate2}');
-            let cate3 = JSON.parse('${cate3}');
-            debugger;
-            console.log('cate2:', cate2);
-            console.log('cate3:', cate3);
+        	// let cate1 = JSON.parse('${cate1}');
+            let cate2 = JSON.parse('${jCate2}');
+            let cate3 = JSON.parse('${jCate3}');
+         	// 카테고리 수정 시 초기 값 설정
+         	
+         	
+            $('#cate1').trigger('change');
+            $('#cate2').val('${product.jCate2}').trigger('change');
+            $('#cate3').val('${product.jCate3}');
 
             $('#cate1').change(function() {
                 var selectedCate2 = $(this).val();
@@ -260,10 +269,6 @@
                 console.log("cate2(value) : " + $('#cate2').val());
             });
             
-            // 카테고리 수정 시 초기 값 설정
-            $('#cate1').trigger('change');
-            $('#cate2').val('${product.cate2}').trigger('change');
-            $('#cate3').val('${product.cate3}');
         });
     </script>
     

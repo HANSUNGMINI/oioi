@@ -105,11 +105,35 @@
             background-color: #f8f8f8;
         }
         .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button {
-            background-color: #27a745;
+            background-color: #d9534f;
             color: #fff;
             border: none;
             border-radius: 5px;
             padding: 5px 10px;
+        }
+        .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:hover {
+            background-color: #c9302c;
+        }
+        .modal-content img {
+            width: 100px;
+        }
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-content form label {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        .modal-content form input {
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -136,6 +160,11 @@
                         <div class="info-item">
                             <label>아이디:</label>
                             <span>${user.US_ID}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>비밀번호:</label>
+                            <span>********</span>
+                            <button class="edit-btn" onclick="openPasswordModal()">수정</button>
                         </div>
                         <div class="info-item">
                             <label>닉네임:</label>
@@ -172,7 +201,7 @@
     <p>새 닉네임을 입력하세요:</p>
     <input type="text" id="new-nickname" class="form-control">
     <div id="checkNickResult"></div>
-    <button class="nick_check" id="btnCheckNick" disabled>중복확인</button>
+    <button class="nick_check" id="btnCheckNick">중복확인</button>
 </div>
 
 <!-- 이메일 수정 모달 -->
@@ -180,6 +209,8 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 이메일을 입력하세요:</p>
     <input type="email" id="new-email" class="form-control">
+    <button class="edit-btn" onclick="sendAuthMail()">인증메일발송</button>
+    <input type="text" id="email-auth-code" class="form-control" placeholder="인증코드 입력">
 </div>
 
 <!-- 전화번호 수정 모달 -->
@@ -187,6 +218,8 @@
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
     <p>새 전화번호를 입력하세요:</p>
     <input type="text" id="new-phone" class="form-control">
+    <button class="edit-btn" onclick="sendAuthSMS()">인증번호발송</button>
+    <input type="text" id="phone-auth-code" class="form-control" placeholder="인증코드 입력">
 </div>
 
 <!-- 주소 수정 모달 -->
@@ -197,7 +230,30 @@
     <input type="text" id="new-address1" class="form-control" placeholder="기본주소" readonly>
     <input type="text" id="new-address2" class="form-control" placeholder="상세주소">
     <input type="hidden" id="US_LAT" name="US_LAT">
-	<input type="hidden" id="US_LNG" name="US_LNG">
+    <input type="hidden" id="US_LNG" name="US_LNG">
+</div>
+
+<!-- 비밀번호 수정 모달 -->
+<div id="password-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>현재 비밀번호를 입력하세요:</p>
+    <input type="password" id="current-password" class="form-control">
+    <p>새 비밀번호를 입력하세요:</p>
+    <input type="password" id="new-password" class="form-control">
+    <div id="checkPwResult"></div>
+    <p>새 비밀번호를 다시 입력하세요:</p>
+    <input type="password" id="confirm-new-password" class="form-control">
+    <div id="checkPwResult2"></div>
+</div>
+
+<!-- 회원탈퇴 모달 -->
+<div id="withdrawModal" title="회원탈퇴" style="display:none;">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>정말 탈퇴하시겠습니까?</p>
+    <form id="withdrawForm" method="post" action="userWithdraw" onsubmit="return submitWithdrawForm()">
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required class="form-control">
+    </form>
 </div>
 
 <!-- 사용자 정의 모달 알림 창 -->
@@ -255,7 +311,7 @@ $(function() {
                     showCustomAlert("사용가능한 닉네임입니다.", false);
                     $("#nickname").val(newNick);
                 } else { // 닉네임 사용 불가
-                    showError("이미 사용중인 닉네임입니다.");
+                    showCustomAlert("이미 사용중인 닉네임입니다.", false);
                 }
             },
             error: function() {
@@ -263,6 +319,11 @@ $(function() {
             }
         });
     });
+
+    // 비밀번호 유효성 검사
+    $("#new-password").keyup(checkPasswordStrength);
+    $("#confirm-new-password").keyup(checkSamePasswd);
+    $("#new-password").change(checkSamePasswd);
 });
 
 function openNickModal() {
@@ -301,9 +362,12 @@ function openEmailModal() {
         buttons: {
             "확인": function() {
                 const newEmail = $("#new-email").val();
-                if (newEmail) {
-                    updateField("email", newEmail);
+                const authCode = $("#email-auth-code").val();
+                if (newEmail && authCode) {
+                    verifyAuthCode(newEmail, authCode);
                     $(this).dialog("close");
+                } else {
+                    showCustomAlert("이메일과 인증 코드를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -324,9 +388,13 @@ function openPhoneModal() {
         buttons: {
             "확인": function() {
                 const newPhone = $("#new-phone").val();
-                if (newPhone) {
-                    updateField("phone", newPhone);
+                const authCode = $("#phone-auth-code").val();
+                if (newPhone && authCode) {
+                    // 인증번호 확인 요청
+                    verifyPhoneAuthCode(newPhone, authCode);
                     $(this).dialog("close");
+                } else {
+                    showCustomAlert("전화번호와 인증 코드를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -346,18 +414,12 @@ function openAddressModal() {
         },
         buttons: {
             "확인": function() {
-                const newPostcode = $("#new-postcode").val();
-                const newAddress1 = $("#new-address1").val();
-                const newAddress2 = $("#new-address2").val();
-                const newUserLAT = $("#US_LAT").val();
-                const newUserLNG = $("#US_LNG").val();
-                
-                if (newPostcode && newAddress1 && newAddress2) {
-                    updateField("address", newPostcode + "/" + newAddress1 + "/" + newAddress2);
-                    updateField("location", newUserLAT + "/" + newUserLNG);
+                const newAddress = $("#new-postcode").val() + "/" + $("#new-address1").val() + "/" + $("#new-address2").val();
+                if (newAddress) {
+                    updateField("address", newAddress);
                     $(this).dialog("close");
                 } else {
-                    showCustomAlert("주소를 모두 입력하세요.", false);
+                    showCustomAlert("주소를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -367,20 +429,98 @@ function openAddressModal() {
     });
 }
 
-function updateField(field, value) {
-    // 필드 업데이트 AJAX 요청
+function openPasswordModal() {
+    // 비밀번호 변경 모달 열기
+    $("#password-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "확인": function() {
+                const currentPassword = $("#current-password").val();
+                const newPassword = $("#new-password").val();
+                const confirmNewPassword = $("#confirm-new-password").val();
+                if (newPassword !== confirmNewPassword) {
+                    showCustomAlert("새 비밀번호가 일치하지 않습니다.", false);
+                    return;
+                }
+                if (currentPassword && newPassword && confirmNewPassword) {
+                    changePassword(currentPassword, newPassword);
+                    $(this).dialog("close");
+                } else {
+                    showCustomAlert("모든 필드를 입력하세요.", false);
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function checkPasswordStrength() {
+    let passwd = $("#new-password").val();
+    let msg = "";
+    let color = "";
+
+    let lengthRegex = /^[A-Za-z0-9!@#$%]{8,16}$/;
+    if (lengthRegex.exec(passwd)) {
+        let engUpperRegex = /[A-Z]/; // 대문자
+        let engLowerRegex = /[a-z]/; // 소문자
+        let numRegex = /\d/; // 숫자
+        let specRegex = /[!@#$%^&*]/; // 특수문자
+
+        let count = 0;
+        if (engUpperRegex.exec(passwd)) { count++; }
+        if (engLowerRegex.exec(passwd)) { count++; }
+        if (numRegex.exec(passwd)) { count++; }
+        if (specRegex.exec(passwd)) { count++; }
+
+        switch (count) {
+            case 4: msg = "안전"; color = "GREEN"; break;
+            case 3: msg = "보통"; color = "ORANGE"; break;
+            case 2: msg = "위험"; color = "RED"; break;
+            default:
+                msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+                color = "RED";
+        }
+    } else {
+        msg = "영문 대소문자, 숫자, 특수문자 중 2개 이상을 포함시켜주세요.";
+        color = "RED";
+    }
+    if (passwd.search($("#current-password").val()) > -1) {
+        msg = "비밀번호에 현재 비밀번호가 포함되었습니다.";
+        color = "RED";
+    }
+    $("#checkPwResult").text(msg);
+    $("#checkPwResult").css("color", color);
+}
+
+function checkSamePasswd() {
+    let passwd = $("#new-password").val();
+    let passwd2 = $("#confirm-new-password").val();
+    if (passwd === passwd2) {
+        $("#checkPwResult2").text("*비밀번호가 일치합니다.");
+        $("#checkPwResult2").css("color", "#34A853");
+    } else {
+        $("#checkPwResult2").text("*비밀번호가 일치하지 않습니다.");
+        $("#checkPwResult2").css("color", "RED");
+    }
+}
+
+function changePassword(currentPassword, newPassword) {
     $.ajax({
         type: "POST",
-        url: "updateField", // 컨트롤러 URL
-        data: { field: field, value: value },
-        dataType: "json",
+        url: "changePassword",
+        data: JSON.stringify({ currentPassword: currentPassword, newPassword: newPassword }),
+        contentType: "application/json",
         success: function(response) {
-            if (response.result) { // 필드 업데이트 성공
-                $('#' + field).text(value);
-            	reloadSession();
-                showCustomAlert('변경되었습니다.', true);
-            } else { // 필드 업데이트 실패
-                showCustomAlert("변경 실패!", false);
+            if (response.success) {
+                showCustomAlert("비밀번호가 성공적으로 변경되었습니다.", true);
+            } else {
+                showCustomAlert(response.message, false);
             }
         },
         error: function() {
@@ -389,43 +529,126 @@ function updateField(field, value) {
     });
 }
 
-function reloadSession() {
-	 $.ajax({
-	        type: "PUT",
-	        url: "ReloadUser", // 컨트롤러 URL
-	        success: function() {}
-	 });
-}
-
-
-function checkNick(user_nick) { // 닉네임 유효성 검사
-    const bannedWords = ["시발", "개새", "fuck"];
-    for (let i = 0; i < bannedWords.length; i++) {
-        if (user_nick.includes(bannedWords[i])) {
-            showError("닉네임에 금지된 단어가 포함되어 있습니다.");
-            return false;
+function sendAuthMail() {
+    const newEmail = $("#new-email").val();
+    $.ajax({
+        type: "POST",
+        url: "sendAuthMail",
+        contentType: "application/json",
+        data: JSON.stringify({ email: newEmail }),
+        success: function(response) {
+            if (response.success) {
+                showCustomAlert("인증 메일이 발송되었습니다.", false);
+            } else {
+                showCustomAlert("인증 메일 발송에 실패했습니다.", false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
         }
-    }
-
-    const lengthRegex = /^[a-z0-9가-힣]{2,16}$/;
-    if (!lengthRegex.test(user_nick)) {
-        showError("닉네임은 알파벳 소문자, 숫자, 또는 한글로 이루어진 2자 이상 16자 이하이어야 합니다.");
-        return false;
-    }
-
-    const characterRegex = /[a-z0-9가-힣]/;
-    if (!characterRegex.test(user_nick)) {
-        showError("닉네임은 적어도 한 개의 알파벳 소문자, 숫자, 또는 한글을 포함해야 합니다.");
-        return false;
-    }
-
-    $("#checkNickResult").text("");
-    return true;
+    });
 }
 
-function showError(message) {
-    $("#checkNickResult").text(message);
-    $("#checkNickResult").css("color", "red");
+function verifyAuthCode(email, authCode) {
+    $.ajax({
+        type: "POST",
+        url: "verifyEmailAuthCode",
+        contentType: "application/json",
+        data: JSON.stringify({ email: email, authCode: authCode }),
+        success: function(response) {
+            if (response.success) {
+                updateField("email", email);
+                showCustomAlert("이메일이 성공적으로 변경되었습니다.", true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function sendAuthSMS() {
+    const newPhone = $("#new-phone").val();
+    $.ajax({
+        type: "POST",
+        url: "send-one",
+        contentType: "application/json",
+        dataType: "json", // 응답 데이터 형식 명시
+        data: JSON.stringify({ user_phone: newPhone }),
+        success: function(response) {
+            console.log(response); // 디버깅을 위한 로그 추가
+            if (response.success) {
+                showCustomAlert("인증번호가 발송되었습니다.", false);
+            } else {
+                showCustomAlert("인증번호 발송에 실패했습니다.", false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function verifyPhoneAuthCode(phone, authCode) {
+    $.ajax({
+        type: "POST",
+        url: "verifyPhoneAuthCode",
+        contentType: "application/json",
+        data: JSON.stringify({ authCode: authCode }),
+        success: function(response) {
+            console.log(response); // 디버깅을 위한 로그 추가
+            if (response.success) {
+                updateField("phone", phone);
+                showCustomAlert(response.message, true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function updateField(field, value) {
+    $.ajax({
+        type: "POST",
+<<<<<<< HEAD
+        url: 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용하지 않도록 변경
+        data: JSON.stringify({ field: field, value: value }),
+        contentType: "application/json",
+=======
+        url: field === 'phone' ? 'coolUpdateField' : 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용
+        data: { 
+        	field: field, 
+        	value: value 
+       	},
+//         contentType: "application/json",
+>>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
+        success: function(response) {
+       		showCustomAlert(response.message, response.result);
+//             if (response.result) {
+//                 showCustomAlert(response.message, true);
+//             } else {
+//                 showCustomAlert(response.message, false);
+//             }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
+    });
+}
+
+function search_address() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            $("#new-postcode").val(data.zonecode);
+            $("#new-address1").val(data.address);
+            $("#new-address2").focus();
+        }
+    }).open();
 }
 
 function showCustomAlert(message, reloadPage) {
@@ -433,47 +656,43 @@ function showCustomAlert(message, reloadPage) {
     $("#custom-alert-modal").data("reloadPage", reloadPage).dialog("open");
 }
 
-function search_address() {
-    // 카카오 주소 검색 API 호출
-    new daum.Postcode({
-        oncomplete: function(data) {
-            let address = data.address;
-            if(data.buildingName != "") {
-                address += " (" + data.buildingName + ")";
+function showWithdrawModal(event) {
+    event.preventDefault(); // 기본 동작 막기
+    $("#withdrawModal").dialog({
+        modal: true,
+        buttons: {
+            "확인": function() {
+                $("#withdrawForm").submit();
+            },
+            "취소": function() {
+                $(this).dialog("close");
             }
-            $("#new-postcode").val(data.zonecode);
-            $("#new-address1").val(address);
-            $("#new-address2").focus();
-            
-            
-            getLatLng(address);
         }
-    }).open();
+    });
 }
 
-function getLatLng(address) {
-    const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-    const apiKey = "AIzaSyDxE6_KxiuRqxlJbzS1QrPbctEG7K-vuY8"
-    const params = new URLSearchParams({
-        address: address,
-        key: apiKey
-    });
-    
+function submitWithdrawForm() {
+    var password = $("#password").val();
+
     $.ajax({
-        url: baseUrl,
-        method: "GET",
-        data: {
-            address: address,
-            key: apiKey
-        },
+        type: "POST",
+        url: "userWithdraw",
+        data: { password: password },
         success: function(response) {
-            const location = response.results[0].geometry.location;
-            $("#US_LAT").val(location.lat);
-            $("#US_LNG").val(location.lng);
+            if (response.success) {
+                alert(response.message);
+                window.location.href = "${pageContext.request.contextPath}/"; // 홈 페이지로 리다이렉트
+            } else {
+                alert(response.message);
+            }
         },
+        error: function() {
+            alert("요청 실패!");
+        }
     });
-}
 
+    return false; // 폼 제출 중단
+}
 </script>
 </body>
 </html>

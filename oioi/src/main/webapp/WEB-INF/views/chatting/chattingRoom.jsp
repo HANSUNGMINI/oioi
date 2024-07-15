@@ -28,6 +28,11 @@
  
  <!-- j -->
  <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+ <style>
+ 	ul::marker {
+            display: none !important; /* 기호 숨기기 */
+        }
+ </style>
 <script type="text/javascript">
 
 	/*
@@ -117,7 +122,6 @@
 			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
 
 		} else if (data.type == "TALK"){
-			window.location.reload();
 			appendMessage(data.msg, "left","my");
 			
 		} else if (data.type == "LEAVE"){
@@ -374,16 +378,24 @@
 					
                     <div class="input-group mb-0">
 		                <%-- 전송란 --%>
-                        <input type="text" class="form-control" placeholder="메세지를 입력하세요" id="textMsg">                                    
-
+						
+						<c:choose>
+						    <c:when test="${!exitRoomUser.EXIT_USER ne sessionScope.US_ID}">
+						        <input type="text" class="form-control" id="textMsg" readonly placeholder="상대방이 채팅을 나가셨습니다">
+						    </c:when>
+						    <c:otherwise>
+						        <input type="text" class="form-control" id="textMsg" placeholder="메세지를 입력하세요">
+						    </c:otherwise>
+						</c:choose>
+						
                         <%-- 전송버튼 --%>
                         <div class="input-group-prepend">
                             <a class="input-group-text" id="sendMsg"><i class="bi bi-reply-fill"></i></a>
 <!--                             <div class="input-group-text"> -->
 <!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
-							<label for="file-input" class="input-group-text file-input-label">
-						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i>
-						    </label>
+<!-- 							<label for="file-input" class="input-group-text file-input-label"> -->
+<!-- 						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i> -->
+<!-- 						    </label> -->
 <!-- 						    <input type="file" id="file-input" style="display: none;"> -->
 <!--                             </div> -->
                         </div>
@@ -592,7 +604,7 @@
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&SELLER_ID=${param.TO_ID}";
-				   		window.location.reload();
+// 				   		window.location.reload();
 				   }
 				});
 			
