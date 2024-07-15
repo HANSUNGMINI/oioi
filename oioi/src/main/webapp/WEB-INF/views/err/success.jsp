@@ -40,8 +40,6 @@
 			return JSON.stringify(data);
 		}
 		
-		
-		
     
         Swal.fire({
             title: '성공!',
@@ -69,6 +67,9 @@
     			window.opener.location.reload();
     		}
             
+            if("${reload}" == "true") {
+            	window.location.reload();
+            }
             
         });
     </script>

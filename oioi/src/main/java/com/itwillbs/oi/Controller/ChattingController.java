@@ -340,6 +340,7 @@ public class ChattingController {
 		payService.decidePerchase(map);
 		
 		model.addAttribute("msg", "송금이 완료되었습니다");
+		model.addAttribute("reload", true);
     	return "err/success";
 	}
 	

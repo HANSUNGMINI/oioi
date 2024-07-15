@@ -365,9 +365,9 @@
                             <a class="input-group-text" id="sendMsg"><i class="bi bi-reply-fill"></i></a>
 <!--                             <div class="input-group-text"> -->
 <!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
-							<label for="file-input" class="input-group-text file-input-label">
-						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i>
-						    </label>
+<!-- 							<label for="file-input" class="input-group-text file-input-label"> -->
+<!-- 						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i> -->
+<!-- 						    </label> -->
 <!-- 						    <input type="file" id="file-input" style="display: none;"> -->
 <!--                             </div> -->
                         </div>

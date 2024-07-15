@@ -92,7 +92,7 @@
 		 ON p.PD_STATUS = c.code
 	 	 JOIN images i
 		 ON p.PD_IMAGE = i.IMG_IDX
-		 WHERE PD_IDX = #{prodcut}
+		 WHERE PD_IDX = #{prodcut} AND PD_STATUS != 'PDS04' 
 		 ]]>
 	</select>
 	
@@ -114,7 +114,7 @@
 		 ON p.PD_STATUS = c.code
 	 	 JOIN images i
 		 ON p.PD_IMAGE = i.IMG_IDX
-		 WHERE PD_IDX = #{prodcutId}
+		 WHERE PD_IDX = #{prodcutId} AND PD_STATUS != 'PDS04'
 		 ]]>
 	</select>
 	
