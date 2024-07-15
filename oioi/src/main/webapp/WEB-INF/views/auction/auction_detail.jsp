@@ -300,7 +300,7 @@
               	  Swal.fire({
                         title: response.message,
                         icon: 'success',
-                    });
+                  });
                 }
              });	 	 
          }

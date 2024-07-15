@@ -130,6 +130,12 @@ public class AuctionService {
 		return mapper.selectUserInfo(US_ID);
 	}
 
+	public int endApd(String APD_IDX) {
+		return mapper.updateEndApd(APD_IDX);
+	}
+
+	
+
 	
 
 	
