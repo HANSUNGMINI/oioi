@@ -16,11 +16,14 @@
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />	
 	<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css">
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
+	<!--  모달 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	
 	<style>
 		#buttons {
 			margin : 0px auto;
-		}
+		} 
 		
 		
 	</style>
@@ -64,7 +67,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.min.js?v=1652870200386"></script>
 	<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
 	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	 <script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/toastUI/renderer.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin_admin_list.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/admin.js"></script>
 	

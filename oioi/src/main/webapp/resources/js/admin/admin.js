@@ -17,7 +17,13 @@ $(function(){
 	
 });
 
-
+function checkAlert(title, icon) {
+	 Swal.fire({
+            title : title,
+            icon: icon,
+            confirmButtonText: '확인',
+       	}).then((result) => {});
+}
 
 
 	

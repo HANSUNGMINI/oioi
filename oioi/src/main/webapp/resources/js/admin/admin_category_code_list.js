@@ -15,7 +15,7 @@ const table = "category";
 
 function search(type = 'T', disabled = true) {
 	if(type ===''){
-		alert("대분류를 선택하라고");
+		alert("대분류를 선택하세요");
 		return;
 	}
 
@@ -85,7 +85,7 @@ function search(type = 'T', disabled = true) {
 function search2(type) {
 
 	if(type ===''){
-		alert("중분류를 선택하라고");
+		alert("중분류를 선택하세요");
 		return;
 	}
 	
@@ -172,30 +172,36 @@ function putCode(jsonData) {
 
 // 코드 상태 변경 함수
 function change(elm, isChecked, code, type) {
-	let answer = confirm("코드 상태를 변경하시겠습니까?");
-	if(answer) {
-		$.ajax({
-			type : "PATCH",
-			url : "status",
-			contentType : 'application/json; charset=utf-8',
-			data : JSON.stringify({
-				"code" : code,
-				"value" : isChecked,
-				"type" : type,
-			}),
-			dataType : "JSON",
-			success : function(response) {
-				if(response > 0) {
-					alert("변경 완료!");
-				} else {
-					alert("변경실패 다시 시도");
-					elm.prop('checked', !isChecked);
-				}
-			}
-		}) //끝
-	} else {
-		//취소 선택시 상태 제자리
-		elm.prop('checked', !isChecked);
-	}
+	Swal.fire({
+            text: "코드 상태를 변경하시겠습니까?",
+            icon: 'info',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+    		showCancelButton: true,
+       	}).then((result) => {
+        	if (result.isConfirmed) {
+        		$.ajax({
+					type : "PATCH",
+					url : "status",
+					contentType : 'application/json; charset=utf-8',
+					data : JSON.stringify({
+						"code" : code,
+						"value" : isChecked,
+						"type" : type,
+					}),
+					dataType : "JSON",
+					success : function(response) {
+						if(response > 0) {
+							checkAlert('성공','success');
+						} else {
+							checkAlert('실패','error');
+							elm.prop('checked', !isChecked);
+						}
+					}
+				}) //끝
+		    } else {
+		    	elm.prop('checked', !isChecked);
+		    }
+   	});
 }
 

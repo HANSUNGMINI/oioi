@@ -35,6 +35,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/product.css">
+	
+	<!--  모달 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+	
 	<style>
 		.flex-control-thumbs li {
 			margin : 0px !important;
@@ -54,11 +59,22 @@
 			// 거래 완료 상태 시 셀렉트박스 dsiabled
 			if (status === 'APD09') {
 				$('#APD_STATUS').prop('disabled', true).niceSelect('update');
-				$('#APD_REJECTION').prop('disabled', true).niceSelect('update');
 			}
 			
 			$("#regitBtn").on("click", regDnum);
+			
+			if(parseInt(status.slice(3), 10) > 4) {
+				$('#APD_REJECTION').prop('disabled', true).niceSelect('update');
+			}
 		})
+		
+		function checkAlert(title, icon) {
+			 Swal.fire({
+		            title : title,
+		            icon: icon,
+		            confirmButtonText: '확인',
+		       	}).then((result) => {});
+		}
 		
 		function regDnum(){
 			$.ajax({
@@ -72,24 +88,35 @@
 	       	 	dataType : "JSON",
 	       	 	success : function(response){
 		       	 	if(response > 0 ) {
-						alert("성공적으로 등록되었습니다!")
+		       	 		checkAlert('성공', 'success');
 						location.reload();
 		       	 	} else {
-		       	 		alert("등록실패")	
+		       	 		checkAlert('실패', 'error');
 		       	 	}
 	       	 	}
 			})
 			
 		}
+		
 		function confirmUpdate() {
 			if(status == 'APD05' || status == 'APD06' || status == 'APD07') {
-				let b = confirm("경매가 이미 진행중입니다. 변경하시겠습니까?");
-				if(b == false) {
-					return;
-				}
+				 Swal.fire({
+			            title: "현재 진행중인 경매입니다!",
+			            icon: 'warning',
+			            confirmButtonText: '확인',
+			            cancelButtonText: '취소',
+			    		showCancelButton: true,
+			       	}).then((result) => {
+			       		if (result.isConfirmed) {
+			       			chageProduct()
+			       		} else {
+			       			location.reload();
+			       			return;
+			       		}
+				});
+			} else {
+				chageProduct()
 			}
-			
-			chageProduct()
 		}
 		
 		function chageProduct() {
@@ -108,21 +135,22 @@
 				success : function (response) {
 					
 					if(response > 0 ) {
-						alert("성공적으로 변경되었습니다!")
+						checkAlert('성공', 'success');
 						
 						if($("#APD_STATUS").val() == "APD05") {
 // 							var socket = new WebSocket('ws://localhost:8081/oi/push');
 							var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
 							socket.onopen = function (){
 								socket.send(toJsonString("toUsers", "registAPD"));
+								location.reload();
 							};
 						}
 						
 // 						location.reload();
 					} else if (response == -1) {
-						alert("이미 등록된 상품입니다")
+						checkAlert('이미 등록된 상품입니다.', 'error');
 					} else {
-						alert("변경에 실패했습니다. 다시 시도하여 주십시오");
+						checkAlert('실패', 'error');
 						location.reload();
 					}
 					
@@ -139,11 +167,10 @@
 				},
 				dataType : "JSON",
 				success : function (response) {
-					
 					if(response > 0 ) {
-						alert("등록되었습니다!")
+						checkAlert('등록되었습니다!', 'success');
 					} else {
-						alert("등록에 실패했습니다")
+						checkAlert('등록에 실패했습니다', 'error');
 					}
 				} // success 끝
 			})
@@ -156,6 +183,7 @@
 			};
 			return JSON.stringify(data);
 		}
+		
 		
 	</script>
 </head>
