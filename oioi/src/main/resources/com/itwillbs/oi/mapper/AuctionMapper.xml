@@ -382,7 +382,7 @@
 	</select>
 	<insert id="insertApdTrade">
 		insert into trade(
-			TD_AT_IDX,
+			TD_APD_IDX,
 		    TD_SELLER_ID,
 		    TD_BUYER_ID,
 		    TD_TIME,

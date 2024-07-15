@@ -14,9 +14,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/topChatting.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/push/alarm.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat_bot.css">
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
 <script>
-    var jq171 = jQuery.noConflict(true); // 이 버전의 jQuery를 별도의 변수에 저장하고, noConflict 모드로 설정
+//     var jq171 = jQuery.noConflict(true); // 이 버전의 jQuery를 별도의 변수에 저장하고, noConflict 모드로 설정
 </script>
 <!-- 아이콘 사용 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

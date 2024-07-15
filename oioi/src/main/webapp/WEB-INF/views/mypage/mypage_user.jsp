@@ -414,7 +414,7 @@ function openAddressModal() {
         },
         buttons: {
             "확인": function() {
-                const newAddress = $("#new-postcode").val() + " " + $("#new-address1").val() + " " + $("#new-address2").val();
+                const newAddress = $("#new-postcode").val() + "/" + $("#new-address1").val() + "/" + $("#new-address2").val();
                 if (newAddress) {
                     updateField("address", newAddress);
                     $(this).dialog("close");
@@ -615,15 +615,25 @@ function verifyPhoneAuthCode(phone, authCode) {
 function updateField(field, value) {
     $.ajax({
         type: "POST",
+<<<<<<< HEAD
         url: 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용하지 않도록 변경
         data: JSON.stringify({ field: field, value: value }),
         contentType: "application/json",
+=======
+        url: field === 'phone' ? 'coolUpdateField' : 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용
+        data: { 
+        	field: field, 
+        	value: value 
+       	},
+//         contentType: "application/json",
+>>>>>>> branch 'main' of https://github.com/HANSUNGMINI/oioi.git
         success: function(response) {
-            if (response.success) {
-                showCustomAlert(response.message, true);
-            } else {
-                showCustomAlert(response.message, false);
-            }
+       		showCustomAlert(response.message, response.result);
+//             if (response.result) {
+//                 showCustomAlert(response.message, true);
+//             } else {
+//                 showCustomAlert(response.message, false);
+//             }
         },
         error: function() {
             showCustomAlert("요청 실패!", false);

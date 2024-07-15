@@ -115,7 +115,8 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	
             	// DB에 채팅 메세지 저장하기
             	int saveCnt = service.saveChatting(chatMessage);
-            	
+
+            	System.out.println(TO_ID);
             	System.out.println("수신자의 웹소켓세션객체 아이디 " + userSessions.get(TO_ID));
     			
     			if(userSessions.get(TO_ID) != null) {

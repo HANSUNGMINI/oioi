@@ -286,6 +286,7 @@
             
          }else if(nowValueNum == maxValueNum){
         	//입찰가가 즉시구매가랑 같을때 경매 종료
+        	console.log("즉시구매");
              $.ajax({
                 url : "auctionBuy",
                 type : "post",
@@ -351,7 +352,7 @@
    
    function connect() {
 //       ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com//oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -840,7 +841,7 @@
                                        <a href="#" class="btn" id="auctionBuy" onclick="auctionBuy('${apdDetail.APD_IDX}')">즉시구매</a>
                                        <script type="text/javascript">
                                        		function auctionBuy(APD_IDX){
-                                       			
+                                       			console.log("APD_IDX" + APD_IDX);
                                        			if (!us_id || us_id === 'null') {
                                        				Swal.fire({
                                     		            title: '로그인 후 이용이 가능합니다.',         

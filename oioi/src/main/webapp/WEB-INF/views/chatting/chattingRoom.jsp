@@ -82,7 +82,6 @@
 			}
 		});
 	   
-	
     });
 		
     let ws; // 웹소켓 객체가 저장될 변수
@@ -123,7 +122,6 @@
 			getChatList(data.TO_ID, data.FROM_ID, data.CR_ID, US_ID, data.PD_IDX)
 			
 		} else if (data.type == "TALK"){
-			window.location.reload();
 			appendMessage(data.msg, "left","my");
 		} 
 	}
@@ -213,7 +211,7 @@
 			return;
 		}
 		
-		sendMessage(type, TO_ID, FROM_ID, "", msg, PD_IDX);
+		sendMessage("TALK", TO_ID, FROM_ID, "", msg, PD_IDX);
 		appendMessage(msg,"right","other");
 		
 		// 채팅창 초기화 및 포커스 요청
