@@ -82,8 +82,8 @@
     let ws; // 웹소켓 객체가 저장될 변수
     
     function connectChat() {
-//     	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
-        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+    	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+//         ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
@@ -365,9 +365,9 @@
                             <a class="input-group-text" id="sendMsg"><i class="bi bi-reply-fill"></i></a>
 <!--                             <div class="input-group-text"> -->
 <!-- 	                            <a href="#" onclick="document.file_1.click();"><i class="bi bi-camera-fill" style="color: #353535;"></i></a> -->
-							<label for="file-input" class="input-group-text file-input-label">
-						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i>
-						    </label>
+<!-- 							<label for="file-input" class="input-group-text file-input-label"> -->
+<!-- 						        <i class="bi bi-camera-fill" style="color: #353535;" onclick="fileUpload()"></i> -->
+<!-- 						    </label> -->
 <!-- 						    <input type="file" id="file-input" style="display: none;"> -->
 <!--                             </div> -->
                         </div>
@@ -577,7 +577,7 @@
 				   // 만약 Promise리턴을 받으면,
 				   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
 				   		location.href="tradeDecide?PD_IDX=${param.PD_IDX}&SELLER_ID=${param.TO_ID}";
-				   		window.location.reload();
+// 				   		window.location.reload();
 				   }
 				});
 			
