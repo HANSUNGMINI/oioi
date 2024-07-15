@@ -414,7 +414,7 @@ function openAddressModal() {
         },
         buttons: {
             "확인": function() {
-                const newAddress = $("#new-postcode").val() + " " + $("#new-address1").val() + " " + $("#new-address2").val();
+                const newAddress = $("#new-postcode").val() + "/" + $("#new-address1").val() + "/" + $("#new-address2").val();
                 if (newAddress) {
                     updateField("address", newAddress);
                     $(this).dialog("close");
@@ -616,14 +616,18 @@ function updateField(field, value) {
     $.ajax({
         type: "POST",
         url: field === 'phone' ? 'coolUpdateField' : 'updateField', // 전화번호 필드는 coolUpdateField 경로 사용
-        data: JSON.stringify({ field: field, value: value }),
-        contentType: "application/json",
+        data: { 
+        	field: field, 
+        	value: value 
+       	},
+//         contentType: "application/json",
         success: function(response) {
-            if (response.success) {
-                showCustomAlert(response.message, true);
-            } else {
-                showCustomAlert(response.message, false);
-            }
+       		showCustomAlert(response.message, response.result);
+//             if (response.result) {
+//                 showCustomAlert(response.message, true);
+//             } else {
+//                 showCustomAlert(response.message, false);
+//             }
         },
         error: function() {
             showCustomAlert("요청 실패!", false);
