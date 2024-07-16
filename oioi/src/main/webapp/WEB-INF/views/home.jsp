@@ -323,8 +323,8 @@
 						<c:forEach var="item" items="${auctionProducts}" varStatus="status">
 							  <div class="big-content" style="height: 400px;">
 <%-- 							    <img src="${pageContext.request.contextPath}/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 550px; height: 100%;">  --%>
-							    <img src="<%= request.getContextPath() %>/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 500px; height: 100%;"> 
-								<div class="inner" style="margin-right: 100px;">
+							    <img src="<%= request.getContextPath() %>/resources/upload/${item.APD_MAIN_IMAGE}" style="width: 450px; height: 100%;"> 
+								<div class="inner">
 									<h4 class="title"><a id="apdCount_${status.index}" class="apdCount" data-endtime="${item.AT_END_TIME}"></a></h4>
 									<h4 class="title">${item.APD_NAME }</h4>
 									<p class="des">[경매 종료일] ${item.AT_END_TIME}<br>[현재 입찰된 가격] <fmt:formatNumber value="${item.FINAL_BID_PRICE}" pattern="#,###"/>원<br> [즉시구매가] <fmt:formatNumber value="${item.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</p>
