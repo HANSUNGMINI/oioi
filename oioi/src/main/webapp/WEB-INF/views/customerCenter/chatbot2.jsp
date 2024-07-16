@@ -80,7 +80,22 @@
  	
 	#frame .content .chat li {
 		list-style: none;
-	}	 
+	}
+	
+	.chat {
+	    height: calc(100vh - 150px); /* 적절한 높이로 설정 */
+	    overflow-y: auto;
+	    padding-bottom: 10px; /* 입력창과의 간격 추가 */
+	}
+	.chat-message {
+	    position: fixed;
+	    bottom: 0;
+	    width: 100%;
+	    background: white; /* 배경색 설정 */
+	    padding: 10px;
+	    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* 약간의 그림자 효과 */
+	}
+		 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai/dist/esm/index.min.js"></script>
 
