@@ -6,9 +6,9 @@ const API_KEY = "AIzaSyDytpVGxvmHOwqG_kUvsikukpRtIsAQyNY";
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 const memberImg = $("#member_img").val();
-//const contextPath = $("#contextPath").val();
+const contextPath = $("#contextPath").val();
 //const contextPath = "${pageContext.request.contextPath}";
-const contextPath = "/oi";
+//const contextPath = "/oi";
  
 
  

@@ -138,6 +138,13 @@
     		
     	function deliveryStatus(delivery, idx, status) {
     	    console.log("delivery : " + delivery);
+    	    
+    	    if(status == 'APD07'){
+    	    	Swal.fire({
+                    title: '아직 배송중이 아닙니다.',
+                    icon: 'warning',
+                });
+    	    }
     	    $.ajax({
     	        url: "https://info.sweettracker.co.kr/api/v1/trackingInfo",
     	        type: "GET",
@@ -239,13 +246,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">상품명</th>
-                                    <th scope="col">판매자</th>
-                                    <th scope="col">수취인</th>
-                                    <th scope="col" width="200px;">주소</th>
-                                    <th scope="col">결제시간</th>
-                                    <th scope="col">배달정보</th>
+                                    <th scope="col" style="width:70px;">번호</th>
+                                    <th scope="col" style="width:280px;">상품명</th>
+                                    <th scope="col" style="width:83px;">판매자</th>
+                                    <th scope="col" style="width:70px;">수취인</th>
+                                    <th scope="col" style="width:83px;">결제시간</th>
+                                    <th scope="col" style="width:100px;">배달정보</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -255,7 +261,6 @@
                                         <td>${auction.APD_NAME}</td>
                                         <td>${auction.TD_SELLER_ID}</td>
                                         <td>${auction.TD_BUYER_ID}</td>
-                                        <td>${auction.TD_BUYER_ADDRESS}</td>
                                         <td>${auction.TD_TIME}</td>
                                         <td>
                                         	<button class="edit-btn del_status_${auction.TD_APD_IDX}" onclick="deliveryStatus('${auction.APD_DELIVERY}', '${auction.TD_APD_IDX}','${auction.APD_STATUS}')" style="margin-bottom: 5px;">배송조회</button><br>

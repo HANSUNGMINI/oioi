@@ -117,8 +117,18 @@
 	   
 	   console.log("nick" + nick);
 	   makeAuctionProducts();
-// 	   getOiMoney();
-	   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>oiMoney : " + oiMoney);
+	   
+	   $('#apdReport').on('click',function(event){
+		   console.log("apdReport");
+		  if(!session_id){
+			  event.preventDefault();
+			  Swal.fire({
+                  title: '로그인 후 신고하세요.',
+                  icon: 'warning',
+              });
+			  return false;
+		  } 
+	   });
 	   
 	   if(apdStatus == 'APD07' || apdStatus == 'APD08' || apdStatus == 'APD09'){
 	    	 $('#bidding').css('display', 'none');
@@ -352,8 +362,8 @@
    
    
    function connect() {
-      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
-//       ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+//       ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {

@@ -289,7 +289,7 @@
 		from trade t
 		join auction_product ap
 		on t.TD_APD_IDX = ap.APD_IDX
-		where TD_SELLER_ID = #{id} and TD_PD_IDX is null
+		where TD_BUYER_ID = #{id} and TD_PD_IDX is null
 		order by t.TD_TIME desc;
 	</select>
 	

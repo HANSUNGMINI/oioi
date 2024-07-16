@@ -56,20 +56,40 @@
     
   <!-- 이미지 정보 업데이트 -->
 	<update id="updateImages">
-		UPDATE Images
-		<set>
-		    <if test="image1 != null">image1 = #{image1},</if>
-		    <if test="image2 != null">image2 = #{image2},</if>
-		    <if test="image3 != null">image3 = #{image3},</if>
-		    <if test="image4 != null">image4 = #{image4},</if>
-		    <if test="image5 != null">image5 = #{image5},</if>
-		</set>
-		WHERE IMG_IDX = #{IMG_IDX}
+	    UPDATE images
+	    <set>
+	        <trim suffixOverrides=",">
+	            <choose>
+	                <when test="fileMap.image1 != null">image1 = #{fileMap.image1},</when>
+	                <otherwise>image1 = null,</otherwise>
+	            </choose>
+	            <choose>
+	                <when test="fileMap.image2 != null">image2 = #{fileMap.image2},</when>
+	                <otherwise>image2 = null,</otherwise>
+	            </choose>
+	            <choose>
+	                <when test="fileMap.image3 != null">image3 = #{fileMap.image3},</when>
+	                <otherwise>image3 = null,</otherwise>
+	            </choose>
+	            <choose>
+	                <when test="fileMap.image4 != null">image4 = #{fileMap.image4},</when>
+	                <otherwise>image4 = null,</otherwise>
+	            </choose>
+	            <choose>
+	                <when test="fileMap.image5 != null">image5 = #{fileMap.image5},</when>
+	                <otherwise>image5 = null,</otherwise>
+	            </choose>
+	        </trim>
+	    </set>
+	    WHERE IMG_IDX = #{productInfo.IMG_IDX}
 	</update>
+
+
+
 
     <!-- 상품 수정 -->
 	<update id="updateProduct">
-		UPDATE Product
+		UPDATE product
 		SET PD_SUBJECT = #{PD_SUBJECT},
 		    PD_CATEGORY = #{PD_CATEGORY},
 		    PD_TAG1 = #{PD_TAG1},

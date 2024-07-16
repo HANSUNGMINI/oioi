@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
@@ -182,7 +184,10 @@ public class MyStoreController {
     @PostMapping("productModify2")
     public String editProduct(@RequestParam Map<String, Object> map, Model model,
                                 @RequestPart("addfile") MultipartFile[] files, HttpSession session) {
-        // 사용자 아이디 추가
+        System.out.println("!@#!@#");
+    	System.out.println(map);
+    	
+    	// 사용자 아이디 추가
         map.put("US_ID", (String) session.getAttribute("US_ID"));
         map.put("PD_CATEGORY", map.get("cate3"));
         if(map.get("PD_PRICE_OFFER") != null) {
@@ -415,6 +420,17 @@ public class MyStoreController {
  		System.out.println("카테2" + cate2);
  		System.out.println("카테3" + cate3);
 
+ 	    // 태그를 JSON 형식으로 변환하여 모델에 추가
+ 	    List<String> tags = new ArrayList<>();
+ 	    for (int i = 1; i <= 5; i++) {
+ 	        String tag = (String) product.get("PD_TAG" + i);
+ 	        if (tag != null && !tag.isEmpty()) {
+ 	            tags.add(tag);
+ 	        }
+ 	    }
+ 	    String tagsJson = new Gson().toJson(tags);
+ 	    product.put("PD_TAG_JSON", tagsJson);
+ 		
         model.addAttribute("product", product);
         System.out.println("상품 ~  " + product);
         
