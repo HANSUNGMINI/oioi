@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.oi.handler.CheckSearchKeyword;
 import com.itwillbs.oi.service.SearchService;
 
 @Controller
@@ -22,6 +23,9 @@ public class SearchController {
 	
 	@Autowired
 	SearchService service;
+	
+	@Autowired
+	CheckSearchKeyword searchKeyword;
 	
 	// 연관 검색어 뽑아오기
 	@ResponseBody
@@ -39,19 +43,21 @@ public class SearchController {
 	public String saveSearchKeyword(@RequestParam Map<String, String> map) {
 		//System.out.println(">>>>>> 검색해서 이동한 키워드 : " + map);
 
-		if ((String)map.get("keyword") == "") {
+		String keyword = (String)map.get("keyword");
+		
+		if (keyword == "") {
 			return "";
 		}
 		
 		// 중복된 키워드 있는지 확인
 		int duplicateNum = service.duplicateKeyword(map); 
-		//System.out.println(">>>>>" + duplicateNum);
-		
-		if(duplicateNum < 1) {
+
+		// 중복되지 않고, 자음 / 모음만 입력한 게 아닐 경우
+		if(duplicateNum < 1 && !searchKeyword.isConsonantOnly(keyword) && !searchKeyword.containsVowel(keyword)) {
 			// 키워드 넣기
 			service.registKeyword(map);
 		} else {
-			// 카운트 갱신 
+			// 키워드 카운트 갱신 
 			service.upCount(map);
 		}
 		
