@@ -229,7 +229,12 @@
 		ws.send(toJsonString(type, TO_ID, FROM_ID, CR_ID, msg, PD_IDX));
     }
     
-  
+    // -----------------------------------------------------------
+    
+	 document.addEventListener("DOMContentLoaded", function() {
+	    const chatArea = document.getElementById("chat-history");
+	});   
+    
     // -----------------------------------------------------------
     function appendMessage(msg, align_type, who) {
     	
@@ -266,16 +271,15 @@
 	    				
 		$("#chatArea").append(chat);
     				
-    	// 채팅 메세지 출력창 스크롤바를 항상 맨밑으로 유지
-		$('#chat-history').scrollTop($('#chat-history').prop('#chat-history'));
-    	
+    	// chatArea의 스크롤을 맨 아래로 이동
+        const chatArea = document.getElementById("chat-history");
+        chatArea.scrollTop = chatArea.scrollHeight;
     }
 
     
     // -----------------------------------------------------------
     
     function exitRoom() {
-    			
     	location.href="ChatList?US_ID=${US_ID}"
     }
     // -----------------------------------------------------------
@@ -767,7 +771,7 @@
 				});
 		}
 
-	
+
 		/* 상점 바로가기 */
 		function goStore(){
 			window.opener.location.href="myStore?userId=${param.TO_ID}"; 
@@ -781,7 +785,8 @@
 			window.opener.location.href="productDetail?PD_IDX=" + idx ; 
 			window.close();	
 		}
- 		
+
+		
 		/* 파일 업로드 */
 		document.addEventListener("DOMContentLoaded", function() {
 		    const fileInput = document.getElementById('fileInput');

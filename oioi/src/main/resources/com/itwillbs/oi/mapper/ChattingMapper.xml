@@ -253,6 +253,14 @@
 		FROM chat_room
 		WHERE CR_ID = #{CR_ID}
 	</select>
+
+	<select id="deliveryinfo" resultType="int">
+		SELECT COUNT(DV_STATUS)
+		FROM delivery d 
+		JOIN chat_room cr
+		ON d.PC_ID = cr.PD_IDX AND d.BUYER_ID = cr.BUYER_ID 
+		WHERE DV_STATUS = 2 AND cr.CR_ID = #{crId}
+	</select>
 	
 	<update id="removerRoom">
 		UPDATE chat_room

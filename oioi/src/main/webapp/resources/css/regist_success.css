@@ -86,3 +86,8 @@ h1, .id_check {
     text-align: center;
     padding: 30px;
 }
+
+.id_check {
+	display: inline-block; 
+	white-space: nowrap; 
+    }

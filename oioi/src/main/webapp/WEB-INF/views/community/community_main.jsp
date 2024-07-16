@@ -315,13 +315,24 @@
 			<div class="col-lg-3 col-12">
 				<div class="main-sidebar">
 					<!-- Single Widget -->
+<!-- 					<div class="single-widget category"> -->
+<!-- 						<ul class="category-list"> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this, 'CC01')" id="all" >전체 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this,'CC02')">질문 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this,'CC03')">신고 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this,'CC04')">정보 게시판</a></li> -->
+<!-- 							<li><a href="#" onclick="clickCategory(this,'CC05')">친목 게시판</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
 					<div class="single-widget category">
 						<ul class="category-list">
-							<li><a href="#" onclick="clickCategory(this, 'CC01')" id="all" >전체 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'CC02')">질문 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'CC03')">신고 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'CC04')">정보 게시판</a></li>
-							<li><a href="#" onclick="clickCategory(this,'CC05')">친목 게시판</a></li>
+							<c:forEach var="category" items="${categoryList}" >
+								<li><a href="#" onclick="clickCategory(this, '${category.code}')" 
+								<c:if test="${category.code eq 'CC01'}">
+									id="all"
+								</c:if>>
+								${category.value}</a></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>

@@ -268,10 +268,15 @@
 			   			<div class = "detail_view" style="width: 900px; height: 800px;">
 							 <div class ="view_tit">
 				   				<select class="boardCategory" name="CM_CATEGORY">
-									<option value="CC02">질문게시판</option>
-									<option value="CC03">신고게시판</option>
-									<option value="CC04">정보게시판</option>
-									<option value="CC05">친목게시판</option>
+				   					<c:forEach var="category" items="${categoryList}">
+				   						<c:if test="${category.code != 'CC01'}">
+											<option value="${category.code}">${category.value}</option>
+         							   </c:if>
+				   					</c:forEach>
+<!-- 										<option value="CC02">질문게시판</option> -->
+<!-- 										<option value="CC03">신고게시판</option> -->
+<!-- 										<option value="CC04">정보게시판</option> -->
+<!-- 										<option value="CC05">친목게시판</option> -->
 								</select>
 				  				<h3><input type = "text" id="title" placeholder=" 제목을 입력하세요" name = "CM_TITLE" style = "width : 400px" required="required" maxlength="40"> </h3>
 				  			</div>

@@ -34,7 +34,7 @@ public class coolSmsController {
     final DefaultMessageService messageService;
 
     public coolSmsController() {
-        this.messageService = NurigoApp.INSTANCE.initialize("NCS97ALCFUUNEUTN", "DO7VGOIBS8DAASGIL8C8EUKYITAW82KH", "https://api.coolsms.co.kr");
+        this.messageService = NurigoApp.INSTANCE.initialize("NCSUOKWSKXGLNZMI", "OUEPWGR4PQGT8IZTVB74GLLC8JFIHLFV", "https://api.coolsms.co.kr");
     }
 
     @ResponseBody

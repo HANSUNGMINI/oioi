@@ -113,7 +113,6 @@ public class ChattingService {
 	public List<Map<String, Object>> getReadCount(Map<String, Object> map) {
 		
 		List<Map<String, Object>> readCountInfo = mapper.getReadCount(map);
-		System.out.println(readCountInfo);
 		
 		if(readCountInfo.isEmpty()) {
 			return null;
@@ -194,6 +193,10 @@ public class ChattingService {
 	// 누가 채팅방을 나갔는지
 	public Map<String, Object> getUserExitRoom(Map<String, Object> map) {
 		return mapper.getUserExitRoom(map);
+	}
+
+	public int deliveryInfo(Map map) {
+		return mapper.deliveryinfo(map);
 	}
 
 

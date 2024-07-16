@@ -12,8 +12,6 @@ public interface CommunityMapper {
 
 	Map<String, Object> selectBoardDetail(int CM_IDX);
 
-	List<Map<String, String>> selectCM_CATEGORY();
-
 	int insertBoard(Map<String, Object> map);
 
 	int selectCM_IDX();
@@ -29,5 +27,7 @@ public interface CommunityMapper {
 	List<Map<String, String>> selectReportCategory();
 
 	int insertReport(Map<String, String> map);
+
+	List<Map<String, Object>> selectCMCategory();
 
 }

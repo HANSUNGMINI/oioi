@@ -21,9 +21,6 @@ public class CommunityService {
 		return mapper.selectBoardDetail(CM_IDX);
 	}
 
-	public List<Map<String, String>> selectCM_CATEGORY() {
-		return mapper.selectCM_CATEGORY();
-	}
 
 	public int insertBoard(Map<String, Object> map) {
 		return mapper.insertBoard(map);
@@ -55,6 +52,10 @@ public class CommunityService {
 
 	public int insertReport(Map<String, String> map) {
 		return mapper.insertReport(map);
+	}
+
+	public List<Map<String, Object>> getCMCategory() {
+		return mapper.selectCMCategory();
 	}
 
 }

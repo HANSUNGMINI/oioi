@@ -54,6 +54,7 @@ public interface ChattingMapper {
 	void removerRoom(ProductChatVO chatMessage); // 대화방 나가기
 	void statusTwoRemove(ProductChatVO chatMessage); // 대화방 나가기 status 2로 바꾸기
 	Map<String, Object> getUserExitRoom(Map<String, Object> map); // 누가 채팅방을 나갔느지
+	int deliveryinfo(Map map); // 운송장 정보
 	
 	
 
