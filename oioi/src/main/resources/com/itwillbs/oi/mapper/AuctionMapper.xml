@@ -164,7 +164,7 @@
 		]]>
 		<if test="params.APD_STATUS == ''">
 		WHERE APD_STATUS LIKE 'APD0%'
-		AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '09'
+		AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '07'
 		</if>
 		<if test="params.APD_STATUS == 'APD05'">
 		WHERE APD_STATUS = 'APD05'
@@ -294,29 +294,37 @@
 	
 	<select id="apdPopular" resultType="hashmap">
 	<![CDATA[
-		SELECT ap.*, COUNT(b.APD_IDX) AS bid_count,
-		CASE
-			WHEN ap.APD_STATUS = 'APD09' THEN 'overlay'
-			WHEN ap.APD_STATUS = 'APD08' THEN 'overlay'
-			WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
-			WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
-			WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
-		END AS APD_STATUS_COLOR,
-		CASE 
-			WHEN TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, ap.APD_REG_DATE, NOW()), ' 초전')
-			WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()), ' 분전')
-			WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()), ' 시간전')
-			ELSE CONCAT(TIMESTAMPDIFF(DAY, ap.APD_REG_DATE, NOW()), ' 일전')
-		END AS RD_DATE,
-		c.value as APD_STATUS_VALUE
-		FROM auction_product ap
-		JOIN bidding b
-		ON ap.APD_idx = b.APD_IDX
-		JOIN common c
-		on ap.APD_STATUS = c.code
-		GROUP BY ap.APD_idx, c.value
-		ORDER BY bid_count DESC
-		limit 5
+		SELECT 
+		    ap.*, 
+		    COUNT(b.APD_IDX) AS bid_count,
+		    CASE
+		        WHEN ap.APD_STATUS = 'APD09' THEN 'overlay'
+		        WHEN ap.APD_STATUS = 'APD08' THEN 'overlay'
+		        WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
+		        WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
+		        WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
+		    END AS APD_STATUS_COLOR,
+		    CASE 
+		        WHEN TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(SECOND, ap.APD_REG_DATE, NOW()), ' 초전')
+		        WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 1 THEN CONCAT(TIMESTAMPDIFF(MINUTE, ap.APD_REG_DATE, NOW()), ' 분전')
+		        WHEN TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()) < 24 THEN CONCAT(TIMESTAMPDIFF(HOUR, ap.APD_REG_DATE, NOW()), ' 시간전')
+		        ELSE CONCAT(TIMESTAMPDIFF(DAY, ap.APD_REG_DATE, NOW()), ' 일전')
+		    END AS RD_DATE,
+		    c.value AS APD_STATUS_VALUE
+		FROM 
+		    auction_product ap
+		JOIN 
+		    bidding b ON ap.APD_idx = b.APD_IDX
+		JOIN 
+		    common c ON ap.APD_STATUS = c.code
+		WHERE 
+		    ap.APD_STATUS LIKE 'APD0%'
+		    AND SUBSTRING(ap.APD_STATUS, 4, 2) BETWEEN '05' AND '07'
+		GROUP BY 
+		    ap.APD_idx, c.value, ap.APD_STATUS, ap.APD_REG_DATE
+		ORDER BY 
+		    bid_count DESC
+		LIMIT 5;
 		]]>
 	</select>
 	
@@ -356,6 +364,8 @@
 		 JOIN common c
 		 ON ap.APD_STATUS = c.code
 		 WHERE APD_IDX = #{prodcut}
+		 	   AND APD_STATUS LIKE 'APD0%'
+		       AND SUBSTRING(APD_STATUS, 4, 2) BETWEEN '05' AND '07'
 		 ]]>
 	</select>
 	<select id="getOiMoney" resultType="String">
