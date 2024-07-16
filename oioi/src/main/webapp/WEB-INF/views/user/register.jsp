@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-  <!-- SweetAlert CSS -->
+  	<!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
