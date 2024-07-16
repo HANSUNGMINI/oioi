@@ -17,13 +17,10 @@ function addAdmin(){
 		data : $("#form").serialize(),
 		dataType : "JSON",
 		success : function(response){
-			alert(response);
-			
 			if (response > 0) {
 				window.opener.location.reload();
 				window.close();
 			}
-			
 		}
 	}); // ajax
 	

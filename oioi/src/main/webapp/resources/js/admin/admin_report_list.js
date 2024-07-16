@@ -1,7 +1,7 @@
 const columns = [
     {header: '신고번호', name: 'RP_IDX', width : 100, align : "center"},
-    {header: '신고자', name: 'FROM_US_ID', width : 200, align : "center"},
-    {header: '신고대상', name: 'TO_US_ID', width : 200, align : "center"},
+    {header: '신고자', name: 'TO_US_ID', width : 200, align : "center"},
+    {header: '신고대상', name: 'FROM_US_ID', width : 200, align : "center"},
     {header: '신고사유', name: 'RP_CATEGORY', align : "center"},
     {header: '신고일자', name: 'RP_TIME' , width : 150, align : "center"},
     {header: '보기'

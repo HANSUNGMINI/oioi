@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/responsive.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/color.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/product.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<style>
 		.flex-control-thumbs li {
 			margin : 0px !important;
@@ -171,5 +173,26 @@
 	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 	<!-- Active JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+	
+	<script>
+		function changeStatus(){
+			$.ajax({
+				type : "POST",
+				url : "userStatus",
+				data : {
+					"US_STATUS" : $("#US_STATUS").val(),
+					"US_ID" : "${param.target}",
+				},
+				dataType : "JSON",
+				success : function (response) {
+					if(response > 0 ) {
+						checkAlert('성공적으로 변경되었습니다!','success');
+					} else {
+						checkAlert('다시 시도해주세요','error');
+					}
+				}
+			})
+		}
+	</script>
 </body>
 </html>

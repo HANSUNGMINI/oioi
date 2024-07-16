@@ -322,3 +322,17 @@ Version:1.0
 	}, 2000); //Here you can change preloader time
 	 
 })(jQuery);
+
+
+
+function checkAlert(title, icon) {
+	 Swal.fire({
+            title : title,
+            icon: icon,
+            confirmButtonText: '확인',
+       	}).then((result) => {});
+}
+
+
+
+
