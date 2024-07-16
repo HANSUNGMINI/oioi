@@ -38,4 +38,5 @@ public interface StoreMapper {
 
 	List<Map<String, Object>> selectWishList(String userId);
 
+
 }

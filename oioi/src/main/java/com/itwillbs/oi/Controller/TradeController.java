@@ -2,6 +2,8 @@ package com.itwillbs.oi.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +15,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.oi.handler.CheckAuthority;
 import com.itwillbs.oi.service.AuctionService;
+import com.itwillbs.oi.service.CommunityService;
 import com.itwillbs.oi.service.TradeService;
 
 @MultipartConfig
@@ -39,6 +45,8 @@ public class TradeController {
 	private TradeService tradeService;
 	@Autowired
 	private AuctionService Auctionservice;
+	@Autowired
+	private CommunityService communityService;
 	
 	// 거래 메인페이지
 	@GetMapping("trade")
@@ -109,7 +117,8 @@ public class TradeController {
 
 	 // 상품 상세 페이지
 	@GetMapping("productDetail")
-	public String goDetail(@RequestParam Map<String, String> map, Model model, HttpSession session) {
+	public String goDetail(@RequestParam Map<String, String> map, Model model, HttpSession session,
+							HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(map);
 		System.out.println("PD_IDX :" + map.get("PD_IDX"));
 //		if(!CheckAuthority.isUser(session, model)) {
@@ -120,11 +129,34 @@ public class TradeController {
 			map.put("US_ID", (String)session.getAttribute("US_ID"));
 		}
 		System.out.println(session.getAttribute("US_ID"));
-//		if()
 		
 		// 클릭 시 조회 수 + 1
 		String pd_idx = map.get("PD_IDX");
-		int readCountResult = tradeService.updateReadCount(pd_idx);
+//		int readCountResult = tradeService.updateReadCount(pd_idx);
+		String US_ID = (String)session.getAttribute("US_ID");
+		Cookie[] cookies = request.getCookies();
+        boolean storeVisit = false;
+		
+		if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("storeVisit" + pd_idx) && cookie.getValue().equals(US_ID)) {
+                    storeVisit = true;
+                    break;
+                }
+            }
+        }
+        
+     // 조회수 증가 및 쿠키 설정
+        if (!storeVisit && session.getAttribute("US_ID") != null) {
+//        	if (!storeVisit && session.getAttribute("US_ID") != null ) {
+        		tradeService.updateReadCount(pd_idx); // 조회수 증가 로직
+        		Cookie newCookie = new Cookie("storeVisit" + pd_idx, US_ID);
+        		newCookie.setMaxAge(60 * 60 * 24); // 쿠키 유효기간 24시간
+        		response.addCookie(newCookie);
+        }
+		
+//		int readCountResult = tradeService.updateReadCount(pd_idx);
+		
 		
 		// pd_idx에 따른 정보 조회
 		Map<String, String> dbMap = tradeService.getProductInfo(map);

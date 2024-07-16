@@ -196,6 +196,7 @@
 	        product p
 	    JOIN 
 	    	common c ON p.PD_STATUS = c.code    
+	    	
 	    LEFT JOIN 
 	        common cp1 ON p.PD_PRICE_OFFER = cp1.code AND cp1.name = 'PD_PRICE_OFFER'
 	    LEFT JOIN 
@@ -216,7 +217,7 @@
 	        category c1 ON c2.UP_CTG_CODE = c1.CTG_CODE
 	    WHERE  
 <!-- 	     1=1 -->
-			(PD_STATUS = 'PDS01' OR PD_STATUS = 'PDS02' OR PD_STATUS = 'PDS03')
+			(PD_STATUS = 'PDS01' OR PD_STATUS = 'PDS02' OR PD_STATUS = 'PDS03' )
        		
 	        <if test="params.cate1 != null and params.cate1 != ''">
 	            AND c1.CTG_CODE = #{params.cate1}
