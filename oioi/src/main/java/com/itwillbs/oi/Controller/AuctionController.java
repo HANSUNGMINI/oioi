@@ -260,7 +260,7 @@ public class AuctionController {
       //채팅칠때 채팅방이 없다면 채팅방먼저 개설
       String APD_IDX = (String)map.get("APD_IDX");
       //채팅방있는지 확인하고 idx가져오기
-      String selectAcrIdx = service.selectACR(APD_IDX);
+      String selectAcrIdx = (String)service.selectACR(APD_IDX);
       System.out.println("selectAcrIdx : " + selectAcrIdx);
       if(selectAcrIdx == null) {
     	 //insert했을때의 primary key가져옴

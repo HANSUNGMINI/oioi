@@ -362,8 +362,8 @@
    
    
    function connect() {
-//       ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
-      ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+      ws = new WebSocket("ws://localhost:8081/oi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
+//       ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/replyEcho?APD_IDX=" + encodeURIComponent(apd_idx));
       var us_id = "${apdDetail.US_ID}";
       socket = ws;
    ws.onopen = function() {
@@ -384,7 +384,7 @@
            } else {
                appendMessage(res.US_ID, res.MSG, "left",response.US_PROFILE,response.US_NICK);
            }
-           saveMessage(res);
+//            saveMessage(res);
        } else if(response.type === 'USER_LIST'){
            var users = response.users;
            
