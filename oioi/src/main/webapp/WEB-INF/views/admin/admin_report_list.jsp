@@ -46,8 +46,8 @@
 	        	</p>
 	        	
 	        	<select id="type">
-	        		<option value="TO_US_ID">신고자</option>
-	        		<option value="FROM_US_ID">신고대상</option>
+	        		<option value="TO_US_ID">신고대상</option>
+	        		<option value="FROM_US_ID">신고자</option>
 	        	</select>
 	        	<input type="text" id="keyword" placeholder="검색어 입력">
 	        	
