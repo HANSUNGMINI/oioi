@@ -280,7 +280,6 @@ public class CommunityContorller {
 		}
 		
 		String US_ID = (String)session.getAttribute("US_ID");
-		System.out.println("ddddddddddddddddddddddddddddddddddddd : " + US_ID);
 		Cookie[] cookies = request.getCookies();
         boolean storeVisit = false;
         
