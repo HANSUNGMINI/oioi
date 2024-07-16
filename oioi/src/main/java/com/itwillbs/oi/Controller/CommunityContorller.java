@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -38,7 +39,12 @@ public class CommunityContorller {
 	
 	
 	@GetMapping("community")
-	public String Community() {
+	public String Community(Model model) {
+		
+		List<Map<String, Object>> categoryList = service.getCMCategory();
+		
+//		System.out.println("@@@@@@" + categoryList);
+		model.addAttribute("categoryList", categoryList);
 		
 		return "community/community_main";
 	}
@@ -50,9 +56,9 @@ public class CommunityContorller {
 								, @RequestParam(defaultValue = "") String searchType
 								, @RequestParam(defaultValue = "") String searchKeyword) {
 		
-		System.out.println(pageNum);
-		System.out.println(searchType);
-		System.out.println(searchKeyword);
+//		System.out.println(pageNum);
+//		System.out.println(searchType);
+//		System.out.println(searchKeyword);
 		
 		map.put("type", type);
 
@@ -65,10 +71,10 @@ public class CommunityContorller {
 		map.put("listLimit", listLimit);
 		map.put("searchType", searchType);
 		map.put("searchKeyword", searchKeyword.trim());
-		System.out.println("받아온 내용물 : " + map);
-		System.out.println("response : " + response);
+//		System.out.println("받아온 내용물 : " + map);
+//		System.out.println("response : " + response);
 		List<Map<String, Object>> boardList = service.selectBoardList(map);
-		System.out.println("게시글 목록 : " + boardList);
+//		System.out.println("게시글 목록 : " + boardList);
 		
 		int listCount = service.getListCount(map);
 		int pageListLimit = 5; // 페이지 번호 갯수를 3개로 지정(1 2 3 or 4 5 6 등...)
@@ -130,7 +136,8 @@ public class CommunityContorller {
 			return "err/fail";
 		}
 		
-//		List<Map<String, String>> CM_CATEGORY = service.selectCM_CATEGORY();
+		List<Map<String, Object>> categoryList = service.getCMCategory();
+		model.addAttribute("categoryList", categoryList);
 		
 		model.addAttribute("CM_NICK", session.getAttribute("US_NICK"));
 		
