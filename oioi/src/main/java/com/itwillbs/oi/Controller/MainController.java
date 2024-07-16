@@ -26,7 +26,7 @@ public class MainController {
 	@ResponseBody
 	@GetMapping("recentKeywordProductList")
 	public List<Map<String, Object>> recentKeywordProductList(@RequestParam Map<String, String> map, Model model) {
-		System.out.println(map);
+//		System.out.println(map);
 		List<Map<String, Object>> productList = service.getRecentKeywordProduct(map);
 		model.addAttribute("productList", productList);
 		
@@ -37,7 +37,7 @@ public class MainController {
 	@GetMapping("recentLookProductList")
 	public List<Map<String, Object>> recentLookProductList(@RequestParam Map<String, String> map, Model model) {
 		
-		System.out.println(">>> map에 머가 있을가 " + map); // recentProduct=50,32,32,49,50,50,50,50,45,45
+//		System.out.println(">>> map에 머가 있을가 " + map); // recentProduct=50,32,32,49,50,50,50,50,45,45
 		
 		// String으로 바꾸기
 		String recentProduct = map.get("recentProduct"); 
@@ -54,7 +54,7 @@ public class MainController {
         }
 
         // 결과 출력
-        System.out.println(productSet); // [50, 32, 49, 45]
+//        System.out.println(productSet); // [50, 32, 49, 45]
 	
         // 최종 결과를 담을 리스트를 초기화합니다.
         List<Map<String, Object>> recentProductList = new ArrayList<>();
@@ -67,8 +67,8 @@ public class MainController {
             }
         }
 
-        // 결과를 출력합니다. (디버깅용)
-        System.out.println("최근 본 상품입니다 " + recentProductList);
+        // 결과 출력
+//        System.out.println("최근 본 상품입니다 " + recentProductList);
         
 		return recentProductList;
 	}

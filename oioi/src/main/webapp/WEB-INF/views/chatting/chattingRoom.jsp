@@ -87,8 +87,8 @@
     let ws; // 웹소켓 객체가 저장될 변수
     
     function connectChat() {
-    	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
-//         ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+//     	ws = new WebSocket("ws://c3d2401t1.itwillbs.com/oioi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
+        ws = new WebSocket("ws://localhost:8081/oi/productChat?TO_ID=" + encodeURIComponent('${param.TO_ID}') + "&PD_IDX=" + encodeURIComponent('${param.PD_IDX}'));
         ws.onopen = onOpen; // 연결 시 발생
 		ws.onclose = onClose; // 연결해제 시 발생
 		ws.onmessage = onMessage; // 메세지 보냈을 때 발생
@@ -275,14 +275,8 @@
     // -----------------------------------------------------------
     
     function exitRoom() {
-    	location.href="ChatList?US_ID=${US_ID}"
     			
-    	 Swal.fire({
-	            title: '채팅방 나가기 완료되었습니다',         // Alert 제목
-	            text: '감사합니다',  // Alert 내용
-	            icon: 'success',                         // Alert 타입
-	        });
-    	
+    	location.href="ChatList?US_ID=${US_ID}"
     }
     // -----------------------------------------------------------
     
