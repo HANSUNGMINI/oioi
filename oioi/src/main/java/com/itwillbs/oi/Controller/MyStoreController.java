@@ -170,13 +170,15 @@ public class MyStoreController {
         String id = (String) session.getAttribute("US_ID");
         Map<String, String> user = userService.selectMyUser(id);
         List<Map<String, Object>> myPD = storeService.selectMyPd(id);
-
+        
         // 공통 코드를 조회하여 모델에 추가
         List<Map<String, String>> code = storeService.getCommonCode("PD_STATUS");
-
+        
+        
         model.addAttribute("code", code);
         model.addAttribute("user", user);
         model.addAttribute("myPD", myPD);
+
 
         return "myStore/edit_my_store";
     }

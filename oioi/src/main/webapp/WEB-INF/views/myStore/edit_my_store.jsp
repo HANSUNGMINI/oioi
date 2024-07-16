@@ -97,7 +97,6 @@
                                     <th scope="col">판매상태</th>
                                     <th scope="col">상품명</th>
                                     <th scope="col">가격</th>
-                                    <th scope="col">찜</th>
                                     <th scope="col">최근수정일</th>
                                     <th scope="col">기능</th>
                                 </tr>
@@ -116,7 +115,6 @@
                                             </td>
                                             <td>${product.PD_SUBJECT}</td>
                                             <td>${product.PD_PRICE} 원</td>
-                                            <td>${product.PD_LIKES}</td>
                                             <td>${product.PD_UPDATED_DATE}</td>
                                             <td>
                                                 <button class="btn btn-custom btn-up" onclick="productUp('${product.PD_IDX}')">끌어올리기</button>

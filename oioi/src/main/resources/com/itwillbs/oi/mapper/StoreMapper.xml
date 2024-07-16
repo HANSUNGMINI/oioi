@@ -138,5 +138,5 @@
 	    LEFT JOIN images i ON p.PD_IMAGE = i.IMG_IDX
 	    WHERE wl.WL_US_ID = #{userId}
 	</select>
-    
+
 </mapper>

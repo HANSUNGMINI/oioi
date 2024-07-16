@@ -86,6 +86,14 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
         @media (max-width: 768px) {
             .info-item {
                 grid-template-columns: 1fr;
@@ -222,6 +230,13 @@
     <p>새 비밀번호를 다시 입력하세요:</p>
     <input type="password" id="confirm-new-password" class="form-control">
     <div id="checkPwResult2"></div>
+</div>
+
+<!-- 회원탈퇴 모달 -->
+<div id="withdraw-modal" title="">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo" style="display: block; margin: 0 auto; padding: 10px 0;">
+    <p>비밀번호를 입력하세요:</p>
+    <input type="password" id="withdraw-password" class="form-control">
 </div>
 
 <!-- 사용자 정의 모달 알림 창 -->
@@ -424,6 +439,31 @@ function openPasswordModal() {
                     $(this).dialog("close");
                 } else {
                     showCustomAlert("모든 필드를 입력하세요.", false);
+                }
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function openWithdrawModal() {
+    // 회원탈퇴 모달 열기
+    $("#withdraw-modal").dialog({
+        modal: true,
+        title: '',
+        open: function() {
+            $(this).prev(".ui-dialog-titlebar").css("background-color", "transparent");
+        },
+        buttons: {
+            "탈퇴": function() {
+                const password = $("#withdraw-password").val();
+                if (password) {
+                    withdrawUser(password);
+                    $(this).dialog("close");
+                } else {
+                    showCustomAlert("비밀번호를 입력하세요.", false);
                 }
             },
             "취소": function() {
@@ -707,6 +747,25 @@ function getLatLng(address) {
             $("#US_LAT").val(location.lat);
             $("#US_LNG").val(location.lng);
         },
+    });
+}
+
+function withdrawUser(password) {
+    $.ajax({
+        type: "POST",
+        url: "userWithdraw",
+        data: { password: password },
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                showCustomAlert("회원 탈퇴가 성공적으로 완료되었습니다.", true);
+            } else {
+                showCustomAlert(response.message, false);
+            }
+        },
+        error: function() {
+            showCustomAlert("요청 실패!", false);
+        }
     });
 }
 </script>

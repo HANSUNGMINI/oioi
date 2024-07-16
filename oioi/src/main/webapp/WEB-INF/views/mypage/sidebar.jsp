@@ -21,7 +21,7 @@
         </ul>
     </div>
     <div class="single-widget category">
-        <h3 class="title"><a href="#" onclick="showWithdrawModal(event)">회원탈퇴</a></h3>
+        <h3 class="title"><a href="#" onclick="openWithdrawModal()">회원탈퇴</a></h3>
     </div>
     <div class="single-widget category">
         <h3 class="title"><a href="userLogout">로그아웃</a></h3>
