@@ -226,7 +226,12 @@ async function handleSubmit(event) {
 	userMessage.value = "";
 	const aiResponse = await getResponse(prompt);
 	chatArea.innerHTML += aiDiv(aiResponse);
-
+	
+	const lastMessage = chatArea.lastElementChild;
+    if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: 'smooth' });
+    }
+	
 	let newUserRole = {
     role: "user",
     parts:[{ text: prompt }],

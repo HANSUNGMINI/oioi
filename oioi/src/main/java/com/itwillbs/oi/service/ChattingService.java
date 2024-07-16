@@ -1,5 +1,6 @@
 package com.itwillbs.oi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -112,22 +113,25 @@ public class ChattingService {
 	public List<Map<String, Object>> getReadCount(Map<String, Object> map) {
 		
 		List<Map<String, Object>> readCountInfo = mapper.getReadCount(map);
+		System.out.println(readCountInfo);
 		
 		if(readCountInfo.isEmpty()) {
 			return null;
 		}
 		
-		Map<String, Object> firstEntry = readCountInfo.get(0);
-		
-		// 읽은 메시지 개수
-		int readCount = (int) firstEntry.get("CM_READCOUNT");
-		
-		// 아무도 안 읽었거나 내가 안 읽었을 때 전달 아니면 null 전달
-		if (readCount == 1 && !firstEntry.get("CM_READBY").equals(map.get("US_ID"))) {
-		    return readCountInfo;
-		} else {
-		    return null;
-		}
+		// 필터링된 결과를 저장할 리스트를 초기화한다
+	    List<Map<String, Object>> filteredList = new ArrayList<>();
+
+	    // readCountInfo 리스트를 순회한다
+	    for (Map<String, Object> entry : readCountInfo) {
+	    	
+	        if ((int) entry.get("CM_READCOUNT") == 1 && !entry.get("CM_READBY").equals(map.get("US_ID"))) {
+	            filteredList.add(entry);
+	        }
+	    }
+
+	    // 필터링 리스트가 비어 있으면 null을 반환하고, 그렇지 않으면 필터링된 리스트를 반환한다
+	    return filteredList.isEmpty() ? null : filteredList;
 		
 	}
 

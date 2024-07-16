@@ -79,7 +79,7 @@
 		ON p.PD_STATUS = c.code
 		JOIN images i
 		ON p.PD_IMAGE = i.IMG_IDX
-		WHERE CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword}
+		WHERE CONCAT(IFNULL(PD_TAG1, ''), '|', IFNULL(PD_TAG2, ''), '|', IFNULL(PD_TAG3, ''), '|', IFNULL(PD_TAG4, ''), '|', IFNULL(PD_TAG5, ''), '|', IFNULL(PD_SUBJECT, '')) REGEXP #{keyword} AND PD_STATUS != 'PDS04' 
 		ORDER BY PD_IDX; 
  	</select>
  	
@@ -104,7 +104,7 @@
 		    GROUP BY CR_ID
 		) latest_msg
 		ON cm.CR_ID = latest_msg.CR_ID AND cm.MS_DATE = latest_msg.Latest_MS_DATE
-		WHERE cm.FROM_ID = #{US_ID}
+		WHERE cm.FROM_ID = #{US_ID} 
 		ORDER BY cm.MS_DATE
 		LIMIT 2;
   	</select>

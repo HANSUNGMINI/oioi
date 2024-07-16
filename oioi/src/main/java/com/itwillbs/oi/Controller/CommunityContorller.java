@@ -280,17 +280,20 @@ public class CommunityContorller {
 		}
 		
 		String US_ID = (String)session.getAttribute("US_ID");
-		
 		Cookie[] cookies = request.getCookies();
         boolean storeVisit = false;
         
-        if (cookies != null) {
+        if (cookies != null){
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("storeVisit" + CM_IDX) && cookie.getValue().equals(US_ID)) {
                     storeVisit = true;
                     break;
                 }
             }
+        }
+        
+        if(US_ID == null) {
+        	storeVisit = true;
         }
         
      // 조회수 증가 및 쿠키 설정
