@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
+<!-- SweetAlert CSS -->	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<!-- Meta Tag -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -315,11 +319,20 @@
 	function addToWishList(){
 		var session = '${sessionScope.US_ID}';
 		if (session === '') {
-			if(confirm("로그인이 필요합니다. \n로그인 페이지로 이동합니다.")){
-				window.location.href = 'login'; // 로그인 페이지로 이동
-			}
-			return;	
-		}
+            Swal.fire({
+                icon: 'info',
+                title: '로그인이 필요합니다.',
+                text: '로그인 페이지로 이동합니다.',
+                showCancelButton: true,
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login'; // 로그인 페이지로 이동
+                }
+            });
+            return;
+        }
 		
 		var productId = '${productInfo.PD_IDX}';
 	 	

@@ -92,6 +92,7 @@ public class ChattingController {
 
             // 안 읽은 메세지의 개수 가져오기
             List<Map<String, Object>> readInfo = service.getReadCount(map);
+//            System.out.println(readInfo);
             
             int readCount = (readInfo == null) ? 0 : readInfo.size();
             
@@ -118,7 +119,7 @@ public class ChattingController {
 		    combinedList.add(combined);
 		}
 
-		System.out.println("합쳐진 정보 " + combinedList);
+//		System.out.println("합쳐진 정보 " + combinedList);
 		model.addAttribute("combinedList", combinedList); // 총 합친 정보
 		
 		return "chatting/chatting_list";
@@ -147,15 +148,15 @@ public class ChattingController {
 		
 		// 상품 정보 가져오기
 		Map<String, String> pdInfo = service.getProductInfo(map);
-		System.out.println("상품 정보 " + pdInfo);
+//		System.out.println("상품 정보 " + pdInfo);
 		
 		// 상대방 정보
 		Map<String, String> otherInfo = service.getOtherInfo(map);
-		System.out.println("상대방 정보 " + otherInfo);
+//		System.out.println("상대방 정보 " + otherInfo);
 		
 		// 내 프로필 불러오기
 		Map<String, String> myInfo = service.getMyInfo(map);
-		System.out.println("내 정보 " + myInfo);
+//		System.out.println("내 정보 " + myInfo);
 		
 		// 채팅방 번호 가져오기
     	Map<String, Object> chatRoom = service.getChatRoom(TO_ID, FROM_ID, PD_IDX);
@@ -184,11 +185,11 @@ public class ChattingController {
 			pdInfo.put("existReview", "no");
 		}
 		
-		System.out.println("리뷰 내역 : " + existReview);
+//		System.out.println("리뷰 내역 : " + existReview);
 		
 		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
 		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
-		System.out.println("운송장 있는 지 -->" + deliveryInfo);
+//		System.out.println("운송장 있는 지 -->" + deliveryInfo);
 		
 		if(deliveryInfo != null) {
 			deliveryInfo.put("add", "ok");
@@ -217,7 +218,6 @@ public class ChattingController {
 		
 		// 상대방이 채팅방 나갔는지
 		Map<String, Object> exitRoomUser = service.getUserExitRoom(map);
-		System.out.println("kkk" + exitRoomUser);
 		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 

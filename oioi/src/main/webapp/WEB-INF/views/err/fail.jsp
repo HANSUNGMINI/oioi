@@ -21,11 +21,11 @@
             icon: 'error',
             confirmButtonText: 'OK'
         }).then((result) => {
-        	
             if (result.isConfirmed) {
-            	if("${isClose}" == '') {
+            	
+            	if("${isClose}") {
             		window.opener.location.reload(); // 부모창 리프레시
-            		if("${hrefOpener}" == '') {
+            		if("${hrefOpener}") {
             			window.opener.location.href="${targetURL}";
             		}
             		window.close();
@@ -38,6 +38,7 @@
                 }
             }
         });
+        
     </script>
 </body>
 </html>

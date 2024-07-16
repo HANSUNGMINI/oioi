@@ -42,13 +42,13 @@ $(function(){
 		var clickCount = 0;
 		$('.header-inner').click(function() {
 			clickCount++;
-		    if (clickCount === 3) {
+		    if (clickCount === 30000) {
 		    	var keywords = ["나이키", "아디다스", "신발", "자켓", "반팔", "맨투맨", "모자", "애즈온", "삽니다", "오이"];
 		    	localStorage.setItem("keywords", JSON.stringify(keywords));
 		    	updateTable();
 		    	clickCount = 0;
 		   	}
-		});
+		}); 
 	// ******************* 테스트 데이터 ********************
 		
 		// 로컬 스토리지 값이 변경될 때 실행할 함수

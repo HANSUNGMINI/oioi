@@ -118,10 +118,10 @@ public class ChattingService {
 		}
 		
 		Map<String, Object> firstEntry = readCountInfo.get(0);
-
-		// 읽은 메시지 개수를 가져옵니다.
+		
+		// 읽은 메시지 개수
 		int readCount = (int) firstEntry.get("CM_READCOUNT");
-
+		
 		// 아무도 안 읽었거나 내가 안 읽었을 때 전달 아니면 null 전달
 		if (readCount == 1 && !firstEntry.get("CM_READBY").equals(map.get("US_ID"))) {
 		    return readCountInfo;

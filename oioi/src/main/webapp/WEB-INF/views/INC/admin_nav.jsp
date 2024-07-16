@@ -16,7 +16,9 @@
 	    socket.onopen = function() {
         	console.log("웹소켓 연결 성공");
         };
+        
 	    socket.onmessage = function(event) {
+	    	console.log("웹소켓 메시지");
 	    	let data = JSON.parse(event.data);
 	    	let msg = data.msg;
 	    	if(msg == "checkReport") {
@@ -34,7 +36,7 @@
 		var randomNumber = Math.floor(Math.random() * 4);
     	var newNotification = $('<li class="notify ' + uniqueClass + '">'
 	           + '새로운 <span class="emphasize">' + msg + '</span> 등록되었습니다.'
-	           + '<input type="button" value="바로가기" onclick="location.href=\'' + link + '\'">'
+	           + '<input type="button" style="background-color : blue;" value="바로가기" onclick="location.href=\'' + link + '\'">'
 	           + '</li>'
 	    );
 	    newNotification.css('background-color', colors[randomNumber]);

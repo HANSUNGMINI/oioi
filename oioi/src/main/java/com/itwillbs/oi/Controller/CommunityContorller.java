@@ -361,6 +361,9 @@ public class CommunityContorller {
 	@PostMapping("cm_report")
 	public String reportUser(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 //		System.out.println("report(map) : " + map);
+		  if(!CheckAuthority.isUser(session, model)) {
+				return "err/fail";
+			}
 		
         // 신고자 아이디 및 피신고자 아이디 저장
         map.put("FROM_US_ID", (String)session.getAttribute("US_ID"));

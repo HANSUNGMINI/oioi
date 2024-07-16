@@ -5,7 +5,10 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
+<!-- SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script type="text/javascript">
 	let checkIdResult = false;
 	
@@ -28,7 +31,11 @@
 	    $("#btnCheckId").click(function() {
 	    	
 	    if(document.fr.user_id.value == ""){
- 			alert("아이디를 입력해주세요.");
+	    	Swal.fire({
+			    icon: 'warning',
+			    title: '실패!',
+			    text: '아이디를 입력해주세요!'
+			});
  			return false;
  	    }
 	   
@@ -81,12 +88,20 @@
 <body>
 <c:if test="${param.isValid eq true}">
 	<script type="text/javascript">
-		alert("사용가능한 아이디 입니다.");	
+		Swal.fire({
+		    icon: 'success',
+		    title: '성공!',
+		    text: '사용가능한 아이디 입니다!'
+		});	
 	</script>
 </c:if>
 <c:if test="${param.isValid eq false}">
 	<script type="text/javascript">
-		alert("이미 사용중인 아이디 입니다.");	
+		Swal.fire({
+		    icon: 'error',
+		    title: '실패!',
+		    text: '이미 사용중인 아이디 입니다!'
+		});
 	</script>
 </c:if>
 	<form action="check_id"  name="fr" method="post">
