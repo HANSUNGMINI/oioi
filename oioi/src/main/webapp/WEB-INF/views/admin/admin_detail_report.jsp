@@ -131,9 +131,9 @@
 				dataType : "JSON",
 				success : function (response) {
 					if(response > 0 ) {
-						alert("성공적으로 변경되었습니다!")
+						checkAlert('성공적으로 변경되었습니다!','success');
 					} else {
-						alert("변경에 실패했습니다")
+						checkAlert('다시 시도해주세요','error');
 					}
 				}
 			})
@@ -173,26 +173,5 @@
 	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
 	<!-- Active JS -->
 	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
-	
-	<script>
-		function changeStatus(){
-			$.ajax({
-				type : "POST",
-				url : "userStatus",
-				data : {
-					"US_STATUS" : $("#US_STATUS").val(),
-					"US_ID" : "${param.target}",
-				},
-				dataType : "JSON",
-				success : function (response) {
-					if(response > 0 ) {
-						checkAlert('성공적으로 변경되었습니다!','success');
-					} else {
-						checkAlert('다시 시도해주세요','error');
-					}
-				}
-			})
-		}
-	</script>
 </body>
 </html>
