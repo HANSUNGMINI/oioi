@@ -210,47 +210,56 @@ export const aiDiv = (data) => {
 };
 
 
-async function handleSubmit(event) {
-	event.preventDefault();
+document.addEventListener("DOMContentLoaded", function() {
+    const chatArea = document.getElementById("chat-container");
 
-	  let userMessage = document.getElementById("msg_input");
-	  const chatArea = document.getElementById("chat-container");
-	
-	  var prompt = userMessage.value.trim();
-	  if (prompt === "") {
-	    return;
-	  }
-	console.log("user message : ", prompt);
-	
-	chatArea.innerHTML += userDiv(prompt);
-	userMessage.value = "";
-	const aiResponse = await getResponse(prompt);
-	chatArea.innerHTML += aiDiv(aiResponse);
-	
-	const lastMessage = chatArea.lastElementChild;
-    if (lastMessage) {
-        lastMessage.scrollIntoView({ behavior: 'smooth' });
+    // MutationObserver를 생성하여 새로운 메시지가 추가될 때마다 스크롤 조정
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes[0].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // chatArea의 자식 노드 변경을 감지하도록 설정
+    observer.observe(chatArea, { childList: true });
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        let userMessage = document.getElementById("msg_input");
+        let prompt = userMessage.value.trim();
+        if (prompt === "") {
+            return;
+        }
+        console.log("user message : ", prompt);
+
+        chatArea.innerHTML += userDiv(prompt);
+        userMessage.value = "";
+        const aiResponse = await getResponse(prompt);
+        chatArea.innerHTML += aiDiv(aiResponse);
+
+        let newUserRole = {
+            role: "user",
+            parts:[{ text: prompt }],
+        };
+
+        let newAIRole = {
+            role: "model",
+            parts: [{ text: aiResponse }],
+        };
+
+        history.push(newUserRole);
+        history.push(newAIRole);
+
+        console.log(history);
     }
-	
-	let newUserRole = {
-    role: "user",
-    parts:[{ text: prompt }],
- 	};
- 	
- 	let newAIRole = {
-    role: "model",
-    parts: [{ text: aiResponse }], 
- 	};
 
-	history.push(newUserRole);
-	history.push(newAIRole);
+    const chatForm = document.getElementById("chat-form");
+    chatForm.addEventListener("submit", handleSubmit);
 
-  console.log(history);
-}
-
-const chatForm = document.getElementById("chat-form");
-chatForm.addEventListener("submit", handleSubmit);
-
-chatForm.addEventListener("keyup", (event) => {
-  if (event.keyCode === 13) handleSubmit(event);
+    chatForm.addEventListener("keyup", (event) => {
+        if (event.keyCode === 13) handleSubmit(event);
+    });
 });
