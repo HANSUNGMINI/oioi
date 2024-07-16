@@ -15,6 +15,7 @@
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
+    	alert("${isClose}");
         Swal.fire({
             title: '실패!',
             text: "${msg}",
@@ -22,8 +23,7 @@
             confirmButtonText: 'OK'
         }).then((result) => {
             if (result.isConfirmed) {
-            	
-            	if("${isClose}" == null) {
+            	if("${isClose}" == '') {
             		window.opener.location.reload(); // 부모창 리프레시
             		if("${hrefOpener}" == '') {
             			window.opener.location.href="${targetURL}";
