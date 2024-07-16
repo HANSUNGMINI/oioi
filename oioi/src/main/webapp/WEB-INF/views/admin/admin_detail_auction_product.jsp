@@ -73,7 +73,7 @@
 		            title : title,
 		            icon: icon,
 		            confirmButtonText: '확인',
-		       	}).then((result) => {});
+		       	}).then((result) => {location.reload();});
 		}
 		
 		function regDnum(){
@@ -142,7 +142,6 @@
 							var socket = new WebSocket('ws://c3d2401t1.itwillbs.com/oioi/push');
 							socket.onopen = function (){
 								socket.send(toJsonString("toUsers", "registAPD"));
-								location.reload();
 							};
 						}
 						

@@ -80,10 +80,15 @@
 	</select>
 	
 	<select id="selectAdminList" resultType="map">
-		SELECT *
-		  FROM admin
-		 WHERE RL_NAME != '최고관리자'
-		 ORDER BY AD_IDX asc
+		SELECT AD_ID
+		     , AD_NAME
+		     , AD_DATE
+		     , AD_ACTIVE
+		     , c.value as RL_NAME
+		  FROM admin ad join common c
+		    on ad.RL_NAME = c.code
+		 WHERE RL_NAME != 'ARL01'
+		 ORDER BY AD_IDX asc;
 	</select>
 	
 	<select id="selectAuctionList" resultType="map">

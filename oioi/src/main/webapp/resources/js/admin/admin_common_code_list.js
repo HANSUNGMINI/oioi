@@ -43,7 +43,7 @@ function search() {
 			    data: gridData,
 			    scrollX: false,
 			    scrollY: false,
-			    rowHeaders: ['rowNum','checkbox'],
+			    rowHeaders: ['rowNum'],
 			    columns: columns,
 			    pageOptions: {
 		           useClient: true,

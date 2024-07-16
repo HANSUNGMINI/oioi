@@ -156,7 +156,7 @@ public class AdminController {
 			return "err/fail";
 		}
 		
-		if(selectedAdmin.get("RL_NAME").toString().equals("최고관리자")) {
+		if(selectedAdmin.get("RL_NAME").toString().equals("ARL01")) {
 			session.setAttribute("isMaster", true);
 		}
 		
