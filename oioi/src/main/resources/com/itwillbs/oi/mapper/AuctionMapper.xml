@@ -296,6 +296,8 @@
 	<![CDATA[
 		SELECT ap.*, COUNT(b.APD_IDX) AS bid_count,
 		CASE
+			WHEN ap.APD_STATUS = 'APD09' THEN 'overlay'
+			WHEN ap.APD_STATUS = 'APD08' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD07' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD06' THEN 'overlay'
 			WHEN ap.APD_STATUS = 'APD05' THEN 'non_overlay' 
