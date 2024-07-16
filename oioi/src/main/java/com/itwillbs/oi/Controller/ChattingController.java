@@ -95,9 +95,11 @@ public class ChattingController {
 //            System.out.println(readInfo);
             
             int readCount = (readInfo == null) ? 0 : readInfo.size();
+            int status = service.deliveryInfo(map);
             
             // readCount를 chatList 항목에 포함
             Map<String, Object> chatEntry = new HashMap<>();
+            chatEntry.put("status", status);
             chatEntry.put("list", list);
             chatEntry.put("readCount", readCount);
             
@@ -218,6 +220,7 @@ public class ChattingController {
 		
 		// 상대방이 채팅방 나갔는지
 		Map<String, Object> exitRoomUser = service.getUserExitRoom(map);
+		System.out.println("누가 나갔어 !!!!!!" + exitRoomUser);
 		
 		// model에 담아서 정보 보내기
 		model.addAttribute("pdInfo", pdInfo); // 상품 정보 
