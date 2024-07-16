@@ -60,6 +60,35 @@
     <!-- Test -->
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 
+    <style>
+        .preView {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .preView img {
+            margin: 5px;
+            position: relative;
+        }
+        .preView .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-container {
+            position: relative;
+        }
+    </style>
 </head>
 <body class="js">
 
@@ -88,7 +117,7 @@
             <div class="login-form">
                 <h2>상품수정</h2>
                 <!-- Form -->
-                <form class="regForm" action="productModify2" method="post" enctype="multipart/form-data">
+                <form class="regForm" action="productModify2" method="post" enctype="multipart/form-data" onsubmit="return checkSubmit(event)">
                     <input type="hidden" name="PD_IDX" value="${product.PD_IDX}">
                     <ul>
                         <li>
@@ -96,19 +125,34 @@
                             <input type="file" accept="image/*" name="addfile" multiple id="addfile" style="display : none">
                             <div class="preView">
                                 <c:if test="${not empty product.image1}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image1}" class="tempImg">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/resources/upload/${product.image1}" class="tempImg">
+                                        <button type="button" class="remove-btn" onclick="removeImage(this)">-</button>
+                                    </div>
                                 </c:if>
                                 <c:if test="${not empty product.image2}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image2}" class="tempImg">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/resources/upload/${product.image2}" class="tempImg">
+                                        <button type="button" class="remove-btn" onclick="removeImage(this)">-</button>
+                                    </div>
                                 </c:if>
                                 <c:if test="${not empty product.image3}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image3}" class="tempImg">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/resources/upload/${product.image3}" class="tempImg">
+                                        <button type="button" class="remove-btn" onclick="removeImage(this)">-</button>
+                                    </div>
                                 </c:if>
                                 <c:if test="${not empty product.image4}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image4}" class="tempImg">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/resources/upload/${product.image4}" class="tempImg">
+                                        <button type="button" class="remove-btn" onclick="removeImage(this)">-</button>
+                                    </div>
                                 </c:if>
                                 <c:if test="${not empty product.image5}">
-                                    <img src="${pageContext.request.contextPath}/resources/upload/${product.image5}" class="tempImg">
+                                    <div class="image-container">
+                                        <img src="${pageContext.request.contextPath}/resources/upload/${product.image5}" class="tempImg">
+                                        <button type="button" class="remove-btn" onclick="removeImage(this)">-</button>
+                                    </div>
                                 </c:if>
                                 <img src="${pageContext.request.contextPath}/resources/images/submitIMG.png" class="tempImg addImg">
                             </div>
@@ -126,14 +170,14 @@
                                 </c:forEach>
                             </select>
                             
-                            <select id="cate2" name="cate2" class="form-control" required>
+                            <select id="cate2" name="cate2" class="form-control">
                                 <option value="">중분류를 선택하시오</option>
                                 <c:forEach var="cate2" items="${cate2}">
                                     <option value="${cate2.CTG_CODE}" ${cate2.SELECTED}>${cate2.CTG_NAME}</option>
                                 </c:forEach>
                             </select>
                             
-                            <select id="cate3" name="cate3" class="form-control" required>
+                            <select id="cate3" name="cate3" class="form-control">
                                 <option value="">소분류를 선택하시오</option>
                                 <c:forEach var="cate3" items="${cate3}">
                                     <option value="${cate3.CTG_CODE}" ${cate3.SELECTED}>${cate3.CTG_NAME}</option>
@@ -142,7 +186,7 @@
                         </li>
                         <li>
                             <label> 태그(선택)</label>
-                            <input class="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="PD_TAG" value="${product.PD_TAG}">
+                            <input class="tagify" id="tagify" placeholder="태그를 입력해주세요" maxlength="6" name="PD_TAG" value='${product.PD_TAG_JSON}'>
                         </li>
                         <li>
                             <label> 상품상태 </label>
@@ -155,7 +199,7 @@
                         <li>
                             <label> 가격 </label>
                             <input type="text" id="price" name="PD_PRICE" placeholder="원" value="${product.PD_PRICE}"><br>
-                            <label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" <c:if test="${product.PD_PRICE_OFFER == 'on'}">checked</c:if>>가격 제안 가능</label>
+                            <label class="checkbox-inline" for="2"><input name="PD_PRICE_OFFER" id="2" type="checkbox" <c:if test="${product.PD_PRICE_OFFER == 'PPO01'}">checked</c:if>>가격 제안 가능</label>
                         </li>
                         <li>
                             <label> 상품설명</label>
@@ -171,10 +215,11 @@
                         </li>
                         <li>
                             <label> 안전 거래 여부 </label>
-                            <label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" <c:if test="${product.PD_SAFE_TRADE == 'on'}">checked</c:if>>안전 거래 사용</label>
+                            <label class="checkbox-inline" for="2"><input name="PD_SAFE_TRADE" id="2" type="checkbox" <c:if test="${product.PD_SAFE_TRADE == 'PST01'}">checked</c:if>>안전 거래 사용</label>
                         </li>
                     </ul>
                     <input type="hidden" name="PD_STATUS" value="${product.PD_STATUS}">
+                    <input type="hidden" name="PD_IMAGE" value="${product.PD_IMAGE}">
                     <input type="submit" id="subimit" value="수정하기">
                 </form>
                 <!--/ End Form -->
@@ -183,131 +228,164 @@
     </section>
     <!--/ End Login -->
     
-    <footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
-    
-    <script>
-        $(function() {
-            $(".addImg").on("click", function() {
-                $('#addfile').click();
-            });
+<footer><jsp:include page="../INC/bottom.jsp"></jsp:include></footer>
 
-            $("#addfile").on("change", function(event) {
-                $('.preView img:gt(0)').remove(); // 기존 미리보기 이미지 제거
-                if (this.files.length > 5) {
-                    alert("최대 5개의 이미지만 업로드할 수 있습니다.");
-                    this.value = ""; // 선택된 파일 초기화
-                    return;
-                }
+<script>
+    $(function() {
+        $(".addImg").on("click", function() {
+            $('#addfile').click();
+        });
 
-                for (var i = 0; i < this.files.length; i++) {
-                    let reader = new FileReader();
-                    reader.onload = function(event) {
-                        var img = document.createElement("img");
-                        img.setAttribute("src", event.target.result);
-                        img.setAttribute("class", "tempImg");
-                        $(".preView").append(img);
+        $("#addfile").on("change", function(event) {
+            $('.preView .image-container').remove(); // 기존 미리보기 이미지 제거
+            if (this.files.length > 5) {
+                alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+                this.value = ""; // 선택된 파일 초기화
+                return;
+            }
+
+            for (var i = 0; i < this.files.length; i++) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    var container = document.createElement("div");
+                    container.setAttribute("class", "image-container");
+
+                    var img = document.createElement("img");
+                    img.setAttribute("src", event.target.result);
+                    img.setAttribute("class", "tempImg");
+
+                    var removeBtn = document.createElement("button");
+                    removeBtn.setAttribute("type", "button");
+                    removeBtn.setAttribute("class", "remove-btn");
+                    removeBtn.textContent = "-";
+                    removeBtn.onclick = function() {
+                        container.remove();
                     };
-                    reader.readAsDataURL(this.files[i]);
-                }
-            });
 
-            var input = document.querySelector('.tagify');
-            tagify = new Tagify(input, {
-                maxTags: 5
-            });
-            tagify.on('add', function() {
-                console.log(tagify.value);
-            });
+                    container.appendChild(img);
+                    container.appendChild(removeBtn);
+                    $(".preView").append(container);
+                };
+                reader.readAsDataURL(this.files[i]);
+            }
         });
 
-        //카테고리 ==================================================================
-        $(document).ready(function() {
-        	// let cate1 = JSON.parse('${cate1}');
-            let cate2 = JSON.parse('${jCate2}');
-            let cate3 = JSON.parse('${jCate3}');
-         	// 카테고리 수정 시 초기 값 설정
-         	
-         	
-            $('#cate1').trigger('change');
-            $('#cate2').val('${product.jCate2}').trigger('change');
-            $('#cate3').val('${product.jCate3}');
-
-            $('#cate1').change(function() {
-                var selectedCate2 = $(this).val();
-                console.log('cate1:', selectedCate2);
-
-                var filteredCate2s = cate2.filter(function(cate) {
-                    return cate.UP_CTG_CODE == selectedCate2;
-                });
-
-                console.log('cate2s:', filteredCate2s);
-
-                $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
-
-                $.each(filteredCate2s, function(index, cate) {
-                    $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
-                });
-                $('#cate2').prop('disabled', false).niceSelect('update');
-                console.log("cate1(value) : " + $('#cate1').val());
-            });
-
-            $('#cate2').change(function(){
-                var selectedCate3 = $(this).val();
-                console.log('selectedCate3 :', selectedCate3);
-
-                var filteredCate3s = cate3.filter(function(cate) {
-                    return cate.UP_CTG_CODE == selectedCate3;
-                });
-                console.log('cate3s:', filteredCate3s);
-
-                $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
-
-                $.each(filteredCate3s, function(index, cate) {
-                    $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
-                });
-                $('#cate3').prop('disabled', false).niceSelect('update');
-                console.log("cate2(value) : " + $('#cate2').val());
-            });
-            
+        var input = document.querySelector('.tagify');
+        tagify = new Tagify(input, {
+            maxTags: 5
         });
-    </script>
+        tagify.on('add', function() {
+            console.log(tagify.value);
+        });
+    });
+
+    //카테고리 ==================================================================
+    $(document).ready(function() {
+        // let cate1 = JSON.parse('${cate1}');
+        let cate2 = JSON.parse('${jCate2}');
+        let cate3 = JSON.parse('${jCate3}');
+        // 카테고리 수정 시 초기 값 설정
+        
+        // $('#cate1').trigger('change');
+        // $('#cate2').val('${product.jCate2}').trigger('change');
+        // $('#cate3').val('${product.jCate3}');
+
+        $('#cate1').change(function() {
+            var selectedCate2 = $(this).val();
+            console.log('cate1:', selectedCate2);
+
+            var filteredCate2s = cate2.filter(function(cate) {
+                return cate.UP_CTG_CODE == selectedCate2;
+            });
+
+            console.log('cate2s:', filteredCate2s);
+
+            $('#cate2').empty().append('<option value="">중분류를 선택하시오</option>');
+
+            $.each(filteredCate2s, function(index, cate) {
+                $('#cate2').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate2').prop('disabled', false).niceSelect('update');
+            console.log("cate1(value) : " + $('#cate1').val());
+        });
+
+        $('#cate2').change(function(){
+            var selectedCate3 = $(this).val();
+            console.log('selectedCate3 :', selectedCate3);
+
+            var filteredCate3s = cate3.filter(function(cate) {
+                return cate.UP_CTG_CODE == selectedCate3;
+            });
+            console.log('cate3s:', filteredCate3s);
+
+            $('#cate3').empty().append('<option value="">소분류를 선택하시오</option>');
+
+            $.each(filteredCate3s, function(index, cate) {
+                $('#cate3').append($('<option>').text(cate.CTG_NAME).attr('value', cate.CTG_CODE));
+            });
+            $('#cate3').prop('disabled', false).niceSelect('update');
+            console.log("cate2(value) : " + $('#cate2').val());
+        });
+        
+    });
     
-    	<!-- Jquery -->
-    <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
-    
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
-	<!-- Popper JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<!-- Color JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/colors.js"></script>
-	<!-- Slicknav JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/slicknav.min.js"></script>
-	<!-- Owl Carousel JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/owl-carousel.js"></script>
-	<!-- Magnific Popup JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/magnific-popup.js"></script>
-	<!-- Fancybox JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/facnybox.min.js"></script>
-	<!-- Waypoints JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
-	<!-- Countdown JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/finalcountdown.min.js"></script>
-	<!-- Nice Select JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
-	<!-- Ytplayer JS -->
-<%-- 	<script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script> --%>
-	<!-- Flex Slider JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/flex-slider.js"></script>
-	<!-- ScrollUp JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/scrollup.js"></script>
-	<!-- Onepage Nav JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/onepage-nav.min.js"></script>
-	<!-- Easing JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
-	<!-- Active JS -->
-	<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+function checkSubmit(event) {
 	
+    if ($('#cate2').val() === '') {
+        alert('중분류를 선택하시오.');
+        $('#cate2').focus();
+        return false;
+    }
+    if ($('#cate3').val() === '') {
+        alert('소분류를 선택하시오.');
+        $('#cate3').focus();
+        return false;
+    }
+    return true;
+    
+}
+
+function removeImage(button) {
+    $(button).closest('.image-container').remove();
+}
+</script>
+
+    <!-- Jquery -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
+   
+<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
+<!-- Popper JS -->
+<script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<!-- Color JS -->
+<script src="${pageContext.request.contextPath}/resources/js/colors.js"></script>
+<!-- Slicknav JS -->
+<script src="${pageContext.request.contextPath}/resources/js/slicknav.min.js"></script>
+<!-- Owl Carousel JS -->
+<script src="${pageContext.request.contextPath}/resources/js/owl-carousel.js"></script>
+<!-- Magnific Popup JS -->
+<script src="${pageContext.request.contextPath}/resources/js/magnific-popup.js"></script>
+<!-- Fancybox JS -->
+<script src="${pageContext.request.contextPath}/resources/js/facnybox.min.js"></script>
+<!-- Waypoints JS -->
+<script src="${pageContext.request.contextPath}/resources/js/waypoints.min.js"></script>
+<!-- Countdown JS -->
+<script src="${pageContext.request.contextPath}/resources/js/finalcountdown.min.js"></script>
+<!-- Nice Select JS -->
+<script src="${pageContext.request.contextPath}/resources/js/nicesellect.js"></script>
+<!-- Ytplayer JS -->
+<%--  <script src="${pageContext.request.contextPath}/resources/js/ytplayer.min.js"></script> --%>
+<!-- Flex Slider JS -->
+<script src="${pageContext.request.contextPath}/resources/js/flex-slider.js"></script>
+<!-- ScrollUp JS -->
+<script src="${pageContext.request.contextPath}/resources/js/scrollup.js"></script>
+<!-- Onepage Nav JS -->
+<script src="${pageContext.request.contextPath}/resources/js/onepage-nav.min.js"></script>
+<!-- Easing JS -->
+<script src="${pageContext.request.contextPath}/resources/js/easing.js"></script>
+<!-- Active JS -->
+<script src="${pageContext.request.contextPath}/resources/js/active.js"></script>
+    
 </body>
 </html>

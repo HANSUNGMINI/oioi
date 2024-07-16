@@ -50,9 +50,10 @@ public class StoreService {
 
     public int updateProduct(Map<String, Object> productInfo, Map<String, String> fileMap) {
         // 이미지를 업데이트하고 그 결과로 IMG_IDX를 반환
-        int imgIdx = mapper.updateImages(fileMap);
-        System.out.println("이거" + imgIdx);
-        productInfo.put("PD_IMAGE", imgIdx);
+    	System.out.println("라ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ " + productInfo );
+    	System.out.println("라ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ " + fileMap );
+    	
+        mapper.updateImages(productInfo ,fileMap);
         return mapper.updateProduct(productInfo);
     }
 
