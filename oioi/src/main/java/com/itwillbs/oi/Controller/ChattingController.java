@@ -191,7 +191,7 @@ public class ChattingController {
 		
 		// 운송장 등록 여부 가져오기 + 구매자 아이디 + 시간
 		Map<String, Object> deliveryInfo = service.getDeliveryinfo(map);
-		System.out.println("운송장 있는 지 -->" + deliveryInfo);
+//		System.out.println("운송장 있는 지 -->" + deliveryInfo);
 		
 		if(deliveryInfo != null) {
 			deliveryInfo.put("add", "ok");

@@ -92,7 +92,7 @@
 										</div>
 										<p>
 											<c:choose>
-												<c:when test="${list.status eq 1 && chat.info.SELLER_ID eq sessionScope.US_ID}"> <span style="color:red">자동 이체를 진행해 주세요!</span> </c:when>
+												<c:when test="${list.status eq 1}"> <span style="color:red">자동 이체를 진행해 주세요!</span> </c:when>
 												<c:otherwise>${list.list.MS_CONTENT}</c:otherwise>
 											</c:choose>
 										</p>
