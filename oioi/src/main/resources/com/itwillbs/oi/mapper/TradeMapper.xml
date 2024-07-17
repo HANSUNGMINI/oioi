@@ -218,7 +218,7 @@
 	    WHERE  
 <!-- 	     1=1 -->
 			(PD_STATUS = 'PDS01' OR PD_STATUS = 'PDS02' OR PD_STATUS = 'PDS03' )
-       		
+       		AND c1.CTG_HIDE  = 'N' AND c2.CTG_HIDE = 'N' AND c3.CTG_HIDE = 'N'
 	        <if test="params.cate1 != null and params.cate1 != ''">
 	            AND c1.CTG_CODE = #{params.cate1}
 	        </if>
