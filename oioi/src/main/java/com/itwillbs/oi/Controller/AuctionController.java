@@ -264,7 +264,7 @@ public class AuctionController {
       System.out.println("selectAcrIdx : " + selectAcrIdx);
       if(selectAcrIdx == null) {
     	 //insert했을때의 primary key가져옴
-         String insertACR = service.insertACR(APD_IDX);
+         String insertACR = (String)service.insertACR(APD_IDX);
          System.out.println("insertACR : " + insertACR);
          map.put("ACR_IDX", insertACR);
       }else {
