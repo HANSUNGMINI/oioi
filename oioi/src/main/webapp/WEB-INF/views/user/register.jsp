@@ -601,7 +601,7 @@
 											<label>이메일<span>*</span></label>
 											<div style="display: flex">
 												<input type="text" name="user_email" id="user_email" placeholder="이메일" >
-												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일발송" onclick="sendAuthMail()">
+												<input type="button" name="check_email" class="check_email" id="check_email" value="인증메일전송" onclick="sendAuthMail()">
 											</div>
 											<div id="authBox" style="display: flex">
 												<input type="text" placeholder="인증번호" id="mail_auth_num" name="mail_auth_num" maxlength="6"/>
