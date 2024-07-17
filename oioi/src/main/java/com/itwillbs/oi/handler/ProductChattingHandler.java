@@ -134,7 +134,7 @@ public class ProductChattingHandler extends TextWebSocketHandler{
             	chatMessage.setMsg("");
             	
             	service.removeRoom(chatMessage);
-            	chatMessage.setMsg( chatMessage.getTO_ID() + "님이 대화방을 나가셨습니다");
+            	chatMessage.setMsg( chatMessage.getFROM_ID() + "님이 대화방을 나가셨습니다");
             	
             	TO_ID = chatMessage.getTO_ID();
             	System.out.println("수신자의 웹소켓세션객체 아이디 " + userSessions.get(TO_ID));

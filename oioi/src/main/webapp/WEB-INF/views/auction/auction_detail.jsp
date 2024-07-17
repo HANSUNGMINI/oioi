@@ -191,7 +191,7 @@
                MSG: msg
            };
            console.log("dataSend(US_ID) : " + dataSend.US_ID);
-           saveMessage(dataSend);
+//            saveMessage(dataSend);
            
            socket.send(JSON.stringify(dataSend));
            appendMessage(us_id, msg, "right","","");
@@ -383,8 +383,9 @@
                appendMessage(res.US_ID, res.MSG, "right","","");
            } else {
                appendMessage(res.US_ID, res.MSG, "left",response.US_PROFILE,response.US_NICK);
+               saveMessage(res);
            }
-           saveMessage(res);
+           
        } else if(response.type === 'USER_LIST'){
            var users = response.users;
            

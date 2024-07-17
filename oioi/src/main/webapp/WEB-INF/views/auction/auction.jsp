@@ -203,7 +203,7 @@
 										<!-- 세일 기준 -->
 	<!-- 									<span class="old">이전가격</span> -->
 										<span>[판매시작가]<fmt:formatNumber value="${popular.APD_START_PRICE}" pattern="#,###"/>원</span><br>
-										<span>[판매시작가]<fmt:formatNumber value="${popular.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
+										<span>[즉시구매가]<fmt:formatNumber value="${popular.APD_BUY_NOW_PRICE}" pattern="#,###"/>원</span>
 										<span class="pro_time" style="float:right; color:gray"><small>${popular.RD_DATE}</small></span>
 									</div>
 								</div>

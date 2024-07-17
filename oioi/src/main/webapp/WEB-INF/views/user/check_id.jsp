@@ -34,7 +34,12 @@
 	    	Swal.fire({
 			    icon: 'warning',
 			    title: '실패!',
-			    text: '아이디를 입력해주세요!'
+			    html: '<span class="swal-text">아이디를 입력해주세요!</span>',
+			    customClass: {
+					popup: 'swal-popup',
+					title: 'swal-title',
+					confirmButton: 'swal-button' 
+			    }
 			});
  			return false;
  	    }
@@ -91,7 +96,13 @@
 		Swal.fire({
 		    icon: 'success',
 		    title: '성공!',
-		    text: '사용가능한 아이디 입니다!'
+		    text: '사용가능한 아이디 입니다!',
+		    html: '<span class="swal-text">사용가능한 아이디 입니다!</span>',
+		    customClass: {
+				popup: 'swal-popup',
+				title: 'swal-title',
+				confirmButton: 'swal-button'
+		    }
 		});	
 	</script>
 </c:if>
@@ -100,7 +111,12 @@
 		Swal.fire({
 		    icon: 'error',
 		    title: '실패!',
-		    text: '이미 사용중인 아이디 입니다!'
+		    html: '<span class="swal-text">이미 사용중인 아이디 입니다!</span>',
+		    customClass: {
+				popup: 'swal-popup',
+		        title: 'swal-title',
+		        confirmButton: 'swal-button'
+		    }
 		});
 	</script>
 </c:if>
@@ -120,4 +136,24 @@
 	</form>
 </body>
 <link href="${pageContext.request.contextPath}/resources/css/check_id.css" rel="stylesheet">
+<style>
+/* 사용자 정의 클래스에 대한 스타일 지정 */
+.swal-popup {
+    height: 260px; /* 원하는 높이로 설정 */
+    padding: 3px; /* 팝업 내부 여백 조정 */
+}
+
+.swal-title {
+    font-size: 15px; /* 제목 폰트 크기 조정 */
+}
+
+.swal-text {
+    font-size: 12px; /* 내용 폰트 크기 조정 */
+}
+
+.swal-button {
+    font-size: 14px; /* 버튼 폰트 크기 조정 */
+    padding: 5px 10px; /* 버튼 여백 조정 */
+}
+</style>
 </html>

@@ -374,9 +374,17 @@ public class CommunityContorller {
 		  if(!CheckAuthority.isUser(session, model)) {
 				return "err/fail";
 			}
+//		  System.out.println("++++++++++++++++++++"+map); //{RP_CONTENT=ㅇㅇ, US_ID=haru0321, CM_RP_CATEGORY=CRC04, TO_ID=haru0321}
+		  
+		  String from_id = map.get("US_ID");
+		  
+		  if (map.get("TO_ID").equals(map.get("US_ID"))) {
+			  model.addAttribute("msg","본인 게시글은 신고할 수 없습니다.");
+			  return "err/fail";
+		  }
 		
         // 신고자 아이디 및 피신고자 아이디 저장
-        map.put("FROM_US_ID", (String)session.getAttribute("US_ID"));
+        map.put("FROM_US_ID", from_id);
         
         // DB 저장하기
         int insertCount = service.insertReport(map);
